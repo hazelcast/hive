@@ -23,7 +23,11 @@
   },
   "scripts": {
     "tsc": "tsc -p ./tsconfig.publish.json",
-    "test": "jest"
+    "test": "jest",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
+    "test:visual": "loki --requireReference --reactUri file:./storybook-static --chromeFlags='--headless --disable-gpu --hide-scrollbars --no-sandbox --allow-file-access-from-files'",
+    "generate-screenshots": "loki update --reactUri file:./storybook-static --chromeFlags='--headless --disable-gpu --hide-scrollbars --no-sandbox --allow-file-access-from-files'"
   },
   "bugs": {
     "url": "https://github.com/hazelcast/frontend-shared/issues"

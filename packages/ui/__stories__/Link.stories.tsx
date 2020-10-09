@@ -4,7 +4,7 @@ import { Link } from '../src/Link'
 import styles from '../src/Link.module.scss'
 
 export default {
-  title: 'core/Link',
+  title: 'Components/Link',
   component: Link,
 }
 

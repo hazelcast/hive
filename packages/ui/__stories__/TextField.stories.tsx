@@ -4,7 +4,7 @@ import { logger } from '@hazelcast/services'
 import { TextField } from '../src/TextField'
 
 export default {
-  title: 'core/TextField',
+  title: 'Components/TextField',
   component: TextField,
 }
 export const Default = () => (
