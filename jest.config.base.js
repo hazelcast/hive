@@ -1,8 +1,5 @@
 module.exports = {
   roots: ['<rootDir>'],
-  transform: {
-    '^.+\\.tsx?$': 'ts-jest',
-  },
   transformIgnorePatterns: ['node_modules/(?!@hazelcast)'],
   preset: 'ts-jest/presets/js-with-ts',
   testRegex: '^.+\\.(test|spec)\\.tsx?$',
