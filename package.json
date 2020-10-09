@@ -11,6 +11,7 @@
     "@types/jest": "^26.0.14",
     "@types/react": "^16.9.51",
     "@types/react-dom": "^16.9.8",
+    "chromatic": "^5.2.0",
     "css-loader": "^4.3.0",
     "doctoc": "^1.4.0",
     "enzyme": "^3.11.0",
@@ -33,9 +34,10 @@
   },
   "scripts": {
     "link-parent-bin": "link-parent-bin",
-    "postinstall": "link-parent-bin",
+    "postinstall": "lerna bootstrap && link-parent-bin",
     "test": "lerna run --parallel test",
-    "test:visual": "lerna run --parallel test:visual --verboseRenderer"
+    "test:visual": "lerna run --parallel test:visual --verboseRenderer",
+    "publish-storybook": "lerna run publish-storybook"
   },
   "dependencies": {
     "react": "^16.13.1",
