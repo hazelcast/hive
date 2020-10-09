@@ -1,21 +1,21 @@
 import React from 'react'
-import { pseudoUniqueID } from 'core/helpers/id'
+import { v4 as uuid } from 'uuid'
 import { act } from 'react-dom/test-utils'
-import { mountAndCheckA11Y } from 'core/test-helpers/enzyme'
+import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 
-import { TextField } from '../TextField'
-import { Label } from '../Label'
-import { Error } from '../Error'
+import { TextField } from '../src/TextField'
+import { Label } from '../src/Label'
+import { Error } from '../src/Error'
 
-import styles from '../TextField.module.scss'
+import styles from '../src/TextField.module.scss'
 
-jest.mock('core/helpers/id')
+jest.mock('uuid')
 
-const pseudoUniqueIDMock = pseudoUniqueID as jest.Mock<ReturnType<typeof pseudoUniqueID>>
+const uuidMock = uuid as jest.Mock<ReturnType<typeof uuid>>
 
 describe('TextField', () => {
   beforeEach(() => {
-    pseudoUniqueIDMock.mockImplementation(() => 'republic')
+    uuidMock.mockImplementation(() => 'republic')
   })
 
   it('Renders the default with correct props', async () => {

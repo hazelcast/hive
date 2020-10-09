@@ -1,9 +1,10 @@
 import React, { ReactElement, FC } from 'react'
-import { Icon, IconProps } from 'core/componentsV2/Icon'
-import { Tooltip } from 'core/componentsV2/Tooltip'
 import { HelpCircle } from 'react-feather'
 
-import styleConsts from 'core/stylesV2/constants/index.scss'
+import { Icon, IconProps } from './Icon'
+import { Tooltip } from './Tooltip'
+
+import styleConsts from '../styles/constants/index.scss'
 
 import styles from './Help.module.scss'
 

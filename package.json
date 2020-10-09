@@ -2,20 +2,35 @@
   "name": "root",
   "private": true,
   "devDependencies": {
+    "@storybook/addon-docs": "^6.0.26",
+    "@storybook/addons": "^6.0.26",
+    "@storybook/react": "^6.0.26",
+    "@types/enzyme": "^3.10.7",
+    "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/jest": "^26.0.14",
+    "@types/react": "^16.9.51",
+    "@types/react-dom": "^16.9.8",
     "doctoc": "^1.4.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.5",
     "husky": "^4.3.0",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^26.5.2",
     "lerna": "^3.22.1",
     "link-parent-bin": "^1.0.2",
     "lint-staged": "^10.4.0",
     "prettier": "^2.1.2",
     "shx": "^0.3.2",
+    "storybook-addon-designs": "^5.4.2",
     "ts-jest": "^26.4.1",
     "typescript": "^4.0.3"
   },
   "scripts": {
     "link-parent-bin": "link-parent-bin",
     "postinstall": "link-parent-bin"
+  },
+  "dependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   }
 }

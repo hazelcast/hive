@@ -1,5 +1,6 @@
 import React from 'react'
-import { FieldValidator, useField } from 'formik2'
+import { FieldValidator, useField } from 'formik'
+
 import { TextField, TextFieldExtraProps } from './TextField'
 
 export type TextFieldFormikProps<V extends object> = TextFieldExtraProps & {

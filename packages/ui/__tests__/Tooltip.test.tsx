@@ -2,8 +2,9 @@ import React from 'react'
 import { mount } from 'enzyme'
 import RCTooltip from 'rc-tooltip'
 
-import { Tooltip, TooltipProps } from '../Tooltip'
-import styles from '../Tooltip.module.scss'
+import { Tooltip, TooltipProps } from '../src/Tooltip'
+
+import styles from '../src/Tooltip.module.scss'
 
 describe('Tooltip', () => {
   test('renders children without Tooltip if "overlay" is undefined', () => {

@@ -1,4 +1,4 @@
-@import 'core/stylesV2/constants/index';
+@import '../styles/constants/index';
 
 @mixin hover-focus-active {
   // hover, focus and active classes are declared for internal use in storybook, see Link.stories.tsx

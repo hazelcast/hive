@@ -1,4 +1,4 @@
-@import 'core/stylesV2/constants/index';
+@import '../styles/constants/index';
 
 @mixin focused {
   border-color: $colorPrimaryLight;

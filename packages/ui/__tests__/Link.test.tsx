@@ -1,12 +1,12 @@
 import React from 'react'
-import { mountAndCheckA11Y } from 'core/test-helpers/enzyme'
-
+import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import { ChevronRight } from 'react-feather'
-import { Link } from '../Link'
-import { Tooltip } from '../Tooltip'
 
-import styles from '../Link.module.scss'
-import { Icon } from '../Icon'
+import { Link } from '../src/Link'
+import { Tooltip } from '../src/Tooltip'
+import { Icon } from '../src/Icon'
+
+import styles from '../src/Link.module.scss'
 
 describe('Link', () => {
   it('Renders the default Link with correct props', async () => {

@@ -16,7 +16,7 @@ export const axeDefaultOptions: AxeOptions = {
 
 export const mountAndCheckA11Y = async <P, S>(
   node: ReactElement<P>,
-  { mountOptions, axeOptions = axeDefaultOptions }: { mountOptions?: MountRendererProps; axeOptions?: AxeOptions },
+  { mountOptions, axeOptions = axeDefaultOptions }: { mountOptions?: MountRendererProps; axeOptions?: AxeOptions } = {},
 ) => {
   const wrapper = mount(node, mountOptions)
 

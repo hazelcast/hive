@@ -1,14 +1,14 @@
 // https://zeroheight.com/11d0e6dac/p/316944-text-field
 import React, { FC, ChangeEvent, ReactElement, InputHTMLAttributes, useRef, FocusEvent } from 'react'
 import cn from 'classnames'
-import { DataTestProp } from 'core/types'
-import { pseudoUniqueID } from 'core/helpers/id'
+import { DataTestProp } from '@hazelcast/helpers'
+import { v4 as uuid } from 'uuid'
 
 import { Label } from './Label'
 import { Error } from './Error'
+import { tooltipId } from './Help'
 
 import styles from './TextField.module.scss'
-import { tooltipId } from '../Help'
 
 const textFieldHeights = {
   small: styles.small,
@@ -75,7 +75,7 @@ export const TextField: FC<TextFieldProps> = ({
   inputContainerChild,
   ...htmlAttrs
 }) => {
-  const idRef = useRef(pseudoUniqueID())
+  const idRef = useRef(uuid())
 
   return (
     <div

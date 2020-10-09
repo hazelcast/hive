@@ -1,8 +1,8 @@
 import React, { AnchorHTMLAttributes, useRef, FC, ReactNode } from 'react'
 import { ChevronRight } from 'react-feather'
 import cn from 'classnames'
-import { PartialRequired } from 'core/types'
-import { pseudoUniqueID } from 'core/helpers/id'
+import { PartialRequired } from '@hazelcast/helpers'
+import { v4 as uuid } from 'uuid'
 
 import { Tooltip } from './Tooltip'
 import { Icon } from './Icon'
@@ -56,7 +56,7 @@ export const Link: FC<LinkProps> = ({
   className,
   children,
 }) => {
-  const idRef = useRef(`${pseudoUniqueID()}-link`)
+  const idRef = useRef(`${uuid()}-link`)
 
   return (
     <Tooltip placement="top" overlay={tooltip} id={idRef.current}>

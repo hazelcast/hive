@@ -1,9 +1,9 @@
 import React from 'react'
-import { Formik, Form } from 'formik2'
-import { mountAndCheckA11Y } from 'core/test-helpers/enzyme'
+import { Formik, Form } from 'formik'
+import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import { act } from 'react-dom/test-utils'
 
-import { TextFieldFormik } from '../TextFieldFormik'
+import { TextFieldFormik } from '../src/TextFieldFormik'
 
 describe('TextFieldFormik', () => {
   it('Can be used in a form', async () => {

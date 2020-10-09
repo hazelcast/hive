@@ -1,5 +1,6 @@
 import React, { FC, ReactElement } from 'react'
-import { Help } from 'core/componentsV2/Help'
+
+import { Help } from './Help'
 
 export type LabelProps = {
   id: string
