@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "noEmit": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "alwaysStrict": true,
@@ -10,6 +9,8 @@
     "target": "es2018",
     "module": "esnext",
     "moduleResolution": "node",
-    "jsx": "react"
+    "jsx": "react",
+    "declaration": true,
+    "sourceMap": true
   }
 }

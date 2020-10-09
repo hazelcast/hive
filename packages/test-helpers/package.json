@@ -21,7 +21,8 @@
     "url": "git+https://github.com/hazelcast/frontend-shared.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "tsc": "tsc",
+    "test": "jest"
   },
   "bugs": {
     "url": "https://github.com/hazelcast/frontend-shared/issues"
