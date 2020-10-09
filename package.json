@@ -21,6 +21,7 @@
     "lerna": "^3.22.1",
     "link-parent-bin": "^1.0.2",
     "lint-staged": "^10.4.0",
+    "loki": "^0.25.1",
     "node-sass": "^4.14.1",
     "prettier": "^2.1.2",
     "sass-loader": "^10.0.3",
@@ -32,7 +33,9 @@
   },
   "scripts": {
     "link-parent-bin": "link-parent-bin",
-    "postinstall": "link-parent-bin"
+    "postinstall": "link-parent-bin",
+    "test": "lerna run --parallel test",
+    "test:visual": "lerna run --parallel test:visual --verboseRenderer"
   },
   "dependencies": {
     "react": "^16.13.1",
