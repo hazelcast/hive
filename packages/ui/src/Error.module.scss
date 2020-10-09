@@ -1,0 +1,11 @@
+@import 'core/stylesV2/constants/index';
+
+.container {
+  font-size: $fontSizeBodySmall;
+  color: $colorCriticalDark;
+  display: none;
+
+  &.hasError {
+    display: block;
+  }
+}

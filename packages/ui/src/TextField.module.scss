@@ -1,0 +1,88 @@
+@import 'core/stylesV2/constants/index';
+
+@mixin focused {
+  border-color: $colorPrimaryLight;
+  border-width: $inputBorderWidthFocused;
+}
+
+.container {
+  font-size: $fontSizeBodyNormal;
+  box-sizing: border-box;
+  margin: 0;
+
+  > .inputContainer {
+    position: relative;
+  }
+
+  > .errorContainer {
+    margin-top: $grid;
+  }
+
+  input {
+    display: block;
+    padding: $grid * 2 $grid * 3;
+    border-width: $inputBorderWidthNormal;
+    border-color: $colorNeutralNormal;
+    border-style: solid;
+    box-sizing: border-box;
+    width: 100%;
+    font-size: inherit;
+    color: inherit;
+    outline: none;
+
+    &::placeholder {
+      color: $colorBodySecondary;
+    }
+
+    &:hover {
+      border-color: $colorNeutralDark;
+    }
+    &:focus {
+      @include focused;
+    }
+  }
+
+  > label {
+    display: block;
+    margin-bottom: $grid;
+  }
+
+  &.disabled {
+    input {
+      background-color: $colorNeutralLight;
+    }
+  }
+
+  &.small {
+    font-size: $fontSizeBodySmall;
+
+    input {
+      height: $grid * 6;
+      border-radius: $borderRadiusSmall;
+    }
+  }
+
+  &.normal {
+    input {
+      height: $grid * 8;
+      border-radius: $borderRadiusMedium;
+    }
+  }
+
+  &.large {
+    input {
+      height: $grid * 10;
+      border-radius: $borderRadiusLarge;
+    }
+  }
+
+  &.hasError {
+    input {
+      border-color: $colorCriticalDark;
+
+      &:focus {
+        @include focused;
+      }
+    }
+  }
+}

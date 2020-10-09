@@ -1,0 +1,25 @@
+@import 'core/stylesV2/constants/index';
+
+.wrapper {
+  max-width: $tooltipMaxWidth;
+  word-wrap: break-word;
+}
+
+.overlay {
+  color: $colorTooltipText;
+
+  :global .rc-tooltip-inner {
+    background-color: $colorNeutralDarker;
+  }
+
+  &.rc-tooltip-placement-bottom {
+    :global .rc-tooltip-arrow {
+      border-bottom-color: $colorNeutralDarker;
+    }
+  }
+  &.rc-tooltip-placement-top {
+    :global .rc-tooltip-arrow {
+      border-top-color: $colorNeutralDarker;
+    }
+  }
+}

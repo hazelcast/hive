@@ -1,0 +1,62 @@
+$screenMinWidth: 1280px;
+
+// https://zeroheight.com/11d0e6dac/p/470b57--layout/t/766c51
+// Spacing is based on a 4-pixel grid
+// 1em is 16px by default
+// Any spacing should be expressed as a multiplier if $grid
+
+$grid: 0.25rem;
+
+$borderRadiusSmall: $grid * 0.5;
+$borderRadiusMedium: $grid * 0.75;
+$borderRadiusLarge: $grid * 1.25;
+
+// It does not make sense to express separator width in REMs since we do not need it to scale with the base font size
+$separatorWidth: 1px;
+
+$inputBorderWidthNormal: 1px;
+$inputBorderWidthFocused: 2px;
+
+$iconStrokeWidth: 2px;
+
+// https://zeroheight.com/11d0e6dac/p/470b57--layout/t/06d82a
+$iconSizeSmall: $grid * 4;
+$iconSizeMedium: $grid * 6;
+$iconSizeLarge: $grid * 8;
+
+// https://zeroheight.com/11d0e6dac/p/985f08--typography
+$fontSizeDisplayTitle: 2.25rem;
+$fontSizeDisplaySubtitle: 1.375rem;
+$fontSizeTitle1: 1.125rem;
+$fontSizeTitle2: 1rem;
+$fontSizeTitle3: 0.875rem;
+$fontSizeTitle4: 0.75rem;
+
+$fontSizeBodySmall: 0.75rem;
+$fontSizeBodyNormal: 0.875rem;
+$fontSizeBodyLarge: 1rem;
+
+$tooltipMaxWidth: 550px;
+
+// TODO: Automate
+:export {
+  screenMinWidth: $screenMinWidth;
+  grid: $grid;
+  borderRadiusSmall: $borderRadiusSmall;
+  borderRadiusMedium: $borderRadiusMedium;
+  separatorWidth: $separatorWidth;
+  iconStrokeWidth: $iconStrokeWidth;
+  iconSizeSmall: $iconSizeSmall;
+  iconSizeMedium: $iconSizeMedium;
+  iconSizeLarge: $iconSizeLarge;
+  fontSizeDisplayTitle: $fontSizeDisplayTitle;
+  fontSizeDisplaySubtitle: $fontSizeDisplaySubtitle;
+  fontSizeTitle1: $fontSizeTitle1;
+  fontSizeTitle2: $fontSizeTitle2;
+  fontSizeTitle3: $fontSizeTitle3;
+  fontSizeTitle4: $fontSizeTitle4;
+  fontSizeBodySmall: $fontSizeBodySmall;
+  fontSizeBodyNormal: $fontSizeBodyNormal;
+  fontSizeBodyLarge: $fontSizeBodyLarge;
+  tooltipMaxWidth: $tooltipMaxWidth;
+}

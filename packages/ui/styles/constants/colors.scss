@@ -1,0 +1,81 @@
+// https://zeroheight.com/11d0e6dac/p/594529--colors
+$colorPrimaryLighter: #ebf4ff;
+$colorPrimaryLight: #cfe5ff;
+$colorPrimaryNormal: #2a7de2;
+$colorPrimaryDark: #105ebc;
+$colorPrimaryDarker: #003068;
+
+$colorNeutralWhite: #fff;
+$colorNeutralLighter: #f2f5f9;
+$colorNeutralLight: #e3e7ed;
+$colorNeutralNormal: #b7c1cb;
+$colorNeutralDark: #6d7480;
+$colorNeutralDarker: #353d49;
+
+$colorSuccessLighter: #dffce0;
+$colorSuccessLight: #a5e4a7;
+$colorSuccessNormal: #1dbc22;
+$colorSuccessDark: #0f8d13;
+$colorSuccessDarker: #065e09;
+
+$colorInfoLighter: #e2ebfe;
+$colorInfoLight: #a4c1ff;
+$colorInfoNormal: #145cf3;
+$colorInfoDark: #0a42b7;
+$colorInfoDarker: #00287a;
+
+$colorWarningLighter: #ffeed8;
+$colorWarningLight: #ffdbad;
+$colorWarningNormal: #ed931e;
+$colorWarningDark: #b26706;
+$colorWarningDarker: #7f4801;
+
+$colorCriticalLighter: #fedede;
+$colorCriticalLight: #ffadad;
+$colorCriticalNormal: #f41d1d;
+$colorCriticalDark: #b70c0c;
+$colorCriticalDarker: #7a0404;
+
+// https://zeroheight.com/11d0e6dac/p/985f08--typography/t/1755e8
+$colorHeading: #353d49;
+$colorBodyPrimary: #353d49;
+$colorBodySecondary: #6d7480;
+$colorTooltipText: #fff;
+
+:export {
+  colorPrimaryLighter: $colorPrimaryLighter;
+  colorPrimaryLight: $colorPrimaryLight;
+  colorPrimaryNormal: $colorPrimaryNormal;
+  colorPrimaryDark: $colorPrimaryDark;
+  colorPrimaryDarker: $colorPrimaryDarker;
+  colorNeutralWhite: $colorNeutralWhite;
+  colorNeutralLighter: $colorNeutralLighter;
+  colorNeutralLight: $colorNeutralLight;
+  colorNeutralNormal: $colorNeutralNormal;
+  colorNeutralDark: $colorNeutralDark;
+  colorNeutralDarker: $colorNeutralDarker;
+  colorSuccessLighter: $colorSuccessLighter;
+  colorSuccessLight: $colorSuccessLight;
+  colorSuccessNormal: $colorSuccessNormal;
+  colorSuccessDark: $colorSuccessDark;
+  colorSuccessDarker: $colorSuccessDarker;
+  colorInfoLighter: $colorInfoLighter;
+  colorInfoLight: $colorInfoLight;
+  colorInfoNormal: $colorInfoNormal;
+  colorInfoDark: $colorInfoDark;
+  colorInfoDarker: $colorInfoDarker;
+  colorWarningLighter: $colorWarningLighter;
+  colorWarningLight: $colorWarningLight;
+  colorWarningNormal: $colorWarningNormal;
+  colorWarningDark: $colorWarningDark;
+  colorWarningDarker: $colorWarningDarker;
+  colorCriticalLighter: $colorCriticalLighter;
+  colorCriticalLight: $colorCriticalLight;
+  colorCriticalNormal: $colorCriticalNormal;
+  colorCriticalDark: $colorCriticalDark;
+  colorCriticalDarker: $colorCriticalDarker;
+  colorHeading: $colorHeading;
+  colorBodyPrimary: $colorBodyPrimary;
+  colorBodySecondary: $colorBodySecondary;
+  colorTooltipText: $colorTooltipText;
+}

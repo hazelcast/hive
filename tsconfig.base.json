@@ -10,7 +10,6 @@
     "target": "es2018",
     "module": "esnext",
     "moduleResolution": "node",
-    "jsx": "react",
-    "baseUrl": "./"
+    "jsx": "react"
   }
 }

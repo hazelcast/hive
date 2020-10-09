@@ -1,11 +1,29 @@
 {
   "name": "@hazelcast/helpers",
   "version": "0.0.1",
-  "description": "Hazelcast shared helpers",
-  "main": "dist/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "description": "> TODO: description",
+  "author": "Andrey Goncharov <andrey@goncharov.page>",
+  "homepage": "https://github.com/hazelcast/frontend-shared#readme",
+  "license": "UNLICENSED",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
   },
-  "author": "",
-  "license": "UNLICENSED"
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hazelcast/frontend-shared.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/hazelcast/frontend-shared/issues"
+  }
 }

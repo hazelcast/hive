@@ -1,0 +1,47 @@
+@import 'core/stylesV2/constants/index';
+
+@mixin hover-focus-active {
+  // hover, focus and active classes are declared for internal use in storybook, see Link.stories.tsx
+  &:hover,
+  &:focus,
+  &:active,
+  &.hover,
+  &.focus,
+  &.active {
+    text-decoration: none;
+    outline: none;
+  }
+}
+
+.primary {
+  color: $colorPrimaryNormal;
+  text-decoration: underline solid;
+
+  @include hover-focus-active;
+}
+
+.secondary {
+  color: $colorNeutralDark;
+  text-decoration: underline solid;
+
+  @include hover-focus-active;
+}
+
+.tertiary {
+  color: $colorNeutralNormal;
+  text-decoration: underline solid;
+
+  @include hover-focus-active;
+}
+
+.tooltip {
+  color: $colorNeutralDark;
+  text-decoration: underline dotted;
+
+  @include hover-focus-active;
+}
+
+.chevron {
+  display: inline-flex;
+  align-items: center;
+}
