@@ -21,7 +21,7 @@
     "url": "git+https://github.com/hazelcast/frontend-shared.git"
   },
   "scripts": {
-    "tsc": "tsc",
+    "compile": "tsc",
     "test": "jest --passWithNoTests"
   },
   "bugs": {

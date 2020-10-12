@@ -34,9 +34,10 @@
   },
   "scripts": {
     "link-parent-bin": "link-parent-bin",
-    "postinstall": "lerna bootstrap && link-parent-bin",
+    "postinstall": "lerna bootstrap && link-parent-bin && compile",
     "test": "lerna run --parallel test",
     "test:visual": "lerna run --parallel test:visual --verboseRenderer",
+    "compile": "lerna run --parallel compile",
     "publish-storybook": "lerna run publish-storybook"
   },
   "dependencies": {
