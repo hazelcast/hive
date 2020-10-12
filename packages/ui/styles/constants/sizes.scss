@@ -24,17 +24,13 @@ $iconSizeSmall: $grid * 4;
 $iconSizeMedium: $grid * 6;
 $iconSizeLarge: $grid * 8;
 
-// https://zeroheight.com/11d0e6dac/p/985f08--typography
-$fontSizeDisplayTitle: 2.25rem;
-$fontSizeDisplaySubtitle: 1.375rem;
-$fontSizeTitle1: 1.125rem;
-$fontSizeTitle2: 1rem;
-$fontSizeTitle3: 0.875rem;
-$fontSizeTitle4: 0.75rem;
-
-$fontSizeBodySmall: 0.75rem;
-$fontSizeBodyNormal: 0.875rem;
-$fontSizeBodyLarge: 1rem;
+// https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=0%3A136
+$fontSizeH1: 2rem;
+$fontSizeH2: 1.625rem;
+$fontSizeH3: 1.25rem;
+$fontSizeButton: 1.125rem;
+$fontSizeBodyNormal: 1rem;
+$fontSizeBodySmall: 0.875rem;
 
 $tooltipMaxWidth: 550px;
 
@@ -49,14 +45,11 @@ $tooltipMaxWidth: 550px;
   iconSizeSmall: $iconSizeSmall;
   iconSizeMedium: $iconSizeMedium;
   iconSizeLarge: $iconSizeLarge;
-  fontSizeDisplayTitle: $fontSizeDisplayTitle;
-  fontSizeDisplaySubtitle: $fontSizeDisplaySubtitle;
-  fontSizeTitle1: $fontSizeTitle1;
-  fontSizeTitle2: $fontSizeTitle2;
-  fontSizeTitle3: $fontSizeTitle3;
-  fontSizeTitle4: $fontSizeTitle4;
-  fontSizeBodySmall: $fontSizeBodySmall;
+  fontSizeH1: $fontSizeH1;
+  fontSizeH2: $fontSizeH2;
+  fontSizeH3: $fontSizeH3;
+  fontSizeButton: $fontSizeButton;
   fontSizeBodyNormal: $fontSizeBodyNormal;
-  fontSizeBodyLarge: $fontSizeBodyLarge;
+  fontSizeBodySmall: $fontSizeBodySmall;
   tooltipMaxWidth: $tooltipMaxWidth;
 }
