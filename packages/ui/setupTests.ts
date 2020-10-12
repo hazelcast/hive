@@ -11,7 +11,7 @@ const attachments: HTMLElement[] = []
 const createMountRendererOriginal: any = (Adapter.prototype as any).createMountRenderer
 
 // eslint-disable-next-line
-;(Adapter.prototype as any).createMountRenderer = function (options: Record<string, unknown>) {
+;(Adapter.prototype as any).createMountRenderer = function (options: object) {
   const attachTo = document.createElement('div')
 
   attachments.push(attachTo)

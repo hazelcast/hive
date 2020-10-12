@@ -19,6 +19,15 @@ module.exports = {
   rules: {
     'react/prop-types': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/ban-types': [
+      'error',
+      {
+        extendDefaults: true,
+        types: {
+          object: false,
+        },
+      },
+    ],
   },
   settings: {
     // https://github.com/yannickcr/eslint-plugin-react#configuration
