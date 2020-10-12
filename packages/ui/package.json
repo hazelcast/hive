@@ -28,7 +28,9 @@
     "build-storybook": "build-storybook",
     "publish-storybook": "chromatic --storybook-build-dir storybook-static --project-token $CHROMATIC_PROJECT_TOKEN --exit-zero-on-changes",
     "test:visual": "loki --requireReference --reactUri file:./storybook-static --chromeFlags='--headless --disable-gpu --hide-scrollbars --no-sandbox --allow-file-access-from-files'",
-    "generate-screenshots": "loki update --reactUri file:./storybook-static --chromeFlags='--headless --disable-gpu --hide-scrollbars --no-sandbox --allow-file-access-from-files'"
+    "generate-screenshots": "loki update --reactUri file:./storybook-static --chromeFlags='--headless --disable-gpu --hide-scrollbars --no-sandbox --allow-file-access-from-files'",
+    "lint:css": "postcss --config ./.postcss-lint --replace '**/*.{css,scss}'",
+    "lint:css:fix": "stylelint --fix '**/*.{css,scss}'"
   },
   "bugs": {
     "url": "https://github.com/hazelcast/frontend-shared/issues"
@@ -45,7 +47,16 @@
   "devDependencies": {
     "@hazelcast/test-helpers": "^0.0.1",
     "@types/classnames": "^2.2.10",
-    "@types/uuid": "^8.3.0"
+    "@types/uuid": "^8.3.0",
+    "doiuse": "^4.2.0",
+    "postcss": "^8.1.1",
+    "postcss-cli": "^8.1.0",
+    "postcss-reporter": "^7.0.1",
+    "postcss-scss": "^3.0.2",
+    "stylelint": "^13.7.2",
+    "stylelint-config-prettier": "^8.0.2",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-scss": "^3.18.0"
   },
   "peerDependencies": {
     "react": "^16.13.1",
