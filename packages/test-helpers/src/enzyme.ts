@@ -14,7 +14,8 @@ export const axeDefaultOptions: AxeOptions = {
   },
 }
 
-export const mountAndCheckA11Y = async <P, S>(
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const mountAndCheckA11Y = async <P>(
   node: ReactElement<P>,
   { mountOptions, axeOptions = axeDefaultOptions }: { mountOptions?: MountRendererProps; axeOptions?: AxeOptions } = {},
 ) => {

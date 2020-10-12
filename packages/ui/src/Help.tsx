@@ -8,7 +8,7 @@ import styleConsts from '../styles/constants/index.scss'
 
 import styles from './Help.module.scss'
 
-export const tooltipId = (inputId: string) => `${inputId}-label`
+export const tooltipId = (inputId: string): string => `${inputId}-label`
 
 interface HelpProps {
   inputId: string

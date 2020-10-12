@@ -7,14 +7,16 @@ import { unmountComponentAtNode } from 'react-dom'
 // https://github.com/cgood92/enzyme-cleanup/blob/master/index.js
 const attachments: HTMLElement[] = []
 
-const createMountRendererOriginal = (Adapter.prototype as any).createMountRenderer
+// eslint-disable-next-line
+const createMountRendererOriginal: any = (Adapter.prototype as any).createMountRenderer
 
-// eslint-disable-next-line func-names
-;(Adapter.prototype as any).createMountRenderer = function (options: object) {
+// eslint-disable-next-line
+;(Adapter.prototype as any).createMountRenderer = function (options: Record<string, unknown>) {
   const attachTo = document.createElement('div')
 
   attachments.push(attachTo)
 
+  // eslint-disable-next-line
   return createMountRendererOriginal.call(this, {
     ...options,
     attachTo,
@@ -36,6 +38,7 @@ afterEach(() => {
 })
 
 // https://stackoverflow.com/questions/42213522/mocking-document-createrange-for-jest
+/* eslint-disable */
 document.createRange = () =>
   ({
     setStart: () => {},
@@ -55,13 +58,16 @@ document.getSelection = () =>
     addRange: () => {},
     removeAllRanges: () => {},
   } as any)
+/* eslint-enable */
 
 declare module 'enzyme' {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface ReactWrapper<P> {
     findDataTest<T = HTMLAttributes>(dataTest: string): ReactWrapper<T>
     existsDataTest(dataTest: string): boolean
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface ShallowWrapper<P> {
     findDataTest<T = HTMLAttributes>(dataTest: string): ShallowWrapper<T>
     existsDataTest(dataTest: string): boolean

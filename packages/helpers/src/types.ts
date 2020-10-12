@@ -1,4 +1,4 @@
-export type PartialRequired<T extends object, RequiredKeys extends keyof T> = T & { [Key in RequiredKeys]-?: T[Key] }
+export type PartialRequired<T extends Record<string, unknown>, RequiredKeys extends keyof T> = T & { [Key in RequiredKeys]-?: T[Key] }
 
 export type PartialOptional<T, K extends keyof T> = Omit<T, K> & Partial<T>
 

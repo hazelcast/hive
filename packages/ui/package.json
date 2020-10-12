@@ -22,13 +22,17 @@
     "url": "git+https://github.com/hazelcast/frontend-shared.git"
   },
   "scripts": {
-    "compile": "tsc -p tsconfig.publish.json && shx cp src/*.scss lib",
+    "compile": "tsc -p tsconfig.build.json && shx cp src/*.scss lib",
     "test": "jest",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "publish-storybook": "chromatic --storybook-build-dir storybook-static --project-token $CHROMATIC_PROJECT_TOKEN --exit-zero-on-changes",
     "test:visual": "loki --requireReference --reactUri file:./storybook-static --chromeFlags='--headless --disable-gpu --hide-scrollbars --no-sandbox --allow-file-access-from-files'",
     "generate-screenshots": "loki update --reactUri file:./storybook-static --chromeFlags='--headless --disable-gpu --hide-scrollbars --no-sandbox --allow-file-access-from-files'",
+    "lint": "npm run lint:ts && npm run lint:css",
+    "lint:fix": "npm run lint:ts:fix && npm run lint:css:fix",
+    "lint:ts": "eslint --ext .ts,.tsx .",
+    "lint:ts:fix": "npm run lint -- --fix",
     "lint:css": "postcss --config ./.postcss-lint --replace '**/*.{css,scss}'",
     "lint:css:fix": "stylelint --fix '**/*.{css,scss}'"
   },

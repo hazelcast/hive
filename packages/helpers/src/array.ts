@@ -12,7 +12,7 @@ export const difference = <T>(array1: T[], array2: T[]) => {
   return [...set1].filter((x) => !set2.has(x))
 }
 
-export const range = (from: number, to: number, step: number = 1) => {
+export const range = (from: number, to: number, step = 1) => {
   let nextElement = from
   const result = []
 

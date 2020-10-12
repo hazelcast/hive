@@ -102,6 +102,7 @@ export const Focused = () => (
     label="Wisest jedi"
     onBlur={() => logger.log('blur')}
     onChange={(e) => logger.log('change', e.target.value)}
+    // eslint-disable-next-line jsx-a11y/no-autofocus
     autoFocus
   />
 )
@@ -120,6 +121,7 @@ export const FocusedWithError = () => (
     label="Wisest jedi"
     onBlur={() => logger.log('blur')}
     onChange={(e) => logger.log('change', e.target.value)}
+    // eslint-disable-next-line jsx-a11y/no-autofocus
     autoFocus
     error="Dark side"
   />
