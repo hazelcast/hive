@@ -26,7 +26,7 @@ module.exports = {
         // The problem is "vmax", which doiuse can' detect
         'viewport-units',
       ],
-      ignoreFiles: ['**/node_modules/**/*.css', '**/node_modules/**/*.scss', '**/coverage/**/*'],
+      ignoreFiles: ['**/node_modules/**/*.css', '**/node_modules/**/*.scss', '**/coverage/**/*', '**/lib/**/*'],
     }),
     // eslint-disable-next-line
     require('postcss-reporter')({ throwError: true }),
