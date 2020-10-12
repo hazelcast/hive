@@ -14,7 +14,7 @@ COPY --chown=jenkins:jenkins package.json /home/frontend-shared/package.json
 
 USER jenkins
 # Download and cache deps 
-RUN cd /home/frontend-shared && npm i
+RUN cd /home/frontend-shared && npm i --ignore-scripts
 
 USER root
 RUN echo "Cleaning up..."  && \
