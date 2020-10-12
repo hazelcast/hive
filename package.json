@@ -34,7 +34,7 @@
   },
   "scripts": {
     "link-parent-bin": "link-parent-bin",
-    "compile": "lerna run --parallel compile",
+    "compile": "lerna run --scope @hazelcast/services compile && lerna run --scope @hazelcast/test-helpers compile && lerna run --scope @hazelcast/helpers compile && lerna run --scope @hazelcast/ui compile",
     "postinstall": "lerna bootstrap && npm run link-parent-bin && npm run compile",
     "test": "lerna run --parallel test",
     "test:visual": "lerna run --parallel test:visual --verboseRenderer",
