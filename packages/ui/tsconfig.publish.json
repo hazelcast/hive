@@ -1,8 +1,16 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "keyofStringsOnly": true,
-    "outDir": "./lib"
+    "outDir": "./lib",
+    "composite": true
   },
+  "references": [
+    {
+      "path": "../helpers/tsconfig.json"
+    },
+    {
+      "path": "../services/tsconfig.json"
+    }
+  ],
   "include": ["./src"]
 }
