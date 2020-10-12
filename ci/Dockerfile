@@ -5,7 +5,8 @@ COPY --from=docker:19.03 /usr/local/bin/docker /usr/local/bin/
 
 # Copied from https://github.com/hazelcast/DevOps/blob/master/dockerfiles/jdk-compatibility/docker-install.sh
 RUN groupadd -r -g 1031 jenkins
-RUN useradd -d /home/jenkins -ms /bin/bash -u 1030 -g 1031 jenkins
+RUN groupadd -r -g 989 docker
+RUN useradd -d /home/jenkins -ms /bin/bash -u 1030 -g 1031 -G docker jenkins
 
 # Python 2.7 executable is required by node-sass
 RUN apt-get update && apt-get install -y python build-essential
