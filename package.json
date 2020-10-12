@@ -37,7 +37,9 @@
     "postinstall": "lerna bootstrap && link-parent-bin && compile",
     "test": "lerna run --parallel test",
     "test:visual": "lerna run --parallel test:visual --verboseRenderer",
-    "compile": "lerna run --parallel compile"
+    "compile": "lerna run --parallel compile",
+    "build-storybook": "lerna run --scope @hazelcast/ui build-storybook",
+    "publish-storybook": "lerna run --scope @hazelcast/ui publish-storybook"
   },
   "dependencies": {
     "react": "^16.13.1",
