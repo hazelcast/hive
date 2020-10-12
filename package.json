@@ -34,10 +34,10 @@
   },
   "scripts": {
     "link-parent-bin": "link-parent-bin",
-    "postinstall": "lerna bootstrap && link-parent-bin && compile",
+    "compile": "lerna run --parallel compile",
+    "postinstall": "lerna bootstrap && npm run link-parent-bin && npm run compile",
     "test": "lerna run --parallel test",
     "test:visual": "lerna run --parallel test:visual --verboseRenderer",
-    "compile": "lerna run --parallel compile",
     "build-storybook": "lerna run --scope @hazelcast/ui build-storybook",
     "publish-storybook": "lerna run --scope @hazelcast/ui publish-storybook"
   },
