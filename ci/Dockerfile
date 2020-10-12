@@ -10,7 +10,7 @@ RUN useradd -d /home/jenkins -ms /bin/bash -u 1030 -g 1031 jenkins
 # Python 2.7 executable is required by node-sass
 RUN apt-get update && apt-get install -y python build-essential
 
-COPY --chown=jenkins:jenkins src/main/frontend/package.json /home/frontend-shared/package.json
+COPY --chown=jenkins:jenkins package.json /home/frontend-shared/package.json
 
 USER jenkins
 # Download and cache deps 
