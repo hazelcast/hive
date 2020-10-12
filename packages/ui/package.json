@@ -22,7 +22,7 @@
     "url": "git+https://github.com/hazelcast/frontend-shared.git"
   },
   "scripts": {
-    "compile": "true",
+    "compile": "tsc -p tsconfig.publish.json && shx cp src/*.scss lib",
     "test": "jest",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
