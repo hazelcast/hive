@@ -22,42 +22,16 @@
     align-items: center;
   }
 
-  // Size
-  &.small {
-    border-radius: $borderRadiusSmall;
-    font-size: $fontSizeBodySmall;
-    min-height: $grid * 6;
-    padding: 0 $grid * 2;
-
-    .iconLeft {
-      margin-right: $grid;
-    }
-
-    .iconRight {
-      margin-left: $grid;
-    }
-  }
-
   &.normal {
     border-radius: $borderRadiusMedium;
     font-size: $fontSizeBodyNormal;
     min-height: $grid * 8;
     padding: 0 $grid * 3;
 
-    .iconLeft {
-      margin-right: $grid * 2;
+    .icon {
+      width: $grid * 6;
+      height: $grid * 6;
     }
-
-    .iconRight {
-      margin-left: $grid * 2;
-    }
-  }
-
-  &.large {
-    border-radius: $borderRadiusLarge;
-    font-size: $fontSizeBodyNormal;
-    min-height: $grid * 10;
-    padding: 0 $grid * 4;
 
     .iconLeft {
       margin-right: $grid * 2;

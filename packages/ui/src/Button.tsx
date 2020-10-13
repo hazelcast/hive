@@ -4,21 +4,11 @@ import { Icon } from 'react-feather'
 
 import styles from './Button.module.scss'
 
-const getIconSize = (size: ButtonSize) => {
-  if (size === 'small' || size === 'normal') {
-    return 16
-  }
-
-  return 24
-}
-
 export type ButtonKind = 'primary' | 'secondary' | 'status' | 'dashed' | 'danger'
 
 export type ButtonStatusKind = 'success' | 'info' | 'warning' | 'critical'
 
 export type ButtonStatusKindModifier = 'primary' | 'secondary'
-
-export type ButtonSize = 'small' | 'normal' | 'large'
 
 // Left icon is always present with proper aria-label attribute
 type AccessibleIconLeftProps =
@@ -27,8 +17,8 @@ type AccessibleIconLeftProps =
       iconLeftAriaLabel: string
     }
   | {
-      IconLeft?: undefined
-      iconLeftAriaLabel?: undefined
+      IconLeft?: never
+      iconLeftAriaLabel?: never
     }
 
 // Right icon is always present with proper aria-label attribute
@@ -38,13 +28,14 @@ type AccessibleIconRightProps =
       iconRightAriaLabel: string
     }
   | {
-      IconRight?: undefined
-      iconRightAriaLabel?: undefined
+      IconRight?: never
+      iconRightAriaLabel?: never
     }
 
 // Common props for all button "kinds"
 type ButtonKindCommonProps = {
-  size?: ButtonSize
+  // We support single Button.size, which is "normal", rest should be added ad-hoc
+  size?: 'normal'
   children: string
   fullWidth?: boolean
 }
@@ -82,9 +73,6 @@ type ButtonKindStatusProps = {
 export type ButtonProps = (ButtonKindPrimarySecondaryProps | ButtonKindDashedDangerProps | ButtonKindStatusProps) &
   ButtonHTMLAttributes<HTMLButtonElement>
 
-/*
- * TODO: Style-guide is missing "Only Icon" button spec
- */
 export const Button: FC<ButtonProps> = ({
   kind = 'secondary',
   statusKind,
@@ -99,8 +87,6 @@ export const Button: FC<ButtonProps> = ({
   children,
   ...rest
 }) => {
-  const iconSize = getIconSize(size)
-
   return (
     <button
       className={cn(className, styles.button, {
@@ -119,9 +105,7 @@ export const Button: FC<ButtonProps> = ({
         [styles.statusPrimary]: statusKindModifier === 'primary',
         [styles.statusSecondary]: statusKindModifier === 'secondary',
         // Size
-        [styles.small]: size === 'small',
         [styles.normal]: size === 'normal',
-        [styles.large]: size === 'large',
         // FullWidth
         [styles.fullWidth]: fullWidth,
       })}
@@ -129,23 +113,13 @@ export const Button: FC<ButtonProps> = ({
     >
       <div className={styles.body}>
         {IconLeft && (
-          // Icon colour is defined in SCSS
-          <IconLeft
-            aria-label={iconLeftAriaLabel}
-            data-test="button-icon-left"
-            className={cn(styles.icon, styles.iconLeft)}
-            size={iconSize}
-          />
+          // Icon colour & size is defined in SCSS
+          <IconLeft aria-label={iconLeftAriaLabel} data-test="button-icon-left" className={cn(styles.icon, styles.iconLeft)} />
         )}
         {children}
         {IconRight && (
-          // Icon colour is defined in SCSS
-          <IconRight
-            aria-label={iconRightAriaLabel}
-            data-test="button-icon-right"
-            className={cn(styles.icon, styles.iconRight)}
-            size={iconSize}
-          />
+          // Icon colour & size are defined in SCSS
+          <IconRight aria-label={iconRightAriaLabel} data-test="button-icon-right" className={cn(styles.icon, styles.iconRight)} />
         )}
       </div>
     </button>
