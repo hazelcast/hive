@@ -108,7 +108,7 @@ export const TextField: FC<TextFieldProps> = ({
           {inputIcon && <Icon icon={inputIcon} ariaLabel={label} className={styles.inputIcon} />}
           {inputContainerChild}
         </div>
-        {helperText && <Help inputId={idRef.current} helperText={helperText} className={styles.helperText} />}
+        {helperText && <Help parentId={idRef.current} helperText={helperText} className={styles.helperText} />}
       </div>
       <Error error={error} className={cn(styles.errorContainer, errorClassName)} />
     </div>

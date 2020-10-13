@@ -1,8 +1,13 @@
 @import '../styles/constants/index';
 
-.icon {
+.container {
   display: inline-block;
   vertical-align: middle;
   padding-left: $grid;
   padding-right: $grid;
+  line-height: 1;
+
+  > svg {
+    vertical-align: middle;
+  }
 }

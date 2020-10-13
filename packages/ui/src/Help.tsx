@@ -11,17 +11,17 @@ import styles from './Help.module.scss'
 
 export const tooltipId = (inputId: string): string => `${inputId}-label`
 
-interface HelpProps {
-  inputId: string
+export interface HelpProps {
+  parentId: string
   helperText: string | ReactElement
   placement?: string
   className?: string
 }
 
-export const Help: FC<HelpProps> = ({ helperText, placement = 'top', inputId, className }) => (
-  <Tooltip placement={placement} overlay={helperText} id={tooltipId(inputId)}>
-    <div className={cn(styles.icon, className)}>
-      <Icon ariaLabel="Help" color={styleConsts.colorPrimary} icon={HelpCircle} />
+export const Help: FC<HelpProps> = ({ helperText, placement = 'top', parentId, className }) => (
+  <Tooltip placement={placement} overlay={helperText} id={tooltipId(parentId)}>
+    <div className={cn(styles.container, className)}>
+      <Icon ariaLabel="Help" color={styleConsts.colorPrimary} icon={HelpCircle} className={styles.icon} />
     </div>
   </Tooltip>
 )

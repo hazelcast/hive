@@ -22,7 +22,7 @@ export const Default = () => (
 Default.parameters = {
   design: {
     type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%93%90-Management-Center-Design-System?node-id=0%3A1952',
+    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=479%3A273',
   },
 }
 
@@ -35,12 +35,6 @@ export const Empty = () => (
     onChange={(e) => logger.log('change', e.target.value)}
   />
 )
-Empty.parameters = {
-  design: {
-    type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%93%90-Management-Center-Design-System?node-id=0%3A1952',
-  },
-}
 
 export const Error = () => (
   <TextField
@@ -53,12 +47,6 @@ export const Error = () => (
     error="Dark side"
   />
 )
-Error.parameters = {
-  design: {
-    type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%93%90-Management-Center-Design-System?node-id=0%3A2182',
-  },
-}
 
 export const Hovered = () => (
   <TextField
@@ -71,12 +59,6 @@ export const Hovered = () => (
     className={styles.hover}
   />
 )
-Hovered.parameters = {
-  design: {
-    type: 'figma',
-    url: '', // TODO: Fill me
-  },
-}
 
 export const Focused = () => (
   <TextField
@@ -89,12 +71,6 @@ export const Focused = () => (
     className={styles.focus}
   />
 )
-Focused.parameters = {
-  design: {
-    type: 'figma',
-    url: '', // TODO: Fill me
-  },
-}
 
 export const FocusedWithError = () => (
   <TextField
@@ -109,12 +85,6 @@ export const FocusedWithError = () => (
     error="Dark side"
   />
 )
-FocusedWithError.parameters = {
-  design: {
-    type: 'figma',
-    url: '', // TODO: Fill me
-  },
-}
 
 export const Disabled = () => (
   <TextField
@@ -127,12 +97,6 @@ export const Disabled = () => (
     disabled
   />
 )
-Disabled.parameters = {
-  design: {
-    type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%93%90-Management-Center-Design-System?node-id=0%3A2213',
-  },
-}
 
 export const WithHelperText = () => (
   <TextField
@@ -145,12 +109,6 @@ export const WithHelperText = () => (
     helperText="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
   />
 )
-WithHelperText.parameters = {
-  design: {
-    type: 'figma',
-    url: '', // TODO: Fill me
-  },
-}
 
 export const WithIconDefault = () => (
   <TextField
@@ -163,12 +121,6 @@ export const WithIconDefault = () => (
     inputIcon={Mail}
   />
 )
-WithIconDefault.parameters = {
-  design: {
-    type: 'figma',
-    url: '', // TODO: Fill me
-  },
-}
 
 export const WithIconEmpty = () => (
   <TextField
@@ -180,12 +132,6 @@ export const WithIconEmpty = () => (
     inputIcon={Mail}
   />
 )
-WithIconEmpty.parameters = {
-  design: {
-    type: 'figma',
-    url: '', // TODO: Fill me
-  },
-}
 
 export const WithIconError = () => (
   <TextField
@@ -198,12 +144,6 @@ export const WithIconError = () => (
     error="Dark side"
   />
 )
-WithIconError.parameters = {
-  design: {
-    type: 'figma',
-    url: '', // TODO: Fill me
-  },
-}
 
 export const WithIconHovered = () => (
   <TextField
@@ -216,12 +156,6 @@ export const WithIconHovered = () => (
     className={styles.hover}
   />
 )
-WithIconHovered.parameters = {
-  design: {
-    type: 'figma',
-    url: '', // TODO: Fill me
-  },
-}
 
 export const WithIconFocused = () => (
   <TextField
@@ -234,12 +168,6 @@ export const WithIconFocused = () => (
     className={styles.focus}
   />
 )
-WithIconFocused.parameters = {
-  design: {
-    type: 'figma',
-    url: '', // TODO: Fill me
-  },
-}
 
 export const WithIconFocusedWithError = () => (
   <TextField
@@ -253,12 +181,6 @@ export const WithIconFocusedWithError = () => (
     className={styles.focus}
   />
 )
-WithIconFocusedWithError.parameters = {
-  design: {
-    type: 'figma',
-    url: '', // TODO: Fill me
-  },
-}
 
 export const WithIconDisabled = () => (
   <TextField
@@ -271,12 +193,6 @@ export const WithIconDisabled = () => (
     disabled
   />
 )
-WithIconDisabled.parameters = {
-  design: {
-    type: 'figma',
-    url: '', // TODO: Fill me
-  },
-}
 
 export const WithIconWithHelperText = () => (
   <TextField
@@ -290,9 +206,3 @@ export const WithIconWithHelperText = () => (
     inputIcon={Mail}
   />
 )
-WithIconWithHelperText.parameters = {
-  design: {
-    type: 'figma',
-    url: '', // TODO: Fill me
-  },
-}

@@ -1,5 +1,12 @@
 @import '../styles/constants/index';
 
+@mixin inputFocus {
+  border-color: $colorPrimary;
+  border-width: $outlineWidth;
+}
+
+$inputHeight: $grid * 10;
+
 .container {
   @include typographyBodyNormal;
 
@@ -24,13 +31,15 @@
 
   .helperText {
     margin-left: $grid;
+    display: block;
   }
 
   .inputIcon {
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
-    left: $grid * 9 / 2;
+    // $grid * 9 / 2 is half of the padding. We need to shift it to the left just a bit to account for the border width
+    left: calc(#{$grid * 9 / 2} + #{$outlineWidth});
   }
 
   input {
@@ -42,10 +51,13 @@
     box-sizing: border-box;
     width: 100%;
     font-size: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
     color: inherit;
-    height: $grid * 10;
+    height: $inputHeight;
     border-radius: $borderRadius;
     background-color: $colorNeutralLighter;
+    outline: none;
 
     &::placeholder {
       color: $colorTextSecondary;
@@ -99,13 +111,11 @@
     // :focus-within is not supported by IE11
     // This way in IE11 the color of .inputIcon will not change, but it is an acceptable degradation
     input:focus {
-      border-color: $colorPrimary;
-      outline: $outline;
+      @include inputFocus;
     }
     &.focus {
       input {
-        border-color: $colorPrimary;
-        outline: $outline;
+        @include inputFocus;
       }
     }
   }
