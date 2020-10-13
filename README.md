@@ -10,6 +10,7 @@
   - [Under the hood](#under-the-hood)
 - [Usage](#usage)
 - [Project structure](#project-structure)
+  - [Automated visual regression testing](#automated-visual-regression-testing)
 - [How-to](#how-to)
   - [Add a new shared dependency](#add-a-new-shared-dependency)
   - [Add a new local dependency (for one package only)](#add-a-new-local-dependency-for-one-package-only)
@@ -56,6 +57,10 @@ The latest version of the design system is accessible at https://master--5f80b6a
 - `services` (full name `@hazelcast/services`)
 - `test-helpers` (full name `@hazelcast/test-helpers`)
 - `ui` (full name `@hazelcast/ui`)
+
+### Automated visual regression testing
+
+Uses stories from [Storybook](https://storybook.js.org/) as test cases. In other words, any story is going to result in a set of screenshots. Moreover, any story is required to have an associated set of screenshots. Based on [Loki](https://loki.js.org/), which uses headless Chrome to render the screenshots in Docker.
 
 ## How-to
 
