@@ -1,7 +1,9 @@
 import React from 'react'
 import { logger } from '@hazelcast/services'
+import { Mail } from 'react-feather'
 
 import { TextField } from '../src/TextField'
+import styles from '../src/TextField.module.scss'
 
 export default {
   title: 'Components/TextField',
@@ -40,42 +42,6 @@ Empty.parameters = {
   },
 }
 
-export const Small = () => (
-  <TextField
-    name="name"
-    value="Yoda"
-    placeholder="Enter the name"
-    label="Wisest jedi"
-    onBlur={() => logger.log('blur')}
-    onChange={(e) => logger.log('change', e.target.value)}
-    height="small"
-  />
-)
-Small.parameters = {
-  design: {
-    type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%93%90-Management-Center-Design-System?node-id=0%3A1948',
-  },
-}
-
-export const Large = () => (
-  <TextField
-    name="name"
-    value="Yoda"
-    placeholder="Enter the name"
-    label="Wisest jedi"
-    onBlur={() => logger.log('blur')}
-    onChange={(e) => logger.log('change', e.target.value)}
-    height="large"
-  />
-)
-Large.parameters = {
-  design: {
-    type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%93%90-Management-Center-Design-System?node-id=0%3A1956',
-  },
-}
-
 export const Error = () => (
   <TextField
     name="name"
@@ -94,6 +60,24 @@ Error.parameters = {
   },
 }
 
+export const Hovered = () => (
+  <TextField
+    name="name"
+    value="Yoda"
+    placeholder="Enter the name"
+    label="Wisest jedi"
+    onBlur={() => logger.log('blur')}
+    onChange={(e) => logger.log('change', e.target.value)}
+    className={styles.hover}
+  />
+)
+Hovered.parameters = {
+  design: {
+    type: 'figma',
+    url: '', // TODO: Fill me
+  },
+}
+
 export const Focused = () => (
   <TextField
     name="name"
@@ -102,8 +86,7 @@ export const Focused = () => (
     label="Wisest jedi"
     onBlur={() => logger.log('blur')}
     onChange={(e) => logger.log('change', e.target.value)}
-    // eslint-disable-next-line jsx-a11y/no-autofocus
-    autoFocus
+    className={styles.focus}
   />
 )
 Focused.parameters = {
@@ -122,7 +105,7 @@ export const FocusedWithError = () => (
     onBlur={() => logger.log('blur')}
     onChange={(e) => logger.log('change', e.target.value)}
     // eslint-disable-next-line jsx-a11y/no-autofocus
-    autoFocus
+    className={styles.focus}
     error="Dark side"
   />
 )
@@ -151,40 +134,6 @@ Disabled.parameters = {
   },
 }
 
-export const NoLabel = () => (
-  <TextField
-    name="name"
-    value="Yoda"
-    placeholder="Enter the name"
-    onBlur={() => logger.log('blur')}
-    onChange={(e) => logger.log('change', e.target.value)}
-  />
-)
-NoLabel.parameters = {
-  design: {
-    type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%93%90-Management-Center-Design-System?node-id=0%3A1963',
-  },
-}
-
-export const Required = () => (
-  <TextField
-    name="name"
-    value="Yoda"
-    label="Wisest jedi"
-    placeholder="Enter the name"
-    onBlur={() => logger.log('blur')}
-    onChange={(e) => logger.log('change', e.target.value)}
-    required
-  />
-)
-Required.parameters = {
-  design: {
-    type: 'figma',
-    url: '', // TODO: Fill me
-  },
-}
-
 export const WithHelperText = () => (
   <TextField
     name="name"
@@ -196,7 +145,152 @@ export const WithHelperText = () => (
     helperText="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
   />
 )
-Required.parameters = {
+WithHelperText.parameters = {
+  design: {
+    type: 'figma',
+    url: '', // TODO: Fill me
+  },
+}
+
+export const WithIconDefault = () => (
+  <TextField
+    name="name"
+    value="Yoda"
+    label="Wisest jedi"
+    placeholder="Enter the name"
+    onBlur={() => logger.log('blur')}
+    onChange={(e) => logger.log('change', e.target.value)}
+    inputIcon={Mail}
+  />
+)
+WithIconDefault.parameters = {
+  design: {
+    type: 'figma',
+    url: '', // TODO: Fill me
+  },
+}
+
+export const WithIconEmpty = () => (
+  <TextField
+    name="name"
+    label="Wisest jedi"
+    placeholder="Enter the name"
+    onBlur={() => logger.log('blur')}
+    onChange={(e) => logger.log('change', e.target.value)}
+    inputIcon={Mail}
+  />
+)
+WithIconEmpty.parameters = {
+  design: {
+    type: 'figma',
+    url: '', // TODO: Fill me
+  },
+}
+
+export const WithIconError = () => (
+  <TextField
+    name="name"
+    label="Wisest jedi"
+    placeholder="Enter the name"
+    onBlur={() => logger.log('blur')}
+    onChange={(e) => logger.log('change', e.target.value)}
+    inputIcon={Mail}
+    error="Dark side"
+  />
+)
+WithIconError.parameters = {
+  design: {
+    type: 'figma',
+    url: '', // TODO: Fill me
+  },
+}
+
+export const WithIconHovered = () => (
+  <TextField
+    name="name"
+    label="Wisest jedi"
+    placeholder="Enter the name"
+    onBlur={() => logger.log('blur')}
+    onChange={(e) => logger.log('change', e.target.value)}
+    inputIcon={Mail}
+    className={styles.hover}
+  />
+)
+WithIconHovered.parameters = {
+  design: {
+    type: 'figma',
+    url: '', // TODO: Fill me
+  },
+}
+
+export const WithIconFocused = () => (
+  <TextField
+    name="name"
+    label="Wisest jedi"
+    placeholder="Enter the name"
+    onBlur={() => logger.log('blur')}
+    onChange={(e) => logger.log('change', e.target.value)}
+    inputIcon={Mail}
+    className={styles.focus}
+  />
+)
+WithIconFocused.parameters = {
+  design: {
+    type: 'figma',
+    url: '', // TODO: Fill me
+  },
+}
+
+export const WithIconFocusedWithError = () => (
+  <TextField
+    name="name"
+    label="Wisest jedi"
+    placeholder="Enter the name"
+    onBlur={() => logger.log('blur')}
+    onChange={(e) => logger.log('change', e.target.value)}
+    inputIcon={Mail}
+    error="Dark side"
+    className={styles.focus}
+  />
+)
+WithIconFocusedWithError.parameters = {
+  design: {
+    type: 'figma',
+    url: '', // TODO: Fill me
+  },
+}
+
+export const WithIconDisabled = () => (
+  <TextField
+    name="name"
+    label="Wisest jedi"
+    placeholder="Enter the name"
+    onBlur={() => logger.log('blur')}
+    onChange={(e) => logger.log('change', e.target.value)}
+    inputIcon={Mail}
+    disabled
+  />
+)
+WithIconDisabled.parameters = {
+  design: {
+    type: 'figma',
+    url: '', // TODO: Fill me
+  },
+}
+
+export const WithIconWithHelperText = () => (
+  <TextField
+    name="name"
+    value="Yoda"
+    label="Wisest jedi"
+    placeholder="Enter the name"
+    onBlur={() => logger.log('blur')}
+    onChange={(e) => logger.log('change', e.target.value)}
+    helperText="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+    inputIcon={Mail}
+  />
+)
+WithIconWithHelperText.parameters = {
   design: {
     type: 'figma',
     url: '', // TODO: Fill me

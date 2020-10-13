@@ -1,7 +1,6 @@
 export * from './Error'
 export * from './Help'
 export * from './Icon'
-export * from './Label'
 export * from './Link'
 export * from './TextField'
 export * from './TextFieldFormik'

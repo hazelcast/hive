@@ -1,8 +1,9 @@
 @import '../styles/constants/index';
 
 .container {
-  font-size: $fontSizeBodySmall;
-  color: $colorCriticalDark;
+  @include typographyBodySmall;
+
+  color: $colorError;
   display: none;
 
   &.hasError {

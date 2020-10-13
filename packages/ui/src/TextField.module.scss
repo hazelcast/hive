@@ -1,87 +1,111 @@
 @import '../styles/constants/index';
 
-@mixin focused {
-  border-color: $colorPrimaryLight;
-  border-width: $inputBorderWidthFocused;
-}
-
 .container {
-  font-size: $fontSizeBodyNormal;
+  @include typographyBodyNormal;
+
   box-sizing: border-box;
   margin: 0;
+  position: relative;
 
-  > .inputContainer {
-    position: relative;
+  .inputBlock {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 
-  > .errorContainer {
+  .inputContainer {
+    position: relative;
+    flex: 1;
+  }
+
+  .errorContainer {
     margin-top: $grid;
+  }
+
+  .helperText {
+    margin-left: $grid;
+  }
+
+  .inputIcon {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    left: $grid * 9 / 2;
   }
 
   input {
     display: block;
-    padding: $grid * 2 $grid * 3;
-    border-width: $inputBorderWidthNormal;
-    border-color: $colorNeutralNormal;
+    padding: 0 $grid * 3;
+    border-width: $inputBorderWidth;
+    border-color: $colorNeutralLight;
     border-style: solid;
     box-sizing: border-box;
     width: 100%;
     font-size: inherit;
     color: inherit;
-    outline: none;
+    height: $grid * 10;
+    border-radius: $borderRadius;
+    background-color: $colorNeutralLighter;
 
     &::placeholder {
-      color: $colorBodySecondary;
-    }
-
-    &:hover {
-      border-color: $colorNeutralDark;
-    }
-    &:focus {
-      @include focused;
+      color: $colorTextSecondary;
     }
   }
 
-  > label {
-    display: block;
-    margin-bottom: $grid;
+  &.withIcon {
+    input {
+      padding-left: $grid * 9;
+    }
+  }
+
+  &.empty {
+    color: $colorTextSecondary;
   }
 
   &.disabled {
     input {
-      background-color: $colorNeutralLight;
-    }
-  }
-
-  &.small {
-    font-size: $fontSizeBodySmall;
-
-    input {
-      height: $grid * 6;
-      border-radius: $borderRadiusSmall;
-    }
-  }
-
-  &.normal {
-    input {
-      height: $grid * 8;
-      border-radius: $borderRadiusMedium;
-    }
-  }
-
-  &.large {
-    input {
-      height: $grid * 10;
-      border-radius: $borderRadiusLarge;
+      color: $colorTextSecondary;
+      background-color: $colorNeutral;
     }
   }
 
   &.hasError {
     input {
-      border-color: $colorCriticalDark;
+      border-color: $colorError;
+    }
 
-      &:focus {
-        @include focused;
+    .inputIcon {
+      color: $colorError;
+    }
+  }
+
+  &:not(.disabled) {
+    &:hover,
+    &.hover {
+      input {
+        border-color: $colorPrimary;
+      }
+      .inputIcon {
+        color: $colorPrimary;
+      }
+    }
+
+    &:focus-within,
+    &.focus {
+      .inputIcon {
+        color: $colorPrimary;
+      }
+    }
+    // :focus-within is not supported by IE11
+    // This way in IE11 the color of .inputIcon will not change, but it is an acceptable degradation
+    input:focus {
+      border-color: $colorPrimary;
+      outline: $outline;
+    }
+    &.focus {
+      input {
+        border-color: $colorPrimary;
+        outline: $outline;
       }
     }
   }

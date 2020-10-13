@@ -6,20 +6,21 @@
 }
 
 .overlay {
-  color: $colorTooltipText;
+  // TODO: Update colors. Ask Pawel.
+  color: #fff;
 
   :global .rc-tooltip-inner {
-    background-color: $colorNeutralDarker;
+    background-color: black;
   }
 
   &.rc-tooltip-placement-bottom {
     :global .rc-tooltip-arrow {
-      border-bottom-color: $colorNeutralDarker;
+      border-bottom-color: black;
     }
   }
   &.rc-tooltip-placement-top {
     :global .rc-tooltip-arrow {
-      border-top-color: $colorNeutralDarker;
+      border-top-color: black;
     }
   }
 }

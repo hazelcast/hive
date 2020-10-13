@@ -1,4 +1,58 @@
-$fontWeightNormal: 400;
-$fontWeightBold: 500;
+$fontWeightLight: 300;
+$fontWeightRegular: 400;
+$fontWeightMedium: 500;
 
 $fontFamily: 'Roboto';
+
+// https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=0%3A136
+$fontSizeH1: 2rem;
+$fontSizeH2: 1.625rem;
+$fontSizeH3: 1.25rem;
+$fontSizeButton: 1.125rem;
+$fontSizeBodyNormal: 1rem;
+$fontSizeBodySmall: 0.875rem;
+
+$letterSpacingH1: 0.25px;
+$letterSpacingH2: 0;
+$letterSpacingH3: 0.15px;
+$letterSpacingButton: 1.25px;
+$letterSpacingBodyNormal: 0.5px;
+$letterSpacingBodySmall: 0.25px;
+
+$lineHeightH1: auto;
+$lineHeightH2: auto;
+$lineHeightH3: auto;
+$lineHeightButton: auto;
+$lineHeightBodyNormal: 1.4;
+$lineHeightBodySmall: auto;
+
+@mixin typographyH1 {
+  font-size: $fontSizeH1;
+  letter-spacing: $letterSpacingH1;
+  line-height: $lineHeightH1;
+}
+@mixin typographyH2 {
+  font-size: $fontSizeH2;
+  letter-spacing: $letterSpacingH2;
+  line-height: $lineHeightH2;
+}
+@mixin typographyH3 {
+  font-size: $fontSizeH3;
+  letter-spacing: $letterSpacingH3;
+  line-height: $lineHeightH3;
+}
+@mixin typographyButton {
+  font-size: $fontSizeButton;
+  letter-spacing: $letterSpacingButton;
+  line-height: $lineHeightButton;
+}
+@mixin typographyBodyNormal {
+  font-size: $fontSizeBodyNormal;
+  letter-spacing: $letterSpacingBodyNormal;
+  line-height: $lineHeightBodyNormal;
+}
+@mixin typographyBodySmall {
+  font-size: $fontSizeBodySmall;
+  letter-spacing: $letterSpacingBodySmall;
+  line-height: $lineHeightBodySmall;
+}

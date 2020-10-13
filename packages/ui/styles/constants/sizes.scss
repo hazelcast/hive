@@ -7,30 +7,18 @@ $screenMinWidth: 1280px;
 
 $grid: 0.25rem;
 
-$borderRadiusSmall: $grid * 0.5;
-$borderRadiusMedium: $grid * 0.75;
-$borderRadiusLarge: $grid * 1.25;
+$borderRadius: $grid * 1.25;
 
 // It does not make sense to express separator width in REMs since we do not need it to scale with the base font size
 $separatorWidth: 1px;
 
-$inputBorderWidthNormal: 1px;
-$inputBorderWidthFocused: 2px;
+$inputBorderWidth: 1px;
+
+$outlineWidth: 2px;
 
 $iconStrokeWidth: 2px;
 
-// https://zeroheight.com/11d0e6dac/p/470b57--layout/t/06d82a
-$iconSizeSmall: $grid * 4;
-$iconSizeMedium: $grid * 6;
-$iconSizeLarge: $grid * 8;
-
-// https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=0%3A136
-$fontSizeH1: 2rem;
-$fontSizeH2: 1.625rem;
-$fontSizeH3: 1.25rem;
-$fontSizeButton: 1.125rem;
-$fontSizeBodyNormal: 1rem;
-$fontSizeBodySmall: 0.875rem;
+$iconSize: $grid * 4;
 
 $tooltipMaxWidth: 550px;
 
@@ -38,18 +26,11 @@ $tooltipMaxWidth: 550px;
 :export {
   screenMinWidth: $screenMinWidth;
   grid: $grid;
-  borderRadiusSmall: $borderRadiusSmall;
-  borderRadiusMedium: $borderRadiusMedium;
+  borderRadius: $borderRadius;
   separatorWidth: $separatorWidth;
+  inputBorderWidth: $inputBorderWidth;
+  outlineWidth: $outlineWidth;
   iconStrokeWidth: $iconStrokeWidth;
-  iconSizeSmall: $iconSizeSmall;
-  iconSizeMedium: $iconSizeMedium;
-  iconSizeLarge: $iconSizeLarge;
-  fontSizeH1: $fontSizeH1;
-  fontSizeH2: $fontSizeH2;
-  fontSizeH3: $fontSizeH3;
-  fontSizeButton: $fontSizeButton;
-  fontSizeBodyNormal: $fontSizeBodyNormal;
-  fontSizeBodySmall: $fontSizeBodySmall;
+  iconSize: $iconSize;
   tooltipMaxWidth: $tooltipMaxWidth;
 }
