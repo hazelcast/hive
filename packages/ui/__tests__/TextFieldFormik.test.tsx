@@ -21,7 +21,7 @@ describe('TextFieldFormik', () => {
         onSubmit={onSubmit}
       >
         <Form>
-          <TextFieldFormik<Values> name="name" placeholder="Enter the name" />
+          <TextFieldFormik<Values> name="name" placeholder="Enter the name" label="test" />
         </Form>
       </Formik>
     )

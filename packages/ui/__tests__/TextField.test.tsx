@@ -6,7 +6,7 @@ import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import { TextField } from '../src/TextField'
 import { HiddenLabel } from '../src/HiddenLabel'
 import { Error } from '../src/Error'
-import { Help } from '../src/Help'
+import { Help, tooltipId } from '../src/Help'
 
 import styles from '../src/TextField.module.scss'
 
@@ -124,7 +124,7 @@ describe('TextField', () => {
       onBlur,
       'aria-invalid': false,
       'aria-required': undefined,
-      'aria-describedby': undefined,
+      'aria-describedby': tooltipId('republic'),
       disabled: undefined,
       placeholder: 'Enter the name',
     })
@@ -137,6 +137,7 @@ describe('TextField', () => {
     expect(wrapper.find(Help).props()).toEqual({
       inputId: 'republic',
       helperText: 'A long time ago in a galaxy far, far away....',
+      className: styles.helperText,
     })
   })
 

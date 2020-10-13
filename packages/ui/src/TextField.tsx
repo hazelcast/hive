@@ -97,7 +97,6 @@ export const TextField: FC<TextFieldProps> = ({
             name={name}
             onChange={onChange}
             onBlur={onBlur}
-            aria-label={!label ? placeholder : undefined}
             // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute
             aria-invalid={!!error}
             aria-required={required}

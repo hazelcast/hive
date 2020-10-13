@@ -48,7 +48,6 @@ describe('Link', () => {
     expect(anchor.find('span').find(Icon).props()).toEqual({
       ariaLabel: 'Link',
       icon: ChevronRight,
-      size: 'small',
     })
   })
 
