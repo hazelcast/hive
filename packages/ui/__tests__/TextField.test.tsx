@@ -135,7 +135,7 @@ describe('TextField', () => {
     })
 
     expect(wrapper.find(Help).props()).toEqual({
-      inputId: 'republic',
+      parentId: 'republic',
       helperText: 'A long time ago in a galaxy far, far away....',
       className: styles.helperText,
     })
