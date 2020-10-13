@@ -3,12 +3,32 @@ import { Info, Trash2, Plus, ChevronDown } from 'react-feather'
 
 import { Button } from '../src/Button'
 
+import styles from '../src/Button.module.scss'
+
 export default {
   title: 'Button',
   component: Button,
 }
 
 export const ButtonPrimary = () => <Button kind="primary">Primary Button</Button>
+
+export const ButtonPrimaryHovered = () => (
+  <Button className={styles.hover} kind="primary">
+    Primary Button
+  </Button>
+)
+
+export const ButtonPrimaryFocused = () => (
+  <Button className={styles.focus} kind="primary">
+    Primary Button
+  </Button>
+)
+
+export const ButtonPrimaryActive = () => (
+  <Button className={styles.active} kind="primary">
+    Primary Button
+  </Button>
+)
 
 export const ButtonPrimaryDisabled = () => (
   <Button disabled kind="primary">
@@ -35,6 +55,24 @@ export const ButtonPrimaryIconBoth = () => (
 )
 
 export const ButtonSecondary = () => <Button kind="secondary">Secondary Button</Button>
+
+export const ButtonSecondaryHovered = () => (
+  <Button className={styles.hover} kind="secondary">
+    Secondary Button
+  </Button>
+)
+
+export const ButtonSecondaryFocused = () => (
+  <Button className={styles.focus} kind="secondary">
+    Secondary Button
+  </Button>
+)
+
+export const ButtonSecondaryActive = () => (
+  <Button className={styles.active} kind="secondary">
+    Secondary Button
+  </Button>
+)
 
 export const ButtonSecondaryDisabled = () => (
   <Button disabled kind="secondary">
@@ -110,6 +148,24 @@ export const ButtonStatusCriticalSecondary = () => (
 
 export const ButtonDashed = () => <Button kind="dashed">Dashed Button</Button>
 
+export const ButtonDashedHovered = () => (
+  <Button className={styles.hover} kind="dashed">
+    Dashed Button
+  </Button>
+)
+
+export const ButtonDashedFocused = () => (
+  <Button className={styles.focus} kind="dashed">
+    Dashed Button
+  </Button>
+)
+
+export const ButtonDashedActive = () => (
+  <Button className={styles.active} kind="dashed">
+    Dashed Button
+  </Button>
+)
+
 export const ButtonDashedDisabled = () => (
   <Button disabled kind="dashed">
     Dashed Button
@@ -123,6 +179,24 @@ export const ButtonDashedIconLeft = () => (
 )
 
 export const ButtonDanger = () => <Button kind="danger">Danger Button</Button>
+
+export const ButtonDangerHovered = () => (
+  <Button className={styles.hover} kind="danger">
+    Danger Button
+  </Button>
+)
+
+export const ButtonDangerFocused = () => (
+  <Button className={styles.focus} kind="danger">
+    Danger Button
+  </Button>
+)
+
+export const ButtonDangerActive = () => (
+  <Button className={styles.active} kind="danger">
+    Danger Button
+  </Button>
+)
 
 export const ButtonDangerDisabled = () => (
   <Button disabled kind="danger">

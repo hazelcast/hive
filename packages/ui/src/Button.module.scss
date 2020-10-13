@@ -52,11 +52,14 @@
     background-color: $colorPrimaryNormal;
 
     &:hover,
-    &:focus {
+    &.hover,
+    &:focus,
+    &.focus {
       background-color: $colorPrimaryDark;
     }
 
-    &:active {
+    &:active,
+    &.active {
       background-color: $colorPrimaryDarker;
     }
 
@@ -73,12 +76,15 @@
     border-color: $colorNeutralNormal;
 
     &:hover,
-    &:focus {
+    &.hover,
+    &:focus,
+    &.focus {
       color: $colorNeutralDark;
       border-color: $colorNeutralDark;
     }
 
-    &:active {
+    &:active,
+    &.active {
       color: $colorNeutralDark;
       border-color: $colorNeutralDarker;
       -webkit-box-shadow: inset 0 0 $grid * 2 0 $colorNeutralNormal;
@@ -150,12 +156,15 @@
     background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23b7c1cbff' stroke-width='2' stroke-dasharray='6%2c 6' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
 
     &:hover,
-    &:focus {
+    &.hover,
+    &:focus,
+    &.focus {
       // Colour set by 'stroke', special characters are encoded
       background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%236D7480ff' stroke-width='2' stroke-dasharray='6%2c 6' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
     }
 
-    &:active {
+    &:active,
+    &.active {
       // Colour set by 'stroke', special characters are encoded
       background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23353D49ff' stroke-width='2' stroke-dasharray='6%2c 6' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
       -webkit-box-shadow: inset 0 0 $grid * 2 0 $colorNeutralNormal;
@@ -175,11 +184,14 @@
     background-color: $colorCriticalNormal;
 
     &:hover,
-    &:focus {
+    &.hover,
+    &:focus,
+    &.focus {
       background-color: $colorCriticalDark;
     }
 
-    &:active {
+    &:active,
+    &.active {
       background-color: $colorCriticalDarker;
     }
 
