@@ -4,11 +4,19 @@ import { Icon } from 'react-feather'
 
 import styles from './Button.module.scss'
 
-export type ButtonKind = 'primary' | 'secondary' | 'status' | 'dashed' | 'danger'
-
-export type ButtonStatusKind = 'success' | 'info' | 'warning' | 'critical'
-
-export type ButtonStatusKindModifier = 'primary' | 'secondary'
+export type ButtonKind =
+  | 'primary'
+  | 'secondary'
+  | 'success'
+  | 'successSecondary'
+  | 'info'
+  | 'infoSecondary'
+  | 'warning'
+  | 'warningSecondary'
+  | 'dashed'
+  | 'critical'
+  | 'criticalSecondary'
+  | 'danger'
 
 // Left icon is always present with proper aria-label attribute
 type AccessibleIconLeftProps =
@@ -37,14 +45,11 @@ type ButtonKindCommonProps = {
   // We support single Button.size, which is "normal", rest should be added ad-hoc
   size?: 'normal'
   children: string
-  fullWidth?: boolean
 }
 
 // Primary and Secondary buttons share common behavior
 type ButtonKindPrimarySecondaryProps = {
   kind?: 'primary' | 'secondary'
-  statusKind?: undefined
-  statusKindModifier?: undefined
 } & ButtonKindCommonProps &
   AccessibleIconLeftProps &
   AccessibleIconRightProps
@@ -52,8 +57,6 @@ type ButtonKindPrimarySecondaryProps = {
 // Dashed and Danger buttons share common behavior
 type ButtonKindDashedDangerProps = {
   kind?: 'dashed' | 'danger'
-  statusKind?: undefined
-  statusKindModifier?: undefined
   IconRight?: undefined
   iconRightAriaLabel?: undefined
 } & ButtonKindCommonProps &
@@ -61,9 +64,7 @@ type ButtonKindDashedDangerProps = {
 
 // Status button behavior
 type ButtonKindStatusProps = {
-  kind?: 'status'
-  statusKind: ButtonStatusKind
-  statusKindModifier: ButtonStatusKindModifier
+  kind?: 'success' | 'successSecondary' | 'info' | 'infoSecondary' | 'warning' | 'warningSecondary' | 'critical' | 'criticalSecondary'
   IconLeft?: undefined
   iconLeftAriaLabel?: undefined
   IconRight?: undefined
@@ -74,15 +75,12 @@ export type ButtonProps = (ButtonKindPrimarySecondaryProps | ButtonKindDashedDan
   ButtonHTMLAttributes<HTMLButtonElement>
 
 export const Button: FC<ButtonProps> = ({
-  kind = 'secondary',
-  statusKind,
-  statusKindModifier,
+  kind = 'primary',
   size = 'normal',
   IconLeft,
   iconLeftAriaLabel,
   IconRight,
   iconRightAriaLabel,
-  fullWidth = false,
   className,
   children,
   ...rest
@@ -91,23 +89,29 @@ export const Button: FC<ButtonProps> = ({
     <button
       className={cn(className, styles.button, {
         // Kind
+        // Kind === primary
         [styles.primary]: kind === 'primary',
+        // Kind === secondary
         [styles.secondary]: kind === 'secondary',
-        [styles.status]: kind === 'status',
+        // Kind === success
+        [styles.success]: kind === 'success' || kind === 'successSecondary',
+        [styles.successSecondary]: kind === 'successSecondary',
+        // Kind === info
+        [styles.info]: kind === 'info' || kind === 'infoSecondary',
+        [styles.infoSecondary]: kind === 'infoSecondary',
+        // Kind === warning
+        [styles.warning]: kind === 'warning' || kind === 'warningSecondary',
+        [styles.warningSecondary]: kind === 'warningSecondary',
+        // Kind === danger
+        [styles.critical]: kind === 'critical' || kind === 'criticalSecondary',
+        [styles.criticalSecondary]: kind === 'criticalSecondary',
+        // Kind === dashed
         [styles.dashed]: kind === 'dashed',
+        // Kind === danger
         [styles.danger]: kind === 'danger',
-        // StatusKind
-        [styles.statusSuccess]: statusKind === 'success',
-        [styles.statusInfo]: statusKind === 'info',
-        [styles.statusWarning]: statusKind === 'warning',
-        [styles.statusCritical]: statusKind === 'critical',
-        // StatusKindModifier
-        [styles.statusPrimary]: statusKindModifier === 'primary',
-        [styles.statusSecondary]: statusKindModifier === 'secondary',
+
         // Size
         [styles.normal]: size === 'normal',
-        // FullWidth
-        [styles.fullWidth]: fullWidth,
       })}
       {...rest}
     >
@@ -116,7 +120,7 @@ export const Button: FC<ButtonProps> = ({
           // Icon colour & size is defined in SCSS
           <IconLeft aria-label={iconLeftAriaLabel} data-test="button-icon-left" className={cn(styles.icon, styles.iconLeft)} />
         )}
-        {children}
+        {children.toUpperCase()}
         {IconRight && (
           // Icon colour & size are defined in SCSS
           <IconRight aria-label={iconRightAriaLabel} data-test="button-icon-right" className={cn(styles.icon, styles.iconRight)} />

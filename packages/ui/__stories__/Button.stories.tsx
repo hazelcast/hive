@@ -98,53 +98,21 @@ export const ButtonSecondaryIconBoth = () => (
   </Button>
 )
 
-export const ButtonStatusSuccessPrimary = () => (
-  <Button kind="status" statusKind="success" statusKindModifier="primary">
-    Primary Action
-  </Button>
-)
+export const ButtonSuccessPrimary = () => <Button kind="success">Primary Success</Button>
 
-export const ButtonStatusSuccessSecondary = () => (
-  <Button kind="status" statusKind="success" statusKindModifier="secondary">
-    Secondary Action
-  </Button>
-)
+export const ButtonSuccessSecondary = () => <Button kind="successSecondary">Secondary Success</Button>
 
-export const ButtonStatusInfoPrimary = () => (
-  <Button kind="status" statusKind="info" statusKindModifier="primary">
-    Primary Action
-  </Button>
-)
+export const ButtonInfoPrimary = () => <Button kind="info">Primary Info</Button>
 
-export const ButtonStatusInfoSecondary = () => (
-  <Button kind="status" statusKind="info" statusKindModifier="secondary">
-    Secondary Action
-  </Button>
-)
+export const ButtonInfoSecondary = () => <Button kind="infoSecondary">Secondary Info</Button>
 
-export const ButtonStatusWarningPrimary = () => (
-  <Button kind="status" statusKind="warning" statusKindModifier="primary">
-    Primary Action
-  </Button>
-)
+export const ButtonWarningPrimary = () => <Button kind="warning">Primary Warning</Button>
 
-export const ButtonStatusWarningSecondary = () => (
-  <Button kind="status" statusKind="warning" statusKindModifier="secondary">
-    Secondary Action
-  </Button>
-)
+export const ButtonWarningSecondary = () => <Button kind="warningSecondary">Secondary Warning</Button>
 
-export const ButtonStatusCriticalPrimary = () => (
-  <Button kind="status" statusKind="critical" statusKindModifier="primary">
-    Primary Action
-  </Button>
-)
+export const ButtonCriticalPrimary = () => <Button kind="critical">Primary Critical</Button>
 
-export const ButtonStatusCriticalSecondary = () => (
-  <Button kind="status" statusKind="critical" statusKindModifier="secondary">
-    Secondary Action
-  </Button>
-)
+export const ButtonCriticalSecondary = () => <Button kind="criticalSecondary">Secondary Critical</Button>
 
 export const ButtonDashed = () => <Button kind="dashed">Dashed Button</Button>
 
@@ -208,12 +176,4 @@ export const ButtonDangerIconLeft = () => (
   <Button kind="danger" IconLeft={Trash2} iconLeftAriaLabel="Trash icon">
     Danger Button
   </Button>
-)
-
-export const ButtonFullWidth = () => (
-  <div style={{ display: 'flex' }}>
-    <Button kind="secondary" fullWidth>
-      Large full-width Button
-    </Button>
-  </div>
 )

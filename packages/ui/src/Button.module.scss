@@ -12,6 +12,15 @@
   font-family: $fontFamily;
   color: $colorNeutralWhite;
 
+  &:hover,
+  &.hover,
+  &:focus,
+  &.focus,
+  &:active,
+  &.active {
+    outline: $colorOutline ($grid / 2) solid;
+  }
+
   &:disabled {
     cursor: not-allowed;
   }
@@ -22,6 +31,7 @@
     align-items: center;
   }
 
+  // Size === normal
   &.normal {
     border-radius: $borderRadiusMedium;
     font-size: $fontSizeButton;
@@ -42,11 +52,7 @@
     }
   }
 
-  &.fullWidth {
-    flex: 1;
-  }
-
-  // Type
+  // Kind === primary
   &.primary {
     color: $colorNeutralWhite;
     background-color: $colorPrimaryNormal;
@@ -68,7 +74,7 @@
     }
   }
 
-  /* TODO: Background color? */
+  // Kind === secondary
   &.secondary {
     color: $colorNeutralDark;
     background-color: transparent;
@@ -98,57 +104,57 @@
     }
   }
 
-  &.status {
-    &.statusSuccess {
-      &.statusPrimary {
-        color: $colorNeutralWhite;
-        background-color: $colorSuccessNormal;
-      }
-      &.statusSecondary {
-        border: 1px solid $colorSuccessNormal;
-        color: $colorSuccessNormal;
-        background-color: transparent;
-      }
-    }
+  // Kind === success || Kind === successSecondary
+  &.success {
+    color: $colorNeutralWhite;
+    background-color: $colorSuccessNormal;
 
-    &.statusInfo {
-      &.statusPrimary {
-        color: $colorNeutralWhite;
-        background-color: $colorInfoNormal;
-      }
-      &.statusSecondary {
-        border: 1px solid $colorInfoNormal;
-        color: $colorInfoNormal;
-        background-color: transparent;
-      }
-    }
-
-    &.statusWarning {
-      &.statusPrimary {
-        color: $colorNeutralWhite;
-        background-color: $colorWarningNormal;
-      }
-      &.statusSecondary {
-        border: 1px solid $colorWarningNormal;
-        color: $colorWarningNormal;
-        background-color: transparent;
-      }
-    }
-
-    &.statusCritical {
-      &.statusPrimary {
-        color: $colorNeutralWhite;
-        background-color: $colorCriticalNormal;
-      }
-      &.statusSecondary {
-        border: 1px solid $colorCriticalNormal;
-        color: $colorCriticalNormal;
-        background-color: transparent;
-      }
+    &.successSecondary {
+      border: 1px solid $colorSuccessNormal;
+      color: $colorSuccessNormal;
+      background-color: transparent;
     }
   }
 
-  /* Dashed border source: https://kovart.github.io/dashed-border-generator/ */
+  // Kind === info || Kind === infoSecondary
+  &.info {
+    color: $colorNeutralWhite;
+    background-color: $colorInfoNormal;
+
+    &.infoSecondary {
+      border: 1px solid $colorInfoNormal;
+      color: $colorInfoNormal;
+      background-color: transparent;
+    }
+  }
+
+  // Kind === warning || Kind === warningSecondary
+  &.warning {
+    color: $colorNeutralWhite;
+    background-color: $colorWarningNormal;
+
+    &.warningSecondary {
+      border: 1px solid $colorWarningNormal;
+      color: $colorWarningNormal;
+      background-color: transparent;
+    }
+  }
+
+  &.critical {
+    color: $colorNeutralWhite;
+    background-color: $colorCriticalNormal;
+
+    &.criticalSecondary {
+      border: 1px solid $colorCriticalNormal;
+      color: $colorCriticalNormal;
+      background-color: transparent;
+    }
+  }
+
+  /*
+   * Kind === dashed
+   * Dashed border source: https://kovart.github.io/dashed-border-generator/
+   */
   &.dashed {
     color: $colorNeutralDark;
     background-color: transparent;
@@ -179,6 +185,7 @@
     }
   }
 
+  // Kind === danger
   &.danger {
     color: $colorNeutralWhite;
     background-color: $colorCriticalNormal;
