@@ -12,13 +12,10 @@
   font-family: $fontFamily;
   color: $colorNeutralWhite;
 
-  &:hover,
-  &.hover,
   &:focus,
-  &.focus,
-  &:active,
-  &.active {
-    outline: $colorOutline ($grid / 2) solid;
+  &.focus {
+    outline: $colorPrimaryDark ($grid / 2) auto;
+    outline-offset: $grid / 2;
   }
 
   &:disabled {
@@ -35,8 +32,8 @@
   &.normal {
     border-radius: $borderRadiusMedium;
     font-size: $fontSizeButton;
-    min-height: $grid * 8;
-    padding: 0 $grid * 3;
+    min-height: $grid * 10;
+    padding: 0 $grid * 5;
 
     .icon {
       width: $grid * 6;
