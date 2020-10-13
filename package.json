@@ -47,7 +47,8 @@
     "test:visual": "lerna run --parallel test:visual",
     "lint": "lerna run --parallel lint",
     "build-storybook": "lerna run --scope @hazelcast/ui build-storybook",
-    "publish-storybook": "lerna run --scope @hazelcast/ui publish-storybook"
+    "publish-storybook": "lerna run --scope @hazelcast/ui publish-storybook",
+    "start": "lerna run --scope @hazelcast/ui storybook"
   },
   "dependencies": {
     "react": "^16.13.1",
