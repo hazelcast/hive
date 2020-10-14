@@ -75,7 +75,24 @@ $paddingLeftWithIcon: $grid * 8;
     color: $colorTextSecondary;
   }
 
-  &.disabled {
+  &:hover,
+  &.hover {
+    input {
+      border-color: $colorPrimary;
+    }
+    .inputIcon {
+      color: $colorPrimary;
+    }
+  }
+
+  &:focus-within,
+  &.focus {
+    .inputIcon {
+      color: $colorPrimary;
+    }
+  }
+
+  &.readOnly {
     input {
       color: $colorTextSecondary;
       background-color: $colorNeutral;
@@ -92,32 +109,14 @@ $paddingLeftWithIcon: $grid * 8;
     }
   }
 
-  &:not(.disabled) {
-    &:hover,
-    &.hover {
-      input {
-        border-color: $colorPrimary;
-      }
-      .inputIcon {
-        color: $colorPrimary;
-      }
-    }
-
-    &:focus-within,
-    &.focus {
-      .inputIcon {
-        color: $colorPrimary;
-      }
-    }
-    // :focus-within is not supported by IE11
-    // This way in IE11 the color of .inputIcon will not change, but it is an acceptable degradation
-    input:focus {
+  // :focus-within is not supported by IE11
+  // This way in IE11 the color of .inputIcon will not change, but it is an acceptable degradation
+  input:focus {
+    @include inputFocus;
+  }
+  &.focus {
+    input {
       @include inputFocus;
-    }
-    &.focus {
-      input {
-        @include inputFocus;
-      }
     }
   }
 }

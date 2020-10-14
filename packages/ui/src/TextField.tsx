@@ -31,7 +31,8 @@ export type TextFieldExtraProps = {
   inputContainerChild?: ReactElement
   inputIcon?: IconType
 } & DataTestProp &
-  Pick<InputHTMLAttributes<HTMLInputElement>, 'autoFocus' | 'disabled' | 'autoComplete' | 'type'>
+  Pick<InputHTMLAttributes<HTMLInputElement>, 'autoFocus' | 'readOnly' | 'autoComplete' | 'type'>
+
 type TextFieldProps = TextFieldCoreProps & TextFieldExtraProps
 
 /**
@@ -65,7 +66,7 @@ export const TextField: FC<TextFieldProps> = ({
   className,
   inputClassName,
   errorClassName,
-  disabled,
+  readOnly,
   placeholder,
   inputContainerChild,
   inputIcon,
@@ -79,7 +80,7 @@ export const TextField: FC<TextFieldProps> = ({
       className={cn(
         styles.container,
         {
-          [styles.disabled]: disabled,
+          [styles.readOnly]: readOnly,
           [styles.hasError]: error,
           [styles.withIcon]: inputIcon,
           [styles.empty]: !value,
@@ -101,7 +102,7 @@ export const TextField: FC<TextFieldProps> = ({
             aria-invalid={!!error}
             aria-required={required}
             aria-describedby={helperText && tooltipId(idRef.current)}
-            disabled={disabled}
+            readOnly={readOnly}
             placeholder={placeholder}
             {...htmlAttrs}
           />
