@@ -12,11 +12,25 @@ export default {
 
 export const ButtonPrimary = () => <Button kind="primary">Primary Button</Button>
 
+ButtonPrimary.parameters = {
+  design: {
+    type: 'figma',
+    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=880%3A4409',
+  },
+}
+
 export const ButtonPrimaryHovered = () => (
   <Button className={styles.hover} kind="primary">
     Primary Button
   </Button>
 )
+
+ButtonPrimaryHovered.parameters = {
+  design: {
+    type: 'figma',
+    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=1491%3A261',
+  },
+}
 
 export const ButtonPrimaryFocused = () => (
   <Button className={styles.focus} kind="primary">
@@ -24,11 +38,25 @@ export const ButtonPrimaryFocused = () => (
   </Button>
 )
 
+ButtonPrimaryFocused.parameters = {
+  design: {
+    type: 'figma',
+    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=1491%3A278',
+  },
+}
+
 export const ButtonPrimaryActive = () => (
   <Button className={styles.active} kind="primary">
     Primary Button
   </Button>
 )
+
+ButtonPrimaryActive.parameters = {
+  design: {
+    type: 'figma',
+    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=1491%3A278',
+  },
+}
 
 export const ButtonPrimaryDisabled = () => (
   <Button disabled kind="primary">
@@ -55,6 +83,13 @@ export const ButtonPrimaryIconBoth = () => (
 )
 
 export const ButtonSecondary = () => <Button kind="secondary">Secondary Button</Button>
+
+ButtonSecondary.parameters = {
+  design: {
+    type: 'figma',
+    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=944%3A7',
+  },
+}
 
 export const ButtonSecondaryHovered = () => (
   <Button className={styles.hover} kind="secondary">

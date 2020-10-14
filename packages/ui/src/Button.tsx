@@ -73,9 +73,26 @@ type ButtonKindPrimarySecondaryProps = {
   } & ButtonKindCommonProps
 */
 
-export type ButtonProps = ButtonKindPrimarySecondaryProps /* | ButtonKindDashedDangerProps | ButtonKindStatusProps */ &
-  ButtonHTMLAttributes<HTMLButtonElement>
+export type ButtonProps = ButtonKindPrimarySecondaryProps &
+  /* | ButtonKindDashedDangerProps | ButtonKindStatusProps */ ButtonHTMLAttributes<HTMLButtonElement>
 
+/**
+ * ### Purpose
+ * Make it clear what users should do to continue with their main flow by using buttons to highlight the main actions they can take.
+ * Prioritize the actions on a page and use the button sizes and types to make it clear to users which are the most important. If you have many actions, consider using button links to offer less important ones.
+ *
+ * ### General Info
+ * - Use 2 types of Button: Primary and Secondary
+ * - All buttons have unified "normal" height of 40px
+ * - Button can stand only with the label, icon on the left side, icon on the right side, icon on both left and right side, or only icon (depends on the type of the button).
+ * - You can use an icon with the label to draw more attention.
+ * - Button label is always in upper-case
+ * - The labels should be actionable (e.g. "EDIT" or "ADD NEW FILTER") and it should be clear from the button label what will happen when the user interacts with it. Make button labels short and clear. Avoid long explanations in the button text.
+ *
+ * ### Usage
+ * - **Primary**: Use primary button for the single primary action on the screen. To call attention to an action on a form, or highlight the strongest call to action on a page. Primary button should only appear once per screen. Not every screen requires a primary button.
+ * - **Secondary**: Use secondary buttons for all remaining actions. Secondary button is the standard button for most use cases.
+ */
 export const Button: FC<ButtonProps> = ({
   kind = 'primary',
   size = 'normal',
