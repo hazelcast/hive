@@ -1,8 +1,8 @@
 @import '../styles/constants/index';
 
 @mixin inputFocus {
-  border-color: $colorPrimary;
-  border-width: $outlineWidth;
+  border-color: $colorAccessibilityOutline;
+  box-shadow: inset 0 0 0 $outlineWidth $colorAccessibilityOutline;
 }
 
 $inputHeight: $grid * 10;
