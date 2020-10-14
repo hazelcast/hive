@@ -64,6 +64,13 @@ export const ButtonPrimaryDisabled = () => (
   </Button>
 )
 
+ButtonPrimaryDisabled.parameters = {
+  design: {
+    type: 'figma',
+    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=1491%3A315',
+  },
+}
+
 export const ButtonPrimaryIconLeft = () => (
   <Button kind="primary" IconLeft={Info} iconLeftAriaLabel="Info icon">
     Primary Button
