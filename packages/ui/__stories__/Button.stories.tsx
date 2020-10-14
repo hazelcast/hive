@@ -1,12 +1,12 @@
 import React from 'react'
-import { Info, Trash2, Plus, ChevronDown } from 'react-feather'
+import { Info, ChevronDown } from 'react-feather'
 
 import { Button } from '../src/Button'
 
 import styles from '../src/Button.module.scss'
 
 export default {
-  title: 'Button',
+  title: 'Components/Button',
   component: Button,
 }
 
