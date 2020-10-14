@@ -4,19 +4,19 @@ import { Icon } from 'react-feather'
 
 import styles from './Button.module.scss'
 
-export type ButtonKind =
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'successSecondary'
-  | 'info'
-  | 'infoSecondary'
-  | 'warning'
-  | 'warningSecondary'
-  | 'dashed'
-  | 'critical'
-  | 'criticalSecondary'
-  | 'danger'
+export type ButtonKind = 'primary' | 'secondary'
+/* 
+    | 'success'
+    | 'successSecondary'
+    | 'info'
+    | 'infoSecondary'
+    | 'warning'
+    | 'warningSecondary'
+    | 'dashed'
+    | 'critical'
+    | 'criticalSecondary'
+    | 'danger'
+   */
 
 // Left icon is always present with proper aria-label attribute
 type AccessibleIconLeftProps =
@@ -54,24 +54,26 @@ type ButtonKindPrimarySecondaryProps = {
   AccessibleIconLeftProps &
   AccessibleIconRightProps
 
-// Dashed and Danger buttons share common behavior
-type ButtonKindDashedDangerProps = {
-  kind?: 'dashed' | 'danger'
-  IconRight?: undefined
-  iconRightAriaLabel?: undefined
-} & ButtonKindCommonProps &
-  AccessibleIconLeftProps
+/* 
+  // Dashed and Danger buttons share common behavior
+  type ButtonKindDashedDangerProps = {
+    kind?: 'dashed' | 'danger'
+    IconRight?: undefined
+    iconRightAriaLabel?: undefined
+  } & ButtonKindCommonProps &
+    AccessibleIconLeftProps
 
-// Status button behavior
-type ButtonKindStatusProps = {
-  kind?: 'success' | 'successSecondary' | 'info' | 'infoSecondary' | 'warning' | 'warningSecondary' | 'critical' | 'criticalSecondary'
-  IconLeft?: undefined
-  iconLeftAriaLabel?: undefined
-  IconRight?: undefined
-  iconRightAriaLabel?: undefined
-} & ButtonKindCommonProps
+  // Status button behavior
+  type ButtonKindStatusProps = {
+    kind?: 'success' | 'successSecondary' | 'info' | 'infoSecondary' | 'warning' | 'warningSecondary' | 'critical' | 'criticalSecondary'
+    IconLeft?: undefined
+    iconLeftAriaLabel?: undefined
+    IconRight?: undefined
+    iconRightAriaLabel?: undefined
+  } & ButtonKindCommonProps
+*/
 
-export type ButtonProps = (ButtonKindPrimarySecondaryProps | ButtonKindDashedDangerProps | ButtonKindStatusProps) &
+export type ButtonProps = ButtonKindPrimarySecondaryProps /* | ButtonKindDashedDangerProps | ButtonKindStatusProps */ &
   ButtonHTMLAttributes<HTMLButtonElement>
 
 export const Button: FC<ButtonProps> = ({
@@ -93,22 +95,24 @@ export const Button: FC<ButtonProps> = ({
         [styles.primary]: kind === 'primary',
         // Kind === secondary
         [styles.secondary]: kind === 'secondary',
-        // Kind === success
-        [styles.success]: kind === 'success' || kind === 'successSecondary',
-        [styles.successSecondary]: kind === 'successSecondary',
-        // Kind === info
-        [styles.info]: kind === 'info' || kind === 'infoSecondary',
-        [styles.infoSecondary]: kind === 'infoSecondary',
-        // Kind === warning
-        [styles.warning]: kind === 'warning' || kind === 'warningSecondary',
-        [styles.warningSecondary]: kind === 'warningSecondary',
-        // Kind === danger
-        [styles.critical]: kind === 'critical' || kind === 'criticalSecondary',
-        [styles.criticalSecondary]: kind === 'criticalSecondary',
-        // Kind === dashed
-        [styles.dashed]: kind === 'dashed',
-        // Kind === danger
-        [styles.danger]: kind === 'danger',
+        /*
+          // Kind === success
+          [styles.success]: kind === 'success' || kind === 'successSecondary',
+          [styles.successSecondary]: kind === 'successSecondary',
+          // Kind === info
+          [styles.info]: kind === 'info' || kind === 'infoSecondary',
+          [styles.infoSecondary]: kind === 'infoSecondary',
+          // Kind === warning
+          [styles.warning]: kind === 'warning' || kind === 'warningSecondary',
+          [styles.warningSecondary]: kind === 'warningSecondary',
+          // Kind === danger
+          [styles.critical]: kind === 'critical' || kind === 'criticalSecondary',
+          [styles.criticalSecondary]: kind === 'criticalSecondary',
+          // Kind === dashed
+          [styles.dashed]: kind === 'dashed',
+          // Kind === danger
+          [styles.danger]: kind === 'danger',
+        */
 
         // Size
         [styles.normal]: size === 'normal',

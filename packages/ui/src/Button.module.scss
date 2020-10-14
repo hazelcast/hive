@@ -8,13 +8,13 @@
   box-sizing: border-box;
   cursor: pointer;
   border: none;
-  font-weight: $fontWeightNormal;
+  font-weight: $fontWeightRegular;
   font-family: $fontFamily;
   color: $colorNeutralWhite;
 
   &:focus,
   &.focus {
-    outline: $colorPrimaryDark ($grid / 2) auto;
+    outline: $colorAccessibilityOutline ($grid / 2) auto;
     outline-offset: $grid / 2;
   }
 
@@ -30,7 +30,7 @@
 
   // Size === normal
   &.normal {
-    border-radius: $borderRadiusMedium;
+    border-radius: $borderRadius;
     font-size: $fontSizeButton;
     min-height: $grid * 10;
     padding: 0 $grid * 5;
@@ -52,155 +52,154 @@
   // Kind === primary
   &.primary {
     color: $colorNeutralWhite;
-    background-color: $colorPrimaryNormal;
+    background-color: $colorPrimary;
 
     &:hover,
     &.hover,
     &:focus,
     &.focus {
-      background-color: $colorPrimaryDark;
+      background-color: $colorPrimaryLight;
     }
 
     &:active,
     &.active {
-      background-color: $colorPrimaryDarker;
+      background-color: $colorPrimaryDark;
     }
 
     &:disabled {
-      background-color: $colorPrimaryLight;
+      color: $colorTextSecondary;
+      background-color: $colorNeutral;
     }
   }
 
   // Kind === secondary
   &.secondary {
-    color: $colorNeutralDark;
+    color: $colorPrimary;
     background-color: transparent;
     border: 1px solid;
-    border-color: $colorNeutralNormal;
+    border-color: $colorPrimary;
 
     &:hover,
     &.hover,
     &:focus,
     &.focus {
+      color: $colorPrimaryLight;
+      border-color: $colorPrimaryLight;
+    }
+
+    &:active,
+    &.active {
+      color: $colorPrimaryDark;
+      border-color: $colorPrimaryDark;
+    }
+
+    &:disabled {
+      color: $colorTextSecondary;
+      border-color: $colorNeutral;
+    }
+  }
+
+  /* 
+    // Kind === success || Kind === successSecondary
+    &.success {
+      color: $colorNeutralWhite;
+      background-color: $colorSuccess;
+
+      &.successSecondary {
+        border: 1px solid $colorSuccess;
+        color: $colorSuccess;
+        background-color: transparent;
+      }
+    }
+
+    // Kind === info || Kind === infoSecondary
+    &.info {
+      color: $colorNeutralWhite;
+      background-color: $colorInfo;
+
+      &.infoSecondary {
+        border: 1px solid $colorInfo;
+        color: $colorInfo;
+        background-color: transparent;
+      }
+    }
+
+    // Kind === warning || Kind === warningSecondary
+    &.warning {
+      color: $colorNeutralWhite;
+      background-color: $colorWarning;
+
+      &.warningSecondary {
+        border: 1px solid $colorWarning;
+        color: $colorWarning;
+        background-color: transparent;
+      }
+    }
+
+    &.critical {
+      color: $colorNeutralWhite;
+      background-color: $colorError;
+
+      &.criticalSecondary {
+        border: 1px solid $colorError;
+        color: $colorError;
+        background-color: transparent;
+      }
+    }
+
+    // Kind === dashed
+    &.dashed {
       color: $colorNeutralDark;
-      border-color: $colorNeutralDark;
-    }
-
-    &:active,
-    &.active {
-      color: $colorNeutralDark;
-      border-color: $colorNeutralDarker;
-      -webkit-box-shadow: inset 0 0 $grid * 2 0 $colorNeutralNormal;
-      -moz-box-shadow: inset 0 0 $grid * 2 0 $colorNeutralNormal;
-      box-shadow: inset 0 0 $grid * 2 0 $colorNeutralNormal;
-    }
-
-    &:disabled {
-      color: $colorNeutralNormal;
-      border-color: $colorNeutralLight;
-    }
-  }
-
-  // Kind === success || Kind === successSecondary
-  &.success {
-    color: $colorNeutralWhite;
-    background-color: $colorSuccessNormal;
-
-    &.successSecondary {
-      border: 1px solid $colorSuccessNormal;
-      color: $colorSuccessNormal;
       background-color: transparent;
-    }
-  }
-
-  // Kind === info || Kind === infoSecondary
-  &.info {
-    color: $colorNeutralWhite;
-    background-color: $colorInfoNormal;
-
-    &.infoSecondary {
-      border: 1px solid $colorInfoNormal;
-      color: $colorInfoNormal;
-      background-color: transparent;
-    }
-  }
-
-  // Kind === warning || Kind === warningSecondary
-  &.warning {
-    color: $colorNeutralWhite;
-    background-color: $colorWarningNormal;
-
-    &.warningSecondary {
-      border: 1px solid $colorWarningNormal;
-      color: $colorWarningNormal;
-      background-color: transparent;
-    }
-  }
-
-  &.critical {
-    color: $colorNeutralWhite;
-    background-color: $colorCriticalNormal;
-
-    &.criticalSecondary {
-      border: 1px solid $colorCriticalNormal;
-      color: $colorCriticalNormal;
-      background-color: transparent;
-    }
-  }
-
-  /*
-   * Kind === dashed
-   * Dashed border source: https://kovart.github.io/dashed-border-generator/
-   */
-  &.dashed {
-    color: $colorNeutralDark;
-    background-color: transparent;
-    // Colour set by 'stroke', special characters are encoded
-    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23b7c1cbff' stroke-width='2' stroke-dasharray='6%2c 6' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
-
-    &:hover,
-    &.hover,
-    &:focus,
-    &.focus {
       // Colour set by 'stroke', special characters are encoded
-      background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%236D7480ff' stroke-width='2' stroke-dasharray='6%2c 6' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+      background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23b7c1cbff' stroke-width='2' stroke-dasharray='6%2c 6' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+
+      &:hover,
+      &.hover,
+      &:focus,
+      &.focus {
+        // Colour set by 'stroke', special characters are encoded
+        background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%236D7480ff' stroke-width='2' stroke-dasharray='6%2c 6' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+      }
+
+      &:active,
+      &.active {
+        // Colour set by 'stroke', special characters are encoded
+        background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23353D49ff' stroke-width='2' stroke-dasharray='6%2c 6' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+        -webkit-box-shadow: inset 0 0 $grid * 2 0 $colorNeutralNormal;
+        -moz-box-shadow: inset 0 0 $grid * 2 0 $colorNeutralNormal;
+        box-shadow: inset 0 0 $grid * 2 0 $colorNeutralNormal;
+      }
+
+      &:disabled {
+        color: $colorNeutralLight;
+        // Colour set by 'stroke', special characters are encoded
+        background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23E3E7EDff' stroke-width='2' stroke-dasharray='6%2c 6' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+      }
     }
 
-    &:active,
-    &.active {
-      // Colour set by 'stroke', special characters are encoded
-      background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23353D49ff' stroke-width='2' stroke-dasharray='6%2c 6' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
-      -webkit-box-shadow: inset 0 0 $grid * 2 0 $colorNeutralNormal;
-      -moz-box-shadow: inset 0 0 $grid * 2 0 $colorNeutralNormal;
-      box-shadow: inset 0 0 $grid * 2 0 $colorNeutralNormal;
-    }
+    // Kind === danger
+    &.danger {
+      color: $colorNeutralWhite;
+      background-color: $colorError;
 
-    &:disabled {
-      color: $colorNeutralLight;
-      // Colour set by 'stroke', special characters are encoded
-      background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23E3E7EDff' stroke-width='2' stroke-dasharray='6%2c 6' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
-    }
-  }
+      // TODO: Colours not specified
+      &:hover,
+      &.hover,
+      &:focus,
+      &.focus {
+        background-color: pink;
+      }
 
-  // Kind === danger
-  &.danger {
-    color: $colorNeutralWhite;
-    background-color: $colorCriticalNormal;
+      &:active,
+      &.active {
+        background-color: $colorError;
+      }
 
-    &:hover,
-    &.hover,
-    &:focus,
-    &.focus {
-      background-color: $colorCriticalDark;
+      // TODO: Colours not specified
+      &:disabled {
+        background-color: pink;
+      }
     }
-
-    &:active,
-    &.active {
-      background-color: $colorCriticalDarker;
-    }
-
-    &:disabled {
-      background-color: $colorCriticalLight;
-    }
-  }
+  */
 }

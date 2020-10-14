@@ -98,7 +98,7 @@ export const ButtonSecondaryIconBoth = () => (
   </Button>
 )
 
-export const ButtonSuccessPrimary = () => <Button kind="success">Primary Success</Button>
+/* export const ButtonSuccessPrimary = () => <Button kind="success">Primary Success</Button>
 
 export const ButtonSuccessSecondary = () => <Button kind="successSecondary">Secondary Success</Button>
 
@@ -176,4 +176,4 @@ export const ButtonDangerIconLeft = () => (
   <Button kind="danger" IconLeft={Trash2} iconLeftAriaLabel="Trash icon">
     Danger Button
   </Button>
-)
+) */
