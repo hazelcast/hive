@@ -3,18 +3,14 @@ import React, { FC, ChangeEvent, ReactElement, InputHTMLAttributes, useRef, Focu
 import cn from 'classnames'
 import { DataTestProp } from '@hazelcast/helpers'
 import { v4 as uuid } from 'uuid'
+import { Icon as IconType } from 'react-feather'
 
-import { Label } from './Label'
+import { Icon } from './Icon'
+import { HiddenLabel } from './HiddenLabel'
 import { Error } from './Error'
-import { tooltipId } from './Help'
+import { Help, tooltipId } from './Help'
 
 import styles from './TextField.module.scss'
-
-const textFieldHeights = {
-  small: styles.small,
-  normal: styles.normal,
-  large: styles.large,
-}
 
 type TextFieldCoreProps = {
   name: string
@@ -24,16 +20,16 @@ type TextFieldCoreProps = {
   error?: string
 }
 export type TextFieldExtraProps = {
-  label?: string | ReactElement
+  label: string
   required?: boolean
   helperText?: string | ReactElement
-  height?: keyof typeof textFieldHeights
   inputOverlay?: ReactElement
   className?: string
   inputClassName?: string
   errorClassName?: string
   placeholder: string
   inputContainerChild?: ReactElement
+  inputIcon?: IconType
 } & DataTestProp &
   Pick<InputHTMLAttributes<HTMLInputElement>, 'autoFocus' | 'disabled' | 'autoComplete' | 'type'>
 type TextFieldProps = TextFieldCoreProps & TextFieldExtraProps
@@ -64,7 +60,6 @@ export const TextField: FC<TextFieldProps> = ({
   required,
   helperText,
   error,
-  height = 'normal',
   'data-test': dataTest,
   type = 'text',
   className,
@@ -73,6 +68,7 @@ export const TextField: FC<TextFieldProps> = ({
   disabled,
   placeholder,
   inputContainerChild,
+  inputIcon,
   ...htmlAttrs
 }) => {
   const idRef = useRef(uuid())
@@ -82,36 +78,37 @@ export const TextField: FC<TextFieldProps> = ({
       data-test={dataTest}
       className={cn(
         styles.container,
-        textFieldHeights[height],
         {
           [styles.disabled]: disabled,
           [styles.hasError]: error,
+          [styles.withIcon]: inputIcon,
+          [styles.empty]: !value,
         },
         className,
       )}
     >
-      {label && (
-        // eslint-disable-next-line jsx-a11y/label-has-for
-        <Label id={idRef.current} label={label} helperText={helperText} required={required} />
-      )}
-      <div className={cn(styles.inputContainer, inputClassName)}>
-        <input
-          type={type}
-          id={idRef.current}
-          value={value}
-          name={name}
-          onChange={onChange}
-          onBlur={onBlur}
-          aria-label={!label ? placeholder : undefined}
-          // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute
-          aria-invalid={!!error}
-          aria-required={required}
-          aria-describedby={helperText && tooltipId(idRef.current)}
-          disabled={disabled}
-          placeholder={placeholder}
-          {...htmlAttrs}
-        />
-        {inputContainerChild}
+      <div className={styles.inputBlock}>
+        <HiddenLabel id={idRef.current} label={label} />
+        <div className={cn(styles.inputContainer, inputClassName)}>
+          <input
+            type={type}
+            id={idRef.current}
+            value={value}
+            name={name}
+            onChange={onChange}
+            onBlur={onBlur}
+            // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute
+            aria-invalid={!!error}
+            aria-required={required}
+            aria-describedby={helperText && tooltipId(idRef.current)}
+            disabled={disabled}
+            placeholder={placeholder}
+            {...htmlAttrs}
+          />
+          {inputIcon && <Icon icon={inputIcon} ariaLabel={label} className={styles.inputIcon} />}
+          {inputContainerChild}
+        </div>
+        {helperText && <Help parentId={idRef.current} helperText={helperText} className={styles.helperText} />}
       </div>
       <Error error={error} className={cn(styles.errorContainer, errorClassName)} />
     </div>

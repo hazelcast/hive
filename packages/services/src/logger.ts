@@ -1,6 +1,6 @@
 import { serializeError } from 'serialize-error'
 
-const stringifyMessage = (logMessage: any[]) => {
+const stringifyMessage = (logMessage: unknown[]) => {
   const stringifiableLog = logMessage.map((m) => {
     if (m instanceof Error) {
       // We're getting rid of `stack` property as it depends on the place where Error was thrown
@@ -24,7 +24,7 @@ class Logger {
 
   // Only use this method in tests
   // Usage has effect in `test` environment only
-  public async expectMessage(logLevel: LogLevel, message: any[], cb: () => void | Promise<void>) {
+  public async expectMessage(logLevel: LogLevel, message: unknown[], cb: () => void | Promise<void>) {
     const stringifiedMessage = stringifyMessage(message)
     const messagesNumber = this.whiteListedMessages[logLevel].get(stringifiedMessage)
     this.whiteListedMessages[logLevel].set(stringifiedMessage, messagesNumber ? messagesNumber + 1 : 1)
@@ -44,7 +44,7 @@ class Logger {
     }
   }
 
-  public log(...args: any[]) {
+  public log(...args: unknown[]) {
     const shouldOutput = this.checkMessages('log', ...args)
     if (shouldOutput) {
       // eslint-disable-next-line no-console
@@ -52,14 +52,14 @@ class Logger {
     }
   }
 
-  public warn(...args: any[]) {
+  public warn(...args: unknown[]) {
     const shouldOutput = this.checkMessages('warn', ...args)
     if (shouldOutput) {
       console.warn(...args)
     }
   }
 
-  public error(...args: any[]) {
+  public error(...args: unknown[]) {
     const shouldOutput = this.checkMessages('error', ...args)
     if (shouldOutput) {
       console.error(...args)
@@ -67,18 +67,18 @@ class Logger {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  public debug(...args: any[]) {
+  public debug(...args: unknown[]) {
     // eslint-disable-next-line no-console
     console.debug(...args)
   }
 
   // eslint-disable-next-line class-methods-use-this
-  public info(...args: any[]) {
+  public info(...args: unknown[]) {
     // eslint-disable-next-line no-console
     console.info(...args)
   }
 
-  private checkMessages(logLevel: LogLevel, ...args: any[]) {
+  private checkMessages(logLevel: LogLevel, ...args: unknown[]) {
     if (process.env.NODE_ENV === 'test') {
       const stringifiedMessage = stringifyMessage(args)
       const messagesNumber = this.whiteListedMessages[logLevel].get(stringifiedMessage)

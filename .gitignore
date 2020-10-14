@@ -3,3 +3,4 @@ node_modules
 *.tgz
 /packages/*/lib
 /packages/*/coverage
+*.tsbuildinfo

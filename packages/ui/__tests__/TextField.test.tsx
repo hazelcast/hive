@@ -4,8 +4,9 @@ import { act } from 'react-dom/test-utils'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 
 import { TextField } from '../src/TextField'
-import { Label } from '../src/Label'
+import { HiddenLabel } from '../src/HiddenLabel'
 import { Error } from '../src/Error'
+import { Help, tooltipId } from '../src/Help'
 
 import styles from '../src/TextField.module.scss'
 
@@ -26,7 +27,7 @@ describe('TextField', () => {
       <TextField name="name" value="Yoda" placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
     )
 
-    expect(wrapper.find(Label).props()).toEqual({
+    expect(wrapper.find(HiddenLabel).props()).toEqual({
       id: 'republic',
       label: 'Wisest jedi',
     })
@@ -49,6 +50,8 @@ describe('TextField', () => {
       error: undefined,
       className: styles.errorContainer,
     })
+
+    expect(wrapper.find(Help).exists()).toBeFalsy()
   })
 
   it('onChange works', async () => {
@@ -69,6 +72,7 @@ describe('TextField', () => {
     })
 
     expect(onChange).toBeCalledTimes(1)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     expect(onChange.mock.calls[0][0]).toMatchObject(testEvent)
   })
 
@@ -90,6 +94,53 @@ describe('TextField', () => {
     expect(onBlur).toBeCalledTimes(1)
   })
 
+  it('Renders helper text', async () => {
+    const onBlur = jest.fn()
+    const onChange = jest.fn()
+
+    const wrapper = await mountAndCheckA11Y(
+      <TextField
+        name="name"
+        value="Yoda"
+        placeholder="Enter the name"
+        label="Wisest jedi"
+        onBlur={onBlur}
+        onChange={onChange}
+        helperText="A long time ago in a galaxy far, far away...."
+      />,
+    )
+
+    expect(wrapper.find(HiddenLabel).props()).toEqual({
+      id: 'republic',
+      label: 'Wisest jedi',
+    })
+
+    expect(wrapper.find('input').props()).toEqual({
+      type: 'text',
+      id: 'republic',
+      value: 'Yoda',
+      name: 'name',
+      onChange,
+      onBlur,
+      'aria-invalid': false,
+      'aria-required': undefined,
+      'aria-describedby': tooltipId('republic'),
+      disabled: undefined,
+      placeholder: 'Enter the name',
+    })
+
+    expect(wrapper.find(Error).props()).toEqual({
+      error: undefined,
+      className: styles.errorContainer,
+    })
+
+    expect(wrapper.find(Help).props()).toEqual({
+      parentId: 'republic',
+      helperText: 'A long time ago in a galaxy far, far away....',
+      className: styles.helperText,
+    })
+  })
+
   it('Renders error with correct props', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
@@ -106,7 +157,7 @@ describe('TextField', () => {
       />,
     )
 
-    expect(wrapper.find(Label).props()).toEqual({
+    expect(wrapper.find(HiddenLabel).props()).toEqual({
       id: 'republic',
       label: 'Wisest jedi',
     })
@@ -129,6 +180,8 @@ describe('TextField', () => {
       error: 'Dark side',
       className: styles.errorContainer,
     })
+
+    expect(wrapper.find(Help).exists()).toBeFalsy()
   })
 
   it('Renders required with correct props', async () => {
@@ -139,10 +192,9 @@ describe('TextField', () => {
       <TextField name="name" value="Yoda" placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} required />,
     )
 
-    expect(wrapper.find(Label).props()).toEqual({
+    expect(wrapper.find(HiddenLabel).props()).toEqual({
       id: 'republic',
       label: 'Wisest jedi',
-      required: true,
     })
 
     expect(wrapper.find('input').props()).toEqual({
@@ -163,6 +215,8 @@ describe('TextField', () => {
       error: undefined,
       className: styles.errorContainer,
     })
+
+    expect(wrapper.find(Help).exists()).toBeFalsy()
   })
 
   it('Renders disabled with correct props', async () => {
@@ -173,7 +227,7 @@ describe('TextField', () => {
       <TextField name="name" value="Yoda" placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} disabled />,
     )
 
-    expect(wrapper.find(Label).props()).toEqual({
+    expect(wrapper.find(HiddenLabel).props()).toEqual({
       id: 'republic',
       label: 'Wisest jedi',
     })
@@ -196,76 +250,8 @@ describe('TextField', () => {
       error: undefined,
       className: styles.errorContainer,
     })
-  })
 
-  it('Renders without label with correct props', async () => {
-    const onBlur = jest.fn()
-    const onChange = jest.fn()
-
-    const wrapper = await mountAndCheckA11Y(
-      <TextField name="name" value="Yoda" placeholder="Enter the name" onBlur={onBlur} onChange={onChange} disabled />,
-    )
-
-    expect(wrapper.find(Label).exists()).toBeFalsy()
-
-    expect(wrapper.find('input').props()).toEqual({
-      type: 'text',
-      id: 'republic',
-      value: 'Yoda',
-      name: 'name',
-      onChange,
-      onBlur,
-      'aria-label': 'Enter the name',
-      'aria-invalid': false,
-      'aria-required': undefined,
-      'aria-describedby': undefined,
-      disabled: true,
-      placeholder: 'Enter the name',
-    })
-
-    expect(wrapper.find(Error).props()).toEqual({
-      error: undefined,
-      className: styles.errorContainer,
-    })
-  })
-
-  it('Renders without label with helper', async () => {
-    const onBlur = jest.fn()
-    const onChange = jest.fn()
-
-    const wrapper = await mountAndCheckA11Y(
-      <TextField
-        name="name"
-        value="Yoda"
-        placeholder="Enter the name"
-        helperText="A long time ago in a galaxy far, far away...."
-        onBlur={onBlur}
-        onChange={onChange}
-        disabled
-      />,
-    )
-
-    expect(wrapper.find(Label).exists()).toBeFalsy()
-
-    expect(wrapper.find('input').props()).toEqual({
-      type: 'text',
-      id: 'republic',
-      value: 'Yoda',
-      name: 'name',
-      onChange,
-      onBlur,
-      'aria-label': 'Enter the name',
-      'aria-invalid': false,
-      'aria-required': undefined,
-      'aria-describedby': 'republic-label',
-      disabled: true,
-      placeholder: 'Enter the name',
-    })
-
-    expect(wrapper.find(Error).props()).toEqual({
-      error: undefined,
-      className: styles.errorContainer,
-    })
+    expect(wrapper.find(Help).exists()).toBeFalsy()
   })
 
   it('Renders inputContainerChild', async () => {
@@ -277,6 +263,7 @@ describe('TextField', () => {
       <TextField
         name="name"
         value="Yoda"
+        label="Wisest jedi"
         placeholder="Enter the name"
         onBlur={onBlur}
         onChange={onChange}

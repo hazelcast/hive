@@ -1,81 +1,43 @@
 // https://zeroheight.com/11d0e6dac/p/594529--colors
-$colorPrimaryLighter: #ebf4ff;
-$colorPrimaryLight: #cfe5ff;
-$colorPrimaryNormal: #2a7de2;
-$colorPrimaryDark: #105ebc;
-$colorPrimaryDarker: #003068;
+$colorPrimaryLight: #1673e3;
+$colorPrimary: #2160c0;
+$colorPrimaryDark: #0c47a3;
 
 $colorNeutralWhite: #fff;
-$colorNeutralLighter: #f2f5f9;
-$colorNeutralLight: #e3e7ed;
-$colorNeutralNormal: #b7c1cb;
-$colorNeutralDark: #6d7480;
-$colorNeutralDarker: #353d49;
+$colorNeutralLighter: #fafafa;
+$colorNeutralLight: #b7c1cb;
+$colorNeutral: #dbdbdb;
 
-$colorSuccessLighter: #dffce0;
-$colorSuccessLight: #a5e4a7;
-$colorSuccessNormal: #1dbc22;
-$colorSuccessDark: #0f8d13;
-$colorSuccessDarker: #065e09;
+$colorSuccess: #008a00;
 
-$colorInfoLighter: #e2ebfe;
-$colorInfoLight: #a4c1ff;
-$colorInfoNormal: #145cf3;
-$colorInfoDark: #0a42b7;
-$colorInfoDarker: #00287a;
+$colorInfo: #cbdbff;
+$colorInfoDark: #4a71c4;
 
-$colorWarningLighter: #ffeed8;
-$colorWarningLight: #ffdbad;
-$colorWarningNormal: #ed931e;
-$colorWarningDark: #b26706;
-$colorWarningDarker: #7f4801;
+$colorWarning: #ffc171;
+$colorWarningDark: #c67000;
 
-$colorCriticalLighter: #fedede;
-$colorCriticalLight: #ffadad;
-$colorCriticalNormal: #f41d1d;
-$colorCriticalDark: #b70c0c;
-$colorCriticalDarker: #7a0404;
+$colorError: #bd271e;
 
-// https://zeroheight.com/11d0e6dac/p/985f08--typography/t/1755e8
-$colorHeading: #353d49;
-$colorBodyPrimary: #353d49;
-$colorBodySecondary: #6d7480;
-$colorTooltipText: #fff;
+$colorText: #071b2c;
+$colorTextSecondary: #737373;
+
+$colorAccessibilityOutline: #9953df;
 
 :export {
-  colorPrimaryLighter: $colorPrimaryLighter;
   colorPrimaryLight: $colorPrimaryLight;
-  colorPrimaryNormal: $colorPrimaryNormal;
+  colorPrimary: $colorPrimary;
   colorPrimaryDark: $colorPrimaryDark;
-  colorPrimaryDarker: $colorPrimaryDarker;
   colorNeutralWhite: $colorNeutralWhite;
   colorNeutralLighter: $colorNeutralLighter;
   colorNeutralLight: $colorNeutralLight;
-  colorNeutralNormal: $colorNeutralNormal;
-  colorNeutralDark: $colorNeutralDark;
-  colorNeutralDarker: $colorNeutralDarker;
-  colorSuccessLighter: $colorSuccessLighter;
-  colorSuccessLight: $colorSuccessLight;
-  colorSuccessNormal: $colorSuccessNormal;
-  colorSuccessDark: $colorSuccessDark;
-  colorSuccessDarker: $colorSuccessDarker;
-  colorInfoLighter: $colorInfoLighter;
-  colorInfoLight: $colorInfoLight;
-  colorInfoNormal: $colorInfoNormal;
+  colorNeutral: $colorNeutral;
+  colorSuccess: $colorSuccess;
+  colorInfo: $colorInfo;
   colorInfoDark: $colorInfoDark;
-  colorInfoDarker: $colorInfoDarker;
-  colorWarningLighter: $colorWarningLighter;
-  colorWarningLight: $colorWarningLight;
-  colorWarningNormal: $colorWarningNormal;
+  colorWarning: $colorWarning;
   colorWarningDark: $colorWarningDark;
-  colorWarningDarker: $colorWarningDarker;
-  colorCriticalLighter: $colorCriticalLighter;
-  colorCriticalLight: $colorCriticalLight;
-  colorCriticalNormal: $colorCriticalNormal;
-  colorCriticalDark: $colorCriticalDark;
-  colorCriticalDarker: $colorCriticalDarker;
-  colorHeading: $colorHeading;
-  colorBodyPrimary: $colorBodyPrimary;
-  colorBodySecondary: $colorBodySecondary;
-  colorTooltipText: $colorTooltipText;
+  colorError: $colorError;
+  colorText: $colorText;
+  colorTextSecondary: $colorTextSecondary;
+  colorAccessibilityOutline: $colorAccessibilityOutline;
 }

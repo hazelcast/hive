@@ -14,28 +14,28 @@
 }
 
 .primary {
-  color: $colorPrimaryNormal;
+  color: $colorPrimary;
   text-decoration: underline solid;
 
   @include hover-focus-active;
 }
 
 .secondary {
-  color: $colorNeutralDark;
+  color: $colorTextSecondary;
   text-decoration: underline solid;
 
   @include hover-focus-active;
 }
 
 .tertiary {
-  color: $colorNeutralNormal;
+  color: $colorTextSecondary;
   text-decoration: underline solid;
 
   @include hover-focus-active;
 }
 
 .tooltip {
-  color: $colorNeutralDark;
+  color: $colorTextSecondary;
   text-decoration: underline dotted;
 
   @include hover-focus-active;

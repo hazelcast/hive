@@ -21,7 +21,7 @@ describe('TextFieldFormik', () => {
         onSubmit={onSubmit}
       >
         <Form>
-          <TextFieldFormik<Values> name="name" placeholder="Enter the name" />
+          <TextFieldFormik<Values> name="name" placeholder="Enter the name" label="test" />
         </Form>
       </Formik>
     )
@@ -30,6 +30,8 @@ describe('TextFieldFormik', () => {
 
     expect(onSubmit).toBeCalledTimes(0)
 
+    // We need the `async` call here to wait for processing of the asynchronous 'submit'
+    // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
       wrapper.find('form').simulate('submit')
     })

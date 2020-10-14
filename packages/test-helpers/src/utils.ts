@@ -1,6 +1,6 @@
 import { logger } from '@hazelcast/services'
 
-export const sleep = (timeout: number = 100) => new Promise((resolve) => setTimeout(resolve, timeout))
+export const sleep = (timeout = 100) => new Promise((resolve) => setTimeout(resolve, timeout))
 
 interface WaitUntilOptions {
   timeout?: number
@@ -59,8 +59,8 @@ export const createFile = (name: string, size: number, type: string): File => {
 
 export const jestFnControlledPromise = () => {
   type Res = {
-    resolve: (arg?: any) => void
-    promise: Promise<any>
+    resolve: (arg?: unknown) => void
+    promise: Promise<unknown>
     fn: jest.Mock
   }
   const res = {} as Res

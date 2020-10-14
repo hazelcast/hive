@@ -70,7 +70,7 @@ export const Link: FC<LinkProps> = ({
         {standalone ? (
           <span className={styles.chevron}>
             {children}
-            <Icon ariaLabel="Link" icon={ChevronRight} size="small" />
+            <Icon ariaLabel="Link" icon={ChevronRight} />
           </span>
         ) : (
           children

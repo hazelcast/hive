@@ -25,13 +25,13 @@ describe('logger', () => {
   })
 
   it('throws error if expected console output is not found', async () => {
-    await expect(logger.expectMessage('log', ['testLog'], () => {})).rejects.toThrow(
+    await expect(logger.expectMessage('log', ['testLog'], () => undefined)).rejects.toThrow(
       `Expected console log: ${JSON.stringify(['testLog'])}, but none was found`,
     )
-    await expect(logger.expectMessage('warn', ['testWarn'], () => {})).rejects.toThrow(
+    await expect(logger.expectMessage('warn', ['testWarn'], () => undefined)).rejects.toThrow(
       `Expected console warn: ${JSON.stringify(['testWarn'])}, but none was found`,
     )
-    await expect(logger.expectMessage('error', ['testError'], () => {})).rejects.toThrow(
+    await expect(logger.expectMessage('error', ['testError'], () => undefined)).rejects.toThrow(
       `Expected console error: ${JSON.stringify(['testError'])}, but none was found`,
     )
   })
