@@ -5,8 +5,8 @@ import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 
 import { TextField } from '../src/TextField'
 import { HiddenLabel } from '../src/HiddenLabel'
-import { Error } from '../src/Error'
-import { Help, tooltipId } from '../src/Help'
+import { Error, errorId } from '../src/Error'
+import { Help, helpTooltipId } from '../src/Help'
 
 import styles from '../src/TextField.module.scss'
 
@@ -42,6 +42,7 @@ describe('TextField', () => {
       'aria-invalid': false,
       'aria-required': undefined,
       'aria-describedby': undefined,
+      'aria-errormessage': undefined,
       readOnly: undefined,
       placeholder: 'Enter the name',
     })
@@ -49,6 +50,7 @@ describe('TextField', () => {
     expect(wrapper.find(Error).props()).toEqual({
       error: undefined,
       className: styles.errorContainer,
+      inputId: 'republic',
     })
 
     expect(wrapper.find(Help).exists()).toBeFalsy()
@@ -124,7 +126,8 @@ describe('TextField', () => {
       onBlur,
       'aria-invalid': false,
       'aria-required': undefined,
-      'aria-describedby': tooltipId('republic'),
+      'aria-describedby': helpTooltipId('republic'),
+      'aria-errormessage': undefined,
       readOnly: undefined,
       placeholder: 'Enter the name',
     })
@@ -132,6 +135,7 @@ describe('TextField', () => {
     expect(wrapper.find(Error).props()).toEqual({
       error: undefined,
       className: styles.errorContainer,
+      inputId: 'republic',
     })
 
     expect(wrapper.find(Help).props()).toEqual({
@@ -172,6 +176,7 @@ describe('TextField', () => {
       'aria-invalid': true,
       'aria-required': undefined,
       'aria-describedby': undefined,
+      'aria-errormessage': errorId('republic'),
       readOnly: undefined,
       placeholder: 'Enter the name',
     })
@@ -179,6 +184,7 @@ describe('TextField', () => {
     expect(wrapper.find(Error).props()).toEqual({
       error: 'Dark side',
       className: styles.errorContainer,
+      inputId: 'republic',
     })
 
     expect(wrapper.find(Help).exists()).toBeFalsy()
@@ -207,6 +213,7 @@ describe('TextField', () => {
       'aria-invalid': false,
       'aria-required': true,
       'aria-describedby': undefined,
+      'aria-errormessage': undefined,
       readOnly: undefined,
       placeholder: 'Enter the name',
     })
@@ -214,6 +221,7 @@ describe('TextField', () => {
     expect(wrapper.find(Error).props()).toEqual({
       error: undefined,
       className: styles.errorContainer,
+      inputId: 'republic',
     })
 
     expect(wrapper.find(Help).exists()).toBeFalsy()
@@ -242,6 +250,7 @@ describe('TextField', () => {
       'aria-invalid': false,
       'aria-required': undefined,
       'aria-describedby': undefined,
+      'aria-errormessage': undefined,
       readOnly: true,
       placeholder: 'Enter the name',
     })
@@ -249,6 +258,7 @@ describe('TextField', () => {
     expect(wrapper.find(Error).props()).toEqual({
       error: undefined,
       className: styles.errorContainer,
+      inputId: 'republic',
     })
 
     expect(wrapper.find(Help).exists()).toBeFalsy()

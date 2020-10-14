@@ -9,7 +9,7 @@ import styleConsts from '../styles/constants/index.scss'
 
 import styles from './Help.module.scss'
 
-export const tooltipId = (inputId: string): string => `${inputId}-label`
+export const helpTooltipId = (inputId: string): string => `${inputId}-help`
 
 export interface HelpProps {
   parentId: string
@@ -19,7 +19,7 @@ export interface HelpProps {
 }
 
 export const Help: FC<HelpProps> = ({ helperText, placement = 'top', parentId, className }) => (
-  <Tooltip placement={placement} overlay={helperText} id={tooltipId(parentId)}>
+  <Tooltip placement={placement} overlay={helperText} id={helpTooltipId(parentId)}>
     <div className={cn(styles.container, className)}>
       <Icon ariaLabel="Help" color={styleConsts.colorPrimary} icon={HelpCircle} className={styles.icon} />
     </div>

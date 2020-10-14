@@ -7,8 +7,8 @@ import { Icon as IconType } from 'react-feather'
 
 import { Icon } from './Icon'
 import { HiddenLabel } from './HiddenLabel'
-import { Error } from './Error'
-import { Help, tooltipId } from './Help'
+import { Error, errorId } from './Error'
+import { Help, helpTooltipId } from './Help'
 
 import styles from './TextField.module.scss'
 
@@ -101,7 +101,8 @@ export const TextField: FC<TextFieldProps> = ({
             // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute
             aria-invalid={!!error}
             aria-required={required}
-            aria-describedby={helperText && tooltipId(idRef.current)}
+            aria-describedby={helperText && helpTooltipId(idRef.current)}
+            aria-errormessage={error && errorId(idRef.current)}
             readOnly={readOnly}
             placeholder={placeholder}
             {...htmlAttrs}
@@ -111,7 +112,7 @@ export const TextField: FC<TextFieldProps> = ({
         </div>
         {helperText && <Help parentId={idRef.current} helperText={helperText} className={styles.helperText} />}
       </div>
-      <Error error={error} className={cn(styles.errorContainer, errorClassName)} />
+      <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={idRef.current} />
     </div>
   )
 }
