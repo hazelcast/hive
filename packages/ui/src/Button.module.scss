@@ -16,12 +16,14 @@
   // Size
   border-radius: $borderRadius;
   font-size: $fontSizeButton;
-  height: $grid * 10;
+  min-height: $grid * 10;
   padding: 0 $grid * 5;
+  max-width: 300px;
 
   &:focus,
   &.focus {
-    @include outlineButton;
+    outline: $colorAccessibilityOutline auto 5px;
+    outline-offset: 2px;
   }
 
   &:disabled {
