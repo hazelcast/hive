@@ -103,47 +103,46 @@ export const Button: FC<ButtonProps> = ({
   className,
   children,
   ...rest
-}) => {
-  return (
-    <button
-      className={cn(className, styles.button, {
-        // Kind
-        // Kind === primary
-        [styles.primary]: kind === 'primary',
-        // Kind === secondary
-        [styles.secondary]: kind === 'secondary',
-        /*
-          // Kind === success
-          [styles.success]: kind === 'success' || kind === 'successSecondary',
-          [styles.successSecondary]: kind === 'successSecondary',
-          // Kind === info
-          [styles.info]: kind === 'info' || kind === 'infoSecondary',
-          [styles.infoSecondary]: kind === 'infoSecondary',
-          // Kind === warning
-          [styles.warning]: kind === 'warning' || kind === 'warningSecondary',
-          [styles.warningSecondary]: kind === 'warningSecondary',
-          // Kind === danger
-          [styles.critical]: kind === 'critical' || kind === 'criticalSecondary',
-          [styles.criticalSecondary]: kind === 'criticalSecondary',
-          // Kind === dashed
-          [styles.dashed]: kind === 'dashed',
-          // Kind === danger
-          [styles.danger]: kind === 'danger',
-        */
-      })}
-      {...rest}
-    >
-      <div className={styles.body}>
-        {IconLeft && (
-          // Icon colour & size is defined in SCSS
-          <IconLeft aria-label={iconLeftAriaLabel} data-test="button-icon-left" className={cn(styles.icon, styles.iconLeft)} />
-        )}
-        {children.toUpperCase()}
-        {IconRight && (
-          // Icon colour & size are defined in SCSS
-          <IconRight aria-label={iconRightAriaLabel} data-test="button-icon-right" className={cn(styles.icon, styles.iconRight)} />
-        )}
-      </div>
-    </button>
-  )
-}
+}) => (
+  <button
+    className={cn(className, styles.button, {
+      // Kind
+      // Kind === primary
+      [styles.primary]: kind === 'primary',
+      // Kind === secondary
+      [styles.secondary]: kind === 'secondary',
+      /*
+        // Kind === success
+        [styles.success]: kind === 'success' || kind === 'successSecondary',
+        [styles.successSecondary]: kind === 'successSecondary',
+        // Kind === info
+        [styles.info]: kind === 'info' || kind === 'infoSecondary',
+        [styles.infoSecondary]: kind === 'infoSecondary',
+        // Kind === warning
+        [styles.warning]: kind === 'warning' || kind === 'warningSecondary',
+        [styles.warningSecondary]: kind === 'warningSecondary',
+        // Kind === danger
+        [styles.critical]: kind === 'critical' || kind === 'criticalSecondary',
+        [styles.criticalSecondary]: kind === 'criticalSecondary',
+        // Kind === dashed
+        [styles.dashed]: kind === 'dashed',
+        // Kind === danger
+        [styles.danger]: kind === 'danger',
+      */
+    })}
+    {...rest}
+  >
+    <div className={styles.outline} />
+    <div className={styles.body}>
+      {IconLeft && (
+        // Icon colour & size is defined in SCSS
+        <IconLeft aria-label={iconLeftAriaLabel} data-test="button-icon-left" className={cn(styles.icon, styles.iconLeft)} />
+      )}
+      {children.toUpperCase()}
+      {IconRight && (
+        // Icon colour & size are defined in SCSS
+        <IconRight aria-label={iconRightAriaLabel} data-test="button-icon-right" className={cn(styles.icon, styles.iconRight)} />
+      )}
+    </div>
+  </button>
+)

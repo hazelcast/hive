@@ -10,7 +10,7 @@ export default {
   component: Button,
 }
 
-export const ButtonPrimary = () => <Button kind="primary">Primary Button</Button>
+export const ButtonPrimary = () => <Button kind="primary">Primary</Button>
 
 ButtonPrimary.parameters = {
   design: {
@@ -21,7 +21,7 @@ ButtonPrimary.parameters = {
 
 export const ButtonPrimaryHovered = () => (
   <Button className={styles.hover} kind="primary">
-    Primary Button
+    Primary
   </Button>
 )
 
@@ -34,7 +34,7 @@ ButtonPrimaryHovered.parameters = {
 
 export const ButtonPrimaryFocused = () => (
   <Button className={styles.focus} kind="primary">
-    Primary Button
+    Primary
   </Button>
 )
 
@@ -47,7 +47,7 @@ ButtonPrimaryFocused.parameters = {
 
 export const ButtonPrimaryActive = () => (
   <Button className={styles.active} kind="primary">
-    Primary Button
+    Primary
   </Button>
 )
 
@@ -60,7 +60,7 @@ ButtonPrimaryActive.parameters = {
 
 export const ButtonPrimaryDisabled = () => (
   <Button disabled kind="primary">
-    Primary Button
+    Primary
   </Button>
 )
 
@@ -73,19 +73,19 @@ ButtonPrimaryDisabled.parameters = {
 
 export const ButtonPrimaryIconLeft = () => (
   <Button kind="primary" IconLeft={Info} iconLeftAriaLabel="Info icon">
-    Primary Button
+    Primary
   </Button>
 )
 
 export const ButtonPrimaryIconRight = () => (
   <Button kind="primary" IconRight={ChevronDown} iconRightAriaLabel="Chevron icon">
-    Primary Button
+    Primary
   </Button>
 )
 
 export const ButtonPrimaryIconBoth = () => (
   <Button kind="primary" IconLeft={Info} iconLeftAriaLabel="Info icon" IconRight={ChevronDown} iconRightAriaLabel="Chevron icon">
-    Primary Button
+    Primary
   </Button>
 )
 
@@ -98,7 +98,7 @@ export const ButtonPrimaryIconBothHovered = () => (
     IconRight={ChevronDown}
     iconRightAriaLabel="Chevron icon"
   >
-    Primary Button
+    Primary
   </Button>
 )
 
@@ -111,7 +111,7 @@ export const ButtonPrimaryIconBothFocused = () => (
     IconRight={ChevronDown}
     iconRightAriaLabel="Chevron icon"
   >
-    Primary Button
+    Primary
   </Button>
 )
 
@@ -124,11 +124,11 @@ export const ButtonPrimaryIconBothActive = () => (
     IconRight={ChevronDown}
     iconRightAriaLabel="Chevron icon"
   >
-    Primary Button
+    Primary
   </Button>
 )
 
-export const ButtonSecondary = () => <Button kind="secondary">Secondary Button</Button>
+export const ButtonSecondary = () => <Button kind="secondary">Secondary</Button>
 
 ButtonSecondary.parameters = {
   design: {
@@ -139,43 +139,43 @@ ButtonSecondary.parameters = {
 
 export const ButtonSecondaryHovered = () => (
   <Button className={styles.hover} kind="secondary">
-    Secondary Button
+    Secondary
   </Button>
 )
 
 export const ButtonSecondaryFocused = () => (
   <Button className={styles.focus} kind="secondary">
-    Secondary Button
+    Secondary
   </Button>
 )
 
 export const ButtonSecondaryActive = () => (
   <Button className={styles.active} kind="secondary">
-    Secondary Button
+    Secondary
   </Button>
 )
 
 export const ButtonSecondaryDisabled = () => (
   <Button disabled kind="secondary">
-    Secondary Button
+    Secondary
   </Button>
 )
 
 export const ButtonSecondaryIconLeft = () => (
   <Button kind="secondary" IconLeft={Info} iconLeftAriaLabel="Info icon">
-    Secondary Button
+    Secondary
   </Button>
 )
 
 export const ButtonSecondaryIconRight = () => (
   <Button kind="secondary" IconRight={ChevronDown} iconRightAriaLabel="Chevron icon">
-    Secondary Button
+    Secondary
   </Button>
 )
 
 export const ButtonSecondaryIconBoth = () => (
   <Button kind="secondary" IconLeft={Info} iconLeftAriaLabel="Info icon" IconRight={ChevronDown} iconRightAriaLabel="Chevron icon">
-    Secondary Button
+    Secondary
   </Button>
 )
 
@@ -188,7 +188,7 @@ export const ButtonSecondaryIconBothHovered = () => (
     IconRight={ChevronDown}
     iconRightAriaLabel="Chevron icon"
   >
-    Secondary Button
+    Secondary
   </Button>
 )
 
@@ -201,7 +201,7 @@ export const ButtonSecondaryIconBothFocused = () => (
     IconRight={ChevronDown}
     iconRightAriaLabel="Chevron icon"
   >
-    Secondary Button
+    Secondary
   </Button>
 )
 
@@ -214,7 +214,7 @@ export const ButtonSecondaryIconBothActive = () => (
     IconRight={ChevronDown}
     iconRightAriaLabel="Chevron icon"
   >
-    Secondary Button
+    Secondary
   </Button>
 )
 

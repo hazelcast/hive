@@ -2,6 +2,8 @@
 @import '../styles/a11y.scss';
 
 .button {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -22,8 +24,20 @@
 
   &:focus,
   &.focus {
-    outline: $colorAccessibilityOutline auto 5px;
-    outline-offset: 2px;
+    // Do not remove outline for high-contrast modes
+    // https://stackoverflow.com/a/52616313
+    outline-color: transparent;
+    outline-width: $outlineWidth;
+
+    .outline {
+      position: absolute;
+      width: calc(100% + #{$grid} * 2);
+      height: calc(100% + #{$grid} * 2);
+      z-index: 1;
+      box-shadow: inset 0 0 0 $outlineWidth $colorAccessibilityOutline;
+      border-radius: $borderRadius;
+      pointer-events: none;
+    }
   }
 
   &:disabled {
@@ -76,7 +90,7 @@
   &.secondary {
     color: $colorPrimary;
     background-color: transparent;
-    border: $borderWidth solid;
+    border: $borderWidthButton solid;
     border-color: $colorPrimary;
 
     &:hover,
@@ -85,6 +99,12 @@
     &.focus {
       color: $colorPrimaryLight;
       border-color: $colorPrimaryLight;
+
+      .outline {
+        /* Note: We need to take border of 2*2px into account */
+        width: calc(100% + #{$grid} * 3);
+        height: calc(100% + #{$grid} * 3);
+      }
     }
 
     &:active,
@@ -106,7 +126,7 @@
       background-color: $colorSuccess;
 
       &.successSecondary {
-        border: $borderWidth solid $colorSuccess;
+        border: $borderWidthButton solid $colorSuccess;
         color: $colorSuccess;
         background-color: transparent;
       }
@@ -118,7 +138,7 @@
       background-color: $colorInfo;
 
       &.infoSecondary {
-        border: $borderWidth solid $colorInfo;
+        border: $borderWidthButton solid $colorInfo;
         color: $colorInfo;
         background-color: transparent;
       }
@@ -130,7 +150,7 @@
       background-color: $colorWarning;
 
       &.warningSecondary {
-        border: $borderWidth solid $colorWarning;
+        border: $borderWidthButton solid $colorWarning;
         color: $colorWarning;
         background-color: transparent;
       }
@@ -141,7 +161,7 @@
       background-color: $colorError;
 
       &.criticalSecondary {
-        border: $borderWidth solid $colorError;
+        border: $borderWidthButton solid $colorError;
         color: $colorError;
         background-color: transparent;
       }
