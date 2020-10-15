@@ -4,3 +4,4 @@ node_modules
 /packages/*/lib
 /packages/*/coverage
 *.tsbuildinfo
+.npmrc
