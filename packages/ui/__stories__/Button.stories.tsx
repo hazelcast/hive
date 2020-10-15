@@ -218,6 +218,12 @@ export const ButtonSecondaryIconBothActive = () => (
   </Button>
 )
 
+export const ButtonLong = () => (
+  <Button kind="primary" IconLeft={Info} iconLeftAriaLabel="Info icon" IconRight={ChevronDown} iconRightAriaLabel="Chevron icon">
+    Looooong Primary Button
+  </Button>
+)
+
 /* export const ButtonSuccessPrimary = () => <Button kind="success">Primary Success</Button>
 
 export const ButtonSuccessSecondary = () => <Button kind="successSecondary">Secondary Success</Button>

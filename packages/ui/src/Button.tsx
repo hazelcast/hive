@@ -2,6 +2,8 @@ import React, { ButtonHTMLAttributes, FC } from 'react'
 import cn from 'classnames'
 import { Icon } from 'react-feather'
 
+import { TruncatedText } from './TruncatedText'
+
 import styles from './Button.module.scss'
 
 export type ButtonKind = 'primary' | 'secondary'
@@ -138,7 +140,7 @@ export const Button: FC<ButtonProps> = ({
         // Icon colour & size is defined in SCSS
         <IconLeft aria-label={iconLeftAriaLabel} data-test="button-icon-left" className={cn(styles.icon, styles.iconLeft)} />
       )}
-      {children.toUpperCase()}
+      <TruncatedText text={children.toUpperCase()} />
       {IconRight && (
         // Icon colour & size are defined in SCSS
         <IconRight aria-label={iconRightAriaLabel} data-test="button-icon-right" className={cn(styles.icon, styles.iconRight)} />
