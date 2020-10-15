@@ -31,8 +31,10 @@
 
     .outline {
       position: absolute;
+      /* doiuse-disable calc */
       width: calc(100% + #{$grid} * 2);
       height: calc(100% + #{$grid} * 2);
+      /* doiuse-enable calc */
       z-index: 1;
       box-shadow: inset 0 0 0 $outlineWidth $colorAccessibilityOutline;
       border-radius: $borderRadius;
@@ -103,8 +105,10 @@
 
       .outline {
         /* Note: We need to take border of 2*2px into account */
+        /* doiuse-disable calc */
         width: calc(100% + #{$grid} * 3);
         height: calc(100% + #{$grid} * 3);
+        /* doiuse-enable calc */
       }
     }
 

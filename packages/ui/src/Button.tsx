@@ -86,7 +86,7 @@ export type ButtonProps = ButtonKindPrimarySecondaryProps &
  *
  * ### General Info
  * - Use 2 types of Button: Primary and Secondary
- * - All buttons have unified "normal" height of 40px
+ * - All buttons have unified height of 40px
  * - Button can stand only with the label, icon on the left side, icon on the right side, icon on both left and right side, or only icon (depends on the type of the button).
  * - You can use an icon with the label to draw more attention.
  * - Button label is always in upper-case
