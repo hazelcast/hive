@@ -89,6 +89,45 @@ export const ButtonPrimaryIconBoth = () => (
   </Button>
 )
 
+export const ButtonPrimaryIconBothHovered = () => (
+  <Button
+    className={styles.hover}
+    kind="primary"
+    IconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+    IconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+  >
+    Primary Button
+  </Button>
+)
+
+export const ButtonPrimaryIconBothFocused = () => (
+  <Button
+    className={styles.focus}
+    kind="primary"
+    IconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+    IconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+  >
+    Primary Button
+  </Button>
+)
+
+export const ButtonPrimaryIconBothActive = () => (
+  <Button
+    className={styles.active}
+    kind="primary"
+    IconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+    IconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+  >
+    Primary Button
+  </Button>
+)
+
 export const ButtonSecondary = () => <Button kind="secondary">Secondary Button</Button>
 
 ButtonSecondary.parameters = {
@@ -136,6 +175,45 @@ export const ButtonSecondaryIconRight = () => (
 
 export const ButtonSecondaryIconBoth = () => (
   <Button kind="secondary" IconLeft={Info} iconLeftAriaLabel="Info icon" IconRight={ChevronDown} iconRightAriaLabel="Chevron icon">
+    Secondary Button
+  </Button>
+)
+
+export const ButtonSecondaryIconBothHovered = () => (
+  <Button
+    className={styles.hover}
+    kind="secondary"
+    IconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+    IconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+  >
+    Secondary Button
+  </Button>
+)
+
+export const ButtonSecondaryIconBothFocused = () => (
+  <Button
+    className={styles.focus}
+    kind="secondary"
+    IconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+    IconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+  >
+    Secondary Button
+  </Button>
+)
+
+export const ButtonSecondaryIconBothActive = () => (
+  <Button
+    className={styles.active}
+    kind="secondary"
+    IconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+    IconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+  >
     Secondary Button
   </Button>
 )
