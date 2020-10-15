@@ -1,0 +1,11 @@
+@import './constants/index.scss';
+
+@mixin outlineFormField {
+  border-color: $colorAccessibilityOutline;
+  box-shadow: inset 0 0 0 $outlineWidth $colorAccessibilityOutline;
+
+  // Do not remove outline for high-contrast modes
+  // https://stackoverflow.com/a/52616313
+  outline-color: transparent;
+  outline-width: $outlineWidth;
+}

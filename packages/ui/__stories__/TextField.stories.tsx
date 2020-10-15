@@ -86,7 +86,7 @@ export const FocusedWithError = () => (
   />
 )
 
-export const Disabled = () => (
+export const Readonly = () => (
   <TextField
     name="name"
     value="Yoda"
@@ -94,7 +94,20 @@ export const Disabled = () => (
     label="Wisest jedi"
     onBlur={() => logger.log('blur')}
     onChange={(e) => logger.log('change', e.target.value)}
-    disabled
+    readOnly
+  />
+)
+
+export const ReadonlyFocused = () => (
+  <TextField
+    name="name"
+    value="Yoda"
+    placeholder="Enter the name"
+    label="Wisest jedi"
+    onBlur={() => logger.log('blur')}
+    onChange={(e) => logger.log('change', e.target.value)}
+    readOnly
+    className={styles.focus}
   />
 )
 
@@ -137,6 +150,7 @@ export const WithIconError = () => (
   <TextField
     name="name"
     label="Wisest jedi"
+    value="Yoda"
     placeholder="Enter the name"
     onBlur={() => logger.log('blur')}
     onChange={(e) => logger.log('change', e.target.value)}
@@ -149,6 +163,7 @@ export const WithIconHovered = () => (
   <TextField
     name="name"
     label="Wisest jedi"
+    value="Yoda"
     placeholder="Enter the name"
     onBlur={() => logger.log('blur')}
     onChange={(e) => logger.log('change', e.target.value)}
@@ -161,6 +176,7 @@ export const WithIconFocused = () => (
   <TextField
     name="name"
     label="Wisest jedi"
+    value="Yoda"
     placeholder="Enter the name"
     onBlur={() => logger.log('blur')}
     onChange={(e) => logger.log('change', e.target.value)}
@@ -173,6 +189,7 @@ export const WithIconFocusedWithError = () => (
   <TextField
     name="name"
     label="Wisest jedi"
+    value="Yoda"
     placeholder="Enter the name"
     onBlur={() => logger.log('blur')}
     onChange={(e) => logger.log('change', e.target.value)}
@@ -182,15 +199,30 @@ export const WithIconFocusedWithError = () => (
   />
 )
 
-export const WithIconDisabled = () => (
+export const WithIconReadonly = () => (
   <TextField
     name="name"
     label="Wisest jedi"
+    value="Yoda"
     placeholder="Enter the name"
     onBlur={() => logger.log('blur')}
     onChange={(e) => logger.log('change', e.target.value)}
     inputIcon={Mail}
-    disabled
+    readOnly
+  />
+)
+
+export const WithIconReadonlyFocused = () => (
+  <TextField
+    name="name"
+    label="Wisest jedi"
+    value="Yoda"
+    placeholder="Enter the name"
+    onBlur={() => logger.log('blur')}
+    onChange={(e) => logger.log('change', e.target.value)}
+    inputIcon={Mail}
+    readOnly
+    className={styles.focus}
   />
 )
 

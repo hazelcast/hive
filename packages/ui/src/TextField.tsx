@@ -7,8 +7,8 @@ import { Icon as IconType } from 'react-feather'
 
 import { Icon } from './Icon'
 import { HiddenLabel } from './HiddenLabel'
-import { Error } from './Error'
-import { Help, tooltipId } from './Help'
+import { Error, errorId } from './Error'
+import { Help, helpTooltipId } from './Help'
 
 import styles from './TextField.module.scss'
 
@@ -31,7 +31,8 @@ export type TextFieldExtraProps = {
   inputContainerChild?: ReactElement
   inputIcon?: IconType
 } & DataTestProp &
-  Pick<InputHTMLAttributes<HTMLInputElement>, 'autoFocus' | 'disabled' | 'autoComplete' | 'type'>
+  Pick<InputHTMLAttributes<HTMLInputElement>, 'autoFocus' | 'readOnly' | 'autoComplete' | 'type'>
+
 type TextFieldProps = TextFieldCoreProps & TextFieldExtraProps
 
 /**
@@ -65,7 +66,7 @@ export const TextField: FC<TextFieldProps> = ({
   className,
   inputClassName,
   errorClassName,
-  disabled,
+  readOnly,
   placeholder,
   inputContainerChild,
   inputIcon,
@@ -79,7 +80,7 @@ export const TextField: FC<TextFieldProps> = ({
       className={cn(
         styles.container,
         {
-          [styles.disabled]: disabled,
+          [styles.readOnly]: readOnly,
           [styles.hasError]: error,
           [styles.withIcon]: inputIcon,
           [styles.empty]: !value,
@@ -100,8 +101,9 @@ export const TextField: FC<TextFieldProps> = ({
             // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute
             aria-invalid={!!error}
             aria-required={required}
-            aria-describedby={helperText && tooltipId(idRef.current)}
-            disabled={disabled}
+            aria-describedby={helperText && helpTooltipId(idRef.current)}
+            aria-errormessage={error && errorId(idRef.current)}
+            readOnly={readOnly}
             placeholder={placeholder}
             {...htmlAttrs}
           />
@@ -110,7 +112,7 @@ export const TextField: FC<TextFieldProps> = ({
         </div>
         {helperText && <Help parentId={idRef.current} helperText={helperText} className={styles.helperText} />}
       </div>
-      <Error error={error} className={cn(styles.errorContainer, errorClassName)} />
+      <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={idRef.current} />
     </div>
   )
 }
