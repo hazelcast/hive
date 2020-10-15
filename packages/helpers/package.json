@@ -1,8 +1,8 @@
 {
   "name": "@hazelcast/helpers",
   "version": "0.0.1",
-  "description": "> TODO: description",
-  "author": "Andrey Goncharov <andrey@goncharov.page>",
+  "description": "Hazelcast shared helpers",
+  "author": "",
   "homepage": "https://github.com/hazelcast/frontend-shared#readme",
   "license": "UNLICENSED",
   "main": "lib/index.js",
