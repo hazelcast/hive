@@ -10,86 +10,86 @@ export default {
   component: Button,
 }
 
-export const ButtonPrimary = () => <Button kind="primary">Primary</Button>
+export const Primary = () => <Button kind="primary">Primary</Button>
 
-ButtonPrimary.parameters = {
+Primary.parameters = {
   design: {
     type: 'figma',
     url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=880%3A4409',
   },
 }
 
-export const ButtonPrimaryHovered = () => (
+export const PrimaryHovered = () => (
   <Button className={styles.hover} kind="primary">
     Primary
   </Button>
 )
 
-ButtonPrimaryHovered.parameters = {
+PrimaryHovered.parameters = {
   design: {
     type: 'figma',
     url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=1491%3A261',
   },
 }
 
-export const ButtonPrimaryFocused = () => (
+export const PrimaryFocused = () => (
   <Button className={styles.focus} kind="primary">
     Primary
   </Button>
 )
 
-ButtonPrimaryFocused.parameters = {
+PrimaryFocused.parameters = {
   design: {
     type: 'figma',
     url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=1491%3A278',
   },
 }
 
-export const ButtonPrimaryActive = () => (
+export const PrimaryActive = () => (
   <Button className={styles.active} kind="primary">
     Primary
   </Button>
 )
 
-ButtonPrimaryActive.parameters = {
+PrimaryActive.parameters = {
   design: {
     type: 'figma',
     url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=1491%3A278',
   },
 }
 
-export const ButtonPrimaryDisabled = () => (
+export const PrimaryDisabled = () => (
   <Button disabled kind="primary">
     Primary
   </Button>
 )
 
-ButtonPrimaryDisabled.parameters = {
+PrimaryDisabled.parameters = {
   design: {
     type: 'figma',
     url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=1491%3A315',
   },
 }
 
-export const ButtonPrimaryIconLeft = () => (
+export const PrimaryIconLeft = () => (
   <Button kind="primary" IconLeft={Info} iconLeftAriaLabel="Info icon">
     Primary
   </Button>
 )
 
-export const ButtonPrimaryIconRight = () => (
+export const PrimaryIconRight = () => (
   <Button kind="primary" IconRight={ChevronDown} iconRightAriaLabel="Chevron icon">
     Primary
   </Button>
 )
 
-export const ButtonPrimaryIconBoth = () => (
+export const PrimaryIconBoth = () => (
   <Button kind="primary" IconLeft={Info} iconLeftAriaLabel="Info icon" IconRight={ChevronDown} iconRightAriaLabel="Chevron icon">
     Primary
   </Button>
 )
 
-export const ButtonPrimaryIconBothHovered = () => (
+export const PrimaryIconBothHovered = () => (
   <Button
     className={styles.hover}
     kind="primary"
@@ -102,7 +102,7 @@ export const ButtonPrimaryIconBothHovered = () => (
   </Button>
 )
 
-export const ButtonPrimaryIconBothFocused = () => (
+export const PrimaryIconBothFocused = () => (
   <Button
     className={styles.focus}
     kind="primary"
@@ -115,7 +115,7 @@ export const ButtonPrimaryIconBothFocused = () => (
   </Button>
 )
 
-export const ButtonPrimaryIconBothActive = () => (
+export const PrimaryIconBothActive = () => (
   <Button
     className={styles.active}
     kind="primary"
@@ -128,58 +128,58 @@ export const ButtonPrimaryIconBothActive = () => (
   </Button>
 )
 
-export const ButtonSecondary = () => <Button kind="secondary">Secondary</Button>
+export const Secondary = () => <Button kind="secondary">Secondary</Button>
 
-ButtonSecondary.parameters = {
+Secondary.parameters = {
   design: {
     type: 'figma',
     url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=944%3A7',
   },
 }
 
-export const ButtonSecondaryHovered = () => (
+export const SecondaryHovered = () => (
   <Button className={styles.hover} kind="secondary">
     Secondary
   </Button>
 )
 
-export const ButtonSecondaryFocused = () => (
+export const SecondaryFocused = () => (
   <Button className={styles.focus} kind="secondary">
     Secondary
   </Button>
 )
 
-export const ButtonSecondaryActive = () => (
+export const SecondaryActive = () => (
   <Button className={styles.active} kind="secondary">
     Secondary
   </Button>
 )
 
-export const ButtonSecondaryDisabled = () => (
+export const SecondaryDisabled = () => (
   <Button disabled kind="secondary">
     Secondary
   </Button>
 )
 
-export const ButtonSecondaryIconLeft = () => (
+export const SecondaryIconLeft = () => (
   <Button kind="secondary" IconLeft={Info} iconLeftAriaLabel="Info icon">
     Secondary
   </Button>
 )
 
-export const ButtonSecondaryIconRight = () => (
+export const SecondaryIconRight = () => (
   <Button kind="secondary" IconRight={ChevronDown} iconRightAriaLabel="Chevron icon">
     Secondary
   </Button>
 )
 
-export const ButtonSecondaryIconBoth = () => (
+export const SecondaryIconBoth = () => (
   <Button kind="secondary" IconLeft={Info} iconLeftAriaLabel="Info icon" IconRight={ChevronDown} iconRightAriaLabel="Chevron icon">
     Secondary
   </Button>
 )
 
-export const ButtonSecondaryIconBothHovered = () => (
+export const SecondaryIconBothHovered = () => (
   <Button
     className={styles.hover}
     kind="secondary"
@@ -192,7 +192,7 @@ export const ButtonSecondaryIconBothHovered = () => (
   </Button>
 )
 
-export const ButtonSecondaryIconBothFocused = () => (
+export const SecondaryIconBothFocused = () => (
   <Button
     className={styles.focus}
     kind="secondary"
@@ -205,7 +205,7 @@ export const ButtonSecondaryIconBothFocused = () => (
   </Button>
 )
 
-export const ButtonSecondaryIconBothActive = () => (
+export const SecondaryIconBothActive = () => (
   <Button
     className={styles.active}
     kind="secondary"
@@ -218,87 +218,87 @@ export const ButtonSecondaryIconBothActive = () => (
   </Button>
 )
 
-export const ButtonLong = () => (
+export const Long = () => (
   <Button kind="primary" IconLeft={Info} iconLeftAriaLabel="Info icon" IconRight={ChevronDown} iconRightAriaLabel="Chevron icon">
     Looooong Primary Button
   </Button>
 )
 
-/* export const ButtonSuccessPrimary = () => <Button kind="success">Primary Success</Button>
+/* export const SuccessPrimary = () => <Button kind="success">Primary Success</Button>
 
-export const ButtonSuccessSecondary = () => <Button kind="successSecondary">Secondary Success</Button>
+export const SuccessSecondary = () => <Button kind="successSecondary">Secondary Success</Button>
 
-export const ButtonInfoPrimary = () => <Button kind="info">Primary Info</Button>
+export const InfoPrimary = () => <Button kind="info">Primary Info</Button>
 
-export const ButtonInfoSecondary = () => <Button kind="infoSecondary">Secondary Info</Button>
+export const InfoSecondary = () => <Button kind="infoSecondary">Secondary Info</Button>
 
-export const ButtonWarningPrimary = () => <Button kind="warning">Primary Warning</Button>
+export const WarningPrimary = () => <Button kind="warning">Primary Warning</Button>
 
-export const ButtonWarningSecondary = () => <Button kind="warningSecondary">Secondary Warning</Button>
+export const WarningSecondary = () => <Button kind="warningSecondary">Secondary Warning</Button>
 
-export const ButtonCriticalPrimary = () => <Button kind="critical">Primary Critical</Button>
+export const CriticalPrimary = () => <Button kind="critical">Primary Critical</Button>
 
-export const ButtonCriticalSecondary = () => <Button kind="criticalSecondary">Secondary Critical</Button>
+export const CriticalSecondary = () => <Button kind="criticalSecondary">Secondary Critical</Button>
 
-export const ButtonDashed = () => <Button kind="dashed">Dashed Button</Button>
+export const Dashed = () => <Button kind="dashed">Dashed Button</Button>
 
-export const ButtonDashedHovered = () => (
+export const DashedHovered = () => (
   <Button className={styles.hover} kind="dashed">
     Dashed Button
   </Button>
 )
 
-export const ButtonDashedFocused = () => (
+export const DashedFocused = () => (
   <Button className={styles.focus} kind="dashed">
     Dashed Button
   </Button>
 )
 
-export const ButtonDashedActive = () => (
+export const DashedActive = () => (
   <Button className={styles.active} kind="dashed">
     Dashed Button
   </Button>
 )
 
-export const ButtonDashedDisabled = () => (
+export const DashedDisabled = () => (
   <Button disabled kind="dashed">
     Dashed Button
   </Button>
 )
 
-export const ButtonDashedIconLeft = () => (
+export const DashedIconLeft = () => (
   <Button kind="dashed" IconLeft={Plus} iconLeftAriaLabel="Plus icon">
     Dashed Button
   </Button>
 )
 
-export const ButtonDanger = () => <Button kind="danger">Danger Button</Button>
+export const Danger = () => <Button kind="danger">Danger Button</Button>
 
-export const ButtonDangerHovered = () => (
+export const DangerHovered = () => (
   <Button className={styles.hover} kind="danger">
     Danger Button
   </Button>
 )
 
-export const ButtonDangerFocused = () => (
+export const DangerFocused = () => (
   <Button className={styles.focus} kind="danger">
     Danger Button
   </Button>
 )
 
-export const ButtonDangerActive = () => (
+export const DangerActive = () => (
   <Button className={styles.active} kind="danger">
     Danger Button
   </Button>
 )
 
-export const ButtonDangerDisabled = () => (
+export const DangerDisabled = () => (
   <Button disabled kind="danger">
     Danger Button
   </Button>
 )
 
-export const ButtonDangerIconLeft = () => (
+export const DangerIconLeft = () => (
   <Button kind="danger" IconLeft={Trash2} iconLeftAriaLabel="Trash icon">
     Danger Button
   </Button>
