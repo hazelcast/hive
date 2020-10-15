@@ -11,6 +11,11 @@
   font-weight: $fontWeightRegular;
   font-family: $fontFamily;
   color: $colorNeutralWhite;
+  // Size
+  border-radius: $borderRadius;
+  font-size: $fontSizeButton;
+  min-height: $grid * 10;
+  padding: 0 $grid * 5;
 
   &:focus,
   &.focus {
@@ -22,31 +27,23 @@
     cursor: not-allowed;
   }
 
+  .icon {
+    width: $grid * 6;
+    height: $grid * 6;
+  }
+
+  .iconLeft {
+    margin-right: $grid * 2;
+  }
+
+  .iconRight {
+    margin-left: $grid * 2;
+  }
+
   .body {
     display: flex;
     flex-direction: row;
     align-items: center;
-  }
-
-  // Size === normal
-  &.normal {
-    border-radius: $borderRadius;
-    font-size: $fontSizeButton;
-    min-height: $grid * 10;
-    padding: 0 $grid * 5;
-
-    .icon {
-      width: $grid * 6;
-      height: $grid * 6;
-    }
-
-    .iconLeft {
-      margin-right: $grid * 2;
-    }
-
-    .iconRight {
-      margin-left: $grid * 2;
-    }
   }
 
   // Kind === primary
@@ -76,7 +73,7 @@
   &.secondary {
     color: $colorPrimary;
     background-color: transparent;
-    border: 1px solid;
+    border: $borderWidth solid;
     border-color: $colorPrimary;
 
     &:hover,
@@ -106,7 +103,7 @@
       background-color: $colorSuccess;
 
       &.successSecondary {
-        border: 1px solid $colorSuccess;
+        border: $borderWidth solid $colorSuccess;
         color: $colorSuccess;
         background-color: transparent;
       }
@@ -118,7 +115,7 @@
       background-color: $colorInfo;
 
       &.infoSecondary {
-        border: 1px solid $colorInfo;
+        border: $borderWidth solid $colorInfo;
         color: $colorInfo;
         background-color: transparent;
       }
@@ -130,7 +127,7 @@
       background-color: $colorWarning;
 
       &.warningSecondary {
-        border: 1px solid $colorWarning;
+        border: $borderWidth solid $colorWarning;
         color: $colorWarning;
         background-color: transparent;
       }
@@ -141,7 +138,7 @@
       background-color: $colorError;
 
       &.criticalSecondary {
-        border: 1px solid $colorError;
+        border: $borderWidth solid $colorError;
         color: $colorError;
         background-color: transparent;
       }

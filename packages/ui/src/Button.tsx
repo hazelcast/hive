@@ -42,8 +42,6 @@ type AccessibleIconRightProps =
 
 // Common props for all button "kinds"
 type ButtonKindCommonProps = {
-  // We support single Button.size, which is "normal", rest should be added ad-hoc
-  size?: 'normal'
   children: string
 }
 
@@ -95,7 +93,6 @@ export type ButtonProps = ButtonKindPrimarySecondaryProps &
  */
 export const Button: FC<ButtonProps> = ({
   kind = 'primary',
-  size = 'normal',
   IconLeft,
   iconLeftAriaLabel,
   IconRight,
@@ -130,9 +127,6 @@ export const Button: FC<ButtonProps> = ({
           // Kind === danger
           [styles.danger]: kind === 'danger',
         */
-
-        // Size
-        [styles.normal]: size === 'normal',
       })}
       {...rest}
     >

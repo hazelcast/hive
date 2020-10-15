@@ -12,7 +12,7 @@ $borderRadius: $grid * 1.25;
 // It does not make sense to express separator width in REMs since we do not need it to scale with the base font size
 $separatorWidth: 1px;
 
-$inputBorderWidth: 1px;
+$borderWidth: 1px;
 
 $outlineWidth: 2px;
 
@@ -28,7 +28,7 @@ $tooltipMaxWidth: 550px;
   grid: $grid;
   borderRadius: $borderRadius;
   separatorWidth: $separatorWidth;
-  inputBorderWidth: $inputBorderWidth;
+  borderWidth: $borderWidth;
   outlineWidth: $outlineWidth;
   iconStrokeWidth: $iconStrokeWidth;
   iconSize: $iconSize;

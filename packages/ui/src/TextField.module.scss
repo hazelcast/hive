@@ -46,7 +46,7 @@ $paddingLeftWithIcon: $grid * 8;
   input {
     display: block;
     padding: 0 $grid * 3;
-    border-width: $inputBorderWidth;
+    border-width: $borderWidth;
     border-color: $colorNeutralLight;
     border-style: solid;
     box-sizing: border-box;
