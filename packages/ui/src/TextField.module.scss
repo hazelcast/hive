@@ -107,11 +107,11 @@ $paddingLeftWithIcon: $grid * 8;
   // :focus-within is not supported by IE11
   // This way in IE11 the color of .inputIcon will not change, but it is an acceptable degradation
   input:focus {
-    @include outline;
+    @include outlineFormField;
   }
   &.focus {
     input {
-      @include outline;
+      @include outlineFormField;
     }
   }
 }

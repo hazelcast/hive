@@ -21,7 +21,7 @@
 
   &:focus,
   &.focus {
-    @include outline;
+    @include outlineButton;
   }
 
   &:disabled {
