@@ -1,6 +1,6 @@
 @import './constants/index.scss';
 
-@mixin outlineFormField {
+@mixin outline {
   border-color: $colorAccessibilityOutline;
   box-shadow: inset 0 0 0 $outlineWidth $colorAccessibilityOutline;
 
