@@ -12,7 +12,6 @@ describe('Button', () => {
   it.each(labelTestData)('Renders default Button with correct label: %s', (labelRaw) => {
     const wrapper = mount(<Button>{labelRaw}</Button>)
 
-    expect(wrapper.find(Button).exists()).toBeTruthy()
     expect(wrapper.find(Button).text()).toBe(label)
   })
 
@@ -23,7 +22,6 @@ describe('Button', () => {
       </Button>,
     )
 
-    expect(wrapper.find(Button).exists()).toBeTruthy()
     expect(wrapper.find(Button).text()).toBe(label)
 
     // Left
@@ -43,7 +41,6 @@ describe('Button', () => {
       </Button>,
     )
 
-    expect(wrapper.find(Button).exists()).toBeTruthy()
     expect(wrapper.find(Button).text()).toBe(label)
 
     // Left
@@ -63,7 +60,6 @@ describe('Button', () => {
       </Button>,
     )
 
-    expect(wrapper.find(Button).exists()).toBeTruthy()
     expect(wrapper.find(Button).text()).toBe(label)
 
     // Left

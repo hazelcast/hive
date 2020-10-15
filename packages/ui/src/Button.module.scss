@@ -14,7 +14,7 @@
   // Size
   border-radius: $borderRadius;
   font-size: $fontSizeButton;
-  min-height: $grid * 10;
+  height: $grid * 10;
   padding: 0 $grid * 5;
 
   &:focus,
