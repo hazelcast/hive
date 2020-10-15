@@ -72,7 +72,10 @@ type ButtonKindPrimarySecondaryProps = {
 */
 
 export type ButtonProps = ButtonKindPrimarySecondaryProps &
-  /* | ButtonKindDashedDangerProps | ButtonKindStatusProps */ ButtonHTMLAttributes<HTMLButtonElement>
+  /* | ButtonKindDashedDangerProps | ButtonKindStatusProps */ Pick<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    'className' | 'autoFocus' | 'disabled' | 'type'
+  >
 
 /**
  * ### Purpose
