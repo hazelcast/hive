@@ -50,7 +50,7 @@
     "publish-storybook": "lerna run --scope @hazelcast/ui publish-storybook",
     "start": "lerna run --scope @hazelcast/ui storybook",
     "prepack": "npm run compile",
-    "publish-canary": "lerna publish --canary --preid next --dist-tag next"
+    "publish-canary": "lerna publish --canary --preid next --dist-tag next --yes"
   },
   "dependencies": {
     "react": "^16.13.1",
