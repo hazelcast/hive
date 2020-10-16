@@ -31,6 +31,7 @@
     "lint-staged": "^10.4.0",
     "loki": "^0.25.1",
     "node-sass": "^4.14.1",
+    "patch-package": "^6.2.2",
     "prettier": "^2.1.2",
     "sass-loader": "^10.0.3",
     "shx": "^0.3.2",
@@ -41,8 +42,9 @@
   },
   "scripts": {
     "link-parent-bin": "link-parent-bin",
+    "patch-package": "patch-package",
     "compile": "lerna run compile",
-    "postinstall": "lerna bootstrap && npm run link-parent-bin && npm run compile",
+    "postinstall": "npm run patch-package && lerna bootstrap && npm run link-parent-bin && npm run compile",
     "test": "lerna run --parallel test",
     "test:visual": "lerna run --parallel test:visual",
     "lint": "lerna run --parallel lint",
