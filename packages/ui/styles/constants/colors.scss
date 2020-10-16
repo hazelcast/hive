@@ -1,27 +1,31 @@
 // https://zeroheight.com/11d0e6dac/p/594529--colors
-$colorPrimaryLight: #1673e3;
+$colorPrimaryLight: #2d7de4;
 $colorPrimary: #2160c0;
-$colorPrimaryDark: #0c47a3;
+$colorPrimaryDark: #003b87;
 
 $colorNeutralWhite: #fff;
 $colorNeutralLighter: #fafafa;
 $colorNeutralLight: #b7c1cb;
 $colorNeutral: #dbdbdb;
 
+$colorSuccessLight: #68c200;
 $colorSuccess: #008a00;
+$colorSuccessDark: #005c09;
 
-$colorInfo: #cbdbff;
+$colorInfoLight: #cbdbff;
+$colorInfo: #87a7ee;
 $colorInfoDark: #4a71c4;
 
-$colorWarning: #ffc171;
+$colorWarningLight: #f9b721;
+$colorWarning: #f47027;
 $colorWarningDark: #c67000;
 
-$colorError: #bd271e;
+$colorError: #b00020;
 
-$colorText: #071b2c;
-$colorTextSecondary: #737373;
+$colorText: #041a3b;
+$colorTextSecondary: #707482;
 
-$colorAccessibilityOutline: #9953df;
+$colorAccessibilityOutline: #9648bd;
 
 :export {
   colorPrimaryLight: $colorPrimaryLight;
@@ -31,9 +35,13 @@ $colorAccessibilityOutline: #9953df;
   colorNeutralLighter: $colorNeutralLighter;
   colorNeutralLight: $colorNeutralLight;
   colorNeutral: $colorNeutral;
+  colorSuccessLight: $colorSuccessLight;
   colorSuccess: $colorSuccess;
+  colorSuccessDark: $colorSuccessDark;
+  colorInfoLight: $colorInfoLight;
   colorInfo: $colorInfo;
   colorInfoDark: $colorInfoDark;
+  colorWarningLight: $colorWarningLight;
   colorWarning: $colorWarning;
   colorWarningDark: $colorWarningDark;
   colorError: $colorError;
