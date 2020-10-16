@@ -1,4 +1,6 @@
 // https://zeroheight.com/11d0e6dac/p/594529--colors
+$colorBlack: #000;
+
 $colorPrimaryLight: #1673e3;
 $colorPrimary: #2160c0;
 $colorPrimaryDark: #0c47a3;
@@ -24,6 +26,7 @@ $colorTextSecondary: #737373;
 $colorAccessibilityOutline: #9953df;
 
 :export {
+  colorBlack: $colorBlack;
   colorPrimaryLight: $colorPrimaryLight;
   colorPrimary: $colorPrimary;
   colorPrimaryDark: $colorPrimaryDark;
