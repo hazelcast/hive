@@ -1,9 +1,8 @@
 @import '../styles/constants/index';
-@import '../styles/a11y.scss';
 
 .button {
   position: relative;
-  z-index: 2;
+  z-index: $zIndex2;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -20,7 +19,13 @@
   font-size: $fontSizeButton;
   min-height: $grid * 10;
   padding: 0 $grid * 5;
-  max-width: 300px;
+  max-width: $buttonMaxWidth;
+
+  .outline {
+    position: absolute;
+    border-radius: $borderRadius;
+    pointer-events: none;
+  }
 
   &:focus,
   &.focus {
@@ -30,15 +35,12 @@
     outline-width: $outlineWidth;
 
     .outline {
-      position: absolute;
       /* doiuse-disable calc */
-      width: calc(100% + #{$grid} * 2);
-      height: calc(100% + #{$grid} * 2);
+      width: calc(100% + #{$grid});
+      height: calc(100% + #{$grid});
       /* doiuse-enable calc */
-      z-index: 1;
-      box-shadow: inset 0 0 0 $outlineWidth $colorAccessibilityOutline;
-      border-radius: $borderRadius;
-      pointer-events: none;
+      z-index: $zIndex1;
+      box-shadow: 0 0 0 $outlineWidth $colorAccessibilityOutline;
     }
   }
 
@@ -96,20 +98,23 @@
     border: $borderWidthButton solid;
     border-color: $colorPrimary;
 
+    &:focus,
+    &.focus {
+      .outline {
+        /* Note: We need to take border of 2*2px into account */
+        /* doiuse-disable calc */
+        width: calc(100% + #{$grid} * 2);
+        height: calc(100% + #{$grid} * 2);
+        /* doiuse-enable calc */
+      }
+    }
+
     &:hover,
     &.hover,
     &:focus,
     &.focus {
       color: $colorPrimaryLight;
       border-color: $colorPrimaryLight;
-
-      .outline {
-        /* Note: We need to take border of 2*2px into account */
-        /* doiuse-disable calc */
-        width: calc(100% + #{$grid} * 3);
-        height: calc(100% + #{$grid} * 3);
-        /* doiuse-enable calc */
-      }
     }
 
     &:active,

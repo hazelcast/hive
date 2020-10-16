@@ -134,8 +134,8 @@ export const Button: FC<ButtonProps> = ({
     })}
     {...rest}
   >
-    <div className={styles.outline} />
-    <div className={styles.body}>
+    <span className={styles.outline} />
+    <span className={styles.body}>
       {IconLeft && (
         // Icon colour & size is defined in SCSS
         <IconLeft aria-label={iconLeftAriaLabel} data-test="button-icon-left" className={cn(styles.icon, styles.iconLeft)} />
@@ -145,6 +145,6 @@ export const Button: FC<ButtonProps> = ({
         // Icon colour & size are defined in SCSS
         <IconRight aria-label={iconRightAriaLabel} data-test="button-icon-right" className={cn(styles.icon, styles.iconRight)} />
       )}
-    </div>
+    </span>
   </button>
 )
