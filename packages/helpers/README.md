@@ -1,3 +1,7 @@
+# `@hazelcast/helpers`
+
+Hazelcast shared helpers
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
@@ -7,15 +11,3 @@
   - [Usage](#usage)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# `@hazelcast/helpers`
-
-> TODO: description
-
-## Usage
-
-```
-const helpers = require('@hazelcast/helpers');
-
-// TODO: DEMONSTRATE API
-```
