@@ -36,7 +36,7 @@ $borderRadiusToast: 37px;
   }
 
   &.info {
-    background-color: c.$colorInfo;
+    background-color: c.$colorInfoLight;
 
     .icon {
       color: c.$colorInfoDark;
@@ -48,7 +48,7 @@ $borderRadiusToast: 37px;
   }
 
   &.warning {
-    background-color: c.$colorWarning;
+    background-color: c.$colorWarningLight;
 
     .icon {
       color: c.$colorWarningDark;
