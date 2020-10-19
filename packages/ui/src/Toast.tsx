@@ -1,6 +1,7 @@
 import React, { FC, ReactNode } from 'react'
 import cn from 'classnames'
 import { AlertTriangle, CheckCircle, Info, Icon, X } from 'react-feather'
+import { IconButton } from './IconButton'
 
 import styles from './Toast.module.scss'
 
@@ -35,11 +36,7 @@ export const Toast: FC<ToastProps> = ({ type, content, onClose }) => {
       <div data-test="toast-content" className={styles.content}>
         {content}
       </div>
-      {onClose && (
-        <button data-test="toast-close" className={styles.close} type="button" onClick={onClose}>
-          <X className={styles.closeIcon} />
-        </button>
-      )}
+      {onClose && <IconButton className={styles.close} data-test="toast-close" Icon={X} onClick={onClose} />}
     </div>
   )
 }

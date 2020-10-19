@@ -6,11 +6,15 @@ import styles from './IconButton.module.scss'
 
 type IconButtonProps = {
   Icon: FeatherIcon
-} & Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'className' | 'autoFocus' | 'disabled' | 'type'>
+  iconClassName?: string
+} & Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'className' | 'autoFocus' | 'disabled' | 'type'>
 
-export const IconButton: FC<IconButtonProps> = ({ Icon, className, ...rest }) => (
+/*
+ * TODO: Fix outline
+ */
+export const IconButton: FC<IconButtonProps> = ({ Icon, iconClassName, className, ...rest }) => (
   <button className={cn(className, styles.iconButton)} {...rest}>
     <span className={styles.outline} />
-    <Icon className={styles.icon} />
+    <Icon className={cn(iconClassName, styles.icon)} />
   </button>
 )
