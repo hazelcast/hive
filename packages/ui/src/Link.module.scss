@@ -1,4 +1,4 @@
-@import '../styles/constants/index';
+@use '../styles/constants' as c;
 
 @mixin hover-focus-active {
   // hover, focus and active classes are declared for internal use in storybook, see Link.stories.tsx
@@ -14,28 +14,28 @@
 }
 
 .primary {
-  color: $colorPrimary;
+  color: c.$colorPrimary;
   text-decoration: underline solid;
 
   @include hover-focus-active;
 }
 
 .secondary {
-  color: $colorTextSecondary;
+  color: c.$colorTextSecondary;
   text-decoration: underline solid;
 
   @include hover-focus-active;
 }
 
 .tertiary {
-  color: $colorTextSecondary;
+  color: c.$colorTextSecondary;
   text-decoration: underline solid;
 
   @include hover-focus-active;
 }
 
 .tooltip {
-  color: $colorTextSecondary;
+  color: c.$colorTextSecondary;
   text-decoration: underline dotted;
 
   @include hover-focus-active;

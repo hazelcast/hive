@@ -24,6 +24,7 @@
   "scripts": {
     "compile": "tsc -p tsconfig.build.json && shx cp src/*.scss lib",
     "test": "jest",
+    "start": "npm run storybook",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "publish-storybook": "chromatic --storybook-build-dir storybook-static --project-token $CHROMATIC_PROJECT_TOKEN --exit-zero-on-changes",

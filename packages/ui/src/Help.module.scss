@@ -1,11 +1,13 @@
-@import '../styles/constants/index';
+@use '../styles/constants' as c;
 
 .container {
   display: inline-block;
   vertical-align: middle;
-  padding-left: $grid;
-  padding-right: $grid;
+  padding-left: c.$grid;
+  padding-right: c.$grid;
   line-height: 1;
+  font-weight: c.$fontWeightRegular;
+  color: c.$colorPrimary;
 
   > svg {
     vertical-align: middle;

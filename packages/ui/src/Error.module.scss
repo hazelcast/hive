@@ -1,9 +1,10 @@
-@import '../styles/constants/index';
+@use '../styles/constants' as c;
 
 .container {
-  @include typographyBodySmall;
+  @include c.typographyBodySmall;
 
-  color: $colorError;
+  font-weight: c.$fontWeightRegular;
+  color: c.$colorError;
   display: none;
 
   &.hasError {
