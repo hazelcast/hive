@@ -1,4 +1,7 @@
 @import '../styles/constants/index';
+@import '../styles/a11y';
+
+$checkboxFontSize: $grid * 4;
 
 .wrapper {
   display: block;
@@ -6,6 +9,20 @@
   padding-left: $checkboxSize + 8px;
   user-select: none;
   cursor: pointer;
+  font-size: $checkboxFontSize;
+  line-height: calc(#{$checkboxFontSize} + 2px);
+
+  input:focus ~ .checkmark {
+    box-shadow: 0 0 0 $outlineWidth $colorAccessibilityOutline;
+    border: 1px solid transparent;
+
+    outline-color: transparent;
+    outline-width: $outlineWidth;
+  }
+}
+
+.wrapper:not(.checked) {
+  color: $colorTextSecondary;
 }
 
 // hide native checkbox
@@ -18,16 +35,44 @@
 
 .checkmark {
   position: absolute;
-  width: $checkboxSize;
-  height: $checkboxSize;
+  width: $checkboxFontSize;
+  height: $checkboxFontSize;
   top: 0;
   left: 0;
   border: 1px solid $colorNeutralLight;
-  border-radius: 3px;
+  border-radius: 4px;
   color: white;
 }
 
-.wrapper > input:checked ~ .checkmark {
-  background-color: $colorPrimaryLight;
+.error .checkmark {
+  border: 1px solid $colorError;
+}
+
+.wrapper > input:checked ~ .checkmark,
+.wrapper > input:indeterminate ~ .checkmark {
+  background-color: $colorSuccessLight;
   border: 1px solid transparent;
+}
+
+/**
+Disabled
+*/
+.wrapper.disabled {
+  color: $colorNeutralLight;
+}
+
+label.wrapper.disabled > input:checked ~ .checkmark,
+label.wrapper.disabled > input:indeterminate ~ .checkmark {
+  background-color: $colorNeutral;
+  color: white;
+  border: 1px solid $colorNeutralLight;
+}
+
+/**
+Error
+ */
+.errorMessage {
+  color: $colorError;
+  font-size: $checkboxFontSize;
+  padding-top: $grid;
 }

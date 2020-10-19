@@ -3,7 +3,6 @@ import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 
 import { Checkbox } from '../src/Checkbox'
 import { Check, Minus } from 'react-feather'
-import { act } from 'react-dom/test-utils'
 
 describe('Checkbox', () => {
   it('Renders the default checked checkbox', async () => {
@@ -25,26 +24,21 @@ describe('Checkbox', () => {
     expect(wrapper.find('input').getDOMNode<HTMLInputElement>().indeterminate).toBe(true)
   })
 
-  it('Checkbox is rendered, user clicks on a text, checkbox is changed', async () => {
+  it('Checkbox is passed a disabled property, input contains disabled property', async () => {
     const onChange = jest.fn()
-    const onFocus = jest.fn()
     const wrapper = await mountAndCheckA11Y(
-      <Checkbox id={'test'} checked name="hello" onChange={onChange} onFocus={onFocus} label="Hello World" />,
+      <Checkbox id={'test'} checked indeterminate name="hello" disabled onChange={onChange} label="Hello World" />,
     )
-    const spanEl = wrapper.find('span').at(0)
 
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      wrapper.find('label').simulate('click')
-      wrapper.find('label').at(0).getDOMNode().dispatchEvent(new MouseEvent('click'))
-      wrapper.find('span').at(0).getDOMNode().dispatchEvent(new MouseEvent('click'))
-      wrapper.find('input').at(0).getDOMNode().dispatchEvent(new MouseEvent('click'))
-      wrapper.simulate('click')
-    })
+    expect(wrapper.find('input').getDOMNode<HTMLInputElement>().disabled).toBe(true)
+  })
 
-    // wrapper.getDOMNode().dispatchEvent(new MouseEvent('click'))
+  it('Checkbox has been passed an error property, error message is displayed', async () => {
+    const onChange = jest.fn()
+    const wrapper = await mountAndCheckA11Y(
+      <Checkbox id={'test'} name="hello" onChange={onChange} label="Hello World" error="Unexpected Error" />,
+    )
 
-    spanEl.contains('Hello World')
-    expect(onChange).toHaveBeenCalled()
+    expect(wrapper.find('div').contains('Unexpected Error')).toBeTruthy()
   })
 })

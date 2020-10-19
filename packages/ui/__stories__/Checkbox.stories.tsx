@@ -8,9 +8,10 @@ export default {
   component: Checkbox,
 }
 export const Default = () => {
-  const [checked, setChecked] = useState<boolean>(false)
+  const [checked, setChecked] = useState<boolean>(true)
   return (
     <Checkbox
+      id="default"
       name="default"
       checked={checked}
       label="Label"
@@ -22,11 +23,12 @@ export const Default = () => {
 }
 
 export const Unchecked = () => (
-  <Checkbox checked={false} label="Label" name="default" onChange={(e) => logger.log('change', e.target.checked)} />
+  <Checkbox id="default" checked={false} label="Label" name="default" onChange={(e) => logger.log('change', e.target.checked)} />
 )
 
 export const WithDescription = () => (
   <Checkbox
+    id="default"
     checked={false}
     label="Label"
     description="Very long description"
@@ -35,8 +37,61 @@ export const WithDescription = () => (
   />
 )
 
+export const WithError = () => (
+  <Checkbox
+    id="default"
+    checked={false}
+    label="Label"
+    description="Very long description"
+    error="Something went wrong"
+    name="default"
+    onChange={(e) => logger.log('change', e.target.checked)}
+  />
+)
+
 export const Indeterminate = () => (
-  <Checkbox checked label="Indeterminate" indeterminate name="default" onChange={(e) => logger.log('change', e.target.checked)} />
+  <Checkbox
+    id="default"
+    checked
+    label="Indeterminate"
+    indeterminate
+    name="default"
+    onChange={(e) => logger.log('change', e.target.checked)}
+  />
+)
+
+export const IndeterminateDisabled = () => (
+  <Checkbox
+    id="default"
+    checked
+    disabled
+    label="Disabled"
+    indeterminate
+    name="default"
+    onChange={(e) => logger.log('change', e.target.checked)}
+  />
+)
+
+export const CheckedDisabled = () => (
+  <Checkbox
+    id="default"
+    checked
+    disabled
+    label="Checked Disabled"
+    name="default"
+    onChange={(e) => logger.log('change', e.target.checked)}
+  />
+)
+
+export const UncheckedDisabled = () => (
+  <Checkbox
+    id="default"
+    checked={false}
+    disabled
+    label="Unchecked Disabled"
+    name="default"
+    onChange={(e) => logger.log('change', e.target.checked)}
+  />
 )
 
 Default.parameters = {
