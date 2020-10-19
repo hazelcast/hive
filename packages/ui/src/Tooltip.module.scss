@@ -1,7 +1,7 @@
-@import '../styles/constants/index';
+@use '../styles/constants' as c;
 
 .wrapper {
-  max-width: $tooltipMaxWidth;
+  max-width: c.$tooltipMaxWidth;
   word-wrap: break-word;
 }
 

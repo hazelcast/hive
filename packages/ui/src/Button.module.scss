@@ -1,8 +1,8 @@
-@import '../styles/constants/index';
+@use '../styles/constants' as c;
 
 .button {
   position: relative;
-  z-index: $zIndex2;
+  z-index: c.$zIndex200;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -10,20 +10,19 @@
   box-sizing: border-box;
   cursor: pointer;
   border: none;
-  font-weight: $fontWeightRegular;
-  font-family: $fontFamily;
-  color: $colorNeutralWhite;
-  letter-spacing: $letterSpacingButton;
+  font-weight: c.$fontWeightRegular;
+  color: c.$colorNeutralWhite;
   // Size
-  border-radius: $borderRadius;
-  font-size: $fontSizeButton;
-  min-height: $grid * 10;
-  padding: 0 $grid * 5;
-  max-width: $buttonMaxWidth;
+  border-radius: c.$borderRadius;
+  min-height: c.$grid * 10;
+  padding: 0 c.$grid * 5;
+  max-width: c.$buttonMaxWidth;
+
+  @include c.typographyButton;
 
   .outline {
     position: absolute;
-    border-radius: $borderRadius;
+    border-radius: c.$borderRadius;
     pointer-events: none;
   }
 
@@ -32,15 +31,15 @@
     // Do not remove outline for high-contrast modes
     // https://stackoverflow.com/a/52616313
     outline-color: transparent;
-    outline-width: $outlineWidth;
+    outline-width: c.$outlineWidth;
 
     .outline {
       /* doiuse-disable calc */
-      width: calc(100% + #{$grid});
-      height: calc(100% + #{$grid});
+      width: calc(100% + #{c.$grid});
+      height: calc(100% + #{c.$grid});
       /* doiuse-enable calc */
-      z-index: $zIndex1;
-      box-shadow: 0 0 0 $outlineWidth $colorAccessibilityOutline;
+      z-index: c.$zIndex100;
+      box-shadow: 0 0 0 c.$outlineWidth c.$colorAccessibilityOutline;
     }
   }
 
@@ -49,16 +48,17 @@
   }
 
   .icon {
-    width: $grid * 6;
-    height: $grid * 6;
+    width: c.$grid * 6;
+    height: c.$grid * 6;
+    flex-shrink: 0;
   }
 
   .iconLeft {
-    margin-right: $grid * 2;
+    margin-right: c.$grid * 2;
   }
 
   .iconRight {
-    margin-left: $grid * 2;
+    margin-left: c.$grid * 2;
   }
 
   .body {
@@ -70,41 +70,41 @@
 
   // Kind === primary
   &.primary {
-    color: $colorNeutralWhite;
-    background-color: $colorPrimary;
+    color: c.$colorNeutralWhite;
+    background-color: c.$colorPrimary;
 
     &:hover,
     &.hover,
     &:focus,
     &.focus {
-      background-color: $colorPrimaryLight;
+      background-color: c.$colorPrimaryLight;
     }
 
     &:active,
     &.active {
-      background-color: $colorPrimaryDark;
+      background-color: c.$colorPrimaryDark;
     }
 
     &:disabled {
-      color: $colorTextSecondary;
-      background-color: $colorNeutral;
+      color: c.$colorTextSecondary;
+      background-color: c.$colorNeutral;
     }
   }
 
   // Kind === secondary
   &.secondary {
-    color: $colorPrimary;
+    color: c.$colorPrimary;
     background-color: transparent;
-    border: $borderWidthButton solid;
-    border-color: $colorPrimary;
+    border: c.$borderWidthButton solid;
+    border-color: c.$colorPrimary;
 
     &:focus,
     &.focus {
       .outline {
         /* Note: We need to take border of 2*2px into account */
         /* doiuse-disable calc */
-        width: calc(100% + #{$grid} * 2);
-        height: calc(100% + #{$grid} * 2);
+        width: calc(100% + #{c.$grid} * 2);
+        height: calc(100% + #{c.$grid} * 2);
         /* doiuse-enable calc */
       }
     }
@@ -113,19 +113,19 @@
     &.hover,
     &:focus,
     &.focus {
-      color: $colorPrimaryLight;
-      border-color: $colorPrimaryLight;
+      color: c.$colorPrimaryLight;
+      border-color: c.$colorPrimaryLight;
     }
 
     &:active,
     &.active {
-      color: $colorPrimaryDark;
-      border-color: $colorPrimaryDark;
+      color: c.$colorPrimaryDark;
+      border-color: c.$colorPrimaryDark;
     }
 
     &:disabled {
-      color: $colorTextSecondary;
-      border-color: $colorNeutral;
+      color: c.$colorTextSecondary;
+      border-color: c.$colorNeutral;
     }
   }
 

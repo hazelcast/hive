@@ -1,4 +1,6 @@
-@import './constants/index.scss';
+@use '../styles/constants' as c;
+
+$screenMinWidth: 1280px;
 
 html {
   // 100vw - 100% = width of the sidebar
@@ -6,11 +8,10 @@ html {
   min-width: calc($screenMinWidth - 100vw + 100%);
   /* doiuse-enable calc */
   overflow-x: auto;
-  font-family: $fontFamily, sans-serif;
-  font-weight: $fontWeightRegular;
-  color: $colorText;
+  color: c.$colorText;
 
-  @include typographyBodyNormal;
+  @include c.typographyDefaultFont;
+  @include c.typographyBodyNormal;
 }
 
 body {

@@ -31,12 +31,13 @@ module.exports = {
     'at-rule-no-unknown': [
       true,
       {
-        ignoreAtRules: ['value', 'extend', 'mixin', 'include'],
+        ignoreAtRules: ['value', 'extend', 'mixin', 'include', 'use', 'forward', 'each'],
       },
     ],
+    'comment-empty-line-before': null,
     // stylelint-scss rules
     'scss/no-duplicate-dollar-variables': true,
     'scss/dollar-variable-colon-space-after': 'always-single-line',
-    'comment-empty-line-before': null,
+    'scss/partial-no-import': true,
   },
 }

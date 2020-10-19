@@ -3,7 +3,7 @@ import { withDesign } from 'storybook-addon-designs'
 
 import { CustomDocsPage } from './CustomDocsPage'
 
-import '../styles/index.scss'
+import './preview.scss'
 
 export const decorators = [
   (Story) => (
