@@ -1,6 +1,6 @@
 {
   "name": "@hazelcast/helpers",
-  "version": "0.0.1",
+  "version": "0.1.0-alpha.0",
   "description": "Hazelcast shared helpers",
   "author": "",
   "homepage": "https://github.com/hazelcast/frontend-shared#readme",

@@ -1,6 +1,6 @@
 {
   "name": "@hazelcast/services",
-  "version": "0.0.1",
+  "version": "0.1.0-alpha.0",
   "description": "Hazelcast shared services",
   "author": "",
   "homepage": "https://github.com/hazelcast/frontend-shared#readme",
@@ -31,6 +31,5 @@
   },
   "dependencies": {
     "serialize-error": "^7.0.1"
-  },
-  "devDependencies": {}
+  }
 }

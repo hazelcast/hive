@@ -1,71 +1,73 @@
-@import '../styles/constants/index.scss';
+@use '../styles/constants' as c;
+
+$borderRadiusToast: 37px;
 
 .toast {
   display: inline-flex;
   flex-direction: row;
   align-items: center;
   border-radius: $borderRadiusToast;
-  font-size: $fontSizeBodyNormal;
-  letter-spacing: $letterSpacingBodyNormal;
-  line-height: $lineHeightBodyNormal;
-  height: $grid * 9;
-  padding: 0 $grid * 2.5;
+  font-size: c.$fontSizeBodyNormal;
+  letter-spacing: c.$letterSpacingBodyNormal;
+  line-height: c.$lineHeightBodyNormal;
+  height: c.$grid * 9;
+  padding: 0 c.$grid * 2.5;
 
   .icon {
-    width: $grid * 6;
-    height: $grid * 6;
-    margin-right: $grid * 2.5;
+    width: c.$grid * 6;
+    height: c.$grid * 6;
+    margin-right: c.$grid * 2.5;
   }
 
   .close {
-    margin-left: $grid * 2.5;
+    margin-left: c.$grid * 2.5;
   }
 
   &.success {
-    background-color: $colorSuccess;
+    background-color: c.$colorSuccess;
 
     .icon {
-      color: $colorNeutralWhite;
+      color: c.$colorNeutralWhite;
     }
 
     .content {
-      color: $colorNeutralWhite;
+      color: c.$colorNeutralWhite;
     }
   }
 
   &.info {
-    background-color: $colorInfo;
+    background-color: c.$colorInfo;
 
     .icon {
-      color: $colorInfoDark;
+      color: c.$colorInfoDark;
     }
 
     .content {
-      color: $colorBlack;
+      color: c.$colorBlack;
     }
   }
 
   &.warning {
-    background-color: $colorWarning;
+    background-color: c.$colorWarning;
 
     .icon {
-      color: $colorWarningDark;
+      color: c.$colorWarningDark;
     }
 
     .content {
-      color: $colorBlack;
+      color: c.$colorBlack;
     }
   }
 
   &.critical {
-    background-color: $colorError;
+    background-color: c.$colorError;
 
     .icon {
-      color: $colorNeutralWhite;
+      color: c.$colorNeutralWhite;
     }
 
     .content {
-      color: $colorNeutralWhite;
+      color: c.$colorNeutralWhite;
     }
   }
 }

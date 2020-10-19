@@ -1,6 +1,6 @@
 {
   "name": "@hazelcast/ui",
-  "version": "0.0.1",
+  "version": "0.1.0-alpha.0",
   "description": "Hazelcast design system components",
   "author": "",
   "homepage": "https://github.com/hazelcast/frontend-shared#readme",
@@ -24,6 +24,7 @@
   "scripts": {
     "compile": "tsc -p tsconfig.build.json && shx cp src/*.scss lib",
     "test": "jest",
+    "start": "npm run storybook",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "publish-storybook": "chromatic --storybook-build-dir storybook-static --project-token $CHROMATIC_PROJECT_TOKEN --exit-zero-on-changes",
@@ -41,8 +42,8 @@
     "url": "https://github.com/hazelcast/frontend-shared/issues"
   },
   "dependencies": {
-    "@hazelcast/helpers": "^0.0.1",
-    "@hazelcast/services": "^0.0.1",
+    "@hazelcast/helpers": "^0.1.0-alpha.0",
+    "@hazelcast/services": "^0.1.0-alpha.0",
     "classnames": "^2.2.6",
     "formik": "^2.2.0",
     "rc-tooltip": "^4.2.3",
@@ -50,7 +51,7 @@
     "uuid": "^8.3.1"
   },
   "devDependencies": {
-    "@hazelcast/test-helpers": "^0.0.1",
+    "@hazelcast/test-helpers": "^0.1.0-alpha.0",
     "@types/classnames": "^2.2.10",
     "@types/uuid": "^8.3.0",
     "doiuse": "^4.2.0",

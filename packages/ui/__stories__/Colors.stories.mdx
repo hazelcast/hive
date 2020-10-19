@@ -1,13 +1,20 @@
 import { Meta, ColorPalette, ColorItem } from '@storybook/addon-docs/blocks'
+import { Figma } from 'storybook-addon-designs/blocks'
+
+import styleConsts from '../styles/constants/export.scss'
 
 <Meta title="Visual Style/Colors" />
 
-## Primary
-
 <ColorPalette>
-  <ColorItem title="Primary-Light" colors={['#1673e3']} />
-  <ColorItem title="Primary-Normal" colors={['#2160c0']} />
-  <ColorItem title="Primary-Dark" colors={['#0c47a3']} />
+  {Object.entries(styleConsts)
+    .filter(([constName]) => constName.startsWith('color'))
+    .map(([colorName, colorValue]) => (
+      <ColorItem title={colorName} colors={[colorValue]} />
+    ))}
 </ColorPalette>
 
-<!-- TODO: Fill me -->
+<Figma
+  url="https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=478%3A1434"
+  collapsable
+  defaultCollapsed
+/>
