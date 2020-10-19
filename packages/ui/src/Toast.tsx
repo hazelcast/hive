@@ -14,13 +14,13 @@ const ToastIcon: { [key in ToastType]: Icon } = {
   critical: Info,
 }
 
-type ToastProps = {
+export type ToastProps = {
   type: ToastType
   content: ReactNode
-  onClose?: (e: React.MouseEvent<HTMLButtonElement>) => void
+  closeToast?: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
-export const Toast: FC<ToastProps> = ({ type, content, onClose }) => {
+export const Toast: FC<ToastProps> = ({ type, content, closeToast }) => {
   const ToastIconComponent = ToastIcon[type]
 
   return (
@@ -36,7 +36,7 @@ export const Toast: FC<ToastProps> = ({ type, content, onClose }) => {
       <div data-test="toast-content" className={styles.content}>
         {content}
       </div>
-      {onClose && <IconButton className={styles.close} data-test="toast-close" Icon={X} onClick={onClose} />}
+      {closeToast && <IconButton className={styles.close} data-test="toast-close" Icon={X} onClick={closeToast} />}
     </div>
   )
 }

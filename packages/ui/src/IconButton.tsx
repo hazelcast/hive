@@ -4,14 +4,11 @@ import { Icon as FeatherIcon } from 'react-feather'
 
 import styles from './IconButton.module.scss'
 
-type IconButtonProps = {
+export type IconButtonProps = {
   Icon: FeatherIcon
   iconClassName?: string
 } & Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'className' | 'autoFocus' | 'disabled' | 'type'>
 
-/*
- * TODO: Fix outline
- */
 export const IconButton: FC<IconButtonProps> = ({ Icon, iconClassName, className, ...rest }) => (
   <button className={cn(className, styles.iconButton)} {...rest}>
     <span className={styles.outline} />
