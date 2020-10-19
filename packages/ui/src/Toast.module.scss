@@ -1,0 +1,88 @@
+@import '../styles/constants/index.scss';
+
+.toast {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: $borderRadiusToast;
+  color: $colorNeutralWhite;
+  font-size: $fontSizeBodyNormal;
+  letter-spacing: $letterSpacingBodyNormal;
+  line-height: $lineHeightBodyNormal;
+  height: $grid * 9;
+  padding: 0 $grid * 2.5;
+
+  .icon {
+    width: $grid * 6;
+    height: $grid * 6;
+    margin-right: $grid * 2.5;
+  }
+
+  .close {
+    width: $grid * 6;
+    height: $grid * 6;
+    margin-left: $grid * 2.5;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+
+    &:focus {
+      // Do not remove outline for high-contrast modes
+      // https://stackoverflow.com/a/52616313
+      outline-color: transparent;
+      outline-width: $outlineWidth;
+      box-shadow: 0 0 0 $outlineWidth $colorAccessibilityOutline;
+    }
+
+    .closeIcon {
+      width: 100%;
+      height: 100%;
+      color: $colorBlack;
+    }
+  }
+
+  &.success {
+    background-color: $colorSuccess;
+
+    .icon {
+      color: $colorNeutralWhite;
+    }
+
+    .content {
+      color: $colorNeutralWhite;
+    }
+  }
+
+  &.info {
+    background-color: $colorInfo;
+
+    .icon {
+      color: $colorInfoDark;
+    }
+
+    .content {
+      color: $colorBlack;
+    }
+  }
+
+  &.warning {
+    background-color: $colorWarning;
+
+    .icon {
+      color: $colorWarningDark;
+    }
+
+    .content {
+      color: $colorBlack;
+    }
+  }
+
+  &.critical {
+    background-color: $colorError;
+
+    .content {
+      color: $colorNeutralWhite;
+    }
+  }
+}

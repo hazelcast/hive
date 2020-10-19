@@ -1,0 +1,48 @@
+@import '../styles/constants/index';
+
+.iconButton {
+  z-index: $zIndex2;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  cursor: pointer;
+  border: none;
+  position: relative;
+  background-color: transparent;
+  color: $colorBlack;
+
+  .outline {
+    position: absolute;
+    border-radius: $borderRadius;
+    pointer-events: none;
+  }
+
+  &:focus,
+  &.focus {
+    // Do not remove outline for high-contrast modes
+    // https://stackoverflow.com/a/52616313
+    outline-color: transparent;
+    outline-width: $outlineWidth;
+
+    .outline {
+      /* doiuse-disable calc */
+      width: calc(100% + #{$grid});
+      height: calc(100% + #{$grid});
+      /* doiuse-enable calc */
+      z-index: $zIndex1;
+      box-shadow: 0 0 0 $outlineWidth $colorAccessibilityOutline;
+    }
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  .icon {
+    width: $grid * 6;
+    height: $grid * 6;
+    color: $colorBlack;
+  }
+}
