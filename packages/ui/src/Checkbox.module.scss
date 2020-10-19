@@ -6,7 +6,7 @@ $checkboxFontSize: $grid * 4;
 .wrapper {
   display: block;
   position: relative;
-  padding-left: $checkboxSize + 8px;
+  padding-left: calc(#{$checkboxFontSize} + 8px);
   user-select: none;
   cursor: pointer;
   font-size: $checkboxFontSize;

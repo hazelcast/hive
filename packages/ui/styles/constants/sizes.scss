@@ -24,7 +24,6 @@ $iconSize: $grid * 4;
 $tooltipMaxWidth: 550px;
 
 $buttonMaxWidth: 300px;
-$checkboxSize: 16px;
 
 // TODO: Automate
 :export {
@@ -37,5 +36,4 @@ $checkboxSize: 16px;
   iconStrokeWidth: $iconStrokeWidth;
   iconSize: $iconSize;
   tooltipMaxWidth: $tooltipMaxWidth;
-  checkboxSize: $checkboxSize;
 }
