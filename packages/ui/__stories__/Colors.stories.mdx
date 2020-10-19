@@ -1,14 +1,16 @@
 import { Meta, ColorPalette, ColorItem } from '@storybook/addon-docs/blocks'
 import { Figma } from 'storybook-addon-designs/blocks'
 
-import colors from '../styles/constants/_colors.scss'
+import styleConsts from '../styles/constants/export.scss'
 
 <Meta title="Visual Style/Colors" />
 
 <ColorPalette>
-  {Object.entries(colors).map(([colorName, colorValue]) => (
-    <ColorItem title={colorName} colors={[colorValue]} />
-  ))}
+  {Object.entries(styleConsts)
+    .filter(([constName]) => constName.startsWith('color'))
+    .map(([colorName, colorValue]) => (
+      <ColorItem title={colorName} colors={[colorValue]} />
+    ))}
 </ColorPalette>
 
 <Figma
