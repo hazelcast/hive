@@ -1,5 +1,5 @@
-@import '../styles/text.scss';
+@use '../styles/helpers' as h;
 
 .truncatedText {
-  @include overflowEllipsis;
+  @include h.overflowEllipsis;
 }
