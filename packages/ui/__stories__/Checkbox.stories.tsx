@@ -97,6 +97,6 @@ export const UncheckedDisabled = () => (
 Default.parameters = {
   design: {
     type: 'figma',
-    url: '',
+    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=479%3A273',
   },
 }
