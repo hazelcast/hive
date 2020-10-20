@@ -3,78 +3,81 @@ import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import { ChevronRight } from 'react-feather'
 
 import { Link } from '../src/Link'
-import { Tooltip } from '../src/Tooltip'
-import { Icon } from '../src/Icon'
 
 import styles from '../src/Link.module.scss'
 
 describe('Link', () => {
-  it('Renders the default Link with correct props', async () => {
+  it('Renders regular Link with correct props', async () => {
+    const wrapper = await mountAndCheckA11Y(<Link href="https://hazelcast.com/">Regular Link</Link>)
+
+    const anchor = wrapper.find('a')
+    expect(anchor.props()).toEqual({
+      className: styles.regular,
+      href: 'https://hazelcast.com/',
+      rel: 'noopener noreferrer',
+      target: '_blank',
+      children: 'Regular Link',
+    })
+  })
+
+  it('Renders regular Link with Icon with correct props', async () => {
     const wrapper = await mountAndCheckA11Y(
-      <Link type="primary" href="https://hazelcast.com/">
-        Primary Link
+      <Link Icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/">
+        Regular Link with Icon
+      </Link>,
+    )
+
+    const anchor = wrapper.find('a')
+    expect(anchor.props()).toMatchObject({
+      className: styles.regular,
+      href: 'https://hazelcast.com/',
+      rel: 'noopener noreferrer',
+      target: '_blank',
+    })
+
+    expect(anchor.text()).toBe('Regular Link with Icon')
+    expect(anchor.find(ChevronRight).props()).toEqual({
+      'aria-label': 'Chevron right',
+      className: styles.icon,
+    })
+  })
+
+  it('Renders small Link with correct props', async () => {
+    const wrapper = await mountAndCheckA11Y(
+      <Link size="small" href="https://hazelcast.com/">
+        Small Link
       </Link>,
     )
 
     const anchor = wrapper.find('a')
     expect(anchor.props()).toEqual({
-      className: styles.primary,
+      className: styles.small,
       href: 'https://hazelcast.com/',
       rel: 'noopener noreferrer',
       target: '_blank',
-      children: 'Primary Link',
+      children: 'Small Link',
     })
-
-    expect(anchor.find('span').find(Icon).exists()).toBeFalsy()
   })
 
-  it('Renders the standalone link with correct props', async () => {
+  it('Renders small Link with Icon with correct props', async () => {
     const wrapper = await mountAndCheckA11Y(
-      <Link type="primary" standalone href="https://hazelcast.com/">
-        Primary Link
+      <Link size="small" Icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/">
+        Small Link with Icon
       </Link>,
     )
 
     const anchor = wrapper.find('a')
     expect(anchor.props()).toMatchObject({
-      className: styles.primary,
+      className: styles.small,
       href: 'https://hazelcast.com/',
       rel: 'noopener noreferrer',
       target: '_blank',
     })
 
-    expect(anchor.find('span').text()).toBe('Primary Link')
-
-    expect(anchor.find('span').find(Icon).props()).toEqual({
-      ariaLabel: 'Link',
-      icon: ChevronRight,
+    expect(anchor.text()).toBe('Small Link with Icon')
+    expect(anchor.find(ChevronRight).props()).toEqual({
+      'aria-label': 'Chevron right',
+      className: styles.icon,
     })
-  })
-
-  it('Renders the Tooltip with correct props', async () => {
-    const wrapper = await mountAndCheckA11Y(
-      <Link type="tooltip" tooltip="Check our website" href="https://hazelcast.com/">
-        Tooltip Link
-      </Link>,
-    )
-
-    const tooltip = wrapper.find(Tooltip)
-
-    expect(tooltip.props()).toMatchObject({
-      placement: 'top',
-      overlay: 'Check our website',
-    })
-
-    const anchor = tooltip.find('a')
-    // We use toMatchObject here because Tooltip injects additional props into its child
-    expect(anchor.props()).toMatchObject({
-      className: styles.tooltip,
-      href: 'https://hazelcast.com/',
-      rel: 'noopener noreferrer',
-      target: '_blank',
-      children: 'Tooltip Link',
-    })
-
-    expect(anchor.find('span').find(Icon).exists()).toBeFalsy()
   })
 })
