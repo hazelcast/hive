@@ -1,28 +1,29 @@
-@import '../styles/constants/index';
-@import '../styles/a11y';
+@use '../styles/constants' as c;
 
-$checkboxFontSize: $grid * 4;
+$checkboxFontSize: c.$grid * 4;
+$borderSize: 1px;
 
 .wrapper {
   display: block;
   position: relative;
-  padding-left: calc(#{$checkboxFontSize} + 8px);
+  padding-left: calc(#{$checkboxFontSize} + 8px); // checkbox + padding
   user-select: none;
   cursor: pointer;
   font-size: $checkboxFontSize;
-  line-height: calc(#{$checkboxFontSize} + 2px);
+  line-height: calc(#{$checkboxFontSize} + #{$borderSize} * 2);
 
+  // Outline on focus
   input:focus ~ .checkmark {
-    box-shadow: 0 0 0 $outlineWidth $colorAccessibilityOutline;
+    box-shadow: 0 0 0 c.$outlineWidth c.$colorAccessibilityOutline;
     border: 1px solid transparent;
 
     outline-color: transparent;
-    outline-width: $outlineWidth;
+    outline-width: c.$outlineWidth;
   }
 }
 
 .wrapper:not(.checked) {
-  color: $colorTextSecondary;
+  color: c.$colorTextSecondary;
 }
 
 // hide native checkbox
@@ -33,24 +34,21 @@ $checkboxFontSize: $grid * 4;
   position: absolute;
 }
 
+// default visible checkmark
 .checkmark {
   position: absolute;
   width: $checkboxFontSize;
   height: $checkboxFontSize;
   top: 0;
   left: 0;
-  border: 1px solid $colorNeutralLight;
+  border: 1px solid c.$colorNeutralLight;
   border-radius: 4px;
   color: white;
 }
 
-.error .checkmark {
-  border: 1px solid $colorError;
-}
-
 .wrapper > input:checked ~ .checkmark,
 .wrapper > input:indeterminate ~ .checkmark {
-  background-color: $colorSuccessLight;
+  background-color: c.$colorSuccessLight;
   border: 1px solid transparent;
 }
 
@@ -58,21 +56,24 @@ $checkboxFontSize: $grid * 4;
 Disabled
 */
 .wrapper.disabled {
-  color: $colorNeutralLight;
+  color: c.$colorNeutralLight;
 }
 
 label.wrapper.disabled > input:checked ~ .checkmark,
 label.wrapper.disabled > input:indeterminate ~ .checkmark {
-  background-color: $colorNeutral;
+  background-color: c.$colorNeutral;
   color: white;
-  border: 1px solid $colorNeutralLight;
+  border: 1px solid c.$colorNeutralLight;
 }
 
 /**
-Error
+Error state
  */
+.error .checkmark {
+  border: 1px solid c.$colorError;
+}
 .errorMessage {
-  color: $colorError;
+  color: c.$colorError;
   font-size: $checkboxFontSize;
-  padding-top: $grid;
+  padding-top: c.$grid;
 }

@@ -44,6 +44,7 @@ export const Checkbox: FC<CheckboxProps> = ({
 }) => {
   const inputRef = useRef<HTMLInputElement>(null)
 
+  // we want to support indeterminate as a React property, but it needs to be set programatically
   useEffect(() => {
     if (inputRef?.current) {
       inputRef.current.indeterminate = indeterminate
@@ -52,6 +53,10 @@ export const Checkbox: FC<CheckboxProps> = ({
 
   return (
     <span>
+      {/* 
+        We can only style forward elements based on input state (with ~ or +), has() is not supported yet.
+        That's why we need to explicitly pass error/checked/disabled classes to the wrapper element.
+      */}
       <label
         className={classNames(styles.wrapper, {
           [styles.error]: !!error,
