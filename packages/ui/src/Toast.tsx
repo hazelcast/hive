@@ -67,11 +67,11 @@ export const Toast: FC<ToastProps> = ({ type, content, closeToast }) => {
       </div>
       {closeToast && (
         <IconButton
+          data-test="toast-close"
           className={styles.close}
           iconClassName={styles.closeIcon}
           iconAriaLabel="Close icon"
           icon={X}
-          data-test="toast-close"
           onClick={closeToast}
         />
       )}

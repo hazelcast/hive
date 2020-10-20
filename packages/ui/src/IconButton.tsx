@@ -15,6 +15,6 @@ export type IconButtonProps = {
 export const IconButton: FC<IconButtonProps> = ({ icon, iconAriaLabel, iconClassName, className, ...rest }) => (
   <button className={cn(styles.iconButton, className)} {...rest}>
     <span className={styles.outline} />
-    <Icon ariaLabel={iconAriaLabel} className={cn(styles.icon, iconClassName)} icon={icon} />
+    <Icon ariaLabel={iconAriaLabel} className={iconClassName} icon={icon} />
   </button>
 )

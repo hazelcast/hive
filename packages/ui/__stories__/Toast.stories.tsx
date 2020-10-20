@@ -33,13 +33,9 @@ export const Critical = () => <Toast type="critical" content="Toast text" />
 export const CriticalClose = () => <Toast type="critical" content="Toast text" closeToast={noOp} />
 
 export const LongText = () => (
-  <Toast type="critical" content="LooooooooooooooooooooooooooooooooooooooooooooooooooooooooongText" closeToast={noOp} />
+  <Toast type="critical" content="LoooooooooooooooooooooooooooooooooooooooooooooooooongWord" closeToast={noOp} />
 )
 
 export const LongWord = () => (
-  <Toast
-    type="critical"
-    content="Long Toast text, Long Toast text, Long Toast text, Long Toast text, Long Toast text, Long Toast text"
-    closeToast={noOp}
-  />
+  <Toast type="critical" content="Long Toast text Long Toast text Long Toast text Long Toast text Long" closeToast={noOp} />
 )

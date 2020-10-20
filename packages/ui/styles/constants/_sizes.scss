@@ -7,6 +7,8 @@ $grid: 0.25rem !default;
 
 $borderRadius: $grid * 1.25 !default;
 
+$borderRadiusToast: 37px !default;
+
 // It does not make sense to express separator width in REMs since we do not need it to scale with the base font size
 $separatorWidth: 1px !default;
 
@@ -22,3 +24,5 @@ $iconSize: $grid * 4 !default;
 $tooltipMaxWidth: 550px !default;
 
 $buttonMaxWidth: 300px !default;
+
+$toastMaxWidth: 580px !default;
