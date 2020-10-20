@@ -17,7 +17,6 @@ type CheckboxCoreProps = {
 }
 
 export type CheckboxExtraProps = {
-  id: string
   label: string
   helperText?: string
   indeterminate?: boolean
@@ -28,7 +27,6 @@ export type CheckboxExtraProps = {
 type CheckboxProps = CheckboxCoreProps & CheckboxExtraProps & DataTestProp
 
 export const Checkbox: FC<CheckboxProps> = ({
-  id,
   checked,
   name,
   onChange,
@@ -63,13 +61,13 @@ export const Checkbox: FC<CheckboxProps> = ({
           [styles.checked]: checked,
           [styles.disabled]: disabled,
         })}
-        htmlFor={id}
+        htmlFor={idRef.current}
       >
         <span className={styles.name}>{label}</span>
         <input
           type="checkbox"
           ref={inputRef}
-          id={id}
+          id={idRef.current}
           name={name}
           checked={checked}
           onChange={onChange}
