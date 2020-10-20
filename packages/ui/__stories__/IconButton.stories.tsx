@@ -10,8 +10,8 @@ export default {
   component: IconButton,
 }
 
-export const Default = () => <IconButton Icon={X} />
+export const Default = () => <IconButton iconAriaLabel="Close icon" icon={X} />
 
-export const Focused = () => <IconButton className={styles.focus} Icon={X} />
+export const Focused = () => <IconButton iconAriaLabel="Close icon" className={styles.focus} icon={X} />
 
-export const Disabled = () => <IconButton disabled Icon={X} />
+export const Disabled = () => <IconButton iconAriaLabel="Close icon" disabled icon={X} />
