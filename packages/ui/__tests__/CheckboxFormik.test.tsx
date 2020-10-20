@@ -22,7 +22,7 @@ describe('CheckboxFormik', () => {
         onSubmit={onSubmit}
       >
         <Form>
-          <CheckboxFieldFormik<Values> name="tosApproved" id="tosApproved" label="ToS" />
+          <CheckboxFieldFormik<Values> name="tosApproved" label="ToS" />
         </Form>
       </Formik>
     )
@@ -30,11 +30,6 @@ describe('CheckboxFormik', () => {
     const wrapper = await mountAndCheckA11Y(<TestForm />)
 
     expect(onSubmit).toBeCalledTimes(0)
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      wrapper.find('label').simulate('click')
-    })
-
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
       wrapper.find('form').simulate('submit')

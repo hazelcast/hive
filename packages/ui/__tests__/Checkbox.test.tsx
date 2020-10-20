@@ -7,7 +7,7 @@ import { Check, Minus } from 'react-feather'
 describe('Checkbox', () => {
   it('Renders the default checked checkbox', async () => {
     const onChange = jest.fn()
-    const wrapper = await mountAndCheckA11Y(<Checkbox id={'test'} checked name="hello" onChange={onChange} label="Hello World" />)
+    const wrapper = await mountAndCheckA11Y(<Checkbox checked name="hello" onChange={onChange} label="Hello World" />)
 
     expect(wrapper.find(Check).exists()).toBeTruthy()
     expect(wrapper.find(Minus).exists()).toBeFalsy()
@@ -15,9 +15,7 @@ describe('Checkbox', () => {
   })
   it('Renders the indeterminate checkbox', async () => {
     const onChange = jest.fn()
-    const wrapper = await mountAndCheckA11Y(
-      <Checkbox id={'test'} checked indeterminate name="hello" onChange={onChange} label="Hello World" />,
-    )
+    const wrapper = await mountAndCheckA11Y(<Checkbox checked indeterminate name="hello" onChange={onChange} label="Hello World" />)
 
     expect(wrapper.find(Check).exists()).toBeFalsy()
     expect(wrapper.find(Minus).exists()).toBeTruthy()
@@ -27,7 +25,7 @@ describe('Checkbox', () => {
   it('Checkbox is passed a disabled property, input contains disabled property', async () => {
     const onChange = jest.fn()
     const wrapper = await mountAndCheckA11Y(
-      <Checkbox id={'test'} checked indeterminate name="hello" disabled onChange={onChange} label="Hello World" />,
+      <Checkbox checked indeterminate name="hello" disabled onChange={onChange} label="Hello World" />,
     )
 
     expect(wrapper.find('input').getDOMNode<HTMLInputElement>().disabled).toBe(true)
@@ -35,9 +33,7 @@ describe('Checkbox', () => {
 
   it('Checkbox has been passed an error property, error message is displayed', async () => {
     const onChange = jest.fn()
-    const wrapper = await mountAndCheckA11Y(
-      <Checkbox id={'test'} name="hello" onChange={onChange} label="Hello World" error="Unexpected Error" />,
-    )
+    const wrapper = await mountAndCheckA11Y(<Checkbox name="hello" onChange={onChange} label="Hello World" error="Unexpected Error" />)
 
     expect(wrapper.find('div').contains('Unexpected Error')).toBeTruthy()
   })
