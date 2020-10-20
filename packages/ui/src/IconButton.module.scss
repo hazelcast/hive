@@ -3,9 +3,6 @@
 .iconButton {
   z-index: c.$zIndex200;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
   cursor: pointer;
   border: none;
   position: relative;
@@ -36,11 +33,5 @@
 
   &:disabled {
     cursor: not-allowed;
-  }
-
-  .icon {
-    width: c.$grid * 6;
-    height: c.$grid * 6;
-    color: c.$colorBlack;
   }
 }

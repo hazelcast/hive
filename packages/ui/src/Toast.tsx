@@ -1,17 +1,36 @@
 import React, { FC, ReactNode } from 'react'
 import cn from 'classnames'
-import { AlertTriangle, CheckCircle, Info, Icon, X } from 'react-feather'
+import { AlertTriangle, CheckCircle, Info, Icon as IconType, X } from 'react-feather'
+
 import { IconButton } from './IconButton'
+import { Icon } from './Icon'
 
 import styles from './Toast.module.scss'
 
 export type ToastType = 'success' | 'info' | 'warning' | 'critical'
 
-const ToastIcon: { [key in ToastType]: Icon } = {
-  success: CheckCircle,
-  info: Info,
-  warning: AlertTriangle,
-  critical: Info,
+type IconDescriptor = {
+  icon: IconType
+  ariaLabel: string
+}
+
+const ToastIcon: { [key in ToastType]: IconDescriptor } = {
+  success: {
+    icon: CheckCircle,
+    ariaLabel: 'Check circle icon',
+  },
+  info: {
+    icon: Info,
+    ariaLabel: 'Info circle icon',
+  },
+  warning: {
+    icon: AlertTriangle,
+    ariaLabel: 'Warning triangle icon',
+  },
+  critical: {
+    icon: Info,
+    ariaLabel: 'Info critical circle icon',
+  },
 }
 
 export type ToastProps = {
@@ -20,8 +39,18 @@ export type ToastProps = {
   closeToast?: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
+/**
+ * ### Purpose
+ * A toast is a non-modal dialog that appears and disappears in the span of a few seconds. It may also optionally have a small close “X”. Typically, toast messages display one or two-line non-critical messages that do not require user interaction. For example: In a map client, once you hit the search button the toast may display a message that looks something like “Searching for location” which disappears once the matching results or “no results found” is displayed.
+ *
+ * ### Accessibility
+ * Without taking extra steps, toasts can have numerous accessibility issues that can impact both people with and without disabilities.
+ *
+ * ### Note
+ * The toast is designed to be integrated with https://fkhadra.github.io/react-toastify/introduction/
+ */
 export const Toast: FC<ToastProps> = ({ type, content, closeToast }) => {
-  const ToastIconComponent = ToastIcon[type]
+  const { icon, ariaLabel } = ToastIcon[type]
 
   return (
     <div
@@ -32,11 +61,20 @@ export const Toast: FC<ToastProps> = ({ type, content, closeToast }) => {
         [styles.critical]: type === 'critical',
       })}
     >
-      <ToastIconComponent className={styles.icon} />
+      <Icon ariaLabel={ariaLabel} className={styles.icon} icon={icon} />
       <div data-test="toast-content" className={styles.content}>
         {content}
       </div>
-      {closeToast && <IconButton className={styles.close} data-test="toast-close" Icon={X} onClick={closeToast} />}
+      {closeToast && (
+        <IconButton
+          className={styles.close}
+          iconClassName={styles.closeIcon}
+          iconAriaLabel="Close icon"
+          icon={X}
+          data-test="toast-close"
+          onClick={closeToast}
+        />
+      )}
     </div>
   )
 }

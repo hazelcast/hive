@@ -1,17 +1,12 @@
 @use '../styles/constants' as c;
 
-$borderRadiusToast: 37px;
-
 .toast {
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  border-radius: $borderRadiusToast;
-  font-size: c.$fontSizeBodyNormal;
-  letter-spacing: c.$letterSpacingBodyNormal;
-  line-height: c.$lineHeightBodyNormal;
-  height: c.$grid * 9;
-  padding: 0 c.$grid * 2.5;
+  border-radius: c.$borderRadiusToast;
+  max-width: c.$toastMaxWidth;
+  padding: c.$grid * 1.5 c.$grid * 2.5;
 
   .icon {
     width: c.$grid * 6;
@@ -19,54 +14,59 @@ $borderRadiusToast: 37px;
     margin-right: c.$grid * 2.5;
   }
 
+  .content {
+    overflow-wrap: break-word;
+  }
+
   .close {
     margin-left: c.$grid * 2.5;
+
+    .closeIcon {
+      width: c.$grid * 6;
+      height: c.$grid * 6;
+    }
   }
 
   &.success {
     background-color: c.$colorSuccess;
+    color: c.$colorNeutralWhite;
 
-    .icon {
-      color: c.$colorNeutralWhite;
-    }
-
-    .content {
+    .closeIcon {
       color: c.$colorNeutralWhite;
     }
   }
 
   &.info {
     background-color: c.$colorInfoLight;
+    color: c.$colorText;
 
     .icon {
       color: c.$colorInfoDark;
     }
 
-    .content {
-      color: c.$colorBlack;
+    .closeIcon {
+      color: c.$colorText;
     }
   }
 
   &.warning {
     background-color: c.$colorWarningLight;
+    color: c.$colorText;
 
     .icon {
       color: c.$colorWarningDark;
     }
 
-    .content {
-      color: c.$colorBlack;
+    .closeIcon {
+      color: c.$colorText;
     }
   }
 
   &.critical {
     background-color: c.$colorError;
+    color: c.$colorNeutralWhite;
 
-    .icon {
-      color: c.$colorNeutralWhite;
-    }
-
-    .content {
+    .closeIcon {
       color: c.$colorNeutralWhite;
     }
   }
