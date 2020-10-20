@@ -4,13 +4,11 @@ $checkboxFontSize: c.$grid * 4;
 $borderSize: 1px;
 
 .wrapper {
-  display: block;
-  position: relative;
-  padding-left: calc(#{$checkboxFontSize} + 8px); // checkbox + padding
+  display: inline-flex;
+  flex-direction: row;
   user-select: none;
   cursor: pointer;
-  font-size: $checkboxFontSize;
-  line-height: calc(#{$checkboxFontSize} + #{$borderSize} * 2);
+  @include c.typographyBodySmall;
 
   // Outline on focus
   input:focus ~ .checkmark {
@@ -36,14 +34,18 @@ $borderSize: 1px;
 
 // default visible checkmark
 .checkmark {
-  position: absolute;
   width: $checkboxFontSize;
   height: $checkboxFontSize;
-  top: 0;
-  left: 0;
   border: 1px solid c.$colorNeutralLight;
   border-radius: 4px;
   color: white;
+  // because of ~ and + selectors used below, we need to keep the current order in DOM and
+  // fix it visually with order property
+  order: -1;
+}
+
+.name {
+  padding-left: $checkboxFontSize / 2;
 }
 
 .wrapper > input:checked ~ .checkmark,
@@ -53,7 +55,7 @@ $borderSize: 1px;
 }
 
 /**
-Disabled
+  Disabled
 */
 .wrapper.disabled {
   color: c.$colorNeutralLight;
@@ -71,9 +73,4 @@ Error state
  */
 .error .checkmark {
   border: 1px solid c.$colorError;
-}
-.errorMessage {
-  color: c.$colorError;
-  font-size: $checkboxFontSize;
-  padding-top: c.$grid;
 }

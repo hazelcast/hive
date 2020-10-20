@@ -1,9 +1,11 @@
-import React, { ChangeEvent, FC, FocusEvent, InputHTMLAttributes, useEffect, useRef } from 'react'
+import React, { ChangeEvent, FC, FocusEvent, useEffect, useRef } from 'react'
 import styles from './Checkbox.module.scss'
 import { Check, Minus } from 'react-feather'
 import { DataTestProp } from '@hazelcast/helpers'
 import classNames from 'classnames'
 import { Error, errorId } from './Error'
+import { Help, helpTooltipId } from './Help'
+import { v4 as uuid } from 'uuid'
 
 type CheckboxCoreProps = {
   name: string
@@ -16,15 +18,14 @@ type CheckboxCoreProps = {
 
 export type CheckboxExtraProps = {
   id: string
-  description?: string
   label: string
-  readOnly?: boolean
+  helperText?: string
   indeterminate?: boolean
   disabled?: boolean
   required?: boolean
 }
 
-type CheckboxProps = CheckboxCoreProps & CheckboxExtraProps & DataTestProp & InputHTMLAttributes<HTMLInputElement>
+type CheckboxProps = CheckboxCoreProps & CheckboxExtraProps & DataTestProp
 
 export const Checkbox: FC<CheckboxProps> = ({
   id,
@@ -32,17 +33,16 @@ export const Checkbox: FC<CheckboxProps> = ({
   name,
   onChange,
   onBlur,
-  readOnly = false,
   value,
   indeterminate = false,
   label,
-  // description,
+  helperText,
   error,
   disabled = false,
   required,
-  ...htmlAttrs
 }) => {
   const inputRef = useRef<HTMLInputElement>(null)
+  const idRef = useRef(uuid())
 
   // we want to support indeterminate as a React property, but it needs to be set programatically
   useEffect(() => {
@@ -67,7 +67,6 @@ export const Checkbox: FC<CheckboxProps> = ({
       >
         <span className={styles.name}>{label}</span>
         <input
-          {...htmlAttrs}
           type="checkbox"
           ref={inputRef}
           id={id}
@@ -75,16 +74,18 @@ export const Checkbox: FC<CheckboxProps> = ({
           checked={checked}
           onChange={onChange}
           onBlur={onBlur}
-          readOnly={readOnly}
           value={value}
           disabled={disabled}
+          aria-disabled={disabled ? 'true' : 'false'}
           aria-invalid={!!error}
           aria-required={required}
-          aria-errormessage={error && errorId(id)}
+          aria-describedby={helperText && helpTooltipId(idRef.current)}
+          aria-errormessage={error && errorId(idRef.current)}
         />
         {indeterminate ? <Minus className={styles.checkmark} /> : <Check className={styles.checkmark} />}
+        {helperText && <Help parentId={idRef.current} helperText={helperText} />}
       </label>
-      <Error error={error} className={classNames(styles.errorContainer, styles.errorMessage)} inputId={id} />
+      <Error error={error} className={classNames(styles.errorContainer)} inputId={idRef.current} />
     </span>
   )
 }

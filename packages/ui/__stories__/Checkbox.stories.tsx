@@ -31,7 +31,7 @@ export const WithDescription = () => (
     id="default"
     checked={false}
     label="Label"
-    description="Very long description"
+    helperText="Very long description"
     name="default"
     onChange={(e) => logger.log('change', e.target.checked)}
   />
