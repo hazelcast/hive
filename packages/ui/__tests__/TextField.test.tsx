@@ -43,7 +43,7 @@ describe('TextField', () => {
       'aria-required': undefined,
       'aria-describedby': undefined,
       'aria-errormessage': undefined,
-      readOnly: undefined,
+      disabled: undefined,
       placeholder: 'Enter the name',
     })
 
@@ -128,7 +128,7 @@ describe('TextField', () => {
       'aria-required': undefined,
       'aria-describedby': helpTooltipId('republic'),
       'aria-errormessage': undefined,
-      readOnly: undefined,
+      disabled: undefined,
       placeholder: 'Enter the name',
     })
 
@@ -177,7 +177,7 @@ describe('TextField', () => {
       'aria-required': undefined,
       'aria-describedby': undefined,
       'aria-errormessage': errorId('republic'),
-      readOnly: undefined,
+      disabled: undefined,
       placeholder: 'Enter the name',
     })
 
@@ -214,7 +214,7 @@ describe('TextField', () => {
       'aria-required': true,
       'aria-describedby': undefined,
       'aria-errormessage': undefined,
-      readOnly: undefined,
+      disabled: undefined,
       placeholder: 'Enter the name',
     })
 
@@ -227,12 +227,12 @@ describe('TextField', () => {
     expect(wrapper.find(Help).exists()).toBeFalsy()
   })
 
-  it('Renders readOnly with correct props', async () => {
+  it('Renders disabled with correct props', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
     const wrapper = await mountAndCheckA11Y(
-      <TextField name="name" value="Yoda" placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} readOnly />,
+      <TextField name="name" value="Yoda" placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} disabled />,
     )
 
     expect(wrapper.find(HiddenLabel).props()).toEqual({
@@ -251,7 +251,7 @@ describe('TextField', () => {
       'aria-required': undefined,
       'aria-describedby': undefined,
       'aria-errormessage': undefined,
-      readOnly: true,
+      disabled: true,
       placeholder: 'Enter the name',
     })
 

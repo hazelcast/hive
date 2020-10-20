@@ -5,7 +5,7 @@ $inputHeight: c.$grid * 10;
 $paddingLeftWithIcon: c.$grid * 8;
 
 .container {
-  @include c.typographyBodyNormal;
+  @include c.typographyBodySmall;
 
   font-weight: c.$fontWeightRegular;
   color: c.$colorText;
@@ -89,10 +89,11 @@ $paddingLeftWithIcon: c.$grid * 8;
     }
   }
 
-  &.readOnly {
+  &.disabled {
     input {
       color: c.$colorTextSecondary;
       background-color: c.$colorNeutral;
+      border-color: c.$colorNeutralLight;
     }
   }
 

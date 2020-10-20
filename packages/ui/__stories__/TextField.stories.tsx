@@ -86,7 +86,7 @@ export const FocusedWithError = () => (
   />
 )
 
-export const Readonly = () => (
+export const Disabled = () => (
   <TextField
     name="name"
     value="Yoda"
@@ -94,20 +94,7 @@ export const Readonly = () => (
     label="Wisest jedi"
     onBlur={() => logger.log('blur')}
     onChange={(e) => logger.log('change', e.target.value)}
-    readOnly
-  />
-)
-
-export const ReadonlyFocused = () => (
-  <TextField
-    name="name"
-    value="Yoda"
-    placeholder="Enter the name"
-    label="Wisest jedi"
-    onBlur={() => logger.log('blur')}
-    onChange={(e) => logger.log('change', e.target.value)}
-    readOnly
-    className={styles.focus}
+    disabled
   />
 )
 
@@ -199,7 +186,7 @@ export const WithIconFocusedWithError = () => (
   />
 )
 
-export const WithIconReadonly = () => (
+export const WithIconDisabled = () => (
   <TextField
     name="name"
     label="Wisest jedi"
@@ -208,21 +195,7 @@ export const WithIconReadonly = () => (
     onBlur={() => logger.log('blur')}
     onChange={(e) => logger.log('change', e.target.value)}
     inputIcon={Mail}
-    readOnly
-  />
-)
-
-export const WithIconReadonlyFocused = () => (
-  <TextField
-    name="name"
-    label="Wisest jedi"
-    value="Yoda"
-    placeholder="Enter the name"
-    onBlur={() => logger.log('blur')}
-    onChange={(e) => logger.log('change', e.target.value)}
-    inputIcon={Mail}
-    readOnly
-    className={styles.focus}
+    disabled
   />
 )
 
