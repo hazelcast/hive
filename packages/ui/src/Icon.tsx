@@ -3,19 +3,24 @@ import { Icon as IconType } from 'react-feather'
 
 import styleConsts from '../styles/constants/export.scss'
 
+type IconSize = 'small' | 'normal'
+
 export interface IconProps {
   color?: string
   icon: IconType
   ariaLabel: string
+  size?: IconSize
   className?: string
 }
 
-export const Icon: FC<IconProps> = ({ color, icon: IconElement, ariaLabel, className }) => {
+export const Icon: FC<IconProps> = ({ color, icon: IconElement, ariaLabel, className, size = 'normal' }) => {
+  const iconSize = size === 'small' ? styleConsts.iconSizeSmall : styleConsts.iconSizeNormal
+
   const props: SVGProps<SVGElement> = {
     'aria-label': ariaLabel,
     color,
-    width: styleConsts.iconSize,
-    height: styleConsts.iconSize,
+    width: iconSize,
+    height: iconSize,
     className,
     strokeWidth: styleConsts.iconStrokeWidth,
   }

@@ -8,32 +8,18 @@
   max-width: c.$toastMaxWidth;
   padding: c.$grid * 1.5 c.$grid * 2.5;
 
-  .icon {
-    width: c.$grid * 6;
-    height: c.$grid * 6;
-    margin-right: c.$grid * 2.5;
-  }
-
   .content {
     word-break: break-all;
+    margin-left: c.$grid * 2.5;
   }
 
   .close {
     margin-left: c.$grid * 2.5;
-
-    .closeIcon {
-      width: c.$grid * 6;
-      height: c.$grid * 6;
-    }
   }
 
   &.success {
     background-color: c.$colorSuccess;
     color: c.$colorNeutralWhite;
-
-    .closeIcon {
-      color: c.$colorNeutralWhite;
-    }
   }
 
   &.info {
@@ -42,10 +28,6 @@
 
     .icon {
       color: c.$colorInfoDark;
-    }
-
-    .closeIcon {
-      color: c.$colorText;
     }
   }
 
@@ -56,18 +38,10 @@
     .icon {
       color: c.$colorWarningDark;
     }
-
-    .closeIcon {
-      color: c.$colorText;
-    }
   }
 
   &.critical {
     background-color: c.$colorError;
     color: c.$colorNeutralWhite;
-
-    .closeIcon {
-      color: c.$colorNeutralWhite;
-    }
   }
 }

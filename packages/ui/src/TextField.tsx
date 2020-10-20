@@ -107,7 +107,7 @@ export const TextField: FC<TextFieldProps> = ({
             placeholder={placeholder}
             {...htmlAttrs}
           />
-          {inputIcon && <Icon icon={inputIcon} ariaLabel={label} className={styles.inputIcon} />}
+          {inputIcon && <Icon icon={inputIcon} ariaLabel={label} className={styles.inputIcon} size="small" />}
           {inputContainerChild}
         </div>
         {helperText && <Help parentId={idRef.current} helperText={helperText} className={styles.helperText} />}
