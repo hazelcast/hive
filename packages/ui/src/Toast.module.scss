@@ -20,6 +20,10 @@
   &.success {
     background-color: c.$colorSuccess;
     color: c.$colorNeutralWhite;
+
+    .icon {
+      color: c.$colorNeutralWhite;
+    }
   }
 
   &.info {
@@ -43,5 +47,9 @@
   &.critical {
     background-color: c.$colorError;
     color: c.$colorNeutralWhite;
+
+    .icon {
+      color: c.$colorNeutralWhite;
+    }
   }
 }

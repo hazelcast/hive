@@ -1,6 +1,6 @@
 import React, { FC, ReactNode } from 'react'
 import cn from 'classnames'
-import { AlertTriangle, CheckCircle, Info, Icon as IconType, X } from 'react-feather'
+import { AlertTriangle, CheckCircle, AlertCircle, Info, Icon as IconType, X } from 'react-feather'
 
 import { IconButton } from './IconButton'
 import { Icon } from './Icon'
@@ -28,7 +28,7 @@ const ToastIcon: { [key in ToastType]: IconDescriptor } = {
     ariaLabel: 'Warning triangle icon',
   },
   critical: {
-    icon: Info,
+    icon: AlertCircle,
     ariaLabel: 'Info critical circle icon',
   },
 }
