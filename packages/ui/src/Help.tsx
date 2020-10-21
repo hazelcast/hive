@@ -21,7 +21,7 @@ export interface HelpProps {
 export const Help: FC<HelpProps> = ({ helperText, placement = 'top', parentId, className }) => (
   <Tooltip placement={placement} overlay={helperText} id={helpTooltipId(parentId)}>
     <div className={cn(styles.container, className)}>
-      <Icon ariaLabel="Help" color={styleConsts.colorPrimary} icon={HelpCircle} className={styles.icon} />
+      <Icon ariaLabel="Help" color={styleConsts.colorPrimary} icon={HelpCircle} className={styles.icon} size="small" />
     </div>
   </Tooltip>
 )

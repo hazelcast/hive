@@ -30,8 +30,7 @@
   &.focus {
     // Do not remove outline for high-contrast modes
     // https://stackoverflow.com/a/52616313
-    outline-color: transparent;
-    outline-width: c.$outlineWidth;
+    outline: c.$outlineWidth solid transparent;
 
     .outline {
       /* doiuse-disable calc */
