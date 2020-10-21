@@ -27,6 +27,16 @@ export type CheckboxExtraProps = {
 
 type CheckboxProps = CheckboxCoreProps & CheckboxExtraProps & DataTestProp
 
+/**
+ * ### Purpose
+ * Forms require input from users. If you need information that can be represented as boolean, use input with type 'checkbox'.
+ * Checkbox fields accept boolean types of data. And help and error guidance to ensure they know what to enter.
+ *
+ *
+ * ### General Info
+ * - It's important to realise that we don't set checkbox value, but state (on/off). That is the main difference from other input types.
+ * - They can have a special indeterminate state, that represents a '3rd' value, usually used in tree structures, etc.
+ */
 export const Checkbox: FC<CheckboxProps> = ({
   checked,
   name,
@@ -49,7 +59,7 @@ export const Checkbox: FC<CheckboxProps> = ({
     if (inputRef?.current) {
       inputRef.current.indeterminate = indeterminate
     }
-  }, [indeterminate, inputRef])
+  })
 
   return (
     <span>

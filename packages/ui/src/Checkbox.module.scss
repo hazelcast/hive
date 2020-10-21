@@ -12,7 +12,7 @@
   .checkmark {
     width: c.$iconSizeSmall;
     height: c.$iconSizeSmall;
-    border: 1px solid c.$colorNeutralLight;
+    border: c.$borderWidth solid c.$colorNeutralLight;
     border-radius: c.$grid;
     color: c.$colorNeutralWhite;
     // because of ~ and + selectors used below, we need to keep the current order in DOM and
@@ -40,7 +40,7 @@
 
   input:indeterminate ~ .checkmark {
     background-color: c.$colorPrimaryLight;
-    border: 1px solid transparent;
+    border-color: c.$colorPrimaryLight;
   }
 
   .name {
