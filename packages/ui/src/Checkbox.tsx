@@ -22,6 +22,7 @@ export type CheckboxExtraProps = {
   indeterminate?: boolean
   disabled?: boolean
   required?: boolean
+  className?: string
 }
 
 type CheckboxProps = CheckboxCoreProps & CheckboxExtraProps & DataTestProp
@@ -31,6 +32,7 @@ export const Checkbox: FC<CheckboxProps> = ({
   name,
   onChange,
   onBlur,
+  className,
   value,
   indeterminate = false,
   label,
@@ -56,11 +58,15 @@ export const Checkbox: FC<CheckboxProps> = ({
         That's why we need to explicitly pass error/checked/disabled classes to the wrapper element.
       */}
       <label
-        className={classNames(styles.wrapper, {
-          [styles.error]: !!error,
-          [styles.checked]: checked,
-          [styles.disabled]: disabled,
-        })}
+        className={classNames(
+          styles.wrapper,
+          {
+            [styles.error]: !!error,
+            [styles.checked]: checked,
+            [styles.disabled]: disabled,
+          },
+          className,
+        )}
         htmlFor={idRef.current}
       >
         <span className={styles.name}>{label}</span>
@@ -82,7 +88,7 @@ export const Checkbox: FC<CheckboxProps> = ({
         {indeterminate ? <Minus className={styles.checkmark} /> : <Check className={styles.checkmark} />}
         {helperText && <Help parentId={idRef.current} helperText={helperText} />}
       </label>
-      <Error error={error} className={classNames(styles.errorContainer)} inputId={idRef.current} />
+      {!!error && <Error error={error} className={classNames(styles.errorContainer)} inputId={idRef.current} />}
     </span>
   )
 }

@@ -28,6 +28,7 @@ $borderSize: 1px;
   }
 
   // Outline on focus
+  &.focus .checkmark,
   input:focus ~ .checkmark {
     box-shadow: 0 0 0 c.$outlineWidth c.$colorAccessibilityOutline;
     border-color: transparent;

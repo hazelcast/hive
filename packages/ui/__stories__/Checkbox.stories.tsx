@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { logger } from '@hazelcast/services'
+import styles from '../src/Checkbox.module.scss'
 
 import { Checkbox } from '../src/Checkbox'
 
@@ -31,6 +32,16 @@ Default.parameters = {
 
 export const Unchecked = () => (
   <Checkbox checked={false} label="Label" name="default" onChange={(e) => logger.log('change', e.target.checked)} />
+)
+
+export const FocusedUnchecked = () => (
+  <Checkbox
+    checked={false}
+    className={styles.focus}
+    label="Label"
+    name="default"
+    onChange={(e) => logger.log('change', e.target.checked)}
+  />
 )
 
 export const WithDescription = () => (

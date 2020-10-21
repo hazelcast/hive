@@ -15,7 +15,7 @@ import styles from './TextField.module.scss'
 type TextFieldCoreProps = {
   name: string
   value?: string
-  onBlur: (e: FocusEvent<HTMLInputElement>) => void
+  onBlur?: (e: FocusEvent<HTMLInputElement>) => void
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
   error?: string
 }
