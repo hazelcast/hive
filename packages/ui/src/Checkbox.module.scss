@@ -12,7 +12,10 @@ $borderSize: 1px;
 
   // Outline on focus
   input:focus ~ .checkmark {
-    @include h.outlineFormField;
+    box-shadow: 0 0 0 c.$outlineWidth c.$colorAccessibilityOutline;
+    border-color: transparent;
+    outline-color: transparent;
+    outline-width: c.$outlineWidth;
   }
 }
 

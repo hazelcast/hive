@@ -7,6 +7,7 @@ export default {
   title: 'Components/Checkbox',
   component: Checkbox,
 }
+
 export const Default = () => {
   const [checked, setChecked] = useState<boolean>(true)
   return (
@@ -19,6 +20,13 @@ export const Default = () => {
       }}
     />
   )
+}
+
+Default.parameters = {
+  design: {
+    type: 'figma',
+    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=479%3A273',
+  },
 }
 
 export const Unchecked = () => (
@@ -61,10 +69,3 @@ export const CheckedDisabled = () => (
 export const UncheckedDisabled = () => (
   <Checkbox checked={false} disabled label="Unchecked Disabled" name="default" onChange={(e) => logger.log('change', e.target.checked)} />
 )
-
-Default.parameters = {
-  design: {
-    type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=479%3A273',
-  },
-}
