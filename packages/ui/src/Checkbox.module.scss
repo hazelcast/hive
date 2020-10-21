@@ -48,9 +48,12 @@ $borderSize: 1px;
   padding-left: $checkboxFontSize / 2;
 }
 
-.wrapper > input:checked ~ .checkmark,
-.wrapper > input:indeterminate ~ .checkmark {
+.wrapper > input:checked ~ .checkmark {
   background-color: c.$colorSuccessLight;
+  border: 1px solid transparent;
+}
+.wrapper > input:indeterminate ~ .checkmark {
+  background-color: c.$colorPrimaryLight;
   border: 1px solid transparent;
 }
 
