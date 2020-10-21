@@ -1,7 +1,7 @@
 import { mount } from 'enzyme'
 import React from 'react'
 import { act } from 'react-dom/test-utils'
-import { AlertTriangle, CheckCircle, Info, Icon } from 'react-feather'
+import { AlertTriangle, CheckCircle, Info, AlertCircle, Icon } from 'react-feather'
 import { ToastType } from '../src/Toast'
 import { Toast } from '../src/Toast'
 
@@ -12,7 +12,7 @@ describe('Toast', () => {
     ['success', CheckCircle],
     ['info', Info],
     ['warning', AlertTriangle],
-    ['critical', Info],
+    ['critical', AlertCircle],
   ]
 
   it.each(toastBasicTestData)('Renders %s Toast with correct icon and content', (type, Icon) => {
