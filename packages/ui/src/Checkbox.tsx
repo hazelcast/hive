@@ -74,7 +74,6 @@ export const Checkbox: FC<CheckboxProps> = ({
           onBlur={onBlur}
           value={value}
           disabled={disabled}
-          aria-disabled={disabled ? 'true' : 'false'}
           aria-invalid={!!error}
           aria-required={required}
           aria-describedby={helperText && helpTooltipId(idRef.current)}

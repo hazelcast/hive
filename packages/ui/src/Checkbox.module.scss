@@ -44,12 +44,12 @@ $borderSize: 1px;
 }
 
 .name {
-  padding-left: $checkboxFontSize / 2;
+  padding-left: c.$grid * 1.25;
 }
 
 .wrapper > input:checked ~ .checkmark {
   background-color: c.$colorSuccessLight;
-  border: 1px solid transparent;
+  border-color: c.$colorSuccessLight;
 }
 .wrapper > input:indeterminate ~ .checkmark {
   background-color: c.$colorPrimaryLight;
@@ -66,13 +66,13 @@ $borderSize: 1px;
 label.wrapper.disabled > input:checked ~ .checkmark,
 label.wrapper.disabled > input:indeterminate ~ .checkmark {
   background-color: c.$colorNeutral;
-  color: white;
-  border: 1px solid c.$colorNeutralLight;
+  color: c.$colorNeutralWhite;
+  border-color: c.$colorNeutralLight;
 }
 
 /**
 Error state
  */
 .error .checkmark {
-  border: 1px solid c.$colorError;
+  border-color: c.$colorError;
 }
