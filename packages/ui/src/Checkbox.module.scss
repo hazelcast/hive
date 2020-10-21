@@ -1,9 +1,6 @@
 @use '../styles/constants' as c;
 @use '../styles/helpers' as h;
 
-$checkboxFontSize: c.$grid * 4;
-$borderSize: 1px;
-
 .wrapper {
   display: inline-flex;
   flex-direction: row;
