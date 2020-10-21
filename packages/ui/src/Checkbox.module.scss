@@ -1,4 +1,5 @@
 @use '../styles/constants' as c;
+@use '../styles/helpers' as h;
 
 $checkboxFontSize: c.$grid * 4;
 $borderSize: 1px;
@@ -12,10 +13,10 @@ $borderSize: 1px;
 
   // default visible checkmark
   .checkmark {
-    width: c.$iconSize;
-    height: c.$iconSize;
+    width: c.$iconSizeSmall;
+    height: c.$iconSizeSmall;
     border: 1px solid c.$colorNeutralLight;
-    border-radius: 25%;
+    border-radius: c.$grid;
     color: c.$colorNeutralWhite;
     // because of ~ and + selectors used below, we need to keep the current order in DOM and
     // fix it visually with order property
@@ -25,15 +26,6 @@ $borderSize: 1px;
   // Error state
   .error > .checkmark {
     border-color: c.$colorError;
-  }
-
-  // Outline on focus
-  &.focus .checkmark,
-  input:focus ~ .checkmark {
-    box-shadow: 0 0 0 c.$outlineWidth c.$colorAccessibilityOutline;
-    border-color: transparent;
-    outline-color: transparent;
-    outline-width: c.$outlineWidth;
   }
 
   // hide native checkbox
@@ -70,8 +62,14 @@ $borderSize: 1px;
   color: c.$colorNeutralLight;
 }
 
-label.wrapper.disabled > input:checked ~ .checkmark,
-label.wrapper.disabled > input:indeterminate ~ .checkmark {
+// Outline on focus
+label.wrapper.focus .checkmark,
+label.wrapper > input:focus ~ .checkmark {
+  @include h.outlineFormField;
+}
+
+label.wrapper.disabled > input:indeterminate ~ .checkmark,
+label.wrapper.disabled > input:checked ~ .checkmark {
   background-color: c.$colorNeutral;
   color: c.$colorNeutralWhite;
   border-color: c.$colorNeutralLight;

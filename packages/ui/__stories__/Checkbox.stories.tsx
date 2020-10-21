@@ -44,6 +44,10 @@ export const FocusedUnchecked = () => (
   />
 )
 
+export const FocusedChecked = () => (
+  <Checkbox checked className={styles.focus} label="Label" name="default" onChange={(e) => logger.log('change', e.target.checked)} />
+)
+
 export const WithDescription = () => (
   <Checkbox
     checked={false}
