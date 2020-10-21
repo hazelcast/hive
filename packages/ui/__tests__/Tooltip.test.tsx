@@ -1,64 +1,107 @@
+/* eslint-disable @typescript-eslint/require-await */
 import React from 'react'
+import { act } from 'react-dom/test-utils'
 import { mount } from 'enzyme'
-import RCTooltip from 'rc-tooltip'
 
-import { Tooltip, TooltipProps } from '../src/Tooltip'
+import { Tooltip } from '../src/Tooltip'
 
-import styles from '../src/Tooltip.module.scss'
-
+/**
+ * There's a weird issue with react-popper that results in missing act() wrapper error.
+ * This is why all mounts are wrapped in act().
+ *
+ * https://github.com/popperjs/react-popper/issues/368
+ */
 describe('Tooltip', () => {
-  test('renders children without Tooltip if "overlay" is undefined', () => {
-    const Child = () => <div />
+  test('Renders correctly if "content" property is defined.', async () => {
+    await act(async () => {
+      const wrapper = mount(
+        <Tooltip id="tooltip-test" content="Tooltip content">
+          {(ref) => (
+            <button ref={ref} data-test="tooltip-reference">
+              Hover me
+            </button>
+          )}
+        </Tooltip>,
+      )
 
-    const wrapper = mount(
-      <Tooltip overlay={undefined}>
-        <Child />
-      </Tooltip>,
-    )
+      const tooltipOverlay = wrapper.find('[data-test="tooltip-overlay"]')
 
-    expect(wrapper.exists(RCTooltip)).toBeFalsy()
-    expect(wrapper.exists(Child)).toBeTruthy()
+      expect(wrapper.find('[data-test="tooltip-reference"]').exists()).toBeTruthy()
+      expect(tooltipOverlay.exists()).toBeTruthy()
+      expect(tooltipOverlay.text()).toEqual('Tooltip content')
+    })
   })
 
-  test('renders children with Tooltip if "overlay" is defined', () => {
-    const Child = () => <div />
+  test('Does not render tooltip if "content" property is not defined.', async () => {
+    await act(async () => {
+      const wrapper = mount(
+        <Tooltip id="tooltip-test" content={undefined}>
+          {(ref) => (
+            <button ref={ref} data-test="tooltip-reference">
+              Hover me
+            </button>
+          )}
+        </Tooltip>,
+      )
 
-    const props: TooltipProps = {
-      trigger: ['hover'],
-      mouseEnterDelay: 100,
-      mouseLeaveDelay: 200,
-      overlayStyle: { top: 300 },
-      prefixCls: 'testPrefix',
-      transitionName: 'testName',
-      onVisibleChange: () => undefined,
-      afterVisibleChange: () => undefined,
-      visible: true,
-      defaultVisible: false,
-      placement: 'top',
-      align: {},
-      onPopupAlign: () => undefined,
-      overlay: 'testOverlay',
-      arrowContent: 'testContent',
-      getTooltipContainer: () => document.body,
-      destroyTooltipOnHide: true,
-      id: 'testId',
-    }
+      expect(wrapper.find('[data-test="tooltip-overlay"]').exists()).toBeFalsy()
 
-    const wrapper = mount(
-      <Tooltip {...props} wrapMaxWidth={false}>
-        <Child />
-      </Tooltip>,
-    )
+      wrapper.find('[data-test="tooltip-reference"]').simulate('mouseenter')
 
-    const expectedProps: TooltipProps = {
-      ...props,
-      children: <Child />,
-      overlayClassName: styles.overlay,
-    }
+      wrapper.update()
 
-    const tooltip = wrapper.find(RCTooltip)
-    expect(tooltip.exists()).toBeTruthy()
-    expect(tooltip.props()).toEqual(expectedProps)
-    expect(tooltip.exists(Child)).toBeTruthy()
+      expect(wrapper.find('[data-test="tooltip-overlay"]').exists()).toBeFalsy()
+    })
+  })
+
+  test('Shows tooltip overlay on hover of the target element.', async () => {
+    await act(async () => {
+      const wrapper = mount(
+        <Tooltip id="tooltip-test" content="Tooltip content">
+          {(ref) => (
+            <button ref={ref} data-test="tooltip-reference">
+              Hover me
+            </button>
+          )}
+        </Tooltip>,
+      )
+
+      let tooltipOverlay = wrapper.find('[data-test="tooltip-overlay"]')
+
+      expect(tooltipOverlay.hasClass('hidden')).toBeTruthy()
+
+      wrapper.find('[data-test="tooltip-reference"]').simulate('mouseenter')
+
+      wrapper.update()
+
+      tooltipOverlay = wrapper.find('[data-test="tooltip-overlay"]')
+
+      expect(tooltipOverlay.hasClass('hidden')).toBeTruthy()
+      expect(tooltipOverlay.text()).toEqual('Tooltip content')
+      expect(tooltipOverlay.prop('id')).toEqual('tooltip-test')
+
+      wrapper.find('[data-test="tooltip-reference"]').simulate('mouseleave')
+
+      setTimeout(() => {
+        wrapper.update()
+        expect(wrapper.find('[data-test="tooltip-overlay"]')).toBeFalsy()
+      }, 100)
+    })
+  })
+
+  test('Shows tooltip overlay by default if "visible" prop is true.', async () => {
+    await act(async () => {
+      const wrapper = mount(
+        <Tooltip id="tooltip-test" content="Tooltip content" visible>
+          {(ref) => (
+            <button ref={ref} data-test="tooltip-reference">
+              Hover me
+            </button>
+          )}
+        </Tooltip>,
+      )
+
+      expect(wrapper.find('[data-test="tooltip-overlay"]').hasClass('hidden')).toBeFalsy()
+    })
   })
 })
