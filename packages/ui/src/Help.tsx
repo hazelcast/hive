@@ -3,7 +3,7 @@ import { HelpCircle } from 'react-feather'
 import cn from 'classnames'
 
 import { Icon } from './Icon'
-import { Tooltip } from './Tooltip'
+import { Tooltip, TooltipProps } from './Tooltip'
 
 import styleConsts from '../styles/constants/export.scss'
 
@@ -14,14 +14,20 @@ export const helpTooltipId = (inputId: string): string => `${inputId}-help`
 export interface HelpProps {
   parentId: string
   helperText: string | ReactElement
-  placement?: string
+  placement?: TooltipProps['placement']
   className?: string
 }
 
-export const Help: FC<HelpProps> = ({ helperText, placement = 'top', parentId, className }) => (
-  <Tooltip placement={placement} overlay={helperText} id={helpTooltipId(parentId)}>
-    <div className={cn(styles.container, className)}>
-      <Icon ariaLabel="Help" color={styleConsts.colorPrimary} icon={HelpCircle} className={styles.icon} size="small" />
-    </div>
-  </Tooltip>
-)
+export const Help: FC<HelpProps> = ({ helperText, placement = 'top', parentId, className }) => {
+  const tooltipId = helpTooltipId(parentId)
+
+  return (
+    <Tooltip placement={placement} content={helperText} id={tooltipId}>
+      {(ref) => (
+        <div ref={ref} className={cn(styles.container, className)} aria-describedby={tooltipId}>
+          <Icon ariaLabel="Help" color={styleConsts.colorPrimary} icon={HelpCircle} className={styles.icon} size="small" />
+        </div>
+      )}
+    </Tooltip>
+  )
+}

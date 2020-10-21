@@ -1,6 +1,8 @@
 import React from 'react'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { act } from 'react-dom/test-utils'
 import { ChevronRight } from 'react-feather'
+import { mount } from 'enzyme'
 
 import { Link } from '../src/Link'
 import { Tooltip } from '../src/Tooltip'
@@ -52,29 +54,33 @@ describe('Link', () => {
   })
 
   it('Renders the Tooltip with correct props', async () => {
-    const wrapper = await mountAndCheckA11Y(
-      <Link type="tooltip" tooltip="Check our website" href="https://hazelcast.com/">
-        Tooltip Link
-      </Link>,
-    )
+    // This has to be wrapper in act() - you can find an explanation in Tooltip test file.
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      const wrapper = mount(
+        <Link type="tooltip" tooltip="Check our website" href="https://hazelcast.com/">
+          Tooltip Link
+        </Link>,
+      )
 
-    const tooltip = wrapper.find(Tooltip)
+      const tooltip = wrapper.find(Tooltip)
 
-    expect(tooltip.props()).toMatchObject({
-      placement: 'top',
-      overlay: 'Check our website',
+      expect(tooltip.props()).toMatchObject({
+        placement: 'top',
+        content: 'Check our website',
+      })
+
+      const anchor = tooltip.find('a')
+      // We use toMatchObject here because Tooltip injects additional props into its child
+      expect(anchor.props()).toMatchObject({
+        className: styles.tooltip,
+        href: 'https://hazelcast.com/',
+        rel: 'noopener noreferrer',
+        target: '_blank',
+        children: 'Tooltip Link',
+      })
+
+      expect(anchor.find('span').find(Icon).exists()).toBeFalsy()
     })
-
-    const anchor = tooltip.find('a')
-    // We use toMatchObject here because Tooltip injects additional props into its child
-    expect(anchor.props()).toMatchObject({
-      className: styles.tooltip,
-      href: 'https://hazelcast.com/',
-      rel: 'noopener noreferrer',
-      target: '_blank',
-      children: 'Tooltip Link',
-    })
-
-    expect(anchor.find('span').find(Icon).exists()).toBeFalsy()
   })
 })

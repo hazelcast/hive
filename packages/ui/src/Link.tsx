@@ -59,23 +59,26 @@ export const Link: FC<LinkProps> = ({
   const idRef = useRef(`${uuid()}-link`)
 
   return (
-    <Tooltip placement="top" overlay={tooltip} id={idRef.current}>
-      <a
-        className={cn(linkTypes[type], className)}
-        href={href}
-        rel={rel}
-        target={target}
-        aria-describedby={tooltip ? idRef.current : undefined}
-      >
-        {standalone ? (
-          <span className={styles.chevron}>
-            {children}
-            <Icon ariaLabel="Link" icon={ChevronRight} />
-          </span>
-        ) : (
-          children
-        )}
-      </a>
+    <Tooltip placement="top" content={tooltip} id={idRef.current}>
+      {(ref) => (
+        <a
+          className={cn(linkTypes[type], className)}
+          href={href}
+          rel={rel}
+          target={target}
+          aria-describedby={tooltip ? idRef.current : undefined}
+          ref={ref}
+        >
+          {standalone ? (
+            <span className={styles.chevron}>
+              {children}
+              <Icon ariaLabel="Link" icon={ChevronRight} />
+            </span>
+          ) : (
+            children
+          )}
+        </a>
+      )}
     </Tooltip>
   )
 }
