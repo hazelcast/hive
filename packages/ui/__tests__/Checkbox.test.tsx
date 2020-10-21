@@ -98,7 +98,7 @@ describe('Checkbox', () => {
     const onChange = jest.fn()
     const wrapper = await mountAndCheckA11Y(<Checkbox name="hello" onChange={onChange} label="Hello World" />)
 
-    expect(wrapper.find(Error).exists()).toBeFalsy()
+    expect(wrapper.find(Error).exists()).toBe(true)
     expect(wrapper.find('div').contains('Unexpected Error')).toBeFalsy()
   })
 })
