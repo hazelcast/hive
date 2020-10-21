@@ -12,11 +12,7 @@ $borderSize: 1px;
 
   // Outline on focus
   input:focus ~ .checkmark {
-    box-shadow: 0 0 0 c.$outlineWidth c.$colorAccessibilityOutline;
-    border: 1px solid transparent;
-
-    outline-color: transparent;
-    outline-width: c.$outlineWidth;
+    @include h.outlineFormField;
   }
 }
 
@@ -34,11 +30,11 @@ $borderSize: 1px;
 
 // default visible checkmark
 .checkmark {
-  width: $checkboxFontSize;
-  height: $checkboxFontSize;
+  width: c.$iconSize;
+  height: c.$iconSize;
   border: 1px solid c.$colorNeutralLight;
-  border-radius: 4px;
-  color: white;
+  border-radius: 25%;
+  color: c.$colorNeutralWhite;
   // because of ~ and + selectors used below, we need to keep the current order in DOM and
   // fix it visually with order property
   order: -1;
