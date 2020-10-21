@@ -61,19 +61,12 @@ export const Toast: FC<ToastProps> = ({ type, content, closeToast }) => {
         [styles.critical]: type === 'critical',
       })}
     >
-      <Icon ariaLabel={ariaLabel} className={styles.icon} icon={icon} />
+      <Icon ariaLabel={ariaLabel} icon={icon} className={styles.icon} />
       <div data-test="toast-content" className={styles.content}>
         {content}
       </div>
       {closeToast && (
-        <IconButton
-          data-test="toast-close"
-          className={styles.close}
-          iconClassName={styles.closeIcon}
-          iconAriaLabel="Close icon"
-          icon={X}
-          onClick={closeToast}
-        />
+        <IconButton data-test="toast-close" className={styles.close} iconAriaLabel="Close icon" icon={X} onClick={closeToast} />
       )}
     </div>
   )
