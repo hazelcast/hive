@@ -16,7 +16,7 @@ const linkTypes = {
   tooltip: styles.tooltip,
 }
 
-type AnchorAttirubutes = AnchorHTMLAttributes<HTMLAnchorElement>
+type AnchorAttributes = AnchorHTMLAttributes<HTMLAnchorElement>
 
 type LinkProps = (
   | {
@@ -30,8 +30,8 @@ type LinkProps = (
       standalone?: never
     }
 ) &
-  PartialRequired<AnchorAttirubutes, 'href'> &
-  Pick<AnchorAttirubutes, 'target' | 'rel' | 'className'> & {
+  PartialRequired<AnchorAttributes, 'href'> &
+  Pick<AnchorAttributes, 'target' | 'rel' | 'className'> & {
     children: ReactNode
   }
 

@@ -1,0 +1,101 @@
+@use '../styles/constants' as c;
+@use '../styles/helpers' as h;
+
+.alert {
+  display: inline-block;
+  border-radius: c.$borderRadius;
+  padding: c.$grid * 2.5;
+  width: c.$alertWidth;
+
+  .header {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .icon {
+      margin-right: c.$grid * 2.5;
+    }
+
+    .title {
+      margin-right: c.$grid * 8.5;
+
+      @include c.typographyHighlightFont;
+      @include c.typographyBodyNormal;
+      @include h.overflowEllipsis;
+    }
+
+    .close {
+      position: absolute;
+      right: 0;
+
+      &:hover,
+      &.hover {
+        background-color: transparent;
+        box-shadow: none;
+      }
+    }
+  }
+
+  .body {
+    padding: 0 c.$grid * 8.5;
+
+    @include c.typographyBodySmall;
+  }
+
+  /* Theme - Success */
+  &.success {
+    color: c.$colorNeutralWhite;
+    background-color: c.$colorSuccess;
+
+    .icon {
+      color: c.$colorNeutralWhite;
+    }
+
+    .closeIcon {
+      color: c.$colorNeutralWhite;
+    }
+  }
+
+  /* Theme - Info */
+  &.info {
+    color: c.$colorText;
+    background-color: c.$colorInfoLight;
+
+    .icon {
+      color: c.$colorInfoDark;
+    }
+
+    .closeIcon {
+      color: c.$colorText;
+    }
+  }
+
+  /* Theme - Warning */
+  &.warning {
+    color: c.$colorText;
+    background-color: c.$colorWarningLight;
+
+    .icon {
+      color: c.$colorWarningDark;
+    }
+
+    .closeIcon {
+      color: c.$colorText;
+    }
+  }
+
+  /* Theme - Critical */
+  &.critical {
+    color: c.$colorNeutralWhite;
+    background-color: c.$colorError;
+
+    .icon {
+      color: c.$colorNeutralWhite;
+    }
+
+    .closeIcon {
+      color: c.$colorNeutralWhite;
+    }
+  }
+}

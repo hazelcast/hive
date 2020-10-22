@@ -3,8 +3,10 @@
 $fontWeightLight: 300 !default;
 $fontWeightRegular: 400 !default;
 $fontWeightMedium: 500 !default;
+$fontWeightBold: 600 !default;
 
 $fontFamily: 'Roboto' !default;
+$fontFamilyOpenSans: 'Open Sans' !default;
 
 // https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=0%3A136
 $fontSizeH1: 2rem !default;
@@ -31,6 +33,10 @@ $lineHeightBodySmall: auto !default;
 @mixin typographyDefaultFont {
   font-family: $fontFamily, sans-serif;
   font-weight: $fontWeightRegular;
+}
+@mixin typographyHighlightFont {
+  font-family: $fontFamilyOpenSans, sans-serif;
+  font-weight: $fontWeightBold;
 }
 @mixin typographyH1 {
   font-size: $fontSizeH1;
