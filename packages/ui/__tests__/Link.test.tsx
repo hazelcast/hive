@@ -9,7 +9,7 @@ import styles from '../src/Link.module.scss'
 
 describe('Link', () => {
   it('Renders normal Link with correct props', async () => {
-    const wrapper = await mountAndCheckA11Y(<Link href="https://hazelcast.com/">Normal Link</Link>)
+    const wrapper = await mountAndCheckA11Y(<Link href="https://hazelcast.com/">Normal Text Link</Link>)
 
     const anchor = wrapper.find('a')
     expect(anchor.props()).toEqual({
@@ -17,14 +17,14 @@ describe('Link', () => {
       href: 'https://hazelcast.com/',
       rel: 'noopener noreferrer',
       target: '_blank',
-      children: ['Normal Link', undefined],
+      children: ['Normal Text Link', undefined],
     })
   })
 
   it('Renders normal Link with Icon with correct props', async () => {
     const wrapper = await mountAndCheckA11Y(
       <Link icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/">
-        Normal Link with Icon
+        Normal Text Link with Icon
       </Link>,
     )
 
@@ -36,7 +36,7 @@ describe('Link', () => {
       target: '_blank',
     })
 
-    expect(anchor.text()).toBe('Normal Link with Icon')
+    expect(anchor.text()).toBe('Normal Text Link with Icon')
     expect(anchor.find(Icon).props()).toEqual({
       icon: ChevronRight,
       ariaLabel: 'Chevron right',
@@ -64,7 +64,7 @@ describe('Link', () => {
   it('Renders small Link with Icon with correct props', async () => {
     const wrapper = await mountAndCheckA11Y(
       <Link size="small" icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/">
-        Small Link with Icon
+        Small Text Link with Icon
       </Link>,
     )
 
@@ -76,7 +76,7 @@ describe('Link', () => {
       target: '_blank',
     })
 
-    expect(anchor.text()).toBe('Small Link with Icon')
+    expect(anchor.text()).toBe('Small Text Link with Icon')
     expect(anchor.find(Icon).props()).toEqual({
       icon: ChevronRight,
       ariaLabel: 'Chevron right',
