@@ -1,12 +1,8 @@
 /* eslint-disable @typescript-eslint/require-await */
-import { mountAndCheckA11Y, MountOptions } from '@hazelcast/test-helpers'
+import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import React from 'react'
 
 import { Tooltip } from '../src/Tooltip'
-
-const mountOptions: MountOptions = {
-  act: 'async',
-}
 
 /**
  * There's a weird issue with react-popper that results in missing act() wrapper error.
@@ -26,7 +22,6 @@ describe('Tooltip', () => {
           )}
         </Tooltip>
       </div>,
-      mountOptions,
     )
 
     const tooltipOverlay = wrapper.find('[data-test="tooltip-overlay"]')
@@ -47,7 +42,6 @@ describe('Tooltip', () => {
           )}
         </Tooltip>
       </div>,
-      mountOptions,
     )
 
     expect(wrapper.find('[data-test="tooltip-overlay"]').exists()).toBeFalsy()
@@ -70,7 +64,6 @@ describe('Tooltip', () => {
           )}
         </Tooltip>
       </div>,
-      mountOptions,
     )
 
     let tooltipOverlay = wrapper.find('[data-test="tooltip-overlay"]')
@@ -106,7 +99,6 @@ describe('Tooltip', () => {
           )}
         </Tooltip>
       </div>,
-      mountOptions,
     )
 
     expect(wrapper.find('[data-test="tooltip-overlay"]').hasClass('hidden')).toBeFalsy()
