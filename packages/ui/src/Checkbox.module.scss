@@ -1,0 +1,74 @@
+@use '../styles/constants' as c;
+@use '../styles/helpers' as h;
+
+.wrapper {
+  display: inline-flex;
+  flex-direction: row;
+  user-select: none;
+  cursor: pointer;
+  font-weight: c.$fontWeightRegular;
+  @include c.typographyBodySmall;
+
+  // default visible checkmark
+  .checkmark {
+    width: c.$iconSizeSmall;
+    height: c.$iconSizeSmall;
+    border: c.$borderWidth solid c.$colorNeutralLight;
+    border-radius: c.$grid;
+    color: c.$colorNeutralWhite;
+    // because of ~ and + selectors used below, we need to keep the current order in DOM and
+    // fix it visually with order property
+    order: -1;
+  }
+
+  // hide native checkbox
+  input {
+    height: 0;
+    width: 0;
+    opacity: 0;
+    position: absolute;
+  }
+
+  input:checked ~ .checkmark {
+    background-color: c.$colorSuccessLight;
+    border-color: c.$colorSuccessLight;
+  }
+
+  input[aria-checked='mixed'] ~ .checkmark {
+    background-color: c.$colorPrimaryLight;
+    border-color: c.$colorPrimaryLight;
+  }
+
+  // Error state
+  &.error input ~ .checkmark {
+    border-color: c.$colorError;
+  }
+
+  .name {
+    padding-left: c.$grid * 1.25;
+  }
+}
+
+.wrapper:not(.checked) {
+  color: c.$colorTextSecondary;
+}
+
+/**
+  Disabled
+*/
+.wrapper.disabled {
+  color: c.$colorNeutralLight;
+}
+
+// Outline on focus
+label.wrapper.focus .checkmark,
+label.wrapper > input:focus ~ .checkmark {
+  @include h.outlineFormField;
+}
+
+label.wrapper.disabled > input:indeterminate ~ .checkmark,
+label.wrapper.disabled > input:checked ~ .checkmark {
+  background-color: c.$colorNeutral;
+  color: c.$colorNeutralWhite;
+  border-color: c.$colorNeutralLight;
+}
