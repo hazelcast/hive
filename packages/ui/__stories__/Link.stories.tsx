@@ -1,4 +1,5 @@
 import React from 'react'
+import { ChevronRight } from 'react-feather'
 
 import { Link } from '../src/Link'
 import styles from '../src/Link.module.scss'
@@ -8,170 +9,94 @@ export default {
   component: Link,
 }
 
-export const PrimaryStandalone = () => (
-  <Link type="primary" standalone href="https://hazelcast.com/">
-    Primary Link
-  </Link>
-)
-PrimaryStandalone.parameters = {
+export const Normal = () => <Link href="https://hazelcast.com/">Normal Text Link</Link>
+Normal.parameters = {
   design: {
     type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%93%90-Management-Center-Design-System?node-id=0%3A1778',
+    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=2875%3A0',
   },
 }
-export const PrimaryStandaloneHovered = () => (
-  <Link type="primary" standalone className={styles.hover} href="https://hazelcast.com/">
-    Primary Link
+export const NormalHovered = () => (
+  <Link href="https://hazelcast.com/" className={styles.hover}>
+    Normal Text Link
   </Link>
 )
-export const PrimaryStandaloneFocused = () => (
-  <Link type="primary" standalone className={styles.focus} href="https://hazelcast.com/">
-    Primary Link
+export const NormalFocused = () => (
+  <Link href="https://hazelcast.com/" className={styles.focus}>
+    Normal Text Link
   </Link>
 )
-export const PrimarStandaloneyActive = () => (
-  <Link type="primary" standalone className={styles.active} href="https://hazelcast.com/">
-    Primary Link
-  </Link>
-)
-export const Primary = () => (
-  <Link type="primary" href="https://hazelcast.com/">
-    Primary Link
-  </Link>
-)
-export const PrimaryHovered = () => (
-  <Link type="primary" className={styles.hover} href="https://hazelcast.com/">
-    Primary Link
-  </Link>
-)
-export const PrimaryFocused = () => (
-  <Link type="primary" className={styles.focus} href="https://hazelcast.com/">
-    Primary Link
-  </Link>
-)
-export const PrimaryActive = () => (
-  <Link type="primary" className={styles.active} href="https://hazelcast.com/">
-    Primary Link
+export const NormalActive = () => (
+  <Link href="https://hazelcast.com/" className={styles.active}>
+    Normal Text Link
   </Link>
 )
 
-export const SecondaryStandalone = () => (
-  <Link type="secondary" standalone href="https://hazelcast.com/">
-    Secondary Link
+export const NormalWithIcon = () => (
+  <Link icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/">
+    Normal Text Link
   </Link>
 )
-SecondaryStandalone.parameters = {
-  design: {
-    type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%93%90-Management-Center-Design-System?node-id=0%3A1787',
-  },
-}
-export const SecondaryStandaloneHovered = () => (
-  <Link type="secondary" standalone className={styles.hover} href="https://hazelcast.com/">
-    Secondary Link
+export const NormalWithIconHovered = () => (
+  <Link icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/" className={styles.hover}>
+    Normal Text Link
   </Link>
 )
-export const SecondaryStandaloneFocused = () => (
-  <Link type="secondary" standalone className={styles.focus} href="https://hazelcast.com/">
-    Secondary Link
+export const NormalWithIconFocused = () => (
+  <Link icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/" className={styles.focus}>
+    Normal Text Link
   </Link>
 )
-export const SecondaryStandaloneActive = () => (
-  <Link type="secondary" standalone className={styles.active} href="https://hazelcast.com/">
-    Secondary Link
-  </Link>
-)
-export const Secondary = () => (
-  <Link type="secondary" href="https://hazelcast.com/">
-    Secondary Link
-  </Link>
-)
-export const SecondaryHovered = () => (
-  <Link type="secondary" className={styles.hover} href="https://hazelcast.com/">
-    Secondary Link
-  </Link>
-)
-export const SecondaryFocused = () => (
-  <Link type="secondary" className={styles.focus} href="https://hazelcast.com/">
-    Secondary Link
-  </Link>
-)
-export const SecondaryActive = () => (
-  <Link type="secondary" className={styles.active} href="https://hazelcast.com/">
-    Secondary Link
+export const NormalWithIconActive = () => (
+  <Link icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/" className={styles.active}>
+    Normal Text Link
   </Link>
 )
 
-export const TertiaryStandalone = () => (
-  <Link type="tertiary" standalone href="https://hazelcast.com/">
-    Tertiary Link
+export const Small = () => (
+  <Link size="small" href="https://hazelcast.com/">
+    Small Text Link
   </Link>
 )
-TertiaryStandalone.parameters = {
+Small.parameters = {
   design: {
     type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%93%90-Management-Center-Design-System?node-id=0%3A1796',
+    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=2875%3A2',
   },
 }
-export const TertiaryStandaloneHovered = () => (
-  <Link type="tertiary" standalone href="https://hazelcast.com/" className={styles.hover}>
-    Tertiary Link
+export const SmallHovered = () => (
+  <Link size="small" href="https://hazelcast.com/" className={styles.hover}>
+    Small Text Link
   </Link>
 )
-export const TertiaryStandaloneFocused = () => (
-  <Link type="tertiary" standalone href="https://hazelcast.com/" className={styles.focus}>
-    Tertiary Link
+export const SmallFocused = () => (
+  <Link size="small" href="https://hazelcast.com/" className={styles.focus}>
+    Small Text Link
   </Link>
 )
-export const TertiaryStandaloneActive = () => (
-  <Link type="tertiary" standalone href="https://hazelcast.com/" className={styles.active}>
-    Tertiary Link
-  </Link>
-)
-export const Tertiary = () => (
-  <Link type="tertiary" href="https://hazelcast.com/">
-    Tertiary Link
-  </Link>
-)
-export const TertiaryHovered = () => (
-  <Link type="tertiary" href="https://hazelcast.com/" className={styles.hover}>
-    Tertiary Link
-  </Link>
-)
-export const TertiaryFocused = () => (
-  <Link type="tertiary" href="https://hazelcast.com/" className={styles.focus}>
-    Tertiary Link
-  </Link>
-)
-export const TertiaryActive = () => (
-  <Link type="tertiary" href="https://hazelcast.com/" className={styles.active}>
-    Tertiary Link
+export const SmallActive = () => (
+  <Link size="small" href="https://hazelcast.com/" className={styles.active}>
+    Small Text Link
   </Link>
 )
 
-export const Tooltip = () => (
-  <Link type="tooltip" tooltip="Visit Hazelcast Webpage" href="https://hazelcast.com/">
-    Tooltip Link
+export const SmallWithIcon = () => (
+  <Link size="small" icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/">
+    Small Text Link
   </Link>
 )
-Tooltip.parameters = {
-  design: {
-    type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%93%90-Management-Center-Design-System?node-id=0%3A1805',
-  },
-}
-export const TooltipHovered = () => (
-  <Link type="tooltip" tooltip="Visit Hazelcast Webpage" href="https://hazelcast.com/" className={styles.hover}>
-    Tooltip Link
+export const SmallWithIconHovered = () => (
+  <Link size="small" icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/" className={styles.hover}>
+    Small Text Link
   </Link>
 )
-export const TooltipFocused = () => (
-  <Link type="tooltip" tooltip="Visit Hazelcast Webpage" href="https://hazelcast.com/" className={styles.focus}>
-    Tooltip Link
+export const SmallWithIconFocused = () => (
+  <Link size="small" icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/" className={styles.focus}>
+    Small Text Link
   </Link>
 )
-export const TooltipActive = () => (
-  <Link type="tooltip" tooltip="Visit Hazelcast Webpage" href="https://hazelcast.com/" className={styles.active}>
-    Tooltip Link
+export const SmallWithIconActive = () => (
+  <Link size="small" icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/" className={styles.active}>
+    Small Text Link
   </Link>
 )

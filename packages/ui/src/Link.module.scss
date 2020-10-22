@@ -1,47 +1,29 @@
 @use '../styles/constants' as c;
 
-@mixin hover-focus-active {
-  // hover, focus and active classes are declared for internal use in storybook, see Link.stories.tsx
+@mixin link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: c.$colorPrimary;
+  text-decoration: none;
+
   &:hover,
-  &:focus,
-  &:active,
   &.hover,
+  &:focus,
   &.focus,
+  &:active,
   &.active {
-    text-decoration: none;
+    text-decoration: underline solid;
     outline: none;
   }
 }
 
-.primary {
-  color: c.$colorPrimary;
-  text-decoration: underline solid;
-
-  @include hover-focus-active;
+.normal {
+  @include link;
+  @include c.typographyBodyNormal;
 }
 
-.secondary {
-  color: c.$colorTextSecondary;
-  text-decoration: underline solid;
-
-  @include hover-focus-active;
-}
-
-.tertiary {
-  color: c.$colorTextSecondary;
-  text-decoration: underline solid;
-
-  @include hover-focus-active;
-}
-
-.tooltip {
-  color: c.$colorTextSecondary;
-  text-decoration: underline dotted;
-
-  @include hover-focus-active;
-}
-
-.chevron {
-  display: inline-flex;
-  align-items: center;
+.small {
+  @include link;
+  @include c.typographyBodySmall;
 }
