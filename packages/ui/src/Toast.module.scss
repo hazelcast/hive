@@ -1,0 +1,69 @@
+@use '../styles/constants' as c;
+
+.toast {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: c.$borderRadiusToast;
+  max-width: c.$toastMaxWidth;
+  padding: c.$grid * 1.5 c.$grid * 2.5;
+
+  .content {
+    word-break: break-all;
+    margin-left: c.$grid * 2.5;
+  }
+
+  .close {
+    margin-left: c.$grid * 2.5;
+
+    &:hover,
+    &.hover {
+      background-color: transparent;
+      box-shadow: none;
+    }
+  }
+
+  &.success {
+    background-color: c.$colorSuccess;
+    color: c.$colorNeutralWhite;
+
+    .closeIcon {
+      color: c.$colorNeutralWhite;
+    }
+  }
+
+  &.info {
+    background-color: c.$colorInfoLight;
+    color: c.$colorText;
+
+    .icon {
+      color: c.$colorInfoDark;
+    }
+
+    .closeIcon {
+      color: c.$colorText;
+    }
+  }
+
+  &.warning {
+    background-color: c.$colorWarningLight;
+    color: c.$colorText;
+
+    .icon {
+      color: c.$colorWarningDark;
+    }
+
+    .closeIcon {
+      color: c.$colorText;
+    }
+  }
+
+  &.critical {
+    background-color: c.$colorError;
+    color: c.$colorNeutralWhite;
+
+    .closeIcon {
+      color: c.$colorNeutralWhite;
+    }
+  }
+}
