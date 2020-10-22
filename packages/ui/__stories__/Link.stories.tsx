@@ -13,7 +13,7 @@ export const Normal = () => <Link href="https://hazelcast.com/">Normal Link</Lin
 Normal.parameters = {
   design: {
     type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%93%90-Management-Center-Design-System?node-id=0%3A1778',
+    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=2875%3A0',
   },
 }
 export const NormalHovered = () => (
@@ -61,7 +61,7 @@ export const Small = () => (
 Small.parameters = {
   design: {
     type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%93%90-Management-Center-Design-System?node-id=0%3A1787',
+    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=2875%3A2',
   },
 }
 export const SmallHovered = () => (
