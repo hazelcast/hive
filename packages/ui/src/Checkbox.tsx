@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, FocusEvent, useEffect, useRef } from 'react'
+import React, { AriaAttributes, ChangeEvent, FC, FocusEvent, useRef } from 'react'
 import styles from './Checkbox.module.scss'
 import { Check, Minus } from 'react-feather'
 import { DataTestProp } from '@hazelcast/helpers'
@@ -56,12 +56,10 @@ export const Checkbox: FC<CheckboxProps> = ({
   const inputRef = useRef<HTMLInputElement>(null)
   const idRef = useRef(uuid())
 
-  // we want to support indeterminate as a React property, but it needs to be set programatically
-  useEffect(() => {
-    if (inputRef?.current) {
-      inputRef.current.indeterminate = indeterminate
-    }
-  })
+  let ariaChecked: AriaAttributes['aria-checked'] = checked ? 'true' : 'false'
+  if (indeterminate) {
+    ariaChecked = 'mixed'
+  }
 
   return (
     <div className={className}>
@@ -92,6 +90,7 @@ export const Checkbox: FC<CheckboxProps> = ({
           onBlur={onBlur}
           value={value}
           disabled={disabled}
+          aria-checked={ariaChecked}
           aria-invalid={!!error}
           aria-required={required}
           aria-describedby={helperText && helpTooltipId(idRef.current)}

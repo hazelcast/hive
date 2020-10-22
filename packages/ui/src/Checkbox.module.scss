@@ -21,11 +21,6 @@
     order: -1;
   }
 
-  // Error state
-  &.error > .checkmark {
-    border-color: c.$colorError;
-  }
-
   // hide native checkbox
   input {
     height: 0;
@@ -39,9 +34,14 @@
     border-color: c.$colorSuccessLight;
   }
 
-  input:indeterminate ~ .checkmark {
+  input[aria-checked='mixed'] ~ .checkmark {
     background-color: c.$colorPrimaryLight;
     border-color: c.$colorPrimaryLight;
+  }
+
+  // Error state
+  &.error input ~ .checkmark {
+    border-color: c.$colorError;
   }
 
   .name {

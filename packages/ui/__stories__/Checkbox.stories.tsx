@@ -80,7 +80,18 @@ export const WithError = () => (
 )
 
 export const Indeterminate = () => (
-  <Checkbox checked label="Indeterminate" indeterminate name="someotherinput" onChange={(e) => logger.log('change', e.target.checked)} />
+  <Checkbox checked label="Indeterminate" indeterminate name="default" onChange={(e) => logger.log('change', e.target.checked)} />
+)
+
+export const IndeterminateWithError = () => (
+  <Checkbox
+    checked
+    label="Indeterminate"
+    error="Error message"
+    indeterminate
+    name="default"
+    onChange={(e) => logger.log('change', e.target.checked)}
+  />
 )
 
 export const IndeterminateDisabled = () => (
