@@ -11,15 +11,25 @@ export default {
 
 export const Default = () => {
   const [checked, setChecked] = useState<boolean>(true)
+  const [indeterminate, setIndeterminate] = useState<boolean>(false)
   return (
-    <Checkbox
-      name="default"
-      checked={checked}
-      label="Label"
-      onChange={(e) => {
-        setChecked(e.target.checked)
-      }}
-    />
+    <>
+      <Checkbox
+        name="default"
+        checked={checked}
+        indeterminate={indeterminate}
+        label="Label"
+        onChange={(e) => {
+          setChecked(e.target.checked)
+        }}
+      />
+      <hr />
+      <button onClick={() => setIndeterminate(!indeterminate)}>Toggle Indeterminate</button>
+      <ul>
+        <li>Checked: {checked ? 'True' : 'False'}</li>
+        <li>Indeterminate: {indeterminate ? 'True' : 'False'}</li>
+      </ul>
+    </>
   )
 }
 
@@ -70,7 +80,7 @@ export const WithError = () => (
 )
 
 export const Indeterminate = () => (
-  <Checkbox checked label="Indeterminate" indeterminate name="default" onChange={(e) => logger.log('change', e.target.checked)} />
+  <Checkbox checked label="Indeterminate" indeterminate name="someotherinput" onChange={(e) => logger.log('change', e.target.checked)} />
 )
 
 export const IndeterminateDisabled = () => (

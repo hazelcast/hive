@@ -22,7 +22,7 @@
   }
 
   // Error state
-  .error > .checkmark {
+  &.error > .checkmark {
     border-color: c.$colorError;
   }
 
