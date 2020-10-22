@@ -1,83 +1,45 @@
 import React, { ButtonHTMLAttributes, FC } from 'react'
 import cn from 'classnames'
-import { Icon } from 'react-feather'
 
+import { Icon, IconProps } from './Icon'
 import { TruncatedText } from './TruncatedText'
 
 import styles from './Button.module.scss'
 
 export type ButtonKind = 'primary' | 'secondary'
-/* 
-    | 'success'
-    | 'successSecondary'
-    | 'info'
-    | 'infoSecondary'
-    | 'warning'
-    | 'warningSecondary'
-    | 'dashed'
-    | 'critical'
-    | 'criticalSecondary'
-    | 'danger'
-   */
 
 // Left icon is always present with proper aria-label attribute
 type AccessibleIconLeftProps =
   | {
-      IconLeft: Icon
+      iconLeft: IconProps['icon']
       iconLeftAriaLabel: string
     }
   | {
-      IconLeft?: never
+      iconLeft?: never
       iconLeftAriaLabel?: never
     }
 
 // Right icon is always present with proper aria-label attribute
 type AccessibleIconRightProps =
   | {
-      IconRight: Icon
+      iconRight: IconProps['icon']
       iconRightAriaLabel: string
     }
   | {
-      IconRight?: never
+      iconRight?: never
       iconRightAriaLabel?: never
     }
 
 // Common props for all button "kinds"
-type ButtonKindCommonProps = {
+type ButtonCommonProps = {
+  kind?: ButtonKind
   children: string
 }
 
-// Primary and Secondary buttons share common behavior
-type ButtonKindPrimarySecondaryProps = {
-  kind?: 'primary' | 'secondary'
-} & ButtonKindCommonProps &
+export type ButtonProps = ButtonCommonProps &
   AccessibleIconLeftProps &
-  AccessibleIconRightProps
-
-/* 
-  // Dashed and Danger buttons share common behavior
-  type ButtonKindDashedDangerProps = {
-    kind?: 'dashed' | 'danger'
-    IconRight?: undefined
-    iconRightAriaLabel?: undefined
-  } & ButtonKindCommonProps &
-    AccessibleIconLeftProps
-
-  // Status button behavior
-  type ButtonKindStatusProps = {
-    kind?: 'success' | 'successSecondary' | 'info' | 'infoSecondary' | 'warning' | 'warningSecondary' | 'critical' | 'criticalSecondary'
-    IconLeft?: undefined
-    iconLeftAriaLabel?: undefined
-    IconRight?: undefined
-    iconRightAriaLabel?: undefined
-  } & ButtonKindCommonProps
-*/
-
-export type ButtonProps = ButtonKindPrimarySecondaryProps &
-  /* | ButtonKindDashedDangerProps | ButtonKindStatusProps */ Pick<
-    ButtonHTMLAttributes<HTMLButtonElement>,
-    'className' | 'autoFocus' | 'disabled' | 'type'
-  >
+  AccessibleIconRightProps &
+  Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'className' | 'autoFocus' | 'disabled' | 'type'>
 
 /**
  * ### Purpose
@@ -98,9 +60,9 @@ export type ButtonProps = ButtonKindPrimarySecondaryProps &
  */
 export const Button: FC<ButtonProps> = ({
   kind = 'primary',
-  IconLeft,
+  iconLeft,
   iconLeftAriaLabel,
-  IconRight,
+  iconRight,
   iconRightAriaLabel,
   className,
   children,
@@ -108,42 +70,21 @@ export const Button: FC<ButtonProps> = ({
 }) => (
   <button
     className={cn(className, styles.button, {
-      // Kind
-      // Kind === primary
       [styles.primary]: kind === 'primary',
-      // Kind === secondary
       [styles.secondary]: kind === 'secondary',
-      /*
-        // Kind === success
-        [styles.success]: kind === 'success' || kind === 'successSecondary',
-        [styles.successSecondary]: kind === 'successSecondary',
-        // Kind === info
-        [styles.info]: kind === 'info' || kind === 'infoSecondary',
-        [styles.infoSecondary]: kind === 'infoSecondary',
-        // Kind === warning
-        [styles.warning]: kind === 'warning' || kind === 'warningSecondary',
-        [styles.warningSecondary]: kind === 'warningSecondary',
-        // Kind === danger
-        [styles.critical]: kind === 'critical' || kind === 'criticalSecondary',
-        [styles.criticalSecondary]: kind === 'criticalSecondary',
-        // Kind === dashed
-        [styles.dashed]: kind === 'dashed',
-        // Kind === danger
-        [styles.danger]: kind === 'danger',
-      */
     })}
     {...rest}
   >
     <span className={styles.outline} />
     <span className={styles.body}>
-      {IconLeft && (
+      {iconLeft && iconLeftAriaLabel && (
         // Icon colour & size is defined in SCSS
-        <IconLeft aria-label={iconLeftAriaLabel} data-test="button-icon-left" className={cn(styles.icon, styles.iconLeft)} />
+        <Icon icon={iconLeft} ariaLabel={iconLeftAriaLabel} data-test="button-icon-left" className={cn(styles.icon, styles.iconLeft)} />
       )}
       <TruncatedText text={children.toUpperCase()} />
-      {IconRight && (
+      {iconRight && iconRightAriaLabel && (
         // Icon colour & size are defined in SCSS
-        <IconRight aria-label={iconRightAriaLabel} data-test="button-icon-right" className={cn(styles.icon, styles.iconRight)} />
+        <Icon icon={iconRight} ariaLabel={iconRightAriaLabel} data-test="button-icon-right" className={cn(styles.icon, styles.iconRight)} />
       )}
     </span>
   </button>
