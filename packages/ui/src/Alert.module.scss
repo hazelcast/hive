@@ -1,6 +1,7 @@
 @use '../styles/constants' as c;
 @use '../styles/helpers' as h;
 
+// TODO: potential max-height
 .alert {
   display: inline-block;
   border-radius: c.$borderRadius;
@@ -41,6 +42,15 @@
     padding: 0 c.$grid * 8.5;
 
     @include c.typographyBodySmall;
+
+    .actions {
+      display: flex;
+      margin: c.$grid * 3 0 c.$grid;
+
+      .action {
+        @include c.typographyBodySmall;
+      }
+    }
   }
 
   /* Theme - Success */
@@ -54,6 +64,12 @@
 
     .closeIcon {
       color: c.$colorNeutralWhite;
+    }
+
+    .actions {
+      .action {
+        color: c.$colorNeutralWhite;
+      }
     }
   }
 
@@ -69,6 +85,12 @@
     .closeIcon {
       color: c.$colorText;
     }
+
+    .actions {
+      .action {
+        color: c.$colorText;
+      }
+    }
   }
 
   /* Theme - Warning */
@@ -83,6 +105,12 @@
     .closeIcon {
       color: c.$colorText;
     }
+
+    .actions {
+      .action {
+        color: c.$colorText;
+      }
+    }
   }
 
   /* Theme - Critical */
@@ -96,6 +124,12 @@
 
     .closeIcon {
       color: c.$colorNeutralWhite;
+    }
+
+    .actions {
+      .action {
+        color: c.$colorNeutralWhite;
+      }
     }
   }
 }

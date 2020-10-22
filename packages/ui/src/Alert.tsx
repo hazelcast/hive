@@ -1,6 +1,6 @@
 import React, { AnchorHTMLAttributes, FC, ReactNode } from 'react'
 import cn from 'classnames'
-import { X } from 'react-feather'
+import { X, ChevronRight } from 'react-feather'
 
 import { PartialRequired } from '@hazelcast/helpers'
 
@@ -35,7 +35,6 @@ export const Alert: FC<AlertProps> = ({ type, title, content, actions, className
   return (
     <div
       className={cn(className, styles.alert, {
-        // Type
         [styles.success]: type === 'success',
         [styles.info]: type === 'info',
         [styles.warning]: type === 'warning',
@@ -59,13 +58,19 @@ export const Alert: FC<AlertProps> = ({ type, title, content, actions, className
         )}
       </div>
       <div data-test="alert-body" className={styles.body}>
-        <div data-test="alert-content" className={styles.content}>
-          {content}
-        </div>
+        <div data-test="alert-content">{content}</div>
         {actions?.length && (
           <div data-test="alert-actions" className={styles.actions}>
             {actions.map(({ text, href }, aI) => (
-              <Link key={aI} data-test="alert-action" className={styles.action} type="primary" href={href}>
+              <Link
+                key={aI}
+                data-test="alert-action"
+                className={styles.action}
+                type="primary"
+                href={href}
+                Icon={ChevronRight}
+                iconAriaLabel="Icon chevron right"
+              >
                 {text}
               </Link>
             ))}
