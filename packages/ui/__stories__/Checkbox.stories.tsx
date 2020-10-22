@@ -37,7 +37,7 @@ export const Unchecked = () => (
 export const FocusedUnchecked = () => (
   <Checkbox
     checked={false}
-    className={styles.focus}
+    classNameLabel={styles.focus}
     label="Label"
     name="default"
     onChange={(e) => logger.log('change', e.target.checked)}
@@ -45,7 +45,7 @@ export const FocusedUnchecked = () => (
 )
 
 export const FocusedChecked = () => (
-  <Checkbox checked className={styles.focus} label="Label" name="default" onChange={(e) => logger.log('change', e.target.checked)} />
+  <Checkbox checked classNameLabel={styles.focus} label="Label" name="default" onChange={(e) => logger.log('change', e.target.checked)} />
 )
 
 export const WithDescription = () => (
@@ -83,4 +83,11 @@ export const CheckedDisabled = () => (
 
 export const UncheckedDisabled = () => (
   <Checkbox checked={false} disabled label="Unchecked Disabled" name="default" onChange={(e) => logger.log('change', e.target.checked)} />
+)
+
+export const TwoCheckboxes = () => (
+  <div>
+    <Checkbox checked={false} disabled label="Unchecked Disabled" name="default" onChange={(e) => logger.log('change', e.target.checked)} />
+    <Checkbox checked label="Checked" name="default2" onChange={(e) => logger.log('change2', e.target.checked)} />
+  </div>
 )

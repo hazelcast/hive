@@ -23,6 +23,7 @@ export type CheckboxExtraProps = {
   disabled?: boolean
   required?: boolean
   className?: string
+  classNameLabel?: string
 }
 
 type CheckboxProps = CheckboxCoreProps & CheckboxExtraProps & DataTestProp
@@ -43,6 +44,7 @@ export const Checkbox: FC<CheckboxProps> = ({
   onChange,
   onBlur,
   className,
+  classNameLabel,
   value,
   indeterminate = false,
   label,
@@ -62,7 +64,7 @@ export const Checkbox: FC<CheckboxProps> = ({
   })
 
   return (
-    <span>
+    <span className={className}>
       {/* 
         We can only style forward elements based on input state (with ~ or +), has() is not supported yet.
         That's why we need to explicitly pass error/checked/disabled classes to the wrapper element.
@@ -75,7 +77,7 @@ export const Checkbox: FC<CheckboxProps> = ({
             [styles.checked]: checked,
             [styles.disabled]: disabled,
           },
-          className,
+          classNameLabel,
         )}
         htmlFor={idRef.current}
       >
