@@ -87,7 +87,13 @@ export const UncheckedDisabled = () => (
 
 export const TwoCheckboxes = () => (
   <div>
+    <Checkbox
+      checked
+      label="Checked"
+      name="default2"
+      error="This is an error message"
+      onChange={(e) => logger.log('change2', e.target.checked)}
+    />
     <Checkbox checked={false} disabled label="Unchecked Disabled" name="default" onChange={(e) => logger.log('change', e.target.checked)} />
-    <Checkbox checked label="Checked" name="default2" onChange={(e) => logger.log('change2', e.target.checked)} />
   </div>
 )

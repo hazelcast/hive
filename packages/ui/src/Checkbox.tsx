@@ -64,7 +64,7 @@ export const Checkbox: FC<CheckboxProps> = ({
   })
 
   return (
-    <span className={className}>
+    <div className={className}>
       {/* 
         We can only style forward elements based on input state (with ~ or +), has() is not supported yet.
         That's why we need to explicitly pass error/checked/disabled classes to the wrapper element.
@@ -101,6 +101,6 @@ export const Checkbox: FC<CheckboxProps> = ({
         {helperText && <Help parentId={idRef.current} helperText={helperText} />}
       </label>
       <Error error={error} className={classNames(styles.errorContainer)} inputId={idRef.current} />
-    </span>
+    </div>
   )
 }
