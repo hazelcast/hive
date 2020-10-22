@@ -71,25 +71,25 @@ PrimaryDisabled.parameters = {
   },
 }
 
-export const PrimaryiconLeft = () => (
+export const PrimaryIconLeft = () => (
   <Button kind="primary" iconLeft={Info} iconLeftAriaLabel="Info icon">
     Primary
   </Button>
 )
 
-export const PrimaryiconRight = () => (
+export const PrimaryIconRight = () => (
   <Button kind="primary" iconRight={ChevronDown} iconRightAriaLabel="Chevron icon">
     Primary
   </Button>
 )
 
-export const PrimaryiconBoth = () => (
+export const PrimaryIconBoth = () => (
   <Button kind="primary" iconLeft={Info} iconLeftAriaLabel="Info icon" iconRight={ChevronDown} iconRightAriaLabel="Chevron icon">
     Primary
   </Button>
 )
 
-export const PrimaryiconBothHovered = () => (
+export const PrimaryIconBothHovered = () => (
   <Button
     className={styles.hover}
     kind="primary"
@@ -102,7 +102,7 @@ export const PrimaryiconBothHovered = () => (
   </Button>
 )
 
-export const PrimaryiconBothFocused = () => (
+export const PrimaryIconBothFocused = () => (
   <Button
     className={styles.focus}
     kind="primary"
@@ -115,7 +115,7 @@ export const PrimaryiconBothFocused = () => (
   </Button>
 )
 
-export const PrimaryiconBothActive = () => (
+export const PrimaryIconBothActive = () => (
   <Button
     className={styles.active}
     kind="primary"
@@ -161,25 +161,25 @@ export const SecondaryDisabled = () => (
   </Button>
 )
 
-export const SecondaryiconLeft = () => (
+export const SecondaryIconLeft = () => (
   <Button kind="secondary" iconLeft={Info} iconLeftAriaLabel="Info icon">
     Secondary
   </Button>
 )
 
-export const SecondaryiconRight = () => (
+export const SecondaryIconRight = () => (
   <Button kind="secondary" iconRight={ChevronDown} iconRightAriaLabel="Chevron icon">
     Secondary
   </Button>
 )
 
-export const SecondaryiconBoth = () => (
+export const SecondaryIconBoth = () => (
   <Button kind="secondary" iconLeft={Info} iconLeftAriaLabel="Info icon" iconRight={ChevronDown} iconRightAriaLabel="Chevron icon">
     Secondary
   </Button>
 )
 
-export const SecondaryiconBothHovered = () => (
+export const SecondaryIconBothHovered = () => (
   <Button
     className={styles.hover}
     kind="secondary"
@@ -192,7 +192,7 @@ export const SecondaryiconBothHovered = () => (
   </Button>
 )
 
-export const SecondaryiconBothFocused = () => (
+export const SecondaryIconBothFocused = () => (
   <Button
     className={styles.focus}
     kind="secondary"
@@ -205,7 +205,7 @@ export const SecondaryiconBothFocused = () => (
   </Button>
 )
 
-export const SecondaryiconBothActive = () => (
+export const SecondaryIconBothActive = () => (
   <Button
     className={styles.active}
     kind="secondary"
