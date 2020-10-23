@@ -1,53 +1,29 @@
 @use '../styles/constants' as c;
 
-@mixin justifyAlign {
+@mixin link {
   display: flex;
   justify-content: center;
   align-items: center;
-}
+  color: c.$colorPrimary;
+  text-decoration: none;
 
-@mixin hoverFocusActive {
   &:hover,
   &.hover,
   &:focus,
   &.focus,
   &:active,
   &.active {
-    text-decoration: none;
+    text-decoration: underline solid;
     outline: none;
   }
 }
 
-.regular {
-  color: c.$colorPrimary;
-  text-decoration: underline solid;
-
+.normal {
+  @include link;
   @include c.typographyBodyNormal;
-
-  @include justifyAlign;
-
-  @include hoverFocusActive;
-
-  .icon {
-    width: c.$grid * 5;
-    height: c.$grid * 5;
-    flex-shrink: 0;
-  }
 }
 
 .small {
-  color: c.$colorPrimary;
-  text-decoration: underline solid;
-
+  @include link;
   @include c.typographyBodySmall;
-
-  @include justifyAlign;
-
-  @include hoverFocusActive;
-
-  .icon {
-    width: c.$grid * 4;
-    height: c.$grid * 4;
-    flex-shrink: 0;
-  }
 }

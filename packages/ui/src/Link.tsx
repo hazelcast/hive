@@ -1,12 +1,13 @@
 import React, { AnchorHTMLAttributes, FC, ReactNode } from 'react'
-import { Icon as IconProp } from 'react-feather'
+import { Icon as FeatherIcon } from 'react-feather'
 import cn from 'classnames'
 import { PartialRequired } from '@hazelcast/helpers'
 
 import styles from './Link.module.scss'
+import { Icon } from './Icon'
 
 const sizes = {
-  regular: styles.regular,
+  normal: styles.normal,
   small: styles.small,
 }
 
@@ -14,11 +15,11 @@ type AnchorAttributes = AnchorHTMLAttributes<HTMLAnchorElement>
 
 type IconProps =
   | {
-      Icon: IconProp
+      icon: FeatherIcon
       iconAriaLabel: string
     }
   | {
-      Icon?: never
+      icon?: never
       iconAriaLabel?: never
     }
 
@@ -40,8 +41,8 @@ type LinkProps = IconProps & {
  * - Link can be used as a stand-alone component with right chevron icon.
  */
 export const Link: FC<LinkProps> = ({
-  size = 'regular',
-  Icon,
+  size = 'normal',
+  icon,
   iconAriaLabel,
   href,
   rel = 'noopener noreferrer',
@@ -50,13 +51,7 @@ export const Link: FC<LinkProps> = ({
   children,
 }) => (
   <a className={cn(styles[size], className)} href={href} rel={rel} target={target}>
-    {Icon ? (
-      <>
-        {children}
-        <Icon aria-label={iconAriaLabel} className={styles.icon} />
-      </>
-    ) : (
-      children
-    )}
+    {children}
+    {icon && iconAriaLabel && <Icon icon={icon} ariaLabel={iconAriaLabel} size={size} />}
   </a>
 )

@@ -9,94 +9,94 @@ export default {
   component: Link,
 }
 
-export const Regular = () => <Link href="https://hazelcast.com/">Primary Link</Link>
-Regular.parameters = {
+export const Normal = () => <Link href="https://hazelcast.com/">Normal Text Link</Link>
+Normal.parameters = {
   design: {
     type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%93%90-Management-Center-Design-System?node-id=0%3A1778',
+    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=2875%3A0',
   },
 }
-export const RegularHovered = () => (
+export const NormalHovered = () => (
   <Link href="https://hazelcast.com/" className={styles.hover}>
-    Primary Link
+    Normal Text Link
   </Link>
 )
-export const RegularFocused = () => (
+export const NormalFocused = () => (
   <Link href="https://hazelcast.com/" className={styles.focus}>
-    Primary Link
+    Normal Text Link
   </Link>
 )
-export const RegularActive = () => (
+export const NormalActive = () => (
   <Link href="https://hazelcast.com/" className={styles.active}>
-    Primary Link
+    Normal Text Link
   </Link>
 )
 
-export const RegularWithIcon = () => (
-  <Link Icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/">
-    Primary Link
+export const NormalWithIcon = () => (
+  <Link icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/">
+    Normal Text Link
   </Link>
 )
-export const RegularWithIconHovered = () => (
-  <Link Icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/" className={styles.hover}>
-    Primary Link
+export const NormalWithIconHovered = () => (
+  <Link icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/" className={styles.hover}>
+    Normal Text Link
   </Link>
 )
-export const RegularWithIconFocused = () => (
-  <Link Icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/" className={styles.focus}>
-    Primary Link
+export const NormalWithIconFocused = () => (
+  <Link icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/" className={styles.focus}>
+    Normal Text Link
   </Link>
 )
-export const RegularWithIconActive = () => (
-  <Link Icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/" className={styles.active}>
-    Primary Link
+export const NormalWithIconActive = () => (
+  <Link icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/" className={styles.active}>
+    Normal Text Link
   </Link>
 )
 
 export const Small = () => (
   <Link size="small" href="https://hazelcast.com/">
-    Secondary Link
+    Small Text Link
   </Link>
 )
 Small.parameters = {
   design: {
     type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%93%90-Management-Center-Design-System?node-id=0%3A1787',
+    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=2875%3A2',
   },
 }
 export const SmallHovered = () => (
   <Link size="small" href="https://hazelcast.com/" className={styles.hover}>
-    Secondary Link
+    Small Text Link
   </Link>
 )
 export const SmallFocused = () => (
   <Link size="small" href="https://hazelcast.com/" className={styles.focus}>
-    Secondary Link
+    Small Text Link
   </Link>
 )
 export const SmallActive = () => (
   <Link size="small" href="https://hazelcast.com/" className={styles.active}>
-    Secondary Link
+    Small Text Link
   </Link>
 )
 
 export const SmallWithIcon = () => (
-  <Link size="small" Icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/">
-    Secondary Link
+  <Link size="small" icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/">
+    Small Text Link
   </Link>
 )
 export const SmallWithIconHovered = () => (
-  <Link size="small" Icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/" className={styles.hover}>
-    Secondary Link
+  <Link size="small" icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/" className={styles.hover}>
+    Small Text Link
   </Link>
 )
 export const SmallWithIconFocused = () => (
-  <Link size="small" Icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/" className={styles.focus}>
-    Secondary Link
+  <Link size="small" icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/" className={styles.focus}>
+    Small Text Link
   </Link>
 )
 export const SmallWithIconActive = () => (
-  <Link size="small" Icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/" className={styles.active}>
-    Secondary Link
+  <Link size="small" icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/" className={styles.active}>
+    Small Text Link
   </Link>
 )
