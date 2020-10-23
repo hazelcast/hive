@@ -131,5 +131,22 @@
         color: c.$colorNeutralWhite;
       }
     }
+
+    .copyButton {
+      color: c.$colorNeutralWhite;
+      padding: 0;
+      margin-right: c.$grid * 6;
+      min-height: unset;
+      @include c.typographyBodySmall;
+
+      :hover,
+      .hover {
+        text-decoration: underline solid;
+      }
+
+      .copyButtonIcon {
+        margin-right: c.$grid * 1.5;
+      }
+    }
   }
 }

@@ -46,12 +46,6 @@
     cursor: not-allowed;
   }
 
-  .icon {
-    width: c.$grid * 6;
-    height: c.$grid * 6;
-    flex-shrink: 0;
-  }
-
   .iconLeft {
     margin-right: c.$grid * 2;
   }
@@ -126,5 +120,11 @@
       color: c.$colorTextSecondary;
       border-color: c.$colorNeutral;
     }
+  }
+
+  // Kind === transparent
+  &.transparent {
+    color: c.$colorText;
+    background-color: transparent;
   }
 }

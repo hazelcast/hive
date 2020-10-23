@@ -6,17 +6,23 @@ import { TruncatedText } from './TruncatedText'
 
 import styles from './Button.module.scss'
 
-export type ButtonKind = 'primary' | 'secondary'
+export type ButtonKind = 'primary' | 'secondary' | 'transparent'
 
 // Left icon is always present with proper aria-label attribute
 type AccessibleIconLeftProps =
   | {
       iconLeft: IconProps['icon']
       iconLeftAriaLabel: string
+      iconLeftSize?: IconProps['size']
+      iconLeftColor?: IconProps['color']
+      iconLeftClassName?: string
     }
   | {
       iconLeft?: never
       iconLeftAriaLabel?: never
+      iconLeftSize?: never
+      iconLeftColor?: never
+      iconLeftClassName?: never
     }
 
 // Right icon is always present with proper aria-label attribute
@@ -24,16 +30,23 @@ type AccessibleIconRightProps =
   | {
       iconRight: IconProps['icon']
       iconRightAriaLabel: string
+      iconRightSize?: IconProps['size']
+      iconRightColor?: IconProps['color']
+      iconRightClassName?: string
     }
   | {
       iconRight?: never
       iconRightAriaLabel?: never
+      iconRightSize?: never
+      iconRightColor?: never
+      iconRightClassName?: never
     }
 
 // Common props for all button "kinds"
 type ButtonCommonProps = {
   kind?: ButtonKind
   children: string
+  capitalize?: boolean
 }
 
 export type ButtonProps = ButtonCommonProps &
@@ -60,18 +73,28 @@ export type ButtonProps = ButtonCommonProps &
  */
 export const Button: FC<ButtonProps> = ({
   kind = 'primary',
-  iconLeft,
-  iconLeftAriaLabel,
-  iconRight,
-  iconRightAriaLabel,
   className,
   children,
+  capitalize = true,
+  // Left icon
+  iconLeft,
+  iconLeftAriaLabel,
+  iconLeftSize,
+  iconLeftColor,
+  iconLeftClassName,
+  // Right icon
+  iconRight,
+  iconRightAriaLabel,
+  iconRightSize,
+  iconRightColor,
+  iconRightClassName,
   ...rest
 }) => (
   <button
     className={cn(className, styles.button, {
       [styles.primary]: kind === 'primary',
       [styles.secondary]: kind === 'secondary',
+      [styles.transparent]: kind === 'transparent',
     })}
     {...rest}
   >
@@ -79,12 +102,26 @@ export const Button: FC<ButtonProps> = ({
     <span className={styles.body}>
       {iconLeft && iconLeftAriaLabel && (
         // Icon colour & size is defined in SCSS
-        <Icon icon={iconLeft} ariaLabel={iconLeftAriaLabel} data-test="button-icon-left" className={cn(styles.icon, styles.iconLeft)} />
+        <Icon
+          icon={iconLeft}
+          ariaLabel={iconLeftAriaLabel}
+          data-test="button-icon-left"
+          className={cn(styles.iconLeft, iconLeftClassName)}
+          size={iconLeftSize}
+          color={iconLeftColor}
+        />
       )}
-      <TruncatedText text={children.toUpperCase()} />
+      <TruncatedText text={capitalize ? children.toUpperCase() : children} />
       {iconRight && iconRightAriaLabel && (
         // Icon colour & size are defined in SCSS
-        <Icon icon={iconRight} ariaLabel={iconRightAriaLabel} data-test="button-icon-right" className={cn(styles.icon, styles.iconRight)} />
+        <Icon
+          icon={iconRight}
+          ariaLabel={iconRightAriaLabel}
+          data-test="button-icon-right"
+          className={cn(styles.iconRight, iconRightClassName)}
+          size={iconRightSize}
+          color={iconRightColor}
+        />
       )}
     </span>
   </button>

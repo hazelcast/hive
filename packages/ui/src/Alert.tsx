@@ -5,17 +5,28 @@ import { X, ChevronRight, Clipboard } from 'react-feather'
 import { PartialRequired } from '@hazelcast/helpers'
 
 import { Link } from './Link'
+import { Button } from './Button'
 import { ToastIcon, ToastType } from './Toast'
 import { Icon } from './Icon'
 import { IconButton } from './IconButton'
 
+import styleConsts from '../styles/constants/export.scss'
+
 import styles from './Alert.module.scss'
 
 const CriticalCopyButton = () => (
-  <button className={styles.copyButton} type="button">
-    <Icon className={styles.copyButtonIcon} icon={Clipboard} ariaLabel="Icon copy to clipboard" size="small" />
+  <Button
+    kind="transparent"
+    capitalize={false}
+    className={styles.copyButton}
+    iconLeft={Clipboard}
+    iconLeftAriaLabel="Icon copy to clipboard"
+    iconLeftClassName={styles.copyButtonIcon}
+    iconLeftSize="small"
+    iconLeftColor={styleConsts.colorNeutralWhite}
+  >
     Copy
-  </button>
+  </Button>
 )
 
 type AnchorAttributes = AnchorHTMLAttributes<HTMLAnchorElement>
