@@ -61,7 +61,7 @@ export const Toast: FC<ToastProps> = ({ type, content, closeToast }) => {
         [styles.critical]: type === 'critical',
       })}
     >
-      <Icon ariaLabel={ariaLabel} icon={icon} className={styles.icon} />
+      <Icon data-test="toast-icon" ariaLabel={ariaLabel} icon={icon} className={styles.icon} />
       <div data-test="toast-content" className={styles.content}>
         {content}
       </div>

@@ -38,40 +38,6 @@
     }
   }
 
-  .body {
-    padding: 0 c.$grid * 8.5;
-
-    @include c.typographyBodySmall;
-
-    .actions {
-      display: flex;
-      margin: c.$grid * 3 0 c.$grid;
-
-      .action {
-        @include c.typographyBodySmall;
-
-        &:not(:last-child) {
-          margin-right: c.$grid * 6;
-        }
-      }
-
-      .actionButton {
-        color: c.$colorNeutralWhite;
-        padding: 0;
-        min-height: unset;
-
-        &:hover,
-        &.hover {
-          text-decoration: underline solid;
-        }
-
-        .actionButtonIcon {
-          margin-right: c.$grid * 1.5;
-        }
-      }
-    }
-  }
-
   /* Theme - Success */
   &.success {
     color: c.$colorNeutralWhite;
@@ -148,6 +114,40 @@
     .actions {
       .action {
         color: c.$colorNeutralWhite;
+      }
+    }
+  }
+
+  .body {
+    padding: 0 c.$grid * 8.5;
+
+    @include c.typographyBodySmall;
+
+    .actions {
+      display: flex;
+      margin: c.$grid * 3 0 c.$grid;
+
+      .action {
+        &:not(:last-child) {
+          margin-right: c.$grid * 6;
+        }
+      }
+
+      .actionButton {
+        color: c.$colorNeutralWhite;
+        padding: 0;
+        min-height: unset;
+
+        @include c.typographyBodySmall;
+
+        &:hover,
+        &.hover {
+          text-decoration: underline solid;
+        }
+
+        .actionButtonIcon {
+          margin-right: c.$grid * 1.5;
+        }
       }
     }
   }

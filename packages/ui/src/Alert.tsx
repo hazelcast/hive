@@ -49,6 +49,7 @@ export const Alert: FC<AlertProps> = ({ type, title, content, actions, className
 
   return (
     <div
+      data-test="alert"
       className={cn(className, styles.alert, {
         [styles.success]: type === 'success',
         [styles.info]: type === 'info',
@@ -57,20 +58,18 @@ export const Alert: FC<AlertProps> = ({ type, title, content, actions, className
       })}
     >
       <div className={styles.header}>
-        <Icon ariaLabel={ariaLabel} icon={icon} className={styles.icon} />
+        <Icon data-test="alert-icon" ariaLabel={ariaLabel} icon={icon} className={styles.icon} />
         <div data-test="alert-title" className={styles.title}>
           {title}
         </div>
-        {closeToast && (
-          <IconButton
-            data-test="alert-close"
-            className={styles.close}
-            iconClassName={styles.closeIcon}
-            iconAriaLabel="Close icon"
-            icon={X}
-            onClick={closeToast}
-          />
-        )}
+        <IconButton
+          data-test="alert-close"
+          className={styles.close}
+          iconClassName={styles.closeIcon}
+          iconAriaLabel="Close icon"
+          icon={X}
+          onClick={closeToast}
+        />
       </div>
       <div data-test="alert-body" className={styles.body}>
         <div data-test="alert-content">{content}</div>
@@ -82,6 +81,7 @@ export const Alert: FC<AlertProps> = ({ type, title, content, actions, className
 
                 // TODO: Resolve type
                 return (
+                  // @ts-ignore
                   <Button
                     key={aI}
                     kind="transparent"
@@ -101,7 +101,15 @@ export const Alert: FC<AlertProps> = ({ type, title, content, actions, className
               const { text, href } = action
 
               return (
-                <Link key={aI} type="primary" href={href} Icon={ChevronRight} iconAriaLabel="Icon chevron right" className={styles.action}>
+                <Link
+                  key={aI}
+                  type="primary"
+                  href={href}
+                  icon={ChevronRight}
+                  iconAriaLabel="Icon chevron right"
+                  className={styles.action}
+                  size="small"
+                >
                   {text}
                 </Link>
               )

@@ -1,121 +1,104 @@
 import { mount } from 'enzyme'
+import { act } from 'react-dom/test-utils'
 import React from 'react'
-import { AlertTriangle, CheckCircle, Info, ReactFeatherIcon, X } from 'react-feather'
-import { Alert, AlertType, AlertAction, AlertActions } from '../Alert'
-import { Button, ButtonStatusKindModifier } from '../Button'
+import { AlertTriangle, CheckCircle, Info, Clipboard, AlertCircle } from 'react-feather'
+import { ToastType, IconDescriptor } from '../src/Toast'
+import { Alert, AlertActionButton, AlertActionLink } from '../src/Alert'
 
 const title = 'Alert Title'
 const content = 'Alert Content'
-const onClose = jest.fn()
+const noOp = jest.fn()
 
-const AlertAction1: AlertAction = {
-  text: 'Action 1',
-  onClick: onClose,
+const AlertAction1: AlertActionButton = {
+  text: 'Copy',
+  onClick: noOp,
+  icon: Clipboard,
+  iconAriaLabel: 'Icon copy to clipboard',
 }
 
-const AlertAction2: AlertAction = {
-  text: 'Action 2',
-  onClick: onClose,
+const AlertAction2: AlertActionLink = {
+  text: 'Link',
+  href: '#',
 }
-
-const AlertActions1: AlertActions = [AlertAction1]
-
-const AlertActions2: AlertActions = [AlertAction1, AlertAction2]
 
 describe('Alert', () => {
-  const alertBasicTestData: [AlertType, ReactFeatherIcon][] = [
-    ['success', CheckCircle],
-    ['info', Info],
-    ['warning', AlertTriangle],
-    ['critical', Info],
+  const alertBasicTestData: [ToastType, IconDescriptor][] = [
+    [
+      'success',
+      {
+        icon: CheckCircle,
+        ariaLabel: 'Check circle icon',
+      },
+    ],
+    [
+      'info',
+      {
+        icon: Info,
+        ariaLabel: 'Info circle icon',
+      },
+    ],
+    [
+      'warning',
+      {
+        icon: AlertTriangle,
+        ariaLabel: 'Warning triangle icon',
+      },
+    ],
+    [
+      'critical',
+      {
+        icon: AlertCircle,
+        ariaLabel: 'Info critical circle icon',
+      },
+    ],
   ]
 
-  it.each(alertBasicTestData)('Renders %s Alert with correct icon and title', (type, Icon) => {
-    const wrapper = mount(<Alert type={type} title={title} />)
+  it.each(alertBasicTestData)('Renders %s Alert with correct theme class, icon, title and content', (type, { icon, ariaLabel }) => {
+    const wrapper = mount(<Alert type={type} title={title} content={content} closeToast={noOp} />)
 
     const AlertElement = wrapper.find(Alert)
 
-    expect(AlertElement.exists()).toBeTruthy()
+    expect(AlertElement.findDataTest('alert').prop('className')).toBe(`alert ${type}`)
     expect(AlertElement.findDataTest('alert-title').text()).toBe(title)
-
-    expect(wrapper.find(Icon).exists()).toBeTruthy()
-
-    expect(wrapper.findDataTest('alert-close').exists()).toBeFalsy()
-    expect(wrapper.findDataTest('alert-body').exists()).toBeFalsy()
-  })
-
-  it('Renders X as "Close" button when "onClose" is passed', () => {
-    const wrapper = mount(<Alert type="success" title={title} onClose={onClose} />)
-
-    const AlertElement = wrapper.find(Alert)
-
-    expect(AlertElement.exists()).toBeTruthy()
-    expect(AlertElement.findDataTest('alert-title').text()).toBe(title)
-
+    expect(AlertElement.findDataTest('alert-content').props()).toMatchObject({
+      children: content,
+    })
+    expect(wrapper.findDataTest('alert-icon').props()).toMatchObject({
+      icon,
+      ariaLabel,
+    })
     expect(wrapper.findDataTest('alert-close').exists()).toBeTruthy()
-    expect(wrapper.findDataTest('alert-close').find(X).exists()).toBeTruthy()
-
-    expect(wrapper.findDataTest('alert-body').exists()).toBeFalsy()
-  })
-
-  it('Renders alert body with content, when "content" is passed', () => {
-    const wrapper = mount(<Alert type="success" title={title} content={content} />)
-
-    const AlertElement = wrapper.find(Alert)
-
-    expect(AlertElement.exists()).toBeTruthy()
-    expect(AlertElement.findDataTest('alert-title').text()).toBe(title)
-
-    expect(wrapper.findDataTest('alert-close').exists()).toBeFalsy()
-
-    expect(wrapper.findDataTest('alert-body').exists()).toBeTruthy()
-    expect(wrapper.findDataTest('alert-content').exists()).toBeTruthy()
-    expect(wrapper.findDataTest('alert-content').text()).toBe(content)
     expect(wrapper.findDataTest('alert-actions').exists()).toBeFalsy()
   })
 
-  const alertActionsTestData: [string, string, AlertActions, ButtonStatusKindModifier[]][] = [
-    ['primary', '1 action is', AlertActions1, ['primary']],
-    ['primary and secondary', '2 actions are', AlertActions2, ['primary', 'secondary']],
-  ]
+  it('Close button calls closeToast prop handler', () => {
+    const closeToast = jest.fn()
 
-  it.each(alertActionsTestData)('Renders alert body with %s action button, when %s passed', (_, __, Actions, statusKindModifiers) => {
-    const wrapper = mount(<Alert type="success" title={title} actions={Actions} />)
+    const wrapper = mount(<Alert type="success" title={title} content={content} closeToast={closeToast} />)
 
-    const AlertElement = wrapper.find(Alert)
+    expect(closeToast).toHaveBeenCalledTimes(0)
 
-    expect(AlertElement.exists()).toBeTruthy()
-    expect(AlertElement.findDataTest('alert-title').text()).toBe(title)
+    act(() => {
+      wrapper.findDataTest('alert-close').at(1).simulate('click')
+    })
+    wrapper.update()
 
-    expect(wrapper.findDataTest('alert-close').exists()).toBeFalsy()
-
-    expect(wrapper.findDataTest('alert-body').exists()).toBeTruthy()
-    expect(wrapper.findDataTest('alert-content').exists()).toBeFalsy()
-
-    expect(wrapper.findDataTest('alert-actions').exists()).toBeTruthy()
-    expect(wrapper.findDataTest('alert-actions').children()).toHaveLength(Actions.length)
-
-    wrapper
-      .findDataTest('alert-action')
-      .find(Button)
-      .forEach((action, aI) => {
-        expect(action.prop('statusKindModifier')).toBe(statusKindModifiers[aI])
-        expect(action.text()).toBe(Actions[aI].text)
-      })
+    expect(closeToast).toHaveBeenCalledTimes(1)
   })
 
-  it('Renders alert body with content and buttons, when "content" and "actions" is passed', () => {
-    const wrapper = mount(<Alert type="success" title={title} content={content} actions={AlertActions1} />)
+  const alertActionsTestData = [
+    ['1 action', [AlertAction1]],
+    ['2 actions', [AlertAction1, AlertAction2]],
+  ]
 
-    const AlertElement = wrapper.find(Alert)
+  it.each(alertActionsTestData)('Renders Alert with %s', (_, actions) => {
+    const wrapper = mount(<Alert type="success" title={title} content={content} closeToast={noOp} />)
 
-    expect(AlertElement.exists()).toBeTruthy()
-    expect(AlertElement.findDataTest('alert-title').text()).toBe(title)
-
-    expect(wrapper.findDataTest('alert-close').exists()).toBeFalsy()
-
-    expect(wrapper.findDataTest('alert-body').exists()).toBeTruthy()
-    expect(wrapper.findDataTest('alert-content').exists()).toBeTruthy()
-    expect(wrapper.findDataTest('alert-actions').exists()).toBeTruthy()
+    wrapper
+      .findDataTest('alert-actions')
+      .children()
+      .forEach((child, cI) => {
+        expect(child.props()).toMatchObject(actions[cI])
+      })
   })
 })
