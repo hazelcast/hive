@@ -1,55 +1,51 @@
 import React, { AnchorHTMLAttributes, FC, ReactNode } from 'react'
 import cn from 'classnames'
-import { X, ChevronRight, Clipboard } from 'react-feather'
+import { X, ChevronRight } from 'react-feather'
 
 import { PartialRequired } from '@hazelcast/helpers'
 
 import { Link } from './Link'
 import { Button } from './Button'
 import { ToastIcon, ToastType } from './Toast'
-import { Icon } from './Icon'
+import { Icon, IconProps } from './Icon'
 import { IconButton } from './IconButton'
-
-import styleConsts from '../styles/constants/export.scss'
 
 import styles from './Alert.module.scss'
 
-const CriticalCopyButton = () => (
-  <Button
-    kind="transparent"
-    capitalize={false}
-    className={styles.copyButton}
-    iconLeft={Clipboard}
-    iconLeftAriaLabel="Icon copy to clipboard"
-    iconLeftClassName={styles.copyButtonIcon}
-    iconLeftSize="small"
-    iconLeftColor={styleConsts.colorNeutralWhite}
-  >
-    Copy
-  </Button>
-)
+type AccessibleActionButtonIconProps =
+  | {
+      icon: IconProps['icon']
+      iconAriaLabel: string
+    }
+  | {
+      icon?: never
+      iconAriaLabel?: never
+    }
 
-type AnchorAttributes = AnchorHTMLAttributes<HTMLAnchorElement>
-
-export type AlertAction = {
+export type AlertActionButton = {
   text: string
-} & PartialRequired<AnchorAttributes, 'href'>
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void
+} & AccessibleActionButtonIconProps
 
-export type AlertActions = [] | [AlertAction]
+export type AlertActionLink = {
+  text: string
+} & PartialRequired<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>
 
-type AlertProps = {
+export type AlertAction = AlertActionButton | AlertActionLink
+
+const isAlertActionButton = (action: AlertAction): action is AlertActionButton => (action as AlertActionButton).onClick !== undefined
+
+export type AlertProps = {
   type: ToastType
   title: string
   content: ReactNode
-  actions?: AlertActions
+  actions?: AlertAction[]
   className?: string
   closeToast: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 export const Alert: FC<AlertProps> = ({ type, title, content, actions, className, closeToast }) => {
   const { icon, ariaLabel } = ToastIcon[type]
-
-  const renderActions = type === 'critical' || actions?.length
 
   return (
     <div
@@ -78,23 +74,38 @@ export const Alert: FC<AlertProps> = ({ type, title, content, actions, className
       </div>
       <div data-test="alert-body" className={styles.body}>
         <div data-test="alert-content">{content}</div>
-        {renderActions && (
+        {actions?.length && (
           <div data-test="alert-actions" className={styles.actions}>
-            {type === 'critical' && <CriticalCopyButton />}
-            {actions?.length &&
-              actions.map(({ text, href }, aI) => (
-                <Link
-                  key={aI}
-                  data-test="alert-action"
-                  className={styles.action}
-                  type="primary"
-                  href={href}
-                  Icon={ChevronRight}
-                  iconAriaLabel="Icon chevron right"
-                >
+            {actions.map((action, aI) => {
+              if (isAlertActionButton(action)) {
+                const { text, icon, iconAriaLabel, onClick } = action
+
+                // TODO: Resolve type
+                return (
+                  <Button
+                    key={aI}
+                    kind="transparent"
+                    capitalize={false}
+                    className={cn(styles.action, styles.actionButton)}
+                    iconLeft={icon}
+                    iconLeftAriaLabel={iconAriaLabel}
+                    iconLeftClassName={styles.actionButtonIcon}
+                    iconLeftSize="small"
+                    onClick={onClick}
+                  >
+                    {text}
+                  </Button>
+                )
+              }
+
+              const { text, href } = action
+
+              return (
+                <Link key={aI} type="primary" href={href} Icon={ChevronRight} iconAriaLabel="Icon chevron right" className={styles.action}>
                   {text}
                 </Link>
-              ))}
+              )
+            })}
           </div>
         )}
       </div>

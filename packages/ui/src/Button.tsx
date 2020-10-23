@@ -52,7 +52,7 @@ type ButtonCommonProps = {
 export type ButtonProps = ButtonCommonProps &
   AccessibleIconLeftProps &
   AccessibleIconRightProps &
-  Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'className' | 'autoFocus' | 'disabled' | 'type'>
+  Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'className' | 'autoFocus' | 'disabled' | 'type'>
 
 /**
  * ### Purpose

@@ -49,6 +49,25 @@
 
       .action {
         @include c.typographyBodySmall;
+
+        &:not(:last-child) {
+          margin-right: c.$grid * 6;
+        }
+      }
+
+      .actionButton {
+        color: c.$colorNeutralWhite;
+        padding: 0;
+        min-height: unset;
+
+        &:hover,
+        &.hover {
+          text-decoration: underline solid;
+        }
+
+        .actionButtonIcon {
+          margin-right: c.$grid * 1.5;
+        }
       }
     }
   }
@@ -129,23 +148,6 @@
     .actions {
       .action {
         color: c.$colorNeutralWhite;
-      }
-    }
-
-    .copyButton {
-      color: c.$colorNeutralWhite;
-      padding: 0;
-      margin-right: c.$grid * 6;
-      min-height: unset;
-      @include c.typographyBodySmall;
-
-      :hover,
-      .hover {
-        text-decoration: underline solid;
-      }
-
-      .copyButtonIcon {
-        margin-right: c.$grid * 1.5;
       }
     }
   }
