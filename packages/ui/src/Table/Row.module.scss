@@ -1,0 +1,31 @@
+@use '../../styles/constants' as c;
+
+@mixin rowBase {
+  display: table-row;
+  vertical-align: middle;
+}
+
+tr.headerRow {
+  @include rowBase;
+}
+
+tr.inactive {
+  @include rowBase;
+  opacity: 0.4;
+}
+
+tr.row {
+  @include rowBase;
+
+  &:hover {
+    background-color: c.$colorNeutralLighter;
+  }
+
+  &.clickable {
+    cursor: pointer;
+
+    &:hover {
+      background-color: c.$colorInfoLight;
+    }
+  }
+}
