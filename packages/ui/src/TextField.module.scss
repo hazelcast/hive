@@ -7,7 +7,6 @@ $paddingLeftWithIcon: c.$grid * 8;
 .container {
   @include c.typographyBodySmall;
 
-  font-weight: c.$fontWeightRegular;
   color: c.$colorText;
   box-sizing: border-box;
   margin: 0;
