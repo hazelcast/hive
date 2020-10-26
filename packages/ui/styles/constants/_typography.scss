@@ -32,7 +32,7 @@ $lineHeightButton: normal !default;
 $lineHeightBodyNormal: 1.4 !default;
 $lineHeightBodySmall: normal !default;
 
-@function checkOverride($override: false) {
+@function override($override: false) {
   @if ($override) {
     @return '!important';
   }
@@ -40,25 +40,25 @@ $lineHeightBodySmall: normal !default;
 }
 
 @mixin typographyH1($override: false) {
-  font-family: $fontFamilyHeading #{checkOverride($override)}; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
-  font-weight: $fontWeightHeadingBold #{checkOverride($override)};
-  font-size: $fontSizeH1 #{checkOverride($override)};
-  letter-spacing: $letterSpacingH1 #{checkOverride($override)};
-  line-height: $lineHeightH1 #{checkOverride($override)};
+  font-family: $fontFamilyHeading #{override($override)}; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
+  font-weight: $fontWeightHeadingBold #{override($override)};
+  font-size: $fontSizeH1 #{override($override)};
+  letter-spacing: $letterSpacingH1 #{override($override)};
+  line-height: $lineHeightH1 #{override($override)};
 }
 @mixin typographyH2($override: false) {
-  font-family: $fontFamilyHeading #{checkOverride($override)}; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
-  font-weight: $fontWeightHeadingBold #{checkOverride($override)};
-  font-size: $fontSizeH2 #{checkOverride($override)};
-  letter-spacing: $letterSpacingH2 #{checkOverride($override)};
-  line-height: $lineHeightH2 #{checkOverride($override)};
+  font-family: $fontFamilyHeading #{override($override)}; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
+  font-weight: $fontWeightHeadingBold #{override($override)};
+  font-size: $fontSizeH2 #{override($override)};
+  letter-spacing: $letterSpacingH2 #{override($override)};
+  line-height: $lineHeightH2 #{override($override)};
 }
 @mixin typographyH3($override: false) {
-  font-family: $fontFamilyHeading #{checkOverride($override)}; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
-  font-weight: $fontWeightHeadingBold #{checkOverride($override)};
-  font-size: $fontSizeH3 #{checkOverride($override)};
-  letter-spacing: $letterSpacingH3 #{checkOverride($override)};
-  line-height: $lineHeightH3 #{checkOverride($override)};
+  font-family: $fontFamilyHeading #{override($override)}; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
+  font-weight: $fontWeightHeadingBold #{override($override)};
+  font-size: $fontSizeH3 #{override($override)};
+  letter-spacing: $letterSpacingH3 #{override($override)};
+  line-height: $lineHeightH3 #{override($override)};
 }
 @mixin typographyButton {
   font-family: $fontFamilyText;

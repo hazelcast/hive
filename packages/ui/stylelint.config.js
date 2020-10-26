@@ -34,12 +34,6 @@ module.exports = {
         ignoreAtRules: ['value', 'extend', 'mixin', 'include', 'use', 'forward', 'each', 'if', 'function', 'return'],
       },
     ],
-    'function-name-case': [
-      'lower',
-      {
-        ignoreFunctions: ['checkOverride'],
-      },
-    ],
     'comment-empty-line-before': null,
     // stylelint-scss rules
     'scss/no-duplicate-dollar-variables': true,
