@@ -2,6 +2,7 @@ import React from 'react'
 import { withDesign } from 'storybook-addon-designs'
 
 import { CustomDocsPage } from './CustomDocsPage'
+import { customTheme } from './theme'
 
 import './preview.scss'
 
@@ -19,5 +20,6 @@ export const parameters = {
   viewMode: 'docs',
   docs: {
     page: CustomDocsPage,
+    theme: customTheme,
   },
 }

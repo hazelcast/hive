@@ -3,7 +3,6 @@
 .container {
   @include c.typographyBodySmall;
 
-  font-weight: c.$fontWeightRegular;
   color: c.$colorError;
   display: none;
 
