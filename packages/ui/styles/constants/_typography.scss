@@ -40,21 +40,21 @@ $lineHeightBodySmall: normal !default;
 }
 
 @mixin typographyH1($override: false) {
-  font-family: $fontFamilyHeading #{checkOverride($override)};
+  font-family: $fontFamilyHeading #{checkOverride($override)}; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
   font-weight: $fontWeightHeadingBold #{checkOverride($override)};
   font-size: $fontSizeH1 #{checkOverride($override)};
   letter-spacing: $letterSpacingH1 #{checkOverride($override)};
   line-height: $lineHeightH1 #{checkOverride($override)};
 }
 @mixin typographyH2($override: false) {
-  font-family: $fontFamilyHeading #{checkOverride($override)};
+  font-family: $fontFamilyHeading #{checkOverride($override)}; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
   font-weight: $fontWeightHeadingBold #{checkOverride($override)};
   font-size: $fontSizeH2 #{checkOverride($override)};
   letter-spacing: $letterSpacingH2 #{checkOverride($override)};
   line-height: $lineHeightH2 #{checkOverride($override)};
 }
 @mixin typographyH3($override: false) {
-  font-family: $fontFamilyHeading #{checkOverride($override)};
+  font-family: $fontFamilyHeading #{checkOverride($override)}; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
   font-weight: $fontWeightHeadingBold #{checkOverride($override)};
   font-size: $fontSizeH3 #{checkOverride($override)};
   letter-spacing: $letterSpacingH3 #{checkOverride($override)};
