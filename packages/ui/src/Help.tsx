@@ -1,4 +1,4 @@
-import React, { ReactElement, FC } from 'react'
+import React, { FC, ReactElement } from 'react'
 import { HelpCircle } from 'react-feather'
 import cn from 'classnames'
 
@@ -16,11 +16,16 @@ export interface HelpProps {
   helperText: string | ReactElement
   placement?: string
   className?: string
+  padding?: 'default' | 'none'
 }
 
-export const Help: FC<HelpProps> = ({ helperText, placement = 'top', parentId, className }) => (
+export const Help: FC<HelpProps> = ({ helperText, placement = 'top', parentId, className, padding = 'default' }) => (
   <Tooltip placement={placement} overlay={helperText} id={helpTooltipId(parentId)}>
-    <div className={cn(styles.container, className)}>
+    <div
+      className={cn(styles.container, className, {
+        [styles.padding]: padding === 'default',
+      })}
+    >
       <Icon ariaLabel="Help" color={styleConsts.colorPrimary} icon={HelpCircle} className={styles.icon} size="small" />
     </div>
   </Tooltip>
