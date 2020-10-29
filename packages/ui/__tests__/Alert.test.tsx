@@ -5,6 +5,8 @@ import { AlertTriangle, CheckCircle, Info, Clipboard, AlertCircle } from 'react-
 import { ToastType, IconDescriptor } from '../src/Toast'
 import { Alert, AlertActionButton, AlertActionLink } from '../src/Alert'
 
+import styles from '../src/Alert.module.scss'
+
 const title = 'Alert Title'
 const content = 'Alert Content'
 const noOp = jest.fn()
@@ -22,13 +24,14 @@ const AlertAction2: AlertActionLink = {
 }
 
 describe('Alert', () => {
-  const alertBasicTestData: [ToastType, IconDescriptor][] = [
+  const alertBasicTestData: [ToastType, IconDescriptor, string][] = [
     [
       'success',
       {
         icon: CheckCircle,
         ariaLabel: 'Check circle icon',
       },
+      styles.success,
     ],
     [
       'info',
@@ -36,6 +39,7 @@ describe('Alert', () => {
         icon: Info,
         ariaLabel: 'Info circle icon',
       },
+      styles.info,
     ],
     [
       'warning',
@@ -43,6 +47,7 @@ describe('Alert', () => {
         icon: AlertTriangle,
         ariaLabel: 'Warning triangle icon',
       },
+      styles.warning,
     ],
     [
       'critical',
@@ -50,26 +55,30 @@ describe('Alert', () => {
         icon: AlertCircle,
         ariaLabel: 'Info critical circle icon',
       },
+      styles.critical,
     ],
   ]
 
-  it.each(alertBasicTestData)('Renders %s Alert with correct theme class, icon, title and content', (type, { icon, ariaLabel }) => {
-    const wrapper = mount(<Alert type={type} title={title} content={content} closeToast={noOp} />)
+  it.each(alertBasicTestData)(
+    'Renders %s Alert with correct className, icon, title and content',
+    (type, { icon, ariaLabel }, className) => {
+      const wrapper = mount(<Alert type={type} title={title} content={content} closeToast={noOp} />)
 
-    const AlertElement = wrapper.find(Alert)
+      const AlertElement = wrapper.find(Alert)
 
-    expect(AlertElement.findDataTest('alert').prop('className')).toBe(`alert ${type}`)
-    expect(AlertElement.findDataTest('alert-title').text()).toBe(title)
-    expect(AlertElement.findDataTest('alert-content').props()).toMatchObject({
-      children: content,
-    })
-    expect(wrapper.findDataTest('alert-icon').props()).toMatchObject({
-      icon,
-      ariaLabel,
-    })
-    expect(wrapper.findDataTest('alert-close').exists()).toBeTruthy()
-    expect(wrapper.findDataTest('alert-actions').exists()).toBeFalsy()
-  })
+      expect(AlertElement.findDataTest('alert').prop('className')).toBe(`alert ${className}`)
+      expect(AlertElement.findDataTest('alert-title').text()).toBe(title)
+      expect(AlertElement.findDataTest('alert-content').props()).toMatchObject({
+        children: content,
+      })
+      expect(wrapper.findDataTest('alert-icon').props()).toMatchObject({
+        icon,
+        ariaLabel,
+      })
+      expect(wrapper.findDataTest('alert-close').exists()).toBeTruthy()
+      expect(wrapper.findDataTest('alert-actions').exists()).toBeFalsy()
+    },
+  )
 
   it('Close button calls closeToast prop handler', () => {
     const closeToast = jest.fn()
