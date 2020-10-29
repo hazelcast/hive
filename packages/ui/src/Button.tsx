@@ -91,6 +91,7 @@ export const Button: FC<ButtonProps> = ({
   ...rest
 }) => (
   <button
+    data-test="button"
     className={cn(className, styles.button, {
       [styles.primary]: kind === 'primary',
       [styles.secondary]: kind === 'secondary',
