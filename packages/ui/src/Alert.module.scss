@@ -134,7 +134,7 @@
 
       .actionButton {
         padding: 0;
-        min-height: unset;
+        min-height: auto;
 
         @include c.typographyBodySmall;
 

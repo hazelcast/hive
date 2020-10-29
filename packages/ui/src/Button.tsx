@@ -9,7 +9,7 @@ import styles from './Button.module.scss'
 export type ButtonKind = 'primary' | 'secondary' | 'transparent'
 
 // Left icon is always present with proper aria-label attribute
-type AccessibleIconLeftProps =
+export type ButtonAccessibleIconLeftProps =
   | {
       iconLeft: IconProps['icon']
       iconLeftAriaLabel: string
@@ -26,7 +26,7 @@ type AccessibleIconLeftProps =
     }
 
 // Right icon is always present with proper aria-label attribute
-type AccessibleIconRightProps =
+export type ButtonAccessibleIconRightProps =
   | {
       iconRight: IconProps['icon']
       iconRightAriaLabel: string
@@ -50,8 +50,8 @@ type ButtonCommonProps = {
 }
 
 export type ButtonProps = ButtonCommonProps &
-  AccessibleIconLeftProps &
-  AccessibleIconRightProps &
+  ButtonAccessibleIconLeftProps &
+  ButtonAccessibleIconRightProps &
   Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'className' | 'autoFocus' | 'disabled' | 'type'>
 
 /**

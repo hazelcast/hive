@@ -5,7 +5,7 @@ import { X, ChevronRight } from 'react-feather'
 import { PartialRequired } from '@hazelcast/helpers'
 
 import { Link } from './Link'
-import { Button } from './Button'
+import { Button, ButtonAccessibleIconLeftProps } from './Button'
 import { ToastIcon, ToastType } from './Toast'
 import { Icon, IconProps } from './Icon'
 import { IconButton } from './IconButton'
@@ -78,20 +78,24 @@ export const Alert: FC<AlertProps> = ({ type, title, content, actions, className
             {actions.map((action, aI) => {
               if (isAlertActionButton(action)) {
                 const { text, icon, iconAriaLabel, onClick } = action
+                const iconLeftProps: ButtonAccessibleIconLeftProps =
+                  icon && iconAriaLabel
+                    ? {
+                        iconLeft: icon,
+                        iconLeftAriaLabel: iconAriaLabel,
+                        iconLeftClassName: styles.actionButtonIcon,
+                        iconLeftSize: 'small',
+                      }
+                    : {}
 
-                // TODO: Resolve type
                 return (
-                  // @ts-ignore
                   <Button
                     key={aI}
                     kind="transparent"
                     capitalize={false}
                     className={cn(styles.action, styles.actionButton)}
-                    iconLeft={icon}
-                    iconLeftAriaLabel={iconAriaLabel}
-                    iconLeftClassName={styles.actionButtonIcon}
-                    iconLeftSize="small"
                     onClick={onClick}
+                    {...iconLeftProps}
                   >
                     {text}
                   </Button>
