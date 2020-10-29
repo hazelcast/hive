@@ -81,11 +81,23 @@ export const Tooltip: FC<TooltipProps> = ({
 
   useEffect(() => {
     referenceElement?.addEventListener('mouseenter', onMouseEnter)
-    referenceElement?.addEventListener('mouseleave', onMouseLeave)
-
     popperElement?.addEventListener('mouseenter', onMouseEnter)
+
+    return () => {
+      referenceElement?.removeEventListener('mouseenter', onMouseEnter)
+      popperElement?.removeEventListener('mouseenter', onMouseEnter)
+    }
+  }, [referenceElement, popperElement, onMouseEnter])
+
+  useEffect(() => {
+    referenceElement?.addEventListener('mouseleave', onMouseLeave)
     popperElement?.addEventListener('mouseleave', onMouseLeave)
-  }, [referenceElement, popperElement, onMouseEnter, onMouseLeave])
+
+    return () => {
+      referenceElement?.removeEventListener('mouseleave', onMouseLeave)
+      popperElement?.removeEventListener('mouseleave', onMouseLeave)
+    }
+  }, [referenceElement, popperElement, onMouseLeave])
 
   // Makes sure "visible" prop can override local "isShown" state
   const isTooltipVisible = visibilityOverride ?? isShown

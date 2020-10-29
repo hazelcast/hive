@@ -1,7 +1,5 @@
-/* eslint-disable @typescript-eslint/require-await */
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import React from 'react'
-import { Button } from '../src/Button'
+import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 
 import { Tooltip } from '../src/Tooltip'
 
@@ -12,27 +10,28 @@ import { Tooltip } from '../src/Tooltip'
  * https://github.com/popperjs/react-popper/issues/368
  */
 describe('Tooltip', () => {
-  test('Renders correctly if "content" property is defined.', async () => {
+  it('Renders correctly if "content" property is defined.', async () => {
     const wrapper = await mountAndCheckA11Y(
       <div>
         <Tooltip id="tooltip-test" content="Tooltip content">
           {(ref) => (
-            <Button ref={ref} data-test="tooltip-reference">
+            <button ref={ref} data-test="tooltip-reference">
               Hover me
-            </Button>
+            </button>
           )}
         </Tooltip>
       </div>,
     )
 
-    const tooltipOverlay = wrapper.find('[data-test="tooltip-overlay"]')
+    const tooltipOverlay = wrapper.findDataTest('tooltip-overlay')
 
-    expect(wrapper.find('[data-test="tooltip-reference"]').exists()).toBeTruthy()
+    expect(wrapper.findDataTest('tooltip-reference').exists()).toBeTruthy()
     expect(tooltipOverlay.exists()).toBeTruthy()
     expect(tooltipOverlay.text()).toEqual('Tooltip content')
+    expect(tooltipOverlay.prop('id')).toEqual('tooltip-test')
   })
 
-  test('Does not render tooltip if "content" property is not defined.', async () => {
+  it('Does not render tooltip if "content" property is not defined.', async () => {
     const wrapper = await mountAndCheckA11Y(
       <div>
         <Tooltip id="tooltip-test" content={undefined}>
@@ -45,51 +44,10 @@ describe('Tooltip', () => {
       </div>,
     )
 
-    expect(wrapper.find('[data-test="tooltip-overlay"]').exists()).toBeFalsy()
-
-    wrapper.find('[data-test="tooltip-reference"]').simulate('mouseenter')
-
-    wrapper.update()
-
-    expect(wrapper.find('[data-test="tooltip-overlay"]').exists()).toBeFalsy()
+    expect(wrapper.findDataTest('tooltip-overlay').exists()).toBeFalsy()
   })
 
-  test('Shows tooltip overlay on hover of the target element.', async () => {
-    const wrapper = await mountAndCheckA11Y(
-      <div>
-        <Tooltip id="tooltip-test" content="Tooltip content">
-          {(ref) => (
-            <button ref={ref} data-test="tooltip-reference">
-              Hover me
-            </button>
-          )}
-        </Tooltip>
-      </div>,
-    )
-
-    let tooltipOverlay = wrapper.find('[data-test="tooltip-overlay"]')
-
-    expect(tooltipOverlay.hasClass('hidden')).toBeTruthy()
-
-    wrapper.find('[data-test="tooltip-reference"]').simulate('mouseenter')
-
-    wrapper.update()
-
-    tooltipOverlay = wrapper.find('[data-test="tooltip-overlay"]')
-
-    expect(tooltipOverlay.hasClass('hidden')).toBeTruthy()
-    expect(tooltipOverlay.text()).toEqual('Tooltip content')
-    expect(tooltipOverlay.prop('id')).toEqual('tooltip-test')
-
-    wrapper.find('[data-test="tooltip-reference"]').simulate('mouseleave')
-
-    setTimeout(() => {
-      wrapper.update()
-      expect(wrapper.find('[data-test="tooltip-overlay"]')).toBeFalsy()
-    }, 100)
-  })
-
-  test('Shows tooltip overlay by default if "visible" prop is true.', async () => {
+  it('Shows tooltip overlay by default if "visible" prop is true.', async () => {
     const wrapper = await mountAndCheckA11Y(
       <div>
         <Tooltip id="tooltip-test" content="Tooltip content" visible>
@@ -102,6 +60,6 @@ describe('Tooltip', () => {
       </div>,
     )
 
-    expect(wrapper.find('[data-test="tooltip-overlay"]').hasClass('hidden')).toBeFalsy()
+    expect(wrapper.findDataTest('tooltip-overlay').hasClass('hidden')).toBeFalsy()
   })
 })
