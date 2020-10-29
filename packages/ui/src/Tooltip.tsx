@@ -30,6 +30,7 @@ export type TooltipProps = {
  * Wrap the target element with Tooltip component and use the "content" property to define what should be displayed inside the tooltip.
  */
 export const Tooltip: FC<TooltipProps> = ({
+  id,
   content,
   hideTimeoutDuration = 100,
   offset = 10,
@@ -107,27 +108,33 @@ export const Tooltip: FC<TooltipProps> = ({
       {children(setReferenceElement)}
 
       {content !== undefined && (
-        <span
-          role="tooltip"
-          ref={setPopperElement}
-          className={cn(styles.overlay, {
-            [styles.hidden]: !isTooltipVisible,
-          })}
-          style={popperStyles.popper}
-          data-test="tooltip-overlay"
-          {...popperAttributes.popper}
-          {...props}
-        >
-          {content}
+        <>
+          <span id={id} className={styles['tooltip-sr']} role="tooltip">
+            {content}
+          </span>
 
           <span
-            ref={setArrowElement}
-            className={styles.arrow}
-            style={popperStyles.arrow}
-            data-test="tooltip-arrow"
-            {...popperAttributes.arrow}
-          />
-        </span>
+            ref={setPopperElement}
+            className={cn(styles.overlay, {
+              [styles.hidden]: !isTooltipVisible,
+            })}
+            style={popperStyles.popper}
+            data-test="tooltip-overlay"
+            aria-hidden="true"
+            {...popperAttributes.popper}
+            {...props}
+          >
+            {content}
+
+            <span
+              ref={setArrowElement}
+              className={styles.arrow}
+              style={popperStyles.arrow}
+              data-test="tooltip-arrow"
+              {...popperAttributes.arrow}
+            />
+          </span>
+        </>
       )}
     </>
   )

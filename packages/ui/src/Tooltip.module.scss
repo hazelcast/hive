@@ -1,5 +1,13 @@
 @use '../styles/constants' as c;
 
+.tooltip-sr {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+}
+
 .overlay {
   @include c.typographyBodySmall;
 
@@ -13,11 +21,7 @@
   color: c.$colorText;
 
   &.hidden {
-    clip: rect(0 0 0 0);
-    clip-path: inset(50%);
-    overflow: hidden;
-    position: absolute;
-    white-space: nowrap;
+    visibility: hidden;
   }
 
   > .arrow {
