@@ -12,7 +12,7 @@ import { IconButton } from './IconButton'
 
 import styles from './Alert.module.scss'
 
-type AccessibleActionButtonIconProps =
+type AlertAccessibleActionButtonIconProps =
   | {
       icon: IconProps['icon']
       iconAriaLabel: string
@@ -25,7 +25,7 @@ type AccessibleActionButtonIconProps =
 export type AlertActionButton = {
   text: string
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void
-} & AccessibleActionButtonIconProps
+} & AlertAccessibleActionButtonIconProps
 
 export type AlertActionLink = {
   text: string

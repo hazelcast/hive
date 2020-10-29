@@ -10,7 +10,6 @@
   box-sizing: border-box;
   cursor: pointer;
   border: none;
-  color: c.$colorNeutralWhite;
   // Size
   border-radius: c.$borderRadius;
   min-height: c.$grid * 10;
@@ -123,7 +122,7 @@
 
   // Kind === transparent
   &.transparent {
-    color: c.$colorText;
+    color: inherit;
     background-color: transparent;
   }
 }

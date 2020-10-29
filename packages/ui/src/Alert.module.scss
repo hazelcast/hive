@@ -9,7 +9,6 @@
   width: c.$alertWidth;
 
   .header {
-    position: relative;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -19,6 +18,7 @@
     }
 
     .title {
+      flex: 1 0 auto;
       margin-right: c.$grid * 8.5;
 
       @include c.typographyBodyHighlight;
@@ -26,9 +26,6 @@
     }
 
     .close {
-      position: absolute;
-      right: 0;
-
       &:hover,
       &.hover {
         background-color: transparent;
