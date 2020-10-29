@@ -21,8 +21,7 @@
     .title {
       margin-right: c.$grid * 8.5;
 
-      @include c.typographyHighlightFont;
-      @include c.typographyBodyNormal;
+      @include c.typographyBodyHighlight;
       @include h.overflowEllipsis;
     }
 

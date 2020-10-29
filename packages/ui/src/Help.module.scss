@@ -1,14 +1,12 @@
 @use '../styles/constants' as c;
 
 .container {
-  display: inline-block;
+  display: inline-flex;
   vertical-align: middle;
+  line-height: 1;
+}
+
+.padding {
   padding-left: c.$grid;
   padding-right: c.$grid;
-  line-height: 1;
-  font-weight: c.$fontWeightRegular;
-
-  > svg {
-    vertical-align: middle;
-  }
 }
