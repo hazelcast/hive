@@ -19,7 +19,7 @@ export interface HelpProps {
   padding?: 'default' | 'none'
 }
 
-export const Help: FC<HelpProps> = ({ helperText, placement = 'top', parentId, className, padding }) => {
+export const Help: FC<HelpProps> = ({ helperText, placement = 'top', parentId, className, padding = 'default' }) => {
   const tooltipId = helpTooltipId(parentId)
 
   return (
