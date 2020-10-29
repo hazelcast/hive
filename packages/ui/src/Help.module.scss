@@ -3,11 +3,14 @@
 .container {
   display: inline-block;
   vertical-align: middle;
-  padding-left: c.$grid;
-  padding-right: c.$grid;
   line-height: 1;
 
   > svg {
     vertical-align: middle;
   }
+}
+
+.padding {
+  padding-left: c.$grid;
+  padding-right: c.$grid;
 }
