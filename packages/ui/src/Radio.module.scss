@@ -3,23 +3,17 @@
 
 .wrapper {
   display: inline-flex;
+  // inline-flex changes vertical align compared to display: flex
+  // setting vertical-align allows us to easily use radio button
+  // inline e.g. next to the text
+  // Most common use case will be still the usage in a form where parent
+  // wrapper controls this.
+  vertical-align: bottom;
   flex-direction: row;
   user-select: none;
   cursor: pointer;
 
   @include c.typographyBodySmall;
-
-  // default visible checkmark
-  .checkmark {
-    width: c.$iconSizeSmall;
-    height: c.$iconSizeSmall;
-    border: c.$borderWidth solid c.$colorNeutralLight;
-    border-radius: c.$grid;
-    color: c.$colorNeutralWhite;
-    // because of ~ and + selectors used below, we need to keep the current order in DOM and
-    // fix it visually with order property
-    order: -1;
-  }
 
   // hide native checkbox
   input {
@@ -29,23 +23,49 @@
     position: absolute;
   }
 
+  // default visible checkmark
+  .checkmark {
+    width: c.$iconSizeSmall;
+    height: c.$iconSizeSmall;
+    border: c.$borderWidth solid c.$colorNeutralLight;
+
+    border-radius: 50%;
+    color: c.$colorNeutralWhite;
+    // because of ~ and + selectors used below, we need to keep the current order in DOM and
+    // fix it visually with order property
+    order: -1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   input:checked ~ .checkmark {
     background-color: c.$colorSuccessLight;
     border-color: c.$colorSuccessLight;
   }
 
-  input[aria-checked='mixed'] ~ .checkmark {
-    background-color: c.$colorPrimaryLight;
-    border-color: c.$colorPrimaryLight;
+  /* Style the indicator (dot/circle) */
+  .checkmark:after {
+    content: '';
+    width: 1.5 * c.$grid;
+    height: 1.5 * c.$grid;
+    border-radius: 50%;
+    background: transparent;
+  }
+
+  input:checked ~ .checkmark:after {
+    background: c.$colorNeutralWhite;
   }
 
   // Error state
-  &.error input ~ .checkmark {
+  .error > .checkmark {
     border-color: c.$colorError;
   }
 
   .name {
     padding-left: c.$grid * 1.25;
+    padding-right: c.$grid * 1.25;
   }
 }
 

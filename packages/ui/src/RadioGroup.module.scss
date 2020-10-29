@@ -1,0 +1,10 @@
+@use '../styles/constants' as c;
+@use '../styles/helpers' as h;
+
+.wrapper {
+  ul.radioGroup {
+    padding: 0;
+    margin: 0;
+    display: inline;
+  }
+}
