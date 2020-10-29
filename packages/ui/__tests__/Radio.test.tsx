@@ -15,11 +15,5 @@ describe('Radio', () => {
     uuidMock.mockImplementation(() => 'uuidtest')
   })
 
-  it('Renders the default radio', async () => {
-    // const onChange = jest.fn()
-    // const wrapper = await mountAndCheckA11Y(<Checkbox checked name="hello" onChange={onChange} label="Hello World" />)
-    // expect(wrapper.find(Check).exists()).toBeTruthy()
-    // expect(wrapper.find(Minus).exists()).toBeFalsy()
-    // expect(wrapper.find('input').getDOMNode<HTMLInputElement>().indeterminate).toBeFalsy()
-  })
+  it('Renders the default radio', async () => {})
 })

@@ -28,7 +28,6 @@
     width: c.$iconSizeSmall;
     height: c.$iconSizeSmall;
     border: c.$borderWidth solid c.$colorNeutralLight;
-
     border-radius: 50%;
     color: c.$colorNeutralWhite;
     // because of ~ and + selectors used below, we need to keep the current order in DOM and
@@ -58,11 +57,6 @@
     background: c.$colorNeutralWhite;
   }
 
-  // Error state
-  .error > .checkmark {
-    border-color: c.$colorError;
-  }
-
   .name {
     padding-left: c.$grid * 1.25;
     padding-right: c.$grid * 1.25;
@@ -83,6 +77,7 @@
 
 // Outline on focus
 label.wrapper.focus .checkmark,
+label.wrapper > input:checked:focus ~ .checkmark,
 label.wrapper > input:focus ~ .checkmark {
   @include h.outlineFormField;
 }

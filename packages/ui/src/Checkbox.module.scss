@@ -63,6 +63,7 @@
 
 // Outline on focus
 label.wrapper.focus .checkmark,
+label.wrapper > input:checked:focus ~ .checkmark,
 label.wrapper > input:focus ~ .checkmark {
   @include h.outlineFormField;
 }

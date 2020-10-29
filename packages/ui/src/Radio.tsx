@@ -2,7 +2,6 @@ import React, { ChangeEvent, FC, FocusEvent, useRef } from 'react'
 import styles from './Radio.module.scss'
 import { DataTestProp } from '@hazelcast/helpers'
 import classNames from 'classnames'
-import { Error, errorId } from './Error'
 import { Help, helpTooltipId } from './Help'
 import { v4 as uuid } from 'uuid'
 
@@ -11,7 +10,6 @@ type RadioCoreProps = {
   value?: string
   onBlur?: (e: FocusEvent<HTMLInputElement>) => void
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
-  error?: string
   checked?: boolean
 }
 
@@ -24,7 +22,7 @@ export type RadioExtraProps = {
   classNameLabel?: string
 }
 
-type RadioProps = RadioCoreProps & RadioExtraProps & DataTestProp
+export type RadioProps = RadioCoreProps & RadioExtraProps & DataTestProp
 
 /**
  * ### Purpose
@@ -40,10 +38,8 @@ export const Radio: FC<RadioProps> = ({
   value,
   label,
   helperText,
-  error,
   disabled = false,
   checked,
-  required,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null)
   const idRef = useRef(uuid())
@@ -58,7 +54,6 @@ export const Radio: FC<RadioProps> = ({
         className={classNames(
           styles.wrapper,
           {
-            [styles.error]: !!error,
             [styles.disabled]: disabled,
           },
           classNameLabel,
@@ -78,13 +73,12 @@ export const Radio: FC<RadioProps> = ({
           disabled={disabled}
           // aria-invalid={!!error}
           // aria-required={required}
-          // aria-describedby={helperText && helpTooltipId(idRef.current)}
+          aria-describedby={helperText && helpTooltipId(idRef.current)}
           // aria-errormessage={error && errorId(idRef.current)}
         />
         <span className={styles.checkmark} />
         {helperText && <Help parentId={idRef.current} helperText={helperText} />}
       </label>
-      <Error error={error} className={classNames(styles.errorContainer)} inputId={idRef.current} />
     </span>
   )
 }

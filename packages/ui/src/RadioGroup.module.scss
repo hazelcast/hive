@@ -1,10 +1,13 @@
 @use '../styles/constants' as c;
 @use '../styles/helpers' as h;
 
-.wrapper {
-  ul.radioGroup {
-    padding: 0;
-    margin: 0;
-    display: inline;
+ul.radioGroup {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+
+  // Error state
+  &.error input:checked ~ * {
+    border-color: c.$colorError;
   }
 }
