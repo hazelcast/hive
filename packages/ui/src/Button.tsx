@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes, FC } from 'react'
+import React, { ButtonHTMLAttributes, forwardRef } from 'react'
 import cn from 'classnames'
 import { Icon } from 'react-feather'
 
@@ -96,24 +96,16 @@ export type ButtonProps = ButtonKindPrimarySecondaryProps &
  * - **Primary**: Use primary button for the single primary action on the screen. To call attention to an action on a form, or highlight the strongest call to action on a page. Primary button should only appear once per screen. Not every screen requires a primary button.
  * - **Secondary**: Use secondary buttons for all remaining actions. Secondary button is the standard button for most use cases.
  */
-export const Button: FC<ButtonProps> = ({
-  kind = 'primary',
-  IconLeft,
-  iconLeftAriaLabel,
-  IconRight,
-  iconRightAriaLabel,
-  className,
-  children,
-  ...rest
-}) => (
-  <button
-    className={cn(className, styles.button, {
-      // Kind
-      // Kind === primary
-      [styles.primary]: kind === 'primary',
-      // Kind === secondary
-      [styles.secondary]: kind === 'secondary',
-      /*
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ kind = 'primary', IconLeft, iconLeftAriaLabel, IconRight, iconRightAriaLabel, className, children, ...rest }, ref) => (
+    <button
+      className={cn(className, styles.button, {
+        // Kind
+        // Kind === primary
+        [styles.primary]: kind === 'primary',
+        // Kind === secondary
+        [styles.secondary]: kind === 'secondary',
+        /*
         // Kind === success
         [styles.success]: kind === 'success' || kind === 'successSecondary',
         [styles.successSecondary]: kind === 'successSecondary',
@@ -131,20 +123,24 @@ export const Button: FC<ButtonProps> = ({
         // Kind === danger
         [styles.danger]: kind === 'danger',
       */
-    })}
-    {...rest}
-  >
-    <span className={styles.outline} />
-    <span className={styles.body}>
-      {IconLeft && (
-        // Icon colour & size is defined in SCSS
-        <IconLeft aria-label={iconLeftAriaLabel} data-test="button-icon-left" className={cn(styles.icon, styles.iconLeft)} />
-      )}
-      <TruncatedText text={children.toUpperCase()} />
-      {IconRight && (
-        // Icon colour & size are defined in SCSS
-        <IconRight aria-label={iconRightAriaLabel} data-test="button-icon-right" className={cn(styles.icon, styles.iconRight)} />
-      )}
-    </span>
-  </button>
+      })}
+      ref={ref}
+      {...rest}
+    >
+      <span className={styles.outline} />
+      <span className={styles.body}>
+        {IconLeft && (
+          // Icon colour & size is defined in SCSS
+          <IconLeft aria-label={iconLeftAriaLabel} data-test="button-icon-left" className={cn(styles.icon, styles.iconLeft)} />
+        )}
+        <TruncatedText text={children.toUpperCase()} />
+        {IconRight && (
+          // Icon colour & size are defined in SCSS
+          <IconRight aria-label={iconRightAriaLabel} data-test="button-icon-right" className={cn(styles.icon, styles.iconRight)} />
+        )}
+      </span>
+    </button>
+  ),
 )
+
+Button.displayName = 'Button'

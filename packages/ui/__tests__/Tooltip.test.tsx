@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/require-await */
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import React from 'react'
+import { Button } from '../src/Button'
 
 import { Tooltip } from '../src/Tooltip'
 
@@ -16,9 +17,9 @@ describe('Tooltip', () => {
       <div>
         <Tooltip id="tooltip-test" content="Tooltip content">
           {(ref) => (
-            <button ref={ref} data-test="tooltip-reference">
+            <Button ref={ref} data-test="tooltip-reference">
               Hover me
-            </button>
+            </Button>
           )}
         </Tooltip>
       </div>,
