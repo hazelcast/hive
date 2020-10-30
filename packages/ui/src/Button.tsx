@@ -115,7 +115,6 @@ export const Button: FC<ButtonProps> = ({
       <span className={styles.outline} />
       <span className={styles.body}>
         {iconLeft && iconLeftAriaLabel && (
-          // Icon colour & size is defined in SCSS
           <Icon
             icon={iconLeft}
             ariaLabel={iconLeftAriaLabel}
@@ -127,7 +126,6 @@ export const Button: FC<ButtonProps> = ({
         )}
         <TruncatedText text={capitalize ? children.toUpperCase() : children} />
         {iconRight && iconRightAriaLabel && (
-          // Icon colour & size are defined in SCSS
           <Icon
             icon={iconRight}
             ariaLabel={iconRightAriaLabel}
