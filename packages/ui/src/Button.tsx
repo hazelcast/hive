@@ -49,7 +49,7 @@ export type ButtonDisabledProps =
   | {
       disabled?: never
       disabledTooltip?: never
-      disabledTooltipId: never
+      disabledTooltipId?: never
     }
 
 // Common props for all button "kinds"
