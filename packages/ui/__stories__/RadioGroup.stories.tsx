@@ -5,6 +5,7 @@ import { RadioGroup } from '../src/RadioGroup'
 import { Form, Formik } from 'formik'
 import { RadioGroupFieldFormik } from '../src/RadioGroupFormik'
 import { RadioFieldFormik } from '../src/RadioFormik'
+import { logger } from '@hazelcast/services'
 
 export default {
   title: 'Components/RadioGroup',
@@ -81,7 +82,7 @@ export const RadioGroupWrappedInFormik = () => {
 
         return errors
       }}
-      onSubmit={console.log}
+      onSubmit={(values) => logger.log('submit', values)}
     >
       {({ values }) => (
         <Form>

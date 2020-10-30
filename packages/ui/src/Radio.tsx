@@ -27,7 +27,7 @@ export type RadioProps = RadioCoreProps & RadioExtraProps & DataTestProp
 /**
  * ### Purpose
  * Forms require input from users. If you need information that can be represented as a choice of multiple values, use input with type 'radio'.
- * Help and error guidance to ensure they know what to enter.
+ * Help prop provides guidance to ensure they know what to enter.
  */
 export const Radio: FC<RadioProps> = ({
   name,

@@ -11,6 +11,11 @@ export type RadioGroupProps = {
   error?: string
 }
 
+/**
+ * ### Purpose
+ * Forms require input from users. If you need information that can be represented as a choice of multiple values, use input with type 'radio'.
+ * You can use RadioGroup in order to group radios buttons into logical cells and provide corresponding error if needed.
+ */
 export const RadioGroup: FC<RadioGroupProps> = ({ radioGroupClassName, error, children }) => {
   const idRef = useRef(uuid())
 
