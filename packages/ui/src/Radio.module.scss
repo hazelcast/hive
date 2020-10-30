@@ -9,7 +9,6 @@
   // Most common use case will be still the usage in a form where parent
   // wrapper controls this.
   vertical-align: bottom;
-  flex-direction: row;
   user-select: none;
   cursor: pointer;
 
@@ -29,7 +28,6 @@
     height: c.$iconSizeSmall;
     border: c.$borderWidth solid c.$colorNeutralLight;
     border-radius: 50%;
-    color: c.$colorNeutralWhite;
     // because of ~ and + selectors used below, we need to keep the current order in DOM and
     // fix it visually with order property
     order: -1;
@@ -84,6 +82,5 @@ label.wrapper > input:checked:focus ~ .checkmark {
 label.wrapper.disabled > input:indeterminate ~ .checkmark,
 label.wrapper.disabled > input:checked ~ .checkmark {
   background-color: c.$colorNeutral;
-  color: c.$colorNeutralWhite;
   border-color: c.$colorNeutralLight;
 }
