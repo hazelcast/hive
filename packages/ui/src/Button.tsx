@@ -1,12 +1,13 @@
 import React, { ButtonHTMLAttributes, forwardRef } from 'react'
 import cn from 'classnames'
+import mergeRefs from 'react-merge-refs'
+import { v4 as uuid } from 'uuid'
 
 import { Icon, IconProps } from './Icon'
 import { TruncatedText } from './TruncatedText'
 import { Tooltip } from '../src/Tooltip'
 
 import styles from './Button.module.scss'
-import mergeRefs from 'react-merge-refs'
 
 export type ButtonKind = 'primary' | 'secondary' | 'transparent'
 
@@ -107,48 +108,53 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       ...rest
     },
     ref,
-  ) => (
-    <Tooltip id={disabledTooltipId} content={disabled ? disabledTooltip : undefined}>
-      {(tooltipRef) => (
-        <button
-          data-test="button"
-          ref={mergeRefs([ref, tooltipRef])}
-          className={cn(className, styles.button, {
-            [styles.primary]: kind === 'primary',
-            [styles.secondary]: kind === 'secondary',
-            [styles.transparent]: kind === 'transparent',
-          })}
-          disabled={disabled}
-          {...rest}
-        >
-          <span className={styles.outline} />
-          <span className={styles.body}>
-            {iconLeft && iconLeftAriaLabel && (
-              <Icon
-                icon={iconLeft}
-                ariaLabel={iconLeftAriaLabel}
-                data-test="button-icon-left"
-                className={cn(styles.iconLeft, iconLeftClassName)}
-                size={iconLeftSize}
-                color={iconLeftColor}
-              />
-            )}
-            <TruncatedText text={capitalize ? children.toUpperCase() : children} />
-            {iconRight && iconRightAriaLabel && (
-              <Icon
-                icon={iconRight}
-                ariaLabel={iconRightAriaLabel}
-                data-test="button-icon-right"
-                className={cn(styles.iconRight, iconRightClassName)}
-                size={iconRightSize}
-                color={iconRightColor}
-              />
-            )}
-          </span>
-        </button>
-      )}
-    </Tooltip>
-  ),
+  ) => {
+    /* Generate backup tooltip id if prop is empty */
+    const tooltipId = disabledTooltipId ?? `${uuid()}-button-tooltip`
+
+    return (
+      <Tooltip id={tooltipId} content={disabled ? disabledTooltip : undefined}>
+        {(tooltipRef) => (
+          <button
+            data-test="button"
+            ref={mergeRefs([ref, tooltipRef])}
+            className={cn(className, styles.button, {
+              [styles.primary]: kind === 'primary',
+              [styles.secondary]: kind === 'secondary',
+              [styles.transparent]: kind === 'transparent',
+            })}
+            disabled={disabled}
+            {...rest}
+          >
+            <span className={styles.outline} />
+            <span className={styles.body}>
+              {iconLeft && iconLeftAriaLabel && (
+                <Icon
+                  icon={iconLeft}
+                  ariaLabel={iconLeftAriaLabel}
+                  data-test="button-icon-left"
+                  className={cn(styles.iconLeft, iconLeftClassName)}
+                  size={iconLeftSize}
+                  color={iconLeftColor}
+                />
+              )}
+              <TruncatedText text={capitalize ? children.toUpperCase() : children} />
+              {iconRight && iconRightAriaLabel && (
+                <Icon
+                  icon={iconRight}
+                  ariaLabel={iconRightAriaLabel}
+                  data-test="button-icon-right"
+                  className={cn(styles.iconRight, iconRightClassName)}
+                  size={iconRightSize}
+                  color={iconRightColor}
+                />
+              )}
+            </span>
+          </button>
+        )}
+      </Tooltip>
+    )
+  },
 )
 
 Button.displayName = 'Button'

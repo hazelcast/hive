@@ -103,14 +103,16 @@ describe('Button', () => {
     const disabledTooltip = 'Disabled tooltip'
 
     const wrapper = await mountAndCheckA11Y(
-      <Button disabled disabledTooltip={disabledTooltip} disabledTooltipId="tooltip-disabled">
-        {label}
-      </Button>,
+      <div>
+        <Button disabled disabledTooltip={disabledTooltip} disabledTooltipId="tooltip-disabled">
+          {label}
+        </Button>
+      </div>,
     )
 
     expect(wrapper.find('button').prop('disabled')).toBe(true)
     expect(wrapper.find(Tooltip).at(0).props()).toMatchObject({
-      overlay: disabledTooltip,
+      content: disabledTooltip,
     })
   })
 })
