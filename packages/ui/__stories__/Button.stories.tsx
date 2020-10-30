@@ -59,7 +59,7 @@ PrimaryActive.parameters = {
 }
 
 export const PrimaryDisabled = () => (
-  <Button disabled kind="primary">
+  <Button disabled disabledTooltip="Disabled tooltip" kind="primary">
     Primary
   </Button>
 )
@@ -156,7 +156,7 @@ export const SecondaryActive = () => (
 )
 
 export const SecondaryDisabled = () => (
-  <Button disabled kind="secondary">
+  <Button disabled disabledTooltip="Disabled tooltip" kind="secondary">
     Secondary
   </Button>
 )
@@ -239,7 +239,7 @@ export const TransparentActive = () => (
 )
 
 export const TransparentDisabled = () => (
-  <Button disabled kind="transparent">
+  <Button disabled disabledTooltip="Disabled tooltip" kind="transparent">
     Transparent
   </Button>
 )
