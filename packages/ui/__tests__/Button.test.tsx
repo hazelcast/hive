@@ -2,23 +2,45 @@ import React from 'react'
 import { X } from 'react-feather'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 
-import { Button } from '../src/Button'
+import { Button, ButtonKind } from '../src/Button'
+
+import styles from '../src/Button.module.scss'
 
 const label = 'LABEL'
 const iconAriaLabel = 'X Icon'
 
 describe('Button', () => {
+  const buttonKindTestData: [ButtonKind, string][] = [
+    ['primary', styles.primary],
+    ['secondary', styles.secondary],
+    ['transparent', styles.transparent],
+  ]
+
+  it.each(buttonKindTestData)('Renders Button with correct className which corresponds to button kind', async (kind, className) => {
+    const wrapper = await mountAndCheckA11Y(<Button kind={kind}>Label</Button>)
+
+    expect(wrapper.findDataTest('button').prop('className')).toMatch(`button ${className}`)
+  })
+
   const labelTestData: [string][] = [['label'], [label], ['lAbEl']]
 
-  it.each(labelTestData)('Renders default Button with correct label: %s', async (labelRaw) => {
+  it.each(labelTestData)('Renders Button with correctly capitalized label, when capitalize=true: %s', async (labelRaw) => {
     const wrapper = await mountAndCheckA11Y(<Button>{labelRaw}</Button>)
+
+    expect(wrapper.find(Button).text()).toBe(label)
+  })
+
+  it('Renders Button with original label when capitalize=false', async () => {
+    const label = 'label'
+
+    const wrapper = await mountAndCheckA11Y(<Button capitalize={false}>{label}</Button>)
 
     expect(wrapper.find(Button).text()).toBe(label)
   })
 
   it('Renders button with left icon with proper aria-label', async () => {
     const wrapper = await mountAndCheckA11Y(
-      <Button IconLeft={X} iconLeftAriaLabel={iconAriaLabel}>
+      <Button iconLeft={X} iconLeftAriaLabel={iconAriaLabel}>
         {label}
       </Button>,
     )
@@ -37,7 +59,7 @@ describe('Button', () => {
 
   it('Renders button with right icon with proper aria-label', async () => {
     const wrapper = await mountAndCheckA11Y(
-      <Button IconRight={X} iconRightAriaLabel="X Icon">
+      <Button iconRight={X} iconRightAriaLabel="X Icon">
         {label}
       </Button>,
     )
@@ -56,7 +78,7 @@ describe('Button', () => {
 
   it('Renders button with left and right icons and proper aria-labels', async () => {
     const wrapper = await mountAndCheckA11Y(
-      <Button IconLeft={X} iconLeftAriaLabel="X Icon" IconRight={X} iconRightAriaLabel="X Icon">
+      <Button iconLeft={X} iconLeftAriaLabel="X Icon" iconRight={X} iconRightAriaLabel="X Icon">
         {label}
       </Button>,
     )
