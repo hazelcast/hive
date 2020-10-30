@@ -1,6 +1,8 @@
-import { mount } from 'enzyme'
 import { act } from 'react-dom/test-utils'
 import React from 'react'
+
+import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+
 import { AlertTriangle, CheckCircle, Info, Clipboard, AlertCircle } from 'react-feather'
 import { ToastType, IconDescriptor } from '../src/Toast'
 import { Alert, AlertActionButton, AlertActionLink } from '../src/Alert'
@@ -61,8 +63,8 @@ describe('Alert', () => {
 
   it.each(alertBasicTestData)(
     'Renders %s Alert with correct className, icon, title and content',
-    (type, { icon, ariaLabel }, className) => {
-      const wrapper = mount(<Alert type={type} title={title} content={content} closeToast={noOp} />)
+    async (type, { icon, ariaLabel }, className) => {
+      const wrapper = await mountAndCheckA11Y(<Alert type={type} title={title} content={content} closeToast={noOp} />)
 
       const AlertElement = wrapper.find(Alert)
 
@@ -80,10 +82,10 @@ describe('Alert', () => {
     },
   )
 
-  it('Close button calls closeToast prop handler', () => {
+  it('Close button calls closeToast prop handler', async () => {
     const closeToast = jest.fn()
 
-    const wrapper = mount(<Alert type="success" title={title} content={content} closeToast={closeToast} />)
+    const wrapper = await mountAndCheckA11Y(<Alert type="success" title={title} content={content} closeToast={closeToast} />)
 
     expect(closeToast).toHaveBeenCalledTimes(0)
 
@@ -100,8 +102,8 @@ describe('Alert', () => {
     ['2 actions', [AlertAction1, AlertAction2]],
   ]
 
-  it.each(alertActionsTestData)('Renders Alert with %s', (_, actions) => {
-    const wrapper = mount(<Alert type="success" title={title} content={content} closeToast={noOp} />)
+  it.each(alertActionsTestData)('Renders Alert with %s', async (_, actions) => {
+    const wrapper = await mountAndCheckA11Y(<Alert type="success" title={title} content={content} closeToast={noOp} />)
 
     wrapper
       .findDataTest('alert-actions')
