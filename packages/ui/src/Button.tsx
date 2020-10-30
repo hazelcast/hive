@@ -3,6 +3,7 @@ import cn from 'classnames'
 
 import { Icon, IconProps } from './Icon'
 import { TruncatedText } from './TruncatedText'
+import { Tooltip } from '../src/Tooltip'
 
 import styles from './Button.module.scss'
 
@@ -42,6 +43,13 @@ export type ButtonAccessibleIconRightProps =
       iconRightClassName?: never
     }
 
+export type ButtonDisabledProps =
+  | ({ disabledTooltip: string } & Required<Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'disabled'>>)
+  | {
+      disabled?: never
+      disabledTooltip?: never
+    }
+
 // Common props for all button "kinds"
 type ButtonCommonProps = {
   kind?: ButtonKind
@@ -52,7 +60,8 @@ type ButtonCommonProps = {
 export type ButtonProps = ButtonCommonProps &
   ButtonAccessibleIconLeftProps &
   ButtonAccessibleIconRightProps &
-  Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'className' | 'autoFocus' | 'disabled' | 'type'>
+  ButtonDisabledProps &
+  Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'className' | 'autoFocus' | 'type'>
 
 /**
  * ### Purpose
@@ -74,6 +83,8 @@ export type ButtonProps = ButtonCommonProps &
 export const Button: FC<ButtonProps> = ({
   kind = 'primary',
   className,
+  disabled,
+  disabledTooltip,
   children,
   capitalize = true,
   // Left icon
@@ -90,40 +101,41 @@ export const Button: FC<ButtonProps> = ({
   iconRightClassName,
   ...rest
 }) => (
-  <button
-    data-test="button"
-    className={cn(className, styles.button, {
-      [styles.primary]: kind === 'primary',
-      [styles.secondary]: kind === 'secondary',
-      [styles.transparent]: kind === 'transparent',
-    })}
-    {...rest}
-  >
-    <span className={styles.outline} />
-    <span className={styles.body}>
-      {iconLeft && iconLeftAriaLabel && (
-        // Icon colour & size is defined in SCSS
-        <Icon
-          icon={iconLeft}
-          ariaLabel={iconLeftAriaLabel}
-          data-test="button-icon-left"
-          className={cn(styles.iconLeft, iconLeftClassName)}
-          size={iconLeftSize}
-          color={iconLeftColor}
-        />
-      )}
-      <TruncatedText text={capitalize ? children.toUpperCase() : children} />
-      {iconRight && iconRightAriaLabel && (
-        // Icon colour & size are defined in SCSS
-        <Icon
-          icon={iconRight}
-          ariaLabel={iconRightAriaLabel}
-          data-test="button-icon-right"
-          className={cn(styles.iconRight, iconRightClassName)}
-          size={iconRightSize}
-          color={iconRightColor}
-        />
-      )}
-    </span>
-  </button>
+  <Tooltip overlay={disabled ? disabledTooltip : undefined}>
+    <button
+      data-test="button"
+      className={cn(className, styles.button, {
+        [styles.primary]: kind === 'primary',
+        [styles.secondary]: kind === 'secondary',
+        [styles.transparent]: kind === 'transparent',
+      })}
+      disabled={disabled}
+      {...rest}
+    >
+      <span className={styles.outline} />
+      <span className={styles.body}>
+        {iconLeft && iconLeftAriaLabel && (
+          <Icon
+            icon={iconLeft}
+            ariaLabel={iconLeftAriaLabel}
+            data-test="button-icon-left"
+            className={cn(styles.iconLeft, iconLeftClassName)}
+            size={iconLeftSize}
+            color={iconLeftColor}
+          />
+        )}
+        <TruncatedText text={capitalize ? children.toUpperCase() : children} />
+        {iconRight && iconRightAriaLabel && (
+          <Icon
+            icon={iconRight}
+            ariaLabel={iconRightAriaLabel}
+            data-test="button-icon-right"
+            className={cn(styles.iconRight, iconRightClassName)}
+            size={iconRightSize}
+            color={iconRightColor}
+          />
+        )}
+      </span>
+    </button>
+  </Tooltip>
 )
