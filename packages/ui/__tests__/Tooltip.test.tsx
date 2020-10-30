@@ -28,7 +28,8 @@ describe('Tooltip', () => {
     expect(wrapper.findDataTest('tooltip-reference').exists()).toBeTruthy()
     expect(tooltipOverlay.exists()).toBeTruthy()
     expect(tooltipOverlay.text()).toEqual('Tooltip content')
-    expect(tooltipOverlay.prop('id')).toEqual('tooltip-test')
+
+    expect(wrapper.findDataTest('tooltip-sr').prop('id')).toEqual('tooltip-test')
   })
 
   it('Does not render tooltip if "content" property is not defined.', async () => {

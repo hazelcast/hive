@@ -1,11 +1,8 @@
 @use '../styles/constants' as c;
+@use '../styles/helpers' as h;
 
 .tooltip-sr {
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  overflow: hidden;
-  position: absolute;
-  white-space: nowrap;
+  @include h.visuallyHidden;
 }
 
 .overlay {
