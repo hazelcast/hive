@@ -3,7 +3,7 @@ import { FieldValidator, useField } from 'formik'
 
 import { TextField, TextFieldExtraProps } from './TextField'
 
-export type TextFieldFormikProps<V extends object> = TextFieldExtraProps & {
+export type TextFieldFormikProps<V extends object> = Exclude<TextFieldExtraProps<'text'>, 'type'> & {
   name: keyof V
   validate?: FieldValidator
 }
@@ -17,6 +17,7 @@ export const TextFieldFormik = <V extends object>({ name, validate, ...props }: 
   return (
     <TextField
       {...props}
+      type="text"
       name={name}
       value={field.value}
       onChange={field.onChange}

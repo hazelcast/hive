@@ -1,5 +1,5 @@
 // https://zeroheight.com/11d0e6dac/p/316944-text-field
-import React, { FC, ChangeEvent, ReactElement, InputHTMLAttributes, useRef, FocusEvent } from 'react'
+import React, { ChangeEvent, ReactElement, InputHTMLAttributes, useRef, FocusEvent } from 'react'
 import cn from 'classnames'
 import { DataTestProp } from '@hazelcast/helpers'
 import { v4 as uuid } from 'uuid'
@@ -12,28 +12,28 @@ import { Help, helpTooltipId } from './Help'
 
 import styles from './TextField.module.scss'
 
-type TextFieldCoreProps = {
+type TextFieldCoreProps<T extends string> = {
   name: string
-  value?: string
+  value?: T extends 'number' ? number : string
   onBlur?: (e: FocusEvent<HTMLInputElement>) => void
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
   error?: string
 }
-export type TextFieldExtraProps = {
+export type TextFieldExtraProps<T extends string> = {
   label: string
   required?: boolean
   helperText?: string | ReactElement
-  inputOverlay?: ReactElement
   className?: string
   inputClassName?: string
   errorClassName?: string
   placeholder: string
   inputContainerChild?: ReactElement
   inputIcon?: IconType
+  type: T
 } & DataTestProp &
-  Pick<InputHTMLAttributes<HTMLInputElement>, 'autoFocus' | 'disabled' | 'autoComplete' | 'type'>
+  Pick<InputHTMLAttributes<HTMLInputElement>, 'autoFocus' | 'disabled' | 'autoComplete'>
 
-type TextFieldProps = TextFieldCoreProps & TextFieldExtraProps
+type TextFieldProps<T extends string> = TextFieldCoreProps<T> & TextFieldExtraProps<T>
 
 /**
  * ### Purpose
@@ -52,7 +52,7 @@ type TextFieldProps = TextFieldCoreProps & TextFieldExtraProps
  * ### Usage
  * Use a text input when the expected user input is a single line of text.
  */
-export const TextField: FC<TextFieldProps> = ({
+export const TextField = <T extends string>({
   name,
   value,
   label,
@@ -62,7 +62,7 @@ export const TextField: FC<TextFieldProps> = ({
   helperText,
   error,
   'data-test': dataTest,
-  type = 'text',
+  type,
   className,
   inputClassName,
   errorClassName,
@@ -71,7 +71,7 @@ export const TextField: FC<TextFieldProps> = ({
   inputContainerChild,
   inputIcon,
   ...htmlAttrs
-}) => {
+}: TextFieldProps<T>) => {
   const idRef = useRef(uuid())
 
   return (
