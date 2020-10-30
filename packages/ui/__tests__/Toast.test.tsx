@@ -1,21 +1,44 @@
 import { mount } from 'enzyme'
 import React from 'react'
 import { act } from 'react-dom/test-utils'
-import { AlertTriangle, CheckCircle, Info, AlertCircle, Icon } from 'react-feather'
-import { ToastType } from '../src/Toast'
-import { Toast } from '../src/Toast'
+import { AlertTriangle, CheckCircle, Info, AlertCircle } from 'react-feather'
+import { Toast, ToastType, IconDescriptor } from '../src/Toast'
 
 const content = 'Toast Content'
 
 describe('Toast', () => {
-  const toastBasicTestData: [ToastType, Icon][] = [
-    ['success', CheckCircle],
-    ['info', Info],
-    ['warning', AlertTriangle],
-    ['critical', AlertCircle],
+  const toastBasicTestData: [ToastType, IconDescriptor][] = [
+    [
+      'success',
+      {
+        icon: CheckCircle,
+        ariaLabel: 'Check circle icon',
+      },
+    ],
+    [
+      'info',
+      {
+        icon: Info,
+        ariaLabel: 'Info circle icon',
+      },
+    ],
+    [
+      'warning',
+      {
+        icon: AlertTriangle,
+        ariaLabel: 'Warning triangle icon',
+      },
+    ],
+    [
+      'critical',
+      {
+        icon: AlertCircle,
+        ariaLabel: 'Info critical circle icon',
+      },
+    ],
   ]
 
-  it.each(toastBasicTestData)('Renders %s Toast with correct icon and content', (type, Icon) => {
+  it.each(toastBasicTestData)('Renders %s Toast with correct icon and content', (type, { icon, ariaLabel }) => {
     const wrapper = mount(<Toast type={type} content={content} />)
 
     const AlertElement = wrapper.find(Toast)
@@ -23,7 +46,10 @@ describe('Toast', () => {
     expect(AlertElement.exists()).toBeTruthy()
     expect(AlertElement.findDataTest('toast-content').text()).toBe(content)
 
-    expect(wrapper.find(Icon).exists()).toBeTruthy()
+    expect(wrapper.findDataTest('toast-icon').props()).toMatchObject({
+      icon,
+      ariaLabel,
+    })
   })
 
   it('Renders X as a close button when onClose is passed', () => {

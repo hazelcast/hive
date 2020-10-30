@@ -11,7 +11,7 @@ const sizes = {
   small: styles.small,
 }
 
-type AnchorAttirubutes = AnchorHTMLAttributes<HTMLAnchorElement>
+type AnchorAttributes = AnchorHTMLAttributes<HTMLAnchorElement>
 
 type IconProps =
   | {
@@ -25,8 +25,8 @@ type IconProps =
 
 type LinkProps = IconProps & {
   size?: keyof typeof sizes
-} & PartialRequired<AnchorAttirubutes, 'href'> &
-  Pick<AnchorAttirubutes, 'target' | 'rel' | 'className'> & {
+} & PartialRequired<AnchorAttributes, 'href'> &
+  Pick<AnchorAttributes, 'target' | 'rel' | 'className'> & {
     children: ReactNode
   }
 
