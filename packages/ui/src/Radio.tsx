@@ -71,10 +71,7 @@ export const Radio: FC<RadioProps> = ({
           onBlur={onBlur}
           value={value}
           disabled={disabled}
-          // aria-invalid={!!error}
-          // aria-required={required}
           aria-describedby={helperText && helpTooltipId(idRef.current)}
-          // aria-errormessage={error && errorId(idRef.current)}
         />
         <span className={styles.checkmark} />
         {helperText && <Help parentId={idRef.current} helperText={helperText} />}

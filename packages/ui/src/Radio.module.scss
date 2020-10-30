@@ -33,7 +33,6 @@
     // because of ~ and + selectors used below, we need to keep the current order in DOM and
     // fix it visually with order property
     order: -1;
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -45,7 +44,7 @@
   }
 
   /* Style the indicator (dot/circle) */
-  .checkmark:after {
+  .checkmark::after {
     content: '';
     width: 1.5 * c.$grid;
     height: 1.5 * c.$grid;
@@ -53,7 +52,7 @@
     background: transparent;
   }
 
-  input:checked ~ .checkmark:after {
+  input:checked ~ .checkmark::after {
     background: c.$colorNeutralWhite;
   }
 
@@ -77,8 +76,8 @@
 
 // Outline on focus
 label.wrapper.focus .checkmark,
-label.wrapper > input:checked:focus ~ .checkmark,
-label.wrapper > input:focus ~ .checkmark {
+label.wrapper > input:focus ~ .checkmark,
+label.wrapper > input:checked:focus ~ .checkmark {
   @include h.outlineFormField;
 }
 
