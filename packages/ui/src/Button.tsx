@@ -3,8 +3,10 @@ import cn from 'classnames'
 
 import { Icon, IconProps } from './Icon'
 import { TruncatedText } from './TruncatedText'
+import { Tooltip } from '../src/Tooltip'
 
 import styles from './Button.module.scss'
+import mergeRefs from 'react-merge-refs'
 
 export type ButtonKind = 'primary' | 'secondary' | 'transparent'
 
@@ -42,6 +44,14 @@ export type ButtonAccessibleIconRightProps =
       iconRightClassName?: never
     }
 
+export type ButtonDisabledProps =
+  | ({ disabledTooltip: string; disabledTooltipId: string } & Required<Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'disabled'>>)
+  | {
+      disabled?: never
+      disabledTooltip?: never
+      disabledTooltipId: never
+    }
+
 // Common props for all button "kinds"
 type ButtonCommonProps = {
   kind?: ButtonKind
@@ -52,7 +62,8 @@ type ButtonCommonProps = {
 export type ButtonProps = ButtonCommonProps &
   ButtonAccessibleIconLeftProps &
   ButtonAccessibleIconRightProps &
-  Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'className' | 'autoFocus' | 'disabled' | 'type'>
+  ButtonDisabledProps &
+  Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'className' | 'autoFocus' | 'type'>
 
 /**
  * ### Purpose
@@ -76,13 +87,18 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     {
       kind = 'primary',
       className,
+      disabled,
+      disabledTooltip,
+      disabledTooltipId,
       children,
-      capitalize = true, // Left icon
+      capitalize = true,
+      // Left icon
       iconLeft,
       iconLeftAriaLabel,
       iconLeftSize,
       iconLeftColor,
-      iconLeftClassName, // Right icon
+      iconLeftClassName,
+      // Right icon
       iconRight,
       iconRightAriaLabel,
       iconRightSize,
@@ -92,43 +108,46 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref,
   ) => (
-    <button
-      data-test="button"
-      ref={ref}
-      className={cn(className, styles.button, {
-        [styles.primary]: kind === 'primary',
-        [styles.secondary]: kind === 'secondary',
-        [styles.transparent]: kind === 'transparent',
-      })}
-      {...rest}
-    >
-      <span className={styles.outline} />
-      <span className={styles.body}>
-        {iconLeft && iconLeftAriaLabel && (
-          // Icon colour & size is defined in SCSS
-          <Icon
-            icon={iconLeft}
-            ariaLabel={iconLeftAriaLabel}
-            data-test="button-icon-left"
-            className={cn(styles.iconLeft, iconLeftClassName)}
-            size={iconLeftSize}
-            color={iconLeftColor}
-          />
-        )}
-        <TruncatedText text={capitalize ? children.toUpperCase() : children} />
-        {iconRight && iconRightAriaLabel && (
-          // Icon colour & size are defined in SCSS
-          <Icon
-            icon={iconRight}
-            ariaLabel={iconRightAriaLabel}
-            data-test="button-icon-right"
-            className={cn(styles.iconRight, iconRightClassName)}
-            size={iconRightSize}
-            color={iconRightColor}
-          />
-        )}
-      </span>
-    </button>
+    <Tooltip id={disabledTooltipId} content={disabled ? disabledTooltip : undefined}>
+      {(tooltipRef) => (
+        <button
+          data-test="button"
+          ref={mergeRefs([ref, tooltipRef])}
+          className={cn(className, styles.button, {
+            [styles.primary]: kind === 'primary',
+            [styles.secondary]: kind === 'secondary',
+            [styles.transparent]: kind === 'transparent',
+          })}
+          disabled={disabled}
+          {...rest}
+        >
+          <span className={styles.outline} />
+          <span className={styles.body}>
+            {iconLeft && iconLeftAriaLabel && (
+              <Icon
+                icon={iconLeft}
+                ariaLabel={iconLeftAriaLabel}
+                data-test="button-icon-left"
+                className={cn(styles.iconLeft, iconLeftClassName)}
+                size={iconLeftSize}
+                color={iconLeftColor}
+              />
+            )}
+            <TruncatedText text={capitalize ? children.toUpperCase() : children} />
+            {iconRight && iconRightAriaLabel && (
+              <Icon
+                icon={iconRight}
+                ariaLabel={iconRightAriaLabel}
+                data-test="button-icon-right"
+                className={cn(styles.iconRight, iconRightClassName)}
+                size={iconRightSize}
+                color={iconRightColor}
+              />
+            )}
+          </span>
+        </button>
+      )}
+    </Tooltip>
   ),
 )
 

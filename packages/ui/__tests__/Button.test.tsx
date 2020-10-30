@@ -2,6 +2,7 @@ import React from 'react'
 import { X } from 'react-feather'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 
+import { Tooltip } from '../src/Tooltip'
 import { Button, ButtonKind } from '../src/Button'
 
 import styles from '../src/Button.module.scss'
@@ -95,6 +96,21 @@ describe('Button', () => {
     expect(wrapper.findDataTest('button-icon-right').exists()).toBeTruthy()
     expect(wrapper.findDataTest('button-icon-right').find(X).props()).toMatchObject({
       'aria-label': iconAriaLabel,
+    })
+  })
+
+  it('Renders disabled button with a disabled tooltip', async () => {
+    const disabledTooltip = 'Disabled tooltip'
+
+    const wrapper = await mountAndCheckA11Y(
+      <Button disabled disabledTooltip={disabledTooltip} disabledTooltipId="tooltip-disabled">
+        {label}
+      </Button>,
+    )
+
+    expect(wrapper.find('button').prop('disabled')).toBe(true)
+    expect(wrapper.find(Tooltip).at(0).props()).toMatchObject({
+      overlay: disabledTooltip,
     })
   })
 })
