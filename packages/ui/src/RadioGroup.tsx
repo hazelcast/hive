@@ -6,30 +6,26 @@ import styles from './RadioGroup.module.scss'
 import { RadioProps } from './Radio'
 
 export type RadioGroupProps = {
-  error?: string
   children: ReactElement<RadioProps> | Array<ReactElement<RadioProps>>
   radioGroupClassName?: string
-  required?: boolean
+  error?: string
 }
 
-export const RadioGroup: FC<RadioGroupProps> = ({ radioGroupClassName, error, required, children }) => {
+export const RadioGroup: FC<RadioGroupProps> = ({ radioGroupClassName, error, children }) => {
   const idRef = useRef(uuid())
 
   return (
     <div>
-      <ul
+      <div
         role="radiogroup"
         className={classNames([styles.radioGroup, radioGroupClassName], {
           [styles.error]: !!error,
         })}
         aria-invalid={!!error}
-        aria-required={required}
         aria-errormessage={error && errorId(idRef.current)}
       >
-        {React.Children.map(children, (child, i) => (
-          <li key={i}>{child}</li>
-        ))}
-      </ul>
+        {children}
+      </div>
       <Error error={error} className={classNames(styles.errorContainer)} inputId={idRef.current} />
     </div>
   )

@@ -2,6 +2,9 @@ import React, { useRef, useState } from 'react'
 import { v4 as uuid } from 'uuid'
 import { Radio } from '../src/Radio'
 import { RadioGroup } from '../src/RadioGroup'
+import { Form, Formik } from 'formik'
+import { RadioGroupFieldFormik } from '../src/RadioGroupFormik'
+import { RadioFieldFormik } from '../src/RadioFormik'
 
 export default {
   title: 'Components/RadioGroup',
@@ -56,6 +59,48 @@ export const RadioGroupWithDescriptionAndError = () => {
       />
     </RadioGroup>
   )
+}
+
+export const RadioGroupWrappedInFormik = () => {
+  type Values = {
+    name: string
+  }
+
+  const TestForm = () => (
+    <Formik<Values>
+      initialValues={{
+        name: 'invalid_name',
+      }}
+      initialErrors={{
+        name: 'Server Error: Invalid name',
+      }}
+      validate={(values) => {
+        const errors: Partial<Values> = {
+          name: values.name === 'invalid_name' ? 'Name is invalid' : undefined,
+        }
+
+        return errors
+      }}
+      onSubmit={console.log}
+    >
+      {({ values }) => (
+        <Form>
+          Values: {JSON.stringify(values)}
+          <RadioGroupFieldFormik<Values> name="name">
+            <RadioFieldFormik<Values>
+              value="invalid_name"
+              name="name"
+              helperText="This field contains invalid value"
+              label={'Invalid Name'}
+            />
+            <RadioFieldFormik<Values> value="joey" name="name" helperText="Joey is the best!" label={'Joey'} />
+          </RadioGroupFieldFormik>
+        </Form>
+      )}
+    </Formik>
+  )
+
+  return <TestForm />
 }
 
 RadioGroupWithDescription.parameters = {

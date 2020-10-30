@@ -7,7 +7,7 @@ import { v4 as uuid } from 'uuid'
 
 type RadioCoreProps = {
   name: string
-  value?: string
+  value: string
   onBlur?: (e: FocusEvent<HTMLInputElement>) => void
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
   checked?: boolean
@@ -37,6 +37,7 @@ export const Radio: FC<RadioProps> = ({
   classNameLabel,
   value,
   label,
+  required,
   helperText,
   disabled = false,
   checked,
@@ -67,6 +68,7 @@ export const Radio: FC<RadioProps> = ({
           id={idRef.current}
           name={name}
           checked={checked}
+          required={required}
           onChange={onChange}
           onBlur={onBlur}
           value={value}
