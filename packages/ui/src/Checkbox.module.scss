@@ -4,7 +4,6 @@
 .wrapper {
   display: inline-flex;
   flex-direction: row;
-  user-select: none;
   cursor: pointer;
 
   @include c.typographyBodySmall;
@@ -27,6 +26,16 @@
     width: 1px;
     opacity: 0;
     position: absolute;
+  }
+
+  /**
+    Hover
+   */
+  &:hover,
+  &.hover {
+    input ~ .checkmark {
+      border-color: c.$colorPrimary;
+    }
   }
 
   input:checked ~ .checkmark {

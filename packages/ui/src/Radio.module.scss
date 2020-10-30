@@ -9,7 +9,6 @@
   // Most common use case will be still the usage in a form where parent
   // wrapper controls this.
   vertical-align: bottom;
-  user-select: none;
   cursor: pointer;
 
   @include c.typographyBodySmall;
@@ -36,9 +35,19 @@
     justify-content: center;
   }
 
-  input:checked ~ .checkmark {
+  & > input:checked ~ .checkmark {
     background-color: c.$colorSuccessLight;
     border-color: c.$colorSuccessLight;
+  }
+
+  /**
+    Hover
+   */
+  &:hover,
+  &.hover {
+    input ~ .checkmark {
+      border-color: c.$colorPrimary;
+    }
   }
 
   /* Style the indicator (dot/circle) */
@@ -58,29 +67,27 @@
     padding-left: c.$grid * 1.25;
     padding-right: c.$grid * 1.25;
   }
-}
 
-.wrapper:not(.checked) {
-  color: c.$colorTextSecondary;
-}
+  /**
+    Disabled
+  */
+  &.disabled {
+    cursor: not-allowed;
+  }
 
-/**
-  Disabled
-*/
-.wrapper.disabled {
-  color: c.$colorNeutralLight;
-  cursor: not-allowed;
-}
+  // Outline on focus
+  & > input:focus ~ .checkmark,
+  & > input:checked:focus ~ .checkmark,
+  &.focus > input ~ span.checkmark {
+    @include h.outlineFormField;
+  }
 
-// Outline on focus
-label.wrapper.focus .checkmark,
-label.wrapper > input:focus ~ .checkmark,
-label.wrapper > input:checked:focus ~ .checkmark {
-  @include h.outlineFormField;
-}
-
-label.wrapper.disabled > input:indeterminate ~ .checkmark,
-label.wrapper.disabled > input:checked ~ .checkmark {
-  background-color: c.$colorNeutral;
-  border-color: c.$colorNeutralLight;
+  &.disabled > input:indeterminate ~ .checkmark,
+  &.disabled > input:checked ~ .checkmark {
+    background-color: c.$colorNeutral;
+    border-color: c.$colorNeutralLight;
+  }
+  &.disabled > input:hover ~ .checkmark {
+    border-color: c.$colorNeutralLight;
+  }
 }

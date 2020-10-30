@@ -12,7 +12,7 @@ export default {
   component: RadioGroup,
 }
 
-export const RadioGroupWithDescription = () => {
+export const RadioGroupDefault = () => {
   const idRef = useRef(uuid())
   const [value, setValue] = useState<string>('test')
   return (
@@ -104,7 +104,7 @@ export const RadioGroupWrappedInFormik = () => {
   return <TestForm />
 }
 
-RadioGroupWithDescription.parameters = {
+RadioGroupDefault.parameters = {
   design: {
     type: 'figma',
     url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=479%3A273',

@@ -6,7 +6,7 @@
   flex-direction: column;
 
   // Error state
-  &.error input:checked ~ * {
+  &.error label > input:checked ~ * {
     border-color: c.$colorError;
   }
 }

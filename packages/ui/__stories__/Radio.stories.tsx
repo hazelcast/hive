@@ -64,6 +64,21 @@ export const RadioFocusedChecked = () => {
   )
 }
 
+export const RadioHoveredUnchecked = () => {
+  const idRef = useRef(uuid())
+  return (
+    <div>
+      <Radio
+        name={idRef.current}
+        value="test2"
+        label="Test 2"
+        classNameLabel={styles.hover}
+        onChange={(e) => logger.log('change', e.target.checked)}
+      />
+    </div>
+  )
+}
+
 export const RadioFocusedCheckedWithHelp = () => {
   const idRef = useRef(uuid())
   return (
