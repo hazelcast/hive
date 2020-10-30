@@ -109,7 +109,7 @@ export const Tooltip: FC<TooltipProps> = ({
 
       {content !== undefined && (
         <>
-          <span id={id} className={styles['tooltip-sr']} role="tooltip" data-test="tooltip-sr">
+          <span id={id} className={styles.tooltipSr} role="tooltip" data-test="tooltip-sr">
             {content}
           </span>
 

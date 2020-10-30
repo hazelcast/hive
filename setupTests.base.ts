@@ -10,13 +10,11 @@ beforeEach(() => {
   jest.spyOn(console, 'error').mockImplementation((...args) => {
     isConsoleErrorOrWarning = true
     originalError(...args)
-    console.log('ERROR', ...args)
   })
   const originalWarn = console.warn
   jest.spyOn(console, 'warn').mockImplementation((...args) => {
     isConsoleErrorOrWarning = true
     originalWarn(...args)
-    console.log('WARN')
   })
 })
 

@@ -46,11 +46,10 @@ export type ButtonAccessibleIconRightProps =
     }
 
 export type ButtonDisabledProps =
-  | ({ disabledTooltip: string; disabledTooltipId: string } & Required<Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'disabled'>>)
+  | ({ disabledTooltip: string } & Required<Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'disabled'>>)
   | {
       disabled?: never
       disabledTooltip?: never
-      disabledTooltipId?: never
     }
 
 // Common props for all button "kinds"
@@ -90,7 +89,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       className,
       disabled,
       disabledTooltip,
-      disabledTooltipId,
       children,
       capitalize = true,
       // Left icon
@@ -110,7 +108,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ref,
   ) => {
     /* Generate backup tooltip id if prop is empty */
-    const tooltipId = disabledTooltipId ?? `${uuid()}-button-tooltip`
+    const tooltipId = `${uuid()}-button-tooltip`
 
     return (
       <Tooltip id={tooltipId} content={disabled ? disabledTooltip : undefined}>
@@ -123,6 +121,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               [styles.secondary]: kind === 'secondary',
               [styles.transparent]: kind === 'transparent',
             })}
+            aria-describedby={disabled ? tooltipId : undefined}
             disabled={disabled}
             {...rest}
           >

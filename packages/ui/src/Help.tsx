@@ -30,9 +30,15 @@ export const Help: FC<HelpProps> = ({ helperText, placement = 'top', parentId, c
           className={cn(styles.container, className, {
             [styles.padding]: padding === 'default',
           })}
-          aria-describedby={tooltipId}
         >
-          <Icon ariaLabel="Help" color={styleConsts.colorPrimary} icon={HelpCircle} className={styles.icon} size="small" />
+          <Icon
+            ariaLabel="Help"
+            aria-describedby={tooltipId}
+            color={styleConsts.colorPrimary}
+            icon={HelpCircle}
+            className={styles.icon}
+            size="small"
+          />
         </div>
       )}
     </Tooltip>

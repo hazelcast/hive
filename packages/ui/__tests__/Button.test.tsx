@@ -104,7 +104,7 @@ describe('Button', () => {
 
     const wrapper = await mountAndCheckA11Y(
       <div>
-        <Button disabled disabledTooltip={disabledTooltip} disabledTooltipId="tooltip-disabled">
+        <Button disabled disabledTooltip={disabledTooltip}>
           {label}
         </Button>
       </div>,

@@ -1,7 +1,7 @@
 @use '../styles/constants' as c;
 @use '../styles/helpers' as h;
 
-.tooltip-sr {
+.tooltipSr {
   @include h.visuallyHidden;
 }
 
@@ -14,7 +14,6 @@
   background: c.$colorNeutralLighter;
   border: c.$borderWidth solid c.$colorNeutralLight;
   border-radius: c.$borderRadius;
-  font-size: inherit;
   color: c.$colorText;
 
   &.hidden {

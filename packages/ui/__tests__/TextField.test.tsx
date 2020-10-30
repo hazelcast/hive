@@ -100,51 +100,48 @@ describe('TextField', () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    // This has to be wrapper in act() - you can find an explanation in Tooltip test file.
-    await act(async () => {
-      const wrapper = await mountAndCheckA11Y(
-        <TextField
-          name="name"
-          value="Yoda"
-          placeholder="Enter the name"
-          label="Wisest jedi"
-          onBlur={onBlur}
-          onChange={onChange}
-          helperText="A long time ago in a galaxy far, far away...."
-        />,
-      )
+    const wrapper = await mountAndCheckA11Y(
+      <TextField
+        name="name"
+        value="Yoda"
+        placeholder="Enter the name"
+        label="Wisest jedi"
+        onBlur={onBlur}
+        onChange={onChange}
+        helperText="A long time ago in a galaxy far, far away...."
+      />,
+    )
 
-      expect(wrapper.find(HiddenLabel).props()).toEqual({
-        id: 'republic',
-        label: 'Wisest jedi',
-      })
+    expect(wrapper.find(HiddenLabel).props()).toEqual({
+      id: 'republic',
+      label: 'Wisest jedi',
+    })
 
-      expect(wrapper.find('input').props()).toEqual({
-        type: 'text',
-        id: 'republic',
-        value: 'Yoda',
-        name: 'name',
-        onChange,
-        onBlur,
-        'aria-invalid': false,
-        'aria-required': undefined,
-        'aria-describedby': helpTooltipId('republic'),
-        'aria-errormessage': undefined,
-        disabled: undefined,
-        placeholder: 'Enter the name',
-      })
+    expect(wrapper.find('input').props()).toEqual({
+      type: 'text',
+      id: 'republic',
+      value: 'Yoda',
+      name: 'name',
+      onChange,
+      onBlur,
+      'aria-invalid': false,
+      'aria-required': undefined,
+      'aria-describedby': helpTooltipId('republic'),
+      'aria-errormessage': undefined,
+      disabled: undefined,
+      placeholder: 'Enter the name',
+    })
 
-      expect(wrapper.find(Error).props()).toEqual({
-        error: undefined,
-        className: styles.errorContainer,
-        inputId: 'republic',
-      })
+    expect(wrapper.find(Error).props()).toEqual({
+      error: undefined,
+      className: styles.errorContainer,
+      inputId: 'republic',
+    })
 
-      expect(wrapper.find(Help).props()).toEqual({
-        parentId: 'republic',
-        helperText: 'A long time ago in a galaxy far, far away....',
-        className: styles.helperText,
-      })
+    expect(wrapper.find(Help).props()).toEqual({
+      parentId: 'republic',
+      helperText: 'A long time ago in a galaxy far, far away....',
+      className: styles.helperText,
     })
   })
 
