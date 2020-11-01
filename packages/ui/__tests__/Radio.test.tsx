@@ -53,7 +53,7 @@ describe('Radio', () => {
         label="Hello World"
       />,
     )
-    expect(wrapper.find(Help).exists()).toBeTruthy()
+    expect(wrapper.find(Help).props()).toMatchObject({ helperText: 'This is a helper text.' })
   })
 
   it('Radio is not passed helperText, Help component is not present', async () => {
