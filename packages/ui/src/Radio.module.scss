@@ -9,6 +9,7 @@
   // Most common use case will be still the usage in a form where parent
   // wrapper controls this.
   vertical-align: bottom;
+  align-items: center;
   cursor: pointer;
 
   @include c.typographyBodySmall;

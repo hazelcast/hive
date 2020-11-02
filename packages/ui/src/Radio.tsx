@@ -1,6 +1,5 @@
 import React, { ChangeEvent, FC, FocusEvent, useRef } from 'react'
 import styles from './Radio.module.scss'
-import { DataTestProp } from '@hazelcast/helpers'
 import classNames from 'classnames'
 import { Help, helpTooltipId } from './Help'
 import { v4 as uuid } from 'uuid'
@@ -22,7 +21,7 @@ export type RadioExtraProps = {
   classNameLabel?: string
 }
 
-export type RadioProps = RadioCoreProps & RadioExtraProps & DataTestProp
+export type RadioProps = RadioCoreProps & RadioExtraProps
 
 /**
  * ### Purpose
@@ -42,7 +41,6 @@ export const Radio: FC<RadioProps> = ({
   disabled = false,
   checked,
 }) => {
-  const inputRef = useRef<HTMLInputElement>(null)
   const idRef = useRef(uuid())
 
   return (
@@ -61,10 +59,12 @@ export const Radio: FC<RadioProps> = ({
         )}
         htmlFor={idRef.current}
       >
-        <span className={styles.name}>{label}</span>
+        <span className={styles.name} data-test="radio-input-label">
+          {label}
+        </span>
         <input
           type="radio"
-          ref={inputRef}
+          data-test="radio-input"
           id={idRef.current}
           name={name}
           checked={checked}

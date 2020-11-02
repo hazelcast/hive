@@ -23,6 +23,7 @@ export const RadioGroup: FC<RadioGroupProps> = ({ radioGroupClassName, error, ch
     <div>
       <div
         role="radiogroup"
+        data-test="radio-group"
         className={classNames([styles.radioGroup, radioGroupClassName], {
           [styles.error]: !!error,
         })}
@@ -31,7 +32,7 @@ export const RadioGroup: FC<RadioGroupProps> = ({ radioGroupClassName, error, ch
       >
         {children}
       </div>
-      <Error error={error} className={classNames(styles.errorContainer)} inputId={idRef.current} />
+      <Error error={error} className={classNames(styles.errorContainer)} inputId={errorId(idRef.current)} />
     </div>
   )
 }

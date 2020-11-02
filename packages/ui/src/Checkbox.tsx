@@ -1,7 +1,6 @@
 import React, { AriaAttributes, ChangeEvent, FC, FocusEvent, useRef } from 'react'
 import styles from './Checkbox.module.scss'
 import { Check, Minus } from 'react-feather'
-import { DataTestProp } from '@hazelcast/helpers'
 import classNames from 'classnames'
 import { Error, errorId } from './Error'
 import { Help, helpTooltipId } from './Help'
@@ -26,7 +25,7 @@ export type CheckboxExtraProps = {
   classNameLabel?: string
 }
 
-type CheckboxProps = CheckboxCoreProps & CheckboxExtraProps & DataTestProp
+type CheckboxProps = CheckboxCoreProps & CheckboxExtraProps
 
 /**
  * ### Purpose
@@ -79,9 +78,12 @@ export const Checkbox: FC<CheckboxProps> = ({
         )}
         htmlFor={idRef.current}
       >
-        <span className={styles.name}>{label}</span>
+        <span className={styles.name} data-test="input-checkbox-label">
+          {label}
+        </span>
         <input
           type="checkbox"
+          data-test="input-checkbox"
           ref={inputRef}
           id={idRef.current}
           name={name}

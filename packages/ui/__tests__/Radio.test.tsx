@@ -27,6 +27,8 @@ describe('Radio', () => {
       checked: true,
       'aria-describedby': undefined,
       disabled: true,
+      'data-test': 'radio-input',
+      required: undefined,
       id: 'uuidtest',
     })
   })
