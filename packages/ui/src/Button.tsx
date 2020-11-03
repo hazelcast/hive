@@ -59,6 +59,7 @@ type ButtonCommonProps = {
   kind?: ButtonKind
   children: string
   capitalize?: boolean
+  bodyClassName?: string
 }
 
 export type ButtonProps = ButtonCommonProps &
@@ -89,6 +90,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
     {
       kind = 'primary',
       className,
+      bodyClassName,
       children,
       capitalize = true,
       // Disabled tooltip
@@ -125,17 +127,21 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
         {(tooltipRef) => (
           <button
             data-test="button"
-            className={cn(className, styles.button, {
-              [styles.primary]: kind === 'primary',
-              [styles.secondary]: kind === 'secondary',
-              [styles.transparent]: kind === 'transparent',
-            })}
+            className={cn(
+              styles.button,
+              {
+                [styles.primary]: kind === 'primary',
+                [styles.secondary]: kind === 'secondary',
+                [styles.transparent]: kind === 'transparent',
+              },
+              className,
+            )}
             aria-describedby={disabled ? tooltipId : undefined}
             disabled={disabled}
             {...rest}
           >
             <span className={styles.outline} />
-            <span className={styles.body} ref={mergeRefs([ref, tooltipRef])}>
+            <span className={cn(styles.body, bodyClassName)} ref={mergeRefs([ref, tooltipRef])}>
               {iconLeft && iconLeftAriaLabel && (
                 <Icon
                   icon={iconLeft}
