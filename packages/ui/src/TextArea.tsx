@@ -4,11 +4,11 @@ import cn from 'classnames'
 
 import { DataTestProp } from '@hazelcast/helpers'
 import { HiddenLabel } from '../src/HiddenLabel'
-import { Error } from '../src'
+import { Error, errorId } from '../src'
 
 import styles from './TextArea.module.scss'
 
-type TextAreaCoreProps = {
+export type TextAreaCoreProps = {
   name: string
   value?: string
   onBlur?: (e: FocusEvent<HTMLTextAreaElement>) => void
@@ -60,16 +60,19 @@ export const TextArea: FC<TextAreaProps> = ({
     >
       <HiddenLabel id={idRef.current} label={label} />
       <textarea
+        aria-invalid={!!error}
+        aria-required={required}
+        aria-errormessage={error && errorId(idRef.current)}
         id={idRef.current}
         className={inputClassName}
         placeholder={placeholder}
         name={name}
         onBlur={onBlur}
         onChange={onChange}
-        value={value}
         defaultValue={defaultValue}
         readOnly={readOnly}
         required={required}
+        value={value}
         {...htmlAttrs}
       />
       <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={idRef.current} />

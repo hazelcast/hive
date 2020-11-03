@@ -15,17 +15,19 @@
   textarea {
     display: block;
     padding: c.$grid * 3;
-    border-width: c.$borderWidth;
-    border-color: c.$colorNeutralLight;
-    border-style: solid;
+    border-width: c.$borderWidth solid c.$colorNeutralLight;
     box-sizing: border-box;
     width: 100%;
+    font-family: inherit;
+    font-weight: inherit;
     font-size: inherit;
     line-height: inherit;
     letter-spacing: inherit;
     color: inherit;
     border-radius: c.$borderRadius;
     background-color: c.$colorNeutralLighter;
+
+    @include c.typographyBodySmall;
 
     &::placeholder {
       color: c.$colorTextSecondary;
