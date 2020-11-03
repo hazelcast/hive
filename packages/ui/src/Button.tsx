@@ -5,7 +5,7 @@ import { v4 as uuid } from 'uuid'
 
 import { Icon, IconProps } from './Icon'
 import { TruncatedText } from './TruncatedText'
-import { Tooltip } from '../src/Tooltip'
+import { Tooltip, TooltipProps } from './Tooltip'
 
 import styles from './Button.module.scss'
 
@@ -46,10 +46,12 @@ export type ButtonAccessibleIconRightProps =
     }
 
 export type ButtonDisabledProps =
-  | ({ disabledTooltip: string } & Required<Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'disabled'>>)
+  | { disabledTooltip: string; disabled: boolean; disabledTooltipVisible?: boolean; disabledTooltipPlacement?: TooltipProps['placement'] }
   | {
       disabled?: never
       disabledTooltip?: never
+      disabledTooltipVisible?: never
+      disabledTooltipPlacement?: never
     }
 
 // Common props for all button "kinds"
@@ -57,6 +59,7 @@ type ButtonCommonProps = {
   kind?: ButtonKind
   children: string
   capitalize?: boolean
+  bodyClassName?: string
 }
 
 export type ButtonProps = ButtonCommonProps &
@@ -82,15 +85,19 @@ export type ButtonProps = ButtonCommonProps &
  * - **Primary**: Use primary button for the single primary action on the screen. To call attention to an action on a form, or highlight the strongest call to action on a page. Primary button should only appear once per screen. Not every screen requires a primary button.
  * - **Secondary**: Use secondary buttons for all remaining actions. Secondary button is the standard button for most use cases.
  */
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+export const Button = forwardRef<HTMLElement, ButtonProps>(
   (
     {
       kind = 'primary',
       className,
-      disabled,
-      disabledTooltip,
+      bodyClassName,
       children,
       capitalize = true,
+      // Disabled tooltip
+      disabled,
+      disabledTooltip,
+      disabledTooltipVisible,
+      disabledTooltipPlacement,
       // Left icon
       iconLeft,
       iconLeftAriaLabel,
@@ -111,22 +118,30 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const tooltipId = `${uuid()}-button-tooltip`
 
     return (
-      <Tooltip id={tooltipId} content={disabled ? disabledTooltip : undefined}>
+      <Tooltip
+        id={tooltipId}
+        content={disabled ? disabledTooltip : undefined}
+        visible={disabledTooltipVisible}
+        placement={disabledTooltipPlacement}
+      >
         {(tooltipRef) => (
           <button
             data-test="button"
-            ref={mergeRefs([ref, tooltipRef])}
-            className={cn(className, styles.button, {
-              [styles.primary]: kind === 'primary',
-              [styles.secondary]: kind === 'secondary',
-              [styles.transparent]: kind === 'transparent',
-            })}
+            className={cn(
+              styles.button,
+              {
+                [styles.primary]: kind === 'primary',
+                [styles.secondary]: kind === 'secondary',
+                [styles.transparent]: kind === 'transparent',
+              },
+              className,
+            )}
             aria-describedby={disabled ? tooltipId : undefined}
             disabled={disabled}
             {...rest}
           >
             <span className={styles.outline} />
-            <span className={styles.body}>
+            <span className={cn(styles.body, bodyClassName)} ref={mergeRefs([ref, tooltipRef])}>
               {iconLeft && iconLeftAriaLabel && (
                 <Icon
                   icon={iconLeft}

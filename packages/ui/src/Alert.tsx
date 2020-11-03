@@ -87,6 +87,7 @@ export const Alert: FC<AlertProps> = ({ type, title, content, actions, className
                     kind="transparent"
                     capitalize={false}
                     className={cn(styles.action, styles.actionButton)}
+                    bodyClassName={styles.actionButtonBody}
                     onClick={onClick}
                     {...iconLeftProps}
                   >
