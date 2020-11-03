@@ -9,3 +9,16 @@
   // https://stackoverflow.com/a/52616313
   outline: transparent solid c.$outlineWidth;
 }
+
+// Hides element only visually, it'll be still "visible" for screen readers.
+@mixin visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+  border: 0;
+  white-space: nowrap;
+}

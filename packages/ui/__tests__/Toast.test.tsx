@@ -1,9 +1,8 @@
 import React from 'react'
 import { act } from 'react-dom/test-utils'
-
+import { AlertTriangle, CheckCircle, Info, AlertCircle } from 'react-feather'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 
-import { AlertTriangle, CheckCircle, Info, AlertCircle } from 'react-feather'
 import { Toast, ToastType, IconDescriptor } from '../src/Toast'
 
 const content = 'Toast Content'
