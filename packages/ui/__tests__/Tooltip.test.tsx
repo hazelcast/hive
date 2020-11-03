@@ -5,12 +5,7 @@ import cn from 'classnames'
 import { Tooltip } from '../src/Tooltip'
 import styles from '../src/Tooltip.module.scss'
 
-/**
- * There's a weird issue with react-popper that results in missing act() wrapper error.
- * This is why all mounts are wrapped in act().
- *
- * https://github.com/popperjs/react-popper/issues/368
- */
+// div is required because `axe` cannot validate react fragments
 describe('Tooltip', () => {
   it('Renders correctly if "content" property is defined.', async () => {
     const wrapper = await mountAndCheckA11Y(

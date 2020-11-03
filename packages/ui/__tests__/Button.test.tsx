@@ -103,6 +103,7 @@ describe('Button', () => {
     const disabledTooltip = 'Disabled tooltip'
 
     const wrapper = await mountAndCheckA11Y(
+      // div is required because `axe` cannot validate react fragments
       <div>
         <Button disabled disabledTooltip={disabledTooltip}>
           {label}
