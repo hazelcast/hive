@@ -1,0 +1,67 @@
+@use '../styles/constants' as c;
+@use '../styles/helpers' as h;
+
+.container {
+  @include c.typographyBodySmall;
+
+  color: c.$colorText;
+  box-sizing: border-box;
+  margin: 0;
+
+  .errorContainer {
+    margin-top: c.$grid;
+  }
+
+  textarea {
+    display: block;
+    padding: c.$grid * 3;
+    border-width: c.$borderWidth;
+    border-color: c.$colorNeutralLight;
+    border-style: solid;
+    box-sizing: border-box;
+    width: 100%;
+    font-size: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    border-radius: c.$borderRadius;
+    background-color: c.$colorNeutralLighter;
+
+    &::placeholder {
+      color: c.$colorTextSecondary;
+    }
+  }
+
+  &.empty {
+    color: c.$colorTextSecondary;
+  }
+
+  &.disabled {
+    textarea {
+      color: c.$colorTextSecondary;
+      background-color: c.$colorNeutral;
+      border-color: c.$colorNeutralLight;
+    }
+  }
+
+  &.hasError {
+    textarea {
+      border-color: c.$colorError;
+    }
+  }
+
+  &:hover,
+  &.hover {
+    textarea {
+      border-color: c.$colorPrimary;
+    }
+  }
+
+  &:focus,
+  &:focus-within,
+  &.focus {
+    textarea {
+      @include h.outlineFormField;
+    }
+  }
+}

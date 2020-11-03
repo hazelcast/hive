@@ -23,7 +23,6 @@ export type TextFieldExtraProps = {
   label: string
   required?: boolean
   helperText?: string | ReactElement
-  inputOverlay?: ReactElement
   className?: string
   inputClassName?: string
   errorClassName?: string
