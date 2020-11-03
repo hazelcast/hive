@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FC, HTMLProps } from 'react'
 import { Button } from '../src/Button'
 
 import { Tooltip } from '../src/Tooltip'
@@ -10,8 +10,14 @@ export default {
   component: Tooltip,
 }
 
+const Container: FC<HTMLProps<HTMLDivElement>> = ({ children, style, ...props }) => (
+  <div className={utilStyles.wrapperCentered} style={{ padding: 100, ...style }} {...props}>
+    {children}
+  </div>
+)
+
 export const Default = () => (
-  <div className={utilStyles.wrapperCentered}>
+  <Container>
     <Tooltip id="tooltip-default" content={'Tooltip content'}>
       {(ref) => (
         <Button ref={ref} aria-labelledby="tooltip-default">
@@ -19,7 +25,7 @@ export const Default = () => (
         </Button>
       )}
     </Tooltip>
-  </div>
+  </Container>
 )
 
 Default.parameters = {
@@ -30,7 +36,7 @@ Default.parameters = {
 }
 
 export const AutoPlacement = () => (
-  <div className={utilStyles.wrapperCentered}>
+  <Container>
     <Tooltip id="tooltip-placement-auto" placement="auto" content={'Tooltip content'} visible>
       {(ref) => (
         <Button ref={ref} aria-labelledby="tooltip-placement-auto">
@@ -38,11 +44,11 @@ export const AutoPlacement = () => (
         </Button>
       )}
     </Tooltip>
-  </div>
+  </Container>
 )
 
 export const AutoStartPlacement = () => (
-  <div className={utilStyles.wrapperCentered}>
+  <Container>
     <Tooltip id="tooltip-placement-auto-start" placement="auto-start" content={'Tooltip content'} visible>
       {(ref) => (
         <Button ref={ref} aria-labelledby="tooltip-placement-auto-start">
@@ -50,11 +56,11 @@ export const AutoStartPlacement = () => (
         </Button>
       )}
     </Tooltip>
-  </div>
+  </Container>
 )
 
 export const AutoEndPlacement = () => (
-  <div className={utilStyles.wrapperCentered}>
+  <Container>
     <Tooltip id="tooltip-placement-auto-end" placement="auto-end" content={'Tooltip content'} visible>
       {(ref) => (
         <Button ref={ref} aria-labelledby="tooltip-placement-auto-end">
@@ -62,11 +68,11 @@ export const AutoEndPlacement = () => (
         </Button>
       )}
     </Tooltip>
-  </div>
+  </Container>
 )
 
 export const TopPlacement = () => (
-  <div className={utilStyles.wrapperCentered}>
+  <Container>
     <Tooltip id="tooltip-placement-top" placement="top" content={'Tooltip content'} visible>
       {(ref) => (
         <Button ref={ref} aria-labelledby="tooltip-placement-top">
@@ -74,11 +80,11 @@ export const TopPlacement = () => (
         </Button>
       )}
     </Tooltip>
-  </div>
+  </Container>
 )
 
 export const TopStartPlacement = () => (
-  <div className={utilStyles.wrapperCentered}>
+  <Container>
     <Tooltip id="tooltip-placement-top-start" placement="top-start" content={'Tooltip content'} visible>
       {(ref) => (
         <Button ref={ref} aria-labelledby="tooltip-placement-top-start">
@@ -86,11 +92,11 @@ export const TopStartPlacement = () => (
         </Button>
       )}
     </Tooltip>
-  </div>
+  </Container>
 )
 
 export const TopEndPlacement = () => (
-  <div className={utilStyles.wrapperCentered}>
+  <Container>
     <Tooltip id="tooltip-placement-top-end" placement="top-end" content={'Tooltip content'} visible>
       {(ref) => (
         <Button ref={ref} aria-labelledby="tooltip-placement-top-end">
@@ -98,11 +104,11 @@ export const TopEndPlacement = () => (
         </Button>
       )}
     </Tooltip>
-  </div>
+  </Container>
 )
 
 export const RightPlacement = () => (
-  <div className={utilStyles.wrapperCentered}>
+  <Container>
     <Tooltip id="tooltip-placement-right" placement="right" content={'Tooltip content'} visible>
       {(ref) => (
         <Button ref={ref} aria-labelledby="tooltip-placement-right">
@@ -110,11 +116,11 @@ export const RightPlacement = () => (
         </Button>
       )}
     </Tooltip>
-  </div>
+  </Container>
 )
 
 export const RightStartPlacement = () => (
-  <div className={utilStyles.wrapperCentered}>
+  <Container>
     <Tooltip id="tooltip-placement-right-start" placement="right-start" content={'Tooltip content'} visible>
       {(ref) => (
         <Button ref={ref} aria-labelledby="tooltip-placement-right-start">
@@ -122,11 +128,11 @@ export const RightStartPlacement = () => (
         </Button>
       )}
     </Tooltip>
-  </div>
+  </Container>
 )
 
 export const RightEndPlacement = () => (
-  <div className={utilStyles.wrapperCentered}>
+  <Container>
     <Tooltip id="tooltip-placement-right-end" placement="right-end" content={'Tooltip content'} visible>
       {(ref) => (
         <Button ref={ref} aria-labelledby="tooltip-placement-right-start">
@@ -134,11 +140,11 @@ export const RightEndPlacement = () => (
         </Button>
       )}
     </Tooltip>
-  </div>
+  </Container>
 )
 
 export const BottomPlacement = () => (
-  <div className={utilStyles.wrapperCentered}>
+  <Container>
     <Tooltip id="tooltip-placement-bottom" placement="bottom" content={'Tooltip content'} visible>
       {(ref) => (
         <Button ref={ref} aria-labelledby="tooltip-placement-bottom">
@@ -146,11 +152,11 @@ export const BottomPlacement = () => (
         </Button>
       )}
     </Tooltip>
-  </div>
+  </Container>
 )
 
 export const BottomStartPlacement = () => (
-  <div className={utilStyles.wrapperCentered}>
+  <Container>
     <Tooltip id="tooltip-placement-bottom-start" placement="bottom-start" content={'Tooltip content'} visible>
       {(ref) => (
         <Button ref={ref} aria-labelledby="tooltip-placement-bottom-start">
@@ -158,11 +164,11 @@ export const BottomStartPlacement = () => (
         </Button>
       )}
     </Tooltip>
-  </div>
+  </Container>
 )
 
 export const BottomEndPlacement = () => (
-  <div className={utilStyles.wrapperCentered}>
+  <Container>
     <Tooltip id="tooltip-placement-bottom-end" placement="bottom-end" content={'Tooltip content'} visible>
       {(ref) => (
         <Button ref={ref} aria-labelledby="tooltip-placement-bottom-end">
@@ -170,11 +176,11 @@ export const BottomEndPlacement = () => (
         </Button>
       )}
     </Tooltip>
-  </div>
+  </Container>
 )
 
 export const LeftPlacement = () => (
-  <div className={utilStyles.wrapperCentered}>
+  <Container>
     <Tooltip id="tooltip-placement-left" placement="left" content={'Tooltip content'} visible>
       {(ref) => (
         <Button ref={ref} aria-labelledby="tooltip-placement-left">
@@ -182,11 +188,11 @@ export const LeftPlacement = () => (
         </Button>
       )}
     </Tooltip>
-  </div>
+  </Container>
 )
 
 export const LeftStartPlacement = () => (
-  <div className={utilStyles.wrapperCentered}>
+  <Container>
     <Tooltip id="tooltip-placement-left-start" placement="left-start" content={'Tooltip content'} visible>
       {(ref) => (
         <Button ref={ref} aria-labelledby="tooltip-placement-left-start">
@@ -194,11 +200,11 @@ export const LeftStartPlacement = () => (
         </Button>
       )}
     </Tooltip>
-  </div>
+  </Container>
 )
 
 export const LeftEndPlacement = () => (
-  <div className={utilStyles.wrapperCentered}>
+  <Container>
     <Tooltip id="tooltip-placement-left-end" placement="left-end" content={'Tooltip content'} visible>
       {(ref) => (
         <Button ref={ref} aria-labelledby="tooltip-placement-left-end">
@@ -206,11 +212,11 @@ export const LeftEndPlacement = () => (
         </Button>
       )}
     </Tooltip>
-  </div>
+  </Container>
 )
 
 export const InteractiveContent = () => (
-  <div className={utilStyles.wrapperCentered} style={{ minHeight: '250px' }}>
+  <Container style={{ padding: 250 }}>
     <Tooltip
       id="tooltip-interactive-content"
       content={
@@ -232,11 +238,11 @@ export const InteractiveContent = () => (
         </Button>
       )}
     </Tooltip>
-  </div>
+  </Container>
 )
 
 export const VisibleFalse = () => (
-  <div className={utilStyles.wrapperCentered}>
+  <Container>
     <Tooltip id="tooltip-disabled" content={'Tooltip content'} visible={false}>
       {(ref) => (
         <Button ref={ref} aria-labelledby="tooltip-disabled">
@@ -244,5 +250,5 @@ export const VisibleFalse = () => (
         </Button>
       )}
     </Tooltip>
-  </div>
+  </Container>
 )

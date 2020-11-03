@@ -5,6 +5,9 @@
   @include h.visuallyHidden;
 }
 
+$tooltipArrowSize1-3: c.$tooltipArrowSize / 3;
+$tooltipArrowSize2-3: c.$tooltipArrowSize / 3 * 2;
+
 .overlay {
   @include c.typographyBodySmall;
 
@@ -53,7 +56,7 @@
 
       &::after {
         border-top: c.$tooltipArrowSize solid c.$colorNeutralLighter;
-        transform: translateY(-2px);
+        transform: translateY(-($tooltipArrowSize1-3));
       }
     }
   }
@@ -78,7 +81,7 @@
 
       &::after {
         border-right: c.$tooltipArrowSize solid c.$colorNeutralLighter;
-        transform: translateX(-4px);
+        transform: translateX(-($tooltipArrowSize2-3));
       }
     }
   }
@@ -103,7 +106,7 @@
 
       &::after {
         border-bottom: c.$tooltipArrowSize solid c.$colorNeutralLighter;
-        transform: translateY(-4px);
+        transform: translateY(-($tooltipArrowSize2-3));
       }
     }
   }
@@ -127,7 +130,7 @@
 
       &::after {
         border-left: c.$tooltipArrowSize solid c.$colorNeutralLighter;
-        transform: translateX(-2px);
+        transform: translateX(-($tooltipArrowSize1-3));
       }
     }
   }

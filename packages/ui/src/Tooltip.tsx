@@ -37,7 +37,6 @@ export const Tooltip: FC<TooltipProps> = ({
   placement = 'top',
   visible: visibilityOverride,
   children,
-  ...props
 }) => {
   const [isShown, setShown] = useState<boolean>(false)
   const [hideTimeout, setHideTimeout] = useState<NodeJS.Timeout | null>(null)
@@ -120,9 +119,8 @@ export const Tooltip: FC<TooltipProps> = ({
             })}
             style={popperStyles.popper}
             data-test="tooltip-overlay"
-            aria-hidden="true"
+            aria-hidden
             {...popperAttributes.popper}
-            {...props}
           >
             {content}
 
