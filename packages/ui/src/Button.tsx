@@ -1,5 +1,7 @@
-import React, { ButtonHTMLAttributes, FC } from 'react'
+import React, { ButtonHTMLAttributes, forwardRef } from 'react'
 import cn from 'classnames'
+import mergeRefs from 'react-merge-refs'
+import { v4 as uuid } from 'uuid'
 
 import { Icon, IconProps } from './Icon'
 import { TruncatedText } from './TruncatedText'
@@ -80,62 +82,78 @@ export type ButtonProps = ButtonCommonProps &
  * - **Primary**: Use primary button for the single primary action on the screen. To call attention to an action on a form, or highlight the strongest call to action on a page. Primary button should only appear once per screen. Not every screen requires a primary button.
  * - **Secondary**: Use secondary buttons for all remaining actions. Secondary button is the standard button for most use cases.
  */
-export const Button: FC<ButtonProps> = ({
-  kind = 'primary',
-  className,
-  disabled,
-  disabledTooltip,
-  children,
-  capitalize = true,
-  // Left icon
-  iconLeft,
-  iconLeftAriaLabel,
-  iconLeftSize,
-  iconLeftColor,
-  iconLeftClassName,
-  // Right icon
-  iconRight,
-  iconRightAriaLabel,
-  iconRightSize,
-  iconRightColor,
-  iconRightClassName,
-  ...rest
-}) => (
-  <Tooltip overlay={disabled ? disabledTooltip : undefined}>
-    <button
-      data-test="button"
-      className={cn(className, styles.button, {
-        [styles.primary]: kind === 'primary',
-        [styles.secondary]: kind === 'secondary',
-        [styles.transparent]: kind === 'transparent',
-      })}
-      disabled={disabled}
-      {...rest}
-    >
-      <span className={styles.outline} />
-      <span className={styles.body}>
-        {iconLeft && iconLeftAriaLabel && (
-          <Icon
-            icon={iconLeft}
-            ariaLabel={iconLeftAriaLabel}
-            data-test="button-icon-left"
-            className={cn(styles.iconLeft, iconLeftClassName)}
-            size={iconLeftSize}
-            color={iconLeftColor}
-          />
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      kind = 'primary',
+      className,
+      disabled,
+      disabledTooltip,
+      children,
+      capitalize = true,
+      // Left icon
+      iconLeft,
+      iconLeftAriaLabel,
+      iconLeftSize,
+      iconLeftColor,
+      iconLeftClassName,
+      // Right icon
+      iconRight,
+      iconRightAriaLabel,
+      iconRightSize,
+      iconRightColor,
+      iconRightClassName,
+      ...rest
+    },
+    ref,
+  ) => {
+    /* Generate backup tooltip id if prop is empty */
+    const tooltipId = `${uuid()}-button-tooltip`
+
+    return (
+      <Tooltip id={tooltipId} content={disabled ? disabledTooltip : undefined}>
+        {(tooltipRef) => (
+          <button
+            data-test="button"
+            ref={mergeRefs([ref, tooltipRef])}
+            className={cn(className, styles.button, {
+              [styles.primary]: kind === 'primary',
+              [styles.secondary]: kind === 'secondary',
+              [styles.transparent]: kind === 'transparent',
+            })}
+            aria-describedby={disabled ? tooltipId : undefined}
+            disabled={disabled}
+            {...rest}
+          >
+            <span className={styles.outline} />
+            <span className={styles.body}>
+              {iconLeft && iconLeftAriaLabel && (
+                <Icon
+                  icon={iconLeft}
+                  ariaLabel={iconLeftAriaLabel}
+                  data-test="button-icon-left"
+                  className={cn(styles.iconLeft, iconLeftClassName)}
+                  size={iconLeftSize}
+                  color={iconLeftColor}
+                />
+              )}
+              <TruncatedText text={capitalize ? children.toUpperCase() : children} />
+              {iconRight && iconRightAriaLabel && (
+                <Icon
+                  icon={iconRight}
+                  ariaLabel={iconRightAriaLabel}
+                  data-test="button-icon-right"
+                  className={cn(styles.iconRight, iconRightClassName)}
+                  size={iconRightSize}
+                  color={iconRightColor}
+                />
+              )}
+            </span>
+          </button>
         )}
-        <TruncatedText text={capitalize ? children.toUpperCase() : children} />
-        {iconRight && iconRightAriaLabel && (
-          <Icon
-            icon={iconRight}
-            ariaLabel={iconRightAriaLabel}
-            data-test="button-icon-right"
-            className={cn(styles.iconRight, iconRightClassName)}
-            size={iconRightSize}
-            color={iconRightColor}
-          />
-        )}
-      </span>
-    </button>
-  </Tooltip>
+      </Tooltip>
+    )
+  },
 )
+
+Button.displayName = 'Button'
