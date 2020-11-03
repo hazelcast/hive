@@ -21,7 +21,7 @@ const inputLabel = 'inputLabel'
 
 describe('TextArea', () => {
   beforeEach(() => {
-    uuidMock.mockImplementation(() => 'Character description')
+    uuidMock.mockImplementation(() => inputId)
   })
 
   it('Renders the default with correct props', async () => {
@@ -87,7 +87,8 @@ describe('TextArea', () => {
     })
 
     expect(onChange).toBeCalledTimes(1)
-    expect(onChange).toHaveBeenCalledWith({ target: { value: 'value' } })
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    expect(onChange.mock.calls[0][0]).toMatchObject({ target: { value: 'value' } })
   })
 
   it('onBlur works', async () => {
@@ -178,10 +179,13 @@ describe('TextArea', () => {
       label: inputLabel,
     })
 
-    expect(wrapper.find('input').props()).toEqual({
+    expect(wrapper.find('textarea').props()).toEqual({
       id: inputId,
+      className: undefined,
+      defaultValue: undefined,
       value: inputValue,
       name: inputName,
+      required: true,
       onChange,
       onBlur,
       'aria-invalid': false,
@@ -211,7 +215,7 @@ describe('TextArea', () => {
         label={inputLabel}
         onBlur={onBlur}
         onChange={onChange}
-        required
+        disabled
       />,
     )
 
@@ -220,17 +224,20 @@ describe('TextArea', () => {
       label: inputLabel,
     })
 
-    expect(wrapper.find('input').props()).toEqual({
+    expect(wrapper.find('textarea').props()).toEqual({
       id: inputId,
+      className: undefined,
+      defaultValue: undefined,
       value: inputValue,
       name: inputName,
+      required: undefined,
       onChange,
       onBlur,
       'aria-invalid': false,
       'aria-required': undefined,
       'aria-describedby': undefined,
       'aria-errormessage': undefined,
-      disabled: undefined,
+      disabled: true,
       placeholder: inputPlaceholder,
     })
 

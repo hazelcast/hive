@@ -21,7 +21,7 @@ export type TextAreaExtraProps = {
   inputClassName?: string
   errorClassName?: string
   inputContainerChild?: ReactElement
-} & Partial<Pick<HTMLTextAreaElement, 'className' | 'defaultValue' | 'disabled' | 'placeholder' | 'required' | 'readOnly'>>
+} & Partial<Pick<HTMLTextAreaElement, 'className' | 'defaultValue' | 'disabled' | 'placeholder' | 'required'>>
 
 export type TextAreaProps = TextAreaCoreProps & TextAreaExtraProps & DataTestProp
 
@@ -38,7 +38,6 @@ export const TextArea: FC<TextAreaProps> = ({
   defaultValue,
   disabled,
   errorClassName,
-  readOnly,
   required,
   'data-test': dataTest,
   ...htmlAttrs
@@ -70,9 +69,9 @@ export const TextArea: FC<TextAreaProps> = ({
         onBlur={onBlur}
         onChange={onChange}
         defaultValue={defaultValue}
-        readOnly={readOnly}
         required={required}
         value={value}
+        disabled={disabled}
         {...htmlAttrs}
       />
       <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={idRef.current} />
