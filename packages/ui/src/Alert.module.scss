@@ -114,14 +114,17 @@
       }
 
       .actionButton {
-        padding: 0;
-        min-height: auto;
+        height: auto;
 
         @include c.typographyBodySmall;
 
         &:hover,
         &.hover {
           text-decoration: underline solid;
+        }
+
+        .actionButtonBody {
+          padding: 0;
         }
 
         .actionButtonIcon {
