@@ -2,18 +2,12 @@
 
 .button {
   position: relative;
-  z-index: c.$zIndex200;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
   box-sizing: border-box;
   cursor: pointer;
   border: none;
-  // Size
+  padding: 0;
   border-radius: c.$borderRadius;
-  min-height: c.$grid * 10;
-  padding: 0 c.$grid * 5;
+  height: c.$grid * 10;
   max-width: c.$buttonMaxWidth;
 
   @include c.typographyButton;
@@ -22,6 +16,16 @@
     position: absolute;
     border-radius: c.$borderRadius;
     pointer-events: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* doiuse-disable calc */
+    width: calc(100% + #{c.$grid});
+    height: calc(100% + #{c.$grid});
+    /* doiuse-enable calc */
+    z-index: c.$zIndex100;
+    box-shadow: 0 0 0 c.$outlineWidth c.$colorAccessibilityOutline;
+    visibility: hidden;
   }
 
   &:focus,
@@ -31,12 +35,7 @@
     outline: c.$outlineWidth solid transparent;
 
     .outline {
-      /* doiuse-disable calc */
-      width: calc(100% + #{c.$grid});
-      height: calc(100% + #{c.$grid});
-      /* doiuse-enable calc */
-      z-index: c.$zIndex100;
-      box-shadow: 0 0 0 c.$outlineWidth c.$colorAccessibilityOutline;
+      visibility: visible;
     }
   }
 
@@ -57,6 +56,10 @@
     flex-direction: row;
     align-items: center;
     max-width: 100%;
+    width: 100%;
+    height: 100%;
+    padding: 0 c.$grid * 5;
+    box-sizing: border-box;
   }
 
   // Kind === primary
@@ -89,15 +92,12 @@
     border: c.$borderWidthButton solid;
     border-color: c.$colorPrimary;
 
-    &:focus,
-    &.focus {
-      .outline {
-        /* Note: We need to take border of 2*2px into account */
-        /* doiuse-disable calc */
-        width: calc(100% + #{c.$grid} * 2);
-        height: calc(100% + #{c.$grid} * 2);
-        /* doiuse-enable calc */
-      }
+    .outline {
+      /* Note: We need to take border of 2*2px into account */
+      /* doiuse-disable calc */
+      width: calc(100% + #{c.$grid} * 2);
+      height: calc(100% + #{c.$grid} * 2);
+      /* doiuse-enable calc */
     }
 
     &:hover,

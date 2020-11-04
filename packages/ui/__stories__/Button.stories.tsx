@@ -71,6 +71,12 @@ PrimaryDisabled.parameters = {
   },
 }
 
+export const PrimaryDisabledTooltip = () => (
+  <Button disabled disabledTooltip="Disabled tooltip" disabledTooltipVisible kind="primary">
+    Primary
+  </Button>
+)
+
 export const PrimaryIconLeft = () => (
   <Button kind="primary" iconLeft={Info} iconLeftAriaLabel="Info icon">
     Primary
@@ -157,6 +163,12 @@ export const SecondaryActive = () => (
 
 export const SecondaryDisabled = () => (
   <Button disabled disabledTooltip="Disabled tooltip" kind="secondary">
+    Secondary
+  </Button>
+)
+
+export const SecondaryDisabledTooltip = () => (
+  <Button disabled disabledTooltip="Disabled tooltip" disabledTooltipVisible kind="secondary">
     Secondary
   </Button>
 )
