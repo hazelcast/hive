@@ -99,7 +99,7 @@ export const Slider = ({ value, onChange, step = 1, min = 0, max = 20 }: SliderP
   const width = ((secondValue - firstValue) / max) * 100
   const left = firstValue / max
   const right = secondValue / max
-  const baseSize = 2
+  const baseSize = 0.5
 
   return (
     <div className={styles.wrapper} role="group" ref={wrapperRef}>

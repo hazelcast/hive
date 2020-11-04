@@ -15,8 +15,14 @@ export const SliderWithRange = () => {
   const [value, setValue] = useState<[number, number]>([0, 10])
   return (
     <>
+      <div>
+        This is a text
+        {JSON.stringify(value)}
+      </div>
       <Slider value={value} onChange={setValue} min={0} max={10} />
-      {JSON.stringify(value)}
+      <div>
+        <input type="range" value={value} onChange={setValue} />
+      </div>
     </>
   )
 }

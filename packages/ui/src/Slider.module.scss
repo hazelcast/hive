@@ -1,43 +1,40 @@
 @use '../styles/constants' as c;
-$h: 3rem;
-$radius: 3rem;
 
-@mixin radius() {
-  border-radius: $radius;
-}
+// border radius on left/right size of the progress tracker
+$trackBorderRadius: c.$grid;
+$trackHeight: c.$grid * 2;
+// thumb width without a white border
+$thumbWidth: $trackHeight;
+$thumbBoxShadow: c.$grid;
 
 @mixin track() {
   background: none; /* get rid of Firefox track background */
   appearance: none;
-  height: 100%;
-  width: 100%;
-  margin: 0 -1rem;
+  margin: 0 $thumbWidth * -1;
   padding: 0;
   border: 0;
 }
 
 @mixin thumb() {
-  box-shadow: 0px 1px 4px rgba(53, 61, 73, 0.250956);
+  box-shadow: 0 1px $thumbBoxShadow rgba(53, 61, 73, 0.250956);
   background: c.$colorPrimaryLight;
-  //background: red;
   border-radius: 50%;
   pointer-events: auto; /* catch clicks */
-  width: 1rem;
-  height: 1rem;
+  width: $thumbWidth;
+  height: $thumbWidth;
   box-sizing: content-box;
-  border: 1rem solid c.$colorNeutralWhite;
-  //opacity: 0.5;
+  border: c.$grid * 1.5 solid c.$colorNeutralWhite;
 }
 
 .wrapper {
-  display: grid;
+  display: inline-grid;
   align-items: center;
   grid-template-rows: max-content 1fr;
   //background: gray;
-  height: $h;
-  //border-radius: $radius;
+  vertical-align: text-bottom;
   overflow: hidden;
-  padding: 1.5rem;
+
+  padding: $thumbBoxShadow $thumbWidth + $thumbBoxShadow / 2;
 
   input[type='range'] {
     &::-webkit-slider-runnable-track,
@@ -71,6 +68,7 @@ $radius: 3rem;
     }
   }
 
+  // see the javascript code for an explanation of this class
   input[type='range'].atTheBorder {
     &::-webkit-slider-thumb {
       pointer-events: none;
@@ -81,25 +79,26 @@ $radius: 3rem;
     }
   }
 
-  .fill {
-    background: c.$colorPrimaryLight;
+  @mixin fill {
     content: '';
     grid-column: 1;
     grid-row: 2;
-    height: 50%;
+    height: $trackHeight;
     pointer-events: none;
-    border-radius: $radius;
+    border-radius: $trackBorderRadius;
+    // highlighted part covers the border
+    box-sizing: border-box;
+  }
+
+  .fill {
+    @include fill();
+    background: c.$colorPrimaryLight;
   }
 
   .fillPlaceholder {
+    @include fill();
     background: c.$colorNeutral;
     border: 1px solid c.$colorNeutralLight;
-    content: '';
-    grid-column: 1;
-    grid-row: 2;
-    height: 50%;
-    pointer-events: none;
-    border-radius: $radius;
     width: 100%;
   }
 }
