@@ -2,23 +2,35 @@ import React, { ChangeEvent, useCallback, useEffect, useRef, useState } from 're
 import styles from './Slider.module.scss'
 import classNames from 'classnames'
 
-type Value = number | [number, number]
-
-type SliderProps = {
-  value: Value
+type SliderPropsCore = {
   step?: number
-  onChange: (value: Value) => void
   min?: number
   max?: number
 }
 
+type SliderPropsSingle = {
+  value: number
+  onChange: (value: number) => void
+}
+
+type SliderPropsRange = {
+  value: [number, number]
+  onChange: (value: [number, number]) => void
+}
+
+type SliderProps = SliderPropsCore & (SliderPropsSingle | SliderPropsRange)
+
+function isRangeGuard(value: number | [number, number]): value is [number, number] {
+  return Array.isArray(value)
+}
+
 export const Slider = ({ value, onChange, step = 1, min = 0, max = 20 }: SliderProps) => {
-  const isRange: boolean = Array.isArray(value)
+  const isRange: boolean = isRangeGuard(value)
   const wrapperRef = useRef<HTMLDivElement>(null)
   const didMountRef = useRef(false)
 
-  const [firstValue, setFirstValue] = useState<number>(min)
-  const [secondValue, setSecondValue] = useState<number>(max)
+  const [firstValue, setFirstValue] = useState<number>(isRangeGuard(value) ? value[0] : value)
+  const [secondValue, setSecondValue] = useState<number>(isRangeGuard(value) ? value[1] : max)
 
   useEffect(() => {
     const handler = ({ offsetX, target }: MouseEvent) => {
@@ -26,8 +38,9 @@ export const Slider = ({ value, onChange, step = 1, min = 0, max = 20 }: SliderP
         const clickPercentage = offsetX / wrapperRef.current.offsetWidth
         const resultStepSpot: number = Math.round((clickPercentage * max) / step) * step
 
-        if (Math.abs(firstValue - resultStepSpot) < Math.abs(secondValue - resultStepSpot)) {
-          // let's move first value because it's closed
+        if (!isRange || Math.abs(firstValue - resultStepSpot) < Math.abs(secondValue - resultStepSpot)) {
+          // let's move the first thumb in case we're not in a range more
+          // or if it's closed to the click event
           setFirstValue(resultStepSpot)
         } else {
           // otherwise, let's move the right one
@@ -44,7 +57,11 @@ export const Slider = ({ value, onChange, step = 1, min = 0, max = 20 }: SliderP
 
   useEffect(() => {
     if (didMountRef.current) {
-      onChange(isRange ? [firstValue, secondValue] : firstValue)
+      if (isRangeGuard(value)) {
+        onChange([firstValue, secondValue])
+      } else {
+        onChange(firstValue)
+      }
     } else {
       // let's ignore the first render
       didMountRef.current = true
@@ -82,22 +99,31 @@ export const Slider = ({ value, onChange, step = 1, min = 0, max = 20 }: SliderP
   const width = ((secondValue - firstValue) / max) * 100
   const left = firstValue / max
   const right = secondValue / max
+  const baseSize = 2
 
   return (
     <div className={styles.wrapper} role="group" ref={wrapperRef}>
+      <div className={styles.fillPlaceholder} />
       <div
         className={styles.fill}
         // Since there is no easy way hot to pass properties to SCSS, we need to use
         // inline styles.
-        style={{
-          width: `calc(${width}% + 3rem*${left} - 3rem*${right})`,
-          marginLeft: `calc(${left * 100}% + 1.5rem - 3rem*${left})`,
-        }}
+        style={
+          isRange
+            ? {
+                width: `calc(${width}% + ${baseSize}rem*${left} - ${baseSize}rem*${right})`,
+                marginLeft: `calc(${left * 100}% + ${baseSize / 2}rem - ${baseSize}rem*${left})`,
+              }
+            : {
+                width: `calc(${max * left}% + ${baseSize / 2}rem - ${baseSize}rem*${left})`,
+              }
+        }
       ></div>
+
       {firstValue !== undefined && (
         <input type="range" value={firstValue} min={min} max={max} onChange={setFirstValueFn} className={styles.slider} step={step} />
       )}
-      {secondValue !== undefined && (
+      {isRange && secondValue !== undefined && (
         <input
           type="range"
           value={secondValue}

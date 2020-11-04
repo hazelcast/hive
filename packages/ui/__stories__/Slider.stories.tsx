@@ -8,14 +8,14 @@ export default {
 
 export const DefaultSlider = () => {
   const [value, onChange] = useState<number>(50)
-  return <Slider value={value} onChange={(value) => onChange(value as number)} />
+  return <Slider value={value} onChange={onChange} min={0} max={100} />
 }
 
 export const SliderWithRange = () => {
   const [value, setValue] = useState<[number, number]>([0, 10])
   return (
     <>
-      <Slider value={value} onChange={(value) => setValue(value as [number, number])} min={0} max={10} />
+      <Slider value={value} onChange={setValue} min={0} max={10} />
       {JSON.stringify(value)}
     </>
   )
