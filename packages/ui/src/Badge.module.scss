@@ -1,0 +1,100 @@
+@use '../styles/constants' as c;
+
+/*
+ * TODO:
+ * - max-width?
+ */
+.badge {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: c.$borderRadiusToast;
+
+  .content {
+    margin-left: c.$grid;
+  }
+
+  // Sizes
+  &.normal {
+    padding: c.$grid * 2 c.$grid * 3;
+
+    .content {
+      @include c.typographyBodyNormal;
+    }
+  }
+
+  &.small {
+    padding: c.$grid c.$grid * 2;
+
+    .content {
+      @include c.typographyBodySmall;
+    }
+  }
+
+  // Themes
+  &.neutral {
+    background-color: c.$colorNeutral;
+    color: c.$colorText;
+
+    &.inverted {
+      background-color: c.$colorText;
+      color: c.$colorNeutralWhite;
+    }
+  }
+
+  &.success {
+    // Not enough contrast between these 2
+    background-color: c.$colorSuccessLight; // Looks ugly. The color tone seems not light enough.
+    color: c.$colorSuccessDark; // Looks ok-ish.
+
+    // Looks good. Same combination as for Alert and Toast
+    &.inverted {
+      background-color: c.$colorSuccess;
+      color: c.$colorNeutralWhite;
+    }
+  }
+
+  &.info {
+    // Not enough contrast between these 2
+    background-color: c.$colorInfoLight; // Looks ok-ish.
+    color: c.$colorInfoDark; // Looks ugly. The color tone seems not dark enough.
+
+    // Looks good. Same combination as for Alert and Toast
+    &.inverted {
+      background-color: c.$colorInfoLight;
+      color: c.$colorText;
+    }
+  }
+
+  &.warning {
+    // Not enough contrast between these 2
+    background-color: c.$colorWarningLight; // Looks ugly. The color tone seems not light enough.
+    color: c.$colorWarningDark; // Looks ok-ish.
+
+    // Looks good. Same combination as for Alert and Toast
+    &.inverted {
+      background-color: c.$colorWarningLight;
+      color: c.$colorText;
+    }
+  }
+
+  &.critical {
+    // We're missing lighter and darker versions of of colorError.
+
+    // Looks good. Same combination as for Alert and Toast
+    &.inverted {
+      background-color: c.$colorError;
+      color: c.$colorNeutralWhite;
+    }
+  }
+
+  &.white {
+    background-color: c.$colorNeutralWhite;
+    color: c.$colorText;
+
+    &.inverted {
+      background-color: c.$colorText;
+      color: c.$colorNeutralWhite;
+    }
+  }
+}
