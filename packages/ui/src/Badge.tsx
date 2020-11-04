@@ -6,7 +6,7 @@ import { Icon } from '../src/Icon'
 
 import styles from './Badge.module.scss'
 
-export type BadgeType = 'neutral' | 'white' | 'success' | 'info' | 'warning' | 'critical'
+export type BadgeType = 'neutral' | 'success' | 'info' | 'warning' | 'critical'
 
 export type IconDescriptor = {
   icon: IconType
@@ -15,10 +15,6 @@ export type IconDescriptor = {
 
 export const BadgeIcon: { [key in BadgeType]: IconDescriptor } = {
   neutral: {
-    icon: Info,
-    ariaLabel: 'Info circle icon',
-  },
-  white: {
     icon: Info,
     ariaLabel: 'Info circle icon',
   },
@@ -44,12 +40,11 @@ export type BadgeSize = 'small' | 'normal'
 
 export type BadgeProps = {
   type: BadgeType
-  inverted?: boolean
   size?: BadgeSize
   content: ReactNode
 }
 
-export const Badge: FC<BadgeProps> = ({ type, inverted = false, content, size = 'normal' }) => {
+export const Badge: FC<BadgeProps> = ({ type, content, size = 'normal' }) => {
   const { icon, ariaLabel } = BadgeIcon[type]
 
   return (
@@ -62,9 +57,6 @@ export const Badge: FC<BadgeProps> = ({ type, inverted = false, content, size = 
         [styles.info]: type === 'info',
         [styles.warning]: type === 'warning',
         [styles.critical]: type === 'critical',
-        [styles.white]: type === 'white',
-        // Inversion
-        [styles.inverted]: inverted,
         // Size
         [styles.normal]: size === 'normal',
         [styles.small]: size === 'small',

@@ -57,14 +57,6 @@ describe('Badge', () => {
         ariaLabel: 'Info critical circle icon',
       },
     ],
-    [
-      'white',
-      styles.white,
-      {
-        icon: Info,
-        ariaLabel: 'Info circle icon',
-      },
-    ],
   ]
 
   it.each(typeTestData)('Renders correct styles for %s Badge type', async (type, className, { icon, ariaLabel }) => {
@@ -87,20 +79,5 @@ describe('Badge', () => {
     const wrapper = await mountAndCheckA11Y(<Badge type="neutral" size={size} content={badgeContent} />)
 
     expect(wrapper.findDataTest('badge-container').prop('className')).toContain(className)
-  })
-
-  const invertedTestData: [boolean, string][] = [
-    [true, styles.inverted],
-    [false, styles.inverted],
-  ]
-
-  it.each(invertedTestData)('Renders correct styles when inverted flag in %s', async (inverted, className) => {
-    const wrapper = await mountAndCheckA11Y(<Badge type="neutral" size="normal" content={badgeContent} inverted={inverted} />)
-
-    if (inverted) {
-      expect(wrapper.findDataTest('badge-container').prop('className')).toContain(className)
-    } else {
-      expect(wrapper.findDataTest('badge-container').prop('className')).not.toContain(className)
-    }
   })
 })
