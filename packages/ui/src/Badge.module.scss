@@ -4,7 +4,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  border-radius: c.$borderRadiusToast;
+  border-radius: c.$borderRadiusBadge;
 
   .content {
     margin-left: c.$grid;

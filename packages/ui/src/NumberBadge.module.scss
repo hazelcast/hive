@@ -1,0 +1,13 @@
+@use '../styles/constants' as c;
+
+.numberBadge {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: c.$borderRadiusBadge;
+  padding: 0 c.$grid * 1.25;
+  background-color: c.$colorNeutral;
+  color: c.$colorText;
+
+  @include c.typographyBodySmall;
+}
