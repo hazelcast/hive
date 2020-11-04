@@ -1,0 +1,80 @@
+$h: 3rem;
+
+@mixin radius() {
+  border-radius: 2rem;
+}
+
+@mixin track() {
+  background: none; /* get rid of Firefox track background */
+  appearance: none;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+@mixin thumb() {
+  background: blue;
+  //border: none; /* get rid of Firefox thumb border */
+  border-radius: 50%;
+  pointer-events: auto; /* catch clicks */
+  width: $h;
+  height: $h;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-rows: max-content 1fr;
+  background: gray;
+  @include radius();
+
+  input[type='range'] {
+    &::-webkit-slider-runnable-track,
+    &::-webkit-slider-thumb,
+    & {
+      -webkit-appearance: none;
+    }
+
+    grid-column: 1;
+    grid-row: 2;
+    background: none;
+    margin: 0;
+    // ignore clicks on the actual inputs and let them pass to the handles
+    pointer-events: none;
+
+    &::-webkit-slider-runnable-track {
+      @include track;
+    }
+
+    &::-moz-range-track {
+      @include track;
+    }
+
+    &::-webkit-slider-thumb {
+      @include thumb;
+    }
+
+    &::-moz-range-thumb {
+      @include thumb;
+    }
+  }
+
+  input[type='range'].atTheBorder {
+    &::-webkit-slider-thumb {
+      pointer-events: none;
+    }
+
+    &::-moz-range-thumb {
+      pointer-events: none;
+    }
+  }
+
+  .fill {
+    background: red;
+    content: '';
+    grid-column: 1;
+    grid-row: 2;
+    pointer-events: none;
+  }
+}
