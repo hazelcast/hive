@@ -14,7 +14,7 @@
 
   textarea {
     display: block;
-    padding: c.$grid * 3;
+    padding: c.$grid * 2 c.$grid * 3;
     border-width: c.$borderWidth solid c.$colorNeutralLight;
     box-sizing: border-box;
     width: 100%;
@@ -27,8 +27,6 @@
     border-radius: c.$borderRadius;
     background-color: c.$colorNeutralLighter;
 
-    @include c.typographyBodySmall;
-
     &::placeholder {
       color: c.$colorTextSecondary;
     }
@@ -36,6 +34,13 @@
 
   &.empty {
     color: c.$colorTextSecondary;
+  }
+
+  &:hover,
+  &.hover {
+    textarea {
+      border-color: c.$colorPrimary;
+    }
   }
 
   &.disabled {
@@ -52,15 +57,9 @@
     }
   }
 
-  &:hover,
-  &.hover {
-    textarea {
-      border-color: c.$colorPrimary;
-    }
+  textarea:focus {
+    @include h.outlineFormField;
   }
-
-  &:focus,
-  &:focus-within,
   &.focus {
     textarea {
       @include h.outlineFormField;
