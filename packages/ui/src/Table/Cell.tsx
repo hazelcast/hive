@@ -1,11 +1,11 @@
 import React, { FC } from 'react'
+import { AlertTriangle } from 'react-feather'
 import cn from 'classnames'
 
 import { Icon } from '../Icon'
-import styles from './Cell.module.scss'
-import { AlertTriangle } from 'react-feather'
-import { Link } from '../Link'
 import { Tooltip } from '../Tooltip'
+
+import styles from './Cell.module.scss'
 
 type CellWarningProps = {
   align: 'left' | 'right'
@@ -32,14 +32,12 @@ export type CellProps = {
    * you to compare them or add them up quickly in your head.
    */
   align?: 'left' | 'right' | 'center'
-  link?: string
   warning?: string
   colSpan?: number
 }
 
 export const Cell: FC<CellProps> = ({
   align = 'left',
-  link,
   warning,
   colSpan,
   children,
@@ -55,13 +53,7 @@ export const Cell: FC<CellProps> = ({
       {warning && align === 'right' && (
         <CellWarning warning={warning} align="right" />
       )}
-      {link ? (
-        <Link href={link} size="small">
-          {children}
-        </Link>
-      ) : (
-        children
-      )}
+      {children}
       {warning && (align === 'left' || align === 'center') && (
         <CellWarning warning={warning} align="left" />
       )}

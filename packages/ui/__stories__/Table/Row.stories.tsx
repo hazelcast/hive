@@ -93,35 +93,6 @@ export const MultipleRows = () => (
         </Cell>
       ))}
     </Row>
-    <Row
-      isHeaderRow={false}
-      onClick={() => {
-        console.log('Third row clicked!')
-      }}
-    >
-      {cells.map(({ children, ...props }, i) => (
-        <Cell key={i} {...props} link="https://hazelcast.com/">
-          {children}
-        </Cell>
-      ))}
-    </Row>
-    <Row
-      isHeaderRow={false}
-      onClick={() => {
-        console.log('Third row clicked!')
-      }}
-    >
-      {cells.map(({ children, ...props }, i) => (
-        <Cell
-          key={i}
-          {...props}
-          link="https://hazelcast.com/"
-          warning="Cell warning"
-        >
-          {children}
-        </Cell>
-      ))}
-    </Row>
     <Row isHeaderRow={false} inactive>
       {cells.map(({ children, ...props }, i) => (
         <Cell key={i} {...props}>

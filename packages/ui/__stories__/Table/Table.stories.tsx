@@ -1,15 +1,24 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { Column } from 'react-table'
 
 import { makeData, Person } from './makeData'
 import { FetchDataProps, Table } from '../../src/Table/Table'
+import { Link } from '../../src/Link'
 
 export default {
   title: 'Components/Table/Table',
   component: Table,
 }
 
-const getColumns = (withFooter = false): Column<Person>[] => [
+type GetColumns = {
+  withFooter?: boolean
+  withNameLink?: boolean
+}
+
+const getColumns = ({
+  withFooter = false,
+  withNameLink = false,
+}: GetColumns): Column<Person>[] => [
   {
     Header: 'ID',
     accessor: 'id',
@@ -19,6 +28,15 @@ const getColumns = (withFooter = false): Column<Person>[] => [
     Header: 'Name',
     accessor: 'name',
     ...(withFooter && { Footer: 'Name' }),
+    ...(withNameLink && {
+      Cell: function Cell(row) {
+        return (
+          <Link href="https://hazelcast.com/" size="small">
+            {row.value}
+          </Link>
+        )
+      },
+    }),
   },
   {
     Header: 'Age',
@@ -37,6 +55,7 @@ const getColumns = (withFooter = false): Column<Person>[] => [
         return footer
       },
     }),
+    align: 'right',
   },
   {
     Header: 'Visits',
@@ -56,6 +75,7 @@ const getColumns = (withFooter = false): Column<Person>[] => [
         return footer
       },
     }),
+    align: 'right',
   },
   {
     Header: 'Status',
@@ -89,25 +109,44 @@ const smallDataSet = makeData(10)
 const bigDataSet = makeData(10000)
 
 export const Basic = () => {
+  const columns = useMemo(() => getColumns({}), [])
+
+  return <Table columns={columns} data={smallDataSet} disableSortBy />
+}
+
+export const Footer = () => {
+  const columns = useMemo(() => getColumns({ withFooter: true }), [])
+
+  return <Table columns={columns} data={smallDataSet} disableSortBy />
+}
+
+export const ClickableRowsWithNameLink = () => {
+  const columns = useMemo(
+    () => getColumns({ withNameLink: true }),
+    [],
+  )
   return (
-    <Table columns={getColumns()} data={smallDataSet} disableSortBy />
+    <Table
+      columns={columns}
+      data={smallDataSet}
+      disableSortBy
+      onRowClick={(row) => {
+        console.log(
+          `You just clicked row: ${
+            row.values.name as Person['name']
+          }`,
+        )
+      }}
+    />
   )
 }
 
-export const Footer = () => (
-  <Table
-    columns={getColumns(true)}
-    data={smallDataSet}
-    disableSortBy
-  />
-)
-
 export const Sorting = () => {
-  return <Table columns={getColumns()} data={smallDataSet} />
+  return <Table columns={getColumns({})} data={smallDataSet} />
 }
 
 export const UncontrolledPagination = () => (
-  <Table columns={getColumns()} data={bigDataSet} disableSortBy />
+  <Table columns={getColumns({})} data={bigDataSet} disableSortBy />
 )
 
 export const ControlledPagination = () => {
@@ -142,9 +181,11 @@ export const ControlledPagination = () => {
     [],
   )
 
+  const columns = useMemo(() => getColumns({}), [])
+
   return (
     <Table
-      columns={getColumns()}
+      columns={columns}
       data={data}
       fetchData={fetchData}
       loading={loading}

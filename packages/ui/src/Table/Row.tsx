@@ -31,9 +31,9 @@ export const Row: FC<RowProps> = ({
 
   return (
     <tr
-      onClick={inactive && onClick ? onClick : undefined}
+      onClick={onClick}
       className={cn(styles.row, {
-        [styles.clickable]: !inactive && !!onClick,
+        [styles.clickable]: !!onClick,
       })}
     >
       {children}

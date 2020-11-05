@@ -19,13 +19,3 @@ Default.parameters = {
 export const WithWarning = () => (
   <Cell warning="Cell warning">Cell</Cell>
 )
-
-export const WithLink = () => (
-  <Cell link="https://hazelcast.com/">Cell</Cell>
-)
-
-export const WithLinkAndWarning = () => (
-  <Cell link="https://hazelcast.com/" warning="Cell warning">
-    Cell
-  </Cell>
-)

@@ -94,9 +94,9 @@ declare module 'react-table' {
       UseFiltersColumnOptions<D>,
       UseGroupByColumnOptions<D>,
       // UseGlobalFiltersColumnOptions<D>,
-      UseResizeColumnsColumnOptions<D>,
-      ColumnFooter {
+      UseResizeColumnsColumnOptions<D> {
     Footer?: string | Renderer<TableInstance<D>>
+    align?: 'left' | 'right' | 'center'
   }
 
   export interface ColumnInstance<

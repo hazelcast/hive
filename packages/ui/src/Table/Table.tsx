@@ -9,6 +9,7 @@ import {
   usePagination,
   TableOptions,
   useSortBy,
+  Row as RowType,
 } from 'react-table'
 import { Body } from './Body'
 import { Cell } from './Cell'
@@ -22,19 +23,21 @@ export type FetchDataProps = {
   pageSize: number
 }
 
-type ControlledPaginationProps = {
-  manualPagination?: boolean
-  fetchData?: ({ pageIndex, pageSize }: FetchDataProps) => void
-}
-
 type ExtendedPaginationProps = {
   pageSizeOptions?: number[]
   hidePagination?: boolean
 }
 
+type ControlledPaginationProps = {
+  manualPagination?: boolean
+  fetchData?: ({ pageIndex, pageSize }: FetchDataProps) => void
+}
+
 type TableProps<T extends object> = TableOptions<T> &
   ExtendedPaginationProps &
-  ControlledPaginationProps
+  ControlledPaginationProps & {
+    onRowClick?: (row: RowType<T>) => void
+  }
 
 export function Table<T extends object>({
   columns,
@@ -46,6 +49,7 @@ export function Table<T extends object>({
   pageCount: controlledPageCount,
   pageSizeOptions = [10, 20, 30],
   hidePagination = false,
+  onRowClick,
 }: PropsWithChildren<TableProps<T>>): ReactElement {
   const {
     getTableProps,
@@ -115,11 +119,11 @@ export function Table<T extends object>({
                   } = column.getHeaderProps(
                     column.getSortByToggleProps(),
                   )
-                  console.log('restHeaderProps', restHeaderProps)
                   return (
                     <Header
                       key={columnKey}
                       {...restHeaderProps}
+                      align={column.align}
                       canSort={column.canSort}
                       isSorted={column.isSorted}
                       isSortedDesc={column.isSortedDesc}
@@ -137,14 +141,29 @@ export function Table<T extends object>({
             prepareRow(row)
             const { key: rowKey, ...restRowProps } = row.getRowProps()
             return (
-              <Row key={rowKey} {...restRowProps} isHeaderRow={false}>
+              <Row
+                key={rowKey}
+                {...restRowProps}
+                isHeaderRow={false}
+                onClick={
+                  onRowClick
+                    ? () => {
+                        onRowClick(row)
+                      }
+                    : undefined
+                }
+              >
                 {row.cells.map((cell) => {
                   const {
                     key: cellKey,
                     ...restCellProps
                   } = cell.getCellProps()
                   return (
-                    <Cell key={cellKey} {...restCellProps}>
+                    <Cell
+                      key={cellKey}
+                      {...restCellProps}
+                      align={cell.column.align}
+                    >
                       {cell.render('Cell')}
                     </Cell>
                   )
