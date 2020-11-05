@@ -9,6 +9,6 @@ export default {
 
 export const Default = () => <NumberBadge number={1} />
 
-export const LessThan99 = () => <NumberBadge number={99} />
+export const LessThan100 = () => <NumberBadge number={99} />
 
 export const MoreThan99 = () => <NumberBadge number={100} />

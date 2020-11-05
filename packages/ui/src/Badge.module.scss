@@ -5,29 +5,21 @@
   flex-direction: row;
   align-items: center;
   border-radius: c.$borderRadiusBadge;
+  padding: c.$grid c.$grid * 2;
+  font-size: inherit;
+  font-family: c.$fontFamilyText;
+  letter-spacing: c.$letterSpacingBodySmall;
+  line-height: c.$lineHeightBodySmall;
+
+  .icon {
+    width: 1em;
+    height: 1em;
+  }
 
   .content {
     margin-left: c.$grid;
   }
 
-  // Sizes
-  &.normal {
-    padding: c.$grid * 2 c.$grid * 3;
-
-    .content {
-      @include c.typographyBodyNormal;
-    }
-  }
-
-  &.small {
-    padding: c.$grid c.$grid * 2;
-
-    .content {
-      @include c.typographyBodySmall;
-    }
-  }
-
-  // Themes
   &.neutral {
     background-color: c.$colorNeutralLighter;
     color: c.$colorText;

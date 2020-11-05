@@ -3,7 +3,7 @@ import React from 'react'
 import { NumberBadge } from '../src/NumberBadge'
 
 describe('NumberBadge', () => {
-  it('Renders number lower than 99', async () => {
+  it('Renders number lower than 100', async () => {
     const number = 99
 
     const wrapper = await mountAndCheckA11Y(<NumberBadge number={number} />)
