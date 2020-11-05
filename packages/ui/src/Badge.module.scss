@@ -7,9 +7,9 @@
   border-radius: c.$borderRadiusBadge;
   padding: c.$grid c.$grid * 2;
   font-size: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
   font-family: c.$fontFamilyText;
-  letter-spacing: c.$letterSpacingBodySmall;
-  line-height: c.$lineHeightBodySmall;
 
   .icon {
     width: 1em;
