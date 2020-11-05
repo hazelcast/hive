@@ -22,10 +22,7 @@
 
   // hide native checkbox
   input {
-    height: 1px;
-    width: 1px;
-    opacity: 0;
-    position: absolute;
+    @include h.visuallyHidden;
   }
 
   /**
