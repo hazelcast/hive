@@ -34,15 +34,17 @@ export type CellProps = {
   align?: 'left' | 'right' | 'center'
   link?: string
   warning?: string
+  colSpan?: number
 }
 
 export const Cell: FC<CellProps> = ({
   align = 'left',
   link,
   warning,
+  colSpan,
   children,
 }) => (
-  <td className={styles.cell}>
+  <td className={styles.cell} colSpan={colSpan}>
     <div
       className={cn(styles.content, {
         [styles.alignLeft]: align === 'left',

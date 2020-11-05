@@ -11,6 +11,7 @@ tr.headerRow {
 
 tr.inactive {
   @include rowBase;
+
   opacity: 0.4;
 }
 

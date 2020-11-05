@@ -1,9 +1,10 @@
-import React, { FC } from 'react'
+import React, { FC, useMemo } from 'react'
 import cn from 'classnames'
 
 import { Icon } from '../Icon'
 import styles from './Header.module.scss'
 import { ChevronDown, ChevronUp } from 'react-feather'
+import { TableHeaderProps } from 'react-table'
 
 type HeaderChevronProps = {
   align: 'left' | 'right'
@@ -11,7 +12,7 @@ type HeaderChevronProps = {
   icon: typeof ChevronDown | typeof ChevronUp
 }
 
-const HeaderChevron: FC<HeaderChevronProps> = ({
+const ChevronIcon: FC<HeaderChevronProps> = ({
   align,
   ariaLabel,
   icon,
@@ -27,43 +28,62 @@ const HeaderChevron: FC<HeaderChevronProps> = ({
   />
 )
 
-type HeaderSortProps =
-  | {
-      canSort?: true
-      isSorted: boolean
-      isSortedDesc: boolean
-    }
-  | {
-      canSort: false
-      isSorted?: never
-      isSortedDesc?: never
-    }
-
 export type HeaderProps = {
   /**
    * Number fields should be right aligned as that allows
    * you to compare them or add them up quickly in your head.
    */
   align?: 'left' | 'right' | 'center'
-} & HeaderSortProps
+  canSort: boolean
+  isSorted: boolean
+  isSortedDesc?: boolean
+  onClick?: () => void
+  colSpan?: number
+}
 
-export const Header: FC<HeaderProps> = ({
+export const Header: FC<HeaderProps & TableHeaderProps> = ({
+  align = 'left',
   children,
-  canSort = false,
+  canSort,
   isSorted,
   isSortedDesc,
-  align = 'left',
+  onClick,
+  className,
+  colSpan,
+  role,
 }) => {
   let ariaSort: React.AriaAttributes['aria-sort']
   if (isSorted) {
     ariaSort = isSortedDesc ? 'descending' : 'ascending'
   }
 
+  const Chevron = useMemo(
+    () => (
+      <ChevronIcon
+        align="right"
+        ariaLabel={
+          !isSorted
+            ? 'Not Sorted'
+            : isSortedDesc
+            ? 'Descending'
+            : 'Ascending'
+        }
+        icon={!isSorted || isSortedDesc ? ChevronDown : ChevronUp}
+      />
+    ),
+    [isSorted, isSortedDesc],
+  )
+
   return (
     <th
-      className={cn(styles.header, { [styles.sortable]: canSort })}
+      className={cn(className, styles.header, {
+        [styles.sortable]: canSort,
+      })}
+      role={role}
+      colSpan={colSpan}
       scope="col"
       aria-sort={ariaSort}
+      onClick={onClick}
     >
       <div
         className={cn(styles.content, {
@@ -72,21 +92,11 @@ export const Header: FC<HeaderProps> = ({
           [styles.alignCenter]: align === 'center',
         })}
       >
-        {canSort && align === 'right' && (
-          <HeaderChevron
-            align="right"
-            ariaLabel={isSortedDesc ? 'Descending' : 'Ascending'}
-            icon={!isSorted || isSortedDesc ? ChevronDown : ChevronUp}
-          />
-        )}
+        {canSort && align === 'right' && Chevron}
         {children}
-        {canSort && (align === 'left' || align === 'center') && (
-          <HeaderChevron
-            align="left"
-            ariaLabel={isSortedDesc ? 'Descending' : 'Ascending'}
-            icon={!isSorted || isSortedDesc ? ChevronDown : ChevronUp}
-          />
-        )}
+        {canSort &&
+          (align === 'left' || align === 'center') &&
+          Chevron}
       </div>
     </th>
   )

@@ -8,9 +8,7 @@ th.header {
   padding-left: c.$grid * 3;
   background-color: c.$colorNeutralLighter;
   border-bottom: c.$borderWidth solid c.$colorNeutralWhite;
-  &:not(:last-of-type) {
-    border-right: c.$borderWidth solid c.$colorNeutralWhite;
-  }
+  border-right: c.$borderWidth solid c.$colorNeutralWhite;
 
   &.sortable {
     cursor: pointer;

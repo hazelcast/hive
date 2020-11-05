@@ -7,14 +7,12 @@ td.cell {
   padding-right: c.$grid * 3;
   padding-left: c.$grid * 3;
   border-bottom: c.$borderWidth solid c.$colorNeutralWhite;
-  &:not(:last-of-type) {
-    border-right: c.$borderWidth solid c.$colorNeutralWhite;
-  }
+  border-right: c.$borderWidth solid c.$colorNeutralWhite;
 
   .content {
     display: flex;
     align-items: center;
-    color: c.$colorTextSecondary;
+    color: c.$colorText;
     font-weight: c.$fontWeightRegular;
     @include c.typographyBodySmall;
 

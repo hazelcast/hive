@@ -11,9 +11,15 @@ export default {
 
 export const HeaderRow = () => (
   <Row isHeaderRow>
-    <Header canSort={false}>Header-1</Header>
-    <Header canSort={false}>Header-2</Header>
-    <Header canSort={false}>Header-3</Header>
+    <Header canSort={false} isSorted={false}>
+      Header-1
+    </Header>
+    <Header canSort={false} isSorted={false}>
+      Header-2
+    </Header>
+    <Header canSort={false} isSorted={false}>
+      Header-3
+    </Header>
   </Row>
 )
 HeaderRow.parameters = {
@@ -38,26 +44,27 @@ const headers: PropsWithChildren<HeaderProps>[] = [
     canSort: true,
     isSorted: true,
     isSortedDesc: false,
-    align: 'right',
   },
   {
     children: 'Header-2',
     canSort: true,
     isSorted: true,
-    isSortedDesc: false,
+    isSortedDesc: true,
+    align: 'right',
   },
   {
     children: 'Header-3',
     canSort: false,
+    isSorted: false,
   },
 ]
 const cells: PropsWithChildren<CellProps>[] = [
   {
     children: 'Cell-1',
-    align: 'right',
   },
   {
     children: 'Cell-2',
+    align: 'right',
   },
   {
     children: 'Cell-3',
