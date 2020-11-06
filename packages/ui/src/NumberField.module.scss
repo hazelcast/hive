@@ -9,13 +9,14 @@ $inputPadding: c.$iconSizeSmall + $buttonMargin * 2;
   > input {
     padding-left: $inputPadding;
     padding-right: $inputPadding;
-
+    /* doiuse-disable css-appearance */
     -moz-appearance: textfield;
     &::-webkit-inner-spin-button,
     &::-webkit-outer-spin-button {
       -webkit-appearance: none;
       margin: 0;
     }
+    /* doiuse-enable css-appearance */
   }
 
   .decrement {

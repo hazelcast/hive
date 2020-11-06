@@ -41,16 +41,16 @@
   &.primary {
     color: c.$colorPrimary;
 
+    &:disabled {
+      color: c.$colorTextSecondary;
+    }
+
     &:hover,
     &.hover {
       &:not(:disabled) {
         background-color: c.$colorNeutralLighter;
         box-shadow: inset 0 0 0 c.$borderWidth c.$colorNeutralLight;
       }
-    }
-
-    &:disabled {
-      color: c.$colorTextSecondary;
     }
   }
 
