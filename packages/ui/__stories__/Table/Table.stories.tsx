@@ -109,6 +109,23 @@ export const ClickableRowsWithNameLink = () => {
   )
 }
 
+export const AgeColumnWithWarnings = () => {
+  const columns = useMemo(() => getColumns({ withNameLink: true }), [])
+  return (
+    <Table
+      columns={columns}
+      data={smallDataSet}
+      disableSortBy
+      hidePagination
+      getCustomCellProps={(cellInfo) => {
+        if (cellInfo.column.id === 'age' && cellInfo.value < 15) {
+          return { warning: 'Younger than 15' }
+        }
+      }}
+    />
+  )
+}
+
 export const Sorting = () => {
   return <Table columns={getColumns({})} data={smallDataSet} />
 }

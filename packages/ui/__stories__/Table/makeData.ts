@@ -23,7 +23,7 @@ const newPerson = (id: number): Person => {
       subset: 'manly',
     })}`,
     id: id,
-    age: Math.floor(Math.random() * 30),
+    age: Math.floor((Math.random() + 0.01) * 40),
     visits: Math.floor(Math.random() * 100),
     status: statusChance > 0.66 ? 'relationship' : statusChance > 0.33 ? 'complicated' : 'single',
   }

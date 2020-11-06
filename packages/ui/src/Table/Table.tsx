@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, ReactElement, useEffect, useMemo } from 'react'
-import { useTable, usePagination, TableOptions, useSortBy, Row as RowType, useAsyncDebounce } from 'react-table'
+import { useTable, usePagination, TableOptions, useSortBy, Row as RowType, Cell as CellType, useAsyncDebounce } from 'react-table'
 import { Body } from './Body'
-import { Cell } from './Cell'
+import { Cell, CellProps } from './Cell'
 import { Head } from './Head'
 import { Header } from './Header'
 import { Row } from './Row'
@@ -23,13 +23,17 @@ type ControlledPaginationProps = {
   fetchData?: ({ pageIndex, pageSize }: FetchDataProps) => void
 }
 
-type TableProps<T extends object> = TableOptions<T> &
+type TableProps<D extends object> = TableOptions<D> &
   ExtendedPaginationProps &
   ControlledPaginationProps & {
-    onRowClick?: (row: RowType<T>) => void
+    onRowClick?: (rowInfo: RowType<D>) => void
+    getCustomCellProps?: (cellInfo: CellType<D>) => CellProps | void
   }
 
-export function Table<T extends object>({
+// Create a default prop getter
+const defaultPropGetter = () => ({})
+
+export function Table<D extends object>({
   columns,
   data,
   disableSortBy,
@@ -41,7 +45,8 @@ export function Table<T extends object>({
   pageSizeOptions = [5, 10, 20],
   hidePagination = false,
   onRowClick,
-}: PropsWithChildren<TableProps<T>>): ReactElement {
+  getCustomCellProps = defaultPropGetter,
+}: PropsWithChildren<TableProps<D>>): ReactElement {
   const {
     getTableProps,
     getTableBodyProps,
@@ -59,7 +64,7 @@ export function Table<T extends object>({
     setPageSize,
     // Get the state from the instance
     state: { pageIndex, pageSize },
-  } = useTable<T>(
+  } = useTable<D>(
     {
       columns,
       data,
@@ -142,8 +147,9 @@ export function Table<T extends object>({
               >
                 {row.cells.map((cell) => {
                   const { key: cellKey, ...restCellProps } = cell.getCellProps()
+                  const customCellProps = getCustomCellProps(cell)
                   return (
-                    <Cell key={cellKey} {...restCellProps} align={cell.column.align}>
+                    <Cell key={cellKey} {...restCellProps} align={cell.column.align} {...customCellProps}>
                       {cell.render('Cell')}
                     </Cell>
                   )
