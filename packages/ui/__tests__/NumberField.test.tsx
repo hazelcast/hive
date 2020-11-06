@@ -242,4 +242,18 @@ describe('NumberField', () => {
     expect(onChange).toBeCalledTimes(1)
     expect(onChange).toBeCalledWith(43)
   })
+
+  it('the initial value is adjusted if it is greater than max', async () => {
+    const onBlur = jest.fn()
+    const onChange = jest.fn()
+
+    expect(onChange).toBeCalledTimes(0)
+
+    await mountAndCheckA11Y(
+      <NumberField name="name" value={42} max={41} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
+    )
+
+    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toBeCalledWith(41)
+  })
 })
