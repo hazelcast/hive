@@ -71,10 +71,7 @@ export type ButtonProps = ButtonCommonProps &
   ButtonAccessibleIconLeftProps &
   ButtonAccessibleIconRightProps &
   ButtonDisabledProps &
-  Pick<
-    ButtonHTMLAttributes<HTMLButtonElement>,
-    'onClick' | 'className' | 'autoFocus' | 'type'
-  >
+  Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'className' | 'autoFocus' | 'type'>
 
 /**
  * ### Purpose
@@ -149,10 +146,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
             {...rest}
           >
             <span className={styles.outline} />
-            <span
-              className={cn(styles.body, bodyClassName)}
-              ref={mergeRefs([ref, tooltipRef])}
-            >
+            <span className={cn(styles.body, bodyClassName)} ref={mergeRefs([ref, tooltipRef])}>
               {iconLeft && iconLeftAriaLabel && (
                 <Icon
                   icon={iconLeft}
@@ -163,9 +157,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
                   color={iconLeftColor}
                 />
               )}
-              <TruncatedText
-                text={capitalize ? children.toUpperCase() : children}
-              />
+              <TruncatedText text={capitalize ? children.toUpperCase() : children} />
               {iconRight && iconRightAriaLabel && (
                 <Icon
                   icon={iconRight}

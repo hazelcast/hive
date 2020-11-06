@@ -105,8 +105,7 @@ $tooltipArrowSize2-3: c.$tooltipArrowSize / 3 * 2;
       }
 
       &::after {
-        border-bottom: c.$tooltipArrowSize solid
-          c.$colorNeutralLighter;
+        border-bottom: c.$tooltipArrowSize solid c.$colorNeutralLighter;
         transform: translateY(-($tooltipArrowSize2-3));
       }
     }

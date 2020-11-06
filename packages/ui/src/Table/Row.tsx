@@ -15,12 +15,7 @@ type RowClickProps =
 
 type RowProps = { inactive?: boolean } & RowClickProps
 
-export const Row: FC<RowProps> = ({
-  children,
-  inactive = false,
-  isHeaderRow = false,
-  onClick,
-}) => {
+export const Row: FC<RowProps> = ({ children, inactive = false, isHeaderRow = false, onClick }) => {
   if (isHeaderRow) {
     return <tr className={styles.headerRow}>{children}</tr>
   }

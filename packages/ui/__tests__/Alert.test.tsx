@@ -3,19 +3,9 @@ import React from 'react'
 
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 
-import {
-  AlertTriangle,
-  CheckCircle,
-  Info,
-  Clipboard,
-  AlertCircle,
-} from 'react-feather'
+import { AlertTriangle, CheckCircle, Info, Clipboard, AlertCircle } from 'react-feather'
 import { ToastType, IconDescriptor } from '../src/Toast'
-import {
-  Alert,
-  AlertActionButton,
-  AlertActionLink,
-} from '../src/Alert'
+import { Alert, AlertActionButton, AlertActionLink } from '../src/Alert'
 
 import styles from '../src/Alert.module.scss'
 
@@ -74,54 +64,28 @@ describe('Alert', () => {
   it.each(alertBasicTestData)(
     'Renders %s Alert with correct className, icon, title and content',
     async (type, { icon, ariaLabel }, className) => {
-      const wrapper = await mountAndCheckA11Y(
-        <Alert
-          type={type}
-          title={title}
-          content={content}
-          closeToast={noOp}
-        />,
-      )
+      const wrapper = await mountAndCheckA11Y(<Alert type={type} title={title} content={content} closeToast={noOp} />)
 
       const AlertElement = wrapper.find(Alert)
 
-      expect(
-        AlertElement.findDataTest('alert').prop('className'),
-      ).toBe(`alert ${className}`)
-      expect(AlertElement.findDataTest('alert-title').text()).toBe(
-        title,
-      )
-      expect(
-        AlertElement.findDataTest('alert-content').props(),
-      ).toMatchObject({
+      expect(AlertElement.findDataTest('alert').prop('className')).toBe(`alert ${className}`)
+      expect(AlertElement.findDataTest('alert-title').text()).toBe(title)
+      expect(AlertElement.findDataTest('alert-content').props()).toMatchObject({
         children: content,
       })
-      expect(
-        wrapper.findDataTest('alert-icon').props(),
-      ).toMatchObject({
+      expect(wrapper.findDataTest('alert-icon').props()).toMatchObject({
         icon,
         ariaLabel,
       })
-      expect(
-        wrapper.findDataTest('alert-close').exists(),
-      ).toBeTruthy()
-      expect(
-        wrapper.findDataTest('alert-actions').exists(),
-      ).toBeFalsy()
+      expect(wrapper.findDataTest('alert-close').exists()).toBeTruthy()
+      expect(wrapper.findDataTest('alert-actions').exists()).toBeFalsy()
     },
   )
 
   it('Close button calls closeToast prop handler', async () => {
     const closeToast = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
-      <Alert
-        type="success"
-        title={title}
-        content={content}
-        closeToast={closeToast}
-      />,
-    )
+    const wrapper = await mountAndCheckA11Y(<Alert type="success" title={title} content={content} closeToast={closeToast} />)
 
     expect(closeToast).toHaveBeenCalledTimes(0)
 
@@ -138,24 +102,14 @@ describe('Alert', () => {
     ['2 actions', [AlertAction1, AlertAction2]],
   ]
 
-  it.each(alertActionsTestData)(
-    'Renders Alert with %s',
-    async (_, actions) => {
-      const wrapper = await mountAndCheckA11Y(
-        <Alert
-          type="success"
-          title={title}
-          content={content}
-          closeToast={noOp}
-        />,
-      )
+  it.each(alertActionsTestData)('Renders Alert with %s', async (_, actions) => {
+    const wrapper = await mountAndCheckA11Y(<Alert type="success" title={title} content={content} closeToast={noOp} />)
 
-      wrapper
-        .findDataTest('alert-actions')
-        .children()
-        .forEach((child, cI) => {
-          expect(child.props()).toMatchObject(actions[cI])
-        })
-    },
-  )
+    wrapper
+      .findDataTest('alert-actions')
+      .children()
+      .forEach((child, cI) => {
+        expect(child.props()).toMatchObject(actions[cI])
+      })
+  })
 })

@@ -17,38 +17,24 @@ describe('Button', () => {
     ['transparent', styles.transparent],
   ]
 
-  it.each(buttonKindTestData)(
-    'Renders Button with correct className which corresponds to button kind',
-    async (kind, className) => {
-      const wrapper = await mountAndCheckA11Y(
-        <Button kind={kind}>Label</Button>,
-      )
+  it.each(buttonKindTestData)('Renders Button with correct className which corresponds to button kind', async (kind, className) => {
+    const wrapper = await mountAndCheckA11Y(<Button kind={kind}>Label</Button>)
 
-      expect(
-        wrapper.findDataTest('button').prop('className'),
-      ).toMatch(`button ${className}`)
-    },
-  )
+    expect(wrapper.findDataTest('button').prop('className')).toMatch(`button ${className}`)
+  })
 
   const labelTestData: [string][] = [['label'], [label], ['lAbEl']]
 
-  it.each(labelTestData)(
-    'Renders Button with correctly capitalized label, when capitalize=true: %s',
-    async (labelRaw) => {
-      const wrapper = await mountAndCheckA11Y(
-        <Button>{labelRaw}</Button>,
-      )
+  it.each(labelTestData)('Renders Button with correctly capitalized label, when capitalize=true: %s', async (labelRaw) => {
+    const wrapper = await mountAndCheckA11Y(<Button>{labelRaw}</Button>)
 
-      expect(wrapper.find(Button).text()).toBe(label)
-    },
-  )
+    expect(wrapper.find(Button).text()).toBe(label)
+  })
 
   it('Renders Button with original label when capitalize=false', async () => {
     const label = 'label'
 
-    const wrapper = await mountAndCheckA11Y(
-      <Button capitalize={false}>{label}</Button>,
-    )
+    const wrapper = await mountAndCheckA11Y(<Button capitalize={false}>{label}</Button>)
 
     expect(wrapper.find(Button).text()).toBe(label)
   })
@@ -63,19 +49,13 @@ describe('Button', () => {
     expect(wrapper.find(Button).text()).toBe(label)
 
     // Left
-    expect(
-      wrapper.findDataTest('button-icon-left').exists(),
-    ).toBeTruthy()
-    expect(
-      wrapper.findDataTest('button-icon-left').find(X).props(),
-    ).toMatchObject({
+    expect(wrapper.findDataTest('button-icon-left').exists()).toBeTruthy()
+    expect(wrapper.findDataTest('button-icon-left').find(X).props()).toMatchObject({
       'aria-label': iconAriaLabel,
     })
 
     // Right
-    expect(
-      wrapper.findDataTest('button-icon-right').exists(),
-    ).toBeFalsy()
+    expect(wrapper.findDataTest('button-icon-right').exists()).toBeFalsy()
   })
 
   it('Renders button with right icon with proper aria-label', async () => {
@@ -88,29 +68,18 @@ describe('Button', () => {
     expect(wrapper.find(Button).text()).toBe(label)
 
     // Left
-    expect(
-      wrapper.findDataTest('button-icon-left').exists(),
-    ).toBeFalsy()
+    expect(wrapper.findDataTest('button-icon-left').exists()).toBeFalsy()
 
     // Right
-    expect(
-      wrapper.findDataTest('button-icon-right').exists(),
-    ).toBeTruthy()
-    expect(
-      wrapper.findDataTest('button-icon-right').find(X).props(),
-    ).toMatchObject({
+    expect(wrapper.findDataTest('button-icon-right').exists()).toBeTruthy()
+    expect(wrapper.findDataTest('button-icon-right').find(X).props()).toMatchObject({
       'aria-label': iconAriaLabel,
     })
   })
 
   it('Renders button with left and right icons and proper aria-labels', async () => {
     const wrapper = await mountAndCheckA11Y(
-      <Button
-        iconLeft={X}
-        iconLeftAriaLabel="X Icon"
-        iconRight={X}
-        iconRightAriaLabel="X Icon"
-      >
+      <Button iconLeft={X} iconLeftAriaLabel="X Icon" iconRight={X} iconRightAriaLabel="X Icon">
         {label}
       </Button>,
     )
@@ -118,22 +87,14 @@ describe('Button', () => {
     expect(wrapper.find(Button).text()).toBe(label)
 
     // Left
-    expect(
-      wrapper.findDataTest('button-icon-left').exists(),
-    ).toBeTruthy()
-    expect(
-      wrapper.findDataTest('button-icon-left').find(X).props(),
-    ).toMatchObject({
+    expect(wrapper.findDataTest('button-icon-left').exists()).toBeTruthy()
+    expect(wrapper.findDataTest('button-icon-left').find(X).props()).toMatchObject({
       'aria-label': iconAriaLabel,
     })
 
     // Right
-    expect(
-      wrapper.findDataTest('button-icon-right').exists(),
-    ).toBeTruthy()
-    expect(
-      wrapper.findDataTest('button-icon-right').find(X).props(),
-    ).toMatchObject({
+    expect(wrapper.findDataTest('button-icon-right').exists()).toBeTruthy()
+    expect(wrapper.findDataTest('button-icon-right').find(X).props()).toMatchObject({
       'aria-label': iconAriaLabel,
     })
   })

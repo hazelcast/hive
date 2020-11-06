@@ -9,8 +9,7 @@ import styleConsts from '../styles/constants/export.scss'
 
 import styles from './Help.module.scss'
 
-export const helpTooltipId = (inputId: string): string =>
-  `${inputId}-help`
+export const helpTooltipId = (inputId: string): string => `${inputId}-help`
 
 export interface HelpProps {
   parentId: string
@@ -20,21 +19,11 @@ export interface HelpProps {
   padding?: 'default' | 'none'
 }
 
-export const Help: FC<HelpProps> = ({
-  helperText,
-  placement = 'top',
-  parentId,
-  className,
-  padding = 'default',
-}) => {
+export const Help: FC<HelpProps> = ({ helperText, placement = 'top', parentId, className, padding = 'default' }) => {
   const tooltipId = helpTooltipId(parentId)
 
   return (
-    <Tooltip
-      placement={placement}
-      content={helperText}
-      id={tooltipId}
-    >
+    <Tooltip placement={placement} content={helperText} id={tooltipId}>
       {(ref) => (
         <div
           ref={ref}

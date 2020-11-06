@@ -12,11 +12,7 @@ type HeaderChevronProps = {
   icon: typeof ChevronDown | typeof ChevronUp
 }
 
-const ChevronIcon: FC<HeaderChevronProps> = ({
-  align,
-  ariaLabel,
-  icon,
-}) => (
+const ChevronIcon: FC<HeaderChevronProps> = ({ align, ariaLabel, icon }) => (
   <Icon
     className={cn(styles.sortingIcon, {
       [styles.left]: align === 'left',
@@ -61,13 +57,7 @@ export const Header: FC<HeaderProps & TableHeaderProps> = ({
     () => (
       <ChevronIcon
         align="right"
-        ariaLabel={
-          !isSorted
-            ? 'Not Sorted'
-            : isSortedDesc
-            ? 'Descending'
-            : 'Ascending'
-        }
+        ariaLabel={!isSorted ? 'Not Sorted' : isSortedDesc ? 'Descending' : 'Ascending'}
         icon={!isSorted || isSortedDesc ? ChevronDown : ChevronUp}
       />
     ),
@@ -94,9 +84,7 @@ export const Header: FC<HeaderProps & TableHeaderProps> = ({
       >
         {canSort && align === 'right' && Chevron}
         {children}
-        {canSort &&
-          (align === 'left' || align === 'center') &&
-          Chevron}
+        {canSort && (align === 'left' || align === 'center') && Chevron}
       </div>
     </th>
   )

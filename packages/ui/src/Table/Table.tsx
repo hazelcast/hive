@@ -1,17 +1,5 @@
-import React, {
-  PropsWithChildren,
-  ReactElement,
-  useEffect,
-  useMemo,
-} from 'react'
-import {
-  useTable,
-  usePagination,
-  TableOptions,
-  useSortBy,
-  Row as RowType,
-  useAsyncDebounce,
-} from 'react-table'
+import React, { PropsWithChildren, ReactElement, useEffect, useMemo } from 'react'
+import { useTable, usePagination, TableOptions, useSortBy, Row as RowType, useAsyncDebounce } from 'react-table'
 import { Body } from './Body'
 import { Cell } from './Cell'
 import { Head } from './Head'
@@ -91,9 +79,7 @@ export function Table<T extends object>({
   )
 
   // Debounce our onFetchData call for 100ms
-  const onFetchDataDebounced = useAsyncDebounce<
-    ({ pageIndex, pageSize }: FetchDataProps) => void
-  >(
+  const onFetchDataDebounced = useAsyncDebounce<({ pageIndex, pageSize }: FetchDataProps) => void>(
     fetchData ??
       (() => {
         // Do nothing
@@ -108,33 +94,18 @@ export function Table<T extends object>({
     }
   }, [fetchData, onFetchDataDebounced, pageIndex, pageSize])
 
-  const hasFooter = useMemo(
-    () => columns.some((col) => !!col.Footer),
-    [columns],
-  )
+  const hasFooter = useMemo(() => columns.some((col) => !!col.Footer), [columns])
 
   return (
     <>
       <table {...getTableProps()} className={styles.table}>
         <Head>
           {headerGroups.map((headerGroup) => {
-            const {
-              key: headerGroupKey,
-              ...restHeaderGroupProps
-            } = headerGroup.getHeaderGroupProps()
+            const { key: headerGroupKey, ...restHeaderGroupProps } = headerGroup.getHeaderGroupProps()
             return (
-              <Row
-                key={headerGroupKey}
-                {...restHeaderGroupProps}
-                isHeaderRow
-              >
+              <Row key={headerGroupKey} {...restHeaderGroupProps} isHeaderRow>
                 {headerGroup.headers.map((column) => {
-                  const {
-                    key: columnKey,
-                    ...restHeaderProps
-                  } = column.getHeaderProps(
-                    column.getSortByToggleProps(),
-                  )
+                  const { key: columnKey, ...restHeaderProps } = column.getHeaderProps(column.getSortByToggleProps())
                   return (
                     <Header
                       key={columnKey}
@@ -170,16 +141,9 @@ export function Table<T extends object>({
                 }
               >
                 {row.cells.map((cell) => {
-                  const {
-                    key: cellKey,
-                    ...restCellProps
-                  } = cell.getCellProps()
+                  const { key: cellKey, ...restCellProps } = cell.getCellProps()
                   return (
-                    <Cell
-                      key={cellKey}
-                      {...restCellProps}
-                      align={cell.column.align}
-                    >
+                    <Cell key={cellKey} {...restCellProps} align={cell.column.align}>
                       {cell.render('Cell')}
                     </Cell>
                   )
@@ -191,17 +155,11 @@ export function Table<T extends object>({
         {hasFooter && (
           <tfoot>
             {footerGroups.map((group) => {
-              const {
-                key: footerGroupKey,
-                ...restFooterGroupProps
-              } = group.getFooterGroupProps()
+              const { key: footerGroupKey, ...restFooterGroupProps } = group.getFooterGroupProps()
               return (
                 <tr key={footerGroupKey} {...restFooterGroupProps}>
                   {group.headers.map((column) => {
-                    const {
-                      key: footerKey,
-                      ...restFooterProps
-                    } = column.getFooterProps()
+                    const { key: footerKey, ...restFooterProps } = column.getFooterProps()
                     return (
                       <td key={footerKey} {...restFooterProps}>
                         {column.render('Footer')}
@@ -217,25 +175,16 @@ export function Table<T extends object>({
 
       {!hidePagination && pageCount > 1 && (
         <div>
-          <button
-            onClick={() => gotoPage(0)}
-            disabled={!canPreviousPage}
-          >
+          <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
             {'<<'}
           </button>{' '}
-          <button
-            onClick={() => previousPage()}
-            disabled={!canPreviousPage}
-          >
+          <button onClick={() => previousPage()} disabled={!canPreviousPage}>
             {'<'}
           </button>{' '}
           <button onClick={() => nextPage()} disabled={!canNextPage}>
             {'>'}
           </button>{' '}
-          <button
-            onClick={() => gotoPage(pageCount - 1)}
-            disabled={!canNextPage}
-          >
+          <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
             {'>>'}
           </button>{' '}
           <span>
@@ -250,9 +199,7 @@ export function Table<T extends object>({
               type="number"
               defaultValue={pageIndex + 1}
               onChange={(e) => {
-                const page = e.target.value
-                  ? Number(e.target.value) - 1
-                  : 0
+                const page = e.target.value ? Number(e.target.value) - 1 : 0
                 gotoPage(page)
               }}
               style={{ width: '100px' }}

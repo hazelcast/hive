@@ -11,8 +11,7 @@ export const Default = () => <Header canSort={false}>Header</Header>
 Default.parameters = {
   design: {
     type: 'figma',
-    url:
-      'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=2875%3A0',
+    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=2875%3A0',
   },
 }
 

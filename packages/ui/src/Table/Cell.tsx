@@ -36,12 +36,7 @@ export type CellProps = {
   colSpan?: number
 }
 
-export const Cell: FC<CellProps> = ({
-  align = 'left',
-  warning,
-  colSpan,
-  children,
-}) => (
+export const Cell: FC<CellProps> = ({ align = 'left', warning, colSpan, children }) => (
   <td className={styles.cell} colSpan={colSpan}>
     <div
       className={cn(styles.content, {
@@ -50,13 +45,9 @@ export const Cell: FC<CellProps> = ({
         [styles.alignCenter]: align === 'center',
       })}
     >
-      {warning && align === 'right' && (
-        <CellWarning warning={warning} align="right" />
-      )}
+      {warning && align === 'right' && <CellWarning warning={warning} align="right" />}
       {children}
-      {warning && (align === 'left' || align === 'center') && (
-        <CellWarning warning={warning} align="left" />
-      )}
+      {warning && (align === 'left' || align === 'center') && <CellWarning warning={warning} align="left" />}
     </div>
   </td>
 )

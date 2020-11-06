@@ -11,26 +11,11 @@ export type IconButtonProps = {
   icon: FeatherIcon
   size?: IconProps['size']
   iconClassName?: string
-} & Pick<
-  ButtonHTMLAttributes<HTMLButtonElement>,
-  'onClick' | 'className' | 'autoFocus' | 'disabled' | 'type'
->
+} & Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'className' | 'autoFocus' | 'disabled' | 'type'>
 
-export const IconButton: FC<IconButtonProps> = ({
-  icon,
-  iconAriaLabel,
-  iconClassName,
-  className,
-  size,
-  ...rest
-}) => (
+export const IconButton: FC<IconButtonProps> = ({ icon, iconAriaLabel, iconClassName, className, size, ...rest }) => (
   <button className={cn(styles.iconButton, className)} {...rest}>
     <span className={styles.outline} />
-    <Icon
-      ariaLabel={iconAriaLabel}
-      className={iconClassName}
-      icon={icon}
-      size={size}
-    />
+    <Icon ariaLabel={iconAriaLabel} className={iconClassName} icon={icon} size={size} />
   </button>
 )

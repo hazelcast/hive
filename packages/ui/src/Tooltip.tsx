@@ -1,10 +1,4 @@
-import React, {
-  FC,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react'
+import React, { FC, ReactNode, useCallback, useEffect, useState } from 'react'
 import { Placement } from '@popperjs/core'
 import { usePopper } from 'react-popper'
 import cn from 'classnames'
@@ -18,9 +12,7 @@ export type TooltipProps = {
   offset?: number
   placement?: Placement
   visible?: boolean
-  children: (
-    ref: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
-  ) => ReactNode
+  children: (ref: React.Dispatch<React.SetStateAction<HTMLElement | null>>) => ReactNode
 }
 
 /**
@@ -47,32 +39,17 @@ export const Tooltip: FC<TooltipProps> = ({
   children,
 }) => {
   const [isShown, setShown] = useState<boolean>(false)
-  const [
-    hideTimeout,
-    setHideTimeout,
-  ] = useState<NodeJS.Timeout | null>(null)
+  const [hideTimeout, setHideTimeout] = useState<NodeJS.Timeout | null>(null)
 
   /*
    * We're using useState instead of useRef because react-popper package has some issues with useRef:
    * https://github.com/popperjs/react-popper/issues/241#issuecomment-591411605
    */
-  const [
-    referenceElement,
-    setReferenceElement,
-  ] = useState<HTMLElement | null>(null)
-  const [
-    popperElement,
-    setPopperElement,
-  ] = useState<HTMLSpanElement | null>(null)
-  const [
-    arrowElement,
-    setArrowElement,
-  ] = useState<HTMLSpanElement | null>(null)
+  const [referenceElement, setReferenceElement] = useState<HTMLElement | null>(null)
+  const [popperElement, setPopperElement] = useState<HTMLSpanElement | null>(null)
+  const [arrowElement, setArrowElement] = useState<HTMLSpanElement | null>(null)
 
-  const {
-    styles: popperStyles,
-    attributes: popperAttributes,
-  } = usePopper(referenceElement, popperElement, {
+  const { styles: popperStyles, attributes: popperAttributes } = usePopper(referenceElement, popperElement, {
     placement,
     modifiers: [
       {
@@ -99,9 +76,7 @@ export const Tooltip: FC<TooltipProps> = ({
   }, [hideTimeout])
 
   const onMouseLeave = useCallback(() => {
-    setHideTimeout(
-      setTimeout(() => setShown(false), hideTimeoutDuration),
-    )
+    setHideTimeout(setTimeout(() => setShown(false), hideTimeoutDuration))
   }, [hideTimeoutDuration])
 
   useEffect(() => {
@@ -109,10 +84,7 @@ export const Tooltip: FC<TooltipProps> = ({
     popperElement?.addEventListener('mouseenter', onMouseEnter)
 
     return () => {
-      referenceElement?.removeEventListener(
-        'mouseenter',
-        onMouseEnter,
-      )
+      referenceElement?.removeEventListener('mouseenter', onMouseEnter)
       popperElement?.removeEventListener('mouseenter', onMouseEnter)
     }
   }, [referenceElement, popperElement, onMouseEnter])
@@ -122,10 +94,7 @@ export const Tooltip: FC<TooltipProps> = ({
     popperElement?.addEventListener('mouseleave', onMouseLeave)
 
     return () => {
-      referenceElement?.removeEventListener(
-        'mouseleave',
-        onMouseLeave,
-      )
+      referenceElement?.removeEventListener('mouseleave', onMouseLeave)
       popperElement?.removeEventListener('mouseleave', onMouseLeave)
     }
   }, [referenceElement, popperElement, onMouseLeave])
@@ -139,12 +108,7 @@ export const Tooltip: FC<TooltipProps> = ({
 
       {content !== undefined && (
         <>
-          <span
-            id={id}
-            className={styles.tooltipSr}
-            role="tooltip"
-            data-test="tooltip-sr"
-          >
+          <span id={id} className={styles.tooltipSr} role="tooltip" data-test="tooltip-sr">
             {content}
           </span>
 

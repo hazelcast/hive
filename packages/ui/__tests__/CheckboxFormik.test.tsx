@@ -22,10 +22,7 @@ describe('CheckboxFormik', () => {
         onSubmit={onSubmit}
       >
         <Form>
-          <CheckboxFieldFormik<Values>
-            name="tosApproved"
-            label="ToS"
-          />
+          <CheckboxFieldFormik<Values> name="tosApproved" label="ToS" />
         </Form>
       </Formik>
     )

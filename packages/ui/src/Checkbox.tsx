@@ -1,10 +1,4 @@
-import React, {
-  AriaAttributes,
-  ChangeEvent,
-  FC,
-  FocusEvent,
-  useRef,
-} from 'react'
+import React, { AriaAttributes, ChangeEvent, FC, FocusEvent, useRef } from 'react'
 import styles from './Checkbox.module.scss'
 import { Check, Minus } from 'react-feather'
 import { DataTestProp } from '@hazelcast/helpers'
@@ -32,9 +26,7 @@ export type CheckboxExtraProps = {
   classNameLabel?: string
 }
 
-type CheckboxProps = CheckboxCoreProps &
-  CheckboxExtraProps &
-  DataTestProp
+type CheckboxProps = CheckboxCoreProps & CheckboxExtraProps & DataTestProp
 
 /**
  * ### Purpose
@@ -64,9 +56,7 @@ export const Checkbox: FC<CheckboxProps> = ({
   const inputRef = useRef<HTMLInputElement>(null)
   const idRef = useRef(uuid())
 
-  let ariaChecked: AriaAttributes['aria-checked'] = checked
-    ? 'true'
-    : 'false'
+  let ariaChecked: AriaAttributes['aria-checked'] = checked ? 'true' : 'false'
   if (indeterminate) {
     ariaChecked = 'mixed'
   }
@@ -103,25 +93,13 @@ export const Checkbox: FC<CheckboxProps> = ({
           aria-checked={ariaChecked}
           aria-invalid={!!error}
           aria-required={required}
-          aria-describedby={
-            helperText && helpTooltipId(idRef.current)
-          }
+          aria-describedby={helperText && helpTooltipId(idRef.current)}
           aria-errormessage={error && errorId(idRef.current)}
         />
-        {indeterminate ? (
-          <Minus className={styles.checkmark} />
-        ) : (
-          <Check className={styles.checkmark} />
-        )}
-        {helperText && (
-          <Help parentId={idRef.current} helperText={helperText} />
-        )}
+        {indeterminate ? <Minus className={styles.checkmark} /> : <Check className={styles.checkmark} />}
+        {helperText && <Help parentId={idRef.current} helperText={helperText} />}
       </label>
-      <Error
-        error={error}
-        className={classNames(styles.errorContainer)}
-        inputId={idRef.current}
-      />
+      <Error error={error} className={classNames(styles.errorContainer)} inputId={idRef.current} />
     </div>
   )
 }

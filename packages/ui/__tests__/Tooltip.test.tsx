@@ -22,9 +22,7 @@ describe('Tooltip', () => {
 
     const tooltipOverlay = wrapper.findDataTest('tooltip-overlay')
 
-    expect(
-      wrapper.findDataTest('tooltip-reference').exists(),
-    ).toBeTruthy()
+    expect(wrapper.findDataTest('tooltip-reference').exists()).toBeTruthy()
 
     expect(tooltipOverlay.exists()).toBeTruthy()
     expect(tooltipOverlay.text()).toEqual('Tooltip content')
@@ -53,9 +51,7 @@ describe('Tooltip', () => {
       </div>,
     )
 
-    expect(
-      wrapper.findDataTest('tooltip-overlay').exists(),
-    ).toBeFalsy()
+    expect(wrapper.findDataTest('tooltip-overlay').exists()).toBeFalsy()
   })
 
   it('Shows tooltip overlay by default if "visible" prop is true.', async () => {
@@ -71,8 +67,6 @@ describe('Tooltip', () => {
       </div>,
     )
 
-    expect(
-      wrapper.findDataTest('tooltip-overlay').hasClass(styles.hidden),
-    ).toBeFalsy()
+    expect(wrapper.findDataTest('tooltip-overlay').hasClass(styles.hidden)).toBeFalsy()
   })
 })

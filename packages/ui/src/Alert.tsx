@@ -33,10 +33,7 @@ export type AlertActionLink = {
 
 export type AlertAction = AlertActionButton | AlertActionLink
 
-const isAlertActionButton = (
-  action: AlertAction,
-): action is AlertActionButton =>
-  (action as AlertActionButton).onClick !== undefined
+const isAlertActionButton = (action: AlertAction): action is AlertActionButton => (action as AlertActionButton).onClick !== undefined
 
 export type AlertProps = {
   type: ToastType
@@ -47,14 +44,7 @@ export type AlertProps = {
   closeToast: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
-export const Alert: FC<AlertProps> = ({
-  type,
-  title,
-  content,
-  actions,
-  className,
-  closeToast,
-}) => {
+export const Alert: FC<AlertProps> = ({ type, title, content, actions, className, closeToast }) => {
   const { icon, ariaLabel } = ToastIcon[type]
 
   return (
@@ -68,22 +58,11 @@ export const Alert: FC<AlertProps> = ({
       })}
     >
       <div className={styles.header}>
-        <Icon
-          data-test="alert-icon"
-          ariaLabel={ariaLabel}
-          icon={icon}
-          className={styles.icon}
-        />
+        <Icon data-test="alert-icon" ariaLabel={ariaLabel} icon={icon} className={styles.icon} />
         <div data-test="alert-title" className={styles.title}>
           {title}
         </div>
-        <IconButton
-          data-test="alert-close"
-          className={styles.close}
-          iconAriaLabel="Close icon"
-          icon={X}
-          onClick={closeToast}
-        />
+        <IconButton data-test="alert-close" className={styles.close} iconAriaLabel="Close icon" icon={X} onClick={closeToast} />
       </div>
       <div data-test="alert-body" className={styles.body}>
         <div data-test="alert-content">{content}</div>

@@ -50,15 +50,8 @@ export const Link: FC<LinkProps> = ({
   className,
   children,
 }) => (
-  <a
-    className={cn(styles[size], className)}
-    href={href}
-    rel={rel}
-    target={target}
-  >
+  <a className={cn(styles[size], className)} href={href} rel={rel} target={target}>
     {children}
-    {icon && iconAriaLabel && (
-      <Icon icon={icon} ariaLabel={iconAriaLabel} size={size} />
-    )}
+    {icon && iconAriaLabel && <Icon icon={icon} ariaLabel={iconAriaLabel} size={size} />}
   </a>
 )

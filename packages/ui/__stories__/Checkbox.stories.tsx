@@ -24,9 +24,7 @@ export const Default = () => {
         }}
       />
       <hr />
-      <button onClick={() => setIndeterminate(!indeterminate)}>
-        Toggle Indeterminate
-      </button>
+      <button onClick={() => setIndeterminate(!indeterminate)}>Toggle Indeterminate</button>
       <ul>
         <li>Checked: {checked ? 'True' : 'False'}</li>
         <li>Indeterminate: {indeterminate ? 'True' : 'False'}</li>
@@ -38,18 +36,12 @@ export const Default = () => {
 Default.parameters = {
   design: {
     type: 'figma',
-    url:
-      'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=479%3A273',
+    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=479%3A273',
   },
 }
 
 export const Unchecked = () => (
-  <Checkbox
-    checked={false}
-    label="Label"
-    name="default"
-    onChange={(e) => logger.log('change', e.target.checked)}
-  />
+  <Checkbox checked={false} label="Label" name="default" onChange={(e) => logger.log('change', e.target.checked)} />
 )
 
 export const FocusedUnchecked = () => (
@@ -63,13 +55,7 @@ export const FocusedUnchecked = () => (
 )
 
 export const FocusedChecked = () => (
-  <Checkbox
-    checked
-    classNameLabel={styles.focus}
-    label="Label"
-    name="default"
-    onChange={(e) => logger.log('change', e.target.checked)}
-  />
+  <Checkbox checked classNameLabel={styles.focus} label="Label" name="default" onChange={(e) => logger.log('change', e.target.checked)} />
 )
 
 export const WithDescription = () => (
@@ -94,13 +80,7 @@ export const WithError = () => (
 )
 
 export const Indeterminate = () => (
-  <Checkbox
-    checked
-    label="Indeterminate"
-    indeterminate
-    name="default"
-    onChange={(e) => logger.log('change', e.target.checked)}
-  />
+  <Checkbox checked label="Indeterminate" indeterminate name="default" onChange={(e) => logger.log('change', e.target.checked)} />
 )
 
 export const IndeterminateWithError = () => (
@@ -115,34 +95,15 @@ export const IndeterminateWithError = () => (
 )
 
 export const IndeterminateDisabled = () => (
-  <Checkbox
-    checked
-    disabled
-    label="Disabled"
-    indeterminate
-    name="default"
-    onChange={(e) => logger.log('change', e.target.checked)}
-  />
+  <Checkbox checked disabled label="Disabled" indeterminate name="default" onChange={(e) => logger.log('change', e.target.checked)} />
 )
 
 export const CheckedDisabled = () => (
-  <Checkbox
-    checked
-    disabled
-    label="Checked Disabled"
-    name="default"
-    onChange={(e) => logger.log('change', e.target.checked)}
-  />
+  <Checkbox checked disabled label="Checked Disabled" name="default" onChange={(e) => logger.log('change', e.target.checked)} />
 )
 
 export const UncheckedDisabled = () => (
-  <Checkbox
-    checked={false}
-    disabled
-    label="Unchecked Disabled"
-    name="default"
-    onChange={(e) => logger.log('change', e.target.checked)}
-  />
+  <Checkbox checked={false} disabled label="Unchecked Disabled" name="default" onChange={(e) => logger.log('change', e.target.checked)} />
 )
 
 export const TwoCheckboxes = () => (
@@ -154,12 +115,6 @@ export const TwoCheckboxes = () => (
       error="This is an error message"
       onChange={(e) => logger.log('change2', e.target.checked)}
     />
-    <Checkbox
-      checked={false}
-      disabled
-      label="Unchecked Disabled"
-      name="default"
-      onChange={(e) => logger.log('change', e.target.checked)}
-    />
+    <Checkbox checked={false} disabled label="Unchecked Disabled" name="default" onChange={(e) => logger.log('change', e.target.checked)} />
   </div>
 )

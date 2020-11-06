@@ -24,11 +24,7 @@ export interface MountOptions {
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const mountAndCheckA11Y = async <P>(
   node: ReactElement<P>,
-  {
-    mountOptions,
-    axeOptions = axeDefaultOptions,
-    act: actOption = 'async',
-  }: MountOptions = {},
+  { mountOptions, axeOptions = axeDefaultOptions, act: actOption = 'async' }: MountOptions = {},
 ) => {
   let wrapper: ReactWrapper<P>
 

@@ -15,8 +15,7 @@ export const Primary = () => <Button kind="primary">Primary</Button>
 Primary.parameters = {
   design: {
     type: 'figma',
-    url:
-      'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=880%3A4409',
+    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=880%3A4409',
   },
 }
 
@@ -29,8 +28,7 @@ export const PrimaryHovered = () => (
 PrimaryHovered.parameters = {
   design: {
     type: 'figma',
-    url:
-      'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=1491%3A261',
+    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=1491%3A261',
   },
 }
 
@@ -43,8 +41,7 @@ export const PrimaryFocused = () => (
 PrimaryFocused.parameters = {
   design: {
     type: 'figma',
-    url:
-      'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=1491%3A278',
+    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=1491%3A278',
   },
 }
 
@@ -57,8 +54,7 @@ export const PrimaryActive = () => (
 PrimaryActive.parameters = {
   design: {
     type: 'figma',
-    url:
-      'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=1491%3A278',
+    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=1491%3A278',
   },
 }
 
@@ -71,50 +67,30 @@ export const PrimaryDisabled = () => (
 PrimaryDisabled.parameters = {
   design: {
     type: 'figma',
-    url:
-      'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=1491%3A315',
+    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=1491%3A315',
   },
 }
 
 export const PrimaryDisabledTooltip = () => (
-  <Button
-    disabled
-    disabledTooltip="Disabled tooltip"
-    disabledTooltipVisible
-    kind="primary"
-  >
+  <Button disabled disabledTooltip="Disabled tooltip" disabledTooltipVisible kind="primary">
     Primary
   </Button>
 )
 
 export const PrimaryIconLeft = () => (
-  <Button
-    kind="primary"
-    iconLeft={Info}
-    iconLeftAriaLabel="Info icon"
-  >
+  <Button kind="primary" iconLeft={Info} iconLeftAriaLabel="Info icon">
     Primary
   </Button>
 )
 
 export const PrimaryIconRight = () => (
-  <Button
-    kind="primary"
-    iconRight={ChevronDown}
-    iconRightAriaLabel="Chevron icon"
-  >
+  <Button kind="primary" iconRight={ChevronDown} iconRightAriaLabel="Chevron icon">
     Primary
   </Button>
 )
 
 export const PrimaryIconBoth = () => (
-  <Button
-    kind="primary"
-    iconLeft={Info}
-    iconLeftAriaLabel="Info icon"
-    iconRight={ChevronDown}
-    iconRightAriaLabel="Chevron icon"
-  >
+  <Button kind="primary" iconLeft={Info} iconLeftAriaLabel="Info icon" iconRight={ChevronDown} iconRightAriaLabel="Chevron icon">
     Primary
   </Button>
 )
@@ -158,15 +134,12 @@ export const PrimaryIconBothActive = () => (
   </Button>
 )
 
-export const Secondary = () => (
-  <Button kind="secondary">Secondary</Button>
-)
+export const Secondary = () => <Button kind="secondary">Secondary</Button>
 
 Secondary.parameters = {
   design: {
     type: 'figma',
-    url:
-      'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=944%3A7',
+    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=944%3A7',
   },
 }
 
@@ -189,54 +162,31 @@ export const SecondaryActive = () => (
 )
 
 export const SecondaryDisabled = () => (
-  <Button
-    disabled
-    disabledTooltip="Disabled tooltip"
-    kind="secondary"
-  >
+  <Button disabled disabledTooltip="Disabled tooltip" kind="secondary">
     Secondary
   </Button>
 )
 
 export const SecondaryDisabledTooltip = () => (
-  <Button
-    disabled
-    disabledTooltip="Disabled tooltip"
-    disabledTooltipVisible
-    kind="secondary"
-  >
+  <Button disabled disabledTooltip="Disabled tooltip" disabledTooltipVisible kind="secondary">
     Secondary
   </Button>
 )
 
 export const SecondaryIconLeft = () => (
-  <Button
-    kind="secondary"
-    iconLeft={Info}
-    iconLeftAriaLabel="Info icon"
-  >
+  <Button kind="secondary" iconLeft={Info} iconLeftAriaLabel="Info icon">
     Secondary
   </Button>
 )
 
 export const SecondaryIconRight = () => (
-  <Button
-    kind="secondary"
-    iconRight={ChevronDown}
-    iconRightAriaLabel="Chevron icon"
-  >
+  <Button kind="secondary" iconRight={ChevronDown} iconRightAriaLabel="Chevron icon">
     Secondary
   </Button>
 )
 
 export const SecondaryIconBoth = () => (
-  <Button
-    kind="secondary"
-    iconLeft={Info}
-    iconLeftAriaLabel="Info icon"
-    iconRight={ChevronDown}
-    iconRightAriaLabel="Chevron icon"
-  >
+  <Button kind="secondary" iconLeft={Info} iconLeftAriaLabel="Info icon" iconRight={ChevronDown} iconRightAriaLabel="Chevron icon">
     Secondary
   </Button>
 )
@@ -280,9 +230,7 @@ export const SecondaryIconBothActive = () => (
   </Button>
 )
 
-export const Transparent = () => (
-  <Button kind="transparent">Transparent</Button>
-)
+export const Transparent = () => <Button kind="transparent">Transparent</Button>
 
 export const TransparentHovered = () => (
   <Button className={styles.hover} kind="transparent">
@@ -303,43 +251,25 @@ export const TransparentActive = () => (
 )
 
 export const TransparentDisabled = () => (
-  <Button
-    disabled
-    disabledTooltip="Disabled tooltip"
-    kind="transparent"
-  >
+  <Button disabled disabledTooltip="Disabled tooltip" kind="transparent">
     Transparent
   </Button>
 )
 
 export const TransparentIconLeft = () => (
-  <Button
-    kind="transparent"
-    iconLeft={Info}
-    iconLeftAriaLabel="Info icon"
-  >
+  <Button kind="transparent" iconLeft={Info} iconLeftAriaLabel="Info icon">
     Transparent
   </Button>
 )
 
 export const TransparentIconRight = () => (
-  <Button
-    kind="transparent"
-    iconRight={ChevronDown}
-    iconRightAriaLabel="Chevron icon"
-  >
+  <Button kind="transparent" iconRight={ChevronDown} iconRightAriaLabel="Chevron icon">
     Transparent
   </Button>
 )
 
 export const TransparentIconBoth = () => (
-  <Button
-    kind="transparent"
-    iconLeft={Info}
-    iconLeftAriaLabel="Info icon"
-    iconRight={ChevronDown}
-    iconRightAriaLabel="Chevron icon"
-  >
+  <Button kind="transparent" iconLeft={Info} iconLeftAriaLabel="Info icon" iconRight={ChevronDown} iconRightAriaLabel="Chevron icon">
     Transparent
   </Button>
 )
@@ -384,13 +314,7 @@ export const TransparentIconBothActive = () => (
 )
 
 export const Long = () => (
-  <Button
-    kind="primary"
-    iconLeft={Info}
-    iconLeftAriaLabel="Info icon"
-    iconRight={ChevronDown}
-    iconRightAriaLabel="Chevron icon"
-  >
+  <Button kind="primary" iconLeft={Info} iconLeftAriaLabel="Info icon" iconRight={ChevronDown} iconRightAriaLabel="Chevron icon">
     Looooong Primary Button
   </Button>
 )
