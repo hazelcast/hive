@@ -12,14 +12,16 @@ import { Help, helpTooltipId } from './Help'
 
 import styles from './TextField.module.scss'
 
-type TextFieldCoreProps<T extends string> = {
+type TextFieldTypes = 'number' | 'text' | 'password' | undefined
+
+type TextFieldCoreProps<T extends TextFieldTypes> = {
   name: string
   value?: T extends 'number' ? number : string
   onBlur?: (e: FocusEvent<HTMLInputElement>) => void
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
   error?: string
 }
-export type TextFieldExtraProps<T extends string> = {
+export type TextFieldExtraProps<T extends TextFieldTypes> = {
   label: string
   required?: boolean
   helperText?: string | ReactElement
@@ -29,11 +31,11 @@ export type TextFieldExtraProps<T extends string> = {
   placeholder: string
   inputContainerChild?: ReactElement
   inputIcon?: IconType
-  type: T
+  type?: T
 } & DataTestProp &
   Pick<InputHTMLAttributes<HTMLInputElement>, 'autoFocus' | 'disabled' | 'autoComplete'>
 
-type TextFieldProps<T extends string> = TextFieldCoreProps<T> & TextFieldExtraProps<T>
+type TextFieldProps<T extends TextFieldTypes> = TextFieldCoreProps<T> & TextFieldExtraProps<T>
 
 /**
  * ### Purpose
@@ -52,7 +54,7 @@ type TextFieldProps<T extends string> = TextFieldCoreProps<T> & TextFieldExtraPr
  * ### Usage
  * Use a text input when the expected user input is a single line of text.
  */
-export const TextField = <T extends string>({
+export const TextField = <T extends TextFieldTypes>({
   name,
   value,
   label,
@@ -92,7 +94,7 @@ export const TextField = <T extends string>({
       <div className={styles.inputBlock}>
         <div className={cn(styles.inputContainer, inputClassName)}>
           <input
-            type={type}
+            type={type ?? 'text'}
             id={idRef.current}
             value={value}
             name={name}

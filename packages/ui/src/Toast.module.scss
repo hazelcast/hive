@@ -14,7 +14,10 @@
 
   .content {
     word-break: break-all;
-    margin-right: c.$grid * 2.5;
+  }
+
+  .close {
+    margin-left: c.$grid * 2.5;
   }
 
   &.success {
