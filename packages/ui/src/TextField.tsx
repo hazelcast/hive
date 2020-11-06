@@ -6,7 +6,7 @@ import { v4 as uuid } from 'uuid'
 import { Icon as IconType } from 'react-feather'
 
 import { Icon } from './Icon'
-import { HiddenLabel } from './HiddenLabel'
+import { Label } from './Label'
 import { Error, errorId } from './Error'
 import { Help, helpTooltipId } from './Help'
 
@@ -88,8 +88,8 @@ export const TextField = <T extends string>({
         className,
       )}
     >
+      <Label id={idRef.current} label={label} />
       <div className={styles.inputBlock}>
-        <HiddenLabel id={idRef.current} label={label} />
         <div className={cn(styles.inputContainer, inputClassName)}>
           <input
             type={type}
