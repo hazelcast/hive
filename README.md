@@ -21,6 +21,7 @@
   - [Run visual regression tests](#run-visual-regression-tests)
   - [Approve the updated for visual regression test screenshots](#approve-the-updated-for-visual-regression-test-screenshots)
   - [Generate new screenshots for the new components](#generate-new-screenshots-for-the-new-components)
+  - [Run all checks at once](#run-all-checks-at-once)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -143,3 +144,11 @@ Now, if the test suite failed, we need to go to `packages/ui/.loki` and manually
 cd packages/ui
 npm run generate-screenshots
 ```
+
+### Run all checks at once
+
+```
+npm run verify-all
+```
+
+If you PR passes this check locally, it is almost guaranteed to pass it on the CI.

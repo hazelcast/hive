@@ -1,0 +1,136 @@
+@use '../styles/constants' as c;
+@use '../styles/helpers' as h;
+
+// TODO: potential max-height
+.alert {
+  display: inline-block;
+  border-radius: c.$borderRadius;
+  padding: c.$grid * 2.5;
+  width: c.$alertWidth;
+
+  .header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .icon {
+      margin-right: c.$grid * 2.5;
+    }
+
+    .title {
+      flex: 1 0 auto;
+      margin-right: c.$grid * 8.5;
+
+      @include c.typographyBodyNormal('bold');
+      @include h.overflowEllipsis;
+    }
+
+    .close {
+      &:hover,
+      &.hover {
+        background-color: transparent;
+        box-shadow: none;
+      }
+    }
+  }
+
+  /* Theme - Success */
+  &.success {
+    color: c.$colorNeutralWhite;
+    background-color: c.$colorSuccess;
+
+    .icon {
+      color: c.$colorNeutralWhite;
+    }
+
+    .actions {
+      .action {
+        color: c.$colorNeutralWhite;
+      }
+    }
+  }
+
+  /* Theme - Info */
+  &.info {
+    color: c.$colorText;
+    background-color: c.$colorInfoLight;
+
+    .icon {
+      color: c.$colorInfoDark;
+    }
+
+    .actions {
+      .action {
+        color: c.$colorText;
+      }
+    }
+  }
+
+  /* Theme - Warning */
+  &.warning {
+    color: c.$colorText;
+    background-color: c.$colorWarningLight;
+
+    .icon {
+      color: c.$colorWarningDark;
+    }
+
+    .actions {
+      .action {
+        color: c.$colorText;
+      }
+    }
+  }
+
+  /* Theme - Critical */
+  &.critical {
+    color: c.$colorNeutralWhite;
+    background-color: c.$colorError;
+
+    .icon {
+      color: c.$colorNeutralWhite;
+    }
+
+    .actions {
+      .action {
+        color: c.$colorNeutralWhite;
+      }
+    }
+  }
+
+  .body {
+    padding: 0 c.$grid * 8.5;
+
+    @include c.typographyBodySmall;
+
+    .actions {
+      display: flex;
+      margin: c.$grid * 3 0 c.$grid;
+
+      .action {
+        &:not(:last-child) {
+          margin-right: c.$grid * 6;
+        }
+      }
+
+      .actionButton {
+        height: auto;
+
+        @include c.typographyBodySmall;
+
+        &:hover,
+        &.hover {
+          text-decoration: underline solid;
+        }
+
+        .actionButtonBody {
+          padding: 0;
+        }
+
+        .actionButtonIcon {
+          margin-right: c.$grid * 1.5;
+        }
+      }
+    }
+  }
+}

@@ -1,83 +1,72 @@
-import React, { ButtonHTMLAttributes, FC } from 'react'
+import React, { ButtonHTMLAttributes, forwardRef } from 'react'
 import cn from 'classnames'
-import { Icon } from 'react-feather'
+import mergeRefs from 'react-merge-refs'
+import { v4 as uuid } from 'uuid'
 
+import { Icon, IconProps } from './Icon'
 import { TruncatedText } from './TruncatedText'
+import { Tooltip, TooltipProps } from './Tooltip'
 
 import styles from './Button.module.scss'
 
-export type ButtonKind = 'primary' | 'secondary'
-/* 
-    | 'success'
-    | 'successSecondary'
-    | 'info'
-    | 'infoSecondary'
-    | 'warning'
-    | 'warningSecondary'
-    | 'dashed'
-    | 'critical'
-    | 'criticalSecondary'
-    | 'danger'
-   */
+export type ButtonKind = 'primary' | 'secondary' | 'transparent'
 
 // Left icon is always present with proper aria-label attribute
-type AccessibleIconLeftProps =
+export type ButtonAccessibleIconLeftProps =
   | {
-      IconLeft: Icon
+      iconLeft: IconProps['icon']
       iconLeftAriaLabel: string
+      iconLeftSize?: IconProps['size']
+      iconLeftColor?: IconProps['color']
+      iconLeftClassName?: string
     }
   | {
-      IconLeft?: never
+      iconLeft?: never
       iconLeftAriaLabel?: never
+      iconLeftSize?: never
+      iconLeftColor?: never
+      iconLeftClassName?: never
     }
 
 // Right icon is always present with proper aria-label attribute
-type AccessibleIconRightProps =
+export type ButtonAccessibleIconRightProps =
   | {
-      IconRight: Icon
+      iconRight: IconProps['icon']
       iconRightAriaLabel: string
+      iconRightSize?: IconProps['size']
+      iconRightColor?: IconProps['color']
+      iconRightClassName?: string
     }
   | {
-      IconRight?: never
+      iconRight?: never
       iconRightAriaLabel?: never
+      iconRightSize?: never
+      iconRightColor?: never
+      iconRightClassName?: never
+    }
+
+export type ButtonDisabledProps =
+  | { disabledTooltip: string; disabled: boolean; disabledTooltipVisible?: boolean; disabledTooltipPlacement?: TooltipProps['placement'] }
+  | {
+      disabled?: never
+      disabledTooltip?: never
+      disabledTooltipVisible?: never
+      disabledTooltipPlacement?: never
     }
 
 // Common props for all button "kinds"
-type ButtonKindCommonProps = {
+type ButtonCommonProps = {
+  kind?: ButtonKind
   children: string
+  capitalize?: boolean
+  bodyClassName?: string
 }
 
-// Primary and Secondary buttons share common behavior
-type ButtonKindPrimarySecondaryProps = {
-  kind?: 'primary' | 'secondary'
-} & ButtonKindCommonProps &
-  AccessibleIconLeftProps &
-  AccessibleIconRightProps
-
-/* 
-  // Dashed and Danger buttons share common behavior
-  type ButtonKindDashedDangerProps = {
-    kind?: 'dashed' | 'danger'
-    IconRight?: undefined
-    iconRightAriaLabel?: undefined
-  } & ButtonKindCommonProps &
-    AccessibleIconLeftProps
-
-  // Status button behavior
-  type ButtonKindStatusProps = {
-    kind?: 'success' | 'successSecondary' | 'info' | 'infoSecondary' | 'warning' | 'warningSecondary' | 'critical' | 'criticalSecondary'
-    IconLeft?: undefined
-    iconLeftAriaLabel?: undefined
-    IconRight?: undefined
-    iconRightAriaLabel?: undefined
-  } & ButtonKindCommonProps
-*/
-
-export type ButtonProps = ButtonKindPrimarySecondaryProps &
-  /* | ButtonKindDashedDangerProps | ButtonKindStatusProps */ Pick<
-    ButtonHTMLAttributes<HTMLButtonElement>,
-    'className' | 'autoFocus' | 'disabled' | 'type'
-  >
+export type ButtonProps = ButtonCommonProps &
+  ButtonAccessibleIconLeftProps &
+  ButtonAccessibleIconRightProps &
+  ButtonDisabledProps &
+  Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'className' | 'autoFocus' | 'type'>
 
 /**
  * ### Purpose
@@ -96,55 +85,90 @@ export type ButtonProps = ButtonKindPrimarySecondaryProps &
  * - **Primary**: Use primary button for the single primary action on the screen. To call attention to an action on a form, or highlight the strongest call to action on a page. Primary button should only appear once per screen. Not every screen requires a primary button.
  * - **Secondary**: Use secondary buttons for all remaining actions. Secondary button is the standard button for most use cases.
  */
-export const Button: FC<ButtonProps> = ({
-  kind = 'primary',
-  IconLeft,
-  iconLeftAriaLabel,
-  IconRight,
-  iconRightAriaLabel,
-  className,
-  children,
-  ...rest
-}) => (
-  <button
-    className={cn(className, styles.button, {
-      // Kind
-      // Kind === primary
-      [styles.primary]: kind === 'primary',
-      // Kind === secondary
-      [styles.secondary]: kind === 'secondary',
-      /*
-        // Kind === success
-        [styles.success]: kind === 'success' || kind === 'successSecondary',
-        [styles.successSecondary]: kind === 'successSecondary',
-        // Kind === info
-        [styles.info]: kind === 'info' || kind === 'infoSecondary',
-        [styles.infoSecondary]: kind === 'infoSecondary',
-        // Kind === warning
-        [styles.warning]: kind === 'warning' || kind === 'warningSecondary',
-        [styles.warningSecondary]: kind === 'warningSecondary',
-        // Kind === danger
-        [styles.critical]: kind === 'critical' || kind === 'criticalSecondary',
-        [styles.criticalSecondary]: kind === 'criticalSecondary',
-        // Kind === dashed
-        [styles.dashed]: kind === 'dashed',
-        // Kind === danger
-        [styles.danger]: kind === 'danger',
-      */
-    })}
-    {...rest}
-  >
-    <span className={styles.outline} />
-    <span className={styles.body}>
-      {IconLeft && (
-        // Icon colour & size is defined in SCSS
-        <IconLeft aria-label={iconLeftAriaLabel} data-test="button-icon-left" className={cn(styles.icon, styles.iconLeft)} />
-      )}
-      <TruncatedText text={children.toUpperCase()} />
-      {IconRight && (
-        // Icon colour & size are defined in SCSS
-        <IconRight aria-label={iconRightAriaLabel} data-test="button-icon-right" className={cn(styles.icon, styles.iconRight)} />
-      )}
-    </span>
-  </button>
+export const Button = forwardRef<HTMLElement, ButtonProps>(
+  (
+    {
+      kind = 'primary',
+      className,
+      bodyClassName,
+      children,
+      capitalize = true,
+      // Disabled tooltip
+      disabled,
+      disabledTooltip,
+      disabledTooltipVisible,
+      disabledTooltipPlacement,
+      // Left icon
+      iconLeft,
+      iconLeftAriaLabel,
+      iconLeftSize,
+      iconLeftColor,
+      iconLeftClassName,
+      // Right icon
+      iconRight,
+      iconRightAriaLabel,
+      iconRightSize,
+      iconRightColor,
+      iconRightClassName,
+      ...rest
+    },
+    ref,
+  ) => {
+    /* Generate backup tooltip id if prop is empty */
+    const tooltipId = `${uuid()}-button-tooltip`
+
+    return (
+      <Tooltip
+        id={tooltipId}
+        content={disabled ? disabledTooltip : undefined}
+        visible={disabledTooltipVisible}
+        placement={disabledTooltipPlacement}
+      >
+        {(tooltipRef) => (
+          <button
+            data-test="button"
+            className={cn(
+              styles.button,
+              {
+                [styles.primary]: kind === 'primary',
+                [styles.secondary]: kind === 'secondary',
+                [styles.transparent]: kind === 'transparent',
+              },
+              className,
+            )}
+            aria-describedby={disabled ? tooltipId : undefined}
+            disabled={disabled}
+            {...rest}
+          >
+            <span className={styles.outline} />
+            <span className={cn(styles.body, bodyClassName)} ref={mergeRefs([ref, tooltipRef])}>
+              {iconLeft && iconLeftAriaLabel && (
+                <Icon
+                  icon={iconLeft}
+                  ariaLabel={iconLeftAriaLabel}
+                  data-test="button-icon-left"
+                  className={cn(styles.iconLeft, iconLeftClassName)}
+                  size={iconLeftSize}
+                  color={iconLeftColor}
+                />
+              )}
+              <TruncatedText text={capitalize ? children.toUpperCase() : children} />
+              {iconRight && iconRightAriaLabel && (
+                <Icon
+                  icon={iconRight}
+                  ariaLabel={iconRightAriaLabel}
+                  data-test="button-icon-right"
+                  className={cn(styles.iconRight, iconRightClassName)}
+                  size={iconRightSize}
+                  color={iconRightColor}
+                />
+              )}
+            </span>
+          </button>
+        )}
+      </Tooltip>
+    )
+  },
 )
+
+Button.displayName = 'Button'

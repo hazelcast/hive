@@ -67,12 +67,24 @@ $lineHeightBodySmall: normal !default;
   letter-spacing: $letterSpacingButton;
   line-height: $lineHeightButton;
 }
-@mixin typographyBodyNormal {
+@mixin typographyBodyWeight($weight: 'regular') {
+  @if $weight == 'regular' {
+    font-weight: $fontWeightTextRegular;
+  }
+  @if $weight == 'bold' {
+    font-weight: $fontWeightTextBold;
+  }
+  @if $weight == 'light' {
+    font-weight: $fontWeightTextLight;
+  }
+}
+@mixin typographyBodyNormal($weight: 'regular') {
   font-family: $fontFamilyText;
-  font-weight: $fontWeightTextRegular;
   font-size: $fontSizeBodyNormal;
   letter-spacing: $letterSpacingBodyNormal;
   line-height: $lineHeightBodyNormal;
+
+  @include typographyBodyWeight($weight);
 }
 @mixin typographyBodySmall {
   font-family: $fontFamilyText;

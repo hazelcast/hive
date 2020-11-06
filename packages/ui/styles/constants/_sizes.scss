@@ -5,6 +5,8 @@
 
 $grid: 0.25rem !default;
 
+$alertWidth: 350px !default;
+
 $borderRadius: $grid * 1.25 !default;
 
 $borderRadiusToast: 37px !default;
@@ -21,6 +23,8 @@ $iconStrokeWidth: 2px !default;
 
 $iconSizeSmall: $grid * 4 !default;
 $iconSizeNormal: $grid * 6 !default;
+
+$tooltipArrowSize: 6px !default;
 
 $tooltipMaxWidth: 550px !default;
 
