@@ -65,16 +65,7 @@ export const Toast: FC<ToastProps> = ({ type, content, closeToast }) => {
       <div data-test="toast-content" className={styles.content}>
         {content}
       </div>
-      {closeToast && (
-        <IconButton
-          data-test="toast-close"
-          className={styles.close}
-          iconClassName={styles.closeIcon}
-          iconAriaLabel="Close icon"
-          icon={X}
-          onClick={closeToast}
-        />
-      )}
+      {closeToast && <IconButton data-test="toast-close" kind="transparent" iconAriaLabel="Close icon" icon={X} onClick={closeToast} />}
     </div>
   )
 }

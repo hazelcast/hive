@@ -48,6 +48,7 @@ export const NumberField: FC<NumberFieldProps> = ({
         className={styles.decrement}
         onClick={onDecrement}
         disabled={!onDecrement}
+        kind="primary"
       />
       <IconButton
         size="small"
@@ -56,6 +57,7 @@ export const NumberField: FC<NumberFieldProps> = ({
         className={styles.increment}
         onClick={onIncrement}
         disabled={!onIncrement}
+        kind="primary"
       />
     </>
   )
