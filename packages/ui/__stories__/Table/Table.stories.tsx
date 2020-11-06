@@ -111,13 +111,27 @@ const bigDataSet = makeData(10000)
 export const Basic = () => {
   const columns = useMemo(() => getColumns({}), [])
 
-  return <Table columns={columns} data={smallDataSet} disableSortBy />
+  return (
+    <Table
+      columns={columns}
+      data={smallDataSet}
+      disableSortBy
+      hidePagination
+    />
+  )
 }
 
 export const Footer = () => {
   const columns = useMemo(() => getColumns({ withFooter: true }), [])
 
-  return <Table columns={columns} data={smallDataSet} disableSortBy />
+  return (
+    <Table
+      columns={columns}
+      data={smallDataSet}
+      disableSortBy
+      hidePagination
+    />
+  )
 }
 
 export const ClickableRowsWithNameLink = () => {
@@ -130,6 +144,7 @@ export const ClickableRowsWithNameLink = () => {
       columns={columns}
       data={smallDataSet}
       disableSortBy
+      hidePagination
       onRowClick={(row) => {
         console.log(
           `You just clicked row: ${
@@ -176,7 +191,7 @@ export const ControlledPagination = () => {
           setPageCount(Math.ceil(bigDataSet.length / pageSize))
           setLoading(false)
         }
-      }, 1000)
+      }, 750)
     },
     [],
   )
@@ -191,6 +206,8 @@ export const ControlledPagination = () => {
       loading={loading}
       manualPagination
       pageCount={pageCount}
+      defaultPageSize={15}
+      pageSizeOptions={[5, 10, 15]}
       disableSortBy
     />
   )

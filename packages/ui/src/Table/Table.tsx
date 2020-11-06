@@ -10,6 +10,7 @@ import {
   TableOptions,
   useSortBy,
   Row as RowType,
+  useAsyncDebounce,
 } from 'react-table'
 import { Body } from './Body'
 import { Cell } from './Cell'
@@ -24,6 +25,7 @@ export type FetchDataProps = {
 }
 
 type ExtendedPaginationProps = {
+  defaultPageSize?: number
   pageSizeOptions?: number[]
   hidePagination?: boolean
 }
@@ -46,8 +48,9 @@ export function Table<T extends object>({
   fetchData,
   loading,
   manualPagination,
+  defaultPageSize = 10,
   pageCount: controlledPageCount,
-  pageSizeOptions = [10, 20, 30],
+  pageSizeOptions = [5, 10, 20],
   hidePagination = false,
   onRowClick,
 }: PropsWithChildren<TableProps<T>>): ReactElement {
@@ -74,8 +77,10 @@ export function Table<T extends object>({
       data,
       disableSortBy,
       disableMultiSort: true,
+      // https://react-table.tanstack.com/docs/faq#how-do-i-stop-my-table-state-from-automatically-resetting-when-my-data-changes
+      autoResetSortBy: false,
       // Pass our hoisted table state
-      initialState: { pageIndex: 0 },
+      initialState: { pageIndex: 0, pageSize: defaultPageSize },
       // Tell the usePagination hook that we'll handle our own data fetching.
       // This means we'll also have to provide our own pageCount.
       manualPagination: manualPagination,
@@ -85,17 +90,28 @@ export function Table<T extends object>({
     usePagination,
   )
 
+  // Debounce our onFetchData call for 100ms
+  const onFetchDataDebounced = useAsyncDebounce<
+    ({ pageIndex, pageSize }: FetchDataProps) => void
+  >(
+    fetchData ??
+      (() => {
+        // Do nothing
+      }),
+    200,
+  )
+
+  // Listen for changes in pagination and use the state to fetch new data
+  useEffect(() => {
+    if (fetchData) {
+      onFetchDataDebounced({ pageIndex, pageSize })
+    }
+  }, [fetchData, onFetchDataDebounced, pageIndex, pageSize])
+
   const hasFooter = useMemo(
     () => columns.some((col) => !!col.Footer),
     [columns],
   )
-
-  // Listen for changes in pagination and use the state to fetch our new data
-  useEffect(() => {
-    if (fetchData) {
-      fetchData({ pageIndex, pageSize })
-    }
-  }, [fetchData, pageIndex, pageSize])
 
   return (
     <>
@@ -199,7 +215,7 @@ export function Table<T extends object>({
         )}
       </table>
 
-      {!hidePagination && pageOptions.length > 1 && (
+      {!hidePagination && pageCount > 1 && (
         <div>
           <button
             onClick={() => gotoPage(0)}
