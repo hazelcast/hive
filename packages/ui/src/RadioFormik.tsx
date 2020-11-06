@@ -2,7 +2,7 @@ import React, { ReactElement, useContext } from 'react'
 import { FieldValidator, useField } from 'formik'
 
 import { Radio, RadioExtraProps } from './Radio'
-import { RadioContext } from './RadioGroup'
+import { RadioGroupContext } from './RadioGroupContext'
 
 export type RadioFormikProps = RadioExtraProps & {
   validate?: FieldValidator
@@ -10,7 +10,7 @@ export type RadioFormikProps = RadioExtraProps & {
 }
 
 export const RadioFieldFormik = ({ value, validate, ...props }: RadioFormikProps): ReactElement => {
-  const { name } = useContext(RadioContext)
+  const { name } = useContext(RadioGroupContext)
   const [field] = useField<string | undefined>({
     name,
     validate,

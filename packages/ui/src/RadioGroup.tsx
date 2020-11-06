@@ -4,6 +4,7 @@ import { Error, errorId } from './Error'
 import classNames from 'classnames'
 import styles from './RadioGroup.module.scss'
 import { DataTestProp } from '@hazelcast/helpers'
+import { RadioGroupContext } from './RadioGroupContext'
 
 export type RadioGroupCoreProps = {
   name: string
@@ -16,12 +17,6 @@ export type RadioGroupProps = RadioGroupCoreProps & {
   error?: string
   className?: string
 } & DataTestProp
-
-export const RadioContext = React.createContext<{
-  name: string
-  error?: string
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void
-}>({ name: '' })
 
 /**
  * ### Purpose
@@ -48,7 +43,7 @@ export const RadioGroup: FC<RadioGroupProps> = ({
         aria-invalid={!!error}
         aria-errormessage={error && errorId(idRef.current)}
       >
-        <RadioContext.Provider value={{ name, error, onChange }}>{children}</RadioContext.Provider>
+        <RadioGroupContext.Provider value={{ name, error, onChange }}>{children}</RadioGroupContext.Provider>
       </div>
       <Error error={error} className={classNames(styles.errorContainer)} inputId={idRef.current} />
     </div>

@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import { Help, helpTooltipId } from './Help'
 import { v4 as uuid } from 'uuid'
 import { DataTestProp } from '@hazelcast/helpers'
-import { RadioContext } from './RadioGroup'
+import { RadioGroupContext } from './RadioGroupContext'
 
 type RadioCoreProps = {
   value: string
@@ -43,7 +43,7 @@ export const Radio: FC<RadioProps> = ({
   const idRef = useRef(uuid())
 
   return (
-    <RadioContext.Consumer>
+    <RadioGroupContext.Consumer>
       {({ name, onChange, error }) => (
         <label
           className={classNames(styles.wrapper, className, {
@@ -76,6 +76,6 @@ export const Radio: FC<RadioProps> = ({
           {helperText && <Help parentId={idRef.current} helperText={helperText} />}
         </label>
       )}
-    </RadioContext.Consumer>
+    </RadioGroupContext.Consumer>
   )
 }
