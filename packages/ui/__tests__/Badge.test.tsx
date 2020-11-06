@@ -2,7 +2,7 @@ import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import React from 'react'
 import { Info, CheckCircle, AlertTriangle, AlertCircle } from 'react-feather'
 
-import { Badge, BadgeType, IconDescriptor } from '../src/Badge'
+import { Badge, BadgeType, BadgeSize, IconDescriptor } from '../src/Badge'
 
 import styles from '../src/Badge.module.scss'
 
@@ -10,9 +10,9 @@ const badgeContent = 'Badge Text'
 
 describe('Badge', () => {
   it('Renders Badge with all necessary components', async () => {
-    const wrapper = await mountAndCheckA11Y(<Badge type="neutral" content={badgeContent} />)
+    const wrapper = await mountAndCheckA11Y(<Badge type="neutral" size="normal" content={badgeContent} />)
 
-    expect(wrapper.findDataTest('badge-icon').exists()).toBeTruthy()
+    expect(wrapper.findDataTest('badge-icon').prop('size')).toBe('normal')
     expect(wrapper.findDataTest('badge-content').text()).toBe(badgeContent)
   })
 
@@ -60,12 +60,24 @@ describe('Badge', () => {
   ]
 
   it.each(typeTestData)('Renders correct styles for %s Badge type', async (type, className, { icon, ariaLabel }) => {
-    const wrapper = await mountAndCheckA11Y(<Badge type={type} content={badgeContent} />)
+    const wrapper = await mountAndCheckA11Y(<Badge type={type} size="normal" content={badgeContent} />)
 
     expect(wrapper.findDataTest('badge-container').prop('className')).toContain(className)
     expect(wrapper.findDataTest('badge-icon').props()).toMatchObject({
       ariaLabel,
       icon,
+      size: 'normal',
     })
+  })
+
+  const sizeTestData: [BadgeSize, string][] = [
+    ['normal', styles.normal],
+    ['small', styles.small],
+  ]
+
+  it.each(sizeTestData)('Renders correct styles for %s Badge size', async (size, className) => {
+    const wrapper = await mountAndCheckA11Y(<Badge type="neutral" size={size} content={badgeContent} />)
+
+    expect(wrapper.findDataTest('badge-container').prop('className')).toContain(className)
   })
 })
