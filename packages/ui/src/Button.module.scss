@@ -2,20 +2,12 @@
 
 .button {
   position: relative;
-  z-index: c.$zIndex200;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
   box-sizing: border-box;
   cursor: pointer;
   border: none;
-  font-weight: c.$fontWeightRegular;
-  color: c.$colorNeutralWhite;
-  // Size
+  padding: 0;
   border-radius: c.$borderRadius;
-  min-height: c.$grid * 10;
-  padding: 0 c.$grid * 5;
+  height: c.$grid * 10;
   max-width: c.$buttonMaxWidth;
 
   @include c.typographyButton;
@@ -24,6 +16,16 @@
     position: absolute;
     border-radius: c.$borderRadius;
     pointer-events: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* doiuse-disable calc */
+    width: calc(100% + #{c.$grid});
+    height: calc(100% + #{c.$grid});
+    /* doiuse-enable calc */
+    z-index: c.$zIndex100;
+    box-shadow: 0 0 0 c.$outlineWidth c.$colorAccessibilityOutline;
+    visibility: hidden;
   }
 
   &:focus,
@@ -33,23 +35,12 @@
     outline: c.$outlineWidth solid transparent;
 
     .outline {
-      /* doiuse-disable calc */
-      width: calc(100% + #{c.$grid});
-      height: calc(100% + #{c.$grid});
-      /* doiuse-enable calc */
-      z-index: c.$zIndex100;
-      box-shadow: 0 0 0 c.$outlineWidth c.$colorAccessibilityOutline;
+      visibility: visible;
     }
   }
 
   &:disabled {
     cursor: not-allowed;
-  }
-
-  .icon {
-    width: c.$grid * 6;
-    height: c.$grid * 6;
-    flex-shrink: 0;
   }
 
   .iconLeft {
@@ -65,6 +56,10 @@
     flex-direction: row;
     align-items: center;
     max-width: 100%;
+    width: 100%;
+    height: 100%;
+    padding: 0 c.$grid * 5;
+    box-sizing: border-box;
   }
 
   // Kind === primary
@@ -97,15 +92,12 @@
     border: c.$borderWidthButton solid;
     border-color: c.$colorPrimary;
 
-    &:focus,
-    &.focus {
-      .outline {
-        /* Note: We need to take border of 2*2px into account */
-        /* doiuse-disable calc */
-        width: calc(100% + #{c.$grid} * 2);
-        height: calc(100% + #{c.$grid} * 2);
-        /* doiuse-enable calc */
-      }
+    .outline {
+      /* Note: We need to take border of 2*2px into account */
+      /* doiuse-disable calc */
+      width: calc(100% + #{c.$grid} * 2);
+      height: calc(100% + #{c.$grid} * 2);
+      /* doiuse-enable calc */
     }
 
     &:hover,
@@ -128,107 +120,9 @@
     }
   }
 
-  /* 
-    // Kind === success || Kind === successSecondary
-    &.success {
-      color: $colorNeutralWhite;
-      background-color: $colorSuccess;
-
-      &.successSecondary {
-        border: $borderWidthButton solid $colorSuccess;
-        color: $colorSuccess;
-        background-color: transparent;
-      }
-    }
-
-    // Kind === info || Kind === infoSecondary
-    &.info {
-      color: $colorNeutralWhite;
-      background-color: $colorInfo;
-
-      &.infoSecondary {
-        border: $borderWidthButton solid $colorInfo;
-        color: $colorInfo;
-        background-color: transparent;
-      }
-    }
-
-    // Kind === warning || Kind === warningSecondary
-    &.warning {
-      color: $colorNeutralWhite;
-      background-color: $colorWarning;
-
-      &.warningSecondary {
-        border: $borderWidthButton solid $colorWarning;
-        color: $colorWarning;
-        background-color: transparent;
-      }
-    }
-
-    &.critical {
-      color: $colorNeutralWhite;
-      background-color: $colorError;
-
-      &.criticalSecondary {
-        border: $borderWidthButton solid $colorError;
-        color: $colorError;
-        background-color: transparent;
-      }
-    }
-
-    // Kind === dashed
-    &.dashed {
-      color: $colorNeutralDark;
-      background-color: transparent;
-      // Colour set by 'stroke', special characters are encoded
-      background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23b7c1cbff' stroke-width='2' stroke-dasharray='6%2c 6' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
-
-      &:hover,
-      &.hover,
-      &:focus,
-      &.focus {
-        // Colour set by 'stroke', special characters are encoded
-        background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%236D7480ff' stroke-width='2' stroke-dasharray='6%2c 6' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
-      }
-
-      &:active,
-      &.active {
-        // Colour set by 'stroke', special characters are encoded
-        background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23353D49ff' stroke-width='2' stroke-dasharray='6%2c 6' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
-        -webkit-box-shadow: inset 0 0 $grid * 2 0 $colorNeutralNormal;
-        -moz-box-shadow: inset 0 0 $grid * 2 0 $colorNeutralNormal;
-        box-shadow: inset 0 0 $grid * 2 0 $colorNeutralNormal;
-      }
-
-      &:disabled {
-        color: $colorNeutralLight;
-        // Colour set by 'stroke', special characters are encoded
-        background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23E3E7EDff' stroke-width='2' stroke-dasharray='6%2c 6' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
-      }
-    }
-
-    // Kind === danger
-    &.danger {
-      color: $colorNeutralWhite;
-      background-color: $colorError;
-
-      // TODO: Colours not specified
-      &:hover,
-      &.hover,
-      &:focus,
-      &.focus {
-        background-color: pink;
-      }
-
-      &:active,
-      &.active {
-        background-color: $colorError;
-      }
-
-      // TODO: Colours not specified
-      &:disabled {
-        background-color: pink;
-      }
-    }
-  */
+  // Kind === transparent
+  &.transparent {
+    color: inherit;
+    background-color: transparent;
+  }
 }

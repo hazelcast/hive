@@ -1,4 +1,12 @@
-import React, { FC, useRef, useState, useLayoutEffect, ReactChild } from 'react'
+import React, {
+  FC,
+  useRef,
+  useState,
+  useLayoutEffect,
+  ReactChild,
+} from 'react'
+import mergeRefs from 'react-merge-refs'
+import { v4 as uuid } from 'uuid'
 import cn from 'classnames'
 
 import { Tooltip } from './Tooltip'
@@ -12,9 +20,15 @@ interface TruncatedTextProps {
   className?: string
 }
 
-export const TruncatedText: FC<TruncatedTextProps> = ({ text, forceUpdateToken, className }) => {
+export const TruncatedText: FC<TruncatedTextProps> = ({
+  text,
+  forceUpdateToken,
+  className,
+}) => {
   const textRef = useRef<HTMLDivElement>(null)
   const [tooltip, setTooltip] = useState<ReactChild | undefined>()
+
+  const idTooltip = `${uuid()}-tooltip`
 
   useLayoutEffect(() => {
     const span = textRef.current
@@ -28,10 +42,17 @@ export const TruncatedText: FC<TruncatedTextProps> = ({ text, forceUpdateToken, 
   }, [text, forceUpdateToken])
 
   return (
-    <Tooltip placement="top" overlay={tooltip}>
-      <div ref={textRef} className={cn(styles.truncatedText, className)}>
-        {text}
-      </div>
+    <Tooltip id={idTooltip} placement="top" content={tooltip}>
+      {(ref) => (
+        <div
+          ref={mergeRefs([textRef, ref])}
+          className={cn(styles.truncatedText, className)}
+        >
+          <span aria-labelledby={tooltip ? idTooltip : undefined}>
+            {text}
+          </span>
+        </div>
+      )}
     </Tooltip>
   )
 }

@@ -44,11 +44,14 @@
   "dependencies": {
     "@hazelcast/helpers": "^0.1.0-alpha.0",
     "@hazelcast/services": "^0.1.0-alpha.0",
+    "@popperjs/core": "^2.5.3",
     "classnames": "^2.2.6",
     "formik": "^2.2.0",
     "namor": "^2.0.2",
     "rc-tooltip": "^4.2.3",
     "react-feather": "^2.0.8",
+    "react-merge-refs": "^1.1.0",
+    "react-popper": "^2.2.3",
     "uuid": "^8.3.1"
   },
   "devDependencies": {

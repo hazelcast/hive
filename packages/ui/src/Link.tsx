@@ -11,7 +11,7 @@ const sizes = {
   small: styles.small,
 }
 
-type AnchorAttirubutes = AnchorHTMLAttributes<HTMLAnchorElement>
+type AnchorAttributes = AnchorHTMLAttributes<HTMLAnchorElement>
 
 type IconProps =
   | {
@@ -25,8 +25,8 @@ type IconProps =
 
 type LinkProps = IconProps & {
   size?: keyof typeof sizes
-} & PartialRequired<AnchorAttirubutes, 'href'> &
-  Pick<AnchorAttirubutes, 'target' | 'rel' | 'className'> & {
+} & PartialRequired<AnchorAttributes, 'href'> &
+  Pick<AnchorAttributes, 'target' | 'rel' | 'className'> & {
     children: ReactNode
   }
 
@@ -50,8 +50,15 @@ export const Link: FC<LinkProps> = ({
   className,
   children,
 }) => (
-  <a className={cn(styles[size], className)} href={href} rel={rel} target={target}>
+  <a
+    className={cn(styles[size], className)}
+    href={href}
+    rel={rel}
+    target={target}
+  >
     {children}
-    {icon && iconAriaLabel && <Icon icon={icon} ariaLabel={iconAriaLabel} size={size} />}
+    {icon && iconAriaLabel && (
+      <Icon icon={icon} ariaLabel={iconAriaLabel} size={size} />
+    )}
   </a>
 )

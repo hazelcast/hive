@@ -15,7 +15,8 @@ export const Primary = () => <Button kind="primary">Primary</Button>
 Primary.parameters = {
   design: {
     type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=880%3A4409',
+    url:
+      'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=880%3A4409',
   },
 }
 
@@ -28,7 +29,8 @@ export const PrimaryHovered = () => (
 PrimaryHovered.parameters = {
   design: {
     type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=1491%3A261',
+    url:
+      'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=1491%3A261',
   },
 }
 
@@ -41,7 +43,8 @@ export const PrimaryFocused = () => (
 PrimaryFocused.parameters = {
   design: {
     type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=1491%3A278',
+    url:
+      'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=1491%3A278',
   },
 }
 
@@ -54,12 +57,13 @@ export const PrimaryActive = () => (
 PrimaryActive.parameters = {
   design: {
     type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=1491%3A278',
+    url:
+      'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=1491%3A278',
   },
 }
 
 export const PrimaryDisabled = () => (
-  <Button disabled kind="primary">
+  <Button disabled disabledTooltip="Disabled tooltip" kind="primary">
     Primary
   </Button>
 )
@@ -67,24 +71,50 @@ export const PrimaryDisabled = () => (
 PrimaryDisabled.parameters = {
   design: {
     type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=1491%3A315',
+    url:
+      'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=1491%3A315',
   },
 }
 
+export const PrimaryDisabledTooltip = () => (
+  <Button
+    disabled
+    disabledTooltip="Disabled tooltip"
+    disabledTooltipVisible
+    kind="primary"
+  >
+    Primary
+  </Button>
+)
+
 export const PrimaryIconLeft = () => (
-  <Button kind="primary" IconLeft={Info} iconLeftAriaLabel="Info icon">
+  <Button
+    kind="primary"
+    iconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+  >
     Primary
   </Button>
 )
 
 export const PrimaryIconRight = () => (
-  <Button kind="primary" IconRight={ChevronDown} iconRightAriaLabel="Chevron icon">
+  <Button
+    kind="primary"
+    iconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+  >
     Primary
   </Button>
 )
 
 export const PrimaryIconBoth = () => (
-  <Button kind="primary" IconLeft={Info} iconLeftAriaLabel="Info icon" IconRight={ChevronDown} iconRightAriaLabel="Chevron icon">
+  <Button
+    kind="primary"
+    iconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+    iconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+  >
     Primary
   </Button>
 )
@@ -93,9 +123,9 @@ export const PrimaryIconBothHovered = () => (
   <Button
     className={styles.hover}
     kind="primary"
-    IconLeft={Info}
+    iconLeft={Info}
     iconLeftAriaLabel="Info icon"
-    IconRight={ChevronDown}
+    iconRight={ChevronDown}
     iconRightAriaLabel="Chevron icon"
   >
     Primary
@@ -106,9 +136,9 @@ export const PrimaryIconBothFocused = () => (
   <Button
     className={styles.focus}
     kind="primary"
-    IconLeft={Info}
+    iconLeft={Info}
     iconLeftAriaLabel="Info icon"
-    IconRight={ChevronDown}
+    iconRight={ChevronDown}
     iconRightAriaLabel="Chevron icon"
   >
     Primary
@@ -119,21 +149,24 @@ export const PrimaryIconBothActive = () => (
   <Button
     className={styles.active}
     kind="primary"
-    IconLeft={Info}
+    iconLeft={Info}
     iconLeftAriaLabel="Info icon"
-    IconRight={ChevronDown}
+    iconRight={ChevronDown}
     iconRightAriaLabel="Chevron icon"
   >
     Primary
   </Button>
 )
 
-export const Secondary = () => <Button kind="secondary">Secondary</Button>
+export const Secondary = () => (
+  <Button kind="secondary">Secondary</Button>
+)
 
 Secondary.parameters = {
   design: {
     type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=944%3A7',
+    url:
+      'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=944%3A7',
   },
 }
 
@@ -156,25 +189,54 @@ export const SecondaryActive = () => (
 )
 
 export const SecondaryDisabled = () => (
-  <Button disabled kind="secondary">
+  <Button
+    disabled
+    disabledTooltip="Disabled tooltip"
+    kind="secondary"
+  >
+    Secondary
+  </Button>
+)
+
+export const SecondaryDisabledTooltip = () => (
+  <Button
+    disabled
+    disabledTooltip="Disabled tooltip"
+    disabledTooltipVisible
+    kind="secondary"
+  >
     Secondary
   </Button>
 )
 
 export const SecondaryIconLeft = () => (
-  <Button kind="secondary" IconLeft={Info} iconLeftAriaLabel="Info icon">
+  <Button
+    kind="secondary"
+    iconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+  >
     Secondary
   </Button>
 )
 
 export const SecondaryIconRight = () => (
-  <Button kind="secondary" IconRight={ChevronDown} iconRightAriaLabel="Chevron icon">
+  <Button
+    kind="secondary"
+    iconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+  >
     Secondary
   </Button>
 )
 
 export const SecondaryIconBoth = () => (
-  <Button kind="secondary" IconLeft={Info} iconLeftAriaLabel="Info icon" IconRight={ChevronDown} iconRightAriaLabel="Chevron icon">
+  <Button
+    kind="secondary"
+    iconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+    iconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+  >
     Secondary
   </Button>
 )
@@ -183,9 +245,9 @@ export const SecondaryIconBothHovered = () => (
   <Button
     className={styles.hover}
     kind="secondary"
-    IconLeft={Info}
+    iconLeft={Info}
     iconLeftAriaLabel="Info icon"
-    IconRight={ChevronDown}
+    iconRight={ChevronDown}
     iconRightAriaLabel="Chevron icon"
   >
     Secondary
@@ -196,9 +258,9 @@ export const SecondaryIconBothFocused = () => (
   <Button
     className={styles.focus}
     kind="secondary"
-    IconLeft={Info}
+    iconLeft={Info}
     iconLeftAriaLabel="Info icon"
-    IconRight={ChevronDown}
+    iconRight={ChevronDown}
     iconRightAriaLabel="Chevron icon"
   >
     Secondary
@@ -209,97 +271,139 @@ export const SecondaryIconBothActive = () => (
   <Button
     className={styles.active}
     kind="secondary"
-    IconLeft={Info}
+    iconLeft={Info}
     iconLeftAriaLabel="Info icon"
-    IconRight={ChevronDown}
+    iconRight={ChevronDown}
     iconRightAriaLabel="Chevron icon"
   >
     Secondary
   </Button>
 )
 
+export const Transparent = () => (
+  <Button kind="transparent">Transparent</Button>
+)
+
+export const TransparentHovered = () => (
+  <Button className={styles.hover} kind="transparent">
+    Transparent
+  </Button>
+)
+
+export const TransparentFocused = () => (
+  <Button className={styles.focus} kind="transparent">
+    Transparent
+  </Button>
+)
+
+export const TransparentActive = () => (
+  <Button className={styles.active} kind="transparent">
+    Transparent
+  </Button>
+)
+
+export const TransparentDisabled = () => (
+  <Button
+    disabled
+    disabledTooltip="Disabled tooltip"
+    kind="transparent"
+  >
+    Transparent
+  </Button>
+)
+
+export const TransparentIconLeft = () => (
+  <Button
+    kind="transparent"
+    iconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+  >
+    Transparent
+  </Button>
+)
+
+export const TransparentIconRight = () => (
+  <Button
+    kind="transparent"
+    iconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+  >
+    Transparent
+  </Button>
+)
+
+export const TransparentIconBoth = () => (
+  <Button
+    kind="transparent"
+    iconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+    iconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+  >
+    Transparent
+  </Button>
+)
+
+export const TransparentIconBothHovered = () => (
+  <Button
+    className={styles.hover}
+    kind="transparent"
+    iconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+    iconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+  >
+    Transparent
+  </Button>
+)
+
+export const TransparentIconBothFocused = () => (
+  <Button
+    className={styles.focus}
+    kind="transparent"
+    iconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+    iconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+  >
+    Transparent
+  </Button>
+)
+
+export const TransparentIconBothActive = () => (
+  <Button
+    className={styles.active}
+    kind="transparent"
+    iconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+    iconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+  >
+    Transparent
+  </Button>
+)
+
 export const Long = () => (
-  <Button kind="primary" IconLeft={Info} iconLeftAriaLabel="Info icon" IconRight={ChevronDown} iconRightAriaLabel="Chevron icon">
+  <Button
+    kind="primary"
+    iconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+    iconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+  >
     Looooong Primary Button
   </Button>
 )
 
-/* export const SuccessPrimary = () => <Button kind="success">Primary Success</Button>
-
-export const SuccessSecondary = () => <Button kind="successSecondary">Secondary Success</Button>
-
-export const InfoPrimary = () => <Button kind="info">Primary Info</Button>
-
-export const InfoSecondary = () => <Button kind="infoSecondary">Secondary Info</Button>
-
-export const WarningPrimary = () => <Button kind="warning">Primary Warning</Button>
-
-export const WarningSecondary = () => <Button kind="warningSecondary">Secondary Warning</Button>
-
-export const CriticalPrimary = () => <Button kind="critical">Primary Critical</Button>
-
-export const CriticalSecondary = () => <Button kind="criticalSecondary">Secondary Critical</Button>
-
-export const Dashed = () => <Button kind="dashed">Dashed Button</Button>
-
-export const DashedHovered = () => (
-  <Button className={styles.hover} kind="dashed">
-    Dashed Button
+export const NotCapitalized = () => (
+  <Button
+    capitalize={false}
+    kind="primary"
+    iconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+    iconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+  >
+    Not capitalized
   </Button>
 )
-
-export const DashedFocused = () => (
-  <Button className={styles.focus} kind="dashed">
-    Dashed Button
-  </Button>
-)
-
-export const DashedActive = () => (
-  <Button className={styles.active} kind="dashed">
-    Dashed Button
-  </Button>
-)
-
-export const DashedDisabled = () => (
-  <Button disabled kind="dashed">
-    Dashed Button
-  </Button>
-)
-
-export const DashedIconLeft = () => (
-  <Button kind="dashed" IconLeft={Plus} iconLeftAriaLabel="Plus icon">
-    Dashed Button
-  </Button>
-)
-
-export const Danger = () => <Button kind="danger">Danger Button</Button>
-
-export const DangerHovered = () => (
-  <Button className={styles.hover} kind="danger">
-    Danger Button
-  </Button>
-)
-
-export const DangerFocused = () => (
-  <Button className={styles.focus} kind="danger">
-    Danger Button
-  </Button>
-)
-
-export const DangerActive = () => (
-  <Button className={styles.active} kind="danger">
-    Danger Button
-  </Button>
-)
-
-export const DangerDisabled = () => (
-  <Button disabled kind="danger">
-    Danger Button
-  </Button>
-)
-
-export const DangerIconLeft = () => (
-  <Button kind="danger" IconLeft={Trash2} iconLeftAriaLabel="Trash icon">
-    Danger Button
-  </Button>
-) */

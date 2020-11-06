@@ -12,7 +12,13 @@ module.exports = {
     'selector-pseudo-class-no-unknown': [
       true,
       {
-        ignorePseudoClasses: ['export', 'import', 'global', 'local', 'external'],
+        ignorePseudoClasses: [
+          'export',
+          'import',
+          'global',
+          'local',
+          'external',
+        ],
       },
     ],
     'selector-type-no-unknown': [
@@ -31,7 +37,18 @@ module.exports = {
     'at-rule-no-unknown': [
       true,
       {
-        ignoreAtRules: ['value', 'extend', 'mixin', 'include', 'use', 'forward', 'each'],
+        ignoreAtRules: [
+          'value',
+          'extend',
+          'mixin',
+          'include',
+          'use',
+          'forward',
+          'each',
+          'if',
+          'function',
+          'return',
+        ],
       },
     ],
     'comment-empty-line-before': null,

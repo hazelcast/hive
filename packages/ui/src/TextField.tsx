@@ -1,5 +1,12 @@
 // https://zeroheight.com/11d0e6dac/p/316944-text-field
-import React, { FC, ChangeEvent, ReactElement, InputHTMLAttributes, useRef, FocusEvent } from 'react'
+import React, {
+  FC,
+  ChangeEvent,
+  ReactElement,
+  InputHTMLAttributes,
+  useRef,
+  FocusEvent,
+} from 'react'
 import cn from 'classnames'
 import { DataTestProp } from '@hazelcast/helpers'
 import { v4 as uuid } from 'uuid'
@@ -15,7 +22,7 @@ import styles from './TextField.module.scss'
 type TextFieldCoreProps = {
   name: string
   value?: string
-  onBlur: (e: FocusEvent<HTMLInputElement>) => void
+  onBlur?: (e: FocusEvent<HTMLInputElement>) => void
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
   error?: string
 }
@@ -31,7 +38,10 @@ export type TextFieldExtraProps = {
   inputContainerChild?: ReactElement
   inputIcon?: IconType
 } & DataTestProp &
-  Pick<InputHTMLAttributes<HTMLInputElement>, 'autoFocus' | 'disabled' | 'autoComplete' | 'type'>
+  Pick<
+    InputHTMLAttributes<HTMLInputElement>,
+    'autoFocus' | 'disabled' | 'autoComplete' | 'type'
+  >
 
 type TextFieldProps = TextFieldCoreProps & TextFieldExtraProps
 
@@ -101,18 +111,37 @@ export const TextField: FC<TextFieldProps> = ({
             // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute
             aria-invalid={!!error}
             aria-required={required}
-            aria-describedby={helperText && helpTooltipId(idRef.current)}
+            aria-describedby={
+              helperText && helpTooltipId(idRef.current)
+            }
             aria-errormessage={error && errorId(idRef.current)}
             disabled={disabled}
             placeholder={placeholder}
             {...htmlAttrs}
           />
-          {inputIcon && <Icon icon={inputIcon} ariaLabel={label} className={styles.inputIcon} size="small" />}
+          {inputIcon && (
+            <Icon
+              icon={inputIcon}
+              ariaLabel={label}
+              className={styles.inputIcon}
+              size="small"
+            />
+          )}
           {inputContainerChild}
         </div>
-        {helperText && <Help parentId={idRef.current} helperText={helperText} className={styles.helperText} />}
+        {helperText && (
+          <Help
+            parentId={idRef.current}
+            helperText={helperText}
+            className={styles.helperText}
+          />
+        )}
       </div>
-      <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={idRef.current} />
+      <Error
+        error={error}
+        className={cn(styles.errorContainer, errorClassName)}
+        inputId={idRef.current}
+      />
     </div>
   )
 }

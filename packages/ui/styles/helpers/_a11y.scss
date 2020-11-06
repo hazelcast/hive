@@ -3,9 +3,23 @@
 @mixin outlineFormField {
   border-color: c.$colorAccessibilityOutline;
   // Border is also colored with the a11y color. We need to make the total visible outline width c.$outlineWidth, including the border
-  box-shadow: inset 0 0 0 (c.$outlineWidth - c.$borderWidth) c.$colorAccessibilityOutline;
+  box-shadow: inset 0 0 0 (c.$outlineWidth - c.$borderWidth)
+    c.$colorAccessibilityOutline;
 
   // Do not remove outline for high-contrast modes
   // https://stackoverflow.com/a/52616313
   outline: transparent solid c.$outlineWidth;
+}
+
+// Hides element only visually, it'll be still "visible" for screen readers.
+@mixin visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+  border: 0;
+  white-space: nowrap;
 }

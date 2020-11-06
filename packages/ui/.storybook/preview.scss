@@ -1,3 +1,4 @@
+@use '../styles/fonts';
 @use '../styles/constants' as c;
 
 $screenMinWidth: 1280px;
@@ -10,8 +11,7 @@ html {
   overflow-x: auto;
   color: c.$colorText;
 
-  @include c.typographyDefaultFont;
-  @include c.typographyBodyNormal;
+  @include c.typographyGlobal(true);
 }
 
 body {

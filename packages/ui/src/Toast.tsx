@@ -1,6 +1,13 @@
 import React, { FC, ReactNode } from 'react'
 import cn from 'classnames'
-import { AlertTriangle, CheckCircle, AlertCircle, Info, Icon as IconType, X } from 'react-feather'
+import {
+  AlertTriangle,
+  CheckCircle,
+  AlertCircle,
+  Info,
+  Icon as IconType,
+  X,
+} from 'react-feather'
 
 import { IconButton } from './IconButton'
 import { Icon } from './Icon'
@@ -9,12 +16,12 @@ import styles from './Toast.module.scss'
 
 export type ToastType = 'success' | 'info' | 'warning' | 'critical'
 
-type IconDescriptor = {
+export type IconDescriptor = {
   icon: IconType
   ariaLabel: string
 }
 
-const ToastIcon: { [key in ToastType]: IconDescriptor } = {
+export const ToastIcon: { [key in ToastType]: IconDescriptor } = {
   success: {
     icon: CheckCircle,
     ariaLabel: 'Check circle icon',
@@ -49,7 +56,11 @@ export type ToastProps = {
  * ### Note
  * The toast is designed to be integrated with https://fkhadra.github.io/react-toastify/introduction/
  */
-export const Toast: FC<ToastProps> = ({ type, content, closeToast }) => {
+export const Toast: FC<ToastProps> = ({
+  type,
+  content,
+  closeToast,
+}) => {
   const { icon, ariaLabel } = ToastIcon[type]
 
   return (
@@ -61,7 +72,12 @@ export const Toast: FC<ToastProps> = ({ type, content, closeToast }) => {
         [styles.critical]: type === 'critical',
       })}
     >
-      <Icon ariaLabel={ariaLabel} icon={icon} className={styles.icon} />
+      <Icon
+        data-test="toast-icon"
+        ariaLabel={ariaLabel}
+        icon={icon}
+        className={styles.icon}
+      />
       <div data-test="toast-content" className={styles.content}>
         {content}
       </div>

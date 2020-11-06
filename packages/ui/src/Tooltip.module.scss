@@ -1,26 +1,138 @@
 @use '../styles/constants' as c;
+@use '../styles/helpers' as h;
 
-.wrapper {
-  max-width: c.$tooltipMaxWidth;
-  word-wrap: break-word;
+.tooltipSr {
+  @include h.visuallyHidden;
 }
 
-.overlay {
-  // TODO: Update colors. Ask Pawel.
-  color: #fff;
+$tooltipArrowSize1-3: c.$tooltipArrowSize / 3;
+$tooltipArrowSize2-3: c.$tooltipArrowSize / 3 * 2;
 
-  :global .rc-tooltip-inner {
-    background-color: black;
+.overlay {
+  @include c.typographyBodySmall;
+
+  position: relative;
+  max-width: c.$tooltipMaxWidth;
+  padding: c.$grid * 5;
+  background: c.$colorNeutralLighter;
+  border: c.$borderWidth solid c.$colorNeutralLight;
+  border-radius: c.$borderRadius;
+  color: c.$colorText;
+
+  &.hidden {
+    visibility: hidden;
   }
 
-  &.rc-tooltip-placement-bottom {
-    :global .rc-tooltip-arrow {
-      border-bottom-color: black;
+  > .arrow {
+    position: absolute;
+    z-index: c.$zIndex100;
+    display: block;
+    width: c.$tooltipArrowSize;
+    height: c.$tooltipArrowSize;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
     }
   }
-  &.rc-tooltip-placement-top {
-    :global .rc-tooltip-arrow {
-      border-top-color: black;
+
+  &[data-popper-placement^='top'] {
+    > .arrow {
+      bottom: 0;
+
+      &::before,
+      &::after {
+        border-left: c.$tooltipArrowSize solid transparent;
+        border-right: c.$tooltipArrowSize solid transparent;
+        top: 100%;
+        left: 50%;
+        margin-left: -(c.$tooltipArrowSize);
+      }
+
+      &::before {
+        border-top: c.$tooltipArrowSize solid c.$colorNeutralLight;
+      }
+
+      &::after {
+        border-top: c.$tooltipArrowSize solid c.$colorNeutralLighter;
+        transform: translateY(-($tooltipArrowSize1-3));
+      }
+    }
+  }
+
+  &[data-popper-placement^='right'] {
+    > .arrow {
+      left: 0;
+
+      &::before,
+      &::after {
+        border-top: c.$tooltipArrowSize solid transparent;
+        border-bottom: c.$tooltipArrowSize solid transparent;
+        top: 50%;
+        left: 0%;
+        margin-top: -(c.$tooltipArrowSize);
+      }
+
+      &::before {
+        border-right: c.$tooltipArrowSize solid c.$colorNeutralLight;
+        margin-left: -(c.$tooltipArrowSize);
+      }
+
+      &::after {
+        border-right: c.$tooltipArrowSize solid c.$colorNeutralLighter;
+        transform: translateX(-($tooltipArrowSize2-3));
+      }
+    }
+  }
+
+  &[data-popper-placement^='bottom'] {
+    > .arrow {
+      top: 0;
+
+      &::before,
+      &::after {
+        border-left: c.$tooltipArrowSize solid transparent;
+        border-right: c.$tooltipArrowSize solid transparent;
+        top: 0;
+        left: 50%;
+        margin-left: -(c.$tooltipArrowSize);
+      }
+
+      &::before {
+        border-bottom: c.$tooltipArrowSize solid c.$colorNeutralLight;
+        margin-top: -(c.$tooltipArrowSize);
+      }
+
+      &::after {
+        border-bottom: c.$tooltipArrowSize solid
+          c.$colorNeutralLighter;
+        transform: translateY(-($tooltipArrowSize2-3));
+      }
+    }
+  }
+
+  &[data-popper-placement^='left'] {
+    > .arrow {
+      right: 0;
+
+      &::before,
+      &::after {
+        border-top: c.$tooltipArrowSize solid transparent;
+        border-bottom: c.$tooltipArrowSize solid transparent;
+        top: 50%;
+        left: 100%;
+        margin-top: -(c.$tooltipArrowSize);
+      }
+
+      &::before {
+        border-left: c.$tooltipArrowSize solid c.$colorNeutralLight;
+      }
+
+      &::after {
+        border-left: c.$tooltipArrowSize solid c.$colorNeutralLighter;
+        transform: translateX(-($tooltipArrowSize1-3));
+      }
     }
   }
 }

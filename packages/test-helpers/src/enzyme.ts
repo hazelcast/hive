@@ -1,6 +1,7 @@
-import { MountRendererProps, mount } from 'enzyme'
+import { MountRendererProps, mount, ReactWrapper } from 'enzyme'
 import { axe, JestAxe, toHaveNoViolations } from 'jest-axe'
 import { ReactElement } from 'react'
+import { act } from 'react-dom/test-utils'
 
 expect.extend(toHaveNoViolations)
 
@@ -14,16 +15,41 @@ export const axeDefaultOptions: AxeOptions = {
   },
 }
 
+export interface MountOptions {
+  mountOptions?: MountRendererProps
+  axeOptions?: AxeOptions
+  act?: 'sync' | 'async'
+}
+
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const mountAndCheckA11Y = async <P>(
   node: ReactElement<P>,
-  { mountOptions, axeOptions = axeDefaultOptions }: { mountOptions?: MountRendererProps; axeOptions?: AxeOptions } = {},
+  {
+    mountOptions,
+    axeOptions = axeDefaultOptions,
+    act: actOption = 'async',
+  }: MountOptions = {},
 ) => {
-  const wrapper = mount(node, mountOptions)
+  let wrapper: ReactWrapper<P>
 
-  const results = await axe(wrapper.getDOMNode(), axeOptions)
+  if (actOption === 'sync') {
+    act(() => {
+      wrapper = mount(node, mountOptions)
+    })
+  } else if (actOption === 'async') {
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      wrapper = mount(node, mountOptions)
+    })
+  } else {
+    wrapper = mount(node, mountOptions)
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const results = await axe(wrapper!.getDOMNode(), axeOptions)
 
   expect(results).toHaveNoViolations()
 
-  return wrapper
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  return wrapper!
 }
