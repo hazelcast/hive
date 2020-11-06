@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { useState } from 'react'
 import { logger } from '@hazelcast/services'
 
 import { NumberField } from '../src/NumberField'
@@ -6,9 +6,7 @@ import styles from '../src/TextField.module.scss'
 
 const eventHandlers = {
   onBlur: () => logger.log('blur'),
-  onChange: (e: ChangeEvent<HTMLInputElement>) => logger.log('change', e.target.value),
-  onIncrement: () => logger.log('increment'),
-  onDecrement: () => logger.log('decrement'),
+  onChange: (newValue: number) => logger.log('change', newValue),
 }
 
 export default {
@@ -17,19 +15,8 @@ export default {
 }
 export const Default = () => {
   const [value, setValue] = useState(42)
-  return (
-    <NumberField
-      name="name"
-      value={value}
-      placeholder="Enter the name"
-      label="Wisest jedi"
-      {...eventHandlers}
-      onChange={({ target: { value } }) => setValue(parseFloat(value))}
-    />
-  )
+  return <NumberField name="name" value={value} placeholder="Enter the name" label="Wisest jedi" {...eventHandlers} onChange={setValue} />
 }
-
-export const Empty = () => <NumberField name="name" placeholder="Enter the name" label="Wisest jedi" {...eventHandlers} />
 
 export const Error = () => (
   <NumberField name="name" value={42} placeholder="Enter the name" label="Wisest jedi" error="Dark side" {...eventHandlers} />
@@ -60,15 +47,11 @@ export const Disabled = () => (
 )
 
 export const DisabledDecrement = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { onDecrement, ...reducedEventHandlers } = eventHandlers
-  return <NumberField name="name" value={42} placeholder="Enter the name" label="Wisest jedi" {...reducedEventHandlers} />
+  return <NumberField name="name" value={42} placeholder="Enter the name" label="Wisest jedi" min={42} {...eventHandlers} />
 }
 
 export const DisabledIncrement = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { onIncrement, ...reducedEventHandlers } = eventHandlers
-  return <NumberField name="name" value={42} placeholder="Enter the name" label="Wisest jedi" {...reducedEventHandlers} />
+  return <NumberField name="name" value={42} placeholder="Enter the name" label="Wisest jedi" max={42} {...eventHandlers} />
 }
 
 export const WithHelperText = () => (

@@ -4,7 +4,7 @@ import { FieldValidator, useField } from 'formik'
 import { TextField, TextFieldExtraProps } from './TextField'
 
 export type TextFieldFormikProps<V extends object> = Exclude<TextFieldExtraProps<'text'>, 'type'> & {
-  name: keyof V
+  name: V[keyof V] extends string | undefined ? keyof V : never
   validate?: FieldValidator
 }
 

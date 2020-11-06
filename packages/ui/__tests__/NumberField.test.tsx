@@ -32,7 +32,8 @@ describe('NumberField', () => {
       value: 42,
       name: 'name',
       onBlur,
-      onChange,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      onChange: expect.anything(),
       type: 'number',
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       inputContainerChild: expect.anything(),
@@ -43,18 +44,22 @@ describe('NumberField', () => {
       size: 'small',
       icon: Minus,
       iconAriaLabel: 'Decrement',
+      'data-test': 'number-field-decrement',
       className: styles.decrement,
-      onClick: undefined,
-      disabled: true,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      onClick: expect.anything(),
+      disabled: false,
       kind: 'primary',
     })
     expect(wrapper.find(IconButton).at(1).props()).toEqual({
       size: 'small',
       icon: Plus,
       iconAriaLabel: 'Increment',
+      'data-test': 'number-field-increment',
       className: styles.increment,
-      onClick: undefined,
-      disabled: true,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      onClick: expect.anything(),
+      disabled: false,
       kind: 'primary',
     })
   })
@@ -62,67 +67,103 @@ describe('NumberField', () => {
   it('onDecrement works', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
-    const onDecrement = jest.fn()
+
+    const wrapper = await mountAndCheckA11Y(
+      <NumberField name="name" value={42} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
+    )
+
+    expect(onChange).toBeCalledTimes(0)
+    wrapper.find(IconButton).at(0).simulate('click')
+    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toBeCalledWith(41)
+  })
+
+  it('onDecrement works with step', async () => {
+    const onBlur = jest.fn()
+    const onChange = jest.fn()
+
+    const wrapper = await mountAndCheckA11Y(
+      <NumberField name="name" value={42} step={10} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
+    )
+
+    expect(onChange).toBeCalledTimes(0)
+    wrapper.find(IconButton).at(0).simulate('click')
+    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toBeCalledWith(32)
+  })
+
+  it('onDecrement works with floats', async () => {
+    const onBlur = jest.fn()
+    const onChange = jest.fn()
 
     const wrapper = await mountAndCheckA11Y(
       <NumberField
         name="name"
-        value={42}
+        numberType="float"
+        value={42.2}
+        step={0.1}
         placeholder="Enter the name"
         label="Wisest jedi"
         onBlur={onBlur}
         onChange={onChange}
-        onDecrement={onDecrement}
       />,
     )
 
-    const buttonDecrement = wrapper.find(IconButton).at(0)
-    expect(buttonDecrement.props()).toEqual({
-      size: 'small',
-      icon: Minus,
-      iconAriaLabel: 'Decrement',
-      className: styles.decrement,
-      onClick: onDecrement,
-      disabled: false,
-      kind: 'primary',
-    })
-
-    expect(onDecrement).toBeCalledTimes(0)
-    buttonDecrement.simulate('click')
-    expect(onDecrement).toBeCalledTimes(1)
+    expect(onChange).toBeCalledTimes(0)
+    wrapper.find(IconButton).at(0).simulate('click')
+    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toBeCalledWith(42.1)
   })
 
   it('onIncrement works', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
-    const onIncrement = jest.fn()
+
+    const wrapper = await mountAndCheckA11Y(
+      <NumberField name="name" value={42} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
+    )
+
+    expect(onChange).toBeCalledTimes(0)
+    wrapper.find(IconButton).at(1).simulate('click')
+    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toBeCalledWith(43)
+  })
+
+  it('onIncrement works with step', async () => {
+    const onBlur = jest.fn()
+    const onChange = jest.fn()
+
+    const wrapper = await mountAndCheckA11Y(
+      <NumberField name="name" value={42} step={10} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
+    )
+
+    expect(onChange).toBeCalledTimes(0)
+    wrapper.find(IconButton).at(1).simulate('click')
+    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toBeCalledWith(52)
+  })
+
+  it('onIncrement works with floats', async () => {
+    const onBlur = jest.fn()
+    const onChange = jest.fn()
 
     const wrapper = await mountAndCheckA11Y(
       <NumberField
         name="name"
-        value={42}
+        numberType="float"
+        value={42.2}
+        step={0.3}
         placeholder="Enter the name"
         label="Wisest jedi"
         onBlur={onBlur}
         onChange={onChange}
-        onIncrement={onIncrement}
       />,
     )
 
-    const buttonIncrement = wrapper.find(IconButton).at(1)
-    expect(buttonIncrement.props()).toEqual({
-      size: 'small',
-      icon: Plus,
-      iconAriaLabel: 'Increment',
-      className: styles.increment,
-      onClick: onIncrement,
-      disabled: false,
-      kind: 'primary',
-    })
-
-    expect(onIncrement).toBeCalledTimes(0)
-    buttonIncrement.simulate('click')
-    expect(onIncrement).toBeCalledTimes(1)
+    expect(onChange).toBeCalledTimes(0)
+    wrapper.find(IconButton).at(1).simulate('click')
+    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toBeCalledWith(42.5)
   })
 
   it('provides overrides for increment/decrement aria labels', async () => {
@@ -146,19 +187,59 @@ describe('NumberField', () => {
       size: 'small',
       icon: Minus,
       iconAriaLabel: '-1',
+      'data-test': 'number-field-decrement',
       className: styles.decrement,
-      onClick: undefined,
-      disabled: true,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      onClick: expect.anything(),
+      disabled: false,
       kind: 'primary',
     })
     expect(wrapper.find(IconButton).at(1).props()).toEqual({
       size: 'small',
       icon: Plus,
       iconAriaLabel: '+1',
+      'data-test': 'number-field-increment',
       className: styles.increment,
-      onClick: undefined,
-      disabled: true,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      onClick: expect.anything(),
+      disabled: false,
       kind: 'primary',
     })
+  })
+
+  it('onDecrement can be disabled', async () => {
+    const onBlur = jest.fn()
+    const onChange = jest.fn()
+
+    const wrapper = await mountAndCheckA11Y(
+      <NumberField name="name" value={42} min={42} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
+    )
+
+    expect(wrapper.find(IconButton).at(0).prop('disabled')).toBe(true)
+  })
+
+  it('onIncrement can be disabled', async () => {
+    const onBlur = jest.fn()
+    const onChange = jest.fn()
+
+    const wrapper = await mountAndCheckA11Y(
+      <NumberField name="name" value={42} max={42} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
+    )
+
+    expect(wrapper.find(IconButton).at(1).prop('disabled')).toBe(true)
+  })
+
+  it('the initial value is adjusted if it is less than min', async () => {
+    const onBlur = jest.fn()
+    const onChange = jest.fn()
+
+    expect(onChange).toBeCalledTimes(0)
+
+    await mountAndCheckA11Y(
+      <NumberField name="name" value={42} min={43} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
+    )
+
+    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toBeCalledWith(43)
   })
 })

@@ -1,7 +1,7 @@
 @use '../styles/constants' as c;
 
 .label {
-  @include c.typographyBodySmall;
+  @include c.typographyBodyNormal;
 
   color: c.$colorTextSecondary;
   padding: 0;
