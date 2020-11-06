@@ -1,5 +1,5 @@
 import { DataTestProp } from '@hazelcast/helpers'
-import React, { FC, FocusEvent, ChangeEvent, ReactElement, InputHTMLAttributes, useCallback, useLayoutEffect } from 'react'
+import React, { FC, FocusEvent, ChangeEvent, ReactElement, InputHTMLAttributes, useCallback, useLayoutEffect, useMemo } from 'react'
 import { Plus, Minus } from 'react-feather'
 import cn from 'classnames'
 
@@ -72,29 +72,32 @@ export const NumberField: FC<NumberFieldProps> = ({
     onChange(newValue)
   }, [value, onChange, step, max])
 
-  const overlay = (
-    <>
-      <IconButton
-        size="small"
-        icon={Minus}
-        iconAriaLabel={decrementIconAriaLabel}
-        className={styles.decrement}
-        onClick={onDecrement}
-        disabled={min !== undefined && value <= min}
-        kind="primary"
-        data-test="number-field-decrement"
-      />
-      <IconButton
-        size="small"
-        icon={Plus}
-        iconAriaLabel={incrementIconAriaLabel}
-        className={styles.increment}
-        onClick={onIncrement}
-        disabled={max !== undefined && value >= max}
-        kind="primary"
-        data-test="number-field-increment"
-      />
-    </>
+  const overlay = useMemo(
+    () => (
+      <>
+        <IconButton
+          size="small"
+          icon={Minus}
+          iconAriaLabel={decrementIconAriaLabel}
+          className={styles.decrement}
+          onClick={onDecrement}
+          disabled={min !== undefined && value <= min}
+          kind="primary"
+          data-test="number-field-decrement"
+        />
+        <IconButton
+          size="small"
+          icon={Plus}
+          iconAriaLabel={incrementIconAriaLabel}
+          className={styles.increment}
+          onClick={onIncrement}
+          disabled={max !== undefined && value >= max}
+          kind="primary"
+          data-test="number-field-increment"
+        />
+      </>
+    ),
+    [onIncrement, onDecrement, decrementIconAriaLabel, incrementIconAriaLabel, min, max, value],
   )
 
   const onChangeWrapped = useCallback(
