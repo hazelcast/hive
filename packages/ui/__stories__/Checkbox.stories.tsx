@@ -64,6 +64,28 @@ export const HoverUnchecked = () => (
   />
 )
 
+export const HoverDisabledUnchecked = () => (
+  <Checkbox
+    checked={false}
+    classNameLabel={styles.hover}
+    disabled
+    label="Label"
+    name="default"
+    onChange={(e) => logger.log('change', e.target.checked)}
+  />
+)
+
+export const HoverDisabledChecked = () => (
+  <Checkbox
+    checked
+    classNameLabel={styles.hover}
+    disabled
+    label="Label"
+    name="default"
+    onChange={(e) => logger.log('change', e.target.checked)}
+  />
+)
+
 export const FocusedChecked = () => (
   <Checkbox checked classNameLabel={styles.focus} label="Label" name="default" onChange={(e) => logger.log('change', e.target.checked)} />
 )

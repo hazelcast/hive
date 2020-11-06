@@ -1,19 +1,20 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useContext } from 'react'
 import { FieldValidator, useField } from 'formik'
 
 import { Radio, RadioExtraProps } from './Radio'
+import { RadioContext } from './RadioGroup'
 
-export type RadioFormikProps<V extends object> = RadioExtraProps & {
-  name: keyof V
+export type RadioFormikProps = RadioExtraProps & {
   validate?: FieldValidator
   value: string
 }
 
-export const RadioFieldFormik = <V extends object>({ name, value, validate, ...props }: RadioFormikProps<V>): ReactElement => {
+export const RadioFieldFormik = ({ value, validate, ...props }: RadioFormikProps): ReactElement => {
+  const { name } = useContext(RadioContext)
   const [field] = useField<string | undefined>({
     name,
     validate,
   })
 
-  return <Radio {...props} name={name} checked={field.value === value} value={value} onChange={field.onChange} onBlur={field.onBlur} />
+  return <Radio {...props} checked={field.value === value} value={value} onBlur={field.onBlur} />
 }

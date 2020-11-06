@@ -1,11 +1,11 @@
 import React, { useRef, useState } from 'react'
 import { v4 as uuid } from 'uuid'
 import { Radio } from '../src/Radio'
+import { logger } from '@hazelcast/services'
 import { RadioGroup } from '../src/RadioGroup'
 import { Form, Formik } from 'formik'
 import { RadioGroupFieldFormik } from '../src/RadioGroupFormik'
 import { RadioFieldFormik } from '../src/RadioFormik'
-import { logger } from '@hazelcast/services'
 
 export default {
   title: 'Components/RadioGroup',
@@ -16,22 +16,9 @@ export const RadioGroupDefault = () => {
   const idRef = useRef(uuid())
   const [value, setValue] = useState<string>('test')
   return (
-    <RadioGroup>
-      <Radio
-        name={idRef.current}
-        value="test2"
-        label="Test 2"
-        disabled
-        checked={value === 'test2'}
-        onChange={({ target: { value } }) => setValue(value)}
-      />
-      <Radio
-        name={idRef.current}
-        value="test"
-        label="Test"
-        checked={value === 'test'}
-        onChange={({ target: { value } }) => setValue(value)}
-      />
+    <RadioGroup name={idRef.current} onChange={({ target: { value } }) => setValue(value)}>
+      <Radio value="test2" label="Test 2" disabled checked={value === 'test2'} />
+      <Radio value="test" label="Test" checked={value === 'test'} />
     </RadioGroup>
   )
 }
@@ -40,24 +27,9 @@ export const RadioGroupWithDescriptionAndError = () => {
   const idRef = useRef(uuid())
   const [value, setValue] = useState<string>('test')
   return (
-    <RadioGroup error="Error message">
-      <Radio
-        name={idRef.current}
-        value="test2"
-        label="Test 2"
-        disabled
-        checked={value === 'test2'}
-        helperText={'Hello, this is a description of test 2'}
-        onChange={({ target: { value } }) => setValue(value)}
-      />
-      <Radio
-        name={idRef.current}
-        value="test"
-        label="Test"
-        checked={value === 'test'}
-        helperText={'Hello, this is a description'}
-        onChange={({ target: { value } }) => setValue(value)}
-      />
+    <RadioGroup error="Error message" name={idRef.current} onChange={({ target: { value } }) => setValue(value)}>
+      <Radio value="test2" label="Test 2" disabled checked={value === 'test2'} helperText={'Hello, this is a description of test 2'} />
+      <Radio value="test" label="Test" checked={value === 'test'} helperText={'Hello, this is a description'} />
     </RadioGroup>
   )
 }
@@ -88,13 +60,8 @@ export const RadioGroupWrappedInFormik = () => {
         <Form>
           Values: {JSON.stringify(values)}
           <RadioGroupFieldFormik<Values> name="name">
-            <RadioFieldFormik<Values>
-              value="invalid_name"
-              name="name"
-              helperText="This field contains invalid value"
-              label={'Invalid Name'}
-            />
-            <RadioFieldFormik<Values> value="joey" name="name" helperText="Joey is the best!" label={'Joey'} />
+            <RadioFieldFormik value="invalid_name" helperText="This field contains invalid value" label={'Invalid Name'} />
+            <RadioFieldFormik value="joey" helperText="Joey is the best!" label={'Joey'} />
           </RadioGroupFieldFormik>
         </Form>
       )}

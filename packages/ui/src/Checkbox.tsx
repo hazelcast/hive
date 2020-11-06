@@ -5,6 +5,7 @@ import classNames from 'classnames'
 import { Error, errorId } from './Error'
 import { Help, helpTooltipId } from './Help'
 import { v4 as uuid } from 'uuid'
+import { DataTestProp } from '@hazelcast/helpers'
 
 type CheckboxCoreProps = {
   name: string
@@ -25,7 +26,7 @@ export type CheckboxExtraProps = {
   classNameLabel?: string
 }
 
-type CheckboxProps = CheckboxCoreProps & CheckboxExtraProps
+type CheckboxProps = CheckboxCoreProps & CheckboxExtraProps & DataTestProp
 
 /**
  * ### Purpose
@@ -51,6 +52,7 @@ export const Checkbox: FC<CheckboxProps> = ({
   error,
   disabled = false,
   required,
+  'data-test': dataTest,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null)
   const idRef = useRef(uuid())
@@ -61,7 +63,7 @@ export const Checkbox: FC<CheckboxProps> = ({
   }
 
   return (
-    <div className={className}>
+    <div className={className} data-test={dataTest}>
       {/* 
         We can only style forward elements based on input state (with ~ or +), has() is not supported yet.
         That's why we need to explicitly pass error/checked/disabled classes to the wrapper element.
@@ -83,7 +85,6 @@ export const Checkbox: FC<CheckboxProps> = ({
         </span>
         <input
           type="checkbox"
-          data-test="input-checkbox"
           ref={inputRef}
           id={idRef.current}
           name={name}

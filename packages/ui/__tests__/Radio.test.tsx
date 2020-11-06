@@ -4,6 +4,7 @@ import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import { v4 as uuid } from 'uuid'
 import { Radio } from '../src/Radio'
 import { Help } from '../src'
+import { RadioGroup } from '../src/RadioGroup'
 
 jest.mock('uuid')
 
@@ -16,8 +17,14 @@ describe('Radio', () => {
     const onChange = jest.fn()
     const onBlur = jest.fn()
     const wrapper = await mountAndCheckA11Y(
-      <Radio checked name="hello" disabled value="world" onChange={onChange} onBlur={onBlur} label="Hello World" />,
+      <RadioGroup name="hello" onChange={onChange} data-test="test-e2e-group">
+        <Radio checked disabled value="world" onBlur={onBlur} label="Hello World" data-test="test-e2e" />
+      </RadioGroup>,
     )
+
+    expect(wrapper.find('div').at(0).props()).toHaveProperty('data-test', 'test-e2e-group')
+    expect(wrapper.find('label').props()).toHaveProperty('data-test', 'test-e2e')
+
     expect(wrapper.find('input').props()).toEqual({
       type: 'radio',
       name: 'hello',
@@ -27,7 +34,6 @@ describe('Radio', () => {
       checked: true,
       'aria-describedby': undefined,
       disabled: true,
-      'data-test': 'radio-input',
       required: undefined,
       id: 'uuidtest',
     })
@@ -35,7 +41,11 @@ describe('Radio', () => {
 
   it('Radio is passed a disabled property, input contains disabled property', async () => {
     const onChange = jest.fn()
-    const wrapper = await mountAndCheckA11Y(<Radio checked name="hello" value="hello" disabled onChange={onChange} label="Hello World" />)
+    const wrapper = await mountAndCheckA11Y(
+      <RadioGroup name="hello" onChange={onChange}>
+        <Radio checked value="hello" disabled label="Hello World" />
+      </RadioGroup>,
+    )
 
     expect(wrapper.find('input').getDOMNode<HTMLInputElement>().disabled).toBe(true)
   })
@@ -44,16 +54,9 @@ describe('Radio', () => {
     const onChange = jest.fn()
     const onBlur = jest.fn()
     const wrapper = await mountAndCheckA11Y(
-      <Radio
-        checked
-        name="hello"
-        disabled
-        value="world"
-        helperText="This is a helper text."
-        onChange={onChange}
-        onBlur={onBlur}
-        label="Hello World"
-      />,
+      <RadioGroup name="hello" onChange={onChange}>
+        <Radio checked disabled value="world" helperText="This is a helper text." onBlur={onBlur} label="Hello World" />
+      </RadioGroup>,
     )
     expect(wrapper.find(Help).props()).toMatchObject({ helperText: 'This is a helper text.' })
   })
@@ -62,7 +65,9 @@ describe('Radio', () => {
     const onChange = jest.fn()
     const onBlur = jest.fn()
     const wrapper = await mountAndCheckA11Y(
-      <Radio checked name="hello" disabled value="world" onChange={onChange} onBlur={onBlur} label="Hello World" />,
+      <RadioGroup name="hello" onChange={onChange}>
+        <Radio checked disabled value="world" onBlur={onBlur} label="Hello World" />
+      </RadioGroup>,
     )
     expect(wrapper.find(Help).exists()).toBeFalsy()
   })
@@ -71,16 +76,9 @@ describe('Radio', () => {
     const onChange = jest.fn()
     const onBlur = jest.fn()
     const wrapper = await mountAndCheckA11Y(
-      <Radio
-        checked
-        name="hello"
-        disabled
-        value="world"
-        helperText="This is a helper text."
-        onChange={onChange}
-        onBlur={onBlur}
-        label="Hello World"
-      />,
+      <RadioGroup name="hello" onChange={onChange}>
+        <Radio checked disabled value="world" helperText="This is a helper text." onBlur={onBlur} label="Hello World" />
+      </RadioGroup>,
     )
     expect(wrapper.find('span').contains('Hello World')).toBeTruthy()
   })

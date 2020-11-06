@@ -28,8 +28,21 @@ describe('Checkbox', () => {
     const onChange = jest.fn()
     const onBlur = jest.fn()
     const wrapper = await mountAndCheckA11Y(
-      <Checkbox checked name="hello" disabled required value="world" onChange={onChange} onBlur={onBlur} label="Hello World" />,
+      <Checkbox
+        checked
+        name="hello"
+        data-test="test-e2e"
+        disabled
+        required
+        value="world"
+        onChange={onChange}
+        onBlur={onBlur}
+        label="Hello World"
+      />,
     )
+
+    expect(wrapper.find('div').at(0).props()).toHaveProperty('data-test', 'test-e2e')
+
     expect(wrapper.find('input').props()).toEqual({
       type: 'checkbox',
       name: 'hello',
@@ -37,7 +50,6 @@ describe('Checkbox', () => {
       onChange,
       onBlur,
       checked: true,
-      'data-test': 'input-checkbox',
       'aria-checked': 'true',
       'aria-invalid': false,
       'aria-required': true,
@@ -61,7 +73,6 @@ describe('Checkbox', () => {
       onChange,
       onBlur,
       checked: true,
-      'data-test': 'input-checkbox',
       'aria-checked': 'true',
       'aria-invalid': true,
       'aria-required': undefined,

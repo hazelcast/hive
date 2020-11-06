@@ -4,9 +4,4 @@
 .radioGroup {
   display: flex;
   flex-direction: column;
-
-  // Error state
-  &.error label > input:checked ~ * {
-    border-color: c.$colorError;
-  }
 }
