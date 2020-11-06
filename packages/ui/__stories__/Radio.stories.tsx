@@ -60,7 +60,7 @@ export const RadioHoveredUnchecked = () => {
   const idRef = useRef(uuid())
   return (
     <RadioGroup name={idRef.current} onChange={(e) => logger.log('change', e.target.checked)}>
-      <Radio value="test2" label="Test 2" className={styles.hover} />
+      <Radio value="test2" label="Test 2" className={styles.hover} checked={false} />
     </RadioGroup>
   )
 }
