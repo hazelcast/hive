@@ -1,5 +1,5 @@
-import React from 'react'
-import { Formik, Form } from 'formik'
+import React, { createRef } from 'react'
+import { Formik, Form, FormikProps } from 'formik'
 import { mountAndCheckA11Y, simulateChange } from '@hazelcast/test-helpers'
 import { act } from 'react-dom/test-utils'
 
@@ -14,8 +14,11 @@ describe('NumberFieldFormik', () => {
 
     const onSubmit = jest.fn()
 
+    const formikBag = createRef<FormikProps<Values>>()
+
     const TestForm = () => (
       <Formik<Values>
+        innerRef={formikBag}
         initialValues={{
           name: 42,
         }}
@@ -29,30 +32,42 @@ describe('NumberFieldFormik', () => {
 
     const wrapper = await mountAndCheckA11Y(<TestForm />)
 
+    expect(formikBag.current?.values).toEqual({
+      name: 42,
+    })
+
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
       simulateChange(wrapper.find('input'), '56')
     })
     wrapper.update()
+
+    expect(formikBag.current?.values).toEqual({
+      name: 56,
+    })
+
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
       wrapper.findDataTest('number-field-decrement').at(0).simulate('click')
     })
     wrapper.update()
-    // We need the `async` call here to wait for processing of the asynchronous 'change'
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      wrapper.findDataTest('number-field-decrement').at(0).simulate('click')
+
+    expect(formikBag.current?.values).toEqual({
+      name: 55,
     })
-    wrapper.update()
+
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
       wrapper.findDataTest('number-field-increment').at(0).simulate('click')
     })
     wrapper.update()
+
+    expect(formikBag.current?.values).toEqual({
+      name: 56,
+    })
 
     expect(onSubmit).toBeCalledTimes(0)
 
@@ -65,7 +80,7 @@ describe('NumberFieldFormik', () => {
     expect(onSubmit).toBeCalledTimes(1)
     expect(onSubmit).toBeCalledWith(
       {
-        name: 55,
+        name: 56,
       },
       expect.anything(),
     )
