@@ -44,6 +44,7 @@ export const NumberField: FC<NumberFieldProps> = ({
   inputClassName,
   onChange,
   name,
+  disabled,
   ...props
 }) => {
   useLayoutEffect(() => {
@@ -81,7 +82,7 @@ export const NumberField: FC<NumberFieldProps> = ({
           iconAriaLabel={decrementIconAriaLabel}
           className={styles.decrement}
           onClick={onDecrement}
-          disabled={min !== undefined && value <= min}
+          disabled={disabled || (min !== undefined && value <= min)}
           kind="primary"
           data-test="number-field-decrement"
         />
@@ -91,13 +92,13 @@ export const NumberField: FC<NumberFieldProps> = ({
           iconAriaLabel={incrementIconAriaLabel}
           className={styles.increment}
           onClick={onIncrement}
-          disabled={max !== undefined && value >= max}
+          disabled={disabled || (max !== undefined && value >= max)}
           kind="primary"
           data-test="number-field-increment"
         />
       </>
     ),
-    [onIncrement, onDecrement, decrementIconAriaLabel, incrementIconAriaLabel, min, max, value],
+    [onIncrement, onDecrement, decrementIconAriaLabel, incrementIconAriaLabel, min, max, value, disabled],
   )
 
   const onChangeWrapped = useCallback(
@@ -116,6 +117,7 @@ export const NumberField: FC<NumberFieldProps> = ({
       type="number"
       inputContainerChild={overlay}
       inputClassName={cn(styles.inputContainer, inputClassName)}
+      disabled={disabled}
     />
   )
 }

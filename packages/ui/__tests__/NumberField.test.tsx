@@ -231,6 +231,18 @@ describe('NumberField', () => {
     expect(wrapper.find(IconButton).at(1).prop('disabled')).toBe(true)
   })
 
+  it('onIncrement and onDecrement are disabled if input is disabled', async () => {
+    const onBlur = jest.fn()
+    const onChange = jest.fn()
+
+    const wrapper = await mountAndCheckA11Y(
+      <NumberField name="name" value={42} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} disabled />,
+    )
+
+    expect(wrapper.find(IconButton).at(0).prop('disabled')).toBe(true)
+    expect(wrapper.find(IconButton).at(1).prop('disabled')).toBe(true)
+  })
+
   it('the initial value is adjusted if it is less than min', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
