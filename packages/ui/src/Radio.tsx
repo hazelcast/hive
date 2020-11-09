@@ -1,4 +1,4 @@
-import React, { FC, FocusEvent, useRef } from 'react'
+import React, { FC, FocusEvent, useContext, useRef } from 'react'
 import styles from './Radio.module.scss'
 import classNames from 'classnames'
 import { Help, helpTooltipId } from './Help'
@@ -41,42 +41,49 @@ export const Radio: FC<RadioProps> = ({
   'data-test': dataTest,
 }) => {
   const idRef = useRef(uuid())
+  const { name, onChange, errorId } = useContext(RadioGroupContext)
+  const errorProps = errorId
+    ? {
+        'aria-invalid': true,
+        'aria-errormessage': errorId,
+      }
+    : {}
 
   return (
-    <RadioGroupContext.Consumer>
-      {({ name, onChange, error, inline }) => (
-        <label
-          className={classNames(styles.wrapper, className, {
-            [styles.disabled]: disabled,
-            [styles.error]: !!error,
-            [styles.inline]: inline,
-          })}
-          data-test={dataTest}
-          htmlFor={idRef.current}
-        >
-          {/*
+    <label
+      className={classNames(
+        styles.wrapper,
+        {
+          [styles.disabled]: disabled,
+          [styles.error]: !!errorId,
+        },
+        className,
+      )}
+      data-test={dataTest}
+      htmlFor={idRef.current}
+    >
+      {/*
         We can only style forward elements based on input state (with ~ or +), has() is not supported yet.
         That's why we need to explicitly pass error/checked/disabled classes to the wrapper element.
       */}
-          <span className={styles.name} data-test="radio-input-label">
-            {label}
-          </span>
-          <input
-            type="radio"
-            id={idRef.current}
-            name={name}
-            checked={checked}
-            required={required}
-            onChange={onChange}
-            onBlur={onBlur}
-            value={value}
-            disabled={disabled}
-            aria-describedby={helperText && helpTooltipId(idRef.current)}
-          />
-          <span className={styles.checkmark} />
-          {helperText && <Help parentId={idRef.current} helperText={helperText} />}
-        </label>
-      )}
-    </RadioGroupContext.Consumer>
+      <span className={styles.name} data-test="radio-input-label">
+        {label}
+      </span>
+      <input
+        type="radio"
+        id={idRef.current}
+        name={name}
+        checked={checked}
+        required={required}
+        onChange={onChange}
+        onBlur={onBlur}
+        value={value}
+        disabled={disabled}
+        aria-describedby={helperText && helpTooltipId(idRef.current)}
+        {...errorProps}
+      />
+      <span className={styles.checkmark} />
+      {helperText && <Help parentId={idRef.current} helperText={helperText} />}
+    </label>
   )
 }

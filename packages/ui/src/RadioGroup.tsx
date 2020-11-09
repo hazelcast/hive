@@ -1,14 +1,15 @@
-import React, { ChangeEvent, FC, ReactNode, useRef } from 'react'
+import React, { ChangeEvent, FC, ReactElement, useRef } from 'react'
 import { v4 as uuid } from 'uuid'
 import { Error, errorId } from './Error'
 import classNames from 'classnames'
 import styles from './RadioGroup.module.scss'
 import { DataTestProp } from '@hazelcast/helpers'
 import { RadioGroupContext } from './RadioGroupContext'
+import { RadioProps } from './Radio'
 
 export type RadioGroupCoreProps = {
   name: string
-  children: ReactNode | Array<ReactNode>
+  children: ReactElement<RadioProps> | Array<ReactElement<RadioProps>>
   inline?: boolean
 }
 
@@ -35,6 +36,7 @@ export const RadioGroup: FC<RadioGroupProps> = ({
   'data-test': dataTest,
 }) => {
   const idRef = useRef(uuid())
+  const errorIdString: string | undefined = error && errorId(idRef.current)
 
   return (
     <div className={className} data-test={dataTest}>
@@ -45,12 +47,13 @@ export const RadioGroup: FC<RadioGroupProps> = ({
           {
             [styles.inline]: inline,
           },
-          [styles.radioGroup, radioGroupClassName],
+          styles.radioGroup,
+          radioGroupClassName,
         )}
         aria-invalid={!!error}
-        aria-errormessage={error && errorId(idRef.current)}
+        aria-errormessage={errorIdString}
       >
-        <RadioGroupContext.Provider value={{ name, error, onChange, inline }}>{children}</RadioGroupContext.Provider>
+        <RadioGroupContext.Provider value={{ name, errorId: errorIdString, onChange }}>{children}</RadioGroupContext.Provider>
       </div>
       <Error error={error} className={classNames(styles.errorContainer)} inputId={idRef.current} />
     </div>

@@ -71,14 +71,14 @@
   &.disabled {
     color: c.$colorNeutralLight;
     cursor: not-allowed;
-  }
 
-  &.disabled > input:disabled ~ .checkmark {
-    color: c.$colorNeutralWhite;
-    border-color: c.$colorNeutralLight;
-  }
+    & > input:disabled ~ .checkmark {
+      color: c.$colorNeutralWhite;
+      border-color: c.$colorNeutralLight;
+    }
 
-  &.disabled > input:disabled:checked ~ .checkmark {
-    background-color: c.$colorNeutral;
+    & > input:disabled:checked ~ .checkmark {
+      background-color: c.$colorNeutral;
+    }
   }
 }

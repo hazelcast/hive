@@ -75,35 +75,32 @@
     padding-right: c.$grid * 1.25;
   }
 
+  &.disabled {
+    cursor: not-allowed;
+    color: c.$colorNeutralLight;
+
+    input ~ .checkmark {
+      border-color: c.$colorNeutralLight;
+    }
+
+    input:checked ~ .checkmark {
+      background-color: c.$colorNeutral;
+    }
+  }
+
   // Error state
   &.error input:checked ~ .checkmark {
     border-color: c.$colorError;
   }
 
-  /**
-    Disabled
-  */
-  &.disabled {
-    cursor: not-allowed;
-    color: c.$colorNeutralLight;
-  }
-
-  &.focus > input:not(:disabled),
-  input:focus:not(:disabled) {
+  // :checked, :not(:checked) is added here to make the specificity more important than the error's state
+  // where we make the radio as error if and only if it's checked
+  &.focus > input:not(:checked),
+  &.focus > input:checked,
+  input:focus:not(:checked),
+  input:focus:checked {
     ~ .checkmark {
       @include h.outlineFormField;
     }
-  }
-
-  &.disabled > input:disabled ~ .checkmark {
-    border-color: c.$colorNeutralLight;
-  }
-
-  &.disabled > input:hover ~ .checkmark {
-    border-color: c.$colorNeutralLight;
-  }
-
-  &.disabled > input:disabled:checked ~ .checkmark {
-    background-color: c.$colorNeutral;
   }
 }
