@@ -44,11 +44,12 @@ export const Radio: FC<RadioProps> = ({
 
   return (
     <RadioGroupContext.Consumer>
-      {({ name, onChange, error }) => (
+      {({ name, onChange, error, inline }) => (
         <label
           className={classNames(styles.wrapper, className, {
             [styles.disabled]: disabled,
             [styles.error]: !!error,
+            [styles.inline]: inline,
           })}
           data-test={dataTest}
           htmlFor={idRef.current}

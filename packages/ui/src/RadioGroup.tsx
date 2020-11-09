@@ -9,6 +9,7 @@ import { RadioGroupContext } from './RadioGroupContext'
 export type RadioGroupCoreProps = {
   name: string
   children: ReactNode | Array<ReactNode>
+  inline?: boolean
 }
 
 export type RadioGroupProps = RadioGroupCoreProps & {
@@ -30,6 +31,7 @@ export const RadioGroup: FC<RadioGroupProps> = ({
   className,
   name,
   onChange,
+  inline = false,
   'data-test': dataTest,
 }) => {
   const idRef = useRef(uuid())
@@ -39,11 +41,16 @@ export const RadioGroup: FC<RadioGroupProps> = ({
       <div
         role="radiogroup"
         data-test="radio-group"
-        className={classNames([styles.radioGroup, radioGroupClassName])}
+        className={classNames(
+          {
+            [styles.inline]: inline,
+          },
+          [styles.radioGroup, radioGroupClassName],
+        )}
         aria-invalid={!!error}
         aria-errormessage={error && errorId(idRef.current)}
       >
-        <RadioGroupContext.Provider value={{ name, error, onChange }}>{children}</RadioGroupContext.Provider>
+        <RadioGroupContext.Provider value={{ name, error, onChange, inline }}>{children}</RadioGroupContext.Provider>
       </div>
       <Error error={error} className={classNames(styles.errorContainer)} inputId={idRef.current} />
     </div>

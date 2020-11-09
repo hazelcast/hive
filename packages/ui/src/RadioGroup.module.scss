@@ -4,4 +4,8 @@
 .radioGroup {
   display: flex;
   flex-direction: column;
+
+  &.inline {
+    flex-direction: row;
+  }
 }

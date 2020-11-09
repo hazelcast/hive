@@ -4,7 +4,6 @@ import { Radio } from '../src/Radio'
 import styles from '../src/Radio.module.scss'
 import { logger } from '@hazelcast/services'
 import { RadioGroup } from '../src/RadioGroup'
-import utilStyles from './utils.scss'
 
 export default {
   title: 'Components/Radio',
@@ -16,22 +15,6 @@ export const DefaultRadio = () => {
   const [value, setValue] = useState<string>('test')
   return (
     <RadioGroup name={idRef.current} onChange={({ target: { value } }) => setValue(value)}>
-      <Radio value="test2" label="Test 2" checked={value === 'test2'} />
-      <Radio value="test" label="Test" checked={value === 'test'} />
-    </RadioGroup>
-  )
-}
-
-export const RadiosInline = () => {
-  const idRef = useRef(uuid())
-  const [value, setValue] = useState<string>('test')
-  return (
-    <RadioGroup
-      name={idRef.current}
-      onChange={({ target: { value } }) => setValue(value)}
-      radioGroupClassName={utilStyles.flexDirectionRow}
-    >
-      Radio Inline
       <Radio value="test2" label="Test 2" checked={value === 'test2'} />
       <Radio value="test" label="Test" checked={value === 'test'} />
     </RadioGroup>

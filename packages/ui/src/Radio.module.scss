@@ -33,9 +33,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
 
-    // in case we have inline mode, we should have a padding like native radio button has
-    margin-left: c.$grid;
+  &.inline {
+    .checkmark {
+      // in case we have inline mode, we should have a padding like native radio button has
+      margin-left: c.$grid;
+    }
   }
 
   & > input:checked ~ .checkmark {
@@ -72,7 +76,7 @@
   }
 
   // Error state
-  &.error input:checked ~ * {
+  &.error input:checked ~ .checkmark {
     border-color: c.$colorError;
   }
 
