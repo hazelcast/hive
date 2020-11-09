@@ -13,6 +13,7 @@ $paddingLeftWithIcon: c.$grid * 8;
   position: relative;
 
   .inputBlock {
+    margin-top: c.$grid;
     display: flex;
     flex-direction: row;
     align-items: center;
