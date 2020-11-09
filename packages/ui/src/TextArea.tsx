@@ -4,7 +4,7 @@ import cn from 'classnames'
 
 import { DataTestProp } from '@hazelcast/helpers'
 import { HiddenLabel } from '../src/HiddenLabel'
-import { Error, errorId } from '../src'
+import { Error, errorId } from '../src/Error'
 
 import styles from './TextArea.module.scss'
 
@@ -18,27 +18,27 @@ export type TextAreaCoreProps = {
 
 export type TextAreaExtraProps = {
   label: string
-  inputClassName?: string
+  textareaClassName?: string
   errorClassName?: string
-  inputContainerChild?: ReactElement
-} & Partial<Pick<HTMLTextAreaElement, 'className' | 'defaultValue' | 'disabled' | 'placeholder' | 'required'>>
+  resizable?: boolean
+} & Partial<Pick<HTMLTextAreaElement, 'className' | 'disabled' | 'placeholder' | 'required'>>
 
 export type TextAreaProps = TextAreaCoreProps & TextAreaExtraProps & DataTestProp
 
 export const TextArea: FC<TextAreaProps> = ({
   className,
   error,
-  inputClassName,
+  textareaClassName,
   label,
   name,
   onBlur,
   onChange,
   placeholder,
   value,
-  defaultValue,
   disabled,
   errorClassName,
   required,
+  resizable = true,
   'data-test': dataTest,
   ...htmlAttrs
 }) => {
@@ -63,12 +63,13 @@ export const TextArea: FC<TextAreaProps> = ({
         aria-required={required}
         aria-errormessage={error && errorId(idRef.current)}
         id={idRef.current}
-        className={inputClassName}
+        className={cn(textareaClassName, {
+          [styles.notResizable]: !resizable,
+        })}
         placeholder={placeholder}
         name={name}
         onBlur={onBlur}
         onChange={onChange}
-        defaultValue={defaultValue}
         required={required}
         value={value}
         disabled={disabled}

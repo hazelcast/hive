@@ -30,6 +30,10 @@
     &::placeholder {
       color: c.$colorTextSecondary;
     }
+
+    &.notResizable {
+      resize: none;
+    }
   }
 
   &.empty {
