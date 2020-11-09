@@ -88,8 +88,8 @@
     color: c.$colorNeutralLight;
   }
 
-  &.focus > input,
-  input:focus {
+  &.focus > input:not(:disabled),
+  input:focus:not(:disabled) {
     ~ .checkmark {
       @include h.outlineFormField;
     }
