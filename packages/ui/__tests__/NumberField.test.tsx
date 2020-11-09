@@ -23,6 +23,7 @@ describe('NumberField', () => {
         onBlur={onBlur}
         onChange={onChange}
         className="padme"
+        inputClassName="amidala"
       />,
     )
 
@@ -37,7 +38,8 @@ describe('NumberField', () => {
       type: 'number',
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       inputContainerChild: expect.anything(),
-      inputClassName: cn(styles.inputContainer, 'padme'),
+      inputClassName: cn(styles.inputContainer, 'amidala'),
+      className: 'padme',
     })
 
     expect(wrapper.find(IconButton).at(0).props()).toEqual({
