@@ -1,6 +1,5 @@
 import React from 'react'
 import { X } from 'react-feather'
-
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 
 import { Tooltip } from '../src/Tooltip'
@@ -104,14 +103,17 @@ describe('Button', () => {
     const disabledTooltip = 'Disabled tooltip'
 
     const wrapper = await mountAndCheckA11Y(
-      <Button disabled disabledTooltip={disabledTooltip}>
-        {label}
-      </Button>,
+      // div is required because `axe` cannot validate react fragments
+      <div>
+        <Button disabled disabledTooltip={disabledTooltip}>
+          {label}
+        </Button>
+      </div>,
     )
 
     expect(wrapper.find('button').prop('disabled')).toBe(true)
     expect(wrapper.find(Tooltip).at(0).props()).toMatchObject({
-      overlay: disabledTooltip,
+      content: disabledTooltip,
     })
   })
 })
