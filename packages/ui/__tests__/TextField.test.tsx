@@ -4,7 +4,7 @@ import { act } from 'react-dom/test-utils'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 
 import { TextField } from '../src/TextField'
-import { HiddenLabel } from '../src/HiddenLabel'
+import { Label } from '../src/Label'
 import { Error, errorId } from '../src/Error'
 import { Help, helpTooltipId } from '../src/Help'
 
@@ -27,7 +27,7 @@ describe('TextField', () => {
       <TextField name="name" value="Yoda" placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
     )
 
-    expect(wrapper.find(HiddenLabel).props()).toEqual({
+    expect(wrapper.find(Label).props()).toEqual({
       id: 'republic',
       label: 'Wisest jedi',
     })
@@ -112,7 +112,7 @@ describe('TextField', () => {
       />,
     )
 
-    expect(wrapper.find(HiddenLabel).props()).toEqual({
+    expect(wrapper.find(Label).props()).toEqual({
       id: 'republic',
       label: 'Wisest jedi',
     })
@@ -161,7 +161,7 @@ describe('TextField', () => {
       />,
     )
 
-    expect(wrapper.find(HiddenLabel).props()).toEqual({
+    expect(wrapper.find(Label).props()).toEqual({
       id: 'republic',
       label: 'Wisest jedi',
     })
@@ -198,7 +198,7 @@ describe('TextField', () => {
       <TextField name="name" value="Yoda" placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} required />,
     )
 
-    expect(wrapper.find(HiddenLabel).props()).toEqual({
+    expect(wrapper.find(Label).props()).toEqual({
       id: 'republic',
       label: 'Wisest jedi',
     })
@@ -235,7 +235,7 @@ describe('TextField', () => {
       <TextField name="name" value="Yoda" placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} disabled />,
     )
 
-    expect(wrapper.find(HiddenLabel).props()).toEqual({
+    expect(wrapper.find(Label).props()).toEqual({
       id: 'republic',
       label: 'Wisest jedi',
     })
