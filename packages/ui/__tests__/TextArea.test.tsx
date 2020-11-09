@@ -4,7 +4,6 @@ import { act } from 'react-dom/test-utils'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 
 import { TextArea } from '../src/TextArea'
-import { HiddenLabel } from '../src/HiddenLabel'
 import { Error, errorId } from '../src/Error'
 
 import styles from '../src/TextArea.module.scss'
@@ -39,10 +38,10 @@ describe('TextArea', () => {
       />,
     )
 
-    expect(wrapper.find(HiddenLabel).props()).toEqual({
-      id: inputId,
-      label: inputLabel,
+    expect(wrapper.findDataTest('textarea-label').props()).toMatchObject({
+      htmlFor: inputId,
     })
+    expect(wrapper.findDataTest('textarea-label').text()).toBe(inputLabel)
 
     expect(wrapper.find('textarea').props()).toEqual({
       id: inputId,
@@ -134,10 +133,10 @@ describe('TextArea', () => {
       />,
     )
 
-    expect(wrapper.find(HiddenLabel).props()).toEqual({
-      id: inputId,
-      label: inputLabel,
+    expect(wrapper.findDataTest('textarea-label').props()).toMatchObject({
+      htmlFor: inputId,
     })
+    expect(wrapper.findDataTest('textarea-label').text()).toBe(inputLabel)
 
     expect(wrapper.find('textarea').props()).toEqual({
       id: inputId,
@@ -178,10 +177,10 @@ describe('TextArea', () => {
       />,
     )
 
-    expect(wrapper.find(HiddenLabel).props()).toEqual({
-      id: inputId,
-      label: inputLabel,
+    expect(wrapper.findDataTest('textarea-label').props()).toMatchObject({
+      htmlFor: inputId,
     })
+    expect(wrapper.findDataTest('textarea-label').text()).toBe(inputLabel)
 
     expect(wrapper.find('textarea').props()).toEqual({
       id: inputId,
@@ -222,10 +221,10 @@ describe('TextArea', () => {
       />,
     )
 
-    expect(wrapper.find(HiddenLabel).props()).toEqual({
-      id: inputId,
-      label: inputLabel,
+    expect(wrapper.findDataTest('textarea-label').props()).toMatchObject({
+      htmlFor: inputId,
     })
+    expect(wrapper.findDataTest('textarea-label').text()).toBe(inputLabel)
 
     expect(wrapper.find('textarea').props()).toEqual({
       id: inputId,
@@ -247,6 +246,29 @@ describe('TextArea', () => {
       error: undefined,
       className: styles.errorContainer,
       inputId: inputId,
+    })
+  })
+
+  it('Renders helperText', async () => {
+    const helperText = 'Helper text'
+    const onBlur = jest.fn()
+    const onChange = jest.fn()
+
+    const wrapper = await mountAndCheckA11Y(
+      <TextArea
+        name={inputName}
+        value={inputValue}
+        placeholder={inputPlaceholder}
+        label={inputLabel}
+        onBlur={onBlur}
+        onChange={onChange}
+        helperText={helperText}
+      />,
+    )
+
+    expect(wrapper.findDataTest('textarea-helperText').props()).toMatchObject({
+      parentId: inputId,
+      helperText,
     })
   })
 })

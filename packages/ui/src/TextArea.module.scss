@@ -8,14 +8,31 @@
   box-sizing: border-box;
   margin: 0;
 
+  .label {
+    @include c.typographyBodyNormal;
+
+    color: c.$colorTextSecondary;
+    margin-bottom: c.$grid;
+  }
+
+  .helperText {
+    display: block;
+    margin: c.$grid * 2 0 0 c.$grid * 2;
+  }
+
   .errorContainer {
     margin-top: c.$grid;
+  }
+
+  .textAreaContainer {
+    display: flex;
+    flex-direction: row;
   }
 
   textarea {
     display: block;
     padding: c.$grid * 2 c.$grid * 3;
-    border-width: c.$borderWidth solid c.$colorNeutralLight;
+    border: c.$borderWidth solid c.$colorNeutralLight;
     box-sizing: border-box;
     width: 100%;
     font-family: inherit;
@@ -31,8 +48,11 @@
       color: c.$colorTextSecondary;
     }
 
+    // Note: Resize is not supported by IE11, it's presence does no harm though
     &.notResizable {
+      /* doiuse-disable css-resize */
       resize: none;
+      /* doiuse-enable css-resize */
     }
   }
 

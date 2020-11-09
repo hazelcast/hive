@@ -95,3 +95,27 @@ export const Disabled = () => (
     disabled
   />
 )
+
+export const NotResizable = () => (
+  <TextArea
+    name="name"
+    value={text}
+    placeholder="Describe character"
+    label="Character description"
+    onBlur={() => logger.log('blur')}
+    onChange={(e) => logger.log('change', e.target.value)}
+    resizable={false}
+  />
+)
+
+export const WithHelperText = () => (
+  <TextArea
+    name="name"
+    value={text}
+    placeholder="Describe character"
+    label="Character description"
+    onBlur={() => logger.log('blur')}
+    onChange={(e) => logger.log('change', e.target.value)}
+    helperText="Describe the character."
+  />
+)
