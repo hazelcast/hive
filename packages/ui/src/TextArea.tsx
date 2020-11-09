@@ -5,6 +5,7 @@ import cn from 'classnames'
 import { DataTestProp } from '@hazelcast/helpers'
 import { Error, errorId } from '../src/Error'
 import { Help } from '../src/Help'
+import { Label } from './Label'
 
 import styles from './TextArea.module.scss'
 
@@ -59,9 +60,7 @@ export const TextArea: FC<TextAreaProps> = ({
         className,
       )}
     >
-      <label data-test="textarea-label" htmlFor={idRef.current} className={styles.label}>
-        {label}
-      </label>
+      <Label id={idRef.current} label={label} />
       <div className={styles.textAreaContainer}>
         <textarea
           aria-invalid={!!error}

@@ -5,6 +5,7 @@ import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 
 import { TextArea } from '../src/TextArea'
 import { Error, errorId } from '../src/Error'
+import { Label } from '../src/Label'
 
 import styles from '../src/TextArea.module.scss'
 
@@ -38,10 +39,10 @@ describe('TextArea', () => {
       />,
     )
 
-    expect(wrapper.findDataTest('textarea-label').props()).toMatchObject({
-      htmlFor: inputId,
+    expect(wrapper.find(Label).props()).toMatchObject({
+      id: inputId,
+      label: inputLabel,
     })
-    expect(wrapper.findDataTest('textarea-label').text()).toBe(inputLabel)
 
     expect(wrapper.find('textarea').props()).toEqual({
       id: inputId,
@@ -133,10 +134,10 @@ describe('TextArea', () => {
       />,
     )
 
-    expect(wrapper.findDataTest('textarea-label').props()).toMatchObject({
-      htmlFor: inputId,
+    expect(wrapper.find(Label).props()).toMatchObject({
+      id: inputId,
+      label: inputLabel,
     })
-    expect(wrapper.findDataTest('textarea-label').text()).toBe(inputLabel)
 
     expect(wrapper.find('textarea').props()).toEqual({
       id: inputId,
@@ -177,10 +178,10 @@ describe('TextArea', () => {
       />,
     )
 
-    expect(wrapper.findDataTest('textarea-label').props()).toMatchObject({
-      htmlFor: inputId,
+    expect(wrapper.find(Label).props()).toMatchObject({
+      id: inputId,
+      label: inputLabel,
     })
-    expect(wrapper.findDataTest('textarea-label').text()).toBe(inputLabel)
 
     expect(wrapper.find('textarea').props()).toEqual({
       id: inputId,
@@ -221,10 +222,10 @@ describe('TextArea', () => {
       />,
     )
 
-    expect(wrapper.findDataTest('textarea-label').props()).toMatchObject({
-      htmlFor: inputId,
+    expect(wrapper.find(Label).props()).toMatchObject({
+      id: inputId,
+      label: inputLabel,
     })
-    expect(wrapper.findDataTest('textarea-label').text()).toBe(inputLabel)
 
     expect(wrapper.find('textarea').props()).toEqual({
       id: inputId,

@@ -9,9 +9,6 @@
   margin: 0;
 
   .label {
-    @include c.typographyBodyNormal;
-
-    color: c.$colorTextSecondary;
     margin-bottom: c.$grid;
   }
 
