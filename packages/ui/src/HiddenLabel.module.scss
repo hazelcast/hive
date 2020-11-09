@@ -1,6 +1,0 @@
-@use '../styles/helpers' as h;
-
-// https://www.w3.org/WAI/tutorials/forms/labels/#note-on-hiding-elements
-.label {
-  @include h.visuallyHidden;
-}
