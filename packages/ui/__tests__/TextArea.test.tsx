@@ -56,6 +56,8 @@ describe('TextArea', () => {
       'aria-errormessage': undefined,
       disabled: undefined,
       placeholder: inputPlaceholder,
+      required: undefined,
+      className: '',
     })
 
     expect(wrapper.find(Error).props()).toEqual({
@@ -149,6 +151,8 @@ describe('TextArea', () => {
       'aria-errormessage': errorId(inputId),
       disabled: undefined,
       placeholder: inputPlaceholder,
+      required: undefined,
+      className: '',
     })
 
     expect(wrapper.find(Error).props()).toEqual({
@@ -181,8 +185,7 @@ describe('TextArea', () => {
 
     expect(wrapper.find('textarea').props()).toEqual({
       id: inputId,
-      className: undefined,
-      defaultValue: undefined,
+      className: '',
       value: inputValue,
       name: inputName,
       required: true,
@@ -226,8 +229,7 @@ describe('TextArea', () => {
 
     expect(wrapper.find('textarea').props()).toEqual({
       id: inputId,
-      className: undefined,
-      defaultValue: undefined,
+      className: '',
       value: inputValue,
       name: inputName,
       required: undefined,
