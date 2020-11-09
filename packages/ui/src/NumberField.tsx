@@ -41,7 +41,7 @@ export const NumberField: FC<NumberFieldProps> = ({
   max,
   value,
   numberType = 'int',
-  className,
+  inputClassName,
   onChange,
   name,
   ...props
@@ -115,7 +115,7 @@ export const NumberField: FC<NumberFieldProps> = ({
       onChange={onChangeWrapped}
       type="number"
       inputContainerChild={overlay}
-      inputClassName={cn(styles.inputContainer, className)}
+      inputClassName={cn(styles.inputContainer, inputClassName)}
     />
   )
 }
