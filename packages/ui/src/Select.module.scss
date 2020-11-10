@@ -5,6 +5,10 @@
   display: flex;
   flex-direction: column;
 
+  .errorContainer {
+    margin-top: c.$grid;
+  }
+
   .selectContainer {
     position: relative;
 
@@ -18,6 +22,7 @@
   }
 
   select {
+    cursor: pointer;
     margin-top: c.$grid;
     color: c.$colorText;
     height: c.$inputHeight;
@@ -29,9 +34,46 @@
     border-radius: c.$borderRadius;
     background-color: c.$colorNeutralLighter;
     // Note: Is IE11 problematic in case of checkbox/radio, but not select
+    /* doiuse-disable css-appearance */
     appearance: none;
+    /* doiuse-enable css-appearance */
     width: 100%;
 
     @include c.typographyBodySmall;
+  }
+
+  &:hover,
+  &.hover {
+    select {
+      border-color: c.$colorPrimary;
+    }
+  }
+
+  &.disabled {
+    select {
+      cursor: not-allowed;
+      color: c.$colorTextSecondary;
+      background-color: c.$colorNeutral;
+      border-color: c.$colorNeutralLight;
+    }
+
+    .chevron {
+      color: c.$colorTextSecondary;
+    }
+  }
+
+  &.hasError {
+    select {
+      border-color: c.$colorError;
+    }
+  }
+
+  select:focus {
+    @include h.outlineFormField;
+  }
+  &.focus {
+    select {
+      @include h.outlineFormField;
+    }
   }
 }

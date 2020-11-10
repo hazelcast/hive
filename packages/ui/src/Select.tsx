@@ -1,5 +1,5 @@
 import { DataTestProp } from '@hazelcast/helpers'
-import React, { ChangeEventHandler, FC, SelectHTMLAttributes, useRef, FocusEvent } from 'react'
+import React, { FC, SelectHTMLAttributes, useRef, FocusEvent, ChangeEvent } from 'react'
 import { v4 as uuid } from 'uuid'
 import cn from 'classnames'
 import { ChevronDown } from 'react-feather'
@@ -19,7 +19,7 @@ export type SelectCoreProps = {
   name: string
   value?: string
   onBlur?: (e: FocusEvent<HTMLSelectElement>) => void
-  onChange?: ChangeEventHandler
+  onChange?: (e: ChangeEvent<HTMLSelectElement>) => void
   error?: string
 }
 export type SelectExtraProps = {
@@ -28,7 +28,7 @@ export type SelectExtraProps = {
   selectClassName?: string
   errorClassName?: string
 } & DataTestProp &
-  Pick<SelectHTMLAttributes<HTMLSelectElement>, 'autoFocus' | 'disabled' | 'required' | 'autoComplete'>
+  Pick<SelectHTMLAttributes<HTMLSelectElement>, 'autoFocus' | 'disabled' | 'required'>
 
 export type SelectProps = SelectExtraProps & SelectCoreProps
 
