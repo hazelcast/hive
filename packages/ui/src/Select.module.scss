@@ -1,0 +1,37 @@
+@use '../styles/constants' as c;
+@use '../styles/helpers' as h;
+
+.container {
+  display: flex;
+  flex-direction: column;
+
+  .selectContainer {
+    position: relative;
+
+    .chevron {
+      color: c.$colorPrimary;
+      position: absolute;
+      top: c.$grid * 3;
+      right: c.$grid * 2;
+      pointer-events: none;
+    }
+  }
+
+  select {
+    margin-top: c.$grid;
+    color: c.$colorText;
+    height: c.$inputHeight;
+    padding-left: c.$grid * 3;
+    // Note: Actual padding + chevron width offset
+    padding-right: c.$grid * 2 + c.$grid * 6;
+    box-sizing: border-box;
+    border: c.$borderWidth solid c.$colorNeutralLight;
+    border-radius: c.$borderRadius;
+    background-color: c.$colorNeutralLighter;
+    // Note: Is IE11 problematic in case of checkbox/radio, but not select
+    appearance: none;
+    width: 100%;
+
+    @include c.typographyBodySmall;
+  }
+}

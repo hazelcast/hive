@@ -2,15 +2,19 @@ import { DataTestProp } from '@hazelcast/helpers'
 import React, { ChangeEventHandler, FC, SelectHTMLAttributes, useRef, FocusEvent } from 'react'
 import { v4 as uuid } from 'uuid'
 import cn from 'classnames'
+import { ChevronDown } from 'react-feather'
 
 import { Error } from './Error'
 import { Label } from './Label'
+import { Icon } from './Icon'
 
 import styles from './Select.module.scss'
 
-type SelectOption = Pick<HTMLOptionElement, 'value' | 'text' | 'disabled'>
+export type SelectOption = Pick<HTMLOptionElement, 'value' | 'text'> & {
+  disabled?: boolean
+}
 
-type SelectCoreProps = {
+export type SelectCoreProps = {
   options: SelectOption[]
   name: string
   value?: string
@@ -60,23 +64,26 @@ export const Select: FC<SelectProps> = ({
       )}
     >
       <Label id={idRef.current} label={label} />
-      <select
-        id={idRef.current}
-        disabled={disabled}
-        className={selectClassName}
-        name={name}
-        onBlur={onBlur}
-        onChange={onChange}
-        required={required}
-        value={value}
-        {...htmlAttrs}
-      >
-        {options.map(({ value, text, disabled }) => (
-          <option key={value} value={value} disabled={disabled}>
-            {text}
-          </option>
-        ))}
-      </select>
+      <div className={styles.selectContainer}>
+        <select
+          id={idRef.current}
+          disabled={disabled}
+          className={selectClassName}
+          name={name}
+          onBlur={onBlur}
+          onChange={onChange}
+          required={required}
+          value={value}
+          {...htmlAttrs}
+        >
+          {options.map(({ value, text, disabled }) => (
+            <option key={value} value={value} disabled={disabled}>
+              {text}
+            </option>
+          ))}
+        </select>
+        <Icon className={styles.chevron} ariaLabel="Select chevron" icon={ChevronDown} />
+      </div>
       <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={idRef.current} />
     </div>
   )

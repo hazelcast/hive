@@ -1,7 +1,6 @@
 @use '../styles/constants' as c;
 @use '../styles/helpers' as h;
 
-$inputHeight: c.$grid * 10;
 $paddingLeftWithIcon: c.$grid * 8;
 
 .container {
@@ -53,7 +52,7 @@ $paddingLeftWithIcon: c.$grid * 8;
     line-height: inherit;
     letter-spacing: inherit;
     color: inherit;
-    height: $inputHeight;
+    height: c.$inputHeight;
     border-radius: c.$borderRadius;
     background-color: c.$colorNeutralLighter;
 
