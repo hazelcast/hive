@@ -24,14 +24,6 @@
       @include c.typographyBodyNormal('bold');
       @include h.overflowEllipsis;
     }
-
-    .close {
-      &:hover,
-      &.hover {
-        background-color: transparent;
-        box-shadow: none;
-      }
-    }
   }
 
   /* Theme - Success */

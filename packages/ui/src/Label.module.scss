@@ -1,0 +1,9 @@
+@use '../styles/constants' as c;
+
+.label {
+  @include c.typographyBodyNormal;
+
+  color: c.$colorTextSecondary;
+  padding: 0;
+  margin: 0;
+}

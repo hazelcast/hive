@@ -1,0 +1,34 @@
+@use '../styles/constants' as c;
+
+$buttonMargin: c.$grid * 2;
+$inputPadding: c.$iconSizeSmall + $buttonMargin * 2;
+
+.inputContainer {
+  position: relative;
+
+  > input {
+    padding-left: $inputPadding;
+    padding-right: $inputPadding;
+    /* doiuse-disable css-appearance */
+    -moz-appearance: textfield;
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    /* doiuse-enable css-appearance */
+  }
+
+  .decrement {
+    position: absolute;
+    left: $buttonMargin;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .increment {
+    position: absolute;
+    right: $buttonMargin;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
