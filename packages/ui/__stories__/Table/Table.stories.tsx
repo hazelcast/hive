@@ -110,7 +110,7 @@ export const ClickableRowsWithNameLink = () => {
 }
 
 export const AgeColumnWithWarnings = () => {
-  const columns = useMemo(() => getColumns({ withNameLink: true }), [])
+  const columns = useMemo(() => getColumns({}), [])
   return (
     <Table
       columns={columns}

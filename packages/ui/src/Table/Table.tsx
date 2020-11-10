@@ -147,9 +147,8 @@ export function Table<D extends object>({
               >
                 {row.cells.map((cell) => {
                   const { key: cellKey, ...restCellProps } = cell.getCellProps()
-                  const customCellProps = getCustomCellProps(cell)
                   return (
-                    <Cell key={cellKey} {...restCellProps} align={cell.column.align} {...customCellProps}>
+                    <Cell key={cellKey} {...restCellProps} align={cell.column.align} {...getCustomCellProps(cell)}>
                       {cell.render('Cell')}
                     </Cell>
                   )
