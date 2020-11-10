@@ -2,6 +2,8 @@ import React from 'react'
 
 import { Badge } from '../src/Badge'
 
+const longText = 'This is a long text that forces the Badge to wrap'
+
 export default {
   title: 'components/Badge',
   component: Badge,
@@ -25,3 +27,9 @@ export const WarningSmall = () => <Badge size="small" type="warning" content="Ba
 export const CriticalNormal = () => <Badge size="normal" type="critical" content="Badge text" />
 
 export const CriticalSmall = () => <Badge size="small" type="critical" content="Badge text" />
+
+export const LongText = () => (
+  <div style={{ maxWidth: 350 }}>
+    <Badge size="small" type="critical" content={longText} />
+  </div>
+)
