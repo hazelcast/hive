@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid'
 import cn from 'classnames'
 import { ChevronDown } from 'react-feather'
 
-import { Error } from './Error'
+import { Error, errorId } from './Error'
 import { Label } from './Label'
 import { Icon } from './Icon'
 
@@ -72,6 +72,10 @@ export const Select: FC<SelectProps> = ({
           name={name}
           onBlur={onBlur}
           onChange={onChange}
+          // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute
+          aria-invalid={!!error}
+          aria-required={required}
+          aria-errormessage={error && errorId(idRef.current)}
           required={required}
           value={value}
           {...htmlAttrs}

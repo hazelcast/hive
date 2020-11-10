@@ -17,10 +17,11 @@ const selectId = 'selectId'
 const selectName = 'selectName'
 const selectValue = 'selectValue0'
 const selectLabel = 'selectLabel'
+
 const selectOptions: SelectOption[] = [
-  { value: selectValue, text: selectValue },
-  { value: 'selectValue1', text: 'selectValue1' },
-  { value: 'selectValue2', text: 'selectValue2' },
+  { value: selectValue, text: selectValue, disabled: false },
+  { value: 'selectValue1', text: 'selectValue1', disabled: false },
+  { value: 'selectValue2', text: 'selectValue2', disabled: false },
 ]
 
 describe('Select', () => {
@@ -41,7 +42,7 @@ describe('Select', () => {
       label: selectLabel,
     })
 
-    expect(wrapper.find('select').props()).toEqual({
+    expect(wrapper.find('select').props()).toMatchObject({
       id: selectId,
       value: selectValue,
       name: selectName,
@@ -49,10 +50,14 @@ describe('Select', () => {
       onBlur,
       'aria-invalid': false,
       'aria-required': undefined,
-      'aria-describedby': undefined,
       'aria-errormessage': undefined,
-      disabled: undefined,
       required: undefined,
+      disabled: undefined,
+    })
+    wrapper.find('select>option').forEach((option, oI) => {
+      const { text, ...props } = selectOptions[oI]
+      expect(option.props()).toMatchObject(props)
+      expect(option.text()).toBe(text)
     })
 
     expect(wrapper.find(Error).props()).toEqual({
@@ -62,231 +67,183 @@ describe('Select', () => {
     })
   })
 
-  /* it('onChange works', async () => {
+  it('onChange works', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
     const wrapper = await mountAndCheckA11Y(
-      <TextField name="name" value="Yoda" placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
+      <Select name={selectName} value={selectValue} label={selectLabel} onBlur={onBlur} onChange={onChange} options={selectOptions} />,
     )
 
-    const testEvent = { target: { value: 'Luke' } }
+    const testEvent = { target: { value: selectValue } }
 
     expect(onChange).toBeCalledTimes(0)
 
-    const input = wrapper.find('input')
+    const select = wrapper.find('select')
     act(() => {
-      input.simulate('change', testEvent)
+      select.simulate('change', testEvent)
     })
 
     expect(onChange).toBeCalledTimes(1)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     expect(onChange.mock.calls[0][0]).toMatchObject(testEvent)
-  }) */
+  })
 
-  /* it('onBlur works', async () => {
+  it('onBlur works', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
     const wrapper = await mountAndCheckA11Y(
-      <TextField name="name" value="Yoda" placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
+      <Select name={selectName} value={selectValue} label={selectLabel} onBlur={onBlur} onChange={onChange} options={selectOptions} />,
     )
 
     expect(onBlur).toBeCalledTimes(0)
 
-    const input = wrapper.find('input')
+    const select = wrapper.find('select')
     act(() => {
-      input.simulate('blur')
+      select.simulate('blur')
     })
 
     expect(onBlur).toBeCalledTimes(1)
-  }) */
+  })
 
-  /* it('Renders helper text', async () => {
+  it('Renders error with correct props', async () => {
+    const selectError = 'selectError'
+
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
     const wrapper = await mountAndCheckA11Y(
-      <TextField
-        name="name"
-        value="Yoda"
-        placeholder="Enter the name"
-        label="Wisest jedi"
+      <Select
+        name={selectName}
+        value={selectValue}
+        label={selectLabel}
         onBlur={onBlur}
         onChange={onChange}
-        helperText="A long time ago in a galaxy far, far away...."
+        options={selectOptions}
+        error={selectError}
       />,
     )
 
     expect(wrapper.find(Label).props()).toEqual({
-      id: 'republic',
-      label: 'Wisest jedi',
+      id: selectId,
+      label: selectLabel,
     })
 
-    expect(wrapper.find('input').props()).toEqual({
-      type: 'text',
-      id: 'republic',
-      value: 'Yoda',
-      name: 'name',
-      onChange,
-      onBlur,
-      'aria-invalid': false,
-      'aria-required': undefined,
-      'aria-describedby': helpTooltipId('republic'),
-      'aria-errormessage': undefined,
-      disabled: undefined,
-      placeholder: 'Enter the name',
-    })
-
-    expect(wrapper.find(Error).props()).toEqual({
-      error: undefined,
-      className: styles.errorContainer,
-      inputId: 'republic',
-    })
-
-    expect(wrapper.find(Help).props()).toEqual({
-      parentId: 'republic',
-      helperText: 'A long time ago in a galaxy far, far away....',
-      className: styles.helperText,
-    })
-  }) */
-
-  /* it('Renders error with correct props', async () => {
-    const onBlur = jest.fn()
-    const onChange = jest.fn()
-
-    const wrapper = await mountAndCheckA11Y(
-      <TextField
-        name="name"
-        value="Yoda"
-        placeholder="Enter the name"
-        label="Wisest jedi"
-        onBlur={onBlur}
-        onChange={onChange}
-        error="Dark side"
-      />,
-    )
-
-    expect(wrapper.find(Label).props()).toEqual({
-      id: 'republic',
-      label: 'Wisest jedi',
-    })
-
-    expect(wrapper.find('input').props()).toEqual({
-      type: 'text',
-      id: 'republic',
-      value: 'Yoda',
-      name: 'name',
+    expect(wrapper.find('select').props()).toMatchObject({
+      id: selectId,
+      value: selectValue,
+      name: selectName,
       onChange,
       onBlur,
       'aria-invalid': true,
       'aria-required': undefined,
-      'aria-describedby': undefined,
-      'aria-errormessage': errorId('republic'),
+      'aria-errormessage': errorId(selectId),
+      required: undefined,
       disabled: undefined,
-      placeholder: 'Enter the name',
+    })
+    wrapper.find('select>option').forEach((option, oI) => {
+      const { text, ...props } = selectOptions[oI]
+      expect(option.props()).toMatchObject(props)
+      expect(option.text()).toBe(text)
     })
 
     expect(wrapper.find(Error).props()).toEqual({
-      error: 'Dark side',
+      error: selectError,
       className: styles.errorContainer,
-      inputId: 'republic',
+      inputId: selectId,
     })
+  })
 
-    expect(wrapper.find(Help).exists()).toBeFalsy()
-  }) */
-
-  /* it('Renders required with correct props', async () => {
+  it('Renders required with correct props', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
     const wrapper = await mountAndCheckA11Y(
-      <TextField name="name" value="Yoda" placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} required />,
+      <Select
+        name={selectName}
+        value={selectValue}
+        label={selectLabel}
+        onBlur={onBlur}
+        onChange={onChange}
+        options={selectOptions}
+        required
+      />,
     )
 
     expect(wrapper.find(Label).props()).toEqual({
-      id: 'republic',
-      label: 'Wisest jedi',
+      id: selectId,
+      label: selectLabel,
     })
 
-    expect(wrapper.find('input').props()).toEqual({
-      type: 'text',
-      id: 'republic',
-      value: 'Yoda',
-      name: 'name',
+    expect(wrapper.find('select').props()).toMatchObject({
+      id: selectId,
+      value: selectValue,
+      name: selectName,
       onChange,
       onBlur,
       'aria-invalid': false,
       'aria-required': true,
-      'aria-describedby': undefined,
       'aria-errormessage': undefined,
+      required: true,
       disabled: undefined,
-      placeholder: 'Enter the name',
+    })
+    wrapper.find('select>option').forEach((option, oI) => {
+      const { text, ...props } = selectOptions[oI]
+      expect(option.props()).toMatchObject(props)
+      expect(option.text()).toBe(text)
     })
 
     expect(wrapper.find(Error).props()).toEqual({
       error: undefined,
       className: styles.errorContainer,
-      inputId: 'republic',
+      inputId: selectId,
     })
+  })
 
-    expect(wrapper.find(Help).exists()).toBeFalsy()
-  }) */
-
-  /* it('Renders disabled with correct props', async () => {
+  it('Renders disabled with correct props', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
     const wrapper = await mountAndCheckA11Y(
-      <TextField name="name" value="Yoda" placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} disabled />,
+      <Select
+        name={selectName}
+        value={selectValue}
+        label={selectLabel}
+        onBlur={onBlur}
+        onChange={onChange}
+        options={selectOptions}
+        disabled
+      />,
     )
 
     expect(wrapper.find(Label).props()).toEqual({
-      id: 'republic',
-      label: 'Wisest jedi',
+      id: selectId,
+      label: selectLabel,
     })
 
-    expect(wrapper.find('input').props()).toEqual({
-      type: 'text',
-      id: 'republic',
-      value: 'Yoda',
-      name: 'name',
+    expect(wrapper.find('select').props()).toMatchObject({
+      id: selectId,
+      value: selectValue,
+      name: selectName,
       onChange,
       onBlur,
       'aria-invalid': false,
       'aria-required': undefined,
-      'aria-describedby': undefined,
       'aria-errormessage': undefined,
+      required: undefined,
       disabled: true,
-      placeholder: 'Enter the name',
+    })
+    wrapper.find('select>option').forEach((option, oI) => {
+      const { text, ...props } = selectOptions[oI]
+      expect(option.props()).toMatchObject(props)
+      expect(option.text()).toBe(text)
     })
 
     expect(wrapper.find(Error).props()).toEqual({
       error: undefined,
       className: styles.errorContainer,
-      inputId: 'republic',
+      inputId: selectId,
     })
-
-    expect(wrapper.find(Help).exists()).toBeFalsy()
-  }) */
-
-  /* it('Renders inputContainerChild', async () => {
-    const onBlur = jest.fn()
-    const onChange = jest.fn()
-    const InputContainerChild = <div className="r2d2" />
-
-    const wrapper = await mountAndCheckA11Y(
-      <TextField
-        name="name"
-        value="Yoda"
-        label="Wisest jedi"
-        placeholder="Enter the name"
-        onBlur={onBlur}
-        onChange={onChange}
-        inputContainerChild={InputContainerChild}
-      />,
-    )
-
-    expect(wrapper.find(`.${styles.inputContainer}`).find('.r2d2').exists()).toBeTruthy()
-  }) */
+  })
 })
