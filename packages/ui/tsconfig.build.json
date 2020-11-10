@@ -12,5 +12,6 @@
       "path": "../services/tsconfig.json"
     }
   ],
+  "files": ["./src/types/react-table.d.ts"],
   "include": ["./src"]
 }
