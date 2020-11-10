@@ -71,6 +71,17 @@ export const RadioGroupWrappedInFormik = () => {
   return <TestForm />
 }
 
+export const RadiosInline = () => {
+  const idRef = useRef(uuid())
+  const [value, setValue] = useState<string>('test')
+  return (
+    <RadioGroup name={idRef.current} error="Error" onChange={({ target: { value } }) => setValue(value)} inline>
+      <Radio value="test2" label="Test 2" checked={value === 'test2'} />
+      <Radio value="test" label="Test" checked={value === 'test'} />
+    </RadioGroup>
+  )
+}
+
 RadioGroupDefault.parameters = {
   design: {
     type: 'figma',

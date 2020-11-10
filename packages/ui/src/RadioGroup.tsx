@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, ReactElement, useRef } from 'react'
+import React, { ChangeEvent, FC, ReactElement, useMemo, useRef } from 'react'
 import { v4 as uuid } from 'uuid'
 import { Error, errorId } from './Error'
 import classNames from 'classnames'
@@ -38,6 +38,8 @@ export const RadioGroup: FC<RadioGroupProps> = ({
   const idRef = useRef(uuid())
   const errorIdString: string | undefined = error && errorId(idRef.current)
 
+  const providerValue = useMemo(() => ({ name, errorId: errorIdString, onChange }), [name, errorIdString, onChange])
+
   return (
     <div className={className} data-test={dataTest}>
       <div
@@ -53,7 +55,7 @@ export const RadioGroup: FC<RadioGroupProps> = ({
         aria-invalid={!!error}
         aria-errormessage={errorIdString}
       >
-        <RadioGroupContext.Provider value={{ name, errorId: errorIdString, onChange }}>{children}</RadioGroupContext.Provider>
+        <RadioGroupContext.Provider value={providerValue}>{children}</RadioGroupContext.Provider>
       </div>
       <Error error={error} className={classNames(styles.errorContainer)} inputId={idRef.current} />
     </div>
