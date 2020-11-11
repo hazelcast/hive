@@ -13,8 +13,6 @@
   cursor: pointer;
 
   @include c.typographyBodySmall;
-  // we need to provide spacing between radios if they're in a vertical column
-  margin-bottom: c.$grid;
 
   // hide native checkbox
   input {
