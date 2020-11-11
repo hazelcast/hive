@@ -24,6 +24,22 @@
   .textAreaContainer {
     display: flex;
     flex-direction: row;
+    position: relative;
+  }
+
+  .focusOverlay {
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    pointer-events: none;
+    z-index: c.$zIndex100;
+    border-radius: c.$borderRadius;
+    visibility: hidden;
+
+    @include h.outlineSimple;
   }
 
   textarea {
@@ -78,12 +94,17 @@
     }
   }
 
-  textarea:focus {
-    @include h.outlineFormField;
-  }
-  &.focus {
+  &.focus .textAreaContainer,
+  .textAreaContainer:focus-within {
+    .focusOverlay {
+      visibility: visible;
+    }
     textarea {
       @include h.outlineFormField;
     }
+  }
+  // We keep it for IE11 that does not support :focus-within
+  textarea:focus {
+    @include h.outlineFormField;
   }
 }

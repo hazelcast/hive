@@ -62,6 +62,7 @@ export const TextArea: FC<TextAreaProps> = ({
     >
       <Label id={idRef.current} label={label} />
       <div className={styles.textAreaContainer}>
+        <div className={styles.focusOverlay} />
         <textarea
           aria-invalid={!!error}
           aria-required={required}
