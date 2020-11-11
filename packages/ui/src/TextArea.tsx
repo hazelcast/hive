@@ -67,9 +67,12 @@ export const TextArea: FC<TextAreaProps> = ({
           aria-required={required}
           aria-errormessage={error && errorId(idRef.current)}
           id={idRef.current}
-          className={cn(textareaClassName, {
-            [styles.notResizable]: !resizable,
-          })}
+          className={cn(
+            {
+              [styles.notResizable]: !resizable,
+            },
+            textareaClassName,
+          )}
           placeholder={placeholder}
           name={name}
           onBlur={onBlur}
