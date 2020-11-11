@@ -2,13 +2,20 @@
 @use '../styles/helpers' as h;
 
 .wrapper {
-  display: inline-flex;
+  display: flex;
   flex-direction: row;
-  user-select: none;
   cursor: pointer;
 
   @include c.typographyBodySmall;
 
+  // hide native checkbox
+  input {
+    @include h.visuallyHidden;
+  }
+
+.errorContainer {
+  margin-top: c.$grid;
+}
   // default visible checkmark
   .checkmark {
     width: c.$iconSizeSmall;
@@ -21,17 +28,19 @@
     order: -1;
   }
 
-  // hide native checkbox
-  input {
-    height: 0;
-    width: 0;
-    opacity: 0;
-    position: absolute;
-  }
-
-  input:checked ~ .checkmark {
+  & > input:checked ~ .checkmark {
     background-color: c.$colorSuccessLight;
     border-color: c.$colorSuccessLight;
+  }
+
+  /**
+    Hover
+   */
+  &:hover,
+  &.hover {
+    input ~ .checkmark {
+      border-color: c.$colorPrimary;
+    }
   }
 
   input[aria-checked='mixed'] ~ .checkmark {
@@ -47,28 +56,32 @@
   .name {
     padding-left: c.$grid * 1.25;
   }
-}
 
-.wrapper:not(.checked) {
-  color: c.$colorTextSecondary;
-}
+  &:not(.checked) {
+    color: c.$colorTextSecondary;
+  }
 
-/**
-  Disabled
-*/
-.wrapper.disabled {
-  color: c.$colorNeutralLight;
-}
+  &.focus > input,
+  input:focus {
+    ~ .checkmark {
+      @include h.outlineFormField;
+    }
+  }
 
-// Outline on focus
-label.wrapper.focus .checkmark,
-label.wrapper > input:focus ~ .checkmark {
-  @include h.outlineFormField;
-}
+  /**
+    Disabled
+  */
+  &.disabled {
+    color: c.$colorNeutralLight;
+    cursor: not-allowed;
 
-label.wrapper.disabled > input:indeterminate ~ .checkmark,
-label.wrapper.disabled > input:checked ~ .checkmark {
-  background-color: c.$colorNeutral;
-  color: c.$colorNeutralWhite;
-  border-color: c.$colorNeutralLight;
+    & > input:disabled ~ .checkmark {
+      color: c.$colorNeutralWhite;
+      border-color: c.$colorNeutralLight;
+    }
+
+    & > input:disabled:checked ~ .checkmark {
+      background-color: c.$colorNeutral;
+    }
+  }
 }

@@ -1,11 +1,11 @@
 import React, { AriaAttributes, ChangeEvent, FC, FocusEvent, useRef } from 'react'
 import styles from './Checkbox.module.scss'
 import { Check, Minus } from 'react-feather'
-import { DataTestProp } from '@hazelcast/helpers'
 import classNames from 'classnames'
 import { Error, errorId } from './Error'
 import { Help, helpTooltipId } from './Help'
 import { v4 as uuid } from 'uuid'
+import { DataTestProp } from '@hazelcast/helpers'
 
 type CheckboxCoreProps = {
   name: string
@@ -52,6 +52,7 @@ export const Checkbox: FC<CheckboxProps> = ({
   error,
   disabled = false,
   required,
+  'data-test': dataTest,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null)
   const idRef = useRef(uuid())
@@ -62,7 +63,7 @@ export const Checkbox: FC<CheckboxProps> = ({
   }
 
   return (
-    <div className={className}>
+    <div className={className} data-test={dataTest}>
       {/* 
         We can only style forward elements based on input state (with ~ or +), has() is not supported yet.
         That's why we need to explicitly pass error/checked/disabled classes to the wrapper element.
@@ -79,7 +80,9 @@ export const Checkbox: FC<CheckboxProps> = ({
         )}
         htmlFor={idRef.current}
       >
-        <span className={styles.name}>{label}</span>
+        <span className={styles.name} data-test="input-checkbox-label">
+          {label}
+        </span>
         <input
           type="checkbox"
           ref={inputRef}
