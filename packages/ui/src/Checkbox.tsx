@@ -102,7 +102,7 @@ export const Checkbox: FC<CheckboxProps> = ({
         {indeterminate ? <Minus className={styles.checkmark} /> : <Check className={styles.checkmark} />}
         {helperText && <Help parentId={idRef.current} helperText={helperText} />}
       </label>
-      <Error error={error} className={classNames(styles.errorContainer)} inputId={idRef.current} />
+      <Error error={error} className={styles.errorContainer} inputId={idRef.current} />
     </div>
   )
 }

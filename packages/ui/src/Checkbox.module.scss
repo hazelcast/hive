@@ -13,9 +13,6 @@
     @include h.visuallyHidden;
   }
 
-.errorContainer {
-  margin-top: c.$grid;
-}
   // default visible checkmark
   .checkmark {
     width: c.$iconSizeSmall;
@@ -84,4 +81,8 @@
       background-color: c.$colorNeutral;
     }
   }
+}
+
+.errorContainer {
+  margin-top: c.$grid;
 }
