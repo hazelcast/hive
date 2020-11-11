@@ -57,7 +57,7 @@ export const RadioGroup: FC<RadioGroupProps> = ({
       >
         <RadioGroupContext.Provider value={providerValue}>{children}</RadioGroupContext.Provider>
       </div>
-      <Error error={error} className={classNames(styles.errorContainer)} inputId={idRef.current} />
+      <Error error={error} className={styles.errorContainer} inputId={idRef.current} />
     </div>
   )
 }
