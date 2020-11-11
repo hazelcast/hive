@@ -2,7 +2,7 @@
 @use '../styles/helpers' as h;
 
 .wrapper {
-  display: inline-flex;
+  display: flex;
   flex-direction: row;
   cursor: pointer;
 
