@@ -6,4 +6,5 @@ node_modules
 *.tsbuildinfo
 .npmrc
 .DS_Store
+.idea
 .vscode

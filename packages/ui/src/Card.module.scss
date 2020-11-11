@@ -1,0 +1,47 @@
+@use '../styles/constants' as c;
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  box-shadow: 0 c.$cardShadowSize c.$cardShadowBlur 0 c.$colorShadow;
+  border-radius: c.$borderRadius;
+
+  &.typeSecondary {
+    background: none;
+    border: c.$borderWidth solid c.$colorNeutralLight;
+    box-shadow: none;
+  }
+
+  &.typeHighlighter {
+    background: c.$colorInfoLight;
+    box-shadow: none;
+  }
+
+  .header {
+    padding: c.$grid * 6 c.$grid * 6 c.$grid * 3;
+
+    h2,
+    h3 {
+      display: flex;
+      align-items: center;
+      padding: 0;
+      margin: 0;
+
+      > svg,
+      > button {
+        margin-left: c.$grid * 2;
+      }
+    }
+  }
+
+  .content {
+    @include c.typographyBodyNormal;
+
+    padding: c.$grid * 3 c.$grid * 6 c.$grid * 6;
+
+    &.woTitle {
+      padding-top: c.$grid * 6;
+    }
+  }
+}
