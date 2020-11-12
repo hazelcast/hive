@@ -24,7 +24,11 @@
   .textAreaContainer {
     display: flex;
     flex-direction: row;
+  }
+
+  .textAreaWrapper {
     position: relative;
+    width: 100%;
   }
 
   .focusOverlay {
@@ -48,6 +52,7 @@
     border: c.$borderWidth solid c.$colorNeutralLight;
     box-sizing: border-box;
     width: 100%;
+    min-width: 100%;
     font-family: inherit;
     font-weight: inherit;
     font-size: inherit;
@@ -56,10 +61,9 @@
     color: inherit;
     border-radius: c.$borderRadius;
     background-color: c.$colorNeutralLighter;
-
-    &::placeholder {
-      color: c.$colorTextSecondary;
-    }
+    /* doiuse-disable css-resize */
+    resize: vertical;
+    /* doiuse-enable css-resize */
 
     // Note: Resize is not supported by IE11, it's presence does no harm though
     &.notResizable {
@@ -67,17 +71,19 @@
       resize: none;
       /* doiuse-enable css-resize */
     }
+
+    &::placeholder {
+      color: c.$colorTextSecondary;
+    }
   }
 
   &.empty {
     color: c.$colorTextSecondary;
   }
 
-  &:hover,
-  &.hover {
-    textarea {
-      border-color: c.$colorPrimary;
-    }
+  &.hover textarea,
+  textarea:hover {
+    border-color: c.$colorPrimary;
   }
 
   &.disabled {
@@ -98,8 +104,8 @@
   textarea:focus {
     @include h.outlineFormField;
   }
-  &.focus .textAreaContainer,
-  .textAreaContainer:focus-within {
+  &.focus .textAreaWrapper,
+  .textAreaWrapper:focus-within {
     .focusOverlay {
       visibility: visible;
     }

@@ -62,27 +62,29 @@ export const TextArea: FC<TextAreaProps> = ({
     >
       <Label id={idRef.current} label={label} />
       <div className={styles.textAreaContainer}>
-        <div className={styles.focusOverlay} />
-        <textarea
-          aria-invalid={!!error}
-          aria-required={required}
-          aria-errormessage={error && errorId(idRef.current)}
-          id={idRef.current}
-          className={cn(
-            {
-              [styles.notResizable]: !resizable,
-            },
-            textareaClassName,
-          )}
-          placeholder={placeholder}
-          name={name}
-          onBlur={onBlur}
-          onChange={onChange}
-          required={required}
-          value={value}
-          disabled={disabled}
-          {...htmlAttrs}
-        />
+        <div className={styles.textAreaWrapper}>
+          <div className={styles.focusOverlay} />
+          <textarea
+            aria-invalid={!!error}
+            aria-required={required}
+            aria-errormessage={error && errorId(idRef.current)}
+            id={idRef.current}
+            className={cn(
+              {
+                [styles.notResizable]: !resizable,
+              },
+              textareaClassName,
+            )}
+            placeholder={placeholder}
+            name={name}
+            onBlur={onBlur}
+            onChange={onChange}
+            required={required}
+            value={value}
+            disabled={disabled}
+            {...htmlAttrs}
+          />
+        </div>
         {helperText && (
           <Help data-test="textarea-helperText" parentId={idRef.current} helperText={helperText} className={styles.helperText} />
         )}

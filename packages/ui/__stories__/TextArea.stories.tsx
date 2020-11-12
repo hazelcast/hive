@@ -78,7 +78,6 @@ export const FocusedWithError = () => (
     label="Character description"
     onBlur={() => logger.log('blur')}
     onChange={(e) => logger.log('change', e.target.value)}
-    // eslint-disable-next-line jsx-a11y/no-autofocus
     className={styles.focus}
     error="Dark side"
   />
@@ -117,5 +116,18 @@ export const WithHelperText = () => (
     onBlur={() => logger.log('blur')}
     onChange={(e) => logger.log('change', e.target.value)}
     helperText="Describe the character."
+  />
+)
+
+export const FocusedWithHelperText = () => (
+  <TextArea
+    name="name"
+    value={text}
+    placeholder="Describe character"
+    label="Character description"
+    onBlur={() => logger.log('blur')}
+    onChange={(e) => logger.log('change', e.target.value)}
+    helperText="Describe the character."
+    className={styles.focus}
   />
 )
