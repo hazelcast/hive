@@ -1,6 +1,7 @@
 @use '../styles/constants' as c;
 @use '../styles/helpers' as h;
 
+// Why is it so complex? Why do we need .borderOverlay?
 // Ideally, we would have used native `border` for every style: hover, error, focus.
 // Since our focus outline is thicker than the native border, we cannot use the native border for focus styles.
 // Say, the initial border is 1px. For focus you make it 2px. As result, it shifts the content inside. Not nice UX at all.
@@ -8,10 +9,14 @@
 // Instead we add a 1px inset box-shadow which adds ups to the border and gives us the desired 2px outline on focus.
 // Back to the textarea. As you can see it is supposed to have rounded corners. So we use border-radius.
 // Ideally, we would have used border-radius on the textarea itself and applied the same technique with the inset box-shadow.
-// Guess what?
-@mixin border($color) {
-  box-shadow: inset 0 0 0 c.$borderWidth $color;
-}
+// Guess what? Chrome does not apply border-radius to the scrollbar inside of the textarea.
+// Next step is to add a wrapping div to the textarea, and apply the border-radius, the border itself and the inset box-shadow there.
+// Now the inset box-shadow is rendered under the textarea, so the scrollbar is rendered on top of it and the textarea text as well.
+// At least it makes sense. After all, it is a shadow. It is supposed to decorate, not overlap and override.
+// Let's go deeper down the rabbit hole.
+// We add the wrapping div and add the border-radius there, but we do not add the border itself. Instead we make it relative.
+// Next, we add an absolute child div. We add the border with the inset box-shadow to that div, so it is rendered on top of the textarea.
+// Finally, we add textarea:focus styling to support IE11 that does not play nice with :focus-within.
 
 .container {
   @include c.typographyBodySmall;
@@ -48,8 +53,8 @@
     pointer-events: none;
     z-index: c.$zIndex100;
     border-radius: c.$borderRadius;
-
-    @include border(c.$colorNeutralLight);
+    border: c.$borderWidth solid c.$colorNeutralLight;
+    box-sizing: border-box;
   }
 
   .textAreaWrapper {
@@ -92,7 +97,7 @@
   &.hover .textAreaWrapper,
   .textAreaWrapper:hover {
     .borderOverlay {
-      @include border(c.$colorPrimary);
+      border-color: c.$colorPrimary;
     }
   }
 
@@ -102,14 +107,14 @@
       background-color: c.$colorNeutral;
 
       .borderOverlay {
-        @include border(c.$colorNeutralLight);
+        border-color: c.$colorNeutralLight;
       }
     }
   }
 
   &.hasError {
     .textAreaWrapper .borderOverlay {
-      @include border(c.$colorError);
+      border-color: c.$colorError;
     }
   }
 
@@ -120,7 +125,7 @@
   &.focus .textAreaWrapper,
   .textAreaWrapper:focus-within {
     .borderOverlay {
-      @include h.outlineSimple;
+      @include h.outlineFormField;
     }
     textarea {
       @include h.outlineFormField;
