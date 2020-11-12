@@ -1,11 +1,13 @@
-import React, { ChangeEvent, FC, FocusEvent, ReactElement, useRef } from 'react'
+import React, { ChangeEvent, FC, FocusEvent, ReactElement, useLayoutEffect, useRef } from 'react'
 import { v4 as uuid } from 'uuid'
 import cn from 'classnames'
+import useResizeAware from 'react-resize-aware'
 
 import { DataTestProp } from '@hazelcast/helpers'
 import { Error, errorId } from '../src/Error'
 import { Help } from '../src/Help'
 import { Label } from './Label'
+import { PopperRef } from './Tooltip'
 
 import styles from './TextArea.module.scss'
 
@@ -47,6 +49,15 @@ export const TextArea: FC<TextAreaProps> = ({
 }) => {
   const idRef = useRef(uuid())
 
+  const popperRef = useRef<PopperRef>()
+  const [resizeListener, sizes] = useResizeAware()
+
+  useLayoutEffect(() => {
+    if (sizes?.height) {
+      popperRef.current?.forceUpdate?.()
+    }
+  }, [sizes?.height])
+
   return (
     <div
       data-test={dataTest}
@@ -83,9 +94,16 @@ export const TextArea: FC<TextAreaProps> = ({
             {...htmlAttrs}
           />
           <div className={styles.borderOverlay} />
+          {resizeListener}
         </div>
         {helperText && (
-          <Help data-test="textarea-helperText" parentId={idRef.current} helperText={helperText} className={styles.helperText} />
+          <Help
+            data-test="textarea-helperText"
+            parentId={idRef.current}
+            helperText={helperText}
+            className={styles.helperText}
+            popperRef={popperRef}
+          />
         )}
       </div>
       <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={idRef.current} />

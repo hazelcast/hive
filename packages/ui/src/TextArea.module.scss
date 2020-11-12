@@ -31,7 +31,7 @@
 
   .helperText {
     display: block;
-    margin: c.$grid 0 0 c.$grid;
+    margin: 2 * c.$grid 0 0 c.$grid;
   }
 
   .errorContainer {
@@ -41,6 +41,7 @@
   .textAreaContainer {
     display: flex;
     flex-direction: row;
+    align-items: flex-start;
   }
 
   .borderOverlay {
