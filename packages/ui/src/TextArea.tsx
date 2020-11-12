@@ -62,7 +62,6 @@ export const TextArea: FC<TextAreaProps> = ({
       <Label id={idRef.current} label={label} />
       <div className={styles.textAreaContainer}>
         <div className={styles.textAreaWrapper}>
-          <div className={styles.borderOverlay} />
           <textarea
             aria-invalid={!!error}
             aria-required={required}
@@ -83,6 +82,7 @@ export const TextArea: FC<TextAreaProps> = ({
             disabled={disabled}
             {...htmlAttrs}
           />
+          <div className={styles.borderOverlay} />
         </div>
         {helperText && (
           <Help data-test="textarea-helperText" parentId={idRef.current} helperText={helperText} className={styles.helperText} />

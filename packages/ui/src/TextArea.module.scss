@@ -14,7 +14,7 @@
 // Now the inset box-shadow is rendered under the textarea, so the scrollbar is rendered on top of it and the textarea text as well.
 // At least it makes sense. After all, it is a shadow. It is supposed to decorate, not overlap and override.
 // Let's go deeper down the rabbit hole.
-// We add the wrapping div and add the border-radius there, but we do not add the border itself. Instead we make it relative.
+// We add the wrapping div and add the border-radius there, but we do not add the border itself. Instead we make the wrapping div relative.
 // Next, we add an absolute child div. We add the border with the inset box-shadow to that div, so it is rendered on top of the textarea.
 // Finally, we add textarea:focus styling to support IE11 that does not play nice with :focus-within.
 
@@ -118,17 +118,13 @@
     }
   }
 
-  // We keep it for IE11 that does not support :focus-within
   textarea:focus {
-    @include h.outlineFormField;
+    // Do not remove outline for high-contrast modes
+    // https://stackoverflow.com/a/52616313
+    outline: transparent solid c.$outlineWidth;
   }
-  &.focus .textAreaWrapper,
-  .textAreaWrapper:focus-within {
-    .borderOverlay {
-      @include h.outlineFormField;
-    }
-    textarea {
-      @include h.outlineFormField;
-    }
+  &.focus .textAreaWrapper .borderOverlay,
+  .textAreaWrapper textarea:focus + .borderOverlay {
+    @include h.outlineFormField;
   }
 }
