@@ -55,7 +55,6 @@ export const TextArea: FC<TextAreaProps> = ({
         {
           [styles.disabled]: disabled,
           [styles.hasError]: error,
-          [styles.empty]: !value,
         },
         className,
       )}
@@ -63,7 +62,7 @@ export const TextArea: FC<TextAreaProps> = ({
       <Label id={idRef.current} label={label} />
       <div className={styles.textAreaContainer}>
         <div className={styles.textAreaWrapper}>
-          <div className={styles.focusOverlay} />
+          <div className={styles.borderOverlay} />
           <textarea
             aria-invalid={!!error}
             aria-required={required}

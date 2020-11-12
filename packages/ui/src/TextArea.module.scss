@@ -1,6 +1,18 @@
 @use '../styles/constants' as c;
 @use '../styles/helpers' as h;
 
+// Ideally, we would have used native `border` for every style: hover, error, focus.
+// Since our focus outline is thicker than the native border, we cannot use the native border for focus styles.
+// Say, the initial border is 1px. For focus you make it 2px. As result, it shifts the content inside. Not nice UX at all.
+// To work around that in other places, we do not change the thickness of the border on focus.
+// Instead we add a 1px inset box-shadow which adds ups to the border and gives us the desired 2px outline on focus.
+// Back to the textarea. As you can see it is supposed to have rounded corners. So we use border-radius.
+// Ideally, we would have used border-radius on the textarea itself and applied the same technique with the inset box-shadow.
+// Guess what?
+@mixin border($color) {
+  box-shadow: inset 0 0 0 c.$borderWidth $color;
+}
+
 .container {
   @include c.typographyBodySmall;
 
@@ -26,12 +38,7 @@
     flex-direction: row;
   }
 
-  .textAreaWrapper {
-    position: relative;
-    width: 100%;
-  }
-
-  .focusOverlay {
+  .borderOverlay {
     position: absolute;
     display: block;
     top: 0;
@@ -41,25 +48,30 @@
     pointer-events: none;
     z-index: c.$zIndex100;
     border-radius: c.$borderRadius;
-    visibility: hidden;
 
-    @include h.outlineSimple;
+    @include border(c.$colorNeutralLight);
+  }
+
+  .textAreaWrapper {
+    position: relative;
+    width: 100%;
+    border-radius: c.$borderRadius;
+    overflow: hidden;
+    box-sizing: border-box;
   }
 
   textarea {
     display: block;
     padding: c.$grid * 2 c.$grid * 3;
-    border: c.$borderWidth solid c.$colorNeutralLight;
+    border: none;
     box-sizing: border-box;
     width: 100%;
-    min-width: 100%;
     font-family: inherit;
     font-weight: inherit;
     font-size: inherit;
     line-height: inherit;
     letter-spacing: inherit;
     color: inherit;
-    border-radius: c.$borderRadius;
     background-color: c.$colorNeutralLighter;
     /* doiuse-disable css-resize */
     resize: vertical;
@@ -77,26 +89,27 @@
     }
   }
 
-  &.empty {
-    color: c.$colorTextSecondary;
-  }
-
-  &.hover textarea,
-  textarea:hover {
-    border-color: c.$colorPrimary;
+  &.hover .textAreaWrapper,
+  .textAreaWrapper:hover {
+    .borderOverlay {
+      @include border(c.$colorPrimary);
+    }
   }
 
   &.disabled {
-    textarea {
+    .textAreaWrapper {
       color: c.$colorTextSecondary;
       background-color: c.$colorNeutral;
-      border-color: c.$colorNeutralLight;
+
+      .borderOverlay {
+        @include border(c.$colorNeutralLight);
+      }
     }
   }
 
   &.hasError {
-    textarea {
-      border-color: c.$colorError;
+    .textAreaWrapper .borderOverlay {
+      @include border(c.$colorError);
     }
   }
 
@@ -106,8 +119,8 @@
   }
   &.focus .textAreaWrapper,
   .textAreaWrapper:focus-within {
-    .focusOverlay {
-      visibility: visible;
+    .borderOverlay {
+      @include h.outlineSimple;
     }
     textarea {
       @include h.outlineFormField;
