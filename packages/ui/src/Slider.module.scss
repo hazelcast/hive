@@ -1,4 +1,5 @@
 @use '../styles/constants' as c;
+@use '../styles/helpers' as h;
 
 // border radius on left/right size of the progress tracker
 $trackBorderRadius: c.$grid;
@@ -26,11 +27,23 @@ $thumbBoxShadow: c.$grid;
   border: c.$grid * 1.5 solid c.$colorNeutralWhite;
 }
 
+@mixin gridItem() {
+  grid-column: 1;
+  grid-row: 2;
+  -ms-grid-column: 1;
+  -ms-grid-row: 2;
+}
+
 .wrapper {
-  display: inline-grid;
+  display: grid;
+  display: -ms-grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  -ms-grid-columns: 1fr;
+  -ms-grid-rows: 1fr;
+
   align-items: center;
-  grid-template-rows: max-content 1fr;
-  //background: gray;
+
   vertical-align: text-bottom;
   overflow: hidden;
 
@@ -44,12 +57,17 @@ $thumbBoxShadow: c.$grid;
     }
 
     outline: none;
-    grid-column: 1;
-    grid-row: 2;
+    @include gridItem();
     background: none;
+
+    // because of IE11
     margin: 0;
+    padding: 0;
+    width: 100%;
+    //visibility: hidden;
     // ignore clicks on the actual inputs and let them pass to the handles
     pointer-events: none;
+    min-height: 1.5rem;
 
     &::-webkit-slider-runnable-track {
       @include track;
@@ -59,12 +77,25 @@ $thumbBoxShadow: c.$grid;
       @include track;
     }
 
+    &::-ms-track {
+      @include track;
+      visibility: hidden;
+    }
+
     &::-webkit-slider-thumb {
       @include thumb;
     }
 
     &::-moz-range-thumb {
       @include thumb;
+    }
+
+    &::-ms-thumb {
+      @include thumb;
+    }
+
+    &::-ms-fill-lower {
+      display: none;
     }
   }
 
@@ -81,13 +112,16 @@ $thumbBoxShadow: c.$grid;
 
   @mixin fill {
     content: '';
-    grid-column: 1;
-    grid-row: 2;
+    @include gridItem();
     height: $trackHeight;
     pointer-events: none;
     border-radius: $trackBorderRadius;
     // highlighted part covers the border
     box-sizing: border-box;
+
+    // IE11 - center vertically in grid
+    margin-top: auto;
+    margin-bottom: auto;
   }
 
   .fill {
