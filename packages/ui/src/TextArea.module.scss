@@ -94,6 +94,10 @@
     }
   }
 
+  // We keep it for IE11 that does not support :focus-within
+  textarea:focus {
+    @include h.outlineFormField;
+  }
   &.focus .textAreaContainer,
   .textAreaContainer:focus-within {
     .focusOverlay {
@@ -102,9 +106,5 @@
     textarea {
       @include h.outlineFormField;
     }
-  }
-  // We keep it for IE11 that does not support :focus-within
-  textarea:focus {
-    @include h.outlineFormField;
   }
 }
