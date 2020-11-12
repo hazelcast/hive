@@ -16,6 +16,22 @@ module.exports = {
     'storybook-addon-designs',
     '@storybook/addon-docs',
   ],
+  webpackFinal: async (config) => {
+    config.module.rules = [
+      ...config.module.rules,
+      {
+        test: /\.(tsx?|jsx?)$/,
+        include: [path.resolve(__dirname, '..', '..', 'services')],
+        loader: 'babel-loader',
+        options: {
+          babelrc: false,
+          presets: ['@babel/preset-env'],
+        },
+      },
+    ]
+
+    return config
+  },
   typescript: {
     check: false,
     checkOptions: {},
