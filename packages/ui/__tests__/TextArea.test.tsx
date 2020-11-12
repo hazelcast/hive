@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { MutableRefObject } from 'react'
 import { v4 as uuid } from 'uuid'
 import { act } from 'react-dom/test-utils'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
@@ -6,6 +6,7 @@ import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import { TextArea } from '../src/TextArea'
 import { Error, errorId } from '../src/Error'
 import { Label } from '../src/Label'
+import { Help } from '../src/Help'
 
 import styles from '../src/TextArea.module.scss'
 
@@ -18,6 +19,7 @@ const inputName = 'inputName'
 const inputValue = 'inputValue'
 const inputPlaceholder = 'inputPlaceholder'
 const inputLabel = 'inputLabel'
+const helperText = 'Helper text'
 
 describe('TextArea', () => {
   beforeEach(() => {
@@ -36,6 +38,7 @@ describe('TextArea', () => {
         label={inputLabel}
         onBlur={onBlur}
         onChange={onChange}
+        rows={5}
       />,
     )
 
@@ -58,6 +61,7 @@ describe('TextArea', () => {
       placeholder: inputPlaceholder,
       required: undefined,
       className: '',
+      rows: 5,
     })
 
     expect(wrapper.find(Error).props()).toEqual({
@@ -251,7 +255,6 @@ describe('TextArea', () => {
   })
 
   it('Renders helperText', async () => {
-    const helperText = 'Helper text'
     const onBlur = jest.fn()
     const onChange = jest.fn()
 

@@ -25,7 +25,7 @@ export type TextAreaExtraProps = {
   errorClassName?: string
   resizable?: boolean
   helperText?: string | ReactElement
-} & Partial<Pick<HTMLTextAreaElement, 'className' | 'disabled' | 'placeholder' | 'required'>>
+} & Partial<Pick<HTMLTextAreaElement, 'className' | 'disabled' | 'placeholder' | 'required' | 'rows'>>
 
 export type TextAreaProps = TextAreaCoreProps & TextAreaExtraProps & DataTestProp
 
@@ -94,7 +94,7 @@ export const TextArea: FC<TextAreaProps> = ({
             {...htmlAttrs}
           />
           <div className={styles.borderOverlay} />
-          {resizeListener}
+          {helperText && resizeListener}
         </div>
         {helperText && (
           <Help

@@ -131,3 +131,15 @@ export const FocusedWithHelperText = () => (
     className={styles.focus}
   />
 )
+
+export const CustomRows = () => (
+  <TextArea
+    name="name"
+    value={text}
+    placeholder="Describe character"
+    label="Character description"
+    onBlur={() => logger.log('blur')}
+    onChange={(e) => logger.log('change', e.target.value)}
+    rows={10}
+  />
+)
