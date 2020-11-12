@@ -1,4 +1,4 @@
-import React, { MutableRefObject } from 'react'
+import React from 'react'
 import { v4 as uuid } from 'uuid'
 import { act } from 'react-dom/test-utils'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
@@ -6,7 +6,6 @@ import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import { TextArea } from '../src/TextArea'
 import { Error, errorId } from '../src/Error'
 import { Label } from '../src/Label'
-import { Help } from '../src/Help'
 
 import styles from '../src/TextArea.module.scss'
 
