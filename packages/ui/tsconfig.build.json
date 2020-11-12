@@ -12,5 +12,5 @@
       "path": "../services/tsconfig.json"
     }
   ],
-  "include": ["./src"]
+  "include": ["./src", "./@types"]
 }
