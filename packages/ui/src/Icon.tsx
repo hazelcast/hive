@@ -5,19 +5,38 @@ import styleConsts from '../styles/constants/export.scss'
 
 type IconSize = 'small' | 'normal'
 
-export interface IconProps {
+// Makes it required to set either "aria-label", "aria-labelledby" or "aria-hidden" attribute.
+type AriaProps =
+  | {
+      ariaLabel: string
+      ariaLabelledBy?: never
+      ariaHidden?: never
+    }
+  | {
+      ariaLabel?: never
+      ariaLabelledBy: string
+      ariaHidden?: never
+    }
+  | {
+      ariaLabel?: never
+      ariaLabelledBy?: never
+      ariaHidden: boolean
+    }
+
+export type IconProps = {
   color?: string
   icon: IconType
-  ariaLabel: string
   size?: IconSize
   className?: string
-}
+} & AriaProps
 
-export const Icon: FC<IconProps> = ({ color, icon: IconElement, ariaLabel, className, size = 'normal' }) => {
+export const Icon: FC<IconProps> = ({ color, icon: IconElement, ariaLabel, ariaLabelledBy, ariaHidden, className, size = 'normal' }) => {
   const iconSize = size === 'small' ? styleConsts.iconSizeSmall : styleConsts.iconSizeNormal
 
   const props: SVGProps<SVGElement> = {
     'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledBy,
+    'aria-hidden': ariaHidden,
     color,
     width: iconSize,
     height: iconSize,

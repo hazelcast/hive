@@ -16,21 +16,16 @@ export interface HelpProps {
   helperText: string | ReactElement
   placement?: TooltipProps['placement']
   className?: string
-  padding?: 'default' | 'none'
+  popperRef?: TooltipProps['popperRef']
 }
 
-export const Help: FC<HelpProps> = ({ helperText, placement = 'top', parentId, className, padding = 'default' }) => {
+export const Help: FC<HelpProps> = ({ helperText, placement = 'top', parentId, className, popperRef }) => {
   const tooltipId = helpTooltipId(parentId)
 
   return (
-    <Tooltip placement={placement} content={helperText} id={tooltipId}>
+    <Tooltip placement={placement} content={helperText} id={tooltipId} popperRef={popperRef}>
       {(ref) => (
-        <div
-          ref={ref}
-          className={cn(styles.container, className, {
-            [styles.padding]: padding === 'default',
-          })}
-        >
+        <div ref={ref} className={cn(styles.container, className)}>
           <Icon
             ariaLabel="Help"
             aria-describedby={tooltipId}
