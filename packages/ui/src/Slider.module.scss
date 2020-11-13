@@ -1,53 +1,68 @@
 @use '../styles/constants' as c;
 @use '../styles/helpers' as h;
 
+$sliderBaseSize: 1rem;
+
 // border radius on left/right size of the progress tracker
-$trackBorderRadius: c.$grid;
-$trackHeight: c.$grid * 2;
-// thumb width without a white border
+$trackBorderRadius: c.$grid * 2;
+
+// height of the track
+$trackHeight: $sliderBaseSize;
+$thumbBorderSize: c.$grid * 2.5;
+
+$sliderThumbShadowSize: 1px;
+$sliderThumbShadowBlur: c.$grid;
+$sliderThumbShadowColor: rgba(53, 61, 73, 0.5);
+
+// thumb width without a white border, let's make it the height of the slider
 $thumbWidth: $trackHeight;
-$thumbBoxShadow: c.$grid;
+$thumbFullWidth: $thumbWidth + $thumbBorderSize * 2;
 
 @mixin track() {
-  background: none; /* get rid of Firefox track background */
+  background: none; // get rid of track background
   appearance: none;
-  margin: 0 $thumbWidth * -1;
-  padding: 0;
+  margin: 0 $thumbFullWidth * -0.5;
+  padding: 0 $sliderThumbShadowBlur * 2;
   border: 0;
 }
 
 @mixin thumb() {
-  box-shadow: 0 1px $thumbBoxShadow rgba(53, 61, 73, 0.250956);
+  box-shadow: 0 $sliderThumbShadowSize $sliderThumbShadowBlur $sliderThumbShadowColor;
+  // background will represent the dot inside
   background: c.$colorPrimaryLight;
+  //background: red;
+  // the white part will be done by the border
+  border: $thumbBorderSize solid c.$colorNeutralWhite;
+  box-sizing: content-box; /* and because of all of this, we need content-box */
+
   border-radius: 50%;
   pointer-events: auto; /* catch clicks */
   width: $thumbWidth;
   height: $thumbWidth;
-  box-sizing: content-box;
-  border: c.$grid * 1.5 solid c.$colorNeutralWhite;
+
+  opacity: 0.2;
 }
 
+// used to position elements on top of each other using grid
 @mixin gridItem() {
   grid-column: 1;
-  grid-row: 2;
+  grid-row: 1;
   -ms-grid-column: 1;
-  -ms-grid-row: 2;
+  -ms-grid-row: 1;
 }
 
 .wrapper {
   display: grid;
-  display: -ms-grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
+  align-items: center;
+  vertical-align: text-bottom;
+
+  display: -ms-grid;
   -ms-grid-columns: 1fr;
   -ms-grid-rows: 1fr;
 
-  align-items: center;
-
-  vertical-align: text-bottom;
-  overflow: hidden;
-
-  padding: $thumbBoxShadow $thumbWidth + $thumbBoxShadow / 2;
+  padding: $sliderThumbShadowBlur $thumbWidth + $sliderThumbShadowBlur / 2;
 
   input[type='range'] {
     &::-webkit-slider-runnable-track,
@@ -57,18 +72,18 @@ $thumbBoxShadow: c.$grid;
     }
 
     outline: none;
-    @include gridItem();
+    @include gridItem;
     background: none;
+    // ignore clicks on the actual inputs and let them pass to the handles
+    pointer-events: none;
+    min-height: 1.5rem;
 
     // because of IE11
     margin: 0;
     padding: 0;
     width: 100%;
-    //visibility: hidden;
-    // ignore clicks on the actual inputs and let them pass to the handles
-    pointer-events: none;
-    min-height: 1.5rem;
 
+    // Style the track
     &::-webkit-slider-runnable-track {
       @include track;
     }
@@ -79,9 +94,11 @@ $thumbBoxShadow: c.$grid;
 
     &::-ms-track {
       @include track;
+      // IE11 specific rule to hide the trackbar
       visibility: hidden;
     }
 
+    // Thumb related stylings
     &::-webkit-slider-thumb {
       @include thumb;
     }
@@ -94,6 +111,7 @@ $thumbBoxShadow: c.$grid;
       @include thumb;
     }
 
+    // don't show IE11's lower fill
     &::-ms-fill-lower {
       display: none;
     }
@@ -111,8 +129,8 @@ $thumbBoxShadow: c.$grid;
   }
 
   @mixin fill {
+    @include gridItem;
     content: '';
-    @include gridItem();
     height: $trackHeight;
     pointer-events: none;
     border-radius: $trackBorderRadius;

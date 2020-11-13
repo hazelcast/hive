@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react'
 import styles from './Slider.module.scss'
-import classNames from 'classnames'
+import cn from 'classnames'
 
 type SliderPropsCore = {
   step?: number
@@ -98,8 +98,6 @@ export const Slider = ({ value, onChange, step = 1, min = 0, max = 20 }: SliderP
 
   const width = ((secondValue - firstValue) / max) * 100
   const left = firstValue / max
-  const right = secondValue / max
-  const baseSize = 0.5
 
   return (
     <div className={styles.wrapper} role="group" ref={wrapperRef}>
@@ -111,11 +109,11 @@ export const Slider = ({ value, onChange, step = 1, min = 0, max = 20 }: SliderP
         style={
           isRange
             ? {
-                width: `calc(${width}% + ${baseSize}rem*${left} - ${baseSize}rem*${right})`,
-                marginLeft: `calc(${left * 100}% + ${baseSize / 2}rem - ${baseSize}rem*${left})`,
+                width: `calc(${width}%)`,
+                marginLeft: `calc(${left * 100}%)`,
               }
             : {
-                width: `calc(${max * left}% + ${baseSize / 2}rem - ${baseSize}rem*${left})`,
+                width: `calc(${max * left}%)`,
               }
         }
       ></div>
@@ -131,7 +129,7 @@ export const Slider = ({ value, onChange, step = 1, min = 0, max = 20 }: SliderP
           max={max}
           onChange={setSecondValueFn}
           step={step}
-          className={classNames({
+          className={cn({
             // The second thumb is above the first thumb in DOM.
             // There is a corner case where both thumbs are above each other at the end
             // of the range. In that case we need to pass pointer-events to the first thumb
