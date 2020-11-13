@@ -35,6 +35,7 @@ export type SelectExtraProps = {
 export type SelectProps = SelectExtraProps & SelectCoreProps
 
 export const Select: FC<SelectProps> = ({
+  autoFocus,
   'data-test': dataTest,
   className,
   disabled,
@@ -49,7 +50,6 @@ export const Select: FC<SelectProps> = ({
   selectClassName,
   value,
   notSelectedPlaceholder = 'Select',
-  ...htmlAttrs
 }) => {
   const idRef = useRef(uuid())
 
@@ -69,6 +69,7 @@ export const Select: FC<SelectProps> = ({
       <Label id={idRef.current} label={label} />
       <div className={styles.selectContainer}>
         <select
+          autoFocus={autoFocus}
           id={idRef.current}
           disabled={disabled}
           className={selectClassName}
@@ -80,7 +81,6 @@ export const Select: FC<SelectProps> = ({
           aria-required={required}
           aria-errormessage={error && errorId(idRef.current)}
           value={value}
-          {...htmlAttrs}
         >
           <option value="">{`-- ${notSelectedPlaceholder} --`}</option>
           {options.map(({ value, text, disabled }) => (
