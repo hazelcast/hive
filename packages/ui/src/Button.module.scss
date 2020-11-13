@@ -1,4 +1,5 @@
 @use '../styles/constants' as c;
+@use '../styles/helpers' as h;
 
 .button {
   position: relative;
@@ -20,12 +21,13 @@
     left: 50%;
     transform: translate(-50%, -50%);
     /* doiuse-disable calc */
-    width: calc(100% + #{c.$grid});
-    height: calc(100% + #{c.$grid});
+    width: calc(100% + #{c.$grid} * 2);
+    height: calc(100% + #{c.$grid} * 2);
     /* doiuse-enable calc */
     z-index: c.$zIndex100;
-    box-shadow: 0 0 0 c.$outlineWidth c.$colorAccessibilityOutline;
     visibility: hidden;
+
+    @include h.outlineSimple;
   }
 
   &:focus,
@@ -95,8 +97,8 @@
     .outline {
       /* Note: We need to take border of 2*2px into account */
       /* doiuse-disable calc */
-      width: calc(100% + #{c.$grid} * 2);
-      height: calc(100% + #{c.$grid} * 2);
+      width: calc(100% + #{c.$grid} * 3);
+      height: calc(100% + #{c.$grid} * 3);
       /* doiuse-enable calc */
     }
 
