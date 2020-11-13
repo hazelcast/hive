@@ -130,7 +130,7 @@ export const Disabled = () => (
 export const CustomPlaceholder = () => (
   <Select
     name="name"
-    value="Yoda"
+    value=""
     label="Character"
     options={options}
     onBlur={() => logger.log('blur')}
