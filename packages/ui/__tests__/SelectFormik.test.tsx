@@ -5,17 +5,17 @@ import { act } from 'react-dom/test-utils'
 
 import { SelectFormik } from '../src/SelectFormik'
 import { SelectOption } from '../src/Select'
+import { Error } from '../src/Error'
 
 const options: SelectOption[] = [
   { value: 'selectValue0', text: 'selectValue0', disabled: false },
   { value: 'selectValue1', text: 'selectValue1', disabled: false },
-  { value: 'selectValue2', text: 'selectValue2', disabled: false },
 ]
 
 describe('SelectFormik', () => {
   it('can be used in a form', async () => {
     type Values = {
-      name: string
+      name?: string
     }
 
     const onSubmit = jest.fn()
@@ -23,13 +23,7 @@ describe('SelectFormik', () => {
     const formikBag = createRef<FormikProps<Values>>()
 
     const TestForm = () => (
-      <Formik<Values>
-        innerRef={formikBag}
-        initialValues={{
-          name: 'selectValue0',
-        }}
-        onSubmit={onSubmit}
-      >
+      <Formik<Values> innerRef={formikBag} initialValues={{}} onSubmit={onSubmit}>
         <Form>
           <SelectFormik<Values> name="name" options={options} label="test" />
         </Form>
@@ -37,6 +31,15 @@ describe('SelectFormik', () => {
     )
 
     const wrapper = await mountAndCheckA11Y(<TestForm />)
+
+    expect(formikBag.current?.values).toEqual({})
+
+    // We need the `async` call here to wait for processing of the asynchronous 'change'
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      simulateChange(wrapper.find('select'), 'selectValue0')
+    })
+    wrapper.update()
 
     expect(formikBag.current?.values).toEqual({
       name: 'selectValue0',
@@ -52,6 +55,26 @@ describe('SelectFormik', () => {
     expect(formikBag.current?.values).toEqual({
       name: 'selectValue1',
     })
+  })
+
+  it('the error is displayed', async () => {
+    type Values = {
+      name?: string
+    }
+
+    const validate = jest.fn().mockImplementation(() => 'error')
+
+    const TestForm = () => (
+      <Formik<Values> initialValues={{}} onSubmit={jest.fn()}>
+        <Form>
+          <SelectFormik<Values> name="name" options={options} label="test" validate={validate} />
+        </Form>
+      </Formik>
+    )
+
+    const wrapper = await mountAndCheckA11Y(<TestForm />)
+
+    expect(wrapper.find(Error).prop('error')).toBe(undefined)
 
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
@@ -60,8 +83,7 @@ describe('SelectFormik', () => {
     })
     wrapper.update()
 
-    expect(formikBag.current?.values).toEqual({
-      name: 'selectValue0',
-    })
+    // The error is displayed only when the input becomes dirty
+    expect(wrapper.find(Error).prop('error')).toBe('error')
   })
 })

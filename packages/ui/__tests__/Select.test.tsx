@@ -18,6 +18,8 @@ const selectName = 'selectName'
 const selectValue = 'selectValue0'
 const selectLabel = 'selectLabel'
 
+const selectOptionNotSelected: SelectOption = { value: '', text: '-- Select --' }
+
 const selectOptions: SelectOption[] = [
   { value: selectValue, text: selectValue, disabled: false },
   { value: 'selectValue1', text: 'selectValue1', disabled: false },
@@ -51,13 +53,11 @@ describe('Select', () => {
       'aria-invalid': false,
       'aria-required': undefined,
       'aria-errormessage': undefined,
-      required: undefined,
       disabled: undefined,
     })
     wrapper.find('select>option').forEach((option, oI) => {
-      const { text, ...props } = selectOptions[oI]
-      expect(option.props()).toMatchObject(props)
-      expect(option.text()).toBe(text)
+      const { text: children, ...props } = [selectOptionNotSelected, ...selectOptions][oI]
+      expect(option.props()).toEqual({ children, ...props })
     })
 
     expect(wrapper.find(Error).props()).toEqual({
@@ -139,13 +139,11 @@ describe('Select', () => {
       'aria-invalid': true,
       'aria-required': undefined,
       'aria-errormessage': errorId(selectId),
-      required: undefined,
       disabled: undefined,
     })
     wrapper.find('select>option').forEach((option, oI) => {
-      const { text, ...props } = selectOptions[oI]
-      expect(option.props()).toMatchObject(props)
-      expect(option.text()).toBe(text)
+      const { text: children, ...props } = [selectOptionNotSelected, ...selectOptions][oI]
+      expect(option.props()).toEqual({ children, ...props })
     })
 
     expect(wrapper.find(Error).props()).toEqual({
@@ -185,13 +183,11 @@ describe('Select', () => {
       'aria-invalid': false,
       'aria-required': true,
       'aria-errormessage': undefined,
-      required: true,
       disabled: undefined,
     })
     wrapper.find('select>option').forEach((option, oI) => {
-      const { text, ...props } = selectOptions[oI]
-      expect(option.props()).toMatchObject(props)
-      expect(option.text()).toBe(text)
+      const { text: children, ...props } = [selectOptionNotSelected, ...selectOptions][oI]
+      expect(option.props()).toEqual({ children, ...props })
     })
 
     expect(wrapper.find(Error).props()).toEqual({
@@ -231,19 +227,41 @@ describe('Select', () => {
       'aria-invalid': false,
       'aria-required': undefined,
       'aria-errormessage': undefined,
-      required: undefined,
       disabled: true,
     })
     wrapper.find('select>option').forEach((option, oI) => {
-      const { text, ...props } = selectOptions[oI]
-      expect(option.props()).toMatchObject(props)
-      expect(option.text()).toBe(text)
+      const { text: children, ...props } = [selectOptionNotSelected, ...selectOptions][oI]
+      expect(option.props()).toEqual({ children, ...props })
     })
 
     expect(wrapper.find(Error).props()).toEqual({
       error: undefined,
       className: styles.errorContainer,
       inputId: selectId,
+    })
+  })
+
+  it('Renders correct notSelectedPlaceholder', async () => {
+    const notSelectedPlaceholder = 'Select a character'
+
+    const onBlur = jest.fn()
+    const onChange = jest.fn()
+
+    const wrapper = await mountAndCheckA11Y(
+      <Select
+        name={selectName}
+        value={selectValue}
+        label={selectLabel}
+        onBlur={onBlur}
+        onChange={onChange}
+        options={[]}
+        notSelectedPlaceholder={notSelectedPlaceholder}
+      />,
+    )
+
+    expect(wrapper.find('select>option').props()).toEqual({
+      children: '-- Select a character --',
+      value: '',
     })
   })
 })

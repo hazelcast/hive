@@ -38,6 +38,16 @@ Default.parameters = {
   },
 }
 
+export const NotSelected = () => (
+  <Select
+    name="name"
+    label="Character"
+    options={options}
+    onBlur={() => logger.log('blur')}
+    onChange={(e) => logger.log('change', e.target.value)}
+  />
+)
+
 export const Error = () => (
   <Select
     name="name"
@@ -114,5 +124,17 @@ export const Disabled = () => (
     onBlur={() => logger.log('blur')}
     onChange={(e) => logger.log('change', e.target.value)}
     disabled
+  />
+)
+
+export const CustomPlaceholder = () => (
+  <Select
+    name="name"
+    value="Yoda"
+    label="Character"
+    options={options}
+    onBlur={() => logger.log('blur')}
+    onChange={(e) => logger.log('change', e.target.value)}
+    notSelectedPlaceholder="This is a custom placeholder"
   />
 )

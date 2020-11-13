@@ -24,6 +24,7 @@
   "scripts": {
     "compile": "tsc -p tsconfig.build.json && shx cp src/*.scss lib",
     "test": "jest",
+    "test:watch": "jest --watch",
     "start": "npm run storybook",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",

@@ -27,6 +27,8 @@ export type SelectExtraProps = {
   className?: string
   selectClassName?: string
   errorClassName?: string
+  children?: never
+  notSelectedPlaceholder?: string
 } & DataTestProp &
   Pick<SelectHTMLAttributes<HTMLSelectElement>, 'autoFocus' | 'disabled' | 'required'>
 
@@ -46,6 +48,7 @@ export const Select: FC<SelectProps> = ({
   required,
   selectClassName,
   value,
+  notSelectedPlaceholder = 'Select',
   ...htmlAttrs
 }) => {
   const idRef = useRef(uuid())
@@ -76,10 +79,10 @@ export const Select: FC<SelectProps> = ({
           aria-invalid={!!error}
           aria-required={required}
           aria-errormessage={error && errorId(idRef.current)}
-          required={required}
           value={value}
           {...htmlAttrs}
         >
+          <option value="">{`-- ${notSelectedPlaceholder} --`}</option>
           {options.map(({ value, text, disabled }) => (
             <option key={value} value={value} disabled={disabled}>
               {text}
