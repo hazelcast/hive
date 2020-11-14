@@ -32,6 +32,9 @@ export const Slider = ({ value, onChange, step = 1, min = 0, max = 20 }: SliderP
   const [firstValue, setFirstValue] = useState<number>(isRangeGuard(value) ? value[0] : value)
   const [secondValue, setSecondValue] = useState<number>(isRangeGuard(value) ? value[1] : max)
 
+  const firstRef = useRef<HTMLInputElement>(null)
+  const secondRef = useRef<HTMLInputElement>(null)
+
   useEffect(() => {
     const handler = ({ offsetX, target }: MouseEvent) => {
       if (wrapperRef?.current?.offsetWidth && wrapperRef.current === target) {
@@ -42,9 +45,11 @@ export const Slider = ({ value, onChange, step = 1, min = 0, max = 20 }: SliderP
           // let's move the first thumb in case we're not in a range more
           // or if it's closed to the click event
           setFirstValue(resultStepSpot)
+          firstRef.current?.focus()
         } else {
           // otherwise, let's move the right one
           setSecondValue(resultStepSpot)
+          secondRef.current?.focus()
         }
       }
     }
@@ -101,28 +106,39 @@ export const Slider = ({ value, onChange, step = 1, min = 0, max = 20 }: SliderP
 
   return (
     <div className={styles.wrapper} role="group" ref={wrapperRef}>
-      <div className={styles.fillPlaceholder} />
-      <div
-        className={styles.fill}
-        // Since there is no easy way hot to pass properties to SCSS, we need to use
-        // inline styles.
-        style={
-          isRange
-            ? {
-                width: `calc(${width}%)`,
-                marginLeft: `calc(${left * 100}%)`,
-              }
-            : {
-                width: `calc(${max * left}%)`,
-              }
-        }
-      ></div>
+      <div className={styles.fillPlaceholder}>
+        <div
+          className={styles.fill}
+          // Since there is no easy way hot to pass properties to SCSS, we need to use
+          // inline styles.
+          style={
+            isRange
+              ? {
+                  width: `${width}%`,
+                  marginLeft: `calc(${left * 100}%)`,
+                }
+              : {
+                  width: `calc(${max * left}%)`,
+                }
+          }
+        />
+      </div>
 
       {firstValue !== undefined && (
-        <input type="range" value={firstValue} min={min} max={max} onChange={setFirstValueFn} className={styles.slider} step={step} />
+        <input
+          ref={firstRef}
+          type="range"
+          value={firstValue}
+          min={min}
+          max={max}
+          onChange={setFirstValueFn}
+          className={styles.slider}
+          step={step}
+        />
       )}
       {isRange && secondValue !== undefined && (
         <input
+          ref={secondRef}
           type="range"
           value={secondValue}
           min={min}

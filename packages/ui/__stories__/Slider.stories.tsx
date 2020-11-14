@@ -8,7 +8,13 @@ export default {
 
 export const DefaultSlider = () => {
   const [value, onChange] = useState<number>(0)
-  return <Slider value={value} onChange={onChange} min={0} max={100} />
+  return (
+    <div>
+      Hello
+      <Slider value={value} onChange={onChange} min={0} max={100} />
+      World
+    </div>
+  )
 }
 
 export const SliderWithRange = () => {

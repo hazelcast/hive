@@ -18,12 +18,18 @@ $sliderThumbShadowColor: rgba(53, 61, 73, 0.5);
 $thumbWidth: $trackHeight;
 $thumbFullWidth: $thumbWidth + $thumbBorderSize * 2;
 
+$fillBorderSize: 1px;
+
 @mixin track() {
   background: none; // get rid of track background
   appearance: none;
-  margin: 0 $thumbFullWidth * -0.5;
-  padding: 0 $sliderThumbShadowBlur * 2;
+
+  // it's important for these values to be 0 in order to be consistent across (Firefox/IE11) & Chrome
+  margin: 0;
+  padding: 0;
   border: 0;
+
+  box-sizing: border-box;
 }
 
 @mixin thumb() {
@@ -40,29 +46,30 @@ $thumbFullWidth: $thumbWidth + $thumbBorderSize * 2;
   width: $thumbWidth;
   height: $thumbWidth;
 
-  opacity: 0.2;
+  //opacity: 0.7;
+}
+
+// This mixing is used for fill and fillPlaceholder in order to pass events to the parent wrapper + use the same radius
+@mixin fill {
+  pointer-events: none;
 }
 
 // used to position elements on top of each other using grid
 @mixin gridItem() {
   grid-column: 1;
   grid-row: 1;
-  -ms-grid-column: 1;
-  -ms-grid-row: 1;
+  //-ms-grid-column: 1;
+  //-ms-grid-row: 1;
 }
 
 .wrapper {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
-  align-items: center;
-  vertical-align: text-bottom;
 
   display: -ms-grid;
   -ms-grid-columns: 1fr;
   -ms-grid-rows: 1fr;
-
-  padding: $sliderThumbShadowBlur $thumbWidth + $sliderThumbShadowBlur / 2;
 
   input[type='range'] {
     &::-webkit-slider-runnable-track,
@@ -76,12 +83,11 @@ $thumbFullWidth: $thumbWidth + $thumbBorderSize * 2;
     background: none;
     // ignore clicks on the actual inputs and let them pass to the handles
     pointer-events: none;
-    min-height: 1.5rem;
+    min-height: $trackHeight;
 
-    // because of IE11
-    margin: 0;
+    margin: 0 (-$thumbFullWidth/2);
     padding: 0;
-    width: 100%;
+    width: calc(100% + #{$thumbFullWidth});
 
     // Style the track
     &::-webkit-slider-runnable-track {
@@ -94,8 +100,23 @@ $thumbFullWidth: $thumbWidth + $thumbBorderSize * 2;
 
     &::-ms-track {
       @include track;
-      // IE11 specific rule to hide the trackbar
+      // IE11 specific rule to hide the default tick marks
       visibility: hidden;
+    }
+
+    &:focus {
+      &::-webkit-slider-thumb {
+        box-shadow: 0 0 0 c.$outlineWidth c.$colorAccessibilityOutline;
+      }
+
+      &::-moz-range-thumb {
+        box-shadow: 0 0 0 c.$outlineWidth c.$colorAccessibilityOutline;
+      }
+
+      &::-ms-thumb {
+        // TODO - this doesn't work on IE, figure out a way out!
+        box-shadow: 0 0 0 c.$outlineWidth c.$colorAccessibilityOutline;
+      }
     }
 
     // Thumb related stylings
@@ -128,29 +149,30 @@ $thumbFullWidth: $thumbWidth + $thumbBorderSize * 2;
     }
   }
 
-  @mixin fill {
+  .fillPlaceholder {
     @include gridItem;
-    content: '';
+    @include fill;
+
     height: $trackHeight;
-    pointer-events: none;
-    border-radius: $trackBorderRadius;
     // highlighted part covers the border
     box-sizing: border-box;
-
-    // IE11 - center vertically in grid
-    margin-top: auto;
-    margin-bottom: auto;
-  }
-
-  .fill {
-    @include fill();
-    background: c.$colorPrimaryLight;
-  }
-
-  .fillPlaceholder {
-    @include fill();
     background: c.$colorNeutral;
-    border: 1px solid c.$colorNeutralLight;
+    border: $fillBorderSize solid c.$colorNeutralLight;
     width: 100%;
+
+    // if the actual fill is very small the border is rounded, it can reach out of the wrapper
+    overflow: hidden;
+
+    // we ned to reserve space like this manually mostly because of IE11
+    margin-top: calc(#{$thumbBorderSize} + #{$sliderThumbShadowSize});
+    margin-bottom: calc(#{$thumbBorderSize} + #{$sliderThumbShadowSize});
+    border-radius: $trackBorderRadius;
+
+    .fill {
+      @include fill();
+      height: calc(#{$trackHeight} - #{$fillBorderSize} * 2); // height minus border from top & bottom
+      background: c.$colorPrimaryLight;
+      // width & marginLeft will be set by a Javascript
+    }
   }
 }
