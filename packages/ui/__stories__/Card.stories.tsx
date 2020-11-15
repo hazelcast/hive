@@ -3,6 +3,8 @@ import { Archive, Database, Layers } from 'react-feather'
 
 import { Card } from '../src'
 
+import styles from './utils.scss'
+
 const cardContent =
   'Hogshead topsail draft careen mizzen fluke gaff cog aye Buccaneer. To go on account topgallant Jolly Roger maroon overhaul ho landlubber or just lubber prow pillage clap of thunder. Holystone jack black jack sloop bowsprit Sea Legs matey aft fluke brigantine.'
 
@@ -14,6 +16,12 @@ export default {
 export const Primary = () => (
   <Card type="primary" title="Card title">
     {cardContent}
+  </Card>
+)
+
+export const PrimaryWithSmallText = () => (
+  <Card type="primary" title="Card title">
+    <div className={styles.typographyBodySmall}>{cardContent}</div>
   </Card>
 )
 
@@ -37,6 +45,12 @@ export const Secondary = () => (
   </Card>
 )
 
+export const SecondaryWithSmallText = () => (
+  <Card type="secondary" title="Card title">
+    <div className={styles.typographyBodySmall}>{cardContent}</div>
+  </Card>
+)
+
 export const SecondaryWithIcon = () => (
   <Card type="secondary" title="Card title" icon={Database}>
     {cardContent}
@@ -54,6 +68,12 @@ export const SecondaryWithoutHeader = () => <Card type="secondary">{cardContent}
 export const Highlighter = () => (
   <Card title="Card title" type="highlighter">
     {cardContent}
+  </Card>
+)
+
+export const HighlighterWithSmallText = () => (
+  <Card type="highlighter" title="Card title">
+    <div className={styles.typographyBodySmall}>{cardContent}</div>
   </Card>
 )
 

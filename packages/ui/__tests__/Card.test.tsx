@@ -47,11 +47,10 @@ describe('Card', () => {
 
     if (rest.title) {
       expect(wrapper.findDataTest('card-heading').first().getDOMNode().tagName).toBe(headingType)
-      expect(wrapper.findDataTest('card-header').length).toBe(1)
     }
 
     if (!rest.title) {
-      expect(wrapper.findDataTest('card-header').length).toBe(0)
+      expect(wrapper.findDataTest('card-heading').length).toBe(0)
     }
 
     if (rest.icon) {

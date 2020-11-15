@@ -6,16 +6,15 @@ import { Icon, IconProps } from './Icon'
 
 import styles from './IconButton.module.scss'
 
-type IconButtonKind = 'primary' | 'transparent'
-
 export type IconButtonProps = {
   iconAriaLabel: string
   icon: FeatherIcon
   size?: IconProps['size']
   iconClassName?: string
-} & IconButtonKindProps & Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'className' | 'autoFocus' | 'disabled' | 'type'>
+} & IconButtonKindProps &
+  Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'className' | 'autoFocus' | 'disabled' | 'type'>
 
-type IconButtonKindProps = { kind: 'primary', color?: never } | { kind?: 'transparent', color?: IconProps['color'] }
+type IconButtonKindProps = { kind: 'primary'; color?: never } | { kind?: 'transparent'; color?: IconProps['color'] }
 
 export const IconButton: FC<IconButtonProps> = ({
   icon,

@@ -1,5 +1,11 @@
+@use '../styles/constants' as c;
+
 .wrapperCentered {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.typographyBodySmall {
+  @include c.typographyBodySmall;
 }
