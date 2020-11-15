@@ -13,9 +13,9 @@ export type IconButtonProps = {
   icon: FeatherIcon
   size?: IconProps['size']
   iconClassName?: string
-  kind?: IconButtonKind
-  color?: IconProps['color']
-} & Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'className' | 'autoFocus' | 'disabled' | 'type'>
+} & IconButtonKindProps & Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'className' | 'autoFocus' | 'disabled' | 'type'>
+
+type IconButtonKindProps = { kind: 'primary', color?: never } | { kind?: 'transparent', color?: IconProps['color'] }
 
 export const IconButton: FC<IconButtonProps> = ({
   icon,
