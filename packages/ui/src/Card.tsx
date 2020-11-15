@@ -42,19 +42,15 @@ export const Card: FC<CardProps> = ({ type = 'primary', title, icon, iconButton,
   /**
    * Helper method to render plain or interactive icon (IconButton).
    */
-  const renderIcon = () => {
-    if (icon !== undefined) {
-      return <Icon icon={icon} color={styleConsts.colorPrimary} size={type === 'primary' ? 'normal' : 'small'} ariaHidden />
-    }
-
-    if (iconButton !== undefined) {
-      return (
+let icon: JSX.Element = null
+if (icon !== undefined) {
+  icon = <Icon icon={icon} color={styleConsts.colorPrimary} size={type === 'primary' ? 'normal' : 'small'} ariaHidden />
+}
+if (iconButton !== undefined) {
+   icon = (
         <IconButton kind="transparent" color={styleConsts.colorPrimary} size={type === 'primary' ? 'normal' : 'small'} {...iconButton} />
-      )
-    }
-
-    return null
-  }
+   )
+}
 
   return (
     <div
@@ -65,19 +61,17 @@ export const Card: FC<CardProps> = ({ type = 'primary', title, icon, iconButton,
       })}
     >
       {title && (
-        <div data-test="card-header" className={styles.header}>
           {type === 'primary' ? (
-            <h2 data-test="card-heading">
+            <h2 data-test="card-heading" className={styles.header}>
               {title}
               {renderIcon()}
             </h2>
           ) : (
-            <h3 data-test="card-heading">
+            <h3 data-test="card-heading" className={styles.header}>
               {title}
               {renderIcon()}
             </h3>
           )}
-        </div>
       )}
       <div data-test="card-content" className={cn(styles.content, { [styles.woTitle]: !title })}>
         {children}
