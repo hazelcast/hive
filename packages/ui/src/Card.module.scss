@@ -18,30 +18,22 @@
     box-shadow: none;
   }
 
-  .header {
-    padding: c.$grid * 6 c.$grid * 6 c.$grid * 3;
+  .heading {
+    display: flex;
+    align-items: center;
+    padding: c.$grid * 6 c.$grid * 6 0;
+    margin: 0;
 
-    h2,
-    h3 {
+    .icon {
       display: flex;
       align-items: center;
-      padding: 0;
-      margin: 0;
-
-      > svg,
-      > button {
-        margin-left: c.$grid * 2;
-      }
+      margin-left: c.$grid * 2;
     }
   }
 
   .content {
     @include c.typographyBodyNormal;
 
-    padding: c.$grid * 3 c.$grid * 6 c.$grid * 6;
-
-    &.woTitle {
-      padding-top: c.$grid * 6;
-    }
+    padding: c.$grid * 6;
   }
 }
