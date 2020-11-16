@@ -68,8 +68,8 @@ export const Toast: FC<ToastProps> = ({ type, content, closeToast }) => {
       {closeToast && (
         <IconButton
           data-test="toast-close"
+          kind="transparent"
           className={styles.close}
-          iconClassName={styles.closeIcon}
           iconAriaLabel="Close icon"
           icon={X}
           onClick={closeToast}

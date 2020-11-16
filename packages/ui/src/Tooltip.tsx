@@ -1,9 +1,11 @@
-import React, { FC, ReactNode, useCallback, useEffect, useState } from 'react'
+import React, { FC, ReactNode, useCallback, useEffect, useState, useImperativeHandle, MutableRefObject } from 'react'
 import { Placement } from '@popperjs/core'
 import { usePopper } from 'react-popper'
 import cn from 'classnames'
 
 import styles from './Tooltip.module.scss'
+
+export type PopperRef = ReturnType<typeof usePopper>
 
 export type TooltipProps = {
   content: ReactNode
@@ -13,6 +15,7 @@ export type TooltipProps = {
   placement?: Placement
   visible?: boolean
   children: (ref: React.Dispatch<React.SetStateAction<HTMLElement | null>>) => ReactNode
+  popperRef?: MutableRefObject<PopperRef | undefined>
 }
 
 /**
@@ -37,6 +40,7 @@ export const Tooltip: FC<TooltipProps> = ({
   placement = 'top',
   visible: visibilityOverride,
   children,
+  popperRef,
 }) => {
   const [isShown, setShown] = useState<boolean>(false)
   const [hideTimeout, setHideTimeout] = useState<NodeJS.Timeout | null>(null)
@@ -49,7 +53,7 @@ export const Tooltip: FC<TooltipProps> = ({
   const [popperElement, setPopperElement] = useState<HTMLSpanElement | null>(null)
   const [arrowElement, setArrowElement] = useState<HTMLSpanElement | null>(null)
 
-  const { styles: popperStyles, attributes: popperAttributes } = usePopper(referenceElement, popperElement, {
+  const popper = usePopper(referenceElement, popperElement, {
     placement,
     modifiers: [
       {
@@ -66,6 +70,8 @@ export const Tooltip: FC<TooltipProps> = ({
       },
     ],
   })
+
+  useImperativeHandle(popperRef, () => popper, [popper])
 
   const onMouseEnter = useCallback(() => {
     if (hideTimeout !== null) {
@@ -117,19 +123,19 @@ export const Tooltip: FC<TooltipProps> = ({
             className={cn(styles.overlay, {
               [styles.hidden]: !isTooltipVisible,
             })}
-            style={popperStyles.popper}
+            style={popper.styles.popper}
             data-test="tooltip-overlay"
             aria-hidden
-            {...popperAttributes.popper}
+            {...popper.attributes.popper}
           >
             {content}
 
             <span
               ref={setArrowElement}
               className={styles.arrow}
-              style={popperStyles.arrow}
+              style={popper.styles.arrow}
               data-test="tooltip-arrow"
-              {...popperAttributes.arrow}
+              {...popper.attributes.arrow}
             />
           </span>
         </>

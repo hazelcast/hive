@@ -62,7 +62,7 @@ export const Alert: FC<AlertProps> = ({ type, title, content, actions, className
         <div data-test="alert-title" className={styles.title}>
           {title}
         </div>
-        <IconButton data-test="alert-close" className={styles.close} iconAriaLabel="Close icon" icon={X} onClick={closeToast} />
+        <IconButton data-test="alert-close" kind="transparent" iconAriaLabel="Close icon" icon={X} onClick={closeToast} />
       </div>
       <div data-test="alert-body" className={styles.body}>
         <div data-test="alert-content">{content}</div>

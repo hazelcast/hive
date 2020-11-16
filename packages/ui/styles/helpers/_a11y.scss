@@ -1,5 +1,9 @@
 @use '../constants' as c;
 
+@mixin outlineSimple {
+  box-shadow: inset 0 0 0 c.$outlineWidth c.$colorAccessibilityOutline;
+}
+
 @mixin outlineFormField {
   border-color: c.$colorAccessibilityOutline;
   // Border is also colored with the a11y color. We need to make the total visible outline width c.$outlineWidth, including the border

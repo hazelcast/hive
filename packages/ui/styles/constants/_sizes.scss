@@ -11,6 +11,8 @@ $borderRadius: $grid * 1.25 !default;
 
 $borderRadiusToast: 37px !default;
 
+$borderRadiusBadge: 37px !default;
+
 // It does not make sense to express separator width in REMs since we do not need it to scale with the base font size
 $separatorWidth: 1px !default;
 

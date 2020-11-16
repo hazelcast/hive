@@ -11,6 +11,7 @@
   color: inherit;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 
   .outline {
     z-index: c.$zIndex100;
@@ -20,12 +21,6 @@
     height: 100%;
     border-radius: c.$borderRadius;
     border-color: c.$colorAccessibilityOutline;
-  }
-
-  &:hover,
-  &.hover {
-    background-color: c.$colorNeutralLighter;
-    box-shadow: inset 0 0 0 c.$borderWidth c.$colorNeutralLight;
   }
 
   &:focus,
@@ -41,5 +36,25 @@
 
   &:disabled {
     cursor: not-allowed;
+  }
+
+  &.primary {
+    color: c.$colorPrimary;
+
+    &:disabled {
+      color: c.$colorTextSecondary;
+    }
+
+    &:hover,
+    &.hover {
+      &:not(:disabled) {
+        background-color: c.$colorNeutralLighter;
+        box-shadow: inset 0 0 0 c.$borderWidth c.$colorNeutralLight;
+      }
+    }
+  }
+
+  &.transparent {
+    color: inherit;
   }
 }
