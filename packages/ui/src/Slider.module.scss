@@ -8,7 +8,9 @@ $trackBorderRadius: c.$grid * 2;
 
 // height of the track
 $trackHeight: $sliderBaseSize;
-$thumbBorderSize: c.$grid * 2.5;
+$thumbBorderSize: c.$grid * 1.5; // in rem
+
+$sliderThumbHoverBorderSize: 1px;
 
 $sliderThumbShadowSize: 1px;
 $sliderThumbShadowBlur: c.$grid;
@@ -45,8 +47,6 @@ $fillBorderSize: 1px;
   pointer-events: auto; /* catch clicks */
   width: $thumbWidth;
   height: $thumbWidth;
-
-  //opacity: 0.7;
 }
 
 // This mixing is used for fill and fillPlaceholder in order to pass events to the parent wrapper + use the same radius
@@ -58,121 +58,155 @@ $fillBorderSize: 1px;
 @mixin gridItem() {
   grid-column: 1;
   grid-row: 1;
-  //-ms-grid-column: 1;
-  //-ms-grid-row: 1;
+  -ms-grid-column: 1;
+  -ms-grid-row: 1;
 }
 
 .wrapper {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
+  display: flex;
+  align-items: center;
 
-  display: -ms-grid;
-  -ms-grid-columns: 1fr;
-  -ms-grid-rows: 1fr;
+  .groupWrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    flex: 1;
 
-  input[type='range'] {
-    &::-webkit-slider-runnable-track,
-    &::-webkit-slider-thumb,
-    & {
-      -webkit-appearance: none;
-    }
+    display: -ms-grid;
+    -ms-grid-columns: 1fr;
+    -ms-grid-rows: 1fr;
 
-    outline: none;
-    @include gridItem;
-    background: none;
-    // ignore clicks on the actual inputs and let them pass to the handles
-    pointer-events: none;
-    min-height: $trackHeight;
+    input[type='range'] {
+      &::-webkit-slider-runnable-track,
+      &::-webkit-slider-thumb,
+      & {
+        -webkit-appearance: none;
+      }
 
-    margin: 0 (-$thumbFullWidth/2);
-    padding: 0;
-    width: calc(100% + #{$thumbFullWidth});
+      outline: none;
+      @include gridItem;
+      background: none;
+      // ignore clicks on the actual inputs and let them pass to the handles
+      pointer-events: none;
+      min-height: $trackHeight;
 
-    // Style the track
-    &::-webkit-slider-runnable-track {
-      @include track;
-    }
+      padding: 0;
+      margin: 0;
+      justify-self: center;
+      width: calc(100% + #{$thumbBorderSize * 2});
 
-    &::-moz-range-track {
-      @include track;
-    }
+      // Style the track
+      &::-webkit-slider-runnable-track {
+        @include track;
+      }
 
-    &::-ms-track {
-      @include track;
-      // IE11 specific rule to hide the default tick marks
-      visibility: hidden;
-    }
+      &::-moz-range-track {
+        @include track;
+      }
 
-    &:focus {
+      &::-ms-track {
+        @include track;
+        // IE11 specific rule to hide the default tick marks
+        visibility: hidden;
+      }
+
+      /**
+        Hover
+       */
+      &:hover,
+      &.hover {
+        &::-webkit-slider-thumb {
+          box-shadow: 0 0 0 $sliderThumbHoverBorderSize c.$colorPrimary;
+        }
+
+        &::-moz-range-thumb {
+          box-shadow: 0 0 0 $sliderThumbHoverBorderSize c.$colorPrimary;
+        }
+
+        &::-ms-thumb {
+          box-shadow: 0 0 0 $sliderThumbHoverBorderSize c.$colorPrimary;
+        }
+      }
+
+      &.focus,
+      &:focus {
+        &::-webkit-slider-thumb {
+          box-shadow: 0 0 0 c.$outlineWidth c.$colorAccessibilityOutline;
+        }
+
+        &::-moz-range-thumb {
+          box-shadow: 0 0 0 c.$outlineWidth c.$colorAccessibilityOutline;
+        }
+
+        &::-ms-thumb {
+          // TODO - this doesn't work on IE, figure out a way out!
+          box-shadow: 0 0 0 c.$outlineWidth c.$colorAccessibilityOutline;
+        }
+      }
+
+      // Thumb related stylings
       &::-webkit-slider-thumb {
-        box-shadow: 0 0 0 c.$outlineWidth c.$colorAccessibilityOutline;
+        @include thumb;
       }
 
       &::-moz-range-thumb {
-        box-shadow: 0 0 0 c.$outlineWidth c.$colorAccessibilityOutline;
+        @include thumb;
       }
 
       &::-ms-thumb {
-        // TODO - this doesn't work on IE, figure out a way out!
-        box-shadow: 0 0 0 c.$outlineWidth c.$colorAccessibilityOutline;
+        @include thumb;
+      }
+
+      // don't show IE11's lower fill
+      &::-ms-fill-lower {
+        display: none;
       }
     }
 
-    // Thumb related stylings
-    &::-webkit-slider-thumb {
-      @include thumb;
+    // see the javascript code for an explanation of this class
+    input[type='range'].atTheBorder {
+      &::-webkit-slider-thumb {
+        pointer-events: none;
+      }
+
+      &::-moz-range-thumb {
+        pointer-events: none;
+      }
     }
 
-    &::-moz-range-thumb {
-      @include thumb;
-    }
+    .fillPlaceholder {
+      @include gridItem;
+      @include fill;
 
-    &::-ms-thumb {
-      @include thumb;
-    }
+      height: $trackHeight;
+      // highlighted part covers the border
+      box-sizing: border-box;
+      background: c.$colorNeutral;
+      border: $fillBorderSize solid c.$colorNeutralLight;
+      width: 100%;
 
-    // don't show IE11's lower fill
-    &::-ms-fill-lower {
-      display: none;
-    }
-  }
+      // if the actual fill is very small the border is rounded, it can reach out of the wrapper
+      overflow: hidden;
 
-  // see the javascript code for an explanation of this class
-  input[type='range'].atTheBorder {
-    &::-webkit-slider-thumb {
-      pointer-events: none;
-    }
+      // we ned to reserve space like this manually mostly because of IE11
+      margin-top: calc(#{$thumbBorderSize} + #{$sliderThumbShadowSize});
+      margin-bottom: calc(#{$thumbBorderSize} + #{$sliderThumbShadowSize});
+      border-radius: $trackBorderRadius;
 
-    &::-moz-range-thumb {
-      pointer-events: none;
-    }
-  }
-
-  .fillPlaceholder {
-    @include gridItem;
-    @include fill;
-
-    height: $trackHeight;
-    // highlighted part covers the border
-    box-sizing: border-box;
-    background: c.$colorNeutral;
-    border: $fillBorderSize solid c.$colorNeutralLight;
-    width: 100%;
-
-    // if the actual fill is very small the border is rounded, it can reach out of the wrapper
-    overflow: hidden;
-
-    // we ned to reserve space like this manually mostly because of IE11
-    margin-top: calc(#{$thumbBorderSize} + #{$sliderThumbShadowSize});
-    margin-bottom: calc(#{$thumbBorderSize} + #{$sliderThumbShadowSize});
-    border-radius: $trackBorderRadius;
-
-    .fill {
-      @include fill();
-      height: calc(#{$trackHeight} - #{$fillBorderSize} * 2); // height minus border from top & bottom
-      background: c.$colorPrimaryLight;
-      // width & marginLeft will be set by a Javascript
+      .fill {
+        @include fill();
+        height: calc(#{$trackHeight} - #{$fillBorderSize} * 2); // height minus border from top & bottom
+        background: c.$colorPrimaryLight;
+        // width & marginLeft will be set by a Javascript
+      }
     }
   }
+
+  .helperText {
+    margin-left: $thumbBorderSize;
+  }
+}
+
+.errorContainer {
+  margin-top: c.$grid;
 }
