@@ -7,7 +7,7 @@ $sliderBaseSize: 1rem;
 $trackBorderRadius: c.$grid * 2;
 
 // height of the track
-$trackHeight: $sliderBaseSize;
+$trackHeight: c.$grid * 2;
 $thumbBorderSize: c.$grid * 1.5; // in rem
 
 $sliderThumbHoverBorderSize: 1px;
@@ -54,12 +54,21 @@ $fillBorderSize: 1px;
   pointer-events: none;
 }
 
+@mixin gridParent($cols: 1fr, $rows: 1fr) {
+  display: grid;
+  grid-template-columns: $cols;
+  grid-template-rows: $rows;
+  display: -ms-grid;
+  -ms-grid-columns: $cols;
+  -ms-grid-rows: $rows;
+}
+
 // used to position elements on top of each other using grid
-@mixin gridItem() {
-  grid-column: 1;
-  grid-row: 1;
-  -ms-grid-column: 1;
-  -ms-grid-row: 1;
+@mixin gridItem($col: 1, $row: 1) {
+  grid-column: $col;
+  grid-row: $row;
+  -ms-grid-column: $col;
+  -ms-grid-row: $row;
 }
 
 .wrapper {
@@ -67,14 +76,8 @@ $fillBorderSize: 1px;
   align-items: center;
 
   .groupWrapper {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
+    @include gridParent(1fr, 2fr);
     flex: 1;
-
-    display: -ms-grid;
-    -ms-grid-columns: 1fr;
-    -ms-grid-rows: 1fr;
 
     input[type='range'] {
       &::-webkit-slider-runnable-track,
@@ -83,8 +86,9 @@ $fillBorderSize: 1px;
         -webkit-appearance: none;
       }
 
+      z-index: c.$zIndex100;
       outline: none;
-      @include gridItem;
+      @include gridItem(1, 2);
       background: none;
       // ignore clicks on the actual inputs and let them pass to the handles
       pointer-events: none;
@@ -139,7 +143,6 @@ $fillBorderSize: 1px;
         }
 
         &::-ms-thumb {
-          // TODO - this doesn't work on IE, figure out a way out!
           box-shadow: 0 0 0 c.$outlineWidth c.$colorAccessibilityOutline;
         }
       }
@@ -175,8 +178,9 @@ $fillBorderSize: 1px;
     }
 
     .fillPlaceholder {
-      @include gridItem;
+      @include gridItem(1, 2);
       @include fill;
+      @include gridParent;
 
       height: $trackHeight;
       // highlighted part covers the border
@@ -195,15 +199,51 @@ $fillBorderSize: 1px;
 
       .fill {
         @include fill();
+        @include gridItem;
         height: calc(#{$trackHeight} - #{$fillBorderSize} * 2); // height minus border from top & bottom
         background: c.$colorPrimaryLight;
         // width & marginLeft will be set by a Javascript
+      }
+
+      ul.marks {
+        @include gridItem;
+
+        $markWidth: 2px;
+
+        margin: 0 $markWidth;
+        padding: 0;
+        list-style-type: none;
+        height: 100%;
+        position: relative;
+
+        li {
+          position: absolute;
+          width: $markWidth; // margin from sides so that 0% & 100% marks are visible
+          height: calc(#{$trackHeight} - #{$fillBorderSize} * 2);
+          background: c.$colorTextSecondary;
+        }
+      }
+    }
+
+    ul.markDescriptions {
+      @include gridItem(1, 1);
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      height: c.$grid * 6;
+      position: relative;
+
+      > li {
+        position: absolute;
+        transform: translateX(-50%);
       }
     }
   }
 
   .helperText {
     margin-left: $thumbBorderSize;
+    @include gridItem(2, 2);
+    align-items: center;
   }
 }
 

@@ -66,6 +66,27 @@ export const SliderWithHelperText = () => {
   )
 }
 
+export const SliderWithMarks = () => {
+  const [value, onChange] = useState<number>(0)
+  return (
+    <div>
+      <Slider
+        value={value}
+        onChange={onChange}
+        min={0}
+        max={100}
+        helperText="Helper text"
+        marks={[
+          { value: 0, label: '0GB' },
+          { value: 30, label: '1GB' },
+          { value: 70, label: '4GB' },
+          { value: 100, label: '100GB' },
+        ]}
+      />
+    </div>
+  )
+}
+
 /**
  * The following stories are here mostly mostly for visual regression testing and do not demonstrate the way
  * how this component should be used.

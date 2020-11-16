@@ -7,7 +7,12 @@ import { Help } from './Help'
 
 type Value = number | [number, number]
 
-type SliderProps<T> = {
+type SliderMark = {
+  value: number
+  label: string
+}
+
+type SliderProps<T extends Value> = {
   step?: number
   min?: number
   max?: number
@@ -17,6 +22,7 @@ type SliderProps<T> = {
   sliderClassName?: string
   error?: string
   helperText?: string
+  marks?: Array<SliderMark>
 }
 
 function isRangeGuard(value: Value): value is [number, number] {
@@ -33,6 +39,7 @@ export function Slider<T extends Value = number>({
   sliderClassName,
   error,
   helperText,
+  marks,
 }: SliderProps<T>) {
   const idRef = useRef(uuid())
 
@@ -48,7 +55,7 @@ export function Slider<T extends Value = number>({
 
   const updateValues = useCallback(
     ([changedFirstValue, changedSecondValue]: [number | null, number | null]) => {
-      if (isRange) {
+      if (isRangeGuard(value)) {
         onChange([changedFirstValue ?? firstValue, changedSecondValue ?? secondValue] as T)
       } else {
         onChange(changedFirstValue as T)
@@ -120,24 +127,6 @@ export function Slider<T extends Value = number>({
     <div className={className}>
       <div className={styles.wrapper}>
         <div className={styles.groupWrapper} role="group" ref={wrapperRef}>
-          <div className={styles.fillPlaceholder}>
-            <div
-              className={styles.fill}
-              // Since there is no easy way hot to pass properties to SCSS, we need to use
-              // inline styles.
-              style={
-                isRange
-                  ? {
-                      width: `${width}%`,
-                      marginLeft: `calc(${left * 100}%)`,
-                    }
-                  : {
-                      width: `calc(${max * left}%)`,
-                    }
-              }
-            />
-          </div>
-
           {firstValue !== undefined && (
             <input
               ref={firstRef}
@@ -170,8 +159,42 @@ export function Slider<T extends Value = number>({
               })}
             />
           )}
+          <div className={styles.fillPlaceholder}>
+            <div
+              className={styles.fill}
+              // Since there is no easy way hot to pass properties to SCSS, we need to use
+              // inline styles.
+              style={
+                isRange
+                  ? {
+                      width: `${width}%`,
+                      marginLeft: `calc(${left * 100}%)`,
+                    }
+                  : {
+                      width: `calc(${max * left}%)`,
+                    }
+              }
+            />
+            <div className={styles.marks} />
+            {marks && marks.length && (
+              <ul className={styles.marks}>
+                {marks.map(({ value }) => (
+                  <li key={value} style={{ left: `${(value / max) * 100}%` }} />
+                ))}
+              </ul>
+            )}
+          </div>
+          {marks && marks.length && (
+            <ul className={styles.markDescriptions}>
+              {marks.map(({ label, value }) => (
+                <li key={value} style={{ left: `${(value / max) * 100}%` }}>
+                  {label}
+                </li>
+              ))}
+            </ul>
+          )}
+          {helperText && <Help parentId={idRef.current} helperText={helperText} className={styles.helperText} />}
         </div>
-        {helperText && <Help parentId={idRef.current} helperText={helperText} className={styles.helperText} />}
       </div>
       <Error error={error} className={styles.errorContainer} inputId={idRef.current} />
     </div>
