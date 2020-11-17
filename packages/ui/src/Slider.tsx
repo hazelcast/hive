@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useCallback, useEffect, useRef } from 'react'
 import styles from './Slider.module.scss'
 import cn from 'classnames'
-import { Error } from './Error'
+import { Error, errorId } from './Error'
 import { v4 as uuid } from 'uuid'
 import { Help } from './Help'
 
@@ -12,19 +12,25 @@ type SliderMark = {
   label: string
 }
 
-type SliderProps<T extends Value> = {
+export type SliderCoreProps<T extends Value> = {
+  value: T
+  name: string
+  onChange: (val: T, e?: ChangeEvent<HTMLInputElement> | MouseEvent) => void
+  error?: string
+}
+
+export type SliderExtraProps = {
   step?: number
   min?: number
   max?: number
-  value: T
-  onChange: (val: T) => void
   className?: string
   sliderClassName?: string
-  error?: string
   helperText?: string
   marks?: Array<SliderMark>
-  disabled?: boolean
+  label: string
 }
+
+type SliderProps<T extends Value = number> = SliderExtraProps & SliderCoreProps<T> & Partial<Pick<HTMLInputElement, 'disabled'>>
 
 function isRangeGuard(value: Value): value is [number, number] {
   return Array.isArray(value)
@@ -54,9 +60,14 @@ function getMarkMetadata(
   }
 }
 
+/**
+ * Slider component
+ * https://www.w3.org/TR/wai-aria-practices-1.2/#slidertwothumb
+ */
 export function Slider<T extends Value = number>({
   value,
   onChange,
+  name,
   step = 1,
   min = 0,
   max = 20,
@@ -65,7 +76,8 @@ export function Slider<T extends Value = number>({
   error,
   helperText,
   marks,
-  disabled = false,
+  label,
+  disabled,
 }: SliderProps<T>) {
   const idRef = useRef(uuid())
 
@@ -80,11 +92,11 @@ export function Slider<T extends Value = number>({
   const secondRef = useRef<HTMLInputElement>(null)
 
   const updateValues = useCallback(
-    ([changedFirstValue, changedSecondValue]: [number | null, number | null]) => {
+    ([changedFirstValue, changedSecondValue]: [number | null, number | null], e: ChangeEvent<HTMLInputElement> | MouseEvent) => {
       if (isRangeGuard(value)) {
-        onChange([changedFirstValue ?? firstValue, changedSecondValue ?? secondValue] as T)
+        onChange([changedFirstValue ?? firstValue, changedSecondValue ?? secondValue] as T, e)
       } else {
-        onChange(changedFirstValue as T)
+        onChange(changedFirstValue as T, e)
       }
     },
     [isRange, firstValue, secondValue],
@@ -99,7 +111,8 @@ export function Slider<T extends Value = number>({
    * 3. We focus the thumb after it is clicked.
    */
   useEffect(() => {
-    const handler = ({ offsetX, target }: MouseEvent) => {
+    const handler = (e: MouseEvent) => {
+      const { offsetX, target } = e
       if (disabled) {
         return false
       }
@@ -110,11 +123,11 @@ export function Slider<T extends Value = number>({
         // let's move the first thumb in case we're not in a range mode
         // or if it's closer to the clicked value
         if (!isRange || Math.abs(firstValue - resultStepSpot) < Math.abs(secondValue - resultStepSpot)) {
-          updateValues([resultStepSpot, null])
+          updateValues([resultStepSpot, null], e)
           firstRef.current?.focus()
         } else {
           // otherwise, let's move the right one
-          updateValues([null, resultStepSpot])
+          updateValues([null, resultStepSpot], e)
           secondRef.current?.focus()
         }
       }
@@ -130,21 +143,27 @@ export function Slider<T extends Value = number>({
    * The following callbacks reacts to native HTML events and update the values
    */
   const setFirstValueCallback = useCallback(
-    ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const {
+        target: { value },
+      } = e
       if (+value > secondValue) {
         return false
       }
-      updateValues([+value, null])
+      updateValues([+value, null], e)
     },
     [secondValue],
   )
 
   const setSecondValueCallback = useCallback(
-    ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const {
+        target: { value },
+      } = e
       if (+value < firstValue) {
         return false
       }
-      updateValues([null, +value])
+      updateValues([null, +value], e)
     },
     [firstValue],
   )
@@ -154,6 +173,7 @@ export function Slider<T extends Value = number>({
 
   return (
     <div className={className}>
+      <span id={idRef.current}>{label}</span>
       <div
         className={cn(styles.wrapper, {
           [styles.disabled]: disabled,
@@ -167,10 +187,17 @@ export function Slider<T extends Value = number>({
               value={firstValue}
               min={min}
               max={max}
+              name={name}
               disabled={disabled}
               onChange={setFirstValueCallback}
               className={sliderClassName}
               step={step}
+              aria-labelledby={idRef.current}
+              aria-valuenow={firstValue}
+              aria-valuemin={min}
+              aria-valuemax={Math.min(max, secondValue)}
+              aria-invalid={!!error}
+              aria-errormessage={error && errorId(idRef.current)}
             />
           )}
 
@@ -181,6 +208,7 @@ export function Slider<T extends Value = number>({
               value={secondValue}
               min={min}
               max={max}
+              name={name}
               disabled={disabled}
               onChange={setSecondValueCallback}
               step={step}
@@ -192,6 +220,12 @@ export function Slider<T extends Value = number>({
                 // because that is the only one that can be moved.
                 [styles.atTheBorder]: max === secondValue && secondValue === firstValue,
               })}
+              aria-labelledby={idRef.current}
+              aria-valuenow={secondValue}
+              aria-valuemin={Math.max(min, firstValue)}
+              aria-valuemax={max}
+              aria-invalid={!!error}
+              aria-errormessage={error && errorId(idRef.current)}
             />
           )}
           <div className={styles.fillPlaceholder}>
@@ -210,8 +244,7 @@ export function Slider<T extends Value = number>({
                     }
               }
             />
-            <div className={styles.marks} />
-            {marks && marks.length && (
+            {!!marks?.length && (
               <ul className={styles.marks}>
                 {marks.map(({ value: markValue }) => {
                   const { isActive, left } = getMarkMetadata(markValue, max, [firstValue, secondValue], isRange)
@@ -228,7 +261,7 @@ export function Slider<T extends Value = number>({
               </ul>
             )}
           </div>
-          {marks && marks.length && (
+          {!!marks?.length && (
             <ul className={styles.markDescriptions}>
               {marks.map(({ label, value: markValue }) => {
                 const { left } = getMarkMetadata(markValue, max, [firstValue, secondValue], isRange)
