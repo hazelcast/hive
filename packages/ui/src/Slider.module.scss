@@ -209,8 +209,9 @@ $fillBorderSize: 1px;
         @include gridItem;
 
         $markWidth: 2px;
+        width: calc(100% - #{$markWidth});
 
-        margin: 0 $markWidth;
+        margin: 0;
         padding: 0;
         list-style-type: none;
         height: 100%;
@@ -221,6 +222,10 @@ $fillBorderSize: 1px;
           width: $markWidth; // margin from sides so that 0% & 100% marks are visible
           height: calc(#{$trackHeight} - #{$fillBorderSize} * 2);
           background: c.$colorTextSecondary;
+
+          &.active {
+            background-color: c.$colorNeutralWhite;
+          }
         }
       }
     }
@@ -244,6 +249,31 @@ $fillBorderSize: 1px;
     margin-left: $thumbBorderSize;
     @include gridItem(2, 2);
     align-items: center;
+  }
+
+  &.disabled {
+    .fillPlaceholder {
+      background-color: c.$colorNeutral;
+      .fill {
+        background-color: c.$colorNeutralLight;
+      }
+    }
+    input[type='range']:disabled {
+      &::-webkit-slider-thumb {
+        box-shadow: 0 0 0 $sliderThumbHoverBorderSize c.$colorNeutral;
+        background: c.$colorNeutralLight;
+      }
+
+      &::-moz-range-thumb {
+        box-shadow: 0 0 0 $sliderThumbHoverBorderSize c.$colorNeutral;
+        background: c.$colorNeutralLight;
+      }
+
+      &::-ms-thumb {
+        box-shadow: 0 0 0 $sliderThumbHoverBorderSize c.$colorNeutral;
+        background: c.$colorNeutralLight;
+      }
+    }
   }
 }
 

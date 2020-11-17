@@ -23,10 +23,35 @@ type SliderProps<T extends Value> = {
   error?: string
   helperText?: string
   marks?: Array<SliderMark>
+  disabled?: boolean
 }
 
 function isRangeGuard(value: Value): value is [number, number] {
   return Array.isArray(value)
+}
+
+/**
+ * Determines the absolute left position of the mark given the markValue
+ * @param markValue - value of the mark
+ * @param max - max value of a slider
+ * @param firstValue - current position of the first slider
+ * @param secondValue - current position of the second slider, max if not in range mode
+ * @param isRange - determines whether we're in a range mode
+ * @return {
+ *   left: left position of the element in %
+ *   isActive: true if marker is in the filled area of the slider
+ * }
+ */
+function getMarkMetadata(
+  markValue: number,
+  max: number,
+  [firstValue, secondValue]: [number, number],
+  isRange: boolean,
+): { isActive: boolean; left: number } {
+  return {
+    left: (markValue / max) * 100,
+    isActive: isRange ? markValue >= firstValue && markValue <= secondValue : markValue < firstValue,
+  }
 }
 
 export function Slider<T extends Value = number>({
@@ -40,6 +65,7 @@ export function Slider<T extends Value = number>({
   error,
   helperText,
   marks,
+  disabled = false,
 }: SliderProps<T>) {
   const idRef = useRef(uuid())
 
@@ -74,6 +100,9 @@ export function Slider<T extends Value = number>({
    */
   useEffect(() => {
     const handler = ({ offsetX, target }: MouseEvent) => {
+      if (disabled) {
+        return false
+      }
       if (wrapperRef.current && wrapperRef.current === target) {
         const clickPercentage = offsetX / wrapperRef.current.offsetWidth
         const resultStepSpot: number = Math.round((clickPercentage * max) / step) * step
@@ -95,7 +124,7 @@ export function Slider<T extends Value = number>({
     return () => {
       window.removeEventListener('click', handler)
     }
-  }, [wrapperRef, firstValue, secondValue])
+  }, [wrapperRef, firstValue, secondValue, disabled])
 
   /**
    * The following callbacks reacts to native HTML events and update the values
@@ -125,7 +154,11 @@ export function Slider<T extends Value = number>({
 
   return (
     <div className={className}>
-      <div className={styles.wrapper}>
+      <div
+        className={cn(styles.wrapper, {
+          [styles.disabled]: disabled,
+        })}
+      >
         <div className={styles.groupWrapper} role="group" ref={wrapperRef}>
           {firstValue !== undefined && (
             <input
@@ -134,6 +167,7 @@ export function Slider<T extends Value = number>({
               value={firstValue}
               min={min}
               max={max}
+              disabled={disabled}
               onChange={setFirstValueCallback}
               className={sliderClassName}
               step={step}
@@ -147,6 +181,7 @@ export function Slider<T extends Value = number>({
               value={secondValue}
               min={min}
               max={max}
+              disabled={disabled}
               onChange={setSecondValueCallback}
               step={step}
               className={cn({
@@ -178,19 +213,31 @@ export function Slider<T extends Value = number>({
             <div className={styles.marks} />
             {marks && marks.length && (
               <ul className={styles.marks}>
-                {marks.map(({ value }) => (
-                  <li key={value} style={{ left: `${(value / max) * 100}%` }} />
-                ))}
+                {marks.map(({ value: markValue }) => {
+                  const { isActive, left } = getMarkMetadata(markValue, max, [firstValue, secondValue], isRange)
+                  return (
+                    <li
+                      key={markValue}
+                      style={{ left: `${left}%` }}
+                      className={cn({
+                        [styles.active]: isActive,
+                      })}
+                    />
+                  )
+                })}
               </ul>
             )}
           </div>
           {marks && marks.length && (
             <ul className={styles.markDescriptions}>
-              {marks.map(({ label, value }) => (
-                <li key={value} style={{ left: `${(value / max) * 100}%` }}>
-                  {label}
-                </li>
-              ))}
+              {marks.map(({ label, value: markValue }) => {
+                const { left } = getMarkMetadata(markValue, max, [firstValue, secondValue], isRange)
+                return (
+                  <li key={markValue} style={{ left: `${left}%` }}>
+                    {label}
+                  </li>
+                )
+              })}
             </ul>
           )}
           {helperText && <Help parentId={idRef.current} helperText={helperText} className={styles.helperText} />}

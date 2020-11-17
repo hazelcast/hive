@@ -35,6 +35,26 @@ export const HoveredFocusedSlider = () => {
   return <Slider value={value} onChange={onChange} min={0} max={100} sliderClassName={cn(styles.focus, styles.hover)} />
 }
 
+export const DisabledHoveredFocusedSlider = () => {
+  const [value, onChange] = useState<number>(40)
+  return (
+    <Slider
+      value={value}
+      disabled
+      onChange={onChange}
+      min={0}
+      max={100}
+      sliderClassName={cn(styles.focus, styles.hover)}
+      marks={[
+        { value: 0, label: '0GB' },
+        { value: 30, label: '1GB' },
+        { value: 70, label: '4GB' },
+        { value: 100, label: '100GB' },
+      ]}
+    />
+  )
+}
+
 export const SliderWithRange = () => {
   const [value, setValue] = useState<[number, number]>([0, 10])
   return (
