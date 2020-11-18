@@ -2,8 +2,8 @@ import React, { ChangeEvent, FC, FocusEvent, ReactElement, useLayoutEffect, useR
 import { v4 as uuid } from 'uuid'
 import cn from 'classnames'
 import useResizeAware from 'react-resize-aware'
-
 import { DataTestProp } from '@hazelcast/helpers'
+
 import { Error, errorId } from '../src/Error'
 import { Help } from '../src/Help'
 import { Label } from './Label'
@@ -53,10 +53,10 @@ export const TextArea: FC<TextAreaProps> = ({
   const [resizeListener, sizes] = useResizeAware()
 
   useLayoutEffect(() => {
-    if (sizes?.height) {
+    if (sizes.height) {
       popperRef.current?.forceUpdate?.()
     }
-  }, [sizes?.height])
+  }, [sizes.height])
 
   return (
     <div
