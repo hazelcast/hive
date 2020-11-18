@@ -28,7 +28,7 @@ export type TextFieldExtraProps<T extends TextFieldTypes> = {
   className?: string
   inputClassName?: string
   errorClassName?: string
-  placeholder: string
+  placeholder?: string
   inputContainerChild?: ReactElement
   inputIcon?: IconType
   type?: T

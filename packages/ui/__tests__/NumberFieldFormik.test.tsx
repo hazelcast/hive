@@ -111,7 +111,7 @@ describe('NumberFieldFormik', () => {
 
     const wrapper = await mountAndCheckA11Y(<TestForm />)
 
-    expect(wrapper.find(Error).prop('error')).toBe(undefined)
+    expect(wrapper.find(Error).prop('error')).toBe('Dark side')
 
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
