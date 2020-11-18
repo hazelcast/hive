@@ -48,7 +48,7 @@ export const RadioGroupWrappedInFormik = () => {
         name: 'Server Error: Invalid name',
       }}
       validate={(values) => {
-        const errors: Partial<Values> = {
+        const errors: Partial<{ [key in keyof Values]: string }> = {
           name: values.name === 'invalid_name' ? 'Name is invalid' : undefined,
         }
 
