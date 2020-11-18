@@ -21,5 +21,13 @@ export const SliderFormik = <V extends object>({ name, validate, ...props }: Sli
     [setValue, setTouched],
   )
 
-  return <Slider {...props} name={name} value={field.value} onChange={onChange} error={meta.error} />
+  return (
+    <Slider
+      {...props}
+      name={name}
+      value={field.value}
+      onChange={onChange}
+      error={meta.touched || meta.initialError === meta.error ? meta.error : undefined}
+    />
+  )
 }

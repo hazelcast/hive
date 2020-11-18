@@ -33,3 +33,13 @@ $tooltipMaxWidth: 550px !default;
 $buttonMaxWidth: 300px !default;
 
 $toastMaxWidth: 580px !default;
+
+// border radius on left/right size of the progress tracker
+$sliderTrackBorderRadius: $grid * 2;
+// height of the track
+$slideTrackHeight: $grid * 2;
+$sliderThumbBorderSize: $grid * 1.5; // in rem
+$sliderThumbHoverBorderSize: 1px;
+
+$sliderThumbShadowSize: 1px;
+$sliderThumbShadowBlur: $grid;

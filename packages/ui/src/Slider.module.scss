@@ -1,24 +1,9 @@
 @use '../styles/constants' as c;
 @use '../styles/helpers' as h;
 
-$sliderBaseSize: 1rem;
-
-// border radius on left/right size of the progress tracker
-$trackBorderRadius: c.$grid * 2;
-
-// height of the track
-$trackHeight: c.$grid * 2;
-$thumbBorderSize: c.$grid * 1.5; // in rem
-
-$sliderThumbHoverBorderSize: 1px;
-
-$sliderThumbShadowSize: 1px;
-$sliderThumbShadowBlur: c.$grid;
-$sliderThumbShadowColor: rgba(53, 61, 73, 0.5);
-
 // thumb width without a white border, let's make it the height of the slider
-$thumbWidth: $trackHeight;
-$thumbFullWidth: $thumbWidth + $thumbBorderSize * 2;
+$thumbWidth: c.$slideTrackHeight;
+$thumbFullWidth: $thumbWidth + c.$sliderThumbBorderSize * 2;
 
 $fillBorderSize: 1px;
 
@@ -38,9 +23,9 @@ $fillBorderSize: 1px;
 }
 
 @mixin thumb() {
-  box-shadow: 0 $sliderThumbShadowSize $sliderThumbShadowBlur $sliderThumbShadowColor;
+  box-shadow: 0 c.$sliderThumbShadowSize c.$sliderThumbShadowBlur c.$sliderThumbShadowColor;
   background: c.$colorPrimaryLight; // background will represent the dot inside
-  border: $thumbBorderSize solid c.$colorNeutralWhite; // the white part will be done by the border
+  border: c.$sliderThumbBorderSize solid c.$colorNeutralWhite; // the white part will be done by the border
   box-sizing: content-box; /* and because of all of this, we need content-box */
   border-radius: 50%;
   pointer-events: auto; /* catch clicks */
@@ -92,11 +77,11 @@ $fillBorderSize: 1px;
       @include gridItem(1, 2);
 
       pointer-events: none; // ignore clicks on the actual inputs and let them pass to the handles
-      min-height: $trackHeight;
+      min-height: c.$slideTrackHeight;
       padding: 0;
       margin: 0;
       justify-self: center;
-      width: calc(100% + #{$thumbBorderSize * 2});
+      width: calc(100% + #{c.$sliderThumbBorderSize * 2});
 
       // Style the track
       &::-webkit-slider-runnable-track {
@@ -131,15 +116,15 @@ $fillBorderSize: 1px;
       &:hover,
       &.hover {
         &::-webkit-slider-thumb {
-          box-shadow: 0 0 0 $sliderThumbHoverBorderSize c.$colorPrimary;
+          box-shadow: 0 0 0 c.$sliderThumbHoverBorderSize c.$colorPrimary;
         }
 
         &::-moz-range-thumb {
-          box-shadow: 0 0 0 $sliderThumbHoverBorderSize c.$colorPrimary;
+          box-shadow: 0 0 0 c.$sliderThumbHoverBorderSize c.$colorPrimary;
         }
 
         &::-ms-thumb {
-          box-shadow: 0 0 0 $sliderThumbHoverBorderSize c.$colorPrimary;
+          box-shadow: 0 0 0 c.$sliderThumbHoverBorderSize c.$colorPrimary;
         }
       }
 
@@ -195,7 +180,7 @@ $fillBorderSize: 1px;
       @include fill;
       @include gridParent;
 
-      height: $trackHeight;
+      height: c.$slideTrackHeight;
       // highlighted part covers the border
       box-sizing: border-box;
       background: c.$colorNeutral;
@@ -206,15 +191,15 @@ $fillBorderSize: 1px;
       overflow: hidden;
 
       // we ned to reserve space like this manually mostly because of IE11
-      margin-top: calc(#{$thumbBorderSize} + #{$sliderThumbShadowSize});
-      margin-bottom: calc(#{$thumbBorderSize} + #{$sliderThumbShadowSize});
-      border-radius: $trackBorderRadius;
+      margin-top: calc(#{c.$sliderThumbBorderSize} + #{c.$sliderThumbShadowSize});
+      margin-bottom: calc(#{c.$sliderThumbBorderSize} + #{c.$sliderThumbShadowSize});
+      border-radius: c.$sliderTrackBorderRadius;
 
       .fill {
         @include fill();
         @include gridItem;
 
-        height: calc(#{$trackHeight} - #{$fillBorderSize} * 2); // height minus border from top & bottom
+        height: calc(#{c.$slideTrackHeight} - #{$fillBorderSize} * 2); // height minus border from top & bottom
         background: c.$colorPrimaryLight;
         // width & marginLeft will be set by a Javascript
       }
@@ -234,7 +219,7 @@ $fillBorderSize: 1px;
         > li {
           position: absolute;
           width: $markWidth; // margin from sides so that 0% & 100% marks are visible
-          height: calc(#{$trackHeight} - #{$fillBorderSize} * 2);
+          height: calc(#{c.$slideTrackHeight} - #{$fillBorderSize} * 2);
           background: c.$colorTextSecondary;
 
           &.active {
@@ -246,7 +231,7 @@ $fillBorderSize: 1px;
   }
 
   .helperText {
-    margin-left: $thumbBorderSize;
+    margin-left: c.$sliderThumbBorderSize;
     @include gridItem(2, 2);
 
     align-items: center;
@@ -263,17 +248,17 @@ $fillBorderSize: 1px;
 
     input[type='range']:disabled {
       &::-webkit-slider-thumb {
-        box-shadow: 0 0 0 $sliderThumbHoverBorderSize c.$colorNeutral;
+        box-shadow: 0 0 0 c.$sliderThumbHoverBorderSize c.$colorNeutral;
         background: c.$colorNeutralLight;
       }
 
       &::-moz-range-thumb {
-        box-shadow: 0 0 0 $sliderThumbHoverBorderSize c.$colorNeutral;
+        box-shadow: 0 0 0 c.$sliderThumbHoverBorderSize c.$colorNeutral;
         background: c.$colorNeutralLight;
       }
 
       &::-ms-thumb {
-        box-shadow: 0 0 0 $sliderThumbHoverBorderSize c.$colorNeutral;
+        box-shadow: 0 0 0 c.$sliderThumbHoverBorderSize c.$colorNeutral;
         background: c.$colorNeutralLight;
       }
     }
