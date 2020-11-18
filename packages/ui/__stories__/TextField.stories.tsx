@@ -4,6 +4,8 @@ import { Mail } from 'react-feather'
 
 import { TextField } from '../src/TextField'
 import styles from '../src/TextField.module.scss'
+import { Form, Formik } from 'formik'
+import { TextFieldFormik } from '../src'
 
 export default {
   title: 'Components/TextField',
@@ -211,3 +213,37 @@ export const WithIconWithHelperText = () => (
     inputIcon={Mail}
   />
 )
+
+export const TextFieldWrappedInFormik = () => {
+  type Values = {
+    name: string
+  }
+
+  const TestForm = () => (
+    <Formik<Values>
+      initialValues={{
+        name: 'Valid name',
+      }}
+      initialErrors={{
+        name: 'Server Error: Invalid name',
+      }}
+      validate={(values) => {
+        const errors: Partial<{ [key in keyof Values]: string }> = {
+          name: values.name === 'invalid_name' ? 'Name is invalid' : undefined,
+        }
+
+        return errors
+      }}
+      onSubmit={(values) => logger.log('submit', values)}
+    >
+      {({ values }) => (
+        <Form>
+          Values: {JSON.stringify(values)}
+          <TextFieldFormik<Values> name="name" label="Name" placeholder="Type 'invalid_name' to see an error" />
+        </Form>
+      )}
+    </Formik>
+  )
+
+  return <TestForm />
+}

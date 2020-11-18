@@ -22,14 +22,5 @@ export const NumberFieldFormik = <V extends object>({ name, validate, ...props }
     [setValue, setTouched],
   )
 
-  return (
-    <NumberField
-      {...props}
-      name={name}
-      value={field.value}
-      onChange={onChange}
-      onBlur={field.onBlur}
-      error={meta.touched ? meta.error : undefined}
-    />
-  )
+  return <NumberField {...props} name={name} value={field.value} onChange={onChange} onBlur={field.onBlur} error={meta.error} />
 }
