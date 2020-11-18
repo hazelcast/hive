@@ -121,9 +121,6 @@ describe('NumberFieldFormik', () => {
       simulateChange(wrapper.find('input'), 56)
     })
 
-    expect(formikBag.current?.values).toEqual({
-      name: 56,
-    })
     expect(wrapper.update().find(Error).prop('error')).toBe('Client side validation')
   })
 })

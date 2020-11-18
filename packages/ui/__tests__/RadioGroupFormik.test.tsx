@@ -139,6 +139,16 @@ describe('RadioGroupFormik', () => {
     })
 
     wrapper.update()
+
+    // let's click other valid option
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      wrapper.find("input[value='gandalf']").simulate('blur')
+    })
+
+    wrapper.update()
+
     expect(wrapper.find('div').contains('Server Error: Invalid name')).toBeFalsy()
+    expect(wrapper.find('div').contains('Aragorn is stronger!')).toBeTruthy()
   })
 })
