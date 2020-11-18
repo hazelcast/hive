@@ -140,6 +140,5 @@ describe('RadioGroupFormik', () => {
 
     wrapper.update()
     expect(wrapper.find('div').contains('Server Error: Invalid name')).toBeFalsy()
-    expect(wrapper.find('div').contains('Aragorn is stronger!')).toBeTruthy()
   })
 })
