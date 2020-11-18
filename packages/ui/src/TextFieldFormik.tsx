@@ -15,6 +15,14 @@ export const TextFieldFormik = <V extends object>({ name, validate, ...props }: 
   })
 
   return (
-    <TextField {...props} type="text" name={name} value={field.value} onChange={field.onChange} onBlur={field.onBlur} error={meta.error} />
+    <TextField
+      {...props}
+      type="text"
+      name={name}
+      value={field.value}
+      onChange={field.onChange}
+      onBlur={field.onBlur}
+      error={meta.touched || meta.initialError === meta.error ? meta.error : undefined}
+    />
   )
 }

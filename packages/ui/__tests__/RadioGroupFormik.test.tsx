@@ -110,7 +110,7 @@ describe('RadioGroupFormik', () => {
           name: 'Server Error: Invalid name',
         }}
         validate={(values) => {
-          const errors: Partial<Values> = {
+          const errors: Partial<{ [key in keyof Values]: string }> = {
             // we'll make gandalf invalid
             name: values.name === 'gandalf' ? 'Aragorn is stronger!' : undefined,
           }

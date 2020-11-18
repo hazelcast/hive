@@ -14,5 +14,14 @@ export const TextAreaFormik = <V extends object>({ name, validate, ...props }: T
     validate,
   })
 
-  return <TextArea {...props} name={name} value={field.value} onChange={field.onChange} onBlur={field.onBlur} error={meta.error} />
+  return (
+    <TextArea
+      {...props}
+      name={name}
+      value={field.value}
+      onChange={field.onChange}
+      onBlur={field.onBlur}
+      error={meta.touched || meta.initialError === meta.error ? meta.error : undefined}
+    />
+  )
 }
