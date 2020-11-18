@@ -1,7 +1,7 @@
 import React from 'react'
 import { v4 as uuid } from 'uuid'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
-import { Slider } from '../src/Slider'
+import { getMarkMetadata, Slider } from '../src/Slider'
 
 jest.mock('uuid')
 
@@ -13,13 +13,13 @@ describe('Slider', () => {
   })
   it('Renders single value slider, checks that the number of inputs is correct', async () => {
     const onChange = jest.fn()
-    const wrapper = await mountAndCheckA11Y(<Slider name="ram" label="RAM" value={4} onChange={onChange} />)
+    const wrapper = await mountAndCheckA11Y(<Slider name="ram" label="RAM" value={4} min={0} max={10} onChange={onChange} />)
 
     expect(wrapper.find('input').length).toEqual(1)
   })
   it('Renders range slider, checks that the number of inputs is correct', async () => {
     const onChange = jest.fn()
-    const wrapper = await mountAndCheckA11Y(<Slider name="ram" label="RAM" value={[1, 4]} onChange={onChange} />)
+    const wrapper = await mountAndCheckA11Y(<Slider name="ram" label="RAM" value={[1, 4]} min={0} max={10} onChange={onChange} />)
 
     expect(wrapper.find('input').length).toEqual(2)
   })
@@ -61,5 +61,33 @@ describe('Slider', () => {
     expect(wrapper.find('input').at(0).props()).toHaveProperty('aria-valuemax', 10)
     expect(wrapper.find('input').at(1).props()).toHaveProperty('aria-valuemax', 100)
   })
-  // TODO - add more tests including the interactive ones
+
+  /**
+   * Internal function tests
+   */
+  it('single value mode: getMarkMetadata returns correct metadata for the mark, given the thumb is before the mark', () => {
+    const { left, isActive } = getMarkMetadata(3, 10, [1, 10], false)
+    expect(left).toEqual(30)
+    expect(isActive).toBe(false)
+  })
+  it('single value mode: getMarkMetadata returns correct metadata for the mark, given the thumb is after the mark', () => {
+    const { left, isActive } = getMarkMetadata(5, 10, [6, 10], false)
+    expect(left).toEqual(50)
+    expect(isActive).toBe(true)
+  })
+  it('multi values mode: getMarkMetadata returns correct metadata for the mark, given the mark is after the active range', () => {
+    const { left, isActive } = getMarkMetadata(3, 20, [5, 10], true)
+    expect(left).toEqual(15)
+    expect(isActive).toBe(false)
+  })
+  it('multi values mode: getMarkMetadata returns correct metadata for the mark, given the mark is within active range', () => {
+    const { left, isActive } = getMarkMetadata(7, 20, [5, 10], true)
+    expect(left).toEqual(35)
+    expect(isActive).toBe(true)
+  })
+  it('multi values mode: getMarkMetadata returns correct metadata for the mark, given the mark is before the active range', () => {
+    const { left, isActive } = getMarkMetadata(12, 20, [5, 10], true)
+    expect(left).toEqual(60)
+    expect(isActive).toBe(false)
+  })
 })

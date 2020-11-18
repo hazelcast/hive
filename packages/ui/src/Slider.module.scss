@@ -22,27 +22,26 @@ $thumbFullWidth: $thumbWidth + $thumbBorderSize * 2;
 
 $fillBorderSize: 1px;
 
+// We've double checked that everything works in IE11
+/* doiuse-disable calc */
+/* doiuse-disable multicolumn */
+/* doiuse-disable css-appearance */
+
 @mixin track() {
   background: none; // get rid of track background
   appearance: none;
-
   // it's important for these values to be 0 in order to be consistent across (Firefox/IE11) & Chrome
   margin: 0;
   padding: 0;
   border: 0;
-
   box-sizing: border-box;
 }
 
 @mixin thumb() {
   box-shadow: 0 $sliderThumbShadowSize $sliderThumbShadowBlur $sliderThumbShadowColor;
-  // background will represent the dot inside
-  background: c.$colorPrimaryLight;
-  //background: red;
-  // the white part will be done by the border
-  border: $thumbBorderSize solid c.$colorNeutralWhite;
+  background: c.$colorPrimaryLight; // background will represent the dot inside
+  border: $thumbBorderSize solid c.$colorNeutralWhite; // the white part will be done by the border
   box-sizing: content-box; /* and because of all of this, we need content-box */
-
   border-radius: 50%;
   pointer-events: auto; /* catch clicks */
   width: $thumbWidth;
@@ -58,9 +57,9 @@ $fillBorderSize: 1px;
   display: grid;
   grid-template-columns: $cols;
   grid-template-rows: $rows;
-  display: -ms-grid;
   -ms-grid-columns: $cols;
   -ms-grid-rows: $rows;
+  display: -ms-grid; /* stylelint-disable-line declaration-block-no-duplicate-properties */
 }
 
 // used to position elements on top of each other using grid
@@ -77,6 +76,7 @@ $fillBorderSize: 1px;
 
   .groupWrapper {
     @include gridParent(1fr, 2fr);
+
     flex: 1;
 
     input[type='range'] {
@@ -88,12 +88,11 @@ $fillBorderSize: 1px;
 
       z-index: c.$zIndex100;
       outline: none;
-      @include gridItem(1, 2);
       background: none;
-      // ignore clicks on the actual inputs and let them pass to the handles
-      pointer-events: none;
-      min-height: $trackHeight;
+      @include gridItem(1, 2);
 
+      pointer-events: none; // ignore clicks on the actual inputs and let them pass to the handles
+      min-height: $trackHeight;
       padding: 0;
       margin: 0;
       justify-self: center;
@@ -110,8 +109,20 @@ $fillBorderSize: 1px;
 
       &::-ms-track {
         @include track;
-        // IE11 specific rule to hide the default tick marks
-        visibility: hidden;
+
+        visibility: hidden; // IE11 specific rule to hide the default tick marks
+      }
+
+      &::-webkit-slider-thumb {
+        @include thumb;
+      }
+
+      &::-moz-range-thumb {
+        @include thumb;
+      }
+
+      &::-ms-thumb {
+        @include thumb;
       }
 
       /**
@@ -147,19 +158,6 @@ $fillBorderSize: 1px;
         }
       }
 
-      // Thumb related stylings
-      &::-webkit-slider-thumb {
-        @include thumb;
-      }
-
-      &::-moz-range-thumb {
-        @include thumb;
-      }
-
-      &::-ms-thumb {
-        @include thumb;
-      }
-
       // don't show IE11's lower fill
       &::-ms-fill-lower {
         display: none;
@@ -174,6 +172,21 @@ $fillBorderSize: 1px;
 
       &::-moz-range-thumb {
         pointer-events: none;
+      }
+    }
+
+    ul.markDescriptions {
+      @include gridItem(1, 1);
+
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      height: c.$grid * 6;
+      position: relative;
+
+      > li {
+        position: absolute;
+        transform: translateX(-50%);
       }
     }
 
@@ -200,6 +213,7 @@ $fillBorderSize: 1px;
       .fill {
         @include fill();
         @include gridItem;
+
         height: calc(#{$trackHeight} - #{$fillBorderSize} * 2); // height minus border from top & bottom
         background: c.$colorPrimaryLight;
         // width & marginLeft will be set by a Javascript
@@ -209,15 +223,15 @@ $fillBorderSize: 1px;
         @include gridItem;
 
         $markWidth: 2px;
-        width: calc(100% - #{$markWidth});
 
+        width: calc(100% - #{$markWidth});
         margin: 0;
         padding: 0;
         list-style-type: none;
         height: 100%;
         position: relative;
 
-        li {
+        > li {
           position: absolute;
           width: $markWidth; // margin from sides so that 0% & 100% marks are visible
           height: calc(#{$trackHeight} - #{$fillBorderSize} * 2);
@@ -229,35 +243,24 @@ $fillBorderSize: 1px;
         }
       }
     }
-
-    ul.markDescriptions {
-      @include gridItem(1, 1);
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      height: c.$grid * 6;
-      position: relative;
-
-      > li {
-        position: absolute;
-        transform: translateX(-50%);
-      }
-    }
   }
 
   .helperText {
     margin-left: $thumbBorderSize;
     @include gridItem(2, 2);
+
     align-items: center;
   }
 
   &.disabled {
     .fillPlaceholder {
       background-color: c.$colorNeutral;
+
       .fill {
         background-color: c.$colorNeutralLight;
       }
     }
+
     input[type='range']:disabled {
       &::-webkit-slider-thumb {
         box-shadow: 0 0 0 $sliderThumbHoverBorderSize c.$colorNeutral;
@@ -280,3 +283,7 @@ $fillBorderSize: 1px;
 .errorContainer {
   margin-top: c.$grid;
 }
+
+/* doiuse-enable calc */
+/* doiuse-enable multicolumn */
+/* doiuse-enable css-appearance */

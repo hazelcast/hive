@@ -21,8 +21,8 @@ export type SliderCoreProps<T extends Value> = {
 
 export type SliderExtraProps = {
   step?: number
-  min?: number
-  max?: number
+  min: number
+  max: number
   className?: string
   sliderClassName?: string
   helperText?: string
@@ -48,7 +48,7 @@ function isRangeGuard(value: Value): value is [number, number] {
  *   isActive: true if marker is in the filled area of the slider
  * }
  */
-function getMarkMetadata(
+export function getMarkMetadata(
   markValue: number,
   max: number,
   [firstValue, secondValue]: [number, number],
@@ -69,8 +69,8 @@ export function Slider<T extends Value = number>({
   onChange,
   name,
   step = 1,
-  min = 0,
-  max = 20,
+  min,
+  max,
   className,
   sliderClassName,
   error,
@@ -99,7 +99,7 @@ export function Slider<T extends Value = number>({
         onChange(changedFirstValue as T, e)
       }
     },
-    [isRange, firstValue, secondValue],
+    [firstValue, secondValue, onChange, value],
   )
 
   /**
@@ -116,20 +116,18 @@ export function Slider<T extends Value = number>({
       if (disabled) {
         return false
       }
-      if (wrapperRef.current && wrapperRef.current === target) {
-        const clickPercentage = offsetX / wrapperRef.current.offsetWidth
-        const resultStepSpot: number = Math.round((clickPercentage * max) / step) * step
-
-        // let's move the first thumb in case we're not in a range mode
-        // or if it's closer to the clicked value
-        if (!isRange || Math.abs(firstValue - resultStepSpot) < Math.abs(secondValue - resultStepSpot)) {
-          updateValues([resultStepSpot, null], e)
-          firstRef.current?.focus()
-        } else {
-          // otherwise, let's move the right one
-          updateValues([null, resultStepSpot], e)
-          secondRef.current?.focus()
-        }
+      if (!wrapperRef.current || wrapperRef.current !== target) {
+        return
+      }
+      const clickPercentage = offsetX / wrapperRef.current.offsetWidth
+      const resultStepSpot: number = Math.round((clickPercentage * max) / step) * step
+      if (!isRange || Math.abs(firstValue - resultStepSpot) < Math.abs(secondValue - resultStepSpot)) {
+        updateValues([resultStepSpot, null], e)
+        firstRef.current?.focus()
+      } else {
+        // otherwise, let's move the right one
+        updateValues([null, resultStepSpot], e)
+        secondRef.current?.focus()
       }
     }
 
@@ -137,7 +135,7 @@ export function Slider<T extends Value = number>({
     return () => {
       window.removeEventListener('click', handler)
     }
-  }, [wrapperRef, firstValue, secondValue, disabled])
+  }, [wrapperRef, firstValue, secondValue, disabled, isRange, max, step, updateValues])
 
   /**
    * The following callbacks reacts to native HTML events and update the values
@@ -147,12 +145,13 @@ export function Slider<T extends Value = number>({
       const {
         target: { value },
       } = e
-      if (+value > secondValue) {
+      const newValue = parseInt(value, 10)
+      if (newValue > secondValue) {
         return false
       }
-      updateValues([+value, null], e)
+      updateValues([newValue, null], e)
     },
-    [secondValue],
+    [secondValue, updateValues],
   )
 
   const setSecondValueCallback = useCallback(
@@ -160,12 +159,13 @@ export function Slider<T extends Value = number>({
       const {
         target: { value },
       } = e
-      if (+value < firstValue) {
+      const newValue = parseInt(value, 10)
+      if (newValue < firstValue) {
         return false
       }
-      updateValues([null, +value], e)
+      updateValues([null, newValue], e)
     },
-    [firstValue],
+    [firstValue, updateValues],
   )
 
   const width: number = ((secondValue - firstValue) / max) * 100
