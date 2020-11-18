@@ -23,7 +23,7 @@ $fillBorderSize: 1px;
 }
 
 @mixin thumb() {
-  box-shadow: 0 c.$sliderThumbShadowSize c.$sliderThumbShadowBlur c.$sliderThumbShadowColor;
+  box-shadow: 0 c.$sliderThumbShadowSize c.$sliderThumbShadowBlur c.$colorShadow;
   background: c.$colorPrimaryLight; // background will represent the dot inside
   border: c.$sliderThumbBorderSize solid c.$colorNeutralWhite; // the white part will be done by the border
   box-sizing: content-box; /* and because of all of this, we need content-box */
