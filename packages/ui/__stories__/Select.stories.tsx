@@ -1,6 +1,6 @@
 import React from 'react'
 import { logger } from '@hazelcast/services'
-import { Select, SelectOption } from '../src/Select'
+import { Select } from '../src/Select'
 
 import styles from '../src/Select.module.scss'
 
@@ -11,24 +11,26 @@ export default {
 
 const name = 'Character'
 const label = 'Character'
-const options: SelectOption[] = [
-  { value: 'Darth Vader', text: 'Darth Vader' },
-  { value: 'Luke Skywalker', text: 'Luke Skywalker' },
-  { value: 'Obi-Wan Kenobi', text: 'Obi-Wan Kenobi' },
-  { value: 'Yoda', text: 'Yoda' },
-  { value: 'Han Solo', text: 'Han Solo' },
-  { value: 'Boba Fett', text: 'Boba Fett' },
-  { value: 'Jar Jar Binks', text: 'Jar Jar Binks' },
+const options = [
+  { value: 'Darth Vader', label: 'Darth Vader' },
+  { value: 'Luke Skywalker', label: 'Luke Skywalker' },
+  { value: 'Obi-Wan Kenobi', label: 'Obi-Wan Kenobi' },
+  { value: 'Yoda', label: 'Yoda' },
+  { value: 'Han Solo', label: 'Han Solo' },
+  { value: 'Boba Fett', label: 'Boba Fett' },
+  { value: 'Jar Jar Binks', label: 'Jar Jar Binks' },
 ]
+const value = options[1]
 
 export const Default = () => (
   <Select
+    menuPortalTarget={document.body}
     name={name}
-    value="Yoda"
+    value={value}
     label={label}
     options={options}
     onBlur={() => logger.log('blur')}
-    onChange={(e) => logger.log('change', e.target.value)}
+    onChange={(val) => logger.log('change', val)}
   />
 )
 Default.parameters = {
@@ -40,22 +42,24 @@ Default.parameters = {
 
 export const NotSelected = () => (
   <Select
+    menuPortalTarget={document.body}
     name="name"
     label="Character"
     options={options}
     onBlur={() => logger.log('blur')}
-    onChange={(e) => logger.log('change', e.target.value)}
+    onChange={(val) => logger.log('change', val)}
   />
 )
 
 export const Error = () => (
   <Select
+    menuPortalTarget={document.body}
     name="name"
-    value="Yoda"
+    value={value}
     label="Character"
     options={options}
     onBlur={() => logger.log('blur')}
-    onChange={(e) => logger.log('change', e.target.value)}
+    onChange={(val) => logger.log('change', val)}
     error="Dark side"
   />
 )
@@ -68,13 +72,14 @@ Error.parameters = {
 
 export const Hovered = () => (
   <Select
+    menuPortalTarget={document.body}
     className={styles.hover}
     name="name"
-    value="Yoda"
+    value={value}
     label="Character"
     options={options}
     onBlur={() => logger.log('blur')}
-    onChange={(e) => logger.log('change', e.target.value)}
+    onChange={(val) => logger.log('change', val)}
   />
 )
 Hovered.parameters = {
@@ -86,13 +91,14 @@ Hovered.parameters = {
 
 export const Focused = () => (
   <Select
+    menuPortalTarget={document.body}
     className={styles.focus}
     name="name"
-    value="Yoda"
+    value={value}
     label="Character"
     options={options}
     onBlur={() => logger.log('blur')}
-    onChange={(e) => logger.log('change', e.target.value)}
+    onChange={(val) => logger.log('change', val)}
   />
 )
 Focused.parameters = {
@@ -104,37 +110,40 @@ Focused.parameters = {
 
 export const FocusedWithError = () => (
   <Select
+    menuPortalTarget={document.body}
     className={styles.focus}
     name="name"
-    value="Yoda"
+    value={value}
     label="Character"
     options={options}
     onBlur={() => logger.log('blur')}
-    onChange={(e) => logger.log('change', e.target.value)}
+    onChange={(val) => logger.log('change', val)}
     error="Dark side"
   />
 )
 
 export const Disabled = () => (
   <Select
+    menuPortalTarget={document.body}
     name="name"
-    value="Yoda"
+    value={value}
     label="Character"
     options={options}
     onBlur={() => logger.log('blur')}
-    onChange={(e) => logger.log('change', e.target.value)}
+    onChange={(val) => logger.log('change', val)}
     disabled
   />
 )
 
 export const CustomPlaceholder = () => (
   <Select
+    menuPortalTarget={document.body}
     name="name"
-    value=""
+    value={undefined}
     label="Character"
     options={options}
     onBlur={() => logger.log('blur')}
-    onChange={(e) => logger.log('change', e.target.value)}
+    onChange={(val) => logger.log('change', val)}
     notSelectedPlaceholder="This is a custom placeholder"
   />
 )

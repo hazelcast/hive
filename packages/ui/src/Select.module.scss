@@ -9,37 +9,25 @@
     margin-top: c.$grid;
   }
 
-  .selectContainer {
-    position: relative;
-
-    .chevron {
-      color: c.$colorPrimary;
-      position: absolute;
-      top: c.$grid * 3;
-      right: c.$grid * 2;
-      pointer-events: none;
-    }
-  }
-
   select {
-    cursor: pointer;
+    /* cursor: pointer;
     margin-top: c.$grid;
     color: c.$colorText;
     height: c.$inputHeight;
     padding-left: c.$grid * 3;
     // Note: Actual padding + chevron width offset
-    padding-right: c.$grid * 2 + c.$grid * 6;
+    padding-right: c.$grid * 2;
     box-sizing: border-box;
     border: c.$borderWidth solid c.$colorNeutralLight;
     border-radius: c.$borderRadius;
-    background-color: c.$colorNeutralLighter;
+    background-color: c.$colorNeutralLighter; */
     // Note: Is IE11 problematic in case of checkbox/radio, but not select
     /* doiuse-disable css-appearance */
-    appearance: none;
+    //appearance: none;
     /* doiuse-enable css-appearance */
-    width: 100%;
+    //width: 100%;
 
-    @include c.typographyBodySmall;
+    /* @include c.typographyBodySmall; */
   }
 
   &:hover,
@@ -55,10 +43,6 @@
       color: c.$colorTextSecondary;
       background-color: c.$colorNeutral;
       border-color: c.$colorNeutralLight;
-    }
-
-    .chevron {
-      color: c.$colorTextSecondary;
     }
   }
 

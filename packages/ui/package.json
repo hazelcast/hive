@@ -53,11 +53,13 @@
     "react-merge-refs": "^1.1.0",
     "react-popper": "^2.2.3",
     "react-resize-aware": "^3.1.0",
+    "react-select": "^3.1.0",
     "uuid": "^8.3.1"
   },
   "devDependencies": {
     "@hazelcast/test-helpers": "^0.1.0-alpha.0",
     "@types/classnames": "^2.2.10",
+    "@types/react-select": "^3.0.26",
     "@types/uuid": "^8.3.0",
     "doiuse": "^4.2.0",
     "postcss": "^8.1.1",

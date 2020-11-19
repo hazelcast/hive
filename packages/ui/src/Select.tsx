@@ -1,55 +1,41 @@
 import { DataTestProp } from '@hazelcast/helpers'
-import React, { FC, SelectHTMLAttributes, useRef, FocusEvent, ChangeEvent } from 'react'
+import React, { FC, useRef } from 'react'
 import { v4 as uuid } from 'uuid'
 import cn from 'classnames'
-import { ChevronDown } from 'react-feather'
+import ReactSelect, { Props as ReactSelectProps } from 'react-select'
 
 import { Error, errorId } from './Error'
 import { Label } from './Label'
-import { Icon } from './Icon'
 
 import styles from './Select.module.scss'
 
-export type SelectOption = Pick<HTMLOptionElement, 'value' | 'text'> & {
-  disabled?: boolean
-}
-
-export type SelectCoreProps = {
-  options: SelectOption[]
-  name: string
-  value?: string
-  onBlur?: (e: FocusEvent<HTMLSelectElement>) => void
-  onChange?: (e: ChangeEvent<HTMLSelectElement>) => void
-  error?: string
-}
 export type SelectExtraProps = {
+  name: string
+  error?: string
   label: string
   className?: string
   selectClassName?: string
   errorClassName?: string
-  children?: never
-  notSelectedPlaceholder?: string
-} & DataTestProp &
-  Pick<SelectHTMLAttributes<HTMLSelectElement>, 'autoFocus' | 'disabled' | 'required'>
+  required?: boolean
+} & DataTestProp
 
-export type SelectProps = SelectExtraProps & SelectCoreProps
+export type SelectProps = Exclude<ReactSelectProps, 'isDisabled'> & SelectExtraProps
 
 export const Select: FC<SelectProps> = ({
-  autoFocus,
   'data-test': dataTest,
   className,
-  disabled,
   error,
   errorClassName,
+  isClearable = false,
+  isDisabled,
+  isMulti = false,
+  isSearchable = false,
   label,
   name,
-  onBlur,
-  onChange,
-  options,
   required,
   selectClassName,
   value,
-  notSelectedPlaceholder = 'Select',
+  ...rest
 }) => {
   const idRef = useRef(uuid())
 
@@ -59,7 +45,7 @@ export const Select: FC<SelectProps> = ({
       className={cn(
         styles.container,
         {
-          [styles.disabled]: disabled,
+          [styles.disabled]: isDisabled,
           [styles.hasError]: error,
           [styles.empty]: !value,
         },
@@ -67,30 +53,21 @@ export const Select: FC<SelectProps> = ({
       )}
     >
       <Label id={idRef.current} label={label} />
-      <div className={styles.selectContainer}>
-        <select
-          autoFocus={autoFocus}
-          id={idRef.current}
-          disabled={disabled}
-          className={selectClassName}
-          name={name}
-          onBlur={onBlur}
-          onChange={onChange}
-          // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute
-          aria-invalid={!!error}
-          aria-required={required}
-          aria-errormessage={error && errorId(idRef.current)}
-          value={value}
-        >
-          <option value="">{`-- ${notSelectedPlaceholder} --`}</option>
-          {options.map(({ value, text, disabled }) => (
-            <option key={value} value={value} disabled={disabled}>
-              {text}
-            </option>
-          ))}
-        </select>
-        <Icon className={styles.chevron} ariaLabel="Select chevron" icon={ChevronDown} />
-      </div>
+      <ReactSelect
+        inputId={idRef.current}
+        className={selectClassName}
+        // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute
+        aria-errormessage={error && errorId(idRef.current)}
+        aria-invalid={!!error}
+        aria-required={required}
+        isClearable={isClearable}
+        isDisabled={isDisabled}
+        isMulti={isMulti}
+        isSearchable={isSearchable}
+        name={name}
+        value={value}
+        {...rest}
+      />
       <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={idRef.current} />
     </div>
   )

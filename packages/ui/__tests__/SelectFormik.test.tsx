@@ -4,12 +4,11 @@ import { mountAndCheckA11Y, simulateChange } from '@hazelcast/test-helpers'
 import { act } from 'react-dom/test-utils'
 
 import { SelectFormik } from '../src/SelectFormik'
-import { SelectOption } from '../src/Select'
 import { Error } from '../src/Error'
 
-const options: SelectOption[] = [
-  { value: 'selectValue0', text: 'selectValue0', disabled: false },
-  { value: 'selectValue1', text: 'selectValue1', disabled: false },
+const options = [
+  { value: 'selectValue0', label: 'selectValue0' },
+  { value: 'selectValue1', label: 'selectValue1' },
 ]
 
 describe('SelectFormik', () => {
