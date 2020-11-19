@@ -4,8 +4,6 @@
 // thumb width without a white border, let's make it the height of the slider
 $thumbWidth: c.$slideTrackHeight;
 
-$fillBorderSize: 1px;
-
 // We've double checked that everything works in IE11
 /* doiuse-disable calc */
 /* doiuse-disable multicolumn */
@@ -30,11 +28,6 @@ $fillBorderSize: 1px;
   pointer-events: auto; /* catch clicks */
   width: $thumbWidth;
   height: $thumbWidth;
-}
-
-// This mixing is used for fill and fillPlaceholder in order to pass events to the parent wrapper + use the same radius
-@mixin fill {
-  pointer-events: none;
 }
 
 @mixin gridParent($cols: 1fr, $rows: 1fr) {
@@ -72,152 +65,153 @@ $fillBorderSize: 1px;
   }
 }
 
-.wrapper {
-  display: flex;
-  align-items: center;
+.label {
+  @include c.typographyBodyNormal;
 
-  .groupWrapper {
-    @include gridParent(1fr, 2fr);
+  color: c.$colorTextSecondary;
+  padding: 0;
+  margin: 0;
+}
 
-    flex: 1;
+.groupWrapper {
+  @include c.typographyBodySmall;
+  @include gridParent(2fr, 2fr);
 
-    input[type='range'] {
-      &::-webkit-slider-runnable-track,
-      &::-webkit-slider-thumb,
-      & {
-        -webkit-appearance: none;
-      }
+  flex: 1;
 
-      z-index: c.$zIndex100;
-      outline: none;
-      background: none;
-      @include gridItem(1, 2);
+  input[type='range'] {
+    &::-webkit-slider-runnable-track,
+    &::-webkit-slider-thumb,
+    & {
+      -webkit-appearance: none;
+    }
 
-      pointer-events: none; // ignore clicks on the actual inputs and let them pass to the handles
-      min-height: c.$slideTrackHeight;
-      padding: 0;
-      margin: 0;
-      justify-self: center;
-      width: calc(100% + #{c.$sliderThumbBorderSize * 2});
+    z-index: c.$zIndex100;
+    outline: none;
+    background: none;
+    @include gridItem(1, 2);
 
-      // Style the track
-      &::-webkit-slider-runnable-track {
-        @include track;
-      }
+    pointer-events: none; // ignore clicks on the actual inputs and let them pass to the handles
+    min-height: c.$slideTrackHeight;
+    padding: 0;
+    margin: 0;
+    justify-self: center;
+    width: calc(100% + #{c.$sliderThumbBorderSize * 2});
 
-      &::-moz-range-track {
-        @include track;
-      }
+    // Style the track
+    &::-webkit-slider-runnable-track {
+      @include track;
+    }
 
-      &::-ms-track {
-        @include track;
+    &::-moz-range-track {
+      @include track;
+    }
 
-        visibility: hidden; // IE11 specific rule to hide the default tick marks
-      }
+    &::-ms-track {
+      @include track;
 
+      visibility: hidden; // IE11 specific rule to hide the default tick marks
+    }
+
+    @include styleThumb {
+      @include thumb;
+    }
+
+    /**
+      Hover
+     */
+    &:hover,
+    &.hover {
       @include styleThumb {
-        @include thumb;
-      }
-
-      /**
-        Hover
-       */
-      &:hover,
-      &.hover {
-        @include styleThumb {
-          box-shadow: 0 0 0 c.$sliderThumbHoverBorderSize c.$colorPrimary;
-        }
-      }
-
-      &.focus,
-      &:focus {
-        @include styleThumb {
-          box-shadow: 0 0 0 c.$outlineWidth c.$colorAccessibilityOutline;
-        }
-      }
-
-      // don't show IE11's lower fill
-      &::-ms-fill-lower {
-        display: none;
+        box-shadow: 0 0 0 c.$sliderThumbHoverBorderSize c.$colorPrimary;
       }
     }
 
-    // see the javascript code for an explanation of this class
-    input[type='range'].atTheBorder {
-      &::-webkit-slider-thumb {
-        pointer-events: none;
-      }
-
-      &::-moz-range-thumb {
-        pointer-events: none;
+    &.focus,
+    &:focus {
+      @include styleThumb {
+        box-shadow: 0 0 0 c.$outlineWidth c.$colorAccessibilityOutline;
       }
     }
 
-    ul.markDescriptions {
-      @include gridItem(1, 1);
+    // don't show IE11's lower fill
+    &::-ms-fill-lower {
+      display: none;
+    }
+  }
 
-      list-style-type: none;
+  // see the javascript code for an explanation of this class
+  input[type='range'].atTheBorder {
+    @include styleThumb {
+      pointer-events: none;
+    }
+  }
+
+  ul.markDescriptions {
+    @include gridItem(1, 1);
+
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    height: c.$grid * 6;
+    position: relative;
+
+    > li {
+      position: absolute;
+      bottom: c.$grid;
+      transform: translateX(-50%);
+    }
+  }
+
+  .fillPlaceholder {
+    @include gridItem(1, 2);
+    @include gridParent;
+
+    pointer-events: none;
+    height: c.$slideTrackHeight;
+    // highlighted part covers the border
+    box-sizing: border-box;
+    background: c.$colorNeutral;
+    border: c.$sliderFillBorderSize solid c.$colorNeutralLight;
+    width: 100%;
+
+    // if the actual fill is very small the border is rounded, it can reach out of the wrapper
+    overflow: hidden;
+
+    // we ned to reserve space like this manually mostly because of IE11
+    margin-top: calc(#{c.$sliderThumbBorderSize} + #{c.$sliderThumbShadowSize});
+    margin-bottom: calc(#{c.$sliderThumbBorderSize} + #{c.$sliderThumbShadowSize});
+    border-radius: c.$sliderTrackBorderRadius;
+
+    .fill {
+      @include gridItem;
+
+      pointer-events: none;
+      height: 100%;
+      background: c.$colorPrimaryLight;
+      // width & marginLeft will be set by a Javascript
+    }
+
+    ul.marks {
+      @include gridItem;
+
+      $markWidth: 2px;
+
+      width: calc(100% - #{$markWidth}); // so that 0% & 100% marks are visible
       margin: 0;
       padding: 0;
-      height: c.$grid * 6;
+      list-style-type: none;
+      height: 100%;
       position: relative;
+      pointer-events: none;
 
       > li {
         position: absolute;
-        transform: translateX(-50%);
-      }
-    }
+        width: $markWidth;
+        background-color: c.$colorTextSecondary;
 
-    .fillPlaceholder {
-      @include gridItem(1, 2);
-      @include fill;
-      @include gridParent;
-
-      height: c.$slideTrackHeight;
-      // highlighted part covers the border
-      box-sizing: border-box;
-      background: c.$colorNeutral;
-      border: $fillBorderSize solid c.$colorNeutralLight;
-      width: 100%;
-
-      // if the actual fill is very small the border is rounded, it can reach out of the wrapper
-      overflow: hidden;
-
-      // we ned to reserve space like this manually mostly because of IE11
-      margin-top: calc(#{c.$sliderThumbBorderSize} + #{c.$sliderThumbShadowSize});
-      margin-bottom: calc(#{c.$sliderThumbBorderSize} + #{c.$sliderThumbShadowSize});
-      border-radius: c.$sliderTrackBorderRadius;
-
-      .fill {
-        @include fill();
-        @include gridItem;
-
-        height: calc(#{c.$slideTrackHeight} - #{$fillBorderSize} * 2); // height minus border from top & bottom
-        background: c.$colorPrimaryLight;
-        // width & marginLeft will be set by a Javascript
-      }
-
-      ul.marks {
-        @include gridItem;
-
-        $markWidth: 2px;
-
-        width: calc(100% - #{$markWidth}); // so that 0% & 100% marks are visible
-        margin: 0;
-        padding: 0;
-        list-style-type: none;
-        height: 100%;
-        position: relative;
-
-        > li {
-          position: absolute;
-          width: $markWidth;
-          height: calc(#{c.$slideTrackHeight} - #{$fillBorderSize} * 2);
-          background: c.$colorTextSecondary;
-
-          &.active {
-            background-color: c.$colorNeutralWhite;
-          }
+        &.active {
+          background-color: c.$colorNeutralWhite;
         }
       }
     }
@@ -231,11 +225,21 @@ $fillBorderSize: 1px;
   }
 
   &.disabled {
+    ul.markDescriptions {
+      color: c.$colorNeutralLight;
+    }
+
     .fillPlaceholder {
       background-color: c.$colorNeutral;
 
       .fill {
         background-color: c.$colorNeutralLight;
+      }
+
+      ul.marks {
+        > li {
+          background-color: c.$colorNeutralLight;
+        }
       }
     }
 

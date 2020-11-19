@@ -46,6 +46,7 @@ describe('Slider', () => {
       value: 4,
     })
   })
+
   it('Renders multivalue slider, checks that aria-valuemin and aria-valuemax are correctly set', async () => {
     const onChange = jest.fn()
     const wrapper = await mountAndCheckA11Y(
@@ -62,6 +63,110 @@ describe('Slider', () => {
     expect(wrapper.find('input').at(1).props()).toHaveProperty('aria-valuemax', 100)
   })
 
+  it('Renders range slider, checks that the number can be changed', async () => {
+    const onChange = jest.fn()
+    const wrapper = await mountAndCheckA11Y(<Slider name="ram" label="RAM" value={1} min={0} max={10} onChange={onChange} />)
+
+    wrapper.find('input').simulate('change', 20)
+    wrapper.update()
+    expect(onChange).toBeCalledTimes(1)
+  })
+
+  it('Renders single value slider, checks that the number can be changed upon clicking a slider', async () => {
+    Object.defineProperty(HTMLElement.prototype, 'offsetWidth', {
+      configurable: true,
+      value: 200,
+    })
+
+    const onChange = jest.fn()
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const events: any = {}
+    jest.spyOn(window, 'addEventListener').mockImplementation((event, handle) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      events[event] = handle
+    })
+    jest.spyOn(window, 'removeEventListener').mockImplementation((event) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      events[event] = undefined
+    })
+
+    const wrapper = await mountAndCheckA11Y(<Slider name="ram" label="RAM" value={1} min={0} max={10} onChange={onChange} />)
+
+    expect(onChange).toBeCalledTimes(0)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+    events['click']({ offsetX: 100, target: wrapper.find("div[role='group']").instance() })
+
+    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toBeCalledWith(5, expect.anything())
+  })
+
+  it('Renders range slider, checks that the number can be changed upon clicking a slider ', async () => {
+    Object.defineProperty(HTMLElement.prototype, 'offsetWidth', {
+      configurable: true,
+      value: 200,
+    })
+
+    const onChange = jest.fn()
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const events: any = {}
+    jest.spyOn(window, 'addEventListener').mockImplementation((event, handle) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      events[event] = handle
+    })
+    jest.spyOn(window, 'removeEventListener').mockImplementation((event) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      events[event] = undefined
+    })
+
+    const wrapper = await mountAndCheckA11Y(<Slider name="ram" label="RAM" value={[3, 9]} min={0} max={10} onChange={onChange} />)
+
+    expect(onChange).toBeCalledTimes(0)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+    events['click']({ offsetX: 100, target: wrapper.find("div[role='group']").instance() })
+
+    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toBeCalledWith([5, 9], expect.anything())
+  })
+
+  it('Renders slider with marks, check that marks are rendered', async () => {
+    const onChange = jest.fn()
+    const wrapper = await mountAndCheckA11Y(
+      <Slider
+        name="ram"
+        label="RAM"
+        value={4}
+        min={1}
+        max={100}
+        onChange={onChange}
+        marks={[
+          {
+            value: 1,
+            label: '1 GB',
+          },
+          {
+            value: 20,
+            label: '20 GB',
+          },
+        ]}
+      />,
+    )
+    expect(wrapper.find("ul[data-test='marks']").exists()).toBeTruthy()
+    expect(wrapper.find("ul[data-test='mark-descriptions']").exists()).toBeTruthy()
+
+    expect(wrapper.find("ul[data-test='marks'] li").length).toEqual(2)
+    expect(wrapper.find("ul[data-test='mark-descriptions'] li").length).toEqual(2)
+  })
+
+  it('Renders slider without marks, check that marks are not rendered', async () => {
+    const onChange = jest.fn()
+    const wrapper = await mountAndCheckA11Y(<Slider name="ram" label="RAM" value={4} min={1} max={100} onChange={onChange} />)
+    expect(wrapper.find("ul[data-test='marks']").exists()).toBeFalsy()
+    expect(wrapper.find("ul[data-test='mark-descriptions']").exists()).toBeFalsy()
+  })
+})
+
+describe('Slider helper functions', () => {
   /**
    * Internal function tests
    */
