@@ -73,7 +73,7 @@ $thumbWidth: c.$slideTrackHeight;
   margin: 0;
 }
 
-.groupWrapper {
+.wrapper {
   @include c.typographyBodySmall;
   @include gridParent(2fr, 2fr);
 

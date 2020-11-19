@@ -1,7 +1,7 @@
 @use '../styles/constants' as c;
 @use '../styles/helpers' as h;
 
-.groupWrapper {
+.wrapper {
   display: inline-flex;
   // inline-flex changes vertical align compared to display: flex
   // setting vertical-align allows us to easily use radio button

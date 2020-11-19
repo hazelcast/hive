@@ -219,7 +219,7 @@ export function Slider<T extends Value = number>({
         {label}
       </label>
       <div
-        className={cn(styles.groupWrapper, {
+        className={cn(styles.wrapper, {
           [styles.disabled]: disabled,
         })}
         role="group"

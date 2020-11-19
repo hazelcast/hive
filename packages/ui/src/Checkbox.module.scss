@@ -1,7 +1,7 @@
 @use '../styles/constants' as c;
 @use '../styles/helpers' as h;
 
-.groupWrapper {
+.wrapper {
   display: flex;
   flex-direction: row;
   cursor: pointer;
