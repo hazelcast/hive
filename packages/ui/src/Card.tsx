@@ -27,7 +27,6 @@ type CardHeaderProps =
 
 export type CardProps = {
   type?: 'primary' | 'secondary' | 'highlighter'
-  icon?: IconProps['icon']
 } & CardHeaderProps &
   DataTestProp
 
@@ -66,7 +65,7 @@ export const Card: FC<CardProps> = ({ type = 'primary', title, icon, iconButton,
           {type === 'primary' ? (
             <h2 data-test="card-heading" className={styles.heading}>
               {title}
-             {iconElement && <span className={styles.icon}>{iconElement}</span>}
+              {iconElement && <span className={styles.icon}>{iconElement}</span>}
             </h2>
           ) : (
             <h3 data-test="card-heading" className={styles.heading}>

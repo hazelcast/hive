@@ -1,9 +1,11 @@
 import React from 'react'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 
-import { Card, CardProps, Icon } from '../src'
+import { Card, CardProps, Icon, IconProps } from '../src'
 import { Archive, Database } from 'react-feather'
-import { IconButton } from '../src/IconButton'
+import { IconButton, IconButtonProps } from '../src/IconButton'
+
+import styleConsts from '../styles/constants/export.scss'
 
 describe('Card', () => {
   const cardTitle = 'Card title'
@@ -53,7 +55,7 @@ describe('Card', () => {
       expect(wrapper.findDataTest('card-heading').length).toBe(0)
     }
 
-   if (rest.icon) {
+    if (rest.icon) {
       expect(wrapper.find(Icon).props()).toEqual<IconProps>({
         icon: rest.icon,
         color: styleConsts.colorPrimary,
