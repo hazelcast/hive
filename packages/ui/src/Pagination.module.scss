@@ -1,0 +1,30 @@
+@use '../styles/constants' as c;
+
+.container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+
+  .buttons {
+    display: flex;
+    align-items: center;
+
+    > *:not(:last-child) {
+      margin-right: c.$grid * 2;
+    }
+  }
+
+  .pageJump {
+    max-width: c.$grid * 25;
+    min-width: c.$grid * 25;
+  }
+}
+
+.numberButton {
+  width: c.$grid * 10;
+
+  .numberButtonBody {
+    padding: 0;
+    justify-content: center;
+  }
+}

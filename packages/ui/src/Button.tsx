@@ -47,8 +47,8 @@ export type ButtonAccessibleIconRightProps =
 
 export type ButtonDisabledProps =
   | {
-      disabledTooltip: string
       disabled: boolean
+      disabledTooltip: string
       disabledTooltipVisible?: boolean
       disabledTooltipPlacement?: TooltipProps['placement']
     }

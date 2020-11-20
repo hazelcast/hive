@@ -3,11 +3,11 @@ import { range } from '@hazelcast/helpers'
 export type PaginationItem = number | 'previous' | 'next' | 'ellipsis'
 
 export type UsePaginationProps = {
-  count: number
-  page: number
+  pageCount: number
+  currentPage: number
 }
 
-export const usePagination = ({ count, page }: UsePaginationProps) => {
+export const usePagination = ({ pageCount, currentPage }: UsePaginationProps) => {
   const boundaryCount = 2
   const ellipsis = 2
   const siblingCount = 1
@@ -22,22 +22,22 @@ export const usePagination = ({ count, page }: UsePaginationProps) => {
 
   let items: PaginationItem[] = []
 
-  // If count is equalt to or less than maxVisibleBlocks we just show all pages
-  if (count <= maxVisibleBlocks) {
-    items = ['previous', ...range(1, count), 'next']
+  // If page count is equalt to or less than maxVisibleBlocks we just show all pages
+  if (pageCount <= maxVisibleBlocks) {
+    items = ['previous', ...range(1, pageCount), 'next']
   } else {
     const visibleMiddle = Math.ceil(maxVisibleBlocks / 2)
     // If the current page is near the start then show all start blocks without ellipsis
-    if (page <= visibleMiddle) {
-      items = ['previous', ...range(1, visibleMiddle + 1), 'ellipsis', count, 'next']
+    if (currentPage <= visibleMiddle) {
+      items = ['previous', ...range(1, visibleMiddle + 1), 'ellipsis', pageCount, 'next']
       // If the current page is near the end then show all end blocks without ellipsis
-    } else if (page >= count - visibleMiddle + 1) {
-      items = ['previous', 1, 'ellipsis', ...range(count - visibleMiddle, count), 'next']
+    } else if (currentPage >= pageCount - visibleMiddle + 1) {
+      items = ['previous', 1, 'ellipsis', ...range(pageCount - visibleMiddle, pageCount), 'next']
       // If the current page is somewhere in the middle then show ellipsis at both sides
     } else {
-      items = ['previous', 1, 'ellipsis', ...range(page - siblingCount, page + siblingCount), 'ellipsis', count, 'next']
+      items = ['previous', 1, 'ellipsis', ...range(currentPage - siblingCount, currentPage + siblingCount), 'ellipsis', pageCount, 'next']
     }
   }
 
-  return { items }
+  return items
 }
