@@ -46,19 +46,29 @@ describe('Card', () => {
     const wrapper = await mountAndCheckA11Y(<Card {...rest}>{cardContent}</Card>)
 
     if (rest.title) {
-      expect(wrapper.findDataTest('card-heading').first().getDOMNode().tagName).toBe(headingType)
+      expect(wrapper.findDataTest('card-heading').getDOMNode().tagName).toBe(headingType)
     }
 
     if (!rest.title) {
       expect(wrapper.findDataTest('card-heading').length).toBe(0)
     }
 
-    if (rest.icon) {
-      expect(wrapper.find(Icon).length).toBe(1)
+   if (rest.icon) {
+      expect(wrapper.find(Icon).props()).toEqual<IconProps>({
+        icon: rest.icon,
+        color: styleConsts.colorPrimary,
+        size: rest.type === undefined || rest.type === 'primary' ? 'normal' : 'small',
+        ariaHidden: true,
+      })
     }
 
     if (rest.iconButton) {
-      expect(wrapper.find(IconButton).length).toBe(1)
+      expect(wrapper.find(IconButton).props()).toEqual<IconButtonProps>({
+        kind: 'transparent',
+        color: styleConsts.colorPrimary,
+        size: rest.type === undefined || rest.type === 'primary' ? 'normal' : 'small',
+        ...rest.iconButton,
+      })
     }
 
     expect(wrapper.findDataTest('card-wrapper').length).toBe(1)
