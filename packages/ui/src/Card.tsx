@@ -77,7 +77,7 @@ export const Card: FC<CardProps> = ({ type = 'primary', title, icon, iconButton,
         </>
       )}
 
-      <div data-test="card-content" className={cn(styles.content)}>
+      <div data-test="card-content" className={styles.content}>
         {children}
       </div>
     </div>
