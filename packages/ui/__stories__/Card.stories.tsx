@@ -32,7 +32,7 @@ export const PrimaryWithIcon = () => (
 )
 
 export const PrimaryWithIconButton = () => (
-  <Card type="primary" title="Card title" iconButton={{ iconAriaLabel: 'Database', icon: Database }}>
+  <Card type="primary" title="Card title" iconButtonProps={{ iconAriaLabel: 'Database', icon: Database }}>
     {cardContent}
   </Card>
 )
@@ -58,7 +58,7 @@ export const SecondaryWithIcon = () => (
 )
 
 export const SecondaryWithIconButton = () => (
-  <Card type="secondary" title="Card title" iconButton={{ iconAriaLabel: 'Database', icon: Database }}>
+  <Card type="secondary" title="Card title" iconButtonProps={{ iconAriaLabel: 'Database', icon: Database }}>
     {cardContent}
   </Card>
 )
@@ -84,7 +84,7 @@ export const HighlighterWithIcon = () => (
 )
 
 export const HighlighterWithIconButton = () => (
-  <Card title="Card title" type="highlighter" iconButton={{ iconAriaLabel: 'Database', icon: Database }}>
+  <Card title="Card title" type="highlighter" iconButtonProps={{ iconAriaLabel: 'Database', icon: Database }}>
     {cardContent}
   </Card>
 )
