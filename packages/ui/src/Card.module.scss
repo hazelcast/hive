@@ -3,7 +3,6 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  align-content: stretch;
   box-shadow: 0 c.$cardShadowSize c.$cardShadowBlur 0 c.$colorShadow;
   border-radius: c.$borderRadius;
 
@@ -18,6 +17,14 @@
     box-shadow: none;
   }
 
+  h2.heading {
+    @include c.typographyH2();
+  }
+
+  h3.heading {
+    @include c.typographyH3();
+  }
+
   .heading {
     display: flex;
     align-items: center;
@@ -25,6 +32,7 @@
     margin: 0;
 
     .icon {
+      line-height: 1;
       margin-left: c.$grid * 2;
     }
   }
