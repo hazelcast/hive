@@ -12,16 +12,16 @@ type CardHeaderProps =
   | {
       title: string
       icon?: IconProps['icon']
-      iconButton?: never
+      iconButtonProps?: never
     }
   | {
       title: string
-      iconButton?: Omit<IconButtonProps, 'size' | 'kind'>
+      iconButtonProps?: Omit<IconButtonProps, 'size' | 'kind'>
       icon?: never
     }
   | {
       title?: never
-      iconButton?: never
+      iconButtonProps?: never
       icon?: never
     }
 
@@ -39,16 +39,16 @@ export type CardProps = {
  * - "Secondary" and "Highlighter" Cards should be used only within "Primary" Cards.
  * - Card can display an icon next to Card heading. This icon can be static or interactive (button).
  */
-export const Card: FC<CardProps> = ({ type = 'primary', title, icon, iconButton, 'data-test': dataTest, children }) => {
+export const Card: FC<CardProps> = ({ type = 'primary', title, icon, iconButtonProps, 'data-test': dataTest, children }) => {
   let iconElement: JSX.Element | null = null
 
   if (icon !== undefined) {
     iconElement = <Icon icon={icon} color={styleConsts.colorPrimary} size={type === 'primary' ? 'normal' : 'small'} ariaHidden />
   }
 
-  if (iconButton !== undefined) {
+  if (iconButtonProps !== undefined) {
     iconElement = (
-      <IconButton kind="transparent" color={styleConsts.colorPrimary} size={type === 'primary' ? 'normal' : 'small'} {...iconButton} />
+      <IconButton kind="transparent" color={styleConsts.colorPrimary} size={type === 'primary' ? 'normal' : 'small'} {...iconButtonProps} />
     )
   }
 

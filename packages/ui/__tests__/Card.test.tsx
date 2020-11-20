@@ -26,7 +26,7 @@ describe('Card', () => {
       title: cardTitle,
       type: 'secondary',
       headingType: 'H3',
-      iconButton: {
+      iconButtonProps: {
         iconAriaLabel: 'label',
         icon: Archive,
       },
@@ -64,12 +64,12 @@ describe('Card', () => {
       })
     }
 
-    if (rest.iconButton) {
+    if (rest.iconButtonProps) {
       expect(wrapper.find(IconButton).props()).toEqual<IconButtonProps>({
         kind: 'transparent',
         color: styleConsts.colorPrimary,
         size: rest.type === undefined || rest.type === 'primary' ? 'normal' : 'small',
-        ...rest.iconButton,
+        ...rest.iconButtonProps,
       })
     }
 

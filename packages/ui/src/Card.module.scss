@@ -5,6 +5,7 @@
   flex-direction: column;
   box-shadow: 0 c.$cardShadowSize c.$cardShadowBlur 0 c.$colorShadow;
   border-radius: c.$borderRadius;
+  background: c.$colorNeutralWhite;
 
   &.typeSecondary {
     background: none;
