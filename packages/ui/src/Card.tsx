@@ -66,12 +66,12 @@ export const Card: FC<CardProps> = ({ type = 'primary', title, icon, iconButton,
           {type === 'primary' ? (
             <h2 data-test="card-heading" className={styles.heading}>
               {title}
-              <span className={styles.icon}>{iconElement}</span>
+             {iconElement && <span className={styles.icon}>{iconElement}</span>}
             </h2>
           ) : (
             <h3 data-test="card-heading" className={styles.heading}>
               {title}
-              <span className={styles.icon}>{iconElement}</span>
+              {iconElement && <span className={styles.icon}>{iconElement}</span>}
             </h3>
           )}
         </>
