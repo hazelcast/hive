@@ -1,14 +1,14 @@
-import React, { useState } from 'react'
+import React, { FC, useState } from 'react'
 
-import { Pagination } from '../src/Pagination'
+import { Pagination, PaginationProps } from '../src/Pagination'
 
 export default {
   title: 'Components/Pagination',
   component: Pagination,
 }
 
-export const Default = () => {
-  const numberOfItems = 100
+const StoryBase: FC<Pick<PaginationProps, 'showPageJump'>> = ({ showPageJump }) => {
+  const numberOfItems = 1000
   const [pageSize, setPageSize] = useState<number>(5)
   const pageSizeOptions = [5, 10]
 
@@ -36,6 +36,18 @@ export const Default = () => {
       setPageSize={setPageSize}
       pageSizeOptions={pageSizeOptions}
       numberOfItems={numberOfItems}
+      showPageJump={showPageJump}
     />
   )
 }
+
+export const Default = () => <StoryBase showPageJump />
+
+Default.parameters = {
+  design: {
+    type: 'figma',
+    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=9962%3A1',
+  },
+}
+
+export const WithoutPageJump = () => <StoryBase showPageJump={false} />

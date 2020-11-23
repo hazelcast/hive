@@ -5,6 +5,25 @@
   justify-content: flex-end;
   align-items: flex-end;
 
+  > *:not(:last-child) {
+    margin-right: c.$grid * 6.5;
+  }
+
+  .rows {
+    display: flex;
+    align-items: flex-end;
+
+    > *:first-child {
+      margin-right: c.$grid * 5;
+    }
+  }
+
+  .shownItems {
+    @include c.typographyBodyNormal;
+
+    color: c.$colorTextSecondary;
+  }
+
   .buttons {
     display: flex;
     align-items: center;
@@ -12,19 +31,58 @@
     > *:not(:last-child) {
       margin-right: c.$grid * 2;
     }
+
+    // We have to increase specificity to overwrite Button styles
+    .button {
+      font-size: c.$fontSizeBodySmall;
+      letter-spacing: c.$letterSpacingBodySmall;
+
+      color: c.$colorText;
+      background-color: c.$colorNeutralLighter;
+      border: c.$borderWidthButton solid;
+      border-color: c.$colorNeutralLight;
+
+      .outline {
+        /* Note: We need to take border of 2*2px into account */
+        /* doiuse-disable calc */
+        width: calc(100% + #{c.$grid} * 2);
+        height: calc(100% + #{c.$grid} * 2);
+        /* doiuse-enable calc */
+      }
+
+      .body {
+        padding: 0 c.$grid * 3.5;
+      }
+
+      &:hover,
+      &.hover,
+      &:focus,
+      &.focus {
+        color: c.$colorPrimaryLight;
+        border-color: c.$colorNeutral;
+      }
+
+      &:active,
+      &.active {
+        color: c.$colorPrimaryDark;
+        border-color: c.$colorPrimaryDark;
+      }
+
+      &:disabled {
+        color: c.$colorTextSecondary;
+        background-color: c.$colorNeutral;
+        border-color: c.$colorNeutral;
+      }
+
+      &.selected {
+        color: c.$colorPrimary;
+        border-color: c.$colorPrimary;
+      }
+    }
   }
 
   .pageJump {
     max-width: c.$grid * 25;
     min-width: c.$grid * 25;
-  }
-}
-
-.numberButton {
-  width: c.$grid * 10;
-
-  .numberButtonBody {
-    padding: 0;
-    justify-content: center;
   }
 }

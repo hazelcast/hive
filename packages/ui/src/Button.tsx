@@ -65,6 +65,7 @@ type ButtonCommonProps = {
   children: string
   capitalize?: boolean
   bodyClassName?: string
+  outlineClassName?: string
 }
 
 export type ButtonProps = ButtonCommonProps &
@@ -96,6 +97,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
       kind = 'primary',
       className,
       bodyClassName,
+      outlineClassName,
       children,
       capitalize = true,
       // Disabled tooltip
@@ -122,6 +124,8 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
     /* Generate backup tooltip id if prop is empty */
     const tooltipId = `${uuid()}-button-tooltip`
 
+    console.log('outlineClassName', outlineClassName)
+
     return (
       <Tooltip
         id={tooltipId}
@@ -145,7 +149,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
             disabled={disabled}
             {...rest}
           >
-            <span className={styles.outline} />
+            <span className={cn(styles.outline, outlineClassName)} />
             <span className={cn(styles.body, bodyClassName)} ref={mergeRefs([ref, tooltipRef])}>
               {iconLeft && iconLeftAriaLabel && (
                 <Icon
