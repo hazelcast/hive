@@ -13,13 +13,12 @@ export type SelectExtraProps = {
   name: string
   error?: string
   label: string
-  className?: string
   selectClassName?: string
   errorClassName?: string
   required?: boolean
 } & DataTestProp
 
-export type SelectProps = Exclude<ReactSelectProps, 'isDisabled'> & SelectExtraProps
+export type SelectProps = ReactSelectProps & SelectExtraProps
 
 export const Select: FC<SelectProps> = ({
   'data-test': dataTest,

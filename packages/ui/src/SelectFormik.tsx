@@ -1,23 +1,26 @@
-import React, { ChangeEvent, ReactElement, useCallback } from 'react'
+import React, { ReactElement, useCallback } from 'react'
 import { FieldValidator, useField } from 'formik'
+import { ValueType } from 'react-select'
 
-import { Select, SelectCoreProps, SelectExtraProps } from './Select'
+import { Select, SelectProps, SelectExtraProps } from './Select'
 
-export type SelectFormikProps<V extends object> = Pick<SelectCoreProps, 'options'> &
+type OptionType = { label: string; value: string }
+
+export type SelectFormikProps<V extends object> = Pick<SelectProps, 'options'> &
   SelectExtraProps & {
     name: keyof V
     validate?: FieldValidator
   }
 
-export const SelectFormik = <V extends object>({ name, options, validate, ...props }: SelectFormikProps<V>): ReactElement => {
-  const [field, meta, { setValue, setTouched }] = useField<string | undefined>({
+export const SelectFormik = <V extends object>({ name, validate, ...props }: SelectFormikProps<V>): ReactElement => {
+  const [field, meta, { setValue, setTouched }] = useField<ValueType<OptionType>>({
     name,
     validate,
   })
 
   const onChange = useCallback(
-    (e: ChangeEvent<HTMLSelectElement>) => {
-      setValue(e.target.value)
+    (value: ValueType<OptionType>) => {
+      setValue(value)
       setTouched(true)
     },
     [setValue, setTouched],
@@ -27,7 +30,6 @@ export const SelectFormik = <V extends object>({ name, options, validate, ...pro
     <Select
       {...props}
       name={name}
-      options={options}
       value={field.value}
       onChange={onChange}
       onBlur={field.onBlur}
