@@ -6,7 +6,7 @@ import styles from '../src/TextField.module.scss'
 
 const eventHandlers = {
   onBlur: () => logger.log('blur'),
-  onChange: (newValue: number) => logger.log('change', newValue),
+  onChange: (newValue?: number) => logger.log('change', newValue),
 }
 
 export default {
@@ -14,7 +14,7 @@ export default {
   component: NumberField,
 }
 export const Default = () => {
-  const [value, setValue] = useState(42)
+  const [value, setValue] = useState<number | undefined>(42)
   return <NumberField name="name" value={value} placeholder="Enter the name" label="Wisest jedi" {...eventHandlers} onChange={setValue} />
 }
 
@@ -52,6 +52,10 @@ export const DisabledDecrement = () => {
 
 export const DisabledIncrement = () => {
   return <NumberField name="name" value={42} placeholder="Enter the name" label="Wisest jedi" max={42} {...eventHandlers} />
+}
+
+export const Empty = () => {
+  return <NumberField name="name" placeholder="Enter the name" label="Wisest jedi" max={42} {...eventHandlers} />
 }
 
 export const WithHelperText = () => (
