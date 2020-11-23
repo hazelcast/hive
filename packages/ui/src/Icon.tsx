@@ -1,7 +1,7 @@
 import React, { FC, SVGProps } from 'react'
 import { Icon as IconType } from 'react-feather'
 
-import styleConsts from '../styles/constants/export.scss'
+import styleConsts from '../styles/constants/export.module.scss'
 
 type IconSize = 'small' | 'normal'
 
