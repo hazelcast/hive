@@ -5,7 +5,7 @@ import cn from 'classnames'
 import { Icon } from './Icon'
 import { Tooltip, TooltipProps } from './Tooltip'
 
-import styleConsts from '../styles/constants/export.scss'
+import styleConsts from '../styles/constants/export.module.scss'
 
 import styles from './Help.module.scss'
 
