@@ -10,7 +10,7 @@ import styles from './NumberField.module.scss'
 
 type NumberFieldCoreProps = {
   name: string
-  value: number
+  value?: number
   onBlur?: (e: FocusEvent<HTMLInputElement>) => void
   onChange: (newValue: number) => void
   error?: string
@@ -21,6 +21,7 @@ export type NumberFieldExtraProps = {
   step?: number
   min?: number
   max?: number
+  defaultValue?: number
   numberType?: 'int' | 'float'
   label: string
   required?: boolean
@@ -39,6 +40,7 @@ export const NumberField: FC<NumberFieldProps> = ({
   step = 1,
   min,
   max,
+  defaultValue = 0,
   value,
   numberType = 'int',
   inputClassName,
@@ -48,30 +50,30 @@ export const NumberField: FC<NumberFieldProps> = ({
   ...props
 }) => {
   useLayoutEffect(() => {
-    if (min !== undefined && value < min) {
+    if (min !== undefined && value !== undefined && value < min) {
       onChange(min)
     }
-    if (max !== undefined && value > max) {
+    if (max !== undefined && value !== undefined && value > max) {
       onChange(max)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [min, max])
 
   const onDecrement = useCallback(() => {
-    let newValue = value - step
+    let newValue = (value ?? defaultValue) - step
     if (min !== undefined && newValue < min) {
       newValue = min
     }
     onChange(newValue)
-  }, [value, onChange, step, min])
+  }, [value, onChange, step, min, defaultValue])
 
   const onIncrement = useCallback(() => {
-    let newValue = value + step
+    let newValue = (value ?? defaultValue) + step
     if (max !== undefined && newValue > max) {
       newValue = max
     }
     onChange(newValue)
-  }, [value, onChange, step, max])
+  }, [value, onChange, step, max, defaultValue])
 
   const overlay = useMemo(
     () => (
@@ -82,9 +84,10 @@ export const NumberField: FC<NumberFieldProps> = ({
           iconAriaLabel={decrementIconAriaLabel}
           className={styles.decrement}
           onClick={onDecrement}
-          disabled={disabled || (min !== undefined && value <= min)}
+          disabled={disabled || (min !== undefined && value !== undefined && value <= min)}
           kind="primary"
           data-test="number-field-decrement"
+          type="button"
         />
         <IconButton
           size="small"
@@ -92,9 +95,10 @@ export const NumberField: FC<NumberFieldProps> = ({
           iconAriaLabel={incrementIconAriaLabel}
           className={styles.increment}
           onClick={onIncrement}
-          disabled={disabled || (max !== undefined && value >= max)}
+          disabled={disabled || (max !== undefined && value !== undefined && value >= max)}
           kind="primary"
           data-test="number-field-increment"
+          type="button"
         />
       </>
     ),
@@ -102,10 +106,15 @@ export const NumberField: FC<NumberFieldProps> = ({
   )
 
   const onChangeWrapped = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      onChange(numberType === 'int' ? parseInt(e.target.value, 10) : parseFloat(e.target.value))
+    ({ target: { value: newValue } }: ChangeEvent<HTMLInputElement>) => {
+      let newValueParsed = defaultValue
+      if (newValue !== '') {
+        newValueParsed = numberType === 'int' ? parseInt(newValue, 10) : parseFloat(newValue)
+      }
+
+      onChange(newValueParsed)
     },
-    [onChange, numberType],
+    [onChange, numberType, defaultValue],
   )
 
   return (
