@@ -1,10 +1,12 @@
 import React, { ChangeEvent, useCallback, useEffect, useRef } from 'react'
-import styles from './Slider.module.scss'
-import cn from 'classnames'
-import { Error, errorId } from './Error'
-import { v4 as uuid } from 'uuid'
-import { Help } from './Help'
 import { DataTestProp } from '@hazelcast/helpers'
+import { v4 as uuid } from 'uuid'
+import cn from 'classnames'
+
+import { Error, errorId } from './Error'
+import { Help } from './Help'
+
+import styles from './Slider.module.scss'
 
 // This component accepts one of these values
 type Value = number | [number, number]
@@ -21,12 +23,20 @@ type ChangeEventType = ChangeEvent<HTMLInputElement> | MouseEvent
 type SingleValueChangeFn = (val: number, e?: ChangeEventType) => void
 type MultiValueChangeFn = (val: [number, number], e?: ChangeEventType) => void
 
-export type SliderCoreProps<T extends Value> = {
-  value: T
+export type SliderValueProps =
+  | {
+      value: number
+      onChange: SingleValueChangeFn
+    }
+  | {
+      value: [number, number]
+      onChange: MultiValueChangeFn
+    }
+
+export type SliderCoreProps = {
   name: string
-  onChange: T extends number ? SingleValueChangeFn : MultiValueChangeFn
   error?: string
-}
+} & SliderValueProps
 
 export type SliderExtraProps = {
   step?: number

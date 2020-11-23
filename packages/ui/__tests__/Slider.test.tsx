@@ -1,6 +1,7 @@
 import React from 'react'
 import { v4 as uuid } from 'uuid'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+
 import { getMarkMetadata, Slider } from '../src/Slider'
 
 jest.mock('uuid')
@@ -15,13 +16,13 @@ describe('Slider', () => {
     const onChange = jest.fn()
     const wrapper = await mountAndCheckA11Y(<Slider name="ram" label="RAM" value={4} min={0} max={10} onChange={onChange} />)
 
-    expect(wrapper.find('input').length).toEqual(1)
+    expect(wrapper.find('input[type="range"]').length).toEqual(1)
   })
   it('Renders range slider, checks that the number of inputs is correct', async () => {
     const onChange = jest.fn()
     const wrapper = await mountAndCheckA11Y(<Slider name="ram" label="RAM" value={[1, 4]} min={0} max={10} onChange={onChange} />)
 
-    expect(wrapper.find('input').length).toEqual(2)
+    expect(wrapper.find('input[type="range"]').length).toEqual(2)
   })
   it('Renders single value slider, checks that correct props are passed', async () => {
     const onChange = jest.fn()
@@ -40,7 +41,7 @@ describe('Slider', () => {
       min: 1,
       // This is an internal component function
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      onChange: expect.anything(),
+      onChange: expect.any(Function),
       step: 1,
       type: 'range',
       value: 4,

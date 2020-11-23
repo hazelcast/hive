@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
-import { Slider } from '../src/Slider'
-import styles from '../src/Slider.module.scss'
-import cn from 'classnames'
-import utilStyles from './utils.scss'
-import { SliderFormik } from '../src/SliderFormik'
-import { logger } from '@hazelcast/services'
 import { Form, Formik } from 'formik'
+import { logger } from '@hazelcast/services'
+import cn from 'classnames'
+
+import { Slider } from '../src/Slider'
+import { SliderFormik } from '../src/SliderFormik'
+
+import utilStyles from './utils.scss'
+import styles from '../src/Slider.module.scss'
 
 export default {
   title: 'Components/Slider',
