@@ -3,7 +3,7 @@ import { Clipboard } from 'react-feather'
 
 import { Icon } from '../src/Icon'
 
-import styleConsts from '../styles/constants/export.scss'
+import styleConsts from '../styles/constants/export.module.scss'
 
 export default {
   title: 'Components/Icon',
