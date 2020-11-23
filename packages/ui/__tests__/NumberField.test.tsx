@@ -52,6 +52,7 @@ describe('NumberField', () => {
       onClick: expect.anything(),
       disabled: false,
       kind: 'primary',
+      type: 'button',
     })
     expect(wrapper.find(IconButton).at(1).props()).toEqual({
       size: 'small',
@@ -63,6 +64,7 @@ describe('NumberField', () => {
       onClick: expect.anything(),
       disabled: false,
       kind: 'primary',
+      type: 'button',
     })
   })
 
@@ -78,6 +80,34 @@ describe('NumberField', () => {
     wrapper.find(IconButton).at(0).simulate('click')
     expect(onChange).toBeCalledTimes(1)
     expect(onChange).toBeCalledWith(41)
+  })
+
+  it('onDecrement works without value', async () => {
+    const onBlur = jest.fn()
+    const onChange = jest.fn()
+
+    const wrapper = await mountAndCheckA11Y(
+      <NumberField name="name" placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
+    )
+
+    expect(onChange).toBeCalledTimes(0)
+    wrapper.find(IconButton).at(0).simulate('click')
+    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toBeCalledWith(-1)
+  })
+
+  it('onDecrement works without value with custom defaultValue', async () => {
+    const onBlur = jest.fn()
+    const onChange = jest.fn()
+
+    const wrapper = await mountAndCheckA11Y(
+      <NumberField name="name" placeholder="Enter the name" label="Wisest jedi" defaultValue={100} onBlur={onBlur} onChange={onChange} />,
+    )
+
+    expect(onChange).toBeCalledTimes(0)
+    wrapper.find(IconButton).at(0).simulate('click')
+    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toBeCalledWith(99)
   })
 
   it('onDecrement works with step', async () => {
@@ -129,6 +159,34 @@ describe('NumberField', () => {
     wrapper.find(IconButton).at(1).simulate('click')
     expect(onChange).toBeCalledTimes(1)
     expect(onChange).toBeCalledWith(43)
+  })
+
+  it('onIncrement works without value', async () => {
+    const onBlur = jest.fn()
+    const onChange = jest.fn()
+
+    const wrapper = await mountAndCheckA11Y(
+      <NumberField name="name" placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
+    )
+
+    expect(onChange).toBeCalledTimes(0)
+    wrapper.find(IconButton).at(1).simulate('click')
+    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toBeCalledWith(1)
+  })
+
+  it('onIncrement works without value with custom defaultValue', async () => {
+    const onBlur = jest.fn()
+    const onChange = jest.fn()
+
+    const wrapper = await mountAndCheckA11Y(
+      <NumberField name="name" defaultValue={100} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
+    )
+
+    expect(onChange).toBeCalledTimes(0)
+    wrapper.find(IconButton).at(1).simulate('click')
+    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toBeCalledWith(101)
   })
 
   it('onIncrement works with step', async () => {
@@ -195,6 +253,7 @@ describe('NumberField', () => {
       onClick: expect.anything(),
       disabled: false,
       kind: 'primary',
+      type: 'button',
     })
     expect(wrapper.find(IconButton).at(1).props()).toEqual({
       size: 'small',
@@ -206,6 +265,7 @@ describe('NumberField', () => {
       onClick: expect.anything(),
       disabled: false,
       kind: 'primary',
+      type: 'button',
     })
   })
 
