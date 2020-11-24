@@ -72,6 +72,8 @@ export const NumberFieldWrappedInFormik = () => {
     ram: number
   }
 
+  const validateRAM = (value: number) => (value < 4 ? 'RAM is too low' : undefined)
+
   const TestForm = () => (
     <Formik<Values>
       initialValues={{
@@ -80,19 +82,12 @@ export const NumberFieldWrappedInFormik = () => {
       initialErrors={{
         ram: 'Server Error: Invalid RAM amount',
       }}
-      validate={(values) => {
-        const errors: Partial<{ [key in keyof Values]: string }> = {
-          ram: values.ram < 4 ? 'RAM is too low' : undefined,
-        }
-
-        return errors
-      }}
       onSubmit={(values) => logger.log('submit', values)}
     >
       {({ values }) => (
         <Form>
           Values: {JSON.stringify(values)}
-          <NumberFieldFormik<Values> name="ram" label="Name" />
+          <NumberFieldFormik<Values> name="ram" label="Name" validate={validateRAM} />
         </Form>
       )}
     </Formik>

@@ -151,6 +151,8 @@ export const TextAreaWrappedInFormik = () => {
     name: string
   }
 
+  const validateName = (value: string) => (value === 'invalid_name' ? 'Name is invalid' : undefined)
+
   const TestForm = () => (
     <Formik<Values>
       initialValues={{
@@ -159,19 +161,13 @@ export const TextAreaWrappedInFormik = () => {
       initialErrors={{
         name: 'Server Error: Invalid name',
       }}
-      validate={(values) => {
-        const errors: Partial<{ [key in keyof Values]: string }> = {
-          name: values.name === 'invalid_name' ? 'Name is invalid' : undefined,
-        }
-
-        return errors
-      }}
       onSubmit={(values) => logger.log('submit', values)}
     >
       {({ values }) => (
         <Form>
           Values: {JSON.stringify(values)}
-          <TextAreaFormik<Values> name="name" label="Name" placeholder="Type 'invalid_name' to see an error" />
+          <TextAreaFormik<Values> name="name" label="Name" placeholder="Type 'invalid_name' to see an error" validate={validateName} />
+          <button type="submit">Submit</button>
         </Form>
       )}
     </Formik>

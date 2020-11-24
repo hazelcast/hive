@@ -100,6 +100,8 @@ describe('RadioGroupFormik', () => {
 
     const onSubmit = jest.fn()
 
+    const validateName = (value: string) => (value === 'gandalf' ? 'Aragorn is stronger!' : undefined)
+
     const TestForm = () => (
       <Formik<Values>
         initialValues={{
@@ -109,18 +111,10 @@ describe('RadioGroupFormik', () => {
         initialErrors={{
           name: 'Server Error: Invalid name',
         }}
-        validate={(values) => {
-          const errors: Partial<{ [key in keyof Values]: string }> = {
-            // we'll make gandalf invalid
-            name: values.name === 'gandalf' ? 'Aragorn is stronger!' : undefined,
-          }
-
-          return errors
-        }}
         onSubmit={onSubmit}
       >
         <Form>
-          <RadioGroupFieldFormik<Values> name="name">
+          <RadioGroupFieldFormik<Values> name="name" validate={validateName}>
             <RadioFieldFormik value="aragorn" helperText="The king" label={'Aragorn'} />
             <RadioFieldFormik value="gandalf" helperText="The wizard" label={'Gandalf'} />
           </RadioGroupFieldFormik>
@@ -137,10 +131,6 @@ describe('RadioGroupFormik', () => {
     await act(async () => {
       wrapper.find("input[value='gandalf']").simulate('change')
     })
-
-    wrapper.update()
-
-    // let's click other valid option
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
       wrapper.find("input[value='gandalf']").simulate('blur')

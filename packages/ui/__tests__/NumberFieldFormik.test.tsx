@@ -4,7 +4,7 @@ import { mountAndCheckA11Y, simulateChange } from '@hazelcast/test-helpers'
 import { act } from 'react-dom/test-utils'
 
 import { NumberFieldFormik } from '../src/NumberFieldFormik'
-import { Error } from '../src/Error'
+import { NumberField } from '../src/NumberField'
 
 describe('NumberFieldFormik', () => {
   it('can be used in a form', async () => {
@@ -113,7 +113,7 @@ describe('NumberFieldFormik', () => {
 
     const wrapper = await mountAndCheckA11Y(<TestForm />)
 
-    expect(wrapper.find(Error).prop('error')).toBe('Dark side')
+    expect(wrapper.find(NumberField).prop('error')).toBe('Dark side')
 
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
@@ -121,6 +121,6 @@ describe('NumberFieldFormik', () => {
       simulateChange(wrapper.find('input'), 56)
     })
 
-    expect(wrapper.update().find(Error).prop('error')).toBe('Client side validation')
+    expect(wrapper.update().find(NumberField).prop('error')).toBe('Client side validation')
   })
 })
