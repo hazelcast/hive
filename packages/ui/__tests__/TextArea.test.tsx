@@ -1,7 +1,7 @@
 import React from 'react'
 import { v4 as uuid } from 'uuid'
 import { act } from 'react-dom/test-utils'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { mountAndCheckA11Y, simulateChange } from '@hazelcast/test-helpers'
 
 import { TextArea } from '../src/TextArea'
 import { Error, errorId } from '../src/Error'
@@ -88,7 +88,7 @@ describe('TextArea', () => {
     expect(onChange).toBeCalledTimes(0)
 
     act(() => {
-      wrapper.find('textarea').simulate('change', { target: { value: 'value' } })
+      simulateChange(wrapper.find('textarea'), 'value')
     })
 
     expect(onChange).toBeCalledTimes(1)

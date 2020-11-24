@@ -45,7 +45,6 @@ export const NumberField: FC<NumberFieldProps> = ({
   numberType = 'int',
   inputClassName,
   onChange,
-  name,
   disabled,
   ...props
 }) => {
@@ -120,7 +119,6 @@ export const NumberField: FC<NumberFieldProps> = ({
   return (
     <TextField
       {...props}
-      name={name}
       value={value}
       onChange={onChangeWrapped}
       type="number"
