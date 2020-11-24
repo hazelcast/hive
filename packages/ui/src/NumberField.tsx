@@ -29,7 +29,7 @@ export type NumberFieldExtraProps = {
   className?: string
   inputClassName?: string
   errorClassName?: string
-  placeholder: string
+  placeholder?: string
 } & DataTestProp &
   Pick<InputHTMLAttributes<HTMLInputElement>, 'autoFocus' | 'disabled' | 'autoComplete'>
 type NumberFieldProps = NumberFieldCoreProps & NumberFieldExtraProps

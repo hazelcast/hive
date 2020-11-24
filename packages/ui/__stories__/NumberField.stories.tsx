@@ -3,6 +3,8 @@ import { logger } from '@hazelcast/services'
 
 import { NumberField } from '../src/NumberField'
 import styles from '../src/TextField.module.scss'
+import { Form, Formik } from 'formik'
+import { NumberFieldFormik } from '../src/NumberFieldFormik'
 
 const eventHandlers = {
   onBlur: () => logger.log('blur'),
@@ -64,3 +66,32 @@ export const WithHelperText = () => (
     {...eventHandlers}
   />
 )
+
+export const NumberFieldWrappedInFormik = () => {
+  type Values = {
+    ram: number
+  }
+
+  const validateRAM = (value: number) => (value < 4 ? 'RAM is too low' : undefined)
+
+  const TestForm = () => (
+    <Formik<Values>
+      initialValues={{
+        ram: 0,
+      }}
+      initialErrors={{
+        ram: 'Server Error: Invalid RAM amount',
+      }}
+      onSubmit={(values) => logger.log('submit', values)}
+    >
+      {({ values }) => (
+        <Form>
+          Values: {JSON.stringify(values)}
+          <NumberFieldFormik<Values> name="ram" label="Name" validate={validateRAM} />
+        </Form>
+      )}
+    </Formik>
+  )
+
+  return <TestForm />
+}
