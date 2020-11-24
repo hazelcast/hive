@@ -1,14 +1,16 @@
 @use '../styles/constants' as c;
 
 $buttonMargin: c.$grid * 2;
-$inputPadding: c.$iconSizeSmall + $buttonMargin * 2;
+$inputMargin: c.$iconSizeSmall + $buttonMargin * 2;
 
 .inputContainer {
   position: relative;
 
   > input {
-    padding-left: $inputPadding;
-    padding-right: $inputPadding;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: $inputMargin;
+    margin-right: $inputMargin;
     /* doiuse-disable css-appearance */
     -moz-appearance: textfield;
     &::-webkit-inner-spin-button,
