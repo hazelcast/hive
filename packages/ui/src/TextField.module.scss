@@ -124,15 +124,18 @@ $marginLeftWithIcon: c.$grid * 5;
     }
   }
 
-  &.hasError {
-    .borderOverlay {
-      border-color: c.$colorError;
-    }
-    .inputIcon {
-      color: c.$colorError;
-    }
+  &.hasError .borderOverlay {
+    border-color: c.$colorError;
   }
 
+  &.focus {
+    .borderOverlay {
+      @include h.outlineFormField;
+    }
+    .inputIcon {
+      color: c.$colorPrimary;
+    }
+  }
   input:focus {
     // Do not remove outline for high-contrast modes
     // https://stackoverflow.com/a/52616313
@@ -145,12 +148,9 @@ $marginLeftWithIcon: c.$grid * 5;
       color: c.$colorPrimary;
     }
   }
-  &.focus {
-    .borderOverlay {
-      @include h.outlineFormField;
-    }
-    .inputIcon {
-      color: c.$colorPrimary;
-    }
+
+  // input ~ is required to increase the specificity of the selector to override focus styles
+  &.hasError input ~ .inputIcon {
+    color: c.$colorError;
   }
 }
