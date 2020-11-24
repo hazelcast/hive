@@ -22,7 +22,7 @@ export const TextFieldFormik = <V extends object>({ name, validate, ...props }: 
       value={field.value}
       onChange={field.onChange}
       onBlur={field.onBlur}
-      error={meta.touched ? meta.error : undefined}
+      error={meta.touched || meta.initialError === meta.error ? meta.error : undefined}
     />
   )
 }

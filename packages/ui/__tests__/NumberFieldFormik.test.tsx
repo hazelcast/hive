@@ -1,10 +1,10 @@
 import React, { createRef } from 'react'
-import { Formik, Form, FormikProps } from 'formik'
+import { Form, Formik, FormikProps } from 'formik'
 import { mountAndCheckA11Y, simulateChange } from '@hazelcast/test-helpers'
 import { act } from 'react-dom/test-utils'
 
 import { NumberFieldFormik } from '../src/NumberFieldFormik'
-import { Error } from '../src/Error'
+import { NumberField } from '../src/NumberField'
 
 describe('NumberFieldFormik', () => {
   it('can be used in a form', async () => {
@@ -91,10 +91,12 @@ describe('NumberFieldFormik', () => {
       name: number
     }
 
-    const validate = jest.fn().mockImplementation(() => 'Dark side')
+    const validate = jest.fn().mockImplementation(() => 'Client side validation')
+    const formikBag = createRef<FormikProps<Values>>()
 
     const TestForm = () => (
       <Formik<Values>
+        innerRef={formikBag}
         initialValues={{
           name: 42,
         }}
@@ -111,16 +113,14 @@ describe('NumberFieldFormik', () => {
 
     const wrapper = await mountAndCheckA11Y(<TestForm />)
 
-    expect(wrapper.find(Error).prop('error')).toBe(undefined)
+    expect(wrapper.find(NumberField).prop('error')).toBe('Dark side')
 
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      simulateChange(wrapper.find('input'), '56')
+      simulateChange(wrapper.find('input'), 56)
     })
-    wrapper.update()
 
-    // The error is displayed only when the input becomes dirty
-    expect(wrapper.find(Error).prop('error')).toBe('Dark side')
+    expect(wrapper.update().find(NumberField).prop('error')).toBe('Client side validation')
   })
 })
