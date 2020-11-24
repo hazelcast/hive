@@ -2,6 +2,7 @@ import React, { ReactElement, useCallback } from 'react'
 import { FieldValidator, useField } from 'formik'
 
 import { NumberField, NumberFieldExtraProps } from './NumberField'
+import { getFieldError } from './utils/formik'
 
 export type NumberFieldFormikProps<V extends object> = NumberFieldExtraProps & {
   name: V[keyof V] extends number ? keyof V : never
@@ -22,14 +23,5 @@ export const NumberFieldFormik = <V extends object>({ name, validate, ...props }
     [setValue, setTouched],
   )
 
-  return (
-    <NumberField
-      {...props}
-      name={name}
-      value={field.value}
-      onChange={onChange}
-      onBlur={field.onBlur}
-      error={meta.touched || meta.initialError === meta.error ? meta.error : undefined}
-    />
-  )
+  return <NumberField {...props} name={name} value={field.value} onChange={onChange} onBlur={field.onBlur} error={getFieldError(meta)} />
 }

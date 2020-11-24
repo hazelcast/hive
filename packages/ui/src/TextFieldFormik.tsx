@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react'
 import { FieldValidator, useField } from 'formik'
 
 import { TextField, TextFieldExtraProps } from './TextField'
+import { getFieldError } from './utils/formik'
 
 export type TextFieldFormikProps<V extends object> = Exclude<TextFieldExtraProps<'text'>, 'type'> & {
   name: V[keyof V] extends string | undefined ? keyof V : never
@@ -22,7 +23,7 @@ export const TextFieldFormik = <V extends object>({ name, validate, ...props }: 
       value={field.value}
       onChange={field.onChange}
       onBlur={field.onBlur}
-      error={meta.touched || meta.initialError === meta.error ? meta.error : undefined}
+      error={getFieldError(meta)}
     />
   )
 }
