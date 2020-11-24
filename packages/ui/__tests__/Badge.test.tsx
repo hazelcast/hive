@@ -2,7 +2,7 @@ import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import React from 'react'
 import { Info, CheckCircle, AlertTriangle, AlertCircle } from 'react-feather'
 
-import { Badge, BadgeType, BadgeSize, IconDescriptor } from '../src/Badge'
+import { Badge, BadgeType, BadgeSize, BadgeIconDescriptor } from '../src/Badge'
 
 import styles from '../src/Badge.module.scss'
 
@@ -16,7 +16,7 @@ describe('Badge', () => {
     expect(wrapper.findDataTest('badge-content').text()).toBe(badgeContent)
   })
 
-  const typeTestData: [BadgeType, string, IconDescriptor][] = [
+  const typeTestData: [BadgeType, string, BadgeIconDescriptor][] = [
     [
       'neutral',
       styles.neutral,

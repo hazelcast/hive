@@ -8,12 +8,12 @@ import styles from './Badge.module.scss'
 
 export type BadgeType = 'neutral' | 'success' | 'info' | 'warning' | 'critical'
 
-export type IconDescriptor = {
+export type BadgeIconDescriptor = {
   icon: IconType
   ariaLabel: string
 }
 
-export const BadgeIcon: { [key in BadgeType]: IconDescriptor } = {
+export const BadgeIcon: { [key in BadgeType]: BadgeIconDescriptor } = {
   neutral: {
     icon: Info,
     ariaLabel: 'Info circle icon',
