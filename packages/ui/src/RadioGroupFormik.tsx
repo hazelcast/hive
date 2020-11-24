@@ -15,7 +15,12 @@ export const RadioGroupFieldFormik = <V extends object>({ name, validate, childr
   })
 
   return (
-    <RadioGroup {...props} name={name} error={meta.error} onChange={field.onChange}>
+    <RadioGroup
+      {...props}
+      name={name}
+      error={meta.touched || meta.initialError === meta.error ? meta.error : undefined}
+      onChange={field.onChange}
+    >
       {children}
     </RadioGroup>
   )

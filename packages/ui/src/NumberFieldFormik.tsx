@@ -29,7 +29,7 @@ export const NumberFieldFormik = <V extends object>({ name, validate, ...props }
       value={field.value}
       onChange={onChange}
       onBlur={field.onBlur}
-      error={meta.touched ? meta.error : undefined}
+      error={meta.touched || meta.initialError === meta.error ? meta.error : undefined}
     />
   )
 }
