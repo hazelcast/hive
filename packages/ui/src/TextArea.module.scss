@@ -1,0 +1,130 @@
+@use '../styles/constants' as c;
+@use '../styles/helpers' as h;
+
+// Why is it so complex? Why do we need .borderOverlay?
+// Ideally, we would have used native `border` for every style: hover, error, focus.
+// Since our focus outline is thicker than the native border, we cannot use the native border for focus styles.
+// Say, the initial border is 1px. For focus you make it 2px. As result, it shifts the content inside. Not nice UX at all.
+// To work around that in other places, we do not change the thickness of the border on focus.
+// Instead we add a 1px inset box-shadow which adds ups to the border and gives us the desired 2px outline on focus.
+// Back to the textarea. As you can see it is supposed to have rounded corners. So we use border-radius.
+// Ideally, we would have used border-radius on the textarea itself and applied the same technique with the inset box-shadow.
+// Guess what? Chrome does not apply border-radius to the scrollbar inside of the textarea.
+// Next step is to add a wrapping div to the textarea, and apply the border-radius, the border itself and the inset box-shadow there.
+// Now the inset box-shadow is rendered under the textarea, so the scrollbar is rendered on top of it and the textarea text as well.
+// At least it makes sense. After all, it is a shadow. It is supposed to decorate, not overlap and override.
+// Let's go deeper down the rabbit hole.
+// We add the wrapping div and add the border-radius there, but we do not add the border itself. Instead we make the wrapping div relative.
+// Next, we add an absolute child div. We add the border with the inset box-shadow to that div, so it is rendered on top of the textarea.
+// Finally, we add textarea:focus styling to support IE11 that does not play nice with :focus-within.
+
+.container {
+  @include c.typographyBodySmall;
+
+  color: c.$colorText;
+  box-sizing: border-box;
+
+  .label {
+    margin-bottom: c.$grid;
+  }
+
+  .helperText {
+    display: block;
+    margin: 2 * c.$grid 0 0 c.$grid;
+  }
+
+  .errorContainer {
+    margin-top: c.$grid;
+  }
+
+  .textAreaContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .borderOverlay {
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    pointer-events: none;
+    z-index: c.$zIndex100;
+    border-radius: c.$borderRadius;
+    border: c.$borderWidth solid c.$colorNeutralLight;
+    box-sizing: border-box;
+  }
+
+  .textAreaWrapper {
+    position: relative;
+    width: 100%;
+    border-radius: c.$borderRadius;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  textarea {
+    display: block;
+    padding: c.$grid * 2 c.$grid * 3;
+    border: none;
+    box-sizing: border-box;
+    width: 100%;
+    font-family: inherit;
+    font-weight: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    background-color: c.$colorNeutralLighter;
+    /* doiuse-disable css-resize */
+    resize: vertical;
+    /* doiuse-enable css-resize */
+
+    // Note: Resize is not supported by IE11, it's presence does no harm though
+    &.notResizable {
+      /* doiuse-disable css-resize */
+      resize: none;
+      /* doiuse-enable css-resize */
+    }
+
+    &::placeholder {
+      color: c.$colorTextSecondary;
+    }
+  }
+
+  &.hover .textAreaWrapper,
+  .textAreaWrapper:hover {
+    .borderOverlay {
+      border-color: c.$colorPrimary;
+    }
+  }
+
+  &.disabled {
+    .textAreaWrapper {
+      color: c.$colorTextSecondary;
+      background-color: c.$colorNeutral;
+
+      .borderOverlay {
+        border-color: c.$colorNeutralLight;
+      }
+    }
+  }
+
+  &.hasError {
+    .textAreaWrapper .borderOverlay {
+      border-color: c.$colorError;
+    }
+  }
+
+  textarea:focus {
+    // Do not remove outline for high-contrast modes
+    // https://stackoverflow.com/a/52616313
+    outline: transparent solid c.$outlineWidth;
+  }
+  &.focus .textAreaWrapper .borderOverlay,
+  .textAreaWrapper textarea:focus + .borderOverlay {
+    @include h.outlineFormField;
+  }
+}

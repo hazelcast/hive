@@ -4,7 +4,7 @@ import React from 'react'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 
 import { AlertTriangle, CheckCircle, Info, Clipboard, AlertCircle } from 'react-feather'
-import { ToastType, IconDescriptor } from '../src/Toast'
+import { ToastType, ToastIconDescriptor } from '../src/Toast'
 import { Alert, AlertActionButton, AlertActionLink } from '../src/Alert'
 
 import styles from '../src/Alert.module.scss'
@@ -26,7 +26,7 @@ const AlertAction2: AlertActionLink = {
 }
 
 describe('Alert', () => {
-  const alertBasicTestData: [ToastType, IconDescriptor, string][] = [
+  const alertBasicTestData: [ToastType, ToastIconDescriptor, string][] = [
     [
       'success',
       {

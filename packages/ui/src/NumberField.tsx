@@ -10,9 +10,9 @@ import styles from './NumberField.module.scss'
 
 type NumberFieldCoreProps = {
   name: string
-  value: number
+  value?: number
   onBlur?: (e: FocusEvent<HTMLInputElement>) => void
-  onChange: (newValue: number) => void
+  onChange: (newValue?: number) => void
   error?: string
 }
 export type NumberFieldExtraProps = {
@@ -21,6 +21,7 @@ export type NumberFieldExtraProps = {
   step?: number
   min?: number
   max?: number
+  defaultValue?: number
   numberType?: 'int' | 'float'
   label: string
   required?: boolean
@@ -28,7 +29,7 @@ export type NumberFieldExtraProps = {
   className?: string
   inputClassName?: string
   errorClassName?: string
-  placeholder: string
+  placeholder?: string
 } & DataTestProp &
   Pick<InputHTMLAttributes<HTMLInputElement>, 'autoFocus' | 'disabled' | 'autoComplete'>
 type NumberFieldProps = NumberFieldCoreProps & NumberFieldExtraProps
@@ -43,22 +44,22 @@ export const NumberField: FC<NumberFieldProps> = ({
   numberType = 'int',
   inputClassName,
   onChange,
-  name,
   disabled,
   ...props
 }) => {
   useLayoutEffect(() => {
-    if (min !== undefined && value < min) {
+    if (min !== undefined && value !== undefined && value < min) {
       onChange(min)
     }
-    if (max !== undefined && value > max) {
+    if (max !== undefined && value !== undefined && value > max) {
       onChange(max)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [min, max])
 
   const onDecrement = useCallback(() => {
-    let newValue = value - step
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    let newValue = value! - step
     if (min !== undefined && newValue < min) {
       newValue = min
     }
@@ -66,7 +67,8 @@ export const NumberField: FC<NumberFieldProps> = ({
   }, [value, onChange, step, min])
 
   const onIncrement = useCallback(() => {
-    let newValue = value + step
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    let newValue = value! + step
     if (max !== undefined && newValue > max) {
       newValue = max
     }
@@ -82,9 +84,10 @@ export const NumberField: FC<NumberFieldProps> = ({
           iconAriaLabel={decrementIconAriaLabel}
           className={styles.decrement}
           onClick={onDecrement}
-          disabled={disabled || (min !== undefined && value <= min)}
+          disabled={disabled || value === undefined || (min !== undefined && value <= min)}
           kind="primary"
           data-test="number-field-decrement"
+          type="button"
         />
         <IconButton
           size="small"
@@ -92,9 +95,10 @@ export const NumberField: FC<NumberFieldProps> = ({
           iconAriaLabel={incrementIconAriaLabel}
           className={styles.increment}
           onClick={onIncrement}
-          disabled={disabled || (max !== undefined && value >= max)}
+          disabled={disabled || value === undefined || (max !== undefined && value >= max)}
           kind="primary"
           data-test="number-field-increment"
+          type="button"
         />
       </>
     ),
@@ -102,16 +106,27 @@ export const NumberField: FC<NumberFieldProps> = ({
   )
 
   const onChangeWrapped = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      onChange(numberType === 'int' ? parseInt(e.target.value, 10) : parseFloat(e.target.value))
+    ({ target: { value: newValue } }: ChangeEvent<HTMLInputElement>) => {
+      let newValueParsed: number | undefined
+      if (newValue !== '') {
+        newValueParsed = numberType === 'int' ? parseInt(newValue, 10) : parseFloat(newValue)
+      }
+
+      if (min !== undefined && newValueParsed !== undefined && newValueParsed < min) {
+        newValueParsed = min
+      }
+      if (max !== undefined && newValueParsed !== undefined && newValueParsed > max) {
+        newValueParsed = max
+      }
+
+      onChange(newValueParsed)
     },
-    [onChange, numberType],
+    [onChange, numberType, min, max],
   )
 
   return (
     <TextField
       {...props}
-      name={name}
       value={value}
       onChange={onChangeWrapped}
       type="number"

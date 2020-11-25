@@ -50,12 +50,16 @@ export const Alert: FC<AlertProps> = ({ type, title, content, actions, className
   return (
     <div
       data-test="alert"
-      className={cn(className, styles.alert, {
-        [styles.success]: type === 'success',
-        [styles.info]: type === 'info',
-        [styles.warning]: type === 'warning',
-        [styles.critical]: type === 'critical',
-      })}
+      className={cn(
+        styles.alert,
+        {
+          [styles.success]: type === 'success',
+          [styles.info]: type === 'info',
+          [styles.warning]: type === 'warning',
+          [styles.critical]: type === 'critical',
+        },
+        className,
+      )}
     >
       <div className={styles.header}>
         <Icon data-test="alert-icon" ariaLabel={ariaLabel} icon={icon} className={styles.icon} />

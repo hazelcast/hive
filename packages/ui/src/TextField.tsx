@@ -28,7 +28,7 @@ export type TextFieldExtraProps<T extends TextFieldTypes> = {
   className?: string
   inputClassName?: string
   errorClassName?: string
-  placeholder: string
+  placeholder?: string
   inputContainerChild?: ReactElement
   inputIcon?: IconType
   type?: T
@@ -96,7 +96,7 @@ export const TextField = <T extends TextFieldTypes>({
           <input
             type={type ?? 'text'}
             id={idRef.current}
-            value={value}
+            value={value ?? ''}
             name={name}
             onChange={onChange}
             onBlur={onBlur}
@@ -109,6 +109,7 @@ export const TextField = <T extends TextFieldTypes>({
             placeholder={placeholder}
             {...htmlAttrs}
           />
+          <div className={styles.borderOverlay} />
           {inputIcon && <Icon icon={inputIcon} ariaLabel={label} className={styles.inputIcon} size="small" />}
           {inputContainerChild}
         </div>
