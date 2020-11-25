@@ -9,12 +9,12 @@ import styles from './Toast.module.scss'
 
 export type ToastType = 'success' | 'info' | 'warning' | 'critical'
 
-export type IconDescriptor = {
+export type ToastIconDescriptor = {
   icon: IconType
   ariaLabel: string
 }
 
-export const ToastIcon: { [key in ToastType]: IconDescriptor } = {
+export const ToastIcon: { [key in ToastType]: ToastIconDescriptor } = {
   success: {
     icon: CheckCircle,
     ariaLabel: 'Check circle icon',
