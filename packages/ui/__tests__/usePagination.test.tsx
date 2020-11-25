@@ -37,7 +37,7 @@ describe('usePagination', () => {
 
   it.each(data)('for %p returns %p', (hookArgs, expectedHookRes) => {
     const { spyHookRes } = testHook(() => usePagination(hookArgs))
-    const { items } = getHookRes(spyHookRes)
+    const items = getHookRes(spyHookRes)
 
     expect(items).toStrictEqual(expectedHookRes)
   })

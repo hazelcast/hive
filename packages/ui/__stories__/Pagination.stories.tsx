@@ -7,8 +7,8 @@ export default {
   component: Pagination,
 }
 
-const StoryBase: FC<Pick<PaginationProps, 'showPageJump'>> = ({ showPageJump }) => {
-  const numberOfItems = 1000
+const StoryBase: FC<Pick<PaginationProps, 'showPageJump' | 'showRowsSelect'>> = ({ showPageJump, showRowsSelect }) => {
+  const numberOfItems = 10000
   const [pageSize, setPageSize] = useState<number>(5)
   const pageSizeOptions = [5, 10]
 
@@ -37,6 +37,7 @@ const StoryBase: FC<Pick<PaginationProps, 'showPageJump'>> = ({ showPageJump }) 
       pageSizeOptions={pageSizeOptions}
       numberOfItems={numberOfItems}
       showPageJump={showPageJump}
+      showRowsSelect={showRowsSelect}
     />
   )
 }
@@ -51,3 +52,7 @@ Default.parameters = {
 }
 
 export const WithoutPageJump = () => <StoryBase showPageJump={false} />
+
+export const WithoutRowsSelect = () => <StoryBase showRowsSelect={false} />
+
+export const WithoutPageJumpAndRowsSelect = () => <StoryBase showPageJump={false} showRowsSelect={false} />

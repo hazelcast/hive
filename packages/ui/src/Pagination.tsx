@@ -9,7 +9,7 @@ import { Button } from './Button'
 import { NumberFieldFormik } from './NumberFieldFormik'
 import { Label } from './Label'
 
-import styleConsts from '../styles/constants/export.scss'
+import styleConsts from '../styles/constants/export.module.scss'
 import styles from './Pagination.module.scss'
 
 type PageJumpFormValues = {
@@ -29,6 +29,7 @@ export type PaginationProps = {
   pageSizeOptions: number[]
   numberOfItems: number
   showPageJump?: boolean
+  showRowsSelect?: boolean
 }
 
 export const Pagination: FC<PaginationProps> = ({
@@ -44,6 +45,7 @@ export const Pagination: FC<PaginationProps> = ({
   pageSizeOptions,
   numberOfItems,
   showPageJump = true,
+  showRowsSelect = true,
 }) => {
   const pages = usePagination({ pageCount, currentPage })
 
@@ -61,34 +63,36 @@ export const Pagination: FC<PaginationProps> = ({
 
   return (
     <div className={styles.container}>
-      <div className={styles.rows}>
-        <Label id={idRef.current} label="Rows per page" />
-        <select
-          id={idRef.current}
-          value={pageSize}
-          onBlur={(e) => {
-            if (Number(e.target.value) !== pageSize) {
+      {showRowsSelect && (
+        <div className={styles.rows}>
+          <Label id={idRef.current} label="Rows per page" />
+          <select
+            id={idRef.current}
+            value={pageSize}
+            onBlur={(e) => {
+              if (Number(e.target.value) !== pageSize) {
+                setPageSize(Number(e.target.value))
+              }
+            }}
+            onChange={(e) => {
               setPageSize(Number(e.target.value))
-            }
-          }}
-          onChange={(e) => {
-            setPageSize(Number(e.target.value))
-          }}
-        >
-          {pageSizeOptions.map((pageSize) => (
-            <option key={pageSize} value={pageSize}>
-              {pageSize}
-            </option>
-          ))}
-        </select>
-      </div>
+            }}
+          >
+            {pageSizeOptions.map((pageSize) => (
+              <option key={pageSize} value={pageSize}>
+                {pageSize}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
 
       <span className={styles.shownItems}>{`${firstShownItemNumber} - ${lastShownItemNumber} of ${numberOfItems}`}</span>
 
       <div className={styles.buttons}>
         {pages.map((page) => {
           if (page === 'previous') {
-            return (
+            return canPreviousPage ? (
               <Button
                 type="button"
                 kind="transparent"
@@ -100,15 +104,13 @@ export const Pagination: FC<PaginationProps> = ({
                 iconLeftColor={canPreviousPage ? styleConsts.colorPrimary : undefined}
                 iconLeftAriaLabel="Previous page"
                 onClick={previousPage}
-                disabled={!canPreviousPage}
-                disabledTooltip="No previous page"
               >
                 Previous
               </Button>
-            )
+            ) : null
           }
           if (page === 'next') {
-            return (
+            return canNextPage ? (
               <Button
                 type="button"
                 kind="transparent"
@@ -120,12 +122,10 @@ export const Pagination: FC<PaginationProps> = ({
                 iconRightColor={canNextPage ? styleConsts.colorPrimary : undefined}
                 iconRightAriaLabel="Next page"
                 onClick={nextPage}
-                disabled={!canNextPage}
-                disabledTooltip="No next page"
               >
                 Next
               </Button>
-            )
+            ) : null
           }
           if (page === 'ellipsis') {
             return <span>&#8208;</span>
@@ -153,19 +153,24 @@ export const Pagination: FC<PaginationProps> = ({
       </div>
 
       {showPageJump && (
-        <div className={styles.pageJump}>
-          <Formik<PageJumpFormValues>
-            initialValues={{
-              page: currentPage,
-            }}
-            enableReinitialize
-            onSubmit={submitPageJump}
-          >
-            <Form>
-              <NumberFieldFormik<PageJumpFormValues> name="page" placeholder="Page" label="Go to" min={1} max={pageCount} />
-            </Form>
-          </Formik>
-        </div>
+        <Formik<PageJumpFormValues>
+          initialValues={{
+            page: currentPage,
+          }}
+          enableReinitialize
+          onSubmit={submitPageJump}
+        >
+          <Form>
+            <NumberFieldFormik<PageJumpFormValues>
+              name="page"
+              placeholder="Page"
+              label="Go to"
+              min={1}
+              max={pageCount}
+              className={styles.pageJump}
+            />
+          </Form>
+        </Formik>
       )}
     </div>
   )
