@@ -1,7 +1,7 @@
 import React from 'react'
 import { v4 as uuid } from 'uuid'
 import { act } from 'react-dom/test-utils'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { mountAndCheckA11Y, simulateChange } from '@hazelcast/test-helpers'
 
 import { TextField } from '../src/TextField'
 import { Label } from '../src/Label'
@@ -64,18 +64,16 @@ describe('TextField', () => {
       <TextField name="name" value="Yoda" placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
     )
 
-    const testEvent = { target: { value: 'Luke' } }
-
     expect(onChange).toBeCalledTimes(0)
 
-    const input = wrapper.find('input')
+    let event: object
     act(() => {
-      input.simulate('change', testEvent)
+      event = simulateChange(wrapper.find('input'), 'Luke')
     })
 
     expect(onChange).toBeCalledTimes(1)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    expect(onChange.mock.calls[0][0]).toMatchObject(testEvent)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-non-null-assertion
+    expect(onChange.mock.calls[0][0]).toMatchObject(event!)
   })
 
   it('onBlur works', async () => {

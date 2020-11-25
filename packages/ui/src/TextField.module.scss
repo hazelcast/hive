@@ -2,7 +2,8 @@
 @use '../styles/helpers' as h;
 
 $inputHeight: c.$grid * 10;
-$paddingLeftWithIcon: c.$grid * 8;
+$inputHorizontalPadding: c.$grid * 3;
+$marginLeftWithIcon: c.$grid * 5;
 
 .container {
   @include c.typographyBodySmall;
@@ -19,11 +20,6 @@ $paddingLeftWithIcon: c.$grid * 8;
     align-items: center;
   }
 
-  .inputContainer {
-    position: relative;
-    flex: 1;
-  }
-
   .errorContainer {
     margin-top: c.$grid;
   }
@@ -33,29 +29,61 @@ $paddingLeftWithIcon: c.$grid * 8;
     display: block;
   }
 
+  .inputContainer {
+    position: relative;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+    height: $inputHeight;
+    background-color: c.$colorNeutralLighter;
+    border-radius: c.$borderRadius;
+  }
+
+  // Here we go. Another border hack. Why?
+  // TextField is re-used for PasswordField. PasswordField is meant for passwords.
+  // Passwords are often handled by password managers. Password managers often add their own UI on top of the password inputs.
+  // To make our password visibility toggle and their UI not overlap, we have to make the actual input shorter than its visual representation.
+  // However, visually we still would like our users to see it as one unit.
+  // As result, we cannot apply border to the input itself (because it's shorter).
+  // We could have applied border styles to .inputContainer. But IE11 does not support :focus-within.
+  // So to properly apply focus styles we need a sibling element to the actual input that supports :focus.
+  // .borderOverlay is that very sibling element.
+  .borderOverlay {
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    pointer-events: none;
+    z-index: c.$zIndex100;
+    border-radius: c.$borderRadius;
+    border: c.$borderWidth solid c.$colorNeutralLight;
+    box-sizing: border-box;
+  }
+
   .inputIcon {
     position: absolute;
     top: 50%;
     // c.$grid * 9 / 2 is half of the padding. We need to shift it to the left just a bit to account for the border width
     transform: translate(-50%, -50%) translateX(c.$outlineWidth);
-    left: $paddingLeftWithIcon / 2;
+    left: ($marginLeftWithIcon + $inputHorizontalPadding) / 2;
   }
 
   input {
     display: block;
-    padding: 0 c.$grid * 3;
-    border-width: c.$borderWidth;
-    border-color: c.$colorNeutralLight;
-    border-style: solid;
+    flex: 1 1 auto;
+    background-color: transparent;
+    padding: 0 $inputHorizontalPadding;
+    margin: 0;
+    border: none;
     box-sizing: border-box;
-    width: 100%;
     font-size: inherit;
     line-height: inherit;
     letter-spacing: inherit;
     color: inherit;
-    height: $inputHeight;
-    border-radius: c.$borderRadius;
-    background-color: c.$colorNeutralLighter;
+    height: 100%;
 
     &::placeholder {
       color: c.$colorTextSecondary;
@@ -64,7 +92,7 @@ $paddingLeftWithIcon: c.$grid * 8;
 
   &.withIcon {
     input {
-      padding-left: $paddingLeftWithIcon;
+      margin-left: $marginLeftWithIcon;
     }
   }
 
@@ -74,7 +102,7 @@ $paddingLeftWithIcon: c.$grid * 8;
 
   &:hover,
   &.hover {
-    input {
+    .borderOverlay {
       border-color: c.$colorPrimary;
     }
     .inputIcon {
@@ -82,39 +110,47 @@ $paddingLeftWithIcon: c.$grid * 8;
     }
   }
 
-  &:focus-within,
+  &.disabled {
+    color: c.$colorTextSecondary;
+
+    .inputContainer {
+      background-color: c.$colorNeutral;
+    }
+    .borderOverlay {
+      border-color: c.$colorNeutralLight;
+    }
+    .inputIcon {
+      color: c.$colorTextSecondary;
+    }
+  }
+
+  &.hasError .borderOverlay {
+    border-color: c.$colorError;
+  }
+
   &.focus {
+    .borderOverlay {
+      @include h.outlineFormField;
+    }
     .inputIcon {
       color: c.$colorPrimary;
     }
   }
-
-  &.disabled {
-    input {
-      color: c.$colorTextSecondary;
-      background-color: c.$colorNeutral;
-      border-color: c.$colorNeutralLight;
-    }
-  }
-
-  &.hasError {
-    input {
-      border-color: c.$colorError;
-    }
-
-    .inputIcon {
-      color: c.$colorError;
-    }
-  }
-
-  // :focus-within is not supported by IE11
-  // This way in IE11 the color of .inputIcon will not change, but it is an acceptable degradation
   input:focus {
-    @include h.outlineFormField;
-  }
-  &.focus {
-    input {
+    // Do not remove outline for high-contrast modes
+    // https://stackoverflow.com/a/52616313
+    outline: transparent solid c.$outlineWidth;
+
+    & ~ .borderOverlay {
       @include h.outlineFormField;
     }
+    & ~ .inputIcon {
+      color: c.$colorPrimary;
+    }
+  }
+
+  // input ~ is required to increase the specificity of the selector to override focus styles
+  &.hasError input ~ .inputIcon {
+    color: c.$colorError;
   }
 }

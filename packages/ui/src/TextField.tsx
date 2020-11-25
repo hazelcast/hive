@@ -109,6 +109,7 @@ export const TextField = <T extends TextFieldTypes>({
             placeholder={placeholder}
             {...htmlAttrs}
           />
+          <div className={styles.borderOverlay} />
           {inputIcon && <Icon icon={inputIcon} ariaLabel={label} className={styles.inputIcon} size="small" />}
           {inputContainerChild}
         </div>
