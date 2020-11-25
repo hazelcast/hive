@@ -4,8 +4,8 @@ import cn from 'classnames'
 import useResizeAware from 'react-resize-aware'
 import { DataTestProp } from '@hazelcast/helpers'
 
-import { Error, errorId } from '../src/Error'
-import { Help } from '../src/Help'
+import { Error, errorId } from './Error'
+import { Help } from './Help'
 import { Label } from './Label'
 import { PopperRef } from './Tooltip'
 

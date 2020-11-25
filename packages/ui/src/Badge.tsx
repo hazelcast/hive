@@ -2,7 +2,7 @@ import React, { FC, ReactNode } from 'react'
 import cn from 'classnames'
 import { AlertTriangle, CheckCircle, AlertCircle, Info, Icon as IconType } from 'react-feather'
 
-import { Icon } from '../src/Icon'
+import { Icon } from './Icon'
 
 import styles from './Badge.module.scss'
 

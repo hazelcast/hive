@@ -2,7 +2,7 @@ import React, { ButtonHTMLAttributes, FC } from 'react'
 import cn from 'classnames'
 import { Icon as FeatherIcon } from 'react-feather'
 
-import { Icon, IconProps } from '../src/Icon'
+import { Icon, IconProps } from './Icon'
 
 import styles from './IconButton.module.scss'
 
