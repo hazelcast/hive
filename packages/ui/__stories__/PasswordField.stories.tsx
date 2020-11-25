@@ -111,6 +111,8 @@ export const WithHelperText = () => (
 )
 
 export const PasswordWrappedInFormik = () => {
+  const validatePasswordLength = (value: string) => (value.length < 4 ? 'Password is too short' : undefined)
+
   type Values = {
     password: string
   }
@@ -123,19 +125,13 @@ export const PasswordWrappedInFormik = () => {
       initialErrors={{
         password: 'Server Error: Invalid password',
       }}
-      validate={(values) => {
-        const errors: Partial<{ [key in keyof Values]: string }> = {
-          password: values.password.length < 4 ? 'Password is too short' : undefined,
-        }
-
-        return errors
-      }}
       onSubmit={(values) => logger.log('submit', values)}
     >
       {({ values }) => (
         <Form>
           Values: {JSON.stringify(values)}
-          <PasswordFieldFormik<Values> name="password" label="Name" />
+          <PasswordFieldFormik<Values> name="password" label="Name" validate={validatePasswordLength} />
+          <button type="submit">Submit</button>
         </Form>
       )}
     </Formik>

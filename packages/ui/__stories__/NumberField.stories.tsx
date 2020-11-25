@@ -92,6 +92,7 @@ export const NumberFieldWrappedInFormik = () => {
         <Form>
           Values: {JSON.stringify(values)}
           <NumberFieldFormik<Values> name="ram" label="Name" validate={validateRAM} />
+          <button type="submit">Submit</button>
         </Form>
       )}
     </Formik>
