@@ -89,7 +89,7 @@ export const TextArea: FC<TextAreaProps> = ({
             onBlur={onBlur}
             onChange={onChange}
             required={required}
-            value={value}
+            value={value ?? ''}
             disabled={disabled}
             {...htmlAttrs}
           />

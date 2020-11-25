@@ -96,7 +96,7 @@ export const TextField = <T extends TextFieldTypes>({
           <input
             type={type ?? 'text'}
             id={idRef.current}
-            value={value}
+            value={value ?? ''}
             name={name}
             onChange={onChange}
             onBlur={onBlur}
