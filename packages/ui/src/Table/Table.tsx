@@ -1,5 +1,6 @@
 import React, { PropsWithChildren, ReactElement, useEffect, useMemo } from 'react'
 import { useTable, usePagination, TableOptions, useSortBy, Row as RowType, Cell as CellType, useAsyncDebounce } from 'react-table'
+import { Pagination } from '../Pagination'
 import { Body } from './Body'
 import { Cell, CellProps } from './Cell'
 import { Head } from './Head'
@@ -178,56 +179,20 @@ export function Table<D extends object>({
         )}
       </table>
 
-      {!hidePagination && pageCount > 1 && (
-        <div>
-          <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-            {'<<'}
-          </button>{' '}
-          <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-            {'<'}
-          </button>{' '}
-          <button onClick={() => nextPage()} disabled={!canNextPage}>
-            {'>'}
-          </button>{' '}
-          <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-            {'>>'}
-          </button>{' '}
-          <span>
-            Page{' '}
-            <strong>
-              {pageIndex + 1} of {pageOptions.length}
-            </strong>{' '}
-          </span>
-          <span>
-            | Go to page:{' '}
-            <input
-              type="number"
-              defaultValue={pageIndex + 1}
-              onChange={(e) => {
-                const page = e.target.value ? Number(e.target.value) - 1 : 0
-                gotoPage(page)
-              }}
-              style={{ width: '100px' }}
-            />
-          </span>{' '}
-          <select
-            value={pageSize}
-            onBlur={(e) => {
-              if (Number(e.target.value) !== pageSize) {
-                setPageSize(Number(e.target.value))
-              }
-            }}
-            onChange={(e) => {
-              setPageSize(Number(e.target.value))
-            }}
-          >
-            {pageSizeOptions.map((pageSize) => (
-              <option key={pageSize} value={pageSize}>
-                Show {pageSize}
-              </option>
-            ))}
-          </select>
-        </div>
+      {!hidePagination && (
+        <Pagination
+          pageCount={pageCount}
+          currentPage={pageIndex + 1}
+          canPreviousPage={canPreviousPage}
+          canNextPage={canNextPage}
+          goToPage={(p) => gotoPage(p - 1)}
+          nextPage={nextPage}
+          previousPage={previousPage}
+          pageSize={pageSize}
+          setPageSize={setPageSize}
+          pageSizeOptions={pageSizeOptions}
+          numberOfItems={data.length}
+        />
       )}
     </>
   )
