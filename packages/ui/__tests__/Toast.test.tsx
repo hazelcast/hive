@@ -3,12 +3,12 @@ import { act } from 'react-dom/test-utils'
 import { AlertTriangle, CheckCircle, Info, AlertCircle } from 'react-feather'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 
-import { Toast, ToastType, IconDescriptor } from '../src/Toast'
+import { Toast, ToastType, ToastIconDescriptor } from '../src/Toast'
 
 const content = 'Toast Content'
 
 describe('Toast', () => {
-  const toastBasicTestData: [ToastType, IconDescriptor][] = [
+  const toastBasicTestData: [ToastType, ToastIconDescriptor][] = [
     [
       'success',
       {
