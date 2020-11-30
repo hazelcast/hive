@@ -4,6 +4,8 @@ import { logger } from '@hazelcast/services'
 import { TextArea } from '../src/TextArea'
 
 import styles from '../src/TextArea.module.scss'
+import { Form, Formik } from 'formik'
+import { TextAreaFormik } from '../src/TextAreaFormik'
 
 const text =
   'Yoda, a Force-sensitive male being belonging to a mysterious species, was a legendary Jedi Master who witnessed the rise and fall of the Galactic Republic, followed by the rise of the Galactic Empire. Small in stature but revered for his wisdom and power, Yoda trained generations of Jedi, ultimately serving as the Grand Master of the Jedi Order. Having lived through nine centuries of galactic history, he played integral roles in the Clone Wars, the rebirth of the Jedi through Luke Skywalker, and unlocking the path to immortality.'
@@ -143,3 +145,33 @@ export const CustomRows = () => (
     rows={10}
   />
 )
+
+export const TextAreaWrappedInFormik = () => {
+  type Values = {
+    name: string
+  }
+
+  const validateName = (value: string) => (value === 'invalid_name' ? 'Name is invalid' : undefined)
+
+  const TestForm = () => (
+    <Formik<Values>
+      initialValues={{
+        name: 'Valid name',
+      }}
+      initialErrors={{
+        name: 'Server Error: Invalid name',
+      }}
+      onSubmit={(values) => logger.log('submit', values)}
+    >
+      {({ values }) => (
+        <Form>
+          Values: {JSON.stringify(values)}
+          <TextAreaFormik<Values> name="name" label="Name" placeholder="Type 'invalid_name' to see an error" validate={validateName} />
+          <button type="submit">Submit</button>
+        </Form>
+      )}
+    </Formik>
+  )
+
+  return <TestForm />
+}

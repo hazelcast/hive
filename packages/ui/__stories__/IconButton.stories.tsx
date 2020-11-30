@@ -3,7 +3,7 @@ import { X } from 'react-feather'
 
 import { IconButton } from '../src/IconButton'
 
-import styleConsts from '../styles/constants/export.scss'
+import styleConsts from '../styles/constants/export.module.scss'
 import styles from '../src/IconButton.module.scss'
 
 export default {

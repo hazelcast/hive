@@ -1,6 +1,8 @@
 import React, { ReactElement } from 'react'
 import { FieldValidator, useField } from 'formik'
+
 import { Checkbox, CheckboxExtraProps } from './Checkbox'
+import { getFieldError } from './utils/formik'
 
 export type CheckboxFieldFormikProps<V extends object> = CheckboxExtraProps & {
   name: keyof V
@@ -14,13 +16,6 @@ export const CheckboxFieldFormik = <V extends object>({ name, validate, ...props
   })
 
   return (
-    <Checkbox
-      {...props}
-      name={name}
-      checked={field.checked}
-      onChange={field.onChange}
-      onBlur={field.onBlur}
-      error={meta.touched ? meta.error : undefined}
-    />
+    <Checkbox {...props} name={name} checked={field.checked} onChange={field.onChange} onBlur={field.onBlur} error={getFieldError(meta)} />
   )
 }
