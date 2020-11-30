@@ -17,7 +17,7 @@ type CheckboxCoreProps = {
 }
 
 export type CheckboxExtraProps = {
-  label: string
+  label: React.ReactNode
   helperText?: string
   indeterminate?: boolean
   disabled?: boolean
