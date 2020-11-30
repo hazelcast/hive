@@ -4,6 +4,7 @@ import { Info, ChevronDown } from 'react-feather'
 import { Button } from '../src/Button'
 
 import styles from '../src/Button.module.scss'
+import storyStyles from './Button.stories.module.scss'
 
 export default {
   title: 'Components/Button',
@@ -315,7 +316,20 @@ export const TransparentIconBothActive = () => (
 
 export const Long = () => (
   <Button kind="primary" iconLeft={Info} iconLeftAriaLabel="Info icon" iconRight={ChevronDown} iconRightAriaLabel="Chevron icon">
-    Looooong Primary Button
+    Looooooooooooooooooooooooooooooooong Primary Button
+  </Button>
+)
+
+export const LongCentered = () => (
+  <Button
+    kind="primary"
+    iconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+    iconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+    className={storyStyles.long}
+  >
+    Centered
   </Button>
 )
 
