@@ -1,12 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { logger } from '@hazelcast/services'
-import { Select } from '../src/Select'
 
-import styles from '../src/Select.module.scss'
+import { SelectField } from '../src/SelectField'
+
+import styles from '../src/SelectField.module.scss'
 
 export default {
-  title: 'Components/Select',
-  component: Select,
+  title: 'Components/SelectField',
+  component: SelectField,
 }
 
 const name = 'Character'
@@ -22,17 +23,12 @@ const options = [
 ]
 const value = options[1]
 
-export const Default = () => (
-  <Select
-    menuPortalTarget={document.body}
-    name={name}
-    value={value}
-    label={label}
-    options={options}
-    onBlur={() => logger.log('blur')}
-    onChange={(val) => logger.log('change', val)}
-  />
-)
+export const Default = () => {
+  const [currentValue, setValue] = useState(value)
+  return (
+    <SelectField name={name} value={currentValue} label={label} options={options} onBlur={() => logger.log('blur')} onChange={setValue} />
+  )
+}
 Default.parameters = {
   design: {
     type: 'figma',
@@ -41,9 +37,22 @@ Default.parameters = {
 }
 
 export const NotSelected = () => (
-  <Select
-    menuPortalTarget={document.body}
+  <SelectField
     name="name"
+    value={null}
+    isClearable
+    label="Character"
+    options={options}
+    onBlur={() => logger.log('blur')}
+    onChange={(val) => logger.log('change', val)}
+  />
+)
+
+export const Clearable = () => (
+  <SelectField
+    name="name"
+    value={value}
+    isClearable
     label="Character"
     options={options}
     onBlur={() => logger.log('blur')}
@@ -52,14 +61,13 @@ export const NotSelected = () => (
 )
 
 export const Error = () => (
-  <Select
-    menuPortalTarget={document.body}
+  <SelectField
     name="name"
     value={value}
     label="Character"
     options={options}
     onBlur={() => logger.log('blur')}
-    onChange={(val) => logger.log('change', val)}
+    onChange={(val: unknown) => logger.log('change', val)}
     error="Dark side"
   />
 )
@@ -71,15 +79,14 @@ Error.parameters = {
 }
 
 export const Hovered = () => (
-  <Select
-    menuPortalTarget={document.body}
+  <SelectField
     className={styles.hover}
     name="name"
     value={value}
     label="Character"
     options={options}
     onBlur={() => logger.log('blur')}
-    onChange={(val) => logger.log('change', val)}
+    onChange={(val: unknown) => logger.log('change', val)}
   />
 )
 Hovered.parameters = {
@@ -90,15 +97,14 @@ Hovered.parameters = {
 }
 
 export const Focused = () => (
-  <Select
-    menuPortalTarget={document.body}
+  <SelectField
     className={styles.focus}
     name="name"
     value={value}
     label="Character"
     options={options}
     onBlur={() => logger.log('blur')}
-    onChange={(val) => logger.log('change', val)}
+    onChange={(val: unknown) => logger.log('change', val)}
   />
 )
 Focused.parameters = {
@@ -109,41 +115,26 @@ Focused.parameters = {
 }
 
 export const FocusedWithError = () => (
-  <Select
-    menuPortalTarget={document.body}
+  <SelectField
     className={styles.focus}
     name="name"
     value={value}
     label="Character"
     options={options}
     onBlur={() => logger.log('blur')}
-    onChange={(val) => logger.log('change', val)}
+    onChange={(val: unknown) => logger.log('change', val)}
     error="Dark side"
   />
 )
 
 export const Disabled = () => (
-  <Select
-    menuPortalTarget={document.body}
+  <SelectField
     name="name"
     value={value}
     label="Character"
     options={options}
     onBlur={() => logger.log('blur')}
-    onChange={(val) => logger.log('change', val)}
+    onChange={(val: unknown) => logger.log('change', val)}
     disabled
-  />
-)
-
-export const CustomPlaceholder = () => (
-  <Select
-    menuPortalTarget={document.body}
-    name="name"
-    value={undefined}
-    label="Character"
-    options={options}
-    onBlur={() => logger.log('blur')}
-    onChange={(val) => logger.log('change', val)}
-    notSelectedPlaceholder="This is a custom placeholder"
   />
 )
