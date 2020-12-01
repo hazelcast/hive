@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useLayoutEffect, useRef, useState } from 'react'
 import { logger } from '@hazelcast/services'
 import { Form, Formik } from 'formik'
 
@@ -171,6 +171,30 @@ export const ClearableDisabled = () => (
 
 export const Open = () => {
   const ref = useRef<HTMLDivElement>(null)
+  return (
+    <div ref={ref} style={{ height: 350 }}>
+      <SelectField
+        name="name"
+        value={value}
+        label="Character"
+        options={options}
+        onBlur={() => logger.log('blur')}
+        onChange={(val: unknown) => logger.log('change', val)}
+        menuIsOpen
+        menuPortalTarget={ref.current}
+      />
+    </div>
+  )
+}
+
+export const OpenWithFocusedOption = () => {
+  const ref = useRef<HTMLDivElement>(null)
+
+  useLayoutEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    ref.current!.querySelector<HTMLDivElement>('.hz-select-field__option')!.className += ' hz-select-field__option--is-focused'
+  }, [])
+
   return (
     <div ref={ref} style={{ height: 350 }}>
       <SelectField

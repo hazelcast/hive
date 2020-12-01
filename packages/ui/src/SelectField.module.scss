@@ -123,6 +123,9 @@ $select: ':global .hz-select-field__control';
       line-height: c.$inputHeight;
       padding: 0 $selectHorizontalPadding;
       background-color: transparent;
+      // Do not remove outline for high-contrast modes
+      // https://stackoverflow.com/a/52616313
+      outline: c.$outlineWidth solid transparent;
 
       &:global.hz-select-field__option--is-focused {
         @include h.outlineSimple;
