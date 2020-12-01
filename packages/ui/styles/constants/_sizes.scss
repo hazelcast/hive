@@ -33,3 +33,7 @@ $tooltipMaxWidth: 550px !default;
 $buttonMaxWidth: 370px !default;
 
 $toastMaxWidth: 580px !default;
+
+$modalWidth: calc(100% - 40px);
+$modalMaxWidth: 960px !default;
+$modalHeight: calc(100% - 40px);

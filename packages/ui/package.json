@@ -50,6 +50,7 @@
     "rc-tooltip": "^4.2.3",
     "react-feather": "^2.0.8",
     "react-merge-refs": "^1.1.0",
+    "react-modal": "^3.12.1",
     "react-popper": "^2.2.3",
     "react-resize-aware": "^3.1.0",
     "react-use": "^15.3.4",
@@ -58,6 +59,7 @@
   "devDependencies": {
     "@hazelcast/test-helpers": "^0.1.0-alpha.0",
     "@types/classnames": "^2.2.10",
+    "@types/react-modal": "^3.10.6",
     "@types/uuid": "^8.3.0",
     "doiuse": "^4.2.0",
     "postcss": "^8.1.1",
