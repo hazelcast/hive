@@ -17,6 +17,7 @@ import styles from './SelectField.module.scss'
 const DropdownIndicator = () => <Icon icon={ChevronDown} ariaHidden size="normal" className={styles.chevron} />
 
 // innerProps set event handling
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ClearIndicator = ({ innerProps }: IndicatorProps<SelectFieldOption<any>>) => {
   // Visually impaired people will use the keyboard (backspace) to remove the value. We do not want to confuse them by allowing to focus this button.
   return <IconButton {...innerProps} icon={X} ariaHidden kind="primary" size="normal" className={styles.clear} tabIndex={-1} />

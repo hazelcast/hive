@@ -116,20 +116,17 @@ $marginLeftWithIcon: c.$grid * 5;
     border-color: c.$colorError;
   }
 
-  // We target specifically .inputContainer not to apply hover styles to the input when a helper icon is hovered
-  .inputContainer:hover,
-  &.hover {
+  &.focus {
     .borderOverlay {
-      border-color: c.$colorPrimary;
+      @include h.outlineFormField;
     }
     .inputIcon {
       color: c.$colorPrimary;
     }
   }
-
-  &.focus {
+  &.hover {
     .borderOverlay {
-      @include h.outlineFormField;
+      border-color: c.$colorPrimary;
     }
     .inputIcon {
       color: c.$colorPrimary;
@@ -146,10 +143,18 @@ $marginLeftWithIcon: c.$grid * 5;
     & ~ .inputIcon {
       color: c.$colorPrimary;
     }
+  } // We target specifically .inputContainer not to apply hover styles to the input when a helper icon is hovered
+  .inputContainer:hover {
+    .borderOverlay {
+      border-color: c.$colorPrimary;
+    }
+    .inputIcon {
+      color: c.$colorPrimary;
+    }
   }
 
   // input ~ is required to increase the specificity of the selector to override focus styles
-  &.hasError input ~ .inputIcon {
+  &.hasError .inputContainer input ~ .inputIcon {
     color: c.$colorError;
   }
 }
