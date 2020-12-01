@@ -3,9 +3,10 @@ import { useField } from 'formik'
 
 import { TextField, TextFieldExtraProps } from './TextField'
 import { FieldValidatorGeneric, getFieldError } from './utils/formik'
+import { ExtractKeysOfValueType } from './utils/types'
 
 export type TextFieldFormikProps<V extends object> = Exclude<TextFieldExtraProps<'text'>, 'type'> & {
-  name: V[keyof V] extends string | undefined ? keyof V : never
+  name: ExtractKeysOfValueType<V, string | undefined>
   validate?: FieldValidatorGeneric<V[keyof V]>
 }
 

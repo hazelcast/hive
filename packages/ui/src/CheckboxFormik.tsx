@@ -3,9 +3,10 @@ import { useField } from 'formik'
 
 import { Checkbox, CheckboxExtraProps } from './Checkbox'
 import { FieldValidatorGeneric, getFieldError } from './utils/formik'
+import { ExtractKeysOfValueType } from './utils/types'
 
 export type CheckboxFieldFormikProps<V extends object> = CheckboxExtraProps & {
-  name: V[keyof V] extends boolean ? keyof V : never
+  name: ExtractKeysOfValueType<V, boolean>
   validate?: FieldValidatorGeneric<boolean>
 }
 

@@ -2,22 +2,21 @@ import React, { createRef } from 'react'
 import { Formik, Form, FormikProps } from 'formik'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import { act } from 'react-dom/test-utils'
-import Select, { ValueType } from 'react-select'
+import Select from 'react-select'
 
-import { SelectFormik } from '../src/SelectFormik'
+import { SelectFieldFormik } from '../src/SelectFieldFormik'
 import { Error } from '../src/Error'
+import { SelectFieldOption } from '../src/SelectField'
 
-type OptionType = { label: string; value: string }
-
-const options = [
+const options: SelectFieldOption<string>[] = [
   { value: 'selectValue0', label: 'selectValue0' },
   { value: 'selectValue1', label: 'selectValue1' },
 ]
 
-describe('SelectFormik', () => {
+describe('SelectFieldFormik', () => {
   it('can be used in a form', async () => {
     type Values = {
-      name?: ValueType<OptionType>
+      name: SelectFieldOption<string> | null
     }
 
     const onSubmit = jest.fn()
@@ -25,9 +24,15 @@ describe('SelectFormik', () => {
     const formikBag = createRef<FormikProps<Values>>()
 
     const TestForm = () => (
-      <Formik<Values> innerRef={formikBag} initialValues={{}} onSubmit={onSubmit}>
+      <Formik<Values>
+        innerRef={formikBag}
+        initialValues={{
+          name: null,
+        }}
+        onSubmit={onSubmit}
+      >
         <Form>
-          <SelectFormik<Values> name="name" options={options} label="test" />
+          <SelectFieldFormik<Values> name="name" options={options} label="test" isClearable />
         </Form>
       </Formik>
     )
@@ -35,12 +40,14 @@ describe('SelectFormik', () => {
     const wrapper = await mountAndCheckA11Y(<TestForm />)
     const selectInstance = wrapper.find(Select).instance() as Select
 
-    expect(formikBag.current?.values).toEqual({})
+    expect(formikBag.current?.values).toEqual({
+      name: null,
+    })
 
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      selectInstance.props.onChange!(options[1], { action: 'select-option' })
+      selectInstance.props.onChange?.(options[1], { action: 'select-option' })
     })
     wrapper.update()
 
@@ -51,7 +58,7 @@ describe('SelectFormik', () => {
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      selectInstance.props.onChange!(options[0], { action: 'select-option' })
+      selectInstance.props.onChange?.(options[0], { action: 'select-option' })
     })
     wrapper.update()
 
@@ -62,15 +69,15 @@ describe('SelectFormik', () => {
 
   it('the error is displayed', async () => {
     type Values = {
-      name?: ValueType<OptionType>
+      name: SelectFieldOption<string> | null
     }
 
     const validate = jest.fn().mockImplementation(() => 'error')
 
     const TestForm = () => (
-      <Formik<Values> initialValues={{}} onSubmit={jest.fn()}>
+      <Formik<Values> initialValues={{ name: null }} onSubmit={jest.fn()}>
         <Form>
-          <SelectFormik<Values> name="name" options={options} label="test" validate={validate} />
+          <SelectFieldFormik<Values> name="name" options={options} label="test" validate={validate} isClearable />
         </Form>
       </Formik>
     )
@@ -83,7 +90,7 @@ describe('SelectFormik', () => {
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      selectInstance.props.onChange!(options[1], { action: 'select-option' })
+      selectInstance.props.onChange?.(options[1], { action: 'select-option' })
     })
     wrapper.update()
 

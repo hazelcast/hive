@@ -39,7 +39,7 @@ export const RadioGroupWrappedInFormik = () => {
     name: string
   }
 
-  const validateName = (value: string) => (value === 'invalid_name' ? 'Name is invalid' : undefined)
+  const validateName = (value: string | undefined) => (value === 'invalid_name' ? 'Name is invalid' : undefined)
 
   const TestForm = () => (
     <Formik<Values>

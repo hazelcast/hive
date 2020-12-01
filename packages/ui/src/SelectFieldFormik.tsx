@@ -3,16 +3,17 @@ import { useField } from 'formik'
 
 import { SelectField, SelectFieldCoreDynamicProps, SelectFieldExtraProps, SelectFieldOption } from './SelectField'
 import { FieldValidatorGeneric, getFieldError } from './utils/formik'
+import { ExtractKeysOfValueType } from './utils/types'
 
 export type SelectFieldFormikProps<V extends object, OV = string> = SelectFieldExtraProps<OV> &
   (
     | {
-        name: V[keyof V] extends SelectFieldOption<OV> | null ? keyof V : never
+        name: ExtractKeysOfValueType<V, SelectFieldOption<OV> | null>
         isClearable: true
         validate?: FieldValidatorGeneric<V[keyof V]>
       }
     | {
-        name: V[keyof V] extends SelectFieldOption<OV> ? keyof V : never
+        name: ExtractKeysOfValueType<V, SelectFieldOption<OV>>
         isClearable?: false
         validate?: FieldValidatorGeneric<V[keyof V]>
       }

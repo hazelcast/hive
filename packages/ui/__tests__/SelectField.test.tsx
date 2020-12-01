@@ -3,12 +3,14 @@ import { v4 as uuid } from 'uuid'
 // import { act } from 'react-dom/test-utils'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import ReactSelect from 'react-select'
+import { X } from 'react-feather'
 
-import { Select } from '../src/Select'
+import { SelectField, SelectFieldOption } from '../src/SelectField'
 import { Label } from '../src/Label'
 import { Error, errorId } from '../src/Error'
+import { IconButton } from '../src/IconButton'
 
-import styles from '../src/TextField.module.scss'
+import styles from '../src/SelectField.module.scss'
 
 jest.mock('uuid')
 
@@ -16,18 +18,26 @@ const uuidMock = uuid as jest.Mock<ReturnType<typeof uuid>>
 
 const selectId = 'selectId'
 const selectName = 'selectName'
-const selectValue = { value: 'selectValue0', label: 'selectValue0' }
+const selectValue: SelectFieldOption<string> = { value: 'selectValue0', label: 'selectValue0' }
 const selectLabel = 'selectLabel'
 
-const selectOptions = [selectValue, { value: 'selectValue1', label: 'selectValue1' }, { value: 'selectValue2', label: 'selectValue2' }]
+const selectOptions: SelectFieldOption<string>[] = [
+  selectValue,
+  { value: 'selectValue1', label: 'selectValue1' },
+  { value: 'selectValue2', label: 'selectValue2' },
+]
 
-describe('Select', () => {
+describe('SelectField', () => {
   beforeEach(() => {
     uuidMock.mockImplementation(() => selectId)
   })
 
   it('Renders the default with correct props', async () => {
-    const wrapper = await mountAndCheckA11Y(<Select name={selectName} label={selectLabel} options={selectOptions} />)
+    const onChange = jest.fn()
+
+    const wrapper = await mountAndCheckA11Y(
+      <SelectField name={selectName} label={selectLabel} options={selectOptions} value={selectValue} onChange={onChange} />,
+    )
 
     expect(wrapper.find(Label).props()).toEqual({
       id: selectId,
@@ -45,7 +55,8 @@ describe('Select', () => {
       isMulti: false,
       isSearchable: false,
       options: selectOptions,
-      value: undefined,
+      value: selectValue,
+      onChange,
     })
 
     expect(wrapper.find(Error).props()).toEqual({
@@ -57,8 +68,18 @@ describe('Select', () => {
 
   it('Renders error with correct props', async () => {
     const selectError = 'selectError'
+    const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(<Select name={selectName} label={selectLabel} options={selectOptions} error={selectError} />)
+    const wrapper = await mountAndCheckA11Y(
+      <SelectField
+        name={selectName}
+        label={selectLabel}
+        options={selectOptions}
+        value={selectValue}
+        onChange={onChange}
+        error={selectError}
+      />,
+    )
 
     expect(wrapper.find(Label).props()).toEqual({
       id: selectId,
@@ -76,7 +97,8 @@ describe('Select', () => {
       isMulti: false,
       isSearchable: false,
       options: selectOptions,
-      value: undefined,
+      value: selectValue,
+      onChange,
     })
 
     expect(wrapper.find(Error).props()).toEqual({
@@ -87,7 +109,11 @@ describe('Select', () => {
   })
 
   it('Renders required with correct props', async () => {
-    const wrapper = await mountAndCheckA11Y(<Select name={selectName} label={selectLabel} options={selectOptions} required />)
+    const onChange = jest.fn()
+
+    const wrapper = await mountAndCheckA11Y(
+      <SelectField name={selectName} label={selectLabel} options={selectOptions} value={selectValue} onChange={onChange} required />,
+    )
 
     expect(wrapper.find(Label).props()).toEqual({
       id: selectId,
@@ -105,7 +131,8 @@ describe('Select', () => {
       isMulti: false,
       isSearchable: false,
       options: selectOptions,
-      value: undefined,
+      value: selectValue,
+      onChange,
     })
 
     expect(wrapper.find(Error).props()).toEqual({
@@ -115,8 +142,12 @@ describe('Select', () => {
     })
   })
 
-  it('Renders isDisabled with correct props', async () => {
-    const wrapper = await mountAndCheckA11Y(<Select name={selectName} label={selectLabel} options={selectOptions} isDisabled />)
+  it('Renders disabled with correct props', async () => {
+    const onChange = jest.fn()
+
+    const wrapper = await mountAndCheckA11Y(
+      <SelectField name={selectName} label={selectLabel} value={selectValue} onChange={onChange} options={selectOptions} disabled />,
+    )
 
     expect(wrapper.find(Label).props()).toEqual({
       id: selectId,
@@ -134,7 +165,8 @@ describe('Select', () => {
       isMulti: false,
       isSearchable: false,
       options: selectOptions,
-      value: undefined,
+      value: selectValue,
+      onChange,
     })
 
     expect(wrapper.find(Error).props()).toEqual({
@@ -142,5 +174,41 @@ describe('Select', () => {
       className: styles.errorContainer,
       inputId: selectId,
     })
+  })
+
+  it('Renders clearable with correct props', async () => {
+    const onChange = jest.fn()
+
+    const wrapper = await mountAndCheckA11Y(
+      <SelectField name={selectName} label={selectLabel} value={selectValue} onChange={onChange} options={selectOptions} isClearable />,
+    )
+
+    expect(wrapper.find(Label).props()).toEqual({
+      id: selectId,
+      label: selectLabel,
+    })
+
+    expect(wrapper.find(ReactSelect).props()).toMatchObject({
+      inputId: selectId,
+      name: selectName,
+      'aria-invalid': false,
+      'aria-required': undefined,
+      'aria-errormessage': undefined,
+      isClearable: true,
+      isDisabled: undefined,
+      isMulti: false,
+      isSearchable: false,
+      options: selectOptions,
+      value: selectValue,
+      onChange,
+    })
+
+    expect(wrapper.find(Error).props()).toEqual({
+      error: undefined,
+      className: styles.errorContainer,
+      inputId: selectId,
+    })
+
+    expect(wrapper.find(IconButton).prop('icon')).toBe(X)
   })
 })

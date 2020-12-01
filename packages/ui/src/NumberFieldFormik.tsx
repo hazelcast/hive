@@ -3,9 +3,10 @@ import { useField } from 'formik'
 
 import { NumberField, NumberFieldExtraProps } from './NumberField'
 import { FieldValidatorGeneric, getFieldError } from './utils/formik'
+import { ExtractKeysOfValueType } from './utils/types'
 
 export type NumberFieldFormikProps<V extends object> = NumberFieldExtraProps & {
-  name: V[keyof V] extends number | undefined ? keyof V : never
+  name: ExtractKeysOfValueType<V, number | undefined>
   validate?: FieldValidatorGeneric<number | undefined>
 }
 

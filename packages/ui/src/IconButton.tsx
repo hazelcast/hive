@@ -16,7 +16,17 @@ export type IconButtonProps = {
 } & IconAriaProps &
   Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'className' | 'autoFocus' | 'disabled' | 'type' | 'tabIndex'>
 
-export const IconButton: FC<IconButtonProps> = ({ icon, iconClassName, className, size, kind = 'transparent', ...rest }) => (
+export const IconButton: FC<IconButtonProps> = ({
+  icon,
+  iconClassName,
+  className,
+  size,
+  kind = 'transparent',
+  ariaHidden,
+  ariaLabelledBy,
+  ariaLabel,
+  ...rest
+}) => (
   <button
     className={cn(
       styles.iconButton,
@@ -26,6 +36,9 @@ export const IconButton: FC<IconButtonProps> = ({ icon, iconClassName, className
       },
       className,
     )}
+    aria-hidden={ariaHidden}
+    aria-label={ariaLabel}
+    aria-labelledby={ariaLabelledBy}
     {...rest}
   >
     <span className={styles.outline} />

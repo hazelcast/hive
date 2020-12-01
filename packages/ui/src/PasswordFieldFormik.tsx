@@ -3,9 +3,10 @@ import { useField } from 'formik'
 
 import { PasswordField, PasswordFieldExtraProps } from './PasswordField'
 import { FieldValidatorGeneric, getFieldError } from './utils/formik'
+import { ExtractKeysOfValueType } from './utils/types'
 
 export type PasswordFieldFormikProps<V extends object> = PasswordFieldExtraProps & {
-  name: V[keyof V] extends string | undefined ? keyof V : never
+  name: ExtractKeysOfValueType<V, string | undefined>
   validate?: FieldValidatorGeneric<string | undefined>
 }
 
