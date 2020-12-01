@@ -1,12 +1,12 @@
 import React, { ReactElement, useCallback } from 'react'
-import { FieldValidator, useField } from 'formik'
+import { useField } from 'formik'
 
 import { NumberField, NumberFieldExtraProps } from './NumberField'
-import { getFieldError } from './utils/formik'
+import { FieldValidatorGeneric, getFieldError } from './utils/formik'
 
 export type NumberFieldFormikProps<V extends object> = NumberFieldExtraProps & {
   name: V[keyof V] extends number | undefined ? keyof V : never
-  validate?: FieldValidator
+  validate?: FieldValidatorGeneric<number | undefined>
 }
 
 export const NumberFieldFormik = <V extends object>({ name, validate, ...props }: NumberFieldFormikProps<V>): ReactElement => {

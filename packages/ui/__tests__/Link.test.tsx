@@ -23,7 +23,7 @@ describe('Link', () => {
 
   it('Renders normal Link with Icon with correct props', async () => {
     const wrapper = await mountAndCheckA11Y(
-      <Link icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/">
+      <Link icon={ChevronRight} ariaLabel="Chevron right" href="https://hazelcast.com/">
         Normal Text Link with Icon
       </Link>,
     )
@@ -63,7 +63,7 @@ describe('Link', () => {
 
   it('Renders small Link with Icon with correct props', async () => {
     const wrapper = await mountAndCheckA11Y(
-      <Link size="small" icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/">
+      <Link size="small" icon={ChevronRight} ariaLabel="Chevron right" href="https://hazelcast.com/">
         Small Text Link with Icon
       </Link>,
     )

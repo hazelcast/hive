@@ -62,7 +62,7 @@ export const PasswordField: FC<PasswordFieldProps> = ({
       <IconButton
         size="small"
         icon={visible ? EyeOff : Eye}
-        iconAriaLabel={visible ? hideIconLabel : showIconLabel}
+        ariaLabel={visible ? hideIconLabel : showIconLabel}
         className={styles.toggle}
         onClick={() => setVisible((prev) => !prev)}
         disabled={disabled}

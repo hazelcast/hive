@@ -46,7 +46,7 @@ describe('PasswordField', () => {
     expect(wrapper.find(IconButton).props()).toEqual({
       size: 'small',
       icon: Eye,
-      iconAriaLabel: 'Show password',
+      ariaLabel: 'Show password',
       'data-test': 'password-field-toggle',
       className: styles.toggle,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -102,21 +102,21 @@ describe('PasswordField', () => {
       />,
     )
 
-    expect(wrapper.find(IconButton).prop('iconAriaLabel')).toBe('Show death star')
+    expect(wrapper.find(IconButton).prop('ariaLabel')).toBe('Show death star')
 
     act(() => {
       wrapper.find(IconButton).simulate('click')
     })
     wrapper.update()
 
-    expect(wrapper.find(IconButton).prop('iconAriaLabel')).toBe('Hide death star')
+    expect(wrapper.find(IconButton).prop('ariaLabel')).toBe('Hide death star')
 
     act(() => {
       wrapper.find(IconButton).simulate('click')
     })
     wrapper.update()
 
-    expect(wrapper.find(IconButton).prop('iconAriaLabel')).toBe('Show death star')
+    expect(wrapper.find(IconButton).prop('ariaLabel')).toBe('Show death star')
   })
 
   it('visibility toggle is disabled if input is disabled', async () => {

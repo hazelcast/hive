@@ -2,21 +2,21 @@ import React, { ButtonHTMLAttributes, FC } from 'react'
 import cn from 'classnames'
 import { Icon as FeatherIcon } from 'react-feather'
 
-import { Icon, IconProps } from './Icon'
+import { Icon, IconProps, IconAriaProps } from './Icon'
 
 import styles from './IconButton.module.scss'
 
 type IconButtonKind = 'primary' | 'transparent'
 
 export type IconButtonProps = {
-  iconAriaLabel: string
   icon: FeatherIcon
   size?: IconProps['size']
   iconClassName?: string
   kind?: IconButtonKind
-} & Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'className' | 'autoFocus' | 'disabled' | 'type'>
+} & IconAriaProps &
+  Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'className' | 'autoFocus' | 'disabled' | 'type' | 'tabIndex'>
 
-export const IconButton: FC<IconButtonProps> = ({ icon, iconAriaLabel, iconClassName, className, size, kind = 'transparent', ...rest }) => (
+export const IconButton: FC<IconButtonProps> = ({ icon, iconClassName, className, size, kind = 'transparent', ...rest }) => (
   <button
     className={cn(
       styles.iconButton,
@@ -29,6 +29,6 @@ export const IconButton: FC<IconButtonProps> = ({ icon, iconAriaLabel, iconClass
     {...rest}
   >
     <span className={styles.outline} />
-    <Icon ariaLabel={iconAriaLabel} className={iconClassName} icon={icon} size={size} />
+    <Icon className={iconClassName} icon={icon} size={size} ariaHidden />
   </button>
 )

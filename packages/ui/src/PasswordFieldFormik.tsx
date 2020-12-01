@@ -1,12 +1,12 @@
 import React, { ReactElement } from 'react'
-import { FieldValidator, useField } from 'formik'
+import { useField } from 'formik'
 
 import { PasswordField, PasswordFieldExtraProps } from './PasswordField'
-import { getFieldError } from './utils/formik'
+import { FieldValidatorGeneric, getFieldError } from './utils/formik'
 
 export type PasswordFieldFormikProps<V extends object> = PasswordFieldExtraProps & {
   name: V[keyof V] extends string | undefined ? keyof V : never
-  validate?: FieldValidator
+  validate?: FieldValidatorGeneric<string | undefined>
 }
 
 export const PasswordFieldFormik = <V extends object>({ name, validate, ...props }: PasswordFieldFormikProps<V>): ReactElement => {

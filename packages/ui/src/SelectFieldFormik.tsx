@@ -1,20 +1,20 @@
 import React, { ReactElement, useCallback } from 'react'
-import { FieldValidator, useField } from 'formik'
+import { useField } from 'formik'
 
 import { SelectField, SelectFieldCoreDynamicProps, SelectFieldExtraProps, SelectFieldOption } from './SelectField'
-import { getFieldError } from './utils/formik'
+import { FieldValidatorGeneric, getFieldError } from './utils/formik'
 
 export type SelectFieldFormikProps<V extends object, OV = string> = SelectFieldExtraProps<OV> &
   (
     | {
-        name: V[keyof V] extends SelectFieldOption<OV> | undefined ? keyof V : never
+        name: V[keyof V] extends SelectFieldOption<OV> | null ? keyof V : never
         isClearable: true
-        validate?: FieldValidator
+        validate?: FieldValidatorGeneric<V[keyof V]>
       }
     | {
         name: V[keyof V] extends SelectFieldOption<OV> ? keyof V : never
         isClearable?: false
-        validate?: FieldValidator
+        validate?: FieldValidatorGeneric<V[keyof V]>
       }
   )
 
@@ -33,8 +33,9 @@ export const SelectFieldFormik = <V extends object, OV = string>({
 
   const onChange = useCallback(
     (value: SelectedOption) => {
-      setValue(value)
+      // TODO: setTouched called after setValue refires validation with an old value. File a bug.
       setTouched(true)
+      setValue(value)
     },
     [setValue, setTouched],
   )

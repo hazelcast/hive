@@ -2,20 +2,32 @@ import { DataTestProp } from '@hazelcast/helpers'
 import React, { ReactElement, useRef, FocusEvent, InputHTMLAttributes } from 'react'
 import { v4 as uuid } from 'uuid'
 import cn from 'classnames'
-import ReactSelect, { Props as ReactSelectProps, ValueType } from 'react-select'
+import ReactSelect, { Props as ReactSelectProps, ValueType, IndicatorProps, ActionMeta } from 'react-select'
+import { ChevronDown, X } from 'react-feather'
+import { useIsomorphicLayoutEffect } from 'react-use'
 
 import { Error, errorId } from './Error'
 import { Label } from './Label'
 import { Help } from './Help'
+import { Icon } from './Icon'
+import { IconButton } from './IconButton'
 
 import styles from './SelectField.module.scss'
+
+const DropdownIndicator = () => <Icon icon={ChevronDown} ariaHidden size="normal" className={styles.chevron} />
+
+// innerProps set event handling
+const ClearIndicator = ({ innerProps }: IndicatorProps<SelectFieldOption<any>>) => {
+  // Visually impaired people will use the keyboard (backspace) to remove the value. We do not want to confuse them by allowing to focus this button.
+  return <IconButton {...innerProps} icon={X} ariaHidden kind="primary" size="normal" className={styles.clear} tabIndex={-1} />
+}
 
 export type SelectFieldOption<V = string> = {
   label: string
   value: V
 }
 
-export type SelectFieldCoreStaticProps<V> = {
+export type SelectFieldCoreStaticProps = {
   name: string
   onBlur?: (e: FocusEvent<HTMLElement>) => void
   error?: string
@@ -37,14 +49,24 @@ export type SelectFieldExtraProps<V> = {
   required?: boolean
   helperText?: string | ReactElement
   className?: string
-  selectClassName?: string
   errorClassName?: string
   placeholder?: string
+  menuPortalTarget?: 'body' | 'self' | HTMLElement | null
 } & DataTestProp &
   Pick<InputHTMLAttributes<HTMLElement>, 'autoFocus' | 'disabled' | 'autoComplete'> &
-  Pick<ReactSelectProps, 'isSearchable'>
+  Pick<ReactSelectProps, 'isSearchable' | 'menuIsOpen' | 'menuPlacement'>
 
-export type SelectProps<V> = SelectFieldCoreStaticProps<V> & SelectFieldCoreDynamicProps<V> & SelectFieldExtraProps<V>
+export type SelectProps<V> = SelectFieldCoreStaticProps & SelectFieldCoreDynamicProps<V> & SelectFieldExtraProps<V>
+
+const getMenuContainer = (menuPortalTarget: 'body' | 'self' | HTMLElement | null): HTMLElement | null | undefined => {
+  if (menuPortalTarget == 'body') {
+    return document.body
+  }
+  if (menuPortalTarget == 'self') {
+    return undefined
+  }
+  return menuPortalTarget
+}
 
 export const SelectField = <V,>({
   'data-test': dataTest,
@@ -57,13 +79,21 @@ export const SelectField = <V,>({
   label,
   name,
   required,
-  selectClassName,
   value,
   onChange,
   helperText,
+  menuPortalTarget = 'body',
   ...rest
 }: SelectProps<V>): ReactElement<SelectProps<V>> => {
   const idRef = useRef(uuid())
+
+  useIsomorphicLayoutEffect(() => {
+    const menuContainer = getMenuContainer(menuPortalTarget)
+
+    if (menuContainer && !menuContainer.className.includes(styles.menuContainer)) {
+      menuContainer.className = `${menuContainer.className} ${styles.menuContainer}`
+    }
+  }, [menuPortalTarget])
 
   return (
     <div
@@ -75,6 +105,10 @@ export const SelectField = <V,>({
           [styles.hasError]: error,
           [styles.empty]: !value,
         },
+        // Menu container is either this select itself ot document.body
+        // We can always add this class to the select itself because even if the menu container is body it won't break it
+        // However, if it is the select itself, it will properly add necessary specificity level to the menu styles.
+        styles.menuContainer,
         className,
       )}
     >
@@ -82,7 +116,8 @@ export const SelectField = <V,>({
       <div className={styles.selectBlock}>
         <ReactSelect<SelectFieldOption<V>>
           inputId={idRef.current}
-          className={selectClassName}
+          className="hz-select-field"
+          classNamePrefix="hz-select-field"
           // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute
           aria-errormessage={error && errorId(idRef.current)}
           aria-invalid={!!error}
@@ -93,8 +128,12 @@ export const SelectField = <V,>({
           isSearchable={isSearchable}
           name={name}
           value={value}
-          onChange={onChange as (value: ValueType<SelectFieldOption<V>>) => void}
-          menuPortalTarget={document.body}
+          onChange={onChange as (value: ValueType<SelectFieldOption<V>>, action: ActionMeta<SelectFieldOption<V>>) => void}
+          menuPortalTarget={getMenuContainer(menuPortalTarget)}
+          components={{
+            DropdownIndicator,
+            ClearIndicator,
+          }}
           {...rest}
         />
         {helperText && <Help parentId={idRef.current} helperText={helperText} className={styles.helperText} />}

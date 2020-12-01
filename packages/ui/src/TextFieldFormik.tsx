@@ -1,12 +1,12 @@
 import React, { ReactElement } from 'react'
-import { FieldValidator, useField } from 'formik'
+import { useField } from 'formik'
 
 import { TextField, TextFieldExtraProps } from './TextField'
-import { getFieldError } from './utils/formik'
+import { FieldValidatorGeneric, getFieldError } from './utils/formik'
 
 export type TextFieldFormikProps<V extends object> = Exclude<TextFieldExtraProps<'text'>, 'type'> & {
   name: V[keyof V] extends string | undefined ? keyof V : never
-  validate?: FieldValidator
+  validate?: FieldValidatorGeneric<V[keyof V]>
 }
 
 export const TextFieldFormik = <V extends object>({ name, validate, ...props }: TextFieldFormikProps<V>): ReactElement => {

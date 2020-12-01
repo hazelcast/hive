@@ -82,7 +82,7 @@ export const NumberField: FC<NumberFieldProps> = ({
         <IconButton
           size="small"
           icon={Minus}
-          iconAriaLabel={decrementIconAriaLabel}
+          ariaLabel={decrementIconAriaLabel}
           className={styles.decrement}
           onClick={onDecrement}
           disabled={disabled || value === undefined || (min !== undefined && value <= min)}
@@ -93,7 +93,7 @@ export const NumberField: FC<NumberFieldProps> = ({
         <IconButton
           size="small"
           icon={Plus}
-          iconAriaLabel={incrementIconAriaLabel}
+          ariaLabel={incrementIconAriaLabel}
           className={styles.increment}
           onClick={onIncrement}
           disabled={disabled || value === undefined || (max !== undefined && value >= max)}

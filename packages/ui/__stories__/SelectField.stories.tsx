@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { logger } from '@hazelcast/services'
+import { Form, Formik } from 'formik'
 
-import { SelectField } from '../src/SelectField'
+import { SelectField, SelectFieldOption } from '../src/SelectField'
+import { SelectFieldFormik } from '../src/SelectFieldFormik'
 
 import styles from '../src/SelectField.module.scss'
 
@@ -12,7 +14,7 @@ export default {
 
 const name = 'Character'
 const label = 'Character'
-const options = [
+const options: SelectFieldOption<string>[] = [
   { value: 'Darth Vader', label: 'Darth Vader' },
   { value: 'Luke Skywalker', label: 'Luke Skywalker' },
   { value: 'Obi-Wan Kenobi', label: 'Obi-Wan Kenobi' },
@@ -40,18 +42,6 @@ export const NotSelected = () => (
   <SelectField
     name="name"
     value={null}
-    isClearable
-    label="Character"
-    options={options}
-    onBlur={() => logger.log('blur')}
-    onChange={(val) => logger.log('change', val)}
-  />
-)
-
-export const Clearable = () => (
-  <SelectField
-    name="name"
-    value={value}
     isClearable
     label="Character"
     options={options}
@@ -138,3 +128,125 @@ export const Disabled = () => (
     disabled
   />
 )
+
+export const WithHelperText = () => (
+  <SelectField
+    name="name"
+    value={value}
+    label="Character"
+    options={options}
+    onBlur={() => logger.log('blur')}
+    onChange={(val: unknown) => logger.log('change', val)}
+    helperText="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+  />
+)
+
+export const Clearable = () => {
+  const [currentValue, setValue] = useState<SelectFieldOption<string> | null>(value)
+  return (
+    <SelectField
+      name="name"
+      value={currentValue}
+      isClearable
+      label="Character"
+      options={options}
+      onBlur={() => logger.log('blur')}
+      onChange={setValue}
+    />
+  )
+}
+
+export const ClearableDisabled = () => (
+  <SelectField
+    name="name"
+    value={value}
+    isClearable
+    label="Character"
+    options={options}
+    onBlur={() => logger.log('blur')}
+    onChange={(val: unknown) => logger.log('change', val)}
+    disabled
+  />
+)
+
+export const Open = () => {
+  const ref = useRef<HTMLDivElement>(null)
+  return (
+    <div ref={ref} style={{ height: 350 }}>
+      <SelectField
+        name="name"
+        value={value}
+        label="Character"
+        options={options}
+        onBlur={() => logger.log('blur')}
+        onChange={(val: unknown) => logger.log('change', val)}
+        menuIsOpen
+        menuPortalTarget={ref.current}
+      />
+    </div>
+  )
+}
+
+export const SelectFieldWrappedInFormik = () => {
+  type Values = {
+    character: SelectFieldOption<string>
+  }
+
+  const validateCharacter = ({ value }: SelectFieldOption<string>) => (value == 'Yoda' ? 'No one can be Yoda' : undefined)
+
+  const TestForm = () => (
+    <Formik<Values>
+      initialValues={{
+        character: value,
+      }}
+      initialErrors={{
+        // Bug in Formik types. TODO: Raise a PR
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
+        character: 'Server Error: Invalid character' as any,
+      }}
+      onSubmit={(values) => logger.log('submit', values)}
+    >
+      {({ values }) => (
+        <Form>
+          Values: {JSON.stringify(values)}
+          <SelectFieldFormik<Values> name="character" label="Character" options={options} validate={validateCharacter} />
+          <button type="submit">Submit</button>
+        </Form>
+      )}
+    </Formik>
+  )
+
+  return <TestForm />
+}
+
+export const SelectFieldClearableWrappedInFormik = () => {
+  type Values = {
+    character: SelectFieldOption<string> | null
+  }
+
+  const validateCharacter = (option: SelectFieldOption<string> | null) => (option == null ? 'Pick an option' : undefined)
+
+  const TestForm = () => (
+    <Formik<Values>
+      initialValues={{
+        character: null,
+      }}
+      initialErrors={{
+        // Bug in Formik types. TODO: Raise a PR
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
+        character: 'Server Error: Invalid character' as any,
+      }}
+      onSubmit={(values) => logger.log('submit', values)}
+    >
+      {({ values }) => (
+        <Form>
+          Values: {JSON.stringify(values)}
+          <SelectFieldFormik<Values> name="character" label="Character" options={options} validate={validateCharacter} isClearable />
+          <button type="submit">Submit</button>
+        </Form>
+      )}
+    </Formik>
+  )
+
+  return <TestForm />
+}

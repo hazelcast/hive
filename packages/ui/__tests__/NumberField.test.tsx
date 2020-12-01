@@ -46,7 +46,7 @@ describe('NumberField', () => {
     expect(wrapper.find(IconButton).at(0).props()).toEqual({
       size: 'small',
       icon: Minus,
-      iconAriaLabel: 'Decrement',
+      ariaLabel: 'Decrement',
       'data-test': 'number-field-decrement',
       className: styles.decrement,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -58,7 +58,7 @@ describe('NumberField', () => {
     expect(wrapper.find(IconButton).at(1).props()).toEqual({
       size: 'small',
       icon: Plus,
-      iconAriaLabel: 'Increment',
+      ariaLabel: 'Increment',
       'data-test': 'number-field-increment',
       className: styles.increment,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -191,7 +191,7 @@ describe('NumberField', () => {
     expect(wrapper.find(IconButton).at(0).props()).toEqual({
       size: 'small',
       icon: Minus,
-      iconAriaLabel: '-1',
+      ariaLabel: '-1',
       'data-test': 'number-field-decrement',
       className: styles.decrement,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -203,7 +203,7 @@ describe('NumberField', () => {
     expect(wrapper.find(IconButton).at(1).props()).toEqual({
       size: 'small',
       icon: Plus,
-      iconAriaLabel: '+1',
+      ariaLabel: '+1',
       'data-test': 'number-field-increment',
       className: styles.increment,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

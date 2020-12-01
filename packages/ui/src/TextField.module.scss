@@ -1,7 +1,6 @@
 @use '../styles/constants' as c;
 @use '../styles/helpers' as h;
 
-$inputHeight: c.$grid * 10;
 $inputHorizontalPadding: c.$grid * 3;
 $marginLeftWithIcon: c.$grid * 5;
 
@@ -34,7 +33,7 @@ $marginLeftWithIcon: c.$grid * 5;
     display: flex;
     flex-direction: row;
     box-sizing: border-box;
-    height: $inputHeight;
+    height: c.$inputHeight;
     background-color: c.$colorNeutralLighter;
     border-radius: c.$borderRadius;
   }
@@ -99,16 +98,6 @@ $marginLeftWithIcon: c.$grid * 5;
     color: c.$colorTextSecondary;
   }
 
-  &:hover,
-  &.hover {
-    .borderOverlay {
-      border-color: c.$colorPrimary;
-    }
-    .inputIcon {
-      color: c.$colorPrimary;
-    }
-  }
-
   &.disabled {
     color: c.$colorTextSecondary;
 
@@ -125,6 +114,17 @@ $marginLeftWithIcon: c.$grid * 5;
 
   &.hasError .borderOverlay {
     border-color: c.$colorError;
+  }
+
+  // We target specifically .inputContainer not to apply hover styles to the input when a helper icon is hovered
+  .inputContainer:hover,
+  &.hover {
+    .borderOverlay {
+      border-color: c.$colorPrimary;
+    }
+    .inputIcon {
+      color: c.$colorPrimary;
+    }
   }
 
   &.focus {
