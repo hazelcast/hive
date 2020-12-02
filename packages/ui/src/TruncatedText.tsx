@@ -1,7 +1,8 @@
-import React, { FC, useRef, useState, useLayoutEffect, ReactChild } from 'react'
+import React, { FC, useRef, useState, ReactChild } from 'react'
 import mergeRefs from 'react-merge-refs'
 import { v4 as uuid } from 'uuid'
 import cn from 'classnames'
+import { useIsomorphicLayoutEffect } from 'react-use'
 
 import { Tooltip } from './Tooltip'
 
@@ -20,7 +21,7 @@ export const TruncatedText: FC<TruncatedTextProps> = ({ text, forceUpdateToken, 
 
   const idTooltip = `${uuid()}-tooltip`
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const span = textRef.current
 
     if (span === null) {

@@ -1,8 +1,9 @@
-import React, { ChangeEvent, FC, FocusEvent, ReactElement, useLayoutEffect, useRef } from 'react'
+import React, { ChangeEvent, FC, FocusEvent, ReactElement, useRef } from 'react'
 import { v4 as uuid } from 'uuid'
 import cn from 'classnames'
 import useResizeAware from 'react-resize-aware'
 import { DataTestProp } from '@hazelcast/helpers'
+import { useIsomorphicLayoutEffect } from 'react-use'
 
 import { Error, errorId } from './Error'
 import { Help } from './Help'
@@ -52,7 +53,7 @@ export const TextArea: FC<TextAreaProps> = ({
   const popperRef = useRef<PopperRef>()
   const [resizeListener, sizes] = useResizeAware()
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (sizes.height) {
       popperRef.current?.forceUpdate?.()
     }

@@ -1,7 +1,8 @@
 import { DataTestProp } from '@hazelcast/helpers'
-import React, { FC, FocusEvent, ChangeEvent, ReactElement, InputHTMLAttributes, useCallback, useLayoutEffect, useMemo } from 'react'
+import React, { FC, FocusEvent, ChangeEvent, ReactElement, InputHTMLAttributes, useCallback, useMemo } from 'react'
 import { Plus, Minus } from 'react-feather'
 import cn from 'classnames'
+import { useIsomorphicLayoutEffect } from 'react-use'
 
 import { TextField } from './TextField'
 import { IconButton } from './IconButton'
@@ -47,7 +48,7 @@ export const NumberField: FC<NumberFieldProps> = ({
   disabled,
   ...props
 }) => {
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (min !== undefined && value !== undefined && value < min) {
       onChange(min)
     }
