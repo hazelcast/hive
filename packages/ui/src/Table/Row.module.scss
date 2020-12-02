@@ -1,21 +1,18 @@
 @use '../../styles/constants' as c;
 
 @mixin rowBase {
-  display: table-row;
-  vertical-align: middle;
+  border-bottom: c.$borderWidth solid c.$colorNeutralWhite;
+
+  > *:not(:last-child) {
+    border-right: c.$borderWidth solid c.$colorNeutralWhite;
+  }
 }
 
-tr.headerRow {
+.headerRow {
   @include rowBase;
 }
 
-tr.inactive {
-  @include rowBase;
-
-  opacity: 0.4;
-}
-
-tr.row {
+.row {
   @include rowBase;
 
   &:hover {

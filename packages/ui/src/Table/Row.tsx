@@ -2,6 +2,7 @@ import React, { FC } from 'react'
 import cn from 'classnames'
 
 import styles from './Row.module.scss'
+import { TableHeaderGroupProps } from 'react-table'
 
 type RowClickProps =
   | {
@@ -13,25 +14,33 @@ type RowClickProps =
       onClick?: never
     }
 
-type RowProps = { inactive?: boolean } & RowClickProps
+type RowProps = RowClickProps & Omit<TableHeaderGroupProps, 'key'> & { ariaRowIndex?: number }
 
-export const Row: FC<RowProps> = ({ children, inactive = false, isHeaderRow = false, onClick }) => {
+export const Row: FC<RowProps> = ({ children, isHeaderRow = false, onClick, className, style, role, ariaRowIndex }) => {
   if (isHeaderRow) {
-    return <tr className={styles.headerRow}>{children}</tr>
-  }
-
-  if (inactive) {
-    return <tr className={styles.inactive}>{children}</tr>
+    return (
+      <div className={cn(styles.headerRow, className)} style={style} role={role}>
+        {children}
+      </div>
+    )
   }
 
   return (
-    <tr
+    <div
+      className={cn(
+        styles.row,
+        {
+          [styles.clickable]: !!onClick,
+        },
+        className,
+      )}
+      style={style}
+      role={role}
+      aria-rowindex={ariaRowIndex}
       onClick={onClick}
-      className={cn(styles.row, {
-        [styles.clickable]: !!onClick,
-      })}
+      onKeyPress={onClick}
     >
       {children}
-    </tr>
+    </div>
   )
 }

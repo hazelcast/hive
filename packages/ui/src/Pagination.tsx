@@ -94,6 +94,7 @@ export const Pagination: FC<PaginationProps> = ({
           if (page === 'previous') {
             return canPreviousPage ? (
               <Button
+                key="previous"
                 type="button"
                 kind="transparent"
                 className={styles.button}
@@ -112,6 +113,7 @@ export const Pagination: FC<PaginationProps> = ({
           if (page === 'next') {
             return canNextPage ? (
               <Button
+                key="next"
                 type="button"
                 kind="transparent"
                 className={styles.button}
@@ -128,7 +130,7 @@ export const Pagination: FC<PaginationProps> = ({
             ) : null
           }
           if (page === 'ellipsis') {
-            return <span>&#8208;</span>
+            return <span key="ellipsis">&#8208;</span>
           }
 
           return (

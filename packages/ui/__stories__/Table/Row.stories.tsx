@@ -92,12 +92,5 @@ export const MultipleRows = () => (
         </Cell>
       ))}
     </Row>
-    <Row isHeaderRow={false} inactive>
-      {cells.map(({ children, ...props }, i) => (
-        <Cell key={i} {...props}>
-          {children}
-        </Cell>
-      ))}
-    </Row>
   </>
 )

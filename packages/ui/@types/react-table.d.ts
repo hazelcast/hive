@@ -43,7 +43,7 @@ declare module 'react-table' {
       UseGroupByOptions<D>,
       // UseExpandedOptions<D>,
       // UseGlobalFiltersOptions<D>,
-      // UseResizeColumnsOptions<D>,
+      UseResizeColumnsOptions<D>,
       // UseRowStateOptions<D>,
 
       // note that having Record here allows you to add anything to the options, this matches the spirit of the

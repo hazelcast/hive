@@ -1,35 +1,50 @@
 @use '../../styles/constants' as c;
 
-th.header {
-  display: table-cell;
+.th {
+  position: relative;
+  display: flex;
+  align-items: center;
   padding-top: c.$grid * 2.5;
   padding-bottom: c.$grid * 2.5;
   padding-right: c.$grid * 3;
   padding-left: c.$grid * 3;
   background-color: c.$colorNeutralLighter;
-  border-bottom: c.$borderWidth solid c.$colorNeutralWhite;
-  border-right: c.$borderWidth solid c.$colorNeutralWhite;
+  color: c.$colorTextSecondary;
+  @include c.typographyBodySmall;
+
+  :last-child {
+    border-right: 0;
+  }
+
+  &.alignLeft {
+    justify-content: flex-start;
+  }
+
+  &.alignRight {
+    justify-content: flex-end;
+  }
+
+  &.alignCenter {
+    justify-content: center;
+  }
 
   &.sortable {
     cursor: pointer;
   }
 
-  .content {
-    display: flex;
-    align-items: center;
-    color: c.$colorTextSecondary;
-    @include c.typographyBodySmall;
+  .resizer {
+    right: 0;
+    background: blue;
+    width: 6px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    // Prevents from scrolling while dragging on touch devices
+    touch-action: none;
 
-    &.alignLeft {
-      justify-content: flex-start;
-    }
-
-    &.alignRight {
-      justify-content: flex-end;
-    }
-
-    &.alignCenter {
-      justify-content: center;
+    &.isResizing {
+      background: red;
     }
   }
 }

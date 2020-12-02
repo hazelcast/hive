@@ -4,6 +4,7 @@ import { Column } from 'react-table'
 import { makeData, Person } from './makeData'
 import { FetchDataProps, Table } from '../../src/Table/Table'
 import { Link } from '../../src/Link'
+import { logger } from '@hazelcast/services'
 
 export default {
   title: 'Components/Table/Table',
@@ -103,7 +104,7 @@ export const ClickableRowsWithNameLink = () => {
       disableSortBy
       hidePagination
       onRowClick={(row) => {
-        console.log(`You just clicked row: ${row.values.name as Person['name']}`)
+        logger.log(`You just clicked row: ${row.values.name as Person['name']}`)
       }}
     />
   )
