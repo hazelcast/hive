@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid'
 import cn from 'classnames'
 import useResizeAware from 'react-resize-aware'
 import { DataTestProp } from '@hazelcast/helpers'
-import { useIsomorphicLayoutEffect } from 'react-use'
+import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 
 import { Error, errorId } from './Error'
 import { Help } from './Help'
