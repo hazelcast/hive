@@ -14,18 +14,19 @@ export default {
 const onClose = () => console.log('onClose')
 
 const ModalWithPortalFactory: FC<ModalProps> = ({ children, className, ...props }) => {
+  // We need dynamic id in order not to portal Default & Normal into same sandbox
   const id = `s${uuid()}`
   return (
-    <div id={id}>
+    <div id={id} className={utilsStyles.modalWrapper}>
       <Modal {...props} className={cn(className, utilsStyles.modal)} parentSelector={() => document.querySelector(`#${id}`) as HTMLElement}>
-        {children}
+        <div className={utilsStyles.modalChildrenWrapper}>{children}</div>
       </Modal>
     </div>
   )
 }
 
 export const Normal = () => (
-  <ModalWithPortalFactory title="Title" isOpen onClose={onClose} overlayClassName={utilsStyles.wrapperModal}>
+  <ModalWithPortalFactory title="Title" isOpen onClose={onClose}>
     <div>Content</div>
   </ModalWithPortalFactory>
 )

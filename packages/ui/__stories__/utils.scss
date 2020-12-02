@@ -6,11 +6,18 @@
   align-items: center;
 }
 
-.wrapperModal {
+.modalWrapper {
   width: 100%;
   height: 100px;
 }
 
 .modal {
-  width: calc(#{c.$modalWidth} - 120px);
+  width: calc(#{c.$modalWidth} - 200px);
+}
+
+.modalChildrenWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
 }
