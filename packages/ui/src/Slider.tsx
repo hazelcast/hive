@@ -7,6 +7,7 @@ import { Error, errorId } from './Error'
 import { Help } from './Help'
 
 import styles from './Slider.module.scss'
+import { Label } from './Label'
 
 // This component accepts one of these values
 type Value = number | [number, number]
@@ -23,20 +24,12 @@ type ChangeEventType = ChangeEvent<HTMLInputElement> | MouseEvent
 type SingleValueChangeFn = (val: number, e?: ChangeEventType) => void
 type MultiValueChangeFn = (val: [number, number], e?: ChangeEventType) => void
 
-export type SliderValueProps =
-  | {
-      value: number
-      onChange: SingleValueChangeFn
-    }
-  | {
-      value: [number, number]
-      onChange: MultiValueChangeFn
-    }
-
-export type SliderCoreProps = {
+export type SliderCoreProps<T> = {
+  value: T
+  onChange: T extends number ? SingleValueChangeFn : MultiValueChangeFn
   name: string
   error?: string
-} & SliderValueProps
+}
 
 export type SliderExtraProps = {
   step?: number
@@ -111,17 +104,20 @@ export function Slider<T extends Value = number>({
    *
    * - div - wrapper div that holds label + actual slider + error component
    *  - label - visible label
-   *  - slider - CSS grid 2x2
+   *  - wrapper
    *    ----------------------------------------------------------------------
-   *    | Mark descriptions                                 |                |
+   *    | Inner wrapper                                     |                |
+   *    |  - markDescriptions                               |                |
+   *    |  - input wrapper                                  | Help component |
    *    ----------------------------------------------------------------------
-   *    | input[range], input[range]2 (in range mode), fill | Help component |
-   *    ----------------------------------------------------------------------
+   *
    *    where
-   *    fill
+   *    - input container contains
+   *      - input or inputs in a range mode
    *      - fillPlaceholder - background of the possible slider area
    *      - fill - actual fill (active range)
    *      - marks
+   *
    *  - error - error component
    */
   const idRef = useRef(uuid())
@@ -225,116 +221,117 @@ export function Slider<T extends Value = number>({
 
   return (
     <div className={className} data-test={dataTest}>
-      <label id={idRef.current} className={styles.label}>
-        {label}
-      </label>
-      <div
-        className={cn(styles.wrapper, {
-          [styles.disabled]: disabled,
-        })}
-        role="group"
-        ref={wrapperRef}
-      >
-        {firstValue !== undefined && (
-          <input
-            ref={firstRangeInputRef}
-            type="range"
-            value={firstValue}
-            min={min}
-            max={max}
-            name={name}
-            disabled={disabled}
-            onChange={setFirstValueCallback}
-            className={sliderClassName}
-            step={step}
-            aria-labelledby={idRef.current}
-            aria-valuenow={firstValue}
-            aria-valuemin={min}
-            aria-valuemax={Math.min(max, secondValue)}
-            aria-invalid={!!error}
-            aria-errormessage={error && errorId(idRef.current)}
-          />
-        )}
-
-        {isRange && secondValue !== undefined && (
-          <input
-            ref={secondRangeInputRef}
-            type="range"
-            value={secondValue}
-            min={min}
-            max={max}
-            name={name}
-            disabled={disabled}
-            onChange={setSecondValueCallback}
-            step={step}
-            className={cn({
-              sliderClassName,
-              // The second thumb is above the first thumb in DOM.
-              // There is a corner case where both thumbs are above each other at the end
-              // of the range. In that case we need to pass pointer-events to the first thumb
-              // because that is the only one that can be moved.
-              [styles.atTheBorder]: max === secondValue && secondValue === firstValue,
-            })}
-            aria-labelledby={idRef.current}
-            aria-valuenow={secondValue}
-            aria-valuemin={Math.max(min, firstValue)}
-            aria-valuemax={max}
-            aria-invalid={!!error}
-            aria-errormessage={error && errorId(idRef.current)}
-          />
-        )}
-        <div className={styles.fillPlaceholder}>
-          <div
-            className={styles.fill}
-            data-test="fill"
-            // Since there is no easy way hot to pass properties to SCSS, we need to use
-            // inline styles.
-            style={
-              isRange
-                ? {
-                    width: `${width}%`,
-                    marginLeft: `${left * 100}%`,
-                  }
-                : {
-                    width: `${max * left}%`,
-                  }
-            }
-          />
+      <Label id={idRef.current} label={label} />
+      <div className={styles.wrapper}>
+        <div className={styles.innerWrapper}>
           {/*
-            Markers
-           */}
+          Marks Descriptions
+        */}
           {!!marks?.length && (
-            <ul className={styles.marks} data-test="marks">
-              {marks.map(({ value: markValue }) => {
-                const { isActive, left } = getMarkMetadata(markValue, max, [firstValue, secondValue], isRange)
+            <ul className={styles.markDescriptions} data-test="mark-descriptions">
+              {marks.map(({ label, value: markValue }) => {
+                const { left } = getMarkMetadata(markValue, max, [firstValue, secondValue], isRange)
                 return (
-                  <li
-                    key={markValue}
-                    style={{ left: `${left}%` }}
-                    className={cn({
-                      [styles.active]: isActive,
-                    })}
-                  />
+                  <li key={markValue} style={{ left: `${left}%` }}>
+                    {label}
+                  </li>
                 )
               })}
             </ul>
           )}
-        </div>
-        {/*
-          Marks Descriptions
-        */}
-        {!!marks?.length && (
-          <ul className={styles.markDescriptions} data-test="mark-descriptions">
-            {marks.map(({ label, value: markValue }) => {
-              const { left } = getMarkMetadata(markValue, max, [firstValue, secondValue], isRange)
-              return (
-                <li key={markValue} style={{ left: `${left}%` }}>
-                  {label}
-                </li>
-              )
+          <div
+            className={cn(styles.inputWrapper, {
+              [styles.disabled]: disabled,
             })}
-          </ul>
-        )}
+            role="group"
+            ref={wrapperRef}
+          >
+            {firstValue !== undefined && (
+              <input
+                id={idRef.current}
+                ref={firstRangeInputRef}
+                type="range"
+                value={firstValue}
+                min={min}
+                max={max}
+                name={name}
+                disabled={disabled}
+                onChange={setFirstValueCallback}
+                className={sliderClassName}
+                step={step}
+                aria-labelledby={idRef.current}
+                aria-valuenow={firstValue}
+                aria-valuemin={min}
+                aria-valuemax={Math.min(max, secondValue)}
+                aria-invalid={!!error}
+                aria-errormessage={error && errorId(idRef.current)}
+              />
+            )}
+
+            {isRange && secondValue !== undefined && (
+              <input
+                ref={secondRangeInputRef}
+                type="range"
+                value={secondValue}
+                min={min}
+                max={max}
+                name={name}
+                disabled={disabled}
+                onChange={setSecondValueCallback}
+                step={step}
+                className={cn({
+                  sliderClassName,
+                  // The second thumb is above the first thumb in DOM.
+                  // There is a corner case where both thumbs are above each other at the end
+                  // of the range. In that case we need to pass pointer-events to the first thumb
+                  // because that is the only one that can be moved.
+                  [styles.atTheBorder]: max === secondValue && secondValue === firstValue,
+                })}
+                aria-labelledby={label}
+                aria-valuenow={secondValue}
+                aria-valuemin={Math.max(min, firstValue)}
+                aria-valuemax={max}
+                aria-invalid={!!error}
+                aria-errormessage={error && errorId(idRef.current)}
+              />
+            )}
+            <div className={styles.fillPlaceholder}>
+              <div
+                className={styles.fill}
+                data-test="fill"
+                // Since there is no easy way hot to pass properties to SCSS, we need to use
+                // inline styles.
+                style={
+                  isRange
+                    ? {
+                        width: `${width}%`,
+                        marginLeft: `${left * 100}%`,
+                      }
+                    : {
+                        width: `${max * left}%`,
+                      }
+                }
+              />
+              {/* Marks */}
+              {!!marks?.length && (
+                <ul className={styles.marks} data-test="marks">
+                  {marks.map(({ value: markValue }) => {
+                    const { isActive, left } = getMarkMetadata(markValue, max, [firstValue, secondValue], isRange)
+                    return (
+                      <li
+                        key={markValue}
+                        style={{ left: `${left}%` }}
+                        className={cn({
+                          [styles.active]: isActive,
+                        })}
+                      />
+                    )
+                  })}
+                </ul>
+              )}
+            </div>
+          </div>
+        </div>
         {helperText && <Help parentId={idRef.current} helperText={helperText} className={styles.helperText} />}
       </div>
       <Error error={error} className={styles.errorContainer} inputId={idRef.current} />
