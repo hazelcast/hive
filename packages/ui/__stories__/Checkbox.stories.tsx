@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { logger } from '@hazelcast/services'
 import styles from '../src/Checkbox.module.scss'
 
-import { Checkbox } from '../src/Checkbox'
+import { Checkbox } from '../src'
+import { Link } from '../src'
 
 export default {
   title: 'Components/Checkbox',
@@ -95,6 +96,22 @@ export const WithDescription = () => (
     checked={false}
     label="Label"
     helperText="Very long description"
+    name="default"
+    onChange={(e) => logger.log('change', e.target.checked)}
+  />
+)
+
+export const LabelWithLink = () => (
+  <Checkbox
+    checked={false}
+    label={
+      <>
+        Label{' '}
+        <Link href="#" size="small">
+          Link
+        </Link>
+      </>
+    }
     name="default"
     onChange={(e) => logger.log('change', e.target.checked)}
   />
