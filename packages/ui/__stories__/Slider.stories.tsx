@@ -189,6 +189,12 @@ export const SliderMultiRangeInFormik = () => {
 /**
  * The following stories are here mostly mostly for visual regression testing and do not demonstrate the way
  * how this component should be used.
+ *
+ * The main goals of these stories is to make sure that the blue center of a thumb is exactly aligned with the
+ * track's border and the white border will just overflow as requested by a design.
+ *
+ * You can read about common implementation problems here
+ * https://css-tricks.com/multi-thumb-sliders-particular-two-thumb-case/#issues
  * @constructor
  */
 export const DoNotUse__OpacityThumb__Beginning = () => {
@@ -205,6 +211,10 @@ export const DoNotUse__OpacityThumb__Beginning = () => {
     />
   )
 }
+
+/**
+ * The scenario checks that the track's fill is exactly in the middle of the thumb when progress is 50%.
+ */
 export const DoNotUse__OpacityThumb__Middle = () => {
   const [value, onChange] = useState<number>(50)
   return (

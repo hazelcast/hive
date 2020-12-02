@@ -293,10 +293,10 @@ export function Slider<T extends Value = number>({
               isRange
                 ? {
                     width: `${width}%`,
-                    marginLeft: `calc(${left * 100}%)`,
+                    marginLeft: `${left * 100}%`,
                   }
                 : {
-                    width: `calc(${max * left}%)`,
+                    width: `${max * left}%`,
                   }
             }
           />

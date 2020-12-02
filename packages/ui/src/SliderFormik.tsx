@@ -1,6 +1,7 @@
 import React, { ReactElement, useCallback } from 'react'
 import { FieldValidator, useField } from 'formik'
 import { Slider, SliderExtraProps } from './Slider'
+import { getFieldError } from './utils/formik'
 
 export type SliderFormikProps<V extends object> = SliderExtraProps & {
   name: keyof V
@@ -21,13 +22,5 @@ export const SliderFormik = <V extends object>({ name, validate, ...props }: Sli
     [setValue, setTouched],
   )
 
-  return (
-    <Slider
-      {...props}
-      name={name}
-      value={field.value}
-      onChange={onChange}
-      error={meta.touched || meta.initialError === meta.error ? meta.error : undefined}
-    />
-  )
+  return <Slider {...props} name={name} value={field.value} onChange={onChange} error={getFieldError(meta)} />
 }
