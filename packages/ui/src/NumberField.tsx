@@ -2,7 +2,7 @@ import { DataTestProp } from '@hazelcast/helpers'
 import React, { FC, FocusEvent, ChangeEvent, ReactElement, InputHTMLAttributes, useCallback, useMemo } from 'react'
 import { Plus, Minus } from 'react-feather'
 import cn from 'classnames'
-import { useIsomorphicLayoutEffect } from 'react-use'
+import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 
 import { TextField } from './TextField'
 import { IconButton } from './IconButton'
