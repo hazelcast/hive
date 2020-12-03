@@ -106,7 +106,7 @@ export const SelectField = <V,>({
           [styles.hasError]: error,
           [styles.empty]: !value,
         },
-        // Menu container is either this select itself ot document.body
+        // Menu container is either this select itself or document.body
         // We can always add this class to the select itself because even if the menu container is body it won't break it
         // However, if it is the select itself, it will properly add necessary specificity level to the menu styles.
         styles.menuContainer,
