@@ -6,12 +6,19 @@ import { PartialRequired } from '@hazelcast/helpers'
 import styles from './Link.module.scss'
 import { Icon } from './Icon'
 
+export type LinkKind = 'primary' | 'secondary'
+
 const sizes = {
   normal: styles.normal,
   small: styles.small,
 }
 
 type AnchorAttributes = AnchorHTMLAttributes<HTMLAnchorElement>
+
+// Common props for all link "kinds"
+type LinkCommonProps = {
+  kind?: LinkKind
+}
 
 type IconProps =
   | {
@@ -23,7 +30,7 @@ type IconProps =
       ariaLabel?: never
     }
 
-type LinkProps = IconProps & {
+type LinkProps = LinkCommonProps & IconProps & {
   size?: keyof typeof sizes
 } & PartialRequired<AnchorAttributes, 'href'> &
   Pick<AnchorAttributes, 'target' | 'rel' | 'className'> & {
@@ -36,11 +43,13 @@ type LinkProps = IconProps & {
  * Text links let you add actions in the form of text that fits with its surroundings. Users can see they can take an action, but their focus is not drawn much from your main flow.
  *
  * ### General Info
- * - There are 2 types of Link available - regular and small.
+ * - There are 2 kinds (colors) of Link available - primary (default) and secondary.
+ * - There are 2 sizes of Link available - normal (default) and small.
  * - The default state of all types of link is underlined and on hover it has no underline.
  * - Link can be used as a stand-alone component with right chevron icon.
  */
 export const Link: FC<LinkProps> = ({
+  kind = 'primary',
   size = 'normal',
   icon,
   ariaLabel,
@@ -50,7 +59,15 @@ export const Link: FC<LinkProps> = ({
   className,
   children,
 }) => (
-  <a className={cn(styles[size], className)} href={href} rel={rel} target={target}>
+  <a className={cn(
+      styles[size],
+      {
+        [styles.primary]: kind === 'primary',
+        [styles.secondary]: kind === 'secondary',
+      },
+      className
+    )}
+    href={href} rel={rel} target={target}>
     {children}
     {icon && ariaLabel && <Icon icon={icon} ariaLabel={ariaLabel} size={size} />}
   </a>
