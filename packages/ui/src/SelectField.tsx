@@ -47,14 +47,12 @@ export type SelectFieldCoreDynamicProps<V> =
 export type SelectFieldExtraProps<V> = {
   options: SelectFieldOption<V>[]
   label: string
-  required?: boolean
   helperText?: string | ReactElement
   className?: string
   errorClassName?: string
-  placeholder?: string
   menuPortalTarget?: 'body' | 'self' | HTMLElement | null
 } & DataTestProp &
-  Pick<InputHTMLAttributes<HTMLElement>, 'autoFocus' | 'disabled' | 'autoComplete'> &
+  Pick<InputHTMLAttributes<HTMLElement>, 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'> &
   Pick<ReactSelectProps, 'isSearchable' | 'menuIsOpen' | 'menuPlacement' | 'noOptionsMessage' | 'inputValue'>
 
 export type SelectProps<V> = SelectFieldCoreStaticProps & SelectFieldCoreDynamicProps<V> & SelectFieldExtraProps<V>

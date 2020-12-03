@@ -25,14 +25,12 @@ export type NumberFieldExtraProps = {
   defaultValue?: number
   numberType?: 'int' | 'float'
   label: string
-  required?: boolean
   helperText?: string | ReactElement
   className?: string
   inputClassName?: string
   errorClassName?: string
-  placeholder?: string
 } & DataTestProp &
-  Pick<InputHTMLAttributes<HTMLInputElement>, 'autoFocus' | 'disabled' | 'autoComplete'>
+  Pick<InputHTMLAttributes<HTMLInputElement>, 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'>
 type NumberFieldProps = NumberFieldCoreProps & NumberFieldExtraProps
 
 export const NumberField: FC<NumberFieldProps> = ({
