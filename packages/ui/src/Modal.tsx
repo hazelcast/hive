@@ -9,7 +9,7 @@ import { IconButton } from './IconButton'
 import styles from './Modal.module.scss'
 import { Button } from './Button'
 
-type ActionButtonType =
+type ActionType =
   | {
       action: string
       onAction: () => void
@@ -21,17 +21,16 @@ type ActionButtonType =
 
 // TODO: a11y
 export type ModalProps = {
-  actionTitle: string
-  children: ReactNode
   closable?: boolean
-  onClose: ReactModalProps['onRequestClose']
+  children: ReactNode
   title: string
-} & ActionButtonType &
+  onClose?: ReactModalProps['onRequestClose']
+} & ActionType &
   DataTestProp &
   Exclude<ReactModalProps, 'onRequestClose' | 'shouldFocusAfterRender'>
 
 export const Modal: FC<ModalProps> = ({
-  actionTitle,
+  action,
   className,
   closable = true,
   children,
@@ -59,15 +58,20 @@ export const Modal: FC<ModalProps> = ({
           <div className={styles.title}>{title}</div>
           {closable && (
             <div className={styles.close}>
-              <IconButton data-test="modal-close" kind="transparent" iconAriaLabel="Close icon" icon={X} onClick={onClose} />
+              {/* TODO: Get color */}
+              <IconButton data-test="modal-close" kind="transparent" size="small" iconAriaLabel="Close icon" icon={X} onClick={onClose} />
             </div>
           )}
         </div>
         <div className={styles.content}>{children}</div>
-        {(closable || onAction) && (
+        {(onClose || onAction) && (
           <div className={styles.footer}>
-            {closable && <Button kind="secondary">Cancel</Button>}
-            {onAction && <Button>{actionTitle}</Button>}
+            {onClose && (
+              <Button kind="secondary" onClick={onClose}>
+                Cancel
+              </Button>
+            )}
+            {onAction && action && <Button onClick={onAction}>{action}</Button>}
           </div>
         )}
       </div>
