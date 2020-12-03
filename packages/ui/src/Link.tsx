@@ -15,11 +15,6 @@ const sizes = {
 
 type AnchorAttributes = AnchorHTMLAttributes<HTMLAnchorElement>
 
-// Common props for all link "kinds"
-type LinkCommonProps = {
-  kind?: LinkKind
-}
-
 type IconProps =
   | {
       icon: FeatherIcon
@@ -30,7 +25,8 @@ type IconProps =
       iconAriaLabel?: never
     }
 
-type LinkProps = LinkCommonProps & IconProps & {
+type LinkProps = IconProps & {
+  kind?: 'primary' | 'secondary',
   size?: keyof typeof sizes
 } & PartialRequired<AnchorAttributes, 'href'> &
   Pick<AnchorAttributes, 'target' | 'rel' | 'className'> & {
