@@ -19,15 +19,14 @@ type ActionType =
       onAction?: never
     }
 
-// TODO: a11y
 export type ModalProps = {
   closable?: boolean
   children: ReactNode
   title: string
   onClose?: ReactModalProps['onRequestClose']
-} & ActionType &
-  DataTestProp &
-  Exclude<ReactModalProps, 'onRequestClose' | 'shouldFocusAfterRender'>
+} & DataTestProp &
+  ActionType &
+  Exclude<ReactModalProps, 'onRequestClose' | 'shouldFocusAfterRender' | 'shouldReturnFocusAfterClose'>
 
 export const Modal: FC<ModalProps> = ({
   action,
@@ -40,42 +39,41 @@ export const Modal: FC<ModalProps> = ({
   title,
   onAction,
   ...rest
-}) => {
-  return (
-    <ReactModal
-      contentLabel={title}
-      className={cn(styles.modal, className)}
-      overlayClassName={cn(styles.overlay, overlayClassName)}
-      data-test={dataTest}
-      onRequestClose={onClose}
-      shouldCloseOnEsc={closable}
-      shouldCloseOnOverlayClick={closable}
-      shouldFocusAfterRender
-      {...rest}
-    >
-      <div className={styles.outline} />
-      <div className={styles.container}>
-        <div className={styles.header}>
-          <div className={styles.title}>{title}</div>
-          {closable && (
-            <div className={styles.close}>
-              {/* TODO: Get color */}
-              <IconButton data-test="modal-close" kind="transparent" size="small" iconAriaLabel="Close icon" icon={X} onClick={onClose} />
-            </div>
-          )}
-        </div>
-        <div className={styles.content}>{children}</div>
-        {(onClose || onAction) && (
-          <div className={styles.footer}>
-            {onClose && (
-              <Button kind="secondary" onClick={onClose}>
-                Cancel
-              </Button>
-            )}
-            {onAction && action && <Button onClick={onAction}>{action}</Button>}
+}) => (
+  <ReactModal
+    contentLabel={title}
+    className={cn(styles.modal, className)}
+    overlayClassName={cn(styles.overlay, overlayClassName)}
+    data-test={dataTest}
+    onRequestClose={onClose}
+    shouldCloseOnEsc={closable}
+    shouldCloseOnOverlayClick={closable}
+    shouldFocusAfterRender
+    shouldReturnFocusAfterClose
+    {...rest}
+  >
+    <div className={styles.outline} />
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <div className={styles.title}>{title}</div>
+        {closable && (
+          <div className={styles.close}>
+            {/* TODO: Get color */}
+            <IconButton data-test="modal-close" kind="transparent" size="small" iconAriaLabel="Close icon" icon={X} onClick={onClose} />
           </div>
         )}
       </div>
-    </ReactModal>
-  )
-}
+      <div className={styles.content}>{children}</div>
+      {(onClose || onAction) && (
+        <div className={styles.footer}>
+          {onClose && (
+            <Button kind="secondary" onClick={onClose}>
+              Cancel
+            </Button>
+          )}
+          {onAction && action && <Button onClick={onAction}>{action}</Button>}
+        </div>
+      )}
+    </div>
+  </ReactModal>
+)

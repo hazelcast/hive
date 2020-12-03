@@ -8,7 +8,6 @@
   background-color: transparentize(c.$colorNeutralLight, 0.9);
 }
 
-// TODO: focus
 .modal {
   background-color: c.$colorNeutralWhite;
   border: none;
@@ -22,7 +21,7 @@
   max-height: c.$modalHeight;
   z-index: c.$zIndex1000;
   // TODO: Get color
-  box-shadow: 5px 20px 80px 0 #353d49;
+  box-shadow: c.$grid * 1.25 c.$grid * 5 c.$grid * 20 0 #353d49;
 
   .outline {
     position: absolute;
