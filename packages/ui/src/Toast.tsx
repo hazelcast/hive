@@ -70,7 +70,7 @@ export const Toast: FC<ToastProps> = ({ type, content, closeToast }) => {
           data-test="toast-close"
           kind="transparent"
           className={styles.close}
-          iconAriaLabel="Close icon"
+          ariaLabel="Close icon"
           icon={X}
           onClick={closeToast}
         />

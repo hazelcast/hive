@@ -1,12 +1,13 @@
 import React, { ReactElement } from 'react'
-import { FieldValidator, useField } from 'formik'
+import { useField } from 'formik'
 
-import { RadioGroup, RadioGroupCoreProps } from './RadioGroup'
-import { getFieldError } from './utils/formik'
+import { RadioGroup, RadioGroupExtraProps } from './RadioGroup'
+import { FieldValidatorGeneric, getFieldError } from './utils/formik'
+import { ExtractKeysOfValueType } from './utils/types'
 
-export type RadioGroupFormikProps<V extends object> = RadioGroupCoreProps & {
-  name: keyof V
-  validate?: FieldValidator
+export type RadioGroupFormikProps<V extends object> = RadioGroupExtraProps & {
+  name: ExtractKeysOfValueType<V, string | undefined>
+  validate?: FieldValidatorGeneric<string | undefined>
 }
 
 export const RadioGroupFieldFormik = <V extends object>({ name, validate, children, ...props }: RadioGroupFormikProps<V>): ReactElement => {

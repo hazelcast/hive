@@ -31,15 +31,13 @@ export type PasswordFieldExtraProps = {
   showIconLabel?: string
   hideIconLabel?: string
   label: string
-  required?: boolean
   helperText?: string | ReactElement
   className?: string
   inputClassName?: string
   errorClassName?: string
-  placeholder?: string
   visibleRef?: Ref<VisibleRef>
 } & DataTestProp &
-  Pick<InputHTMLAttributes<HTMLInputElement>, 'autoFocus' | 'disabled' | 'autoComplete'>
+  Pick<InputHTMLAttributes<HTMLInputElement>, 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'>
 type PasswordFieldProps = PasswordFieldCoreProps & PasswordFieldExtraProps
 
 export type VisibleRef = {
@@ -62,7 +60,7 @@ export const PasswordField: FC<PasswordFieldProps> = ({
       <IconButton
         size="small"
         icon={visible ? EyeOff : Eye}
-        iconAriaLabel={visible ? hideIconLabel : showIconLabel}
+        ariaLabel={visible ? hideIconLabel : showIconLabel}
         className={styles.toggle}
         onClick={() => setVisible((prev) => !prev)}
         disabled={disabled}

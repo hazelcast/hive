@@ -16,11 +16,11 @@ type AnchorAttributes = AnchorHTMLAttributes<HTMLAnchorElement>
 type IconProps =
   | {
       icon: FeatherIcon
-      iconAriaLabel: string
+      ariaLabel: string
     }
   | {
       icon?: never
-      iconAriaLabel?: never
+      ariaLabel?: never
     }
 
 type LinkProps = IconProps & {
@@ -43,7 +43,7 @@ type LinkProps = IconProps & {
 export const Link: FC<LinkProps> = ({
   size = 'normal',
   icon,
-  iconAriaLabel,
+  ariaLabel,
   href,
   rel = 'noopener noreferrer',
   target = '_blank',
@@ -52,6 +52,6 @@ export const Link: FC<LinkProps> = ({
 }) => (
   <a className={cn(styles[size], className)} href={href} rel={rel} target={target}>
     {children}
-    {icon && iconAriaLabel && <Icon icon={icon} ariaLabel={iconAriaLabel} size={size} />}
+    {icon && ariaLabel && <Icon icon={icon} ariaLabel={ariaLabel} size={size} />}
   </a>
 )

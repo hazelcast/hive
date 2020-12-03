@@ -1,7 +1,6 @@
 @use '../styles/constants' as c;
 @use '../styles/helpers' as h;
 
-$inputHeight: c.$grid * 10;
 $inputHorizontalPadding: c.$grid * 3;
 $marginLeftWithIcon: c.$grid * 5;
 
@@ -34,7 +33,7 @@ $marginLeftWithIcon: c.$grid * 5;
     display: flex;
     flex-direction: row;
     box-sizing: border-box;
-    height: $inputHeight;
+    height: c.$inputHeight;
     background-color: c.$colorNeutralLighter;
     border-radius: c.$borderRadius;
   }
@@ -99,16 +98,6 @@ $marginLeftWithIcon: c.$grid * 5;
     color: c.$colorTextSecondary;
   }
 
-  &:hover,
-  &.hover {
-    .borderOverlay {
-      border-color: c.$colorPrimary;
-    }
-    .inputIcon {
-      color: c.$colorPrimary;
-    }
-  }
-
   &.disabled {
     color: c.$colorTextSecondary;
 
@@ -135,6 +124,14 @@ $marginLeftWithIcon: c.$grid * 5;
       color: c.$colorPrimary;
     }
   }
+  &.hover {
+    .borderOverlay {
+      border-color: c.$colorPrimary;
+    }
+    .inputIcon {
+      color: c.$colorPrimary;
+    }
+  }
   input:focus {
     // Do not remove outline for high-contrast modes
     // https://stackoverflow.com/a/52616313
@@ -146,10 +143,18 @@ $marginLeftWithIcon: c.$grid * 5;
     & ~ .inputIcon {
       color: c.$colorPrimary;
     }
+  } // We target specifically .inputContainer not to apply hover styles to the input when a helper icon is hovered
+  .inputContainer:hover {
+    .borderOverlay {
+      border-color: c.$colorPrimary;
+    }
+    .inputIcon {
+      color: c.$colorPrimary;
+    }
   }
 
   // input ~ is required to increase the specificity of the selector to override focus styles
-  &.hasError input ~ .inputIcon {
+  &.hasError .inputContainer input ~ .inputIcon {
     color: c.$colorError;
   }
 }

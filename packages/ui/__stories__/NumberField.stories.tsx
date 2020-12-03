@@ -76,7 +76,7 @@ export const NumberFieldWrappedInFormik = () => {
     ram: number
   }
 
-  const validateRAM = (value: number) => (value < 4 ? 'RAM is too low' : undefined)
+  const validateRAM = (value: number | undefined) => (value == undefined || value < 4 ? 'RAM is too low' : undefined)
 
   const TestForm = () => (
     <Formik<Values>

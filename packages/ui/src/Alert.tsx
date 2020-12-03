@@ -15,11 +15,11 @@ import styles from './Alert.module.scss'
 type AlertAccessibleActionButtonIconProps =
   | {
       icon: IconProps['icon']
-      iconAriaLabel: string
+      ariaLabel: string
     }
   | {
       icon?: never
-      iconAriaLabel?: never
+      ariaLabel?: never
     }
 
 export type AlertActionButton = {
@@ -66,7 +66,7 @@ export const Alert: FC<AlertProps> = ({ type, title, content, actions, className
         <div data-test="alert-title" className={styles.title}>
           {title}
         </div>
-        <IconButton data-test="alert-close" kind="transparent" iconAriaLabel="Close icon" icon={X} onClick={closeToast} />
+        <IconButton data-test="alert-close" kind="transparent" ariaLabel="Close icon" icon={X} onClick={closeToast} />
       </div>
       <div data-test="alert-body" className={styles.body}>
         <div data-test="alert-content">{content}</div>
@@ -74,12 +74,12 @@ export const Alert: FC<AlertProps> = ({ type, title, content, actions, className
           <div data-test="alert-actions" className={styles.actions}>
             {actions.map((action, aI) => {
               if (isAlertActionButton(action)) {
-                const { text, icon, iconAriaLabel, onClick } = action
+                const { text, icon, ariaLabel, onClick } = action
                 const iconLeftProps: ButtonAccessibleIconLeftProps =
-                  icon && iconAriaLabel
+                  icon && ariaLabel
                     ? {
                         iconLeft: icon,
-                        iconLeftAriaLabel: iconAriaLabel,
+                        iconLeftAriaLabel: ariaLabel,
                         iconLeftClassName: styles.actionButtonIcon,
                         iconLeftSize: 'small',
                       }
@@ -108,7 +108,7 @@ export const Alert: FC<AlertProps> = ({ type, title, content, actions, className
                   type="primary"
                   href={href}
                   icon={ChevronRight}
-                  iconAriaLabel="Icon chevron right"
+                  ariaLabel="Icon chevron right"
                   className={styles.action}
                   size="small"
                 >

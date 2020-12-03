@@ -24,6 +24,7 @@
   "scripts": {
     "compile": "tsc -p tsconfig.build.json && shx cp src/*.scss lib",
     "test": "jest",
+    "test:watch": "jest --watch",
     "start": "npm run storybook",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
@@ -52,6 +53,7 @@
     "react-merge-refs": "^1.1.0",
     "react-popper": "^2.2.3",
     "react-resize-aware": "^3.1.0",
+    "react-select": "^3.1.1",
     "react-use": "^15.3.4",
     "uuid": "^8.3.1"
   },
