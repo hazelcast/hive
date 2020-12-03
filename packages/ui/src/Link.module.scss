@@ -4,7 +4,6 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  color: c.$colorPrimary;
   text-decoration: none;
 
   &:hover,
@@ -15,6 +14,13 @@
   &.active {
     text-decoration: underline solid;
     outline: none;
+  }
+
+  &.primary {
+    color: c.$colorPrimary;
+  }
+  &.secondary {
+    color: c.$colorTextSecondary;
   }
 }
 
