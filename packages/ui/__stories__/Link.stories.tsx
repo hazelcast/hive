@@ -33,22 +33,22 @@ export const NormalActive = () => (
 )
 
 export const NormalWithIcon = () => (
-  <Link icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/">
+  <Link icon={ChevronRight} ariaLabel="Chevron right" href="https://hazelcast.com/">
     Normal Text Link
   </Link>
 )
 export const NormalWithIconHovered = () => (
-  <Link icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/" className={styles.hover}>
+  <Link icon={ChevronRight} ariaLabel="Chevron right" href="https://hazelcast.com/" className={styles.hover}>
     Normal Text Link
   </Link>
 )
 export const NormalWithIconFocused = () => (
-  <Link icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/" className={styles.focus}>
+  <Link icon={ChevronRight} ariaLabel="Chevron right" href="https://hazelcast.com/" className={styles.focus}>
     Normal Text Link
   </Link>
 )
 export const NormalWithIconActive = () => (
-  <Link icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/" className={styles.active}>
+  <Link icon={ChevronRight} ariaLabel="Chevron right" href="https://hazelcast.com/" className={styles.active}>
     Normal Text Link
   </Link>
 )
@@ -81,22 +81,22 @@ export const SmallActive = () => (
 )
 
 export const SmallWithIcon = () => (
-  <Link size="small" icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/">
+  <Link size="small" icon={ChevronRight} ariaLabel="Chevron right" href="https://hazelcast.com/">
     Small Text Link
   </Link>
 )
 export const SmallWithIconHovered = () => (
-  <Link size="small" icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/" className={styles.hover}>
+  <Link size="small" icon={ChevronRight} ariaLabel="Chevron right" href="https://hazelcast.com/" className={styles.hover}>
     Small Text Link
   </Link>
 )
 export const SmallWithIconFocused = () => (
-  <Link size="small" icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/" className={styles.focus}>
+  <Link size="small" icon={ChevronRight} ariaLabel="Chevron right" href="https://hazelcast.com/" className={styles.focus}>
     Small Text Link
   </Link>
 )
 export const SmallWithIconActive = () => (
-  <Link size="small" icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/" className={styles.active}>
+  <Link size="small" icon={ChevronRight} ariaLabel="Chevron right" href="https://hazelcast.com/" className={styles.active}>
     Small Text Link
   </Link>
 )
