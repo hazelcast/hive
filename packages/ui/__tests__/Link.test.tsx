@@ -1,4 +1,5 @@
 import React from 'react'
+import cn from 'classnames'
 import { ChevronRight } from 'react-feather'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 
@@ -13,7 +14,7 @@ describe('Link', () => {
 
     const anchor = wrapper.find('a')
     expect(anchor.props()).toEqual({
-      className: styles.normal,
+      className: cn(styles.normal, styles.primary),
       href: 'https://hazelcast.com/',
       rel: 'noopener noreferrer',
       target: '_blank',
@@ -30,7 +31,7 @@ describe('Link', () => {
 
     const anchor = wrapper.find('a')
     expect(anchor.props()).toMatchObject({
-      className: styles.normal,
+      className: cn(styles.normal, styles.primary),
       href: 'https://hazelcast.com/',
       rel: 'noopener noreferrer',
       target: '_blank',
@@ -53,7 +54,7 @@ describe('Link', () => {
 
     const anchor = wrapper.find('a')
     expect(anchor.props()).toEqual({
-      className: styles.small,
+      className: cn(styles.small, styles.primary),
       href: 'https://hazelcast.com/',
       rel: 'noopener noreferrer',
       target: '_blank',
@@ -70,7 +71,7 @@ describe('Link', () => {
 
     const anchor = wrapper.find('a')
     expect(anchor.props()).toMatchObject({
-      className: styles.small,
+      className: cn(styles.small, styles.primary),
       href: 'https://hazelcast.com/',
       rel: 'noopener noreferrer',
       target: '_blank',
@@ -83,4 +84,18 @@ describe('Link', () => {
       size: 'small',
     })
   })
+
+  it('Renders a secondary normal Link with correct props', async () => {
+    const wrapper = await mountAndCheckA11Y(<Link kind="secondary" href="https://hazelcast.com/">Normal Text Link</Link>)
+
+    const anchor = wrapper.find('a')
+    expect(anchor.props()).toEqual({
+      className: cn(styles.normal, styles.secondary),
+      href: 'https://hazelcast.com/',
+      rel: 'noopener noreferrer',
+      target: '_blank',
+      children: ['Normal Text Link', undefined],
+    })
+  })
+
 })
