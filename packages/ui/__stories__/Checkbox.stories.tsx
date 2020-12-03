@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
+import { Form, Formik } from 'formik'
 import { logger } from '@hazelcast/services'
+
 import styles from '../src/Checkbox.module.scss'
 
-import { Checkbox } from '../src'
-import { Link } from '../src'
+import { Checkbox, CheckboxFormik, Link } from '../src'
 
 export default {
   title: 'Components/Checkbox',
@@ -167,3 +168,30 @@ export const TwoCheckboxes = () => (
     <Checkbox checked={false} disabled label="Unchecked Disabled" name="default" onChange={(e) => logger.log('change', e.target.checked)} />
   </div>
 )
+
+export const CheckboxWrappedInFormik = () => {
+  type Values = {
+    tos: boolean
+  }
+
+  const validateToS = (value: boolean) => (!value ? 'ToS is unchecked' : undefined)
+
+  const TestForm = () => (
+    <Formik<Values>
+      initialValues={{
+        tos: false,
+      }}
+      onSubmit={(values) => logger.log('submit', values)}
+    >
+      {({ values }) => (
+        <Form>
+          Values: {JSON.stringify(values)}
+          <CheckboxFormik<Values> name="tos" validate={validateToS} label="Terms of Service" />
+          <button type="submit">Submit</button>
+        </Form>
+      )}
+    </Formik>
+  )
+
+  return <TestForm />
+}
