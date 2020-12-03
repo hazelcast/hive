@@ -5,6 +5,7 @@ import { v4 as uuid } from 'uuid'
 import { Modal, ModalProps } from '../src/Modal'
 
 import utilsStyles from './utils.scss'
+import styles from '../src/Modal.module.scss'
 
 export default {
   title: 'Components/Modal',
@@ -28,6 +29,12 @@ const ModalWithPortalFactory: FC<ModalProps> = ({ children, className, ...props 
 
 export const Default = () => (
   <ModalWithPortalFactory title="Title of the Modal" isOpen onClose={onClose}>
+    <div>Content</div>
+  </ModalWithPortalFactory>
+)
+
+export const Focused = () => (
+  <ModalWithPortalFactory className={styles.focus} title="Title of the Modal" isOpen onClose={onClose}>
     <div>Content</div>
   </ModalWithPortalFactory>
 )

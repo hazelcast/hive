@@ -53,6 +53,7 @@ export const Modal: FC<ModalProps> = ({
       shouldFocusAfterRender
       {...rest}
     >
+      <div className={styles.outline} />
       <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.title}>{title}</div>
