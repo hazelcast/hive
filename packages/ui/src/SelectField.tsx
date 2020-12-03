@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid'
 import cn from 'classnames'
 import ReactSelect, { Props as ReactSelectProps, ValueType, IndicatorProps, ActionMeta } from 'react-select'
 import { ChevronDown, X } from 'react-feather'
-import { useIsomorphicLayoutEffect } from 'react-use'
+import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 
 import { Error, errorId } from './Error'
 import { Label } from './Label'
