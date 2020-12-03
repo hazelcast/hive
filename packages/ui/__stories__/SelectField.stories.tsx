@@ -211,6 +211,95 @@ export const OpenWithFocusedOption = () => {
   )
 }
 
+export const OpenWithSearchValue = () => {
+  const ref = useRef<HTMLDivElement>(null)
+  return (
+    <div ref={ref} style={{ height: 350 }}>
+      <SelectField
+        name="name"
+        value={value}
+        label="Character"
+        options={options}
+        onBlur={() => logger.log('blur')}
+        onChange={(val: unknown) => logger.log('change', val)}
+        menuIsOpen
+        menuPortalTarget={ref.current}
+        inputValue="obi"
+      />
+    </div>
+  )
+}
+
+export const OpenWithInvalidSearchValue = () => {
+  const ref = useRef<HTMLDivElement>(null)
+  return (
+    <div ref={ref} style={{ height: 350 }}>
+      <SelectField
+        name="name"
+        value={value}
+        label="Character"
+        options={options}
+        onBlur={() => logger.log('blur')}
+        onChange={(val: unknown) => logger.log('change', val)}
+        menuIsOpen
+        menuPortalTarget={ref.current}
+        inputValue="invalid"
+      />
+    </div>
+  )
+}
+
+export const OpenWithCustomNoOptionsMessage = () => {
+  const ref = useRef<HTMLDivElement>(null)
+  return (
+    <div ref={ref} style={{ height: 350 }}>
+      <SelectField
+        name="name"
+        value={value}
+        label="Character"
+        options={options}
+        onBlur={() => logger.log('blur')}
+        onChange={(val: unknown) => logger.log('change', val)}
+        menuIsOpen
+        menuPortalTarget={ref.current}
+        inputValue="invalid"
+        noOptionsMessage={() => 'Death star'}
+      />
+    </div>
+  )
+}
+
+export const NonSearchableClosed = () => (
+  <SelectField
+    name="name"
+    value={value}
+    label="Character"
+    options={options}
+    onBlur={() => logger.log('blur')}
+    onChange={(val: unknown) => logger.log('change', val)}
+    isSearchable={false}
+  />
+)
+
+export const NonSearchableOpen = () => {
+  const ref = useRef<HTMLDivElement>(null)
+  return (
+    <div ref={ref} style={{ height: 350 }}>
+      <SelectField
+        name="name"
+        value={value}
+        label="Character"
+        options={options}
+        onBlur={() => logger.log('blur')}
+        onChange={(val: unknown) => logger.log('change', val)}
+        isSearchable={false}
+        menuIsOpen
+        menuPortalTarget={ref.current}
+      />
+    </div>
+  )
+}
+
 export const SelectFieldWrappedInFormik = () => {
   type Values = {
     character: SelectFieldOption<string>

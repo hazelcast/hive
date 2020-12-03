@@ -55,17 +55,11 @@ $select: ':global .hz-select-field__control';
     color: c.$colorText;
     height: c.$inputHeight;
     padding-left: c.$grid * 3;
-    // Note: Actual padding + chevron width offset
     padding-right: c.$grid * 2;
     box-sizing: border-box;
     border: c.$borderWidth solid c.$colorNeutralLight;
     border-radius: c.$borderRadius;
     background-color: c.$colorNeutralLighter;
-    // Note: Is IE11 problematic in case of checkbox/radio, but not select
-    /* doiuse-disable css-appearance */
-    //appearance: none;
-    /* doiuse-enable css-appearance */
-    //width: 100%;
     transition: none;
   }
 
@@ -118,7 +112,8 @@ $select: ':global .hz-select-field__control';
       color: c.$colorTextSecondary;
     }
 
-    :global .hz-select-field__option {
+    :global .hz-select-field__option,
+    :global .hz-select-field__menu-notice {
       height: c.$inputHeight;
       line-height: c.$inputHeight;
       padding: 0 $selectHorizontalPadding;
@@ -126,6 +121,7 @@ $select: ':global .hz-select-field__control';
       // Do not remove outline for high-contrast modes
       // https://stackoverflow.com/a/52616313
       outline: c.$outlineWidth solid transparent;
+      text-align: left;
 
       &:global.hz-select-field__option--is-focused {
         @include h.outlineSimple;

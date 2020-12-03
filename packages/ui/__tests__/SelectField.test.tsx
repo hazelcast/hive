@@ -1,6 +1,5 @@
 import React from 'react'
 import { v4 as uuid } from 'uuid'
-// import { act } from 'react-dom/test-utils'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import ReactSelect from 'react-select'
 import { X } from 'react-feather'
@@ -53,7 +52,7 @@ describe('SelectField', () => {
       isClearable: false,
       isDisabled: undefined,
       isMulti: false,
-      isSearchable: false,
+      isSearchable: true,
       options: selectOptions,
       value: selectValue,
       onChange,
@@ -95,7 +94,7 @@ describe('SelectField', () => {
       isClearable: false,
       isDisabled: undefined,
       isMulti: false,
-      isSearchable: false,
+      isSearchable: true,
       options: selectOptions,
       value: selectValue,
       onChange,
@@ -129,7 +128,7 @@ describe('SelectField', () => {
       isClearable: false,
       isDisabled: undefined,
       isMulti: false,
-      isSearchable: false,
+      isSearchable: true,
       options: selectOptions,
       value: selectValue,
       onChange,
@@ -163,7 +162,7 @@ describe('SelectField', () => {
       isClearable: false,
       isDisabled: true,
       isMulti: false,
-      isSearchable: false,
+      isSearchable: true,
       options: selectOptions,
       value: selectValue,
       onChange,
@@ -197,7 +196,7 @@ describe('SelectField', () => {
       isClearable: true,
       isDisabled: undefined,
       isMulti: false,
-      isSearchable: false,
+      isSearchable: true,
       options: selectOptions,
       value: selectValue,
       onChange,

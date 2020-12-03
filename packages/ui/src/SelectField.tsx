@@ -55,7 +55,7 @@ export type SelectFieldExtraProps<V> = {
   menuPortalTarget?: 'body' | 'self' | HTMLElement | null
 } & DataTestProp &
   Pick<InputHTMLAttributes<HTMLElement>, 'autoFocus' | 'disabled' | 'autoComplete'> &
-  Pick<ReactSelectProps, 'isSearchable' | 'menuIsOpen' | 'menuPlacement'>
+  Pick<ReactSelectProps, 'isSearchable' | 'menuIsOpen' | 'menuPlacement' | 'noOptionsMessage' | 'inputValue'>
 
 export type SelectProps<V> = SelectFieldCoreStaticProps & SelectFieldCoreDynamicProps<V> & SelectFieldExtraProps<V>
 
@@ -76,7 +76,7 @@ export const SelectField = <V,>({
   errorClassName,
   isClearable,
   disabled,
-  isSearchable = false,
+  isSearchable = true,
   label,
   name,
   required,
@@ -106,8 +106,8 @@ export const SelectField = <V,>({
           [styles.hasError]: error,
           [styles.empty]: !value,
         },
-        // Menu container is either this select itself or document.body
-        // We can always add this class to the select itself because even if the menu container is body it won't break it
+        // Menu container is either this select itself or any other element
+        // We can always add this class to the select itself because even if the menu container is any parent it won't break it
         // However, if it is the select itself, it will properly add necessary specificity level to the menu styles.
         styles.menuContainer,
         className,
