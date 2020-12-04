@@ -13,6 +13,7 @@ import { Icon } from './Icon'
 import { IconButton } from './IconButton'
 
 import styles from './SelectField.module.scss'
+import { canUseDOM } from './utils/ssr'
 
 const DropdownIndicator = () => <Icon icon={ChevronDown} ariaHidden size="normal" className={styles.chevron} />
 
@@ -59,7 +60,8 @@ export type SelectProps<V> = SelectFieldCoreStaticProps & SelectFieldCoreDynamic
 
 const getMenuContainer = (menuPortalTarget: 'body' | 'self' | HTMLElement | null): HTMLElement | null | undefined => {
   if (menuPortalTarget == 'body') {
-    return document.body
+    // There is no document is SSR environment
+    return canUseDOM ? document.body : undefined
   }
   if (menuPortalTarget == 'self') {
     return undefined
