@@ -10,13 +10,13 @@ export type CheckboxFieldFormikProps<V extends object> = CheckboxExtraProps & {
   validate?: FieldValidatorGeneric<boolean>
 }
 
-export const CheckboxFieldFormik = <V extends object>({ name, validate, ...props }: CheckboxFieldFormikProps<V>): ReactElement => {
+export const CheckboxFormik = <V extends object>({ name, validate, ...props }: CheckboxFieldFormikProps<V>): ReactElement => {
   const [field, meta] = useField<boolean>({
     name,
     validate,
   })
 
   return (
-    <Checkbox {...props} name={name} checked={field.checked} onChange={field.onChange} onBlur={field.onBlur} error={getFieldError(meta)} />
+    <Checkbox {...props} name={name} checked={field.value} onChange={field.onChange} onBlur={field.onBlur} error={getFieldError(meta)} />
   )
 }
