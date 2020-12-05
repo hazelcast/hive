@@ -2,7 +2,7 @@ import React from 'react'
 import { logger } from '@hazelcast/services'
 import { Mail } from 'react-feather'
 
-import { TextField } from '../src/TextField'
+import { TextField } from '../src'
 import styles from '../src/TextField.module.scss'
 import { Form, Formik } from 'formik'
 import { TextFieldFormik } from '../src'
@@ -243,3 +243,87 @@ export const TextFieldWrappedInFormik = () => {
 
   return <TestForm />
 }
+
+export const TypeEmail = () => (
+  <TextField
+    name="email"
+    type="email"
+    value="info@hazelcast.com"
+    placeholder="Enter an email"
+    label="Email"
+    onBlur={() => logger.log('blur')}
+    onChange={(e) => logger.log('change', e.target.value)}
+  />
+)
+
+export const TypeNumber = () => (
+  <TextField
+    name="number"
+    type="number"
+    value={42}
+    placeholder="Enter a number"
+    label="Number"
+    onBlur={() => logger.log('blur')}
+    onChange={(e) => logger.log('change', e.target.value)}
+  />
+)
+
+export const TypePassword = () => (
+  <TextField
+    name="password"
+    type="password"
+    value="superStrongPassword123"
+    placeholder="Enter a password"
+    label="Password"
+    onBlur={() => logger.log('blur')}
+    onChange={(e) => logger.log('change', e.target.value)}
+  />
+)
+
+export const TypeSearch = () => (
+  <TextField
+    name="search"
+    type="search"
+    value="Unicorn"
+    placeholder="What are you looking for?"
+    label="Search"
+    onBlur={() => logger.log('blur')}
+    onChange={(e) => logger.log('change', e.target.value)}
+  />
+)
+
+export const TypeTel = () => (
+  <TextField
+    name="phone"
+    type="tel"
+    value="+421 111 222 333"
+    placeholder="Enter a phone number"
+    label="Phone"
+    onBlur={() => logger.log('blur')}
+    onChange={(e) => logger.log('change', e.target.value)}
+  />
+)
+
+export const TypeText = () => (
+  <TextField
+    name="name"
+    type="text"
+    value="Yoda"
+    placeholder="Enter a name"
+    label="Text"
+    onBlur={() => logger.log('blur')}
+    onChange={(e) => logger.log('change', e.target.value)}
+  />
+)
+
+export const TypeURL = () => (
+  <TextField
+    name="url"
+    type="url"
+    value="https://hazelcast.com/"
+    placeholder="Enter a URL"
+    label="URL"
+    onBlur={() => logger.log('blur')}
+    onChange={(e) => logger.log('change', e.target.value)}
+  />
+)
