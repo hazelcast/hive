@@ -15,8 +15,8 @@ describe('Link', () => {
     expect(anchor.props()).toEqual({
       className: styles.normal,
       href: 'https://hazelcast.com/',
-      rel: 'noopener noreferrer',
-      target: '_blank',
+      rel: 'noopener',
+      target: '_self',
       children: ['Normal Text Link', undefined],
     })
   })
@@ -32,8 +32,8 @@ describe('Link', () => {
     expect(anchor.props()).toMatchObject({
       className: styles.normal,
       href: 'https://hazelcast.com/',
-      rel: 'noopener noreferrer',
-      target: '_blank',
+      rel: 'noopener',
+      target: '_self',
     })
 
     expect(anchor.text()).toBe('Normal Text Link with Icon')
@@ -55,8 +55,8 @@ describe('Link', () => {
     expect(anchor.props()).toEqual({
       className: styles.small,
       href: 'https://hazelcast.com/',
-      rel: 'noopener noreferrer',
-      target: '_blank',
+      rel: 'noopener',
+      target: '_self',
       children: ['Small Link', undefined],
     })
   })
@@ -72,8 +72,8 @@ describe('Link', () => {
     expect(anchor.props()).toMatchObject({
       className: styles.small,
       href: 'https://hazelcast.com/',
-      rel: 'noopener noreferrer',
-      target: '_blank',
+      rel: 'noopener',
+      target: '_self',
     })
 
     expect(anchor.text()).toBe('Small Text Link with Icon')
@@ -81,6 +81,23 @@ describe('Link', () => {
       icon: ChevronRight,
       ariaLabel: 'Chevron right',
       size: 'small',
+    })
+  })
+
+  it('Allows custom rel and target', async () => {
+    const wrapper = await mountAndCheckA11Y(
+      <Link href="https://hazelcast.com/" rel={['help', 'noreferrer']} target="_parent">
+        Normal Text Link
+      </Link>,
+    )
+
+    const anchor = wrapper.find('a')
+    expect(anchor.props()).toEqual({
+      className: styles.normal,
+      href: 'https://hazelcast.com/',
+      rel: 'help noreferrer',
+      target: '_parent',
+      children: ['Normal Text Link', undefined],
     })
   })
 })
