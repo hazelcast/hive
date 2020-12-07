@@ -1,10 +1,11 @@
-import React, { AnchorHTMLAttributes, FC, ReactNode } from 'react'
+import React, { AnchorHTMLAttributes, FC, MouseEventHandler, ReactNode } from 'react'
 import { Icon as FeatherIcon } from 'react-feather'
 import cn from 'classnames'
-import { PartialRequired } from '@hazelcast/helpers'
+import { useDeepCompareMemo } from 'use-deep-compare'
+
+import { Icon } from './Icon'
 
 import styles from './Link.module.scss'
-import { Icon } from './Icon'
 
 const sizes = {
   normal: styles.normal,
@@ -23,12 +24,35 @@ type IconProps =
       ariaLabel?: never
     }
 
-type LinkProps = IconProps & {
+type LinkTarget = '_self' | '_blank' | '_parent' | '_top'
+
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types
+type LinkRel =
+  | 'alternate'
+  | 'author'
+  | 'bookmark'
+  | 'dns-prefetch'
+  | 'external'
+  | 'help'
+  | 'license'
+  | 'next'
+  | 'nofollow'
+  | 'noopener'
+  | 'noreferrer'
+  | 'opener'
+  | 'prev'
+  | 'search'
+  | 'tag'
+
+export type LinkProps = IconProps & {
   size?: keyof typeof sizes
-} & PartialRequired<AnchorAttributes, 'href'> &
-  Pick<AnchorAttributes, 'target' | 'rel' | 'className'> & {
-    children: ReactNode
-  }
+  target?: LinkTarget
+  rel?: LinkRel | LinkRel[]
+  children: ReactNode
+  // Required by nextjs https://nextjs.org/docs/api-reference/next/link
+  onClick?: MouseEventHandler<HTMLAnchorElement>
+} & Required<Pick<AnchorAttributes, 'href'>> &
+  Pick<AnchorAttributes, 'className'>
 
 /**
  * ### Purpose
@@ -45,13 +69,18 @@ export const Link: FC<LinkProps> = ({
   icon,
   ariaLabel,
   href,
-  rel = 'noopener noreferrer',
-  target = '_blank',
+  rel = 'noopener',
+  target = '_self',
+  onClick,
   className,
   children,
-}) => (
-  <a className={cn(styles[size], className)} href={href} rel={rel} target={target}>
-    {children}
-    {icon && ariaLabel && <Icon icon={icon} ariaLabel={ariaLabel} size={size} />}
-  </a>
-)
+}) => {
+  const relFinal = useDeepCompareMemo(() => (Array.isArray(rel) ? rel.join(' ') : rel), [rel])
+
+  return (
+    <a className={cn(styles[size], className)} href={href} rel={relFinal} target={target} onClick={onClick}>
+      {children}
+      {icon && ariaLabel && <Icon icon={icon} ariaLabel={ariaLabel} size={size} />}
+    </a>
+  )
+}
