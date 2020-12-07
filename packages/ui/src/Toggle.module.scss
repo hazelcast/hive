@@ -1,0 +1,44 @@
+@use '../styles/constants' as c;
+@use '../styles/helpers' as h;
+
+$h: 30px;
+$w: 30px;
+
+.wrapper {
+  input[type="checkbox"] {
+    display: none;
+  }
+
+  label {
+    cursor: pointer;
+  }
+
+  .toggle-track {
+    display: block;
+    height: $h;
+    width: 80px;
+    background: #eee;
+    border-radius: 20px;
+    position: relative;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+  }
+
+  .toggle-track:before {
+    content: "";
+    display: inline-block;
+    height: $h;
+    width: 40px;
+    background: red;
+    border-radius: 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transition: right 0.2s ease-in;
+  }
+
+  input[type="checkbox"]:checked + label .toggle-track:before {
+    background: green;
+    right: 40px;
+  }
+}
