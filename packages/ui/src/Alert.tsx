@@ -103,15 +103,7 @@ export const Alert: FC<AlertProps> = ({ type, title, content, actions, className
               const { text, href } = action
 
               return (
-                <Link
-                  key={aI}
-                  type="primary"
-                  href={href}
-                  icon={ChevronRight}
-                  ariaLabel="Icon chevron right"
-                  className={styles.action}
-                  size="small"
-                >
+                <Link key={aI} href={href} icon={ChevronRight} ariaLabel="Icon chevron right" className={styles.action} size="small">
                   {text}
                 </Link>
               )
