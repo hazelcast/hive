@@ -1,5 +1,4 @@
-import React, { useRef, useState } from 'react'
-import { v4 as uuid } from 'uuid'
+import React, { useState } from 'react'
 import { Radio } from '../src/Radio'
 import { logger } from '@hazelcast/services'
 import { RadioGroup } from '../src/RadioGroup'
@@ -13,10 +12,9 @@ export default {
 }
 
 export const RadioGroupDefault = () => {
-  const idRef = useRef(uuid())
   const [value, setValue] = useState<string>('test')
   return (
-    <RadioGroup name={idRef.current} onChange={({ target: { value } }) => setValue(value)}>
+    <RadioGroup name="jedi" onChange={({ target: { value } }) => setValue(value)}>
       <Radio value="test2" label="Test 2" disabled checked={value === 'test2'} />
       <Radio value="test" label="Test" checked={value === 'test'} />
     </RadioGroup>
@@ -24,10 +22,9 @@ export const RadioGroupDefault = () => {
 }
 
 export const RadioGroupWithDescriptionAndError = () => {
-  const idRef = useRef(uuid())
   const [value, setValue] = useState<string>('test')
   return (
-    <RadioGroup error="Error message" name={idRef.current} onChange={({ target: { value } }) => setValue(value)}>
+    <RadioGroup error="Error message" name="jedi" onChange={({ target: { value } }) => setValue(value)}>
       <Radio value="test2" label="Test 2" disabled checked={value === 'test2'} helperText={'Hello, this is a description of test 2'} />
       <Radio value="test" label="Test" checked={value === 'test'} helperText={'Hello, this is a description'} />
     </RadioGroup>
@@ -68,10 +65,9 @@ export const RadioGroupWrappedInFormik = () => {
 }
 
 export const RadiosInline = () => {
-  const idRef = useRef(uuid())
   const [value, setValue] = useState<string>('test')
   return (
-    <RadioGroup name={idRef.current} error="Error" onChange={({ target: { value } }) => setValue(value)} inline>
+    <RadioGroup name="jedi" error="Error" onChange={({ target: { value } }) => setValue(value)} inline>
       <Radio value="test2" label="Test 2" checked={value === 'test2'} />
       <Radio value="test" label="Test" checked={value === 'test'} />
     </RadioGroup>

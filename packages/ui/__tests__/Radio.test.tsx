@@ -1,18 +1,18 @@
 import React from 'react'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { useUID } from 'react-uid'
 
-import { v4 as uuid } from 'uuid'
 import { Radio } from '../src/Radio'
 import { Help } from '../src'
 import { RadioGroup } from '../src/RadioGroup'
 
-jest.mock('uuid')
+jest.mock('react-uid')
 
-const uuidMock = uuid as jest.Mock<ReturnType<typeof uuid>>
+const useUIDMock = useUID as jest.Mock<ReturnType<typeof useUID>>
 
 describe('Radio', () => {
   it('Renders the default radio', async () => {
-    uuidMock.mockImplementation(() => 'uuidtest')
+    useUIDMock.mockImplementation(() => 'uuidtest')
 
     const onChange = jest.fn()
     const onBlur = jest.fn()

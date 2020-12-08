@@ -1,7 +1,7 @@
 import React from 'react'
-import { v4 as uuid } from 'uuid'
 import { act } from 'react-dom/test-utils'
 import { mountAndCheckA11Y, simulateChange } from '@hazelcast/test-helpers'
+import { useUID } from 'react-uid'
 
 import { TextField } from '../src/TextField'
 import { Label } from '../src/Label'
@@ -10,13 +10,13 @@ import { Help, helpTooltipId } from '../src/Help'
 
 import styles from '../src/TextField.module.scss'
 
-jest.mock('uuid')
+jest.mock('react-uid')
 
-const uuidMock = uuid as jest.Mock<ReturnType<typeof uuid>>
+const useUIDMock = useUID as jest.Mock<ReturnType<typeof useUID>>
 
 describe('TextField', () => {
   beforeEach(() => {
-    uuidMock.mockImplementation(() => 'republic')
+    useUIDMock.mockImplementation(() => 'republic')
   })
 
   it('Renders the default with correct props', async () => {
