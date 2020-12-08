@@ -1,8 +1,8 @@
 import React, { FC, useRef, useState, ReactChild, ReactText } from 'react'
 import mergeRefs from 'react-merge-refs'
-import { v4 as uuid } from 'uuid'
 import cn from 'classnames'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
+import { useUID } from 'react-uid'
 
 import { Tooltip } from './Tooltip'
 
@@ -18,8 +18,7 @@ interface TruncatedTextProps {
 export const TruncatedText: FC<TruncatedTextProps> = ({ text, forceUpdateToken, className }) => {
   const textRef = useRef<HTMLDivElement>(null)
   const [tooltip, setTooltip] = useState<ReactChild | undefined>()
-
-  const idTooltip = `${uuid()}-tooltip`
+  const idTooltip = useUID()
 
   useIsomorphicLayoutEffect(() => {
     const span = textRef.current
