@@ -110,7 +110,7 @@ export const SecondaryNormal = () => (
 )
 
 export const SecondaryNormalWithIcon = () => (
-  <Link kind="secondary" href="https://hazelcast.com/" icon={ChevronRight} iconAriaLabel="Chevron right">
+  <Link kind="secondary" href="https://hazelcast.com/" icon={ChevronRight} ariaLabel="Chevron right">
     Secondary Normal Link With Icon
   </Link>
 )
@@ -122,7 +122,7 @@ export const SecondarySmall = () => (
 )
 
 export const SecondarySmallWithIcon = () => (
-  <Link kind="secondary" size="small" icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/">
+  <Link kind="secondary" size="small" icon={ChevronRight} ariaLabel="Chevron right" href="https://hazelcast.com/">
     Secondary Small Link With Icon
   </Link>
 )
