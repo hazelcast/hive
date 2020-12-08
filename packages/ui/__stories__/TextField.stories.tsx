@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useRef, useLayoutEffect, useState } from 'react'
 import { logger } from '@hazelcast/services'
 import { Mail } from 'react-feather'
-
-import { TextField } from '../src'
-import styles from '../src/TextField.module.scss'
 import { Form, Formik } from 'formik'
-import { TextFieldFormik } from '../src'
+
+import { TextField } from '../src/TextField'
+import { TextFieldFormik } from '../src/TextFieldFormik'
+
+import styles from '../src/TextField.module.scss'
 
 export default {
   title: 'Components/TextField',
@@ -201,6 +202,19 @@ export const WithIconDisabled = () => (
   />
 )
 
+export const WithIconAutofill = () => (
+  <TextField
+    name="name"
+    label="Wisest jedi"
+    value="Yoda"
+    placeholder="Enter the name"
+    onBlur={() => logger.log('blur')}
+    onChange={(e) => logger.log('change', e.target.value)}
+    inputIcon={Mail}
+    className={styles.mockAutofill}
+  />
+)
+
 export const WithIconWithHelperText = () => (
   <TextField
     name="name"
@@ -244,17 +258,20 @@ export const TextFieldWrappedInFormik = () => {
   return <TestForm />
 }
 
-export const TypeEmail = () => (
-  <TextField
-    name="email"
-    type="email"
-    value="info@hazelcast.com"
-    placeholder="Enter an email"
-    label="Email"
-    onBlur={() => logger.log('blur')}
-    onChange={(e) => logger.log('change', e.target.value)}
-  />
-)
+export const TypeEmail = () => {
+  const [email, setEmail] = useState('info@hazelcast.com')
+  return (
+    <TextField
+      name="email"
+      type="email"
+      value={email}
+      placeholder="Enter an email"
+      label="Email"
+      onBlur={() => logger.log('blur')}
+      onChange={(e) => setEmail(e.target.value)}
+    />
+  )
+}
 
 export const TypeNumber = () => (
   <TextField
