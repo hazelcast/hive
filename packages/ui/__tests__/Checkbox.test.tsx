@@ -1,18 +1,18 @@
 import React from 'react'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { useUID } from 'react-uid'
+import { Check, Minus } from 'react-feather'
 
 import { Checkbox } from '../src/Checkbox'
-import { Check, Minus } from 'react-feather'
-import { Error, errorId } from '../src'
-import { v4 as uuid } from 'uuid'
+import { Error, errorId } from '../src/Error'
 
-jest.mock('uuid')
+jest.mock('react-uid')
 
-const uuidMock = uuid as jest.Mock<ReturnType<typeof uuid>>
+const useUIDMock = useUID as jest.Mock<ReturnType<typeof useUID>>
 
 describe('Checkbox', () => {
   beforeEach(() => {
-    uuidMock.mockImplementation(() => 'uuidtest')
+    useUIDMock.mockImplementation(() => 'uuidtest')
   })
 
   it('Renders the default checked checkbox', async () => {

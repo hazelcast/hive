@@ -1,11 +1,13 @@
-import React, { ChangeEvent, FC, ReactElement, useMemo, useRef } from 'react'
-import { v4 as uuid } from 'uuid'
-import { Error, errorId } from './Error'
+import React, { ChangeEvent, FC, ReactElement, useMemo } from 'react'
+import { useUID } from 'react-uid'
 import classNames from 'classnames'
-import styles from './RadioGroup.module.scss'
 import { DataTestProp } from '@hazelcast/helpers'
+
+import { Error, errorId } from './Error'
 import { RadioGroupContext } from './RadioGroupContext'
 import { RadioProps } from './Radio'
+
+import styles from './RadioGroup.module.scss'
 
 export type RadioGroupCoreProps = {
   name: string
@@ -37,8 +39,8 @@ export const RadioGroup: FC<RadioGroupProps> = ({
   inline = false,
   'data-test': dataTest,
 }) => {
-  const idRef = useRef(uuid())
-  const errorIdString: string | undefined = error && errorId(idRef.current)
+  const id = useUID()
+  const errorIdString: string | undefined = error && errorId(id)
 
   const providerValue = useMemo(() => ({ name, errorId: errorIdString, onChange }), [name, errorIdString, onChange])
 
@@ -59,7 +61,7 @@ export const RadioGroup: FC<RadioGroupProps> = ({
       >
         <RadioGroupContext.Provider value={providerValue}>{children}</RadioGroupContext.Provider>
       </div>
-      <Error error={error} className={styles.errorContainer} inputId={idRef.current} />
+      <Error error={error} className={styles.errorContainer} inputId={id} />
     </div>
   )
 }

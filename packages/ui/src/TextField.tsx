@@ -1,9 +1,9 @@
 // https://zeroheight.com/11d0e6dac/p/316944-text-field
-import React, { ChangeEvent, ReactElement, InputHTMLAttributes, useRef, FocusEvent } from 'react'
+import React, { ChangeEvent, ReactElement, InputHTMLAttributes, FocusEvent } from 'react'
 import cn from 'classnames'
 import { DataTestProp } from '@hazelcast/helpers'
-import { v4 as uuid } from 'uuid'
 import { Icon as IconType } from 'react-feather'
+import { useUID } from 'react-uid'
 
 import { Icon } from './Icon'
 import { Label } from './Label'
@@ -12,7 +12,7 @@ import { Help, helpTooltipId } from './Help'
 
 import styles from './TextField.module.scss'
 
-type TextFieldTypes = 'number' | 'text' | 'password' | undefined
+type TextFieldTypes = 'email' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'url' | undefined
 
 type TextFieldCoreProps<T extends TextFieldTypes> = {
   name: string
@@ -72,7 +72,7 @@ export const TextField = <T extends TextFieldTypes>({
   inputIcon,
   ...htmlAttrs
 }: TextFieldProps<T>) => {
-  const idRef = useRef(uuid())
+  const id = useUID()
 
   return (
     <div
@@ -88,12 +88,12 @@ export const TextField = <T extends TextFieldTypes>({
         className,
       )}
     >
-      <Label id={idRef.current} label={label} />
+      <Label id={id} label={label} />
       <div className={styles.inputBlock}>
         <div className={cn(styles.inputContainer, inputClassName)}>
           <input
             type={type ?? 'text'}
-            id={idRef.current}
+            id={id}
             value={value ?? ''}
             name={name}
             onChange={onChange}
@@ -101,8 +101,8 @@ export const TextField = <T extends TextFieldTypes>({
             // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute
             aria-invalid={!!error}
             aria-required={required}
-            aria-describedby={helperText && helpTooltipId(idRef.current)}
-            aria-errormessage={error && errorId(idRef.current)}
+            aria-describedby={helperText && helpTooltipId(id)}
+            aria-errormessage={error && errorId(id)}
             disabled={disabled}
             placeholder={placeholder}
             {...htmlAttrs}
@@ -111,9 +111,9 @@ export const TextField = <T extends TextFieldTypes>({
           {inputIcon && <Icon icon={inputIcon} ariaLabel={label} className={styles.inputIcon} size="small" />}
           {inputContainerChild}
         </div>
-        {helperText && <Help parentId={idRef.current} helperText={helperText} className={styles.helperText} />}
+        {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} />}
       </div>
-      <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={idRef.current} />
+      <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
     </div>
   )
 }

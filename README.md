@@ -9,6 +9,8 @@
 - [Installation](#installation)
   - [Under the hood](#under-the-hood)
 - [Usage](#usage)
+- [SSR](#ssr)
+  - [Stable IDs](#stable-ids)
 - [Project structure](#project-structure)
   - [Automated visual regression testing](#automated-visual-regression-testing)
 - [How-to](#how-to)
@@ -49,6 +51,12 @@ Be aware, that we compile our TypeScript code to the modern `ES2018` JavaScript.
 Moreover, we do not do anything about styles (`scss` in our case). We just import them as modules. Please, configure webpack or any other bundler to handle them.
 
 The latest version of the design system is accessible at https://master--5f80b6aa3ceb290022dfea61.chromatic.com/.
+
+## SSR
+
+### Stable IDs
+
+We use [`react-uid`](https://github.com/thearnica/react-uid) to generate stable IDs. you'll need `UIDReset` and `UIDFork` (optionally) to properly handle SSR. See the [README](https://github.com/thearnica/react-uid#code-splitting).
 
 ## Project structure
 
