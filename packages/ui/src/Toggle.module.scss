@@ -1,44 +1,77 @@
 @use '../styles/constants' as c;
 @use '../styles/helpers' as h;
 
-$h: 30px;
-$w: 30px;
+$h: 24px;
+$w: 60px;
+$knob-r: $w / 2 + 8px;
+$track-bg-on: #1DBC22;
+$track-bg-off: c.$colorNeutralLight; // rgba(0,0,0,.32);
+$knob-bg-on: c.$colorNeutralWhite;
+$knob-bg-off: c.$colorNeutralLighter;
+$label-margin: 12px;
 
 .wrapper {
+  display: inline-flex;
+  align-items: center;
+
+  // hide the actual input
   input[type="checkbox"] {
     display: none;
   }
 
+  // faux wrapping label
   label {
     cursor: pointer;
+    display: inline-flex; // for aligning with the .label
   }
 
+  // actual text label
+  .label {
+    margin-right: $label-margin;
+  }
+
+  // track off state
   .toggle-track {
-    display: block;
+    display: inline-block;
     height: $h;
-    width: 80px;
-    background: #eee;
-    border-radius: 20px;
+    width: $w;
+    background: $track-bg-off;
+    border-radius: 22px;
     position: relative;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
   }
 
+  // track on state
+  input[type="checkbox"]:checked + label .toggle-track {
+    background: $track-bg-on;
+  }
+
+  // the `knob`
   .toggle-track:before {
     content: "";
     display: inline-block;
-    height: $h;
-    width: 40px;
-    background: red;
+    height: 20px;
+    width: 20px;
+    background: $knob-bg-off;
     border-radius: 20px;
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 2px;
+    right: 2px;
     transition: right 0.2s ease-in;
   }
 
+  // knob off state
   input[type="checkbox"]:checked + label .toggle-track:before {
-    background: green;
-    right: 40px;
+    background: $knob-bg-on;
+    right: $knob-r;
+  }
+
+  // th "ON" text
+  input[type="checkbox"]:checked + label .toggle-track:after {
+    content: "ON";
+    position: absolute;
+    top: 2px;
+    right: 8px;
+    font-size: .9rem;
+    color: #fff;
   }
 }

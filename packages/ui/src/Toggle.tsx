@@ -37,7 +37,6 @@ export const Toggle: FC<ToggleProps> = ({
 
   return (
     <div className={cn(styles.wrapper, className)} data-test={dataTest}>
-
       <input
         type="checkbox"
         ref={inputRef}
@@ -56,16 +55,9 @@ export const Toggle: FC<ToggleProps> = ({
       />
 
       <label htmlFor={idRef.current}>
+        <span className={cn(styles.label)}>{label}</span>
         <span className={cn(styles['toggle-track'])}></span>
-        {label}
       </label>
-
-      {/*
-      <label for="chkTest">
-        <span class="toggle-track"></span>
-        Click Here
-      </label>
-      */}
     </div>
   )
 }
