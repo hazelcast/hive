@@ -12,7 +12,7 @@ import { Help, helpTooltipId } from './Help'
 
 import styles from './TextField.module.scss'
 
-type TextFieldTypes = 'number' | 'text' | 'password' | undefined
+type TextFieldTypes = 'email' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'url' | undefined
 
 type TextFieldCoreProps<T extends TextFieldTypes> = {
   name: string
