@@ -88,9 +88,18 @@ $marginLeftWithIcon: c.$grid * 5;
     }
   }
 
+  &.mockAutofill {
+    input {
+      @include h.mockChromeAutofill;
+    }
+  }
+
   &.withIcon {
     input {
-      margin-left: $marginLeftWithIcon;
+      padding-left: 0;
+      // Chrome fills the input (including paddings) with its custom override color on autofill.
+      // If we leave the padding in place it fills a part fo the background for the icon.
+      margin-left: $marginLeftWithIcon + $inputHorizontalPadding;
     }
   }
 
