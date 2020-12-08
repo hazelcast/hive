@@ -1,5 +1,5 @@
 // https://zeroheight.com/11d0e6dac/p/316944-text-field
-import React, { ChangeEvent, ReactElement, InputHTMLAttributes, useRef, FocusEvent, Ref } from 'react'
+import React, { ChangeEvent, ReactElement, InputHTMLAttributes, useRef, FocusEvent } from 'react'
 import cn from 'classnames'
 import { DataTestProp } from '@hazelcast/helpers'
 import { v4 as uuid } from 'uuid'
@@ -30,7 +30,6 @@ export type TextFieldExtraProps<T extends TextFieldTypes> = {
   inputContainerChild?: ReactElement
   inputIcon?: IconType
   type?: T
-  inputRef?: Ref<HTMLInputElement>
 } & DataTestProp &
   Pick<InputHTMLAttributes<HTMLInputElement>, 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'>
 
@@ -71,7 +70,6 @@ export const TextField = <T extends TextFieldTypes>({
   placeholder,
   inputContainerChild,
   inputIcon,
-  inputRef,
   ...htmlAttrs
 }: TextFieldProps<T>) => {
   const idRef = useRef(uuid())
@@ -107,7 +105,6 @@ export const TextField = <T extends TextFieldTypes>({
             aria-errormessage={error && errorId(idRef.current)}
             disabled={disabled}
             placeholder={placeholder}
-            ref={inputRef}
             {...htmlAttrs}
           />
           <div className={styles.borderOverlay} />
