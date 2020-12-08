@@ -1,19 +1,19 @@
 import { DataTestProp } from '@hazelcast/helpers'
-import React, { ReactElement, useRef, FocusEvent, InputHTMLAttributes } from 'react'
-import { v4 as uuid } from 'uuid'
+import React, { ReactElement, FocusEvent, InputHTMLAttributes } from 'react'
 import cn from 'classnames'
 import ReactSelect, { Props as ReactSelectProps, ValueType, IndicatorProps, ActionMeta } from 'react-select'
 import { ChevronDown, X } from 'react-feather'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
+import { useUID } from 'react-uid'
 
 import { Error, errorId } from './Error'
 import { Label } from './Label'
 import { Help } from './Help'
 import { Icon } from './Icon'
 import { IconButton } from './IconButton'
+import { canUseDOM } from './utils/ssr'
 
 import styles from './SelectField.module.scss'
-import { canUseDOM } from './utils/ssr'
 
 const DropdownIndicator = () => <Icon icon={ChevronDown} ariaHidden size="normal" className={styles.chevron} />
 
@@ -86,7 +86,7 @@ export const SelectField = <V,>({
   menuPortalTarget = 'body',
   ...rest
 }: SelectProps<V>): ReactElement<SelectProps<V>> => {
-  const idRef = useRef(uuid())
+  const id = useUID()
 
   useIsomorphicLayoutEffect(() => {
     const menuContainer = getMenuContainer(menuPortalTarget)
@@ -113,14 +113,14 @@ export const SelectField = <V,>({
         className,
       )}
     >
-      <Label id={idRef.current} label={label} />
+      <Label id={id} label={label} />
       <div className={styles.selectBlock}>
         <ReactSelect<SelectFieldOption<V>>
-          inputId={idRef.current}
+          inputId={id}
           className="hz-select-field"
           classNamePrefix="hz-select-field"
           // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute
-          aria-errormessage={error && errorId(idRef.current)}
+          aria-errormessage={error && errorId(id)}
           aria-invalid={!!error}
           aria-required={required}
           isClearable={isClearable ?? false}
@@ -137,9 +137,9 @@ export const SelectField = <V,>({
           }}
           {...rest}
         />
-        {helperText && <Help parentId={idRef.current} helperText={helperText} className={styles.helperText} />}
+        {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} />}
       </div>
-      <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={idRef.current} />
+      <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
     </div>
   )
 }
