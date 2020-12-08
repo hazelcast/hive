@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { ReactText, useEffect, useState } from 'react'
 import { Cell as CellType, HeaderGroup, UseResizeColumnsState } from 'react-table'
 
 import { TruncatedText } from '../TruncatedText'
 
 type EnhancedCellRendererProps<D extends object> = {
-  cell: CellType<D, string | number>
+  cell: CellType<D, ReactText>
   hasCellRenderer: boolean
   columnResizing: UseResizeColumnsState<D>['columnResizing']
 }
@@ -32,7 +32,7 @@ export const EnhancedHeaderRenderer = <D extends object>({ column, columnResizin
 
 type TruncatedTextRendererProps<D extends object> = {
   id: string
-  text: string | number
+  text: ReactText
   columnResizing: UseResizeColumnsState<D>['columnResizing']
 }
 

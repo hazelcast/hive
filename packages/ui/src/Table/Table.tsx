@@ -9,6 +9,7 @@ import {
   useAsyncDebounce,
   useResizeColumns,
   useFlexLayout,
+  ColumnInterfaceBasedOnValue,
 } from 'react-table'
 
 import { Pagination } from '../Pagination'
@@ -175,9 +176,11 @@ export function Table<D extends object>({
                   {row.cells.map((cell, i) => {
                     const { key: cellKey, ...restCellProps } = cell.getCellProps()
                     const customCellProps = getCustomCellProps ? getCustomCellProps(cell) : {}
+                    // We don't want to use cell.column.Cell as that is a ColumnInstance which always has a cell renderer
+                    const column = columns[i] as ColumnInterfaceBasedOnValue<D>
                     return (
                       <Cell key={cellKey} align={cell.column.align} {...restCellProps} {...customCellProps}>
-                        <EnhancedCellRenderer cell={cell} hasCellRenderer={!!columns[i].Cell} columnResizing={columnResizing} />
+                        <EnhancedCellRenderer cell={cell} hasCellRenderer={!!column.Cell} columnResizing={columnResizing} />
                       </Cell>
                     )
                   })}
