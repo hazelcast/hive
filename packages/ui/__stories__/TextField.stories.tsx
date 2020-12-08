@@ -1,4 +1,4 @@
-import React, { useRef, useLayoutEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { logger } from '@hazelcast/services'
 import { Mail } from 'react-feather'
 import { Form, Formik } from 'formik'
