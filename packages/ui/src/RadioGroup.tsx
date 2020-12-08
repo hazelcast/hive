@@ -9,16 +9,18 @@ import { RadioProps } from './Radio'
 
 export type RadioGroupCoreProps = {
   name: string
-  children: ReactElement<RadioProps> | Array<ReactElement<RadioProps>>
-  inline?: boolean
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void
+  error?: string
 }
 
-export type RadioGroupProps = RadioGroupCoreProps & {
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void
+export type RadioGroupExtraProps = {
+  children: ReactElement<RadioProps> | Array<ReactElement<RadioProps>>
+  inline?: boolean
   radioGroupClassName?: string
-  error?: string
   className?: string
 } & DataTestProp
+
+export type RadioGroupProps = RadioGroupExtraProps & RadioGroupCoreProps
 
 /**
  * ### Purpose

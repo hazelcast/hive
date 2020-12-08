@@ -17,7 +17,7 @@ const AlertAction1: AlertActionButton = {
   text: 'Copy',
   onClick: noOp,
   icon: Clipboard,
-  iconAriaLabel: 'Icon copy to clipboard',
+  ariaLabel: 'Icon copy to clipboard',
 }
 
 const AlertAction2: AlertActionLink = {

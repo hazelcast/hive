@@ -2,7 +2,7 @@ import React, { FC, useRef, useState, ReactChild, ReactText } from 'react'
 import mergeRefs from 'react-merge-refs'
 import { v4 as uuid } from 'uuid'
 import cn from 'classnames'
-import { useIsomorphicLayoutEffect } from 'react-use'
+import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 
 import { Tooltip } from './Tooltip'
 

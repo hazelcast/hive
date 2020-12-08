@@ -2,7 +2,7 @@ import { DataTestProp } from '@hazelcast/helpers'
 import React, { FC, FocusEvent, ChangeEvent, ReactElement, InputHTMLAttributes, useCallback, useMemo } from 'react'
 import { Plus, Minus } from 'react-feather'
 import cn from 'classnames'
-import { useIsomorphicLayoutEffect } from 'react-use'
+import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 
 import { TextField } from './TextField'
 import { IconButton } from './IconButton'
@@ -25,14 +25,12 @@ export type NumberFieldExtraProps = {
   defaultValue?: number
   numberType?: 'int' | 'float'
   label: string
-  required?: boolean
   helperText?: string | ReactElement
   className?: string
   inputClassName?: string
   errorClassName?: string
-  placeholder?: string
 } & DataTestProp &
-  Pick<InputHTMLAttributes<HTMLInputElement>, 'autoFocus' | 'disabled' | 'autoComplete'>
+  Pick<InputHTMLAttributes<HTMLInputElement>, 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'>
 type NumberFieldProps = NumberFieldCoreProps & NumberFieldExtraProps
 
 export const NumberField: FC<NumberFieldProps> = ({
@@ -82,7 +80,7 @@ export const NumberField: FC<NumberFieldProps> = ({
         <IconButton
           size="small"
           icon={Minus}
-          iconAriaLabel={decrementIconAriaLabel}
+          ariaLabel={decrementIconAriaLabel}
           className={styles.decrement}
           onClick={onDecrement}
           disabled={disabled || value === undefined || (min !== undefined && value <= min)}
@@ -93,7 +91,7 @@ export const NumberField: FC<NumberFieldProps> = ({
         <IconButton
           size="small"
           icon={Plus}
-          iconAriaLabel={incrementIconAriaLabel}
+          ariaLabel={incrementIconAriaLabel}
           className={styles.increment}
           onClick={onIncrement}
           disabled={disabled || value === undefined || (max !== undefined && value >= max)}

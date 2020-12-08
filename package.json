@@ -13,6 +13,7 @@
     "@types/react": "^16.9.51",
     "@types/react-dom": "^16.9.8",
     "@types/react-table": "^7.0.25",
+    "@types/react-select": "^3.0.26",
     "@typescript-eslint/eslint-plugin": "^4.4.0",
     "@typescript-eslint/parser": "^4.4.0",
     "chromatic": "^5.2.0",

@@ -12,7 +12,7 @@ import { Help, helpTooltipId } from './Help'
 
 import styles from './TextField.module.scss'
 
-type TextFieldTypes = 'number' | 'text' | 'password' | undefined
+type TextFieldTypes = 'email' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'url' | undefined
 
 type TextFieldCoreProps<T extends TextFieldTypes> = {
   name: string
@@ -23,17 +23,15 @@ type TextFieldCoreProps<T extends TextFieldTypes> = {
 }
 export type TextFieldExtraProps<T extends TextFieldTypes> = {
   label: string
-  required?: boolean
   helperText?: string | ReactElement
   className?: string
   inputClassName?: string
   errorClassName?: string
-  placeholder?: string
   inputContainerChild?: ReactElement
   inputIcon?: IconType
   type?: T
 } & DataTestProp &
-  Pick<InputHTMLAttributes<HTMLInputElement>, 'autoFocus' | 'disabled' | 'autoComplete'>
+  Pick<InputHTMLAttributes<HTMLInputElement>, 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'>
 
 type TextFieldProps<T extends TextFieldTypes> = TextFieldCoreProps<T> & TextFieldExtraProps<T>
 
