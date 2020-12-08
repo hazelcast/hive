@@ -19,7 +19,7 @@ const DropdownIndicator = () => <Icon icon={ChevronDown} ariaHidden size="normal
 
 // innerProps set event handling
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const ClearIndicator = ({ innerProps }: IndicatorProps<SelectFieldOption<any>>) => {
+const ClearIndicator = ({ innerProps }: IndicatorProps<SelectFieldOption<any>, false>) => {
   // Visually impaired people will use the keyboard (backspace) to remove the value. We do not want to confuse them by allowing to focus this button.
   return <IconButton {...innerProps} icon={X} ariaHidden kind="primary" size="normal" className={styles.clear} tabIndex={-1} />
 }
@@ -129,7 +129,7 @@ export const SelectField = <V,>({
           isSearchable={isSearchable}
           name={name}
           value={value}
-          onChange={onChange as (value: ValueType<SelectFieldOption<V>>, action: ActionMeta<SelectFieldOption<V>>) => void}
+          onChange={onChange as (value: ValueType<SelectFieldOption<V>, false>, action: ActionMeta<SelectFieldOption<V>>) => void}
           menuPortalTarget={getMenuContainer(menuPortalTarget)}
           components={{
             DropdownIndicator,

@@ -1,7 +1,7 @@
-import React, { FC, useRef } from 'react'
+import React, { FC } from 'react'
 import { AlertTriangle } from 'react-feather'
+import { useUID } from 'react-uid'
 import cn from 'classnames'
-import { v4 as uuid } from 'uuid'
 
 import { Icon } from '../Icon'
 import { Tooltip } from '../Tooltip'
@@ -15,10 +15,10 @@ type CellWarningProps = {
 }
 
 const CellWarning: FC<CellWarningProps> = ({ align, warning }) => {
-  const idRef = useRef(uuid())
+  const id = useUID()
 
   return (
-    <Tooltip id={idRef.current} content={warning}>
+    <Tooltip id={id} content={warning}>
       {(ref) => (
         <div
           ref={ref}
@@ -27,7 +27,7 @@ const CellWarning: FC<CellWarningProps> = ({ align, warning }) => {
             [styles.right]: align === 'right',
           })}
         >
-          <Icon icon={AlertTriangle} ariaLabel={warning} size="small" aria-labelledby={idRef.current} />
+          <Icon icon={AlertTriangle} ariaLabel={warning} size="small" aria-labelledby={id} />
         </div>
       )}
     </Tooltip>

@@ -1,16 +1,16 @@
-import React, { FC, useCallback, useRef } from 'react'
+import React, { FC, useCallback } from 'react'
 import { Form, Formik } from 'formik'
 import { ChevronLeft, ChevronRight } from 'react-feather'
+import { useUID } from 'react-uid'
 import cn from 'classnames'
-import { v4 as uuid } from 'uuid'
 
 import { usePagination } from './hooks/usePagination'
 import { Button } from './Button'
 import { NumberFieldFormik } from './NumberFieldFormik'
 import { Label } from './Label'
 
-import styleConsts from '../styles/constants/export.module.scss'
 import styles from './Pagination.module.scss'
+import styleConsts from '../styles/constants/export.module.scss'
 
 type PageJumpFormValues = {
   page: number
@@ -56,7 +56,7 @@ export const Pagination: FC<PaginationProps> = ({
     [goToPage],
   )
 
-  const idRef = useRef(uuid())
+  const id = useUID()
 
   const lastShownItemNumber = currentPage * pageSize
   const firstShownItemNumber = lastShownItemNumber - pageSize + 1
@@ -65,9 +65,9 @@ export const Pagination: FC<PaginationProps> = ({
     <div className={styles.container}>
       {showRowsSelect && (
         <div className={styles.rows}>
-          <Label id={idRef.current} label="Rows per page" />
+          <Label id={id} label="Rows per page" />
           <select
-            id={idRef.current}
+            id={id}
             value={pageSize}
             onBlur={(e) => {
               if (Number(e.target.value) !== pageSize) {
