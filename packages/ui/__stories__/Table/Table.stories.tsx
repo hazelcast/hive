@@ -7,7 +7,7 @@ import { Link } from '../../src/Link'
 import { logger } from '@hazelcast/services'
 
 export default {
-  title: 'Components/Table/Table',
+  title: 'Components/Table',
   component: Table,
 }
 
