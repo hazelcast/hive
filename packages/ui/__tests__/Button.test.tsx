@@ -116,4 +116,13 @@ describe('Button', () => {
       content: disabledTooltip,
     })
   })
+
+  it('Calls callback on click', async () => {
+    const onClick = jest.fn()
+
+    const wrapper = await mountAndCheckA11Y(<Button onClick={onClick}>{label}</Button>)
+
+    wrapper.find('button').simulate('click')
+    expect(onClick).toHaveBeenCalledTimes(1)
+  })
 })

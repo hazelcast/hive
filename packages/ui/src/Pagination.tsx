@@ -1,18 +1,17 @@
 import React, { FC, useCallback } from 'react'
 import { Form, Formik } from 'formik'
 import { ChevronLeft, ChevronRight } from 'react-feather'
-import { useUID } from 'react-uid'
 import cn from 'classnames'
 
 import { usePagination } from './hooks/usePagination'
+import { SelectField, SelectFieldOption } from './SelectField'
 import { Button } from './Button'
 import { NumberFieldFormik } from './NumberFieldFormik'
-import { Label } from './Label'
 
 import styles from './Pagination.module.scss'
 import styleConsts from '../styles/constants/export.module.scss'
 
-type PageJumpFormValues = {
+export type PageJumpFormValues = {
   page: number
 }
 
@@ -56,41 +55,38 @@ export const Pagination: FC<PaginationProps> = ({
     [goToPage],
   )
 
-  const id = useUID()
-
   const lastShownItemNumber = currentPage * pageSize
   const firstShownItemNumber = lastShownItemNumber - pageSize + 1
+
+  const options: SelectFieldOption<number>[] = pageSizeOptions.map((opt) => ({ value: opt, label: opt.toString() }))
+  const value: SelectFieldOption<number> = { value: pageSize, label: pageSize.toString() }
+  const onPageSizeChange = useCallback(
+    (newValue: SelectFieldOption<number>) => {
+      setPageSize(newValue.value)
+    },
+    [setPageSize],
+  )
 
   return (
     <div className={styles.container}>
       {showRowsSelect && (
-        <div className={styles.rows}>
-          <Label id={id} label="Rows per page" />
-          <select
-            id={id}
-            value={pageSize}
-            onBlur={(e) => {
-              if (Number(e.target.value) !== pageSize) {
-                setPageSize(Number(e.target.value))
-              }
-            }}
-            onChange={(e) => {
-              setPageSize(Number(e.target.value))
-            }}
-          >
-            {pageSizeOptions.map((pageSize) => (
-              <option key={pageSize} value={pageSize}>
-                {pageSize}
-              </option>
-            ))}
-          </select>
-        </div>
+        <SelectField
+          className={styles.rowsPerPage}
+          name="rowsPerPage"
+          value={value}
+          label="Rows per page"
+          options={options}
+          onChange={onPageSizeChange}
+        />
       )}
 
-      <span className={styles.shownItems}>{`${firstShownItemNumber} - ${lastShownItemNumber} of ${numberOfItems}`}</span>
+      <span
+        data-test="pagination-range-of-shown-items"
+        className={styles.shownItems}
+      >{`${firstShownItemNumber} - ${lastShownItemNumber} of ${numberOfItems}`}</span>
 
       <div className={styles.buttons}>
-        {pages.map((page) => {
+        {pages.map((page, i) => {
           if (page === 'previous') {
             return canPreviousPage ? (
               <Button
@@ -102,7 +98,7 @@ export const Pagination: FC<PaginationProps> = ({
                 outlineClassName={styles.outline}
                 capitalize={false}
                 iconLeft={ChevronLeft}
-                iconLeftColor={canPreviousPage ? styleConsts.colorPrimary : undefined}
+                iconLeftColor={styleConsts.colorPrimary}
                 iconLeftAriaLabel="Previous page"
                 onClick={previousPage}
               >
@@ -121,7 +117,7 @@ export const Pagination: FC<PaginationProps> = ({
                 outlineClassName={styles.outline}
                 capitalize={false}
                 iconRight={ChevronRight}
-                iconRightColor={canNextPage ? styleConsts.colorPrimary : undefined}
+                iconRightColor={styleConsts.colorPrimary}
                 iconRightAriaLabel="Next page"
                 onClick={nextPage}
               >
@@ -130,7 +126,7 @@ export const Pagination: FC<PaginationProps> = ({
             ) : null
           }
           if (page === 'ellipsis') {
-            return <span key="ellipsis">&#8208;</span>
+            return <span key={`ellipsis-${i}`}>&#8208;</span>
           }
 
           return (
@@ -163,14 +159,7 @@ export const Pagination: FC<PaginationProps> = ({
           onSubmit={submitPageJump}
         >
           <Form>
-            <NumberFieldFormik<PageJumpFormValues>
-              name="page"
-              placeholder="Page"
-              label="Go to"
-              min={1}
-              max={pageCount}
-              className={styles.pageJump}
-            />
+            <NumberFieldFormik<PageJumpFormValues> className={styles.pageJump} name="page" label="Go to" min={1} max={pageCount} />
           </Form>
         </Formik>
       )}

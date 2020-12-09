@@ -82,6 +82,7 @@ $marginLeftWithIcon: c.$grid * 5;
     letter-spacing: inherit;
     color: inherit;
     height: 100%;
+    width: 100%;
 
     &::placeholder {
       color: c.$colorTextSecondary;

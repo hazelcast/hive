@@ -123,8 +123,6 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
   ) => {
     const tooltipId = useUID()
 
-    console.log('outlineClassName', outlineClassName)
-
     return (
       <Tooltip
         id={tooltipId}

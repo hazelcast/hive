@@ -35,7 +35,7 @@
 
     // Overwriting button styles
     .button {
-      color: c.$colorText;
+      color: c.$colorTextSecondary;
       background-color: c.$colorNeutralLighter;
       border: 1px solid;
       border-color: c.$colorNeutralLight;
@@ -48,6 +48,7 @@
       &:hover,
       &:active,
       &.selected {
+        color: c.$colorText;
         border-color: c.$colorPrimary;
       }
 
@@ -56,13 +57,16 @@
           visibility: hidden;
         }
 
+        color: c.$colorText;
         border-color: c.$colorAccessibilityOutline;
       }
     }
   }
 
-  .pageJump {
-    max-width: c.$grid * 25;
-    min-width: c.$grid * 25;
+  // Comfortable to use with up to 4-digit numbers and still see all digits
+  .pageJump,
+  .rowsPerPage {
+    max-width: c.$grid * 30;
+    min-width: c.$grid * 30;
   }
 }

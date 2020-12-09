@@ -11,7 +11,6 @@ const StoryBase: FC<Pick<PaginationProps, 'showPageJump' | 'showRowsSelect'>> = 
   const numberOfItems = 10000
   const [pageSize, setPageSize] = useState<number>(5)
   const pageSizeOptions = [5, 10]
-
   const [currentPage, setCurrentPage] = useState<number>(1)
   const pageCount = Math.ceil(numberOfItems / pageSize)
   const canPreviousPage = currentPage !== 1
