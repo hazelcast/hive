@@ -34,6 +34,8 @@ $buttonMaxWidth: 370px !default;
 
 $toastMaxWidth: 580px !default;
 
+/* doiuse-disable calc */
 $modalWidth: calc(100% - 40px);
 $modalMaxWidth: 960px !default;
 $modalHeight: calc(100% - 40px);
+/* doiuse-enable calc */

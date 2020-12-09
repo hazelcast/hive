@@ -54,24 +54,39 @@ export const Modal: FC<ModalProps> = ({
   >
     <div className={styles.outline} />
     <div className={styles.container}>
-      <div className={styles.header}>
-        <div className={styles.title}>{title}</div>
+      <div data-test="modal-header" className={styles.header}>
+        <div data-test="modal-title" className={styles.title}>
+          {title}
+        </div>
         {closable && (
           <div className={styles.close}>
             {/* TODO: Get color */}
-            <IconButton data-test="modal-close" kind="transparent" size="small" iconAriaLabel="Close icon" icon={X} onClick={onClose} />
+            <IconButton
+              data-test="modal-button-close"
+              kind="transparent"
+              size="small"
+              iconAriaLabel="Close icon"
+              icon={X}
+              onClick={onClose}
+            />
           </div>
         )}
       </div>
-      <div className={styles.content}>{children}</div>
+      <div data-test="modal-content" className={styles.content}>
+        {children}
+      </div>
       {(onClose || onAction) && (
-        <div className={styles.footer}>
+        <div data-test="modal-footer" className={styles.footer}>
           {onClose && (
-            <Button kind="secondary" onClick={onClose}>
+            <Button data-test="modal-button-cancel" kind="secondary" onClick={onClose}>
               Cancel
             </Button>
           )}
-          {onAction && action && <Button onClick={onAction}>{action}</Button>}
+          {onAction && action && (
+            <Button data-test="modal-button-action" onClick={onAction}>
+              {action}
+            </Button>
+          )}
         </div>
       )}
     </div>

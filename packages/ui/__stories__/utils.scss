@@ -12,7 +12,9 @@
 }
 
 .modal {
+  /* doiuse-disable calc */
   width: calc(#{c.$modalWidth} - 200px);
+  /* doiuse-enable calc */
 }
 
 .modalChildrenWrapper {
