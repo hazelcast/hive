@@ -9,7 +9,7 @@ import { IconButton } from './IconButton'
 import styles from './Modal.module.scss'
 import { Button } from './Button'
 
-type ActionType =
+type ActionProps =
   | {
       action: string
       onAction: () => void
@@ -25,7 +25,7 @@ export type ModalProps = {
   title: string
   onClose?: ReactModalProps['onRequestClose']
 } & DataTestProp &
-  ActionType &
+  ActionProps &
   Exclude<ReactModalProps, 'onRequestClose' | 'shouldFocusAfterRender' | 'shouldReturnFocusAfterClose'>
 
 export const Modal: FC<ModalProps> = ({
@@ -58,17 +58,10 @@ export const Modal: FC<ModalProps> = ({
         <div data-test="modal-title" className={styles.title}>
           {title}
         </div>
-        {closable && (
+        {onClose && (
           <div className={styles.close}>
             {/* TODO: Get color */}
-            <IconButton
-              data-test="modal-button-close"
-              kind="transparent"
-              size="small"
-              iconAriaLabel="Close icon"
-              icon={X}
-              onClick={onClose}
-            />
+            <IconButton data-test="modal-button-close" kind="transparent" size="small" ariaLabel="Close icon" icon={X} onClick={onClose} />
           </div>
         )}
       </div>
