@@ -1,7 +1,8 @@
-import React, { ReactElement, useCallback } from 'react'
+import React, { ReactElement } from 'react'
 import { FieldValidator, useField } from 'formik'
 import { Slider, SliderExtraProps } from './Slider'
-import { getFieldError } from './utils/formik'
+import { formikTouchAndUpdate, getFieldError } from './utils/formik'
+import { useMemo } from 'react'
 
 export type SliderFormikProps<V extends object> = SliderExtraProps & {
   name: keyof V
@@ -14,13 +15,7 @@ export const SliderFormik = <V extends object>({ name, validate, ...props }: Sli
     validate,
   })
 
-  const onChange = useCallback(
-    (newValue: number | [number, number]) => {
-      setValue(newValue)
-      setTouched(true)
-    },
-    [setValue, setTouched],
-  )
+  const onChange = useMemo(() => formikTouchAndUpdate(setValue, setTouched), [setValue, setTouched])
 
   return <Slider {...props} name={name} value={field.value} onChange={onChange} error={getFieldError(meta)} />
 }

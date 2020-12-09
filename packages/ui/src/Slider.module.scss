@@ -78,6 +78,7 @@ ul.markDescriptions {
     transform: translateX(-50%);
     font-size: c.$fontSizeBodyNormal;
     font-weight: c.$fontWeightTextBold;
+    white-space: nowrap;
   }
 }
 
@@ -225,6 +226,8 @@ ul.markDescriptions {
   }
 
   &.disabled {
+    cursor: not-allowed;
+
     .valueIndicators {
       color: c.$colorNeutralLight;
     }
@@ -250,6 +253,7 @@ ul.markDescriptions {
       @include styleThumb {
         box-shadow: 0 0 0 c.$sliderThumbHoverBorderSize c.$colorNeutral;
         background: c.$colorNeutralLight;
+        cursor: not-allowed;
       }
     }
   }

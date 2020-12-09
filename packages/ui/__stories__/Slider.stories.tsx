@@ -124,6 +124,30 @@ export const SliderWithMarks = () => {
   )
 }
 
+export const SliderWithCustomCurrentValueFormatter = () => {
+  const [value, onChange] = useState<number>(0)
+  return (
+    <div>
+      <Slider
+        name="name"
+        label="Slider's label"
+        value={value}
+        onChange={onChange}
+        min={0}
+        max={100}
+        helperText="Helper text"
+        marks={[
+          { value: 0, label: '0GB' },
+          { value: 30, label: '1GB' },
+          { value: 70, label: '4GB' },
+          { value: 100, label: '100GB' },
+        ]}
+        formatCurrentValue={(x) => `${x} GB`}
+      />
+    </div>
+  )
+}
+
 export const SliderInFormik = () => {
   type Values = {
     ram: number

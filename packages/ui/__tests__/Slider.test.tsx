@@ -1,17 +1,17 @@
 import React from 'react'
-import { v4 as uuid } from 'uuid'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { useUID } from 'react-uid'
 
 import { getMarkMetadata, Slider } from '../src/Slider'
 
-jest.mock('uuid')
-
-const uuidMock = uuid as jest.Mock<ReturnType<typeof uuid>>
+jest.mock('react-uid')
+const useUIDMock = useUID as jest.Mock<ReturnType<typeof useUID>>
 
 describe('Slider', () => {
   beforeEach(() => {
-    uuidMock.mockImplementation(() => 'uuidtest')
+    useUIDMock.mockImplementation(() => 'uuidtest')
   })
+
   it('Renders single value slider, checks that the number of inputs is correct', async () => {
     const onChange = jest.fn()
     const wrapper = await mountAndCheckA11Y(<Slider name="ram" label="RAM" value={4} min={0} max={10} onChange={onChange} />)
@@ -34,6 +34,7 @@ describe('Slider', () => {
       'aria-valuemax': 100,
       'aria-valuemin': 1,
       'aria-valuenow': 4,
+      id: 'uuidtest',
       name: 'ram',
       className: undefined,
       disabled: true,
@@ -164,6 +165,32 @@ describe('Slider', () => {
     const wrapper = await mountAndCheckA11Y(<Slider name="ram" label="RAM" value={4} min={1} max={100} onChange={onChange} />)
     expect(wrapper.find("ul[data-test='marks']").exists()).toBeFalsy()
     expect(wrapper.find("ul[data-test='mark-descriptions']").exists()).toBeFalsy()
+  })
+
+  it('Renders slider, check that the first value indicator is present, the second one is hidden', async () => {
+    const onChange = jest.fn()
+    const wrapper = await mountAndCheckA11Y(<Slider name="ram" label="RAM" value={4} min={1} max={100} onChange={onChange} />)
+    expect(wrapper.findDataTest('slider-first-value-indicator').exists()).toBeTruthy()
+    expect(wrapper.findDataTest('slider-second-value-indicator').exists()).toBeFalsy()
+    expect(wrapper.findDataTest('slider-first-value-indicator').text()).toEqual('4')
+  })
+
+  it('Renders range slider, check that both value indicators are present', async () => {
+    const onChange = jest.fn()
+    const wrapper = await mountAndCheckA11Y(<Slider name="ram" label="RAM" value={[4, 10]} min={1} max={100} onChange={onChange} />)
+    expect(wrapper.findDataTest('slider-first-value-indicator').exists()).toBeTruthy()
+    expect(wrapper.findDataTest('slider-second-value-indicator').exists()).toBeTruthy()
+    expect(wrapper.findDataTest('slider-first-value-indicator').text()).toEqual('4')
+    expect(wrapper.findDataTest('slider-second-value-indicator').text()).toEqual('10')
+  })
+
+  it('Renders range slider, check that both value indicators are correct when providing a formatter function', async () => {
+    const onChange = jest.fn()
+    const wrapper = await mountAndCheckA11Y(
+      <Slider name="ram" label="RAM" value={[4, 10]} min={1} max={100} onChange={onChange} formatCurrentValue={(x) => `${x} RAM`} />,
+    )
+    expect(wrapper.findDataTest('slider-first-value-indicator').text()).toEqual('4 RAM')
+    expect(wrapper.findDataTest('slider-second-value-indicator').text()).toEqual('10 RAM')
   })
 })
 

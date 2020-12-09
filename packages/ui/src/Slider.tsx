@@ -1,8 +1,8 @@
-import React, { ChangeEvent, useCallback, useEffect, useRef } from 'react'
+import React, { ChangeEvent, useCallback, useRef } from 'react'
 import { DataTestProp } from '@hazelcast/helpers'
-import { v4 as uuid } from 'uuid'
 import useEvent from 'react-use/lib/useEvent'
 import cn from 'classnames'
+import { useUID } from 'react-uid'
 
 import { Error, errorId } from './Error'
 import { Help } from './Help'
@@ -41,6 +41,7 @@ export type SliderExtraProps = {
   helperText?: string
   marks?: Array<SliderMark>
   label: string
+  formatCurrentValue?: (val: number) => string
 }
 
 type SliderProps<T extends Value = number> = SliderExtraProps &
@@ -83,6 +84,8 @@ export function getMarkMetadata(
 /**
  * Slider component
  * https://www.w3.org/TR/wai-aria-practices-1.2/#slidertwothumb
+ *
+ * When providing a single value, it behaves
  */
 export function Slider<T extends Value = number>({
   value,
@@ -98,6 +101,7 @@ export function Slider<T extends Value = number>({
   marks,
   label,
   disabled,
+  formatCurrentValue = (x) => x.toString(),
   'data-test': dataTest,
 }: SliderProps<T>) {
   /**
@@ -122,7 +126,7 @@ export function Slider<T extends Value = number>({
    *
    *  - error - error component
    */
-  const idRef = useRef(uuid())
+  const id = useUID()
 
   // Slider operates in two modes, either we have a single value slider or range value slider
   const isRange: boolean = isRangeGuard(value)
@@ -217,7 +221,7 @@ export function Slider<T extends Value = number>({
 
   return (
     <div className={className} data-test={dataTest}>
-      <Label id={idRef.current} label={label} />
+      <Label id={id} label={label} />
       <div
         className={cn(styles.wrapper, {
           [styles.disabled]: disabled,
@@ -242,7 +246,7 @@ export function Slider<T extends Value = number>({
           <div className={styles.inputWrapper} role="group" ref={wrapperRef}>
             {firstValue !== undefined && (
               <input
-                id={idRef.current}
+                id={id}
                 ref={firstRangeInputRef}
                 type="range"
                 value={firstValue}
@@ -253,12 +257,12 @@ export function Slider<T extends Value = number>({
                 onChange={setFirstValueCallback}
                 className={sliderClassName}
                 step={step}
-                aria-labelledby={idRef.current}
+                aria-labelledby={id}
                 aria-valuenow={firstValue}
                 aria-valuemin={min}
                 aria-valuemax={Math.min(max, secondValue)}
                 aria-invalid={!!error}
-                aria-errormessage={error && errorId(idRef.current)}
+                aria-errormessage={error && errorId(id)}
               />
             )}
 
@@ -281,12 +285,12 @@ export function Slider<T extends Value = number>({
                   // because that is the only one that can be moved.
                   [styles.atTheBorder]: max === secondValue && secondValue === firstValue,
                 })}
-                aria-labelledby={label}
+                aria-label={label}
                 aria-valuenow={secondValue}
                 aria-valuemin={Math.max(min, firstValue)}
                 aria-valuemax={max}
                 aria-invalid={!!error}
-                aria-errormessage={error && errorId(idRef.current)}
+                aria-errormessage={error && errorId(id)}
               />
             )}
             <div className={styles.fillPlaceholder}>
@@ -330,23 +334,25 @@ export function Slider<T extends Value = number>({
               style={{
                 left: `${left * 100}%`,
               }}
+              data-test="slider-first-value-indicator"
             >
-              {firstValue}
+              {formatCurrentValue(firstValue)}
             </span>
             {isRange && (
               <span
                 style={{
                   left: `${secondValueLeft * 100}%`,
                 }}
+                data-test="slider-second-value-indicator"
               >
-                {secondValue}
+                {formatCurrentValue(secondValue)}
               </span>
             )}
           </div>
         </div>
-        {helperText && <Help parentId={idRef.current} helperText={helperText} className={styles.helperText} />}
+        {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} />}
       </div>
-      <Error error={error} className={styles.errorContainer} inputId={idRef.current} />
+      <Error error={error} className={styles.errorContainer} inputId={id} />
     </div>
   )
 }
