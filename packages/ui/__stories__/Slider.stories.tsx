@@ -25,6 +25,13 @@ export const DefaultSlider = () => {
   )
 }
 
+DefaultSlider.parameters = {
+  design: {
+    type: 'figma',
+    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=510%3A265',
+  },
+}
+
 export const HoveredSlider = () => {
   const [value, onChange] = useState<number>(40)
   return <Slider name="name" label="Slider's label" value={value} onChange={onChange} min={0} max={100} sliderClassName={styles.hover} />
