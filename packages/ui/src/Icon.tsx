@@ -6,7 +6,7 @@ import styleConsts from '../styles/constants/export.module.scss'
 type IconSize = 'small' | 'normal'
 
 // Makes it required to set either "aria-label", "aria-labelledby" or "aria-hidden" attribute.
-type AriaProps =
+export type IconAriaProps =
   | {
       ariaLabel: string
       ariaLabelledBy?: never
@@ -28,7 +28,7 @@ export type IconProps = {
   icon: IconType
   size?: IconSize
   className?: string
-} & AriaProps
+} & IconAriaProps
 
 export const Icon: FC<IconProps> = ({ color, icon: IconElement, ariaLabel, ariaLabelledBy, ariaHidden, className, size = 'normal' }) => {
   const iconSize = size === 'small' ? styleConsts.iconSizeSmall : styleConsts.iconSizeNormal

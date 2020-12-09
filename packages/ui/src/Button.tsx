@@ -1,7 +1,7 @@
 import React, { ButtonHTMLAttributes, forwardRef } from 'react'
 import cn from 'classnames'
 import mergeRefs from 'react-merge-refs'
-import { v4 as uuid } from 'uuid'
+import { useUID } from 'react-uid'
 
 import { Icon, IconProps } from './Icon'
 import { TruncatedText } from './TruncatedText'
@@ -114,8 +114,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
     },
     ref,
   ) => {
-    /* Generate backup tooltip id if prop is empty */
-    const tooltipId = `${uuid()}-button-tooltip`
+    const tooltipId = useUID()
 
     return (
       <Tooltip

@@ -100,7 +100,7 @@ describe('RadioGroupFormik', () => {
 
     const onSubmit = jest.fn()
 
-    const validateName = (value: string) => (value === 'gandalf' ? 'Aragorn is stronger!' : undefined)
+    const validateName = (value: string | undefined) => (value === 'gandalf' ? 'Aragorn is stronger!' : undefined)
 
     const TestForm = () => (
       <Formik<Values>

@@ -8,7 +8,7 @@ import { Button, ButtonKind } from '../src/Button'
 import styles from '../src/Button.module.scss'
 
 const label = 'LABEL'
-const iconAriaLabel = 'X Icon'
+const ariaLabel = 'X Icon'
 
 describe('Button', () => {
   const buttonKindTestData: [ButtonKind, string][] = [
@@ -41,7 +41,7 @@ describe('Button', () => {
 
   it('Renders button with left icon with proper aria-label', async () => {
     const wrapper = await mountAndCheckA11Y(
-      <Button iconLeft={X} iconLeftAriaLabel={iconAriaLabel}>
+      <Button iconLeft={X} iconLeftAriaLabel={ariaLabel}>
         {label}
       </Button>,
     )
@@ -51,7 +51,7 @@ describe('Button', () => {
     // Left
     expect(wrapper.findDataTest('button-icon-left').exists()).toBeTruthy()
     expect(wrapper.findDataTest('button-icon-left').find(X).props()).toMatchObject({
-      'aria-label': iconAriaLabel,
+      'aria-label': ariaLabel,
     })
 
     // Right
@@ -73,7 +73,7 @@ describe('Button', () => {
     // Right
     expect(wrapper.findDataTest('button-icon-right').exists()).toBeTruthy()
     expect(wrapper.findDataTest('button-icon-right').find(X).props()).toMatchObject({
-      'aria-label': iconAriaLabel,
+      'aria-label': ariaLabel,
     })
   })
 
@@ -89,13 +89,13 @@ describe('Button', () => {
     // Left
     expect(wrapper.findDataTest('button-icon-left').exists()).toBeTruthy()
     expect(wrapper.findDataTest('button-icon-left').find(X).props()).toMatchObject({
-      'aria-label': iconAriaLabel,
+      'aria-label': ariaLabel,
     })
 
     // Right
     expect(wrapper.findDataTest('button-icon-right').exists()).toBeTruthy()
     expect(wrapper.findDataTest('button-icon-right').find(X).props()).toMatchObject({
-      'aria-label': iconAriaLabel,
+      'aria-label': ariaLabel,
     })
   })
 

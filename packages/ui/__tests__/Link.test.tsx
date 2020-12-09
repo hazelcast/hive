@@ -1,4 +1,5 @@
 import React from 'react'
+import cn from 'classnames'
 import { ChevronRight } from 'react-feather'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 
@@ -13,27 +14,27 @@ describe('Link', () => {
 
     const anchor = wrapper.find('a')
     expect(anchor.props()).toEqual({
-      className: styles.normal,
+      className: cn(styles.normal, styles.primary),
       href: 'https://hazelcast.com/',
-      rel: 'noopener noreferrer',
-      target: '_blank',
+      rel: 'noopener',
+      target: '_self',
       children: ['Normal Text Link', undefined],
     })
   })
 
   it('Renders normal Link with Icon with correct props', async () => {
     const wrapper = await mountAndCheckA11Y(
-      <Link icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/">
+      <Link icon={ChevronRight} ariaLabel="Chevron right" href="https://hazelcast.com/">
         Normal Text Link with Icon
       </Link>,
     )
 
     const anchor = wrapper.find('a')
     expect(anchor.props()).toMatchObject({
-      className: styles.normal,
+      className: cn(styles.normal, styles.primary),
       href: 'https://hazelcast.com/',
-      rel: 'noopener noreferrer',
-      target: '_blank',
+      rel: 'noopener',
+      target: '_self',
     })
 
     expect(anchor.text()).toBe('Normal Text Link with Icon')
@@ -53,27 +54,27 @@ describe('Link', () => {
 
     const anchor = wrapper.find('a')
     expect(anchor.props()).toEqual({
-      className: styles.small,
+      className: cn(styles.small, styles.primary),
       href: 'https://hazelcast.com/',
-      rel: 'noopener noreferrer',
-      target: '_blank',
+      rel: 'noopener',
+      target: '_self',
       children: ['Small Link', undefined],
     })
   })
 
   it('Renders small Link with Icon with correct props', async () => {
     const wrapper = await mountAndCheckA11Y(
-      <Link size="small" icon={ChevronRight} iconAriaLabel="Chevron right" href="https://hazelcast.com/">
+      <Link size="small" icon={ChevronRight} ariaLabel="Chevron right" href="https://hazelcast.com/">
         Small Text Link with Icon
       </Link>,
     )
 
     const anchor = wrapper.find('a')
     expect(anchor.props()).toMatchObject({
-      className: styles.small,
+      className: cn(styles.small, styles.primary),
       href: 'https://hazelcast.com/',
-      rel: 'noopener noreferrer',
-      target: '_blank',
+      rel: 'noopener',
+      target: '_self',
     })
 
     expect(anchor.text()).toBe('Small Text Link with Icon')
@@ -81,6 +82,40 @@ describe('Link', () => {
       icon: ChevronRight,
       ariaLabel: 'Chevron right',
       size: 'small',
+    })
+  })
+
+  it('Renders a secondary normal Link with correct props', async () => {
+    const wrapper = await mountAndCheckA11Y(
+      <Link kind="secondary" href="https://hazelcast.com/">
+        Normal Text Link
+      </Link>,
+    )
+
+    const anchor = wrapper.find('a')
+    expect(anchor.props()).toEqual({
+      className: cn(styles.normal, styles.secondary),
+      href: 'https://hazelcast.com/',
+      rel: 'noopener',
+      target: '_self',
+      children: ['Normal Text Link', undefined],
+    })
+  })
+
+  it('Allows custom rel and target', async () => {
+    const wrapper = await mountAndCheckA11Y(
+      <Link href="https://hazelcast.com/" rel={['help', 'noreferrer']} target="_parent">
+        Normal Text Link
+      </Link>,
+    )
+
+    const anchor = wrapper.find('a')
+    expect(anchor.props()).toEqual({
+      className: cn(styles.normal, styles.primary),
+      href: 'https://hazelcast.com/',
+      rel: 'help noreferrer',
+      target: '_parent',
+      children: ['Normal Text Link', undefined],
     })
   })
 })

@@ -1,12 +1,13 @@
-import React, { ReactElement, useCallback } from 'react'
-import { FieldValidator, useField } from 'formik'
+import React, { ReactElement, useMemo } from 'react'
+import { useField } from 'formik'
 
 import { NumberField, NumberFieldExtraProps } from './NumberField'
-import { getFieldError } from './utils/formik'
+import { FieldValidatorGeneric, formikTouchAndUpdate, getFieldError } from './utils/formik'
+import { ExtractKeysOfValueType } from './utils/types'
 
 export type NumberFieldFormikProps<V extends object> = NumberFieldExtraProps & {
-  name: V[keyof V] extends number | undefined ? keyof V : never
-  validate?: FieldValidator
+  name: ExtractKeysOfValueType<V, number | undefined>
+  validate?: FieldValidatorGeneric<number | undefined>
 }
 
 export const NumberFieldFormik = <V extends object>({ name, validate, ...props }: NumberFieldFormikProps<V>): ReactElement => {
@@ -15,13 +16,7 @@ export const NumberFieldFormik = <V extends object>({ name, validate, ...props }
     validate,
   })
 
-  const onChange = useCallback(
-    (newValue?: number) => {
-      setValue(newValue)
-      setTouched(true)
-    },
-    [setValue, setTouched],
-  )
+  const onChange = useMemo(() => formikTouchAndUpdate(setValue, setTouched), [setValue, setTouched])
 
   return <NumberField {...props} name={name} value={field.value} onChange={onChange} onBlur={field.onBlur} error={getFieldError(meta)} />
 }

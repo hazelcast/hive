@@ -1,10 +1,12 @@
-import React, { FC, FocusEvent, useContext, useRef } from 'react'
-import styles from './Radio.module.scss'
+import React, { FC, FocusEvent, useContext } from 'react'
 import classNames from 'classnames'
-import { Help, helpTooltipId } from './Help'
-import { v4 as uuid } from 'uuid'
 import { DataTestProp } from '@hazelcast/helpers'
+import { useUID } from 'react-uid'
+
+import { Help, helpTooltipId } from './Help'
 import { RadioGroupContext } from './RadioGroupContext'
+
+import styles from './Radio.module.scss'
 
 type RadioCoreProps = {
   value: string
@@ -40,7 +42,7 @@ export const Radio: FC<RadioProps> = ({
   checked,
   'data-test': dataTest,
 }) => {
-  const idRef = useRef(uuid())
+  const id = useUID()
   const { name, onChange, errorId } = useContext(RadioGroupContext)
   const errorProps = errorId
     ? {
@@ -60,7 +62,7 @@ export const Radio: FC<RadioProps> = ({
         className,
       )}
       data-test={dataTest}
-      htmlFor={idRef.current}
+      htmlFor={id}
     >
       {/*
         We can only style forward elements based on input state (with ~ or +), has() is not supported yet.
@@ -71,7 +73,7 @@ export const Radio: FC<RadioProps> = ({
       </span>
       <input
         type="radio"
-        id={idRef.current}
+        id={id}
         name={name}
         checked={checked}
         required={required}
@@ -79,11 +81,11 @@ export const Radio: FC<RadioProps> = ({
         onBlur={onBlur}
         value={value}
         disabled={disabled}
-        aria-describedby={helperText && helpTooltipId(idRef.current)}
+        aria-describedby={helperText && helpTooltipId(id)}
         {...errorProps}
       />
       <span className={styles.checkmark} />
-      {helperText && <Help parentId={idRef.current} helperText={helperText} />}
+      {helperText && <Help parentId={id} helperText={helperText} />}
     </label>
   )
 }

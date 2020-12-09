@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Formik } from 'formik'
-import { CheckboxFieldFormik } from '../src/CheckboxFormik'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { CheckboxFormik } from '../src/CheckboxFormik'
+import { mountAndCheckA11Y, simulateChange } from '@hazelcast/test-helpers'
 import { act } from 'react-dom/test-utils'
 
 describe('CheckboxFormik', () => {
@@ -22,7 +22,7 @@ describe('CheckboxFormik', () => {
         onSubmit={onSubmit}
       >
         <Form>
-          <CheckboxFieldFormik<Values> name="tosApproved" label="ToS" />
+          <CheckboxFormik<Values> name="tosApproved" label="ToS" />
         </Form>
       </Formik>
     )
@@ -43,5 +43,40 @@ describe('CheckboxFormik', () => {
       },
       expect.anything(),
     )
+    expect(wrapper.find('input').props()).toHaveProperty('checked')
+  })
+
+  it('Checkbox is changed in a formik scenario', async () => {
+    type Values = {
+      tosApproved: boolean
+      name: string
+    }
+
+    const onSubmit = jest.fn()
+
+    const TestForm = () => (
+      <Formik<Values>
+        initialValues={{
+          tosApproved: false,
+          name: 'Yoda',
+        }}
+        onSubmit={onSubmit}
+      >
+        <Form>
+          <CheckboxFormik<Values> name="tosApproved" label="ToS" />
+        </Form>
+      </Formik>
+    )
+
+    const wrapper = await mountAndCheckA11Y(<TestForm />)
+
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      simulateChange(wrapper.find('input'), true)
+    })
+
+    wrapper.update()
+
+    expect(wrapper.find('input').props()).toHaveProperty('checked', true)
   })
 })
