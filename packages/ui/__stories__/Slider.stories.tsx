@@ -152,6 +152,9 @@ export const SliderInFormik = () => {
   type Values = {
     ram: number
   }
+
+  const validateRAM = (value: number) => (value <= 4 ? 'RAM is too low' : undefined)
+
   return (
     <Formik<Values>
       initialValues={{
@@ -160,19 +163,13 @@ export const SliderInFormik = () => {
       initialErrors={{
         ram: 'Server Error: Invalid ram value for this cloud provider',
       }}
-      validate={(values) => {
-        const errors: Partial<{ [key in keyof Values]: string }> = {
-          ram: values.ram === 4 ? 'RAM is invalid' : undefined,
-        }
-
-        return errors
-      }}
       onSubmit={(values) => logger.log('submit', values)}
     >
       {({ values }) => (
         <Form>
           Values: {JSON.stringify(values)}
-          <SliderFormik<Values> name="ram" label="Slider's label" min={0} max={100} />
+          <SliderFormik<Values> name="ram" label="Slider's label" min={0} max={100} validate={validateRAM} />
+          <button type="submit">Submit</button>
         </Form>
       )}
     </Formik>
@@ -183,6 +180,9 @@ export const SliderMultiRangeInFormik = () => {
   type Values = {
     ramRange: [number, number]
   }
+
+  const validateRAMRange = ([value]: [number, number]) => (value <= 4 ? 'Lower boundary is too low' : undefined)
+
   return (
     <Formik<Values>
       initialValues={{
@@ -191,19 +191,13 @@ export const SliderMultiRangeInFormik = () => {
       initialErrors={{
         ramRange: 'Server Error: Invalid ram rannge for this cloud provider',
       }}
-      validate={(values) => {
-        const errors: Partial<{ [key in keyof Values]: string }> = {
-          ramRange: values.ramRange[0] < 4 ? 'RAM is invalid' : undefined,
-        }
-
-        return errors
-      }}
       onSubmit={(values) => logger.log('submit', values)}
     >
       {({ values }) => (
         <Form>
           Values: {JSON.stringify(values)}
-          <SliderFormik<Values> name="ramRange" label="Slider's label" min={0} max={100} />
+          <SliderFormik<Values> name="ramRange" label="Slider's label" min={0} max={100} validate={validateRAMRange} />
+          <button type="submit">Submit</button>
         </Form>
       )}
     </Formik>

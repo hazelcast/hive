@@ -85,6 +85,11 @@ export function getMarkMetadata(
  * Slider component
  * https://www.w3.org/TR/wai-aria-practices-1.2/#slidertwothumb
  *
+ * Slider component is a component that let users choose a single value or a range within a defined scope (min <> max).
+ * If you provide [number, number] type as a value, the component will behave as a component that let's you choose
+ * range of values. Typescript guards you to provide corresponding onChange handler that corresponds to the value type.
+ *
+ * You can optionally pass formatCurrentValue in order to modify the way how current value is displayed.
  * When providing a single value, it behaves
  */
 export function Slider<T extends Value = number>({
