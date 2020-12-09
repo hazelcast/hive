@@ -1,0 +1,137 @@
+@use '../styles/constants' as c;
+@use '../styles/helpers' as h;
+
+$selectHorizontalPadding: c.$grid * 3;
+$menuMargin: c.$grid * 3;
+
+$select: ':global .hz-select-field__control';
+
+.container {
+  .errorContainer {
+    margin-top: c.$grid;
+  }
+
+  .selectBlock {
+    margin-top: c.$grid;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .helperText {
+    margin-left: c.$grid;
+    display: block;
+  }
+
+  .chevron {
+    transition: 0;
+    color: c.$colorPrimary;
+    margin-left: $selectHorizontalPadding;
+  }
+  :global .hz-select-field__control--menu-is-open :local .chevron {
+    transform: rotate(180deg);
+  }
+
+  .clear {
+    margin-left: $selectHorizontalPadding;
+  }
+
+  :global .hz-select-field {
+    flex: 1 1 auto;
+
+    @include c.typographyBodySmall;
+  }
+
+  :global .hz-select-field__value-container {
+    padding: 0;
+  }
+
+  :global .hz-select-field__indicator-separator {
+    display: none;
+  }
+
+  #{$select} {
+    cursor: pointer;
+    color: c.$colorText;
+    height: c.$inputHeight;
+    padding-left: c.$grid * 3;
+    padding-right: c.$grid * 2;
+    box-sizing: border-box;
+    border: c.$borderWidth solid c.$colorNeutralLight;
+    border-radius: c.$borderRadius;
+    background-color: c.$colorNeutralLighter;
+    transition: none;
+  }
+
+  &.disabled {
+    #{$select} {
+      color: c.$colorTextSecondary;
+      background-color: c.$colorNeutral;
+      border-color: c.$colorNeutralLight;
+    }
+
+    .chevron {
+      transition: 0;
+      color: c.$colorTextSecondary;
+    }
+  }
+
+  &.hasError {
+    #{$select} {
+      border-color: c.$colorError;
+    }
+  }
+
+  // We target specifically #{$select} not to apply hover styles to the select when a helper icon is hovered
+  #{$select}:hover,
+  &.hover #{$select} {
+    border-color: c.$colorPrimary;
+    transition: none;
+  }
+
+  &.focus #{$select},
+  #{$select}.hz-select-field__control--is-focused {
+    @include h.outlineFormField;
+  }
+}
+
+.menuContainer {
+  :global .hz-select-field__menu {
+    margin-top: $menuMargin;
+    margin-bottom: $menuMargin;
+    border: c.$borderWidth solid c.$colorNeutralLight;
+    border-radius: c.$borderRadius;
+    background-color: c.$colorNeutralLighter;
+    overflow: hidden;
+    box-shadow: 0 c.$selectMenuShadowSize c.$selectMenuShadowBlur 0 c.$colorShadow;
+
+    @include c.typographyBodySmall;
+
+    :global .hz-select-field__menu-list {
+      padding: 0;
+      color: c.$colorTextSecondary;
+    }
+
+    :global .hz-select-field__option,
+    :global .hz-select-field__menu-notice {
+      height: c.$inputHeight;
+      line-height: c.$inputHeight;
+      padding: 0 $selectHorizontalPadding;
+      background-color: transparent;
+      // Do not remove outline for high-contrast modes
+      // https://stackoverflow.com/a/52616313
+      outline: c.$outlineWidth solid transparent;
+      text-align: left;
+
+      &:global.hz-select-field__option--is-focused {
+        @include h.outlineSimple;
+
+        color: c.$colorText;
+      }
+
+      &:global.hz-select-field__option--is-selected {
+        color: c.$colorPrimary;
+      }
+    }
+  }
+}

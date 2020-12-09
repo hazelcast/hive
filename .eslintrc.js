@@ -28,6 +28,7 @@ module.exports = {
         },
       },
     ],
+    'jsx-a11y/no-autofocus': 'off',
   },
   settings: {
     // https://github.com/yannickcr/eslint-plugin-react#configuration

@@ -1,10 +1,11 @@
 import React, { ChangeEvent, useLayoutEffect, useRef, useState } from 'react'
 import { logger } from '@hazelcast/services'
+import { Form, Formik } from 'formik'
 
 import { PasswordField, VisibleRef } from '../src/PasswordField'
-import styles from '../src/TextField.module.scss'
-import { Form, Formik } from 'formik'
 import { PasswordFieldFormik } from '../src/PasswordFieldFormik'
+
+import styles from '../src/TextField.module.scss'
 
 const eventHandlers = {
   onBlur: () => logger.log('blur'),
@@ -79,6 +80,17 @@ export const Disabled = () => (
 
 export const Empty = () => <PasswordField name="name" placeholder="Enter the name" label="Wisest jedi" {...eventHandlers} />
 
+export const Autofill = () => (
+  <PasswordField
+    name="name"
+    value="password"
+    placeholder="Enter the name"
+    label="Wisest jedi"
+    className={styles.mockAutofill}
+    {...eventHandlers}
+  />
+)
+
 export const Visible = () => {
   const visibleRef = useRef<VisibleRef>(null)
 
@@ -111,7 +123,7 @@ export const WithHelperText = () => (
 )
 
 export const PasswordWrappedInFormik = () => {
-  const validatePasswordLength = (value: string) => (value.length < 4 ? 'Password is too short' : undefined)
+  const validatePasswordLength = (value: string | undefined) => (!value || value.length < 4 ? 'Password is too short' : undefined)
 
   type Values = {
     password: string

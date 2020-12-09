@@ -1,9 +1,9 @@
 import React, { ChangeEvent, FC, FocusEvent, ReactElement, useRef } from 'react'
-import { v4 as uuid } from 'uuid'
 import cn from 'classnames'
 import useResizeAware from 'react-resize-aware'
 import { DataTestProp } from '@hazelcast/helpers'
-import { useIsomorphicLayoutEffect } from 'react-use'
+import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
+import { useUID } from 'react-uid'
 
 import { Error, errorId } from './Error'
 import { Help } from './Help'
@@ -48,7 +48,7 @@ export const TextArea: FC<TextAreaProps> = ({
   'data-test': dataTest,
   ...htmlAttrs
 }) => {
-  const idRef = useRef(uuid())
+  const id = useUID()
 
   const popperRef = useRef<PopperRef>()
   const [resizeListener, sizes] = useResizeAware()
@@ -71,14 +71,14 @@ export const TextArea: FC<TextAreaProps> = ({
         className,
       )}
     >
-      <Label id={idRef.current} label={label} />
+      <Label id={id} label={label} />
       <div className={styles.textAreaContainer}>
         <div className={styles.textAreaWrapper}>
           <textarea
             aria-invalid={!!error}
             aria-required={required}
-            aria-errormessage={error && errorId(idRef.current)}
-            id={idRef.current}
+            aria-errormessage={error && errorId(id)}
+            id={id}
             className={cn(
               {
                 [styles.notResizable]: !resizable,
@@ -98,16 +98,10 @@ export const TextArea: FC<TextAreaProps> = ({
           {helperText && resizeListener}
         </div>
         {helperText && (
-          <Help
-            data-test="textarea-helperText"
-            parentId={idRef.current}
-            helperText={helperText}
-            className={styles.helperText}
-            popperRef={popperRef}
-          />
+          <Help data-test="textarea-helperText" parentId={id} helperText={helperText} className={styles.helperText} popperRef={popperRef} />
         )}
       </div>
-      <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={idRef.current} />
+      <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
     </div>
   )
 }

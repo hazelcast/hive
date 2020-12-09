@@ -1,11 +1,13 @@
 import React, { AriaAttributes, ChangeEvent, FC, FocusEvent, useRef } from 'react'
-import styles from './Checkbox.module.scss'
 import { Check, Minus } from 'react-feather'
+import { DataTestProp } from '@hazelcast/helpers'
+import { useUID } from 'react-uid'
 import classNames from 'classnames'
+
 import { Error, errorId } from './Error'
 import { Help, helpTooltipId } from './Help'
-import { v4 as uuid } from 'uuid'
-import { DataTestProp } from '@hazelcast/helpers'
+
+import styles from './Checkbox.module.scss'
 
 type CheckboxCoreProps = {
   name: string
@@ -55,7 +57,7 @@ export const Checkbox: FC<CheckboxProps> = ({
   'data-test': dataTest,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null)
-  const idRef = useRef(uuid())
+  const id = useUID()
 
   let ariaChecked: AriaAttributes['aria-checked'] = checked ? 'true' : 'false'
   if (indeterminate) {
@@ -78,7 +80,7 @@ export const Checkbox: FC<CheckboxProps> = ({
           },
           classNameLabel,
         )}
-        htmlFor={idRef.current}
+        htmlFor={id}
       >
         <span className={styles.name} data-test="input-checkbox-label">
           {label}
@@ -86,7 +88,7 @@ export const Checkbox: FC<CheckboxProps> = ({
         <input
           type="checkbox"
           ref={inputRef}
-          id={idRef.current}
+          id={id}
           name={name}
           checked={!!checked}
           onChange={onChange}
@@ -96,13 +98,13 @@ export const Checkbox: FC<CheckboxProps> = ({
           aria-checked={ariaChecked}
           aria-invalid={!!error}
           aria-required={required}
-          aria-describedby={helperText && helpTooltipId(idRef.current)}
-          aria-errormessage={error && errorId(idRef.current)}
+          aria-describedby={helperText && helpTooltipId(id)}
+          aria-errormessage={error && errorId(id)}
         />
         {indeterminate ? <Minus className={styles.checkmark} /> : <Check className={styles.checkmark} />}
-        {helperText && <Help parentId={idRef.current} helperText={helperText} />}
+        {helperText && <Help parentId={id} helperText={helperText} />}
       </label>
-      <Error error={error} className={styles.errorContainer} inputId={idRef.current} />
+      <Error error={error} className={styles.errorContainer} inputId={id} />
     </div>
   )
 }
