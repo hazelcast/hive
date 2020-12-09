@@ -3,6 +3,7 @@
 
 // thumb width without a white border, let's make it the height of the slider
 $thumbWidth: c.$slideTrackHeight;
+$currentValueIndicatorHeight: c.$grid * 6;
 
 // We've double checked that everything works in IE11
 /* doiuse-disable calc */
@@ -21,7 +22,7 @@ $thumbWidth: c.$slideTrackHeight;
 
 @mixin thumb() {
   box-shadow: 0 c.$sliderThumbShadowSize c.$sliderThumbShadowBlur c.$colorShadow;
-  background: c.$colorPrimaryLight; // background will represent the dot inside
+  background: c.$colorSuccessLight; // background will represent the dot inside
   border: c.$sliderThumbBorderSize solid c.$colorNeutralWhite; // the white part will be done by the border
   box-sizing: content-box; /* and because of all of this, we need content-box */
   border-radius: 50%;
@@ -52,13 +53,31 @@ ul.markDescriptions {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  height: c.$grid * 6;
+  height: c.$grid * 8;
   position: relative;
+  font-size: c.$fontSizeBodySmall;
+  color: c.$colorTextSecondary;
 
   > li {
     position: absolute;
     bottom: c.$grid;
     transform: translateX(-50%);
+  }
+}
+
+.valueIndicators {
+  padding: 0;
+  height: $currentValueIndicatorHeight;
+  position: relative;
+  width: calc(100% - #{c.$sliderThumbBorderSize} - #{c.$sliderThumbShadowSize});
+  margin: 0 auto;
+
+  > span {
+    position: absolute;
+    top: c.$grid;
+    transform: translateX(-50%);
+    font-size: c.$fontSizeBodyNormal;
+    font-weight: c.$fontWeightTextBold;
   }
 }
 
@@ -157,6 +176,7 @@ ul.markDescriptions {
       background: c.$colorNeutral;
       border: c.$sliderFillBorderSize solid c.$colorNeutralLight;
       width: 100%;
+      position: relative;
 
       // if the actual fill is very small the border is rounded, it can reach out of the wrapper
       overflow: hidden;
@@ -175,16 +195,18 @@ ul.markDescriptions {
         $markWidth: 2px;
 
         width: calc(100% - #{$markWidth}); // so that 0% & 100% marks are visible
+        height: 100%;
         margin: 0;
         padding: 0;
         list-style-type: none;
-        height: 100%;
-        position: relative;
+        position: absolute;
+        top: 0;
         pointer-events: none;
 
         > li {
           position: absolute;
           width: $markWidth;
+          height: 100%;
           background-color: c.$colorTextSecondary;
 
           &.active {
@@ -193,39 +215,43 @@ ul.markDescriptions {
         }
       }
     }
-
-    &.disabled {
-      ul.markDescriptions {
-        color: c.$colorNeutralLight;
-      }
-
-      .fillPlaceholder {
-        background-color: c.$colorNeutral;
-
-        .fill {
-          background-color: c.$colorNeutralLight;
-        }
-
-        ul.marks {
-          > li {
-            background-color: c.$colorNeutralLight;
-          }
-        }
-      }
-
-      input[type='range']:disabled {
-        @include styleThumb {
-          box-shadow: 0 0 0 c.$sliderThumbHoverBorderSize c.$colorNeutral;
-          background: c.$colorNeutralLight;
-        }
-      }
-    }
   }
 
   .helperText {
     margin-left: c.$sliderThumbBorderSize;
     align-self: flex-end;
+    margin-bottom: $currentValueIndicatorHeight;
     height: calc(#{c.$sliderThumbBorderSize} * 2 + #{c.$slideTrackHeight});
+  }
+
+  &.disabled {
+    .valueIndicators {
+      color: c.$colorNeutralLight;
+    }
+    ul.markDescriptions {
+      color: c.$colorNeutralLight;
+    }
+
+    .fillPlaceholder {
+      background-color: c.$colorNeutral;
+
+      .fill {
+        background-color: c.$colorNeutralLight;
+      }
+
+      ul.marks {
+        > li {
+          background-color: c.$colorNeutralLight;
+        }
+      }
+    }
+
+    input[type='range']:disabled {
+      @include styleThumb {
+        box-shadow: 0 0 0 c.$sliderThumbHoverBorderSize c.$colorNeutral;
+        background: c.$colorNeutralLight;
+      }
+    }
   }
 }
 

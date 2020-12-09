@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useCallback, useEffect, useRef } from 'react'
 import { DataTestProp } from '@hazelcast/helpers'
 import { v4 as uuid } from 'uuid'
+import useEvent from 'react-use/lib/useEvent'
 import cn from 'classnames'
 
 import { Error, errorId } from './Error'
@@ -109,6 +110,7 @@ export function Slider<T extends Value = number>({
    *    | Inner wrapper                                     |                |
    *    |  - markDescriptions                               |                |
    *    |  - input wrapper                                  | Help component |
+   *    |  - current value indicator                        |                |
    *    ----------------------------------------------------------------------
    *
    *    where
@@ -152,7 +154,7 @@ export function Slider<T extends Value = number>({
    * user clicks on a track.
    *
    * 1. We always move the first thumb in a non-range mode.
-   * 2. Otherwise, we move the thumb that is closed to a click event.
+   * 2. Otherwise, we move the thumb that is closer to a clicked point.
    * 3. We focus the thumb after it is clicked.
    */
   const clickOnTrackHandler = useCallback(
@@ -178,15 +180,10 @@ export function Slider<T extends Value = number>({
     [wrapperRef, firstValue, secondValue, disabled, isRange, max, step, updateValues],
   )
 
-  useEffect(() => {
-    window.addEventListener('click', clickOnTrackHandler)
-    return () => {
-      window.removeEventListener('click', clickOnTrackHandler)
-    }
-  }, [clickOnTrackHandler])
+  useEvent('click', clickOnTrackHandler)
 
   /**
-   * The following callbacks reacts to native HTML events and update the values
+   * The following callbacks react to native HTML events and update the values
    */
   const setFirstValueCallback = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -194,10 +191,9 @@ export function Slider<T extends Value = number>({
         target: { value },
       } = e
       const newValue = parseInt(value, 10)
-      if (newValue > secondValue) {
-        return false
+      if (newValue <= secondValue) {
+        updateValues([newValue, null], e)
       }
-      updateValues([newValue, null], e)
     },
     [secondValue, updateValues],
   )
@@ -208,21 +204,25 @@ export function Slider<T extends Value = number>({
         target: { value },
       } = e
       const newValue = parseInt(value, 10)
-      if (newValue < firstValue) {
-        return false
+      if (newValue >= firstValue) {
+        updateValues([null, newValue], e)
       }
-      updateValues([null, newValue], e)
     },
     [firstValue, updateValues],
   )
 
   const width: number = ((secondValue - firstValue) / max) * 100
   const left: number = firstValue / max
+  const secondValueLeft: number = secondValue / max
 
   return (
     <div className={className} data-test={dataTest}>
       <Label id={idRef.current} label={label} />
-      <div className={styles.wrapper}>
+      <div
+        className={cn(styles.wrapper, {
+          [styles.disabled]: disabled,
+        })}
+      >
         <div className={styles.innerWrapper}>
           {/*
           Marks Descriptions
@@ -239,13 +239,7 @@ export function Slider<T extends Value = number>({
               })}
             </ul>
           )}
-          <div
-            className={cn(styles.inputWrapper, {
-              [styles.disabled]: disabled,
-            })}
-            role="group"
-            ref={wrapperRef}
-          >
+          <div className={styles.inputWrapper} role="group" ref={wrapperRef}>
             {firstValue !== undefined && (
               <input
                 id={idRef.current}
@@ -330,6 +324,24 @@ export function Slider<T extends Value = number>({
                 </ul>
               )}
             </div>
+          </div>
+          <div className={styles.valueIndicators}>
+            <span
+              style={{
+                left: `${left * 100}%`,
+              }}
+            >
+              {firstValue}
+            </span>
+            {isRange && (
+              <span
+                style={{
+                  left: `${secondValueLeft * 100}%`,
+                }}
+              >
+                {secondValue}
+              </span>
+            )}
           </div>
         </div>
         {helperText && <Help parentId={idRef.current} helperText={helperText} className={styles.helperText} />}
