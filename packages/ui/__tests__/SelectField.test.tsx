@@ -1,5 +1,5 @@
 import React from 'react'
-import { v4 as uuid } from 'uuid'
+import { useUID } from 'react-uid'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import ReactSelect from 'react-select'
 import { X } from 'react-feather'
@@ -11,9 +11,9 @@ import { IconButton } from '../src/IconButton'
 
 import styles from '../src/SelectField.module.scss'
 
-jest.mock('uuid')
+jest.mock('react-uid')
 
-const uuidMock = uuid as jest.Mock<ReturnType<typeof uuid>>
+const useUIDMock = useUID as jest.Mock<ReturnType<typeof useUID>>
 
 const selectId = 'selectId'
 const selectName = 'selectName'
@@ -28,7 +28,7 @@ const selectOptions: SelectFieldOption<string>[] = [
 
 describe('SelectField', () => {
   beforeEach(() => {
-    uuidMock.mockImplementation(() => selectId)
+    useUIDMock.mockImplementation(() => selectId)
   })
 
   it('Renders the default with correct props', async () => {
