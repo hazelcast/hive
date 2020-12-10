@@ -9,7 +9,7 @@ import { Tooltip, TooltipProps } from './Tooltip'
 
 import styles from './Button.module.scss'
 
-export type ButtonKind = 'primary' | 'secondary' | 'transparent'
+export type ButtonKind = 'primary' | 'secondary' | 'danger' | 'transparent'
 
 // Left icon is always present with proper aria-label attribute
 export type ButtonAccessibleIconLeftProps =
@@ -74,7 +74,7 @@ export type ButtonProps = ButtonCommonProps &
  * Prioritize the actions on a page and use the button sizes and types to make it clear to users which are the most important. If you have many actions, consider using button links to offer less important ones.
  *
  * ### General Info
- * - Use 2 types of Button: Primary and Secondary
+ * - Use 4 types of Button: Primary, Secondary, Danger and Transparent
  * - All buttons have unified height of 40px
  * - Button can stand only with the label, icon on the left side, icon on the right side, icon on both left and right side, or only icon (depends on the type of the button).
  * - You can use an icon with the label to draw more attention.
@@ -84,6 +84,8 @@ export type ButtonProps = ButtonCommonProps &
  * ### Usage
  * - **Primary**: Use primary button for the single primary action on the screen. To call attention to an action on a form, or highlight the strongest call to action on a page. Primary button should only appear once per screen. Not every screen requires a primary button.
  * - **Secondary**: Use secondary buttons for all remaining actions. Secondary button is the standard button for most use cases.
+ * - **Danger**: Use danger button for potentially destructive actions.
+ * - **Transparent**: Use for IconButton and similar use-cases.
  */
 export const Button = forwardRef<HTMLElement, ButtonProps>(
   (
@@ -131,6 +133,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
               {
                 [styles.primary]: kind === 'primary',
                 [styles.secondary]: kind === 'secondary',
+                [styles.danger]: kind === 'danger',
                 [styles.transparent]: kind === 'transparent',
               },
               className,

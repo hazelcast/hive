@@ -231,6 +231,95 @@ export const SecondaryIconBothActive = () => (
   </Button>
 )
 
+export const Danger = () => <Button kind="danger">Danger</Button>
+
+export const DangerHover = () => (
+  <Button className={styles.hover} kind="danger">
+    Danger
+  </Button>
+)
+
+export const DangerFocused = () => (
+  <Button className={styles.focus} kind="danger">
+    Danger
+  </Button>
+)
+
+export const DangerActive = () => (
+  <Button className={styles.active} kind="danger">
+    Danger
+  </Button>
+)
+
+export const DangerDisabled = () => (
+  <Button disabled disabledTooltip="Disabled tooltip" kind="danger">
+    Danger
+  </Button>
+)
+
+export const DangerDisabledTooltip = () => (
+  <Button disabled disabledTooltip="Disabled tooltip" disabledTooltipVisible kind="danger">
+    Danger
+  </Button>
+)
+
+export const DangerIconLeft = () => (
+  <Button kind="danger" iconLeft={Info} iconLeftAriaLabel="Info icon">
+    Danger
+  </Button>
+)
+
+export const DangerIconRight = () => (
+  <Button kind="danger" iconRight={ChevronDown} iconRightAriaLabel="Chevron icon">
+    Danger
+  </Button>
+)
+
+export const DangerIconBoth = () => (
+  <Button kind="danger" iconLeft={Info} iconLeftAriaLabel="Info icon" iconRight={ChevronDown} iconRightAriaLabel="Chevron icon">
+    Danger
+  </Button>
+)
+
+export const DangerIconBothHovered = () => (
+  <Button
+    className={styles.hover}
+    kind="danger"
+    iconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+    iconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+  >
+    Danger
+  </Button>
+)
+
+export const DangerIconBothFocused = () => (
+  <Button
+    className={styles.focus}
+    kind="danger"
+    iconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+    iconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+  >
+    Danger
+  </Button>
+)
+
+export const DangerIconBothActive = () => (
+  <Button
+    className={styles.active}
+    kind="danger"
+    iconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+    iconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+  >
+    Danger
+  </Button>
+)
+
 export const Transparent = () => <Button kind="transparent">Transparent</Button>
 
 export const TransparentHovered = () => (

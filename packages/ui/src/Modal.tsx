@@ -9,7 +9,7 @@ import { IconButton } from './IconButton'
 import styles from './Modal.module.scss'
 import { Button } from './Button'
 
-type ActionProps =
+export type ModalActionProps =
   | {
       action: string
       onAction: () => void
@@ -25,7 +25,7 @@ export type ModalProps = {
   title: string
   onClose?: ReactModalProps['onRequestClose']
 } & DataTestProp &
-  ActionProps &
+  ModalActionProps &
   Exclude<ReactModalProps, 'onRequestClose' | 'shouldFocusAfterRender' | 'shouldReturnFocusAfterClose'>
 
 export const Modal: FC<ModalProps> = ({

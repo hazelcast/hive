@@ -125,6 +125,17 @@
     }
   }
 
+  // Kind === danger
+  &.danger {
+    color: c.$colorNeutralWhite;
+    background-color: c.$colorError;
+
+    &:disabled {
+      color: c.$colorTextSecondary;
+      background-color: c.$colorNeutral;
+    }
+  }
+
   // Kind === transparent
   &.transparent {
     color: inherit;
