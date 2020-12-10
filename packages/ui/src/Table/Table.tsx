@@ -144,7 +144,7 @@ export function Table<D extends object>({
                         isSortedDesc={column.isSortedDesc}
                         canResize={column.canResize}
                         isResizing={column.isResizing}
-                        resizerProps={column.getResizerProps()}
+                        getResizerProps={column.getResizerProps}
                         {...restHeaderProps}
                       >
                         <EnhancedHeaderRenderer column={column} columnResizing={columnResizing} />

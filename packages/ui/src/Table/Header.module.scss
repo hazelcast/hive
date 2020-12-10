@@ -40,6 +40,7 @@
     position: absolute;
     top: 0;
     z-index: 1;
+    cursor: 'col-action';
     // Prevents from scrolling while dragging on touch devices
     /* doiuse-disable css-touch-action */
     touch-action: none;

@@ -27,7 +27,7 @@ const CellWarning: FC<CellWarningProps> = ({ align, warning }) => {
             [styles.right]: align === 'right',
           })}
         >
-          <Icon icon={AlertTriangle} ariaLabel={warning} size="small" aria-labelledby={id} />
+          <Icon icon={AlertTriangle} ariaLabel="Warning" aria-describedby={id} size="small" aria-labelledby={id} />
         </div>
       )}
     </Tooltip>

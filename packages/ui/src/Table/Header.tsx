@@ -1,10 +1,11 @@
 import React, { FC, useMemo } from 'react'
+import { ChevronDown, ChevronUp } from 'react-feather'
+import { TableHeaderProps, TableResizerProps } from 'react-table'
 import cn from 'classnames'
 
 import { Icon } from '../Icon'
+
 import styles from './Header.module.scss'
-import { ChevronDown, ChevronUp } from 'react-feather'
-import { TableHeaderProps, TableResizerProps } from 'react-table'
 
 export type HeaderProps = {
   /**
@@ -19,10 +20,10 @@ export type HeaderProps = {
   onClick?: () => void
   canResize: boolean
   isResizing: boolean
-  resizerProps: TableResizerProps
-}
+  getResizerProps: (props?: Partial<TableResizerProps>) => TableResizerProps
+} & TableHeaderProps
 
-export const Header: FC<HeaderProps & TableHeaderProps> = ({
+export const Header: FC<HeaderProps> = ({
   align = 'left',
   colSpan,
   children,
@@ -31,7 +32,7 @@ export const Header: FC<HeaderProps & TableHeaderProps> = ({
   isSortedDesc,
   canResize,
   isResizing,
-  resizerProps,
+  getResizerProps,
   onClick,
   style,
   className,
@@ -59,6 +60,7 @@ export const Header: FC<HeaderProps & TableHeaderProps> = ({
 
   return (
     <div
+      data-test="table-header"
       className={cn(
         styles.th,
         {
@@ -81,7 +83,8 @@ export const Header: FC<HeaderProps & TableHeaderProps> = ({
       {canSort && (align === 'left' || align === 'center') && Chevron}
       {canResize && (
         <div
-          {...resizerProps}
+          data-test="table-header-column-resizer"
+          {...getResizerProps()}
           className={cn(styles.resizer, {
             [styles.isResizing]: isResizing,
           })}
