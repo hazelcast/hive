@@ -40,6 +40,11 @@ $label-margin: 12px;
     position: relative;
   }
 
+  // disabled state
+  .disabled .toggle-track {
+    opacity: .3;
+  }
+
   // track on state
   input[type="checkbox"]:checked + label .toggle-track {
     background: $track-bg-on;
@@ -74,4 +79,8 @@ $label-margin: 12px;
     font-size: .9rem;
     color: #fff;
   }
+}
+
+.errorContainer {
+  margin-top: c.$grid;
 }

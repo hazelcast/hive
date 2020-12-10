@@ -1,37 +1,45 @@
-import React, { FC, ReactElement, FocusEvent, ChangeEvent, AriaAttributes, useRef } from 'react'
+import React, { FC, FocusEvent, ChangeEvent, AriaAttributes, useRef } from 'react'
 import cn from 'classnames'
-import { v4 as uuid } from 'uuid'
+import { errorId } from './Error'
+// import { Error, errorId } from './Error'
+import { Help, helpTooltipId } from './Help'
+import { useUID } from 'react-uid'
 import { DataTestProp } from '@hazelcast/helpers'
 import styles from './Toggle.module.scss'
 
 export type ToggleCoreProps = {
   name: string
-  checked: boolean
+  value?: string
+  checked?: boolean
   onBlur?: (e: FocusEvent<HTMLInputElement>) => void
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void
-  label: string | ReactElement
   error?: string
-  touched?: boolean,
 
-  // xxx
+  label: string | React.ReactNode
+  helperText?: string
+  disabled?: boolean
   className?: string
+  classNameLabel?: string
 }
 
 export type ToggleProps = ToggleCoreProps & DataTestProp
 
 export const Toggle: FC<ToggleProps> = ({
   name,
-  checked,
+  value,
   onChange,
   onBlur,
-  label,
   error,
-  touched,
+  checked,
+  label,
+  helperText,
+  disabled,
   className,
+  classNameLabel,
   'data-test': dataTest,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null)
-  const idRef = useRef(uuid())
+  const id = useUID()
 
   let ariaChecked: AriaAttributes['aria-checked'] = checked ? 'true' : 'false'
 
@@ -40,24 +48,28 @@ export const Toggle: FC<ToggleProps> = ({
       <input
         type="checkbox"
         ref={inputRef}
-        id={idRef.current}
+        id={id}
         name={name}
         checked={!!checked}
         onChange={onChange}
         onBlur={onBlur}
-        // value={value} xxx
-        // disabled={disabled}
+        value={value}
+        disabled={disabled}
         aria-checked={ariaChecked}
-        // aria-invalid={!!error}
-        // aria-required={required}
-        // aria-describedby={helperText && helpTooltipId(idRef.current)}
-        // aria-errormessage={error && errorId(idRef.current)}
+        aria-invalid={!!error}
+        aria-describedby={helperText && helpTooltipId(id)}
+        aria-errormessage={error && errorId(id)}
       />
 
-      <label htmlFor={idRef.current}>
+      <label className={cn(classNameLabel, {[styles.disabled]: disabled})} htmlFor={id}>
         <span className={cn(styles.label)}>{label}</span>
         <span className={cn(styles['toggle-track'])}></span>
       </label>
+
+      {helperText && <Help parentId={id} helperText={helperText} />}
+
+      {/* xxx why does this fail? */}
+      {/* {error && <Error error={error} className={styles.errorContainer} inputId={id} />} */}
     </div>
   )
 }
