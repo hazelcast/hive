@@ -1,5 +1,5 @@
 import React from 'react'
-import { Archive, Database, Layers } from 'react-feather'
+import { Database } from 'react-feather'
 
 import { Card } from '../src'
 
@@ -13,92 +13,49 @@ export default {
   component: Card,
 }
 
-export const Primary = () => (
-  <Card type="primary" title="Card title">
+export const CardSimple = () => <Card title="Card title">{cardContent}</Card>
+
+CardSimple.parameters = {
+  design: {
+    type: 'figma',
+    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE-Hazelcast-Design-System?node-id=10093%3A8',
+  },
+}
+
+export const CardWithSeparator = () => (
+  <Card title="Card title" separator>
     {cardContent}
   </Card>
 )
 
-export const PrimaryWithSmallText = () => (
-  <Card type="primary" title="Card title">
+CardWithSeparator.parameters = {
+  design: {
+    type: 'figma',
+    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE-Hazelcast-Design-System?node-id=10093%3A21',
+  },
+}
+
+export const CardWithIcon = () => (
+  <Card title="Card title" icon={Database}>
+    {cardContent}
+  </Card>
+)
+
+CardWithIcon.parameters = {
+  design: {
+    type: 'figma',
+    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE-Hazelcast-Design-System?node-id=10181%3A15',
+  },
+}
+
+export const CardWithIconAndSeparator = () => (
+  <Card title="Card title" icon={Database} separator>
+    {cardContent}
+  </Card>
+)
+
+export const CardWithSmallText = () => (
+  <Card title="Card title">
     <div className={styles.typographyBodySmall}>{cardContent}</div>
-  </Card>
-)
-
-export const PrimaryWithIcon = () => (
-  <Card type="primary" title="Card title" icon={Database}>
-    {cardContent}
-  </Card>
-)
-
-export const PrimaryWithIconButton = () => (
-  <Card type="primary" title="Card title" iconButtonProps={{ iconAriaLabel: 'Database', icon: Database }}>
-    {cardContent}
-  </Card>
-)
-
-export const PrimaryWithoutHeader = () => <Card type="primary">{cardContent}</Card>
-
-export const Secondary = () => (
-  <Card type="secondary" title="Card title">
-    {cardContent}
-  </Card>
-)
-
-export const SecondaryWithSmallText = () => (
-  <Card type="secondary" title="Card title">
-    <div className={styles.typographyBodySmall}>{cardContent}</div>
-  </Card>
-)
-
-export const SecondaryWithIcon = () => (
-  <Card type="secondary" title="Card title" icon={Database}>
-    {cardContent}
-  </Card>
-)
-
-export const SecondaryWithIconButton = () => (
-  <Card type="secondary" title="Card title" iconButtonProps={{ iconAriaLabel: 'Database', icon: Database }}>
-    {cardContent}
-  </Card>
-)
-
-export const SecondaryWithoutHeader = () => <Card type="secondary">{cardContent}</Card>
-
-export const Highlighter = () => (
-  <Card title="Card title" type="highlighter">
-    {cardContent}
-  </Card>
-)
-
-export const HighlighterWithSmallText = () => (
-  <Card type="highlighter" title="Card title">
-    <div className={styles.typographyBodySmall}>{cardContent}</div>
-  </Card>
-)
-
-export const HighlighterWithIcon = () => (
-  <Card title="Card title" type="highlighter" icon={Database}>
-    {cardContent}
-  </Card>
-)
-
-export const HighlighterWithIconButton = () => (
-  <Card title="Card title" type="highlighter" iconButtonProps={{ iconAriaLabel: 'Database', icon: Database }}>
-    {cardContent}
-  </Card>
-)
-
-export const Stacked = () => (
-  <Card title="Stacked cards" icon={Layers}>
-    <Card title="Highlighter" type="highlighter">
-      {cardContent}
-    </Card>
-
-    <br />
-
-    <Card title="Archive" type="secondary" icon={Archive}>
-      {cardContent}
-    </Card>
   </Card>
 )

@@ -1,46 +1,36 @@
 @use '../styles/constants' as c;
 
 .wrapper {
-  display: flex;
-  flex-direction: column;
+  padding: c.$grid * 5;
   box-shadow: 0 c.$cardShadowSize c.$cardShadowBlur 0 c.$colorShadow;
   border-radius: c.$borderRadius;
   background: c.$colorNeutralWhite;
 
-  &.typeSecondary {
-    background: none;
-    border: c.$borderWidth solid c.$colorNeutralLight;
-    box-shadow: none;
-  }
-
-  &.typeHighlighter {
-    background: c.$colorInfoLight;
-    box-shadow: none;
-  }
-
-  h2.heading {
-    @include c.typographyH2();
-  }
-
   h3.heading {
     @include c.typographyH3();
-  }
 
-  .heading {
     display: flex;
     align-items: center;
-    padding: c.$grid * 6 c.$grid * 6 0;
-    margin: 0;
+    padding: 0;
+    margin: 0 0 c.$grid * 4;
 
     .icon {
       line-height: 1;
-      margin-left: c.$grid * 2;
+      margin-right: c.$grid * 2.5;
     }
+  }
+
+  .separator {
+    display: block;
+    width: 100%;
+    height: 1px;
+    margin: c.$grid * 4 0;
+    background: c.$colorNeutral;
   }
 
   .content {
     @include c.typographyBodyNormal;
 
-    padding: c.$grid * 6;
+    margin-top: c.$grid * 4;
   }
 }

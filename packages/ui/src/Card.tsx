@@ -1,84 +1,37 @@
 import React, { FC } from 'react'
 import { Icon, IconProps } from './Icon'
 import { DataTestProp } from '@hazelcast/helpers'
-import cn from 'classnames'
 
-import { IconButton, IconButtonProps } from './IconButton'
-
-import styleConsts from '../styles/constants/export.scss'
 import styles from './Card.module.scss'
 
-type CardHeaderProps =
-  | {
-      title: string
-      icon?: IconProps['icon']
-      iconButtonProps?: never
-    }
-  | {
-      title: string
-      iconButtonProps?: Omit<IconButtonProps, 'size' | 'kind'>
-      icon?: never
-    }
-  | {
-      title?: never
-      iconButtonProps?: never
-      icon?: never
-    }
-
 export type CardProps = {
-  type?: 'primary' | 'secondary' | 'highlighter'
-} & CardHeaderProps &
-  DataTestProp
+  title: string
+  icon?: IconProps['icon']
+  separator?: boolean
+} & DataTestProp
 
 /**
  * ### Purpose
  * Card components define content hierarchy (visual and logical), separating content into "groups".
  *
  * ### General Info
- * - There are three types of Cards - "Primary", "Secondary" and "Highlighter".
- * - "Secondary" and "Highlighter" Cards should be used only within "Primary" Cards.
- * - Card can display an icon next to Card heading. This icon can be static or interactive (button).
+ * - Card can be rendered with an optional separator and/or icon.
  */
-export const Card: FC<CardProps> = ({ type = 'primary', title, icon, iconButtonProps, 'data-test': dataTest, children }) => {
-  let iconElement: JSX.Element | null = null
+export const Card: FC<CardProps> = ({ title, icon, separator = false, 'data-test': dataTest, children }) => (
+  <div data-test={dataTest ?? 'card-wrapper'} className={styles.wrapper}>
+    {title && (
+      <>
+        <h3 data-test="card-heading" className={styles.heading}>
+          {icon && <Icon icon={icon} className={styles.icon} ariaHidden />}
+          {title}
+        </h3>
+      </>
+    )}
 
-  if (icon !== undefined) {
-    iconElement = <Icon icon={icon} color={styleConsts.colorPrimary} size={type === 'primary' ? 'normal' : 'small'} ariaHidden />
-  }
+    {separator && <span data-test="card-separator" className={styles.separator} />}
 
-  if (iconButtonProps !== undefined) {
-    iconElement = (
-      <IconButton kind="transparent" color={styleConsts.colorPrimary} size={type === 'primary' ? 'normal' : 'small'} {...iconButtonProps} />
-    )
-  }
-
-  return (
-    <div
-      data-test={dataTest ?? 'card-wrapper'}
-      className={cn(styles.wrapper, {
-        [styles.typeSecondary]: type === 'secondary',
-        [styles.typeHighlighter]: type === 'highlighter',
-      })}
-    >
-      {title && (
-        <>
-          {type === 'primary' ? (
-            <h2 data-test="card-heading" className={styles.heading}>
-              {title}
-              {iconElement && <span className={styles.icon}>{iconElement}</span>}
-            </h2>
-          ) : (
-            <h3 data-test="card-heading" className={styles.heading}>
-              {title}
-              {iconElement && <span className={styles.icon}>{iconElement}</span>}
-            </h3>
-          )}
-        </>
-      )}
-
-      <div data-test="card-content" className={styles.content}>
-        {children}
-      </div>
+    <div data-test="card-content" className={styles.content}>
+      {children}
     </div>
-  )
-}
+  </div>
+)
