@@ -1,0 +1,36 @@
+@use '../styles/constants' as c;
+
+.wrapper {
+  padding: c.$grid * 5;
+  box-shadow: 0 c.$cardShadowSize c.$cardShadowBlur 0 c.$colorShadow;
+  border-radius: c.$borderRadius;
+  background: c.$colorNeutralWhite;
+
+  h3.heading {
+    @include c.typographyH3();
+
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin: 0 0 c.$grid * 4;
+
+    .icon {
+      line-height: 1;
+      margin-right: c.$grid * 2.5;
+    }
+  }
+
+  .separator {
+    display: block;
+    width: 100%;
+    height: 1px;
+    margin: c.$grid * 4 0;
+    background: c.$colorNeutral;
+  }
+
+  .content {
+    @include c.typographyBodyNormal;
+
+    margin-top: c.$grid * 4;
+  }
+}
