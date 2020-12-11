@@ -109,11 +109,18 @@ describe('Header', () => {
     })
 
     const wrapper = await mountAndCheckA11Y(
-      <Header {...HeaderPropsBase} canResize isResizing getResizerProps={getResizerProps}>
+      <Header {...HeaderPropsBase} canResize getResizerProps={getResizerProps}>
         Header
       </Header>,
     )
 
+    expect(wrapper.findDataTest('table-header-column-resizer').props()).toEqual({
+      'data-test': 'table-header-column-resizer',
+      className: `${styles.resizer}`,
+      testprop: 'testProp',
+    })
+
+    wrapper.setProps({ isResizing: true })
     expect(wrapper.findDataTest('table-header-column-resizer').props()).toEqual({
       'data-test': 'table-header-column-resizer',
       className: `${styles.resizer} ${styles.isResizing}`,
