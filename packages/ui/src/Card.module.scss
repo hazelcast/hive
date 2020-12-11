@@ -6,7 +6,7 @@
   border-radius: c.$borderRadius;
   background: c.$colorNeutralWhite;
 
-  h3.heading {
+  .heading {
     @include c.typographyH3();
 
     display: flex;
