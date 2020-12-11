@@ -24,7 +24,7 @@ describe('Card', () => {
     {
       title: cardTitle,
       icon: Database,
-      separator: true,
+      separator: false,
     },
   ]
 
@@ -39,7 +39,7 @@ describe('Card', () => {
       expect(title.text()).toEqual(props.title)
       expect(title.getDOMNode().tagName).toEqual('H3')
     } else {
-      expect(title.length).toEqual(0)
+      expect(title.exists()).toBeFalsy()
     }
 
     if (props.icon) {
@@ -49,13 +49,13 @@ describe('Card', () => {
         ariaHidden: true,
       })
     } else {
-      expect(icon.length).toEqual(0)
+      expect(icon.exists()).toBeFalsy()
     }
 
     if (props.separator) {
       expect(separator.length).toEqual(1)
     } else {
-      expect(separator.length).toEqual(0)
+      expect(separator.exists()).toBeFalsy()
     }
 
     expect(wrapper.findDataTest('card-wrapper').length).toEqual(1)

@@ -19,16 +19,12 @@ export type CardProps = {
  */
 export const Card: FC<CardProps> = ({ title, icon, separator = false, 'data-test': dataTest, children }) => (
   <div data-test={dataTest ?? 'card-wrapper'} className={styles.wrapper}>
-    {title && (
-      <>
-        <h3 data-test="card-heading" className={styles.heading}>
-          {icon && <Icon icon={icon} className={styles.icon} ariaHidden />}
-          {title}
-        </h3>
-      </>
-    )}
+    <h3 data-test="card-heading" className={styles.heading}>
+      {icon && <Icon icon={icon} className={styles.icon} ariaHidden />}
+      {title}
+    </h3>
 
-    {separator && <span data-test="card-separator" className={styles.separator} />}
+    {separator && <div data-test="card-separator" className={styles.separator} />}
 
     <div data-test="card-content" className={styles.content}>
       {children}
