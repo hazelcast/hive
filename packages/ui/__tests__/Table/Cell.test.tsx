@@ -53,7 +53,6 @@ describe('CellWarning', () => {
 
 describe('Cell', () => {
   const cellPropsBase: CellProps = {
-    key: 1,
     align: 'left',
   }
 
@@ -98,11 +97,9 @@ describe('Cell', () => {
   ]
 
   it.each(data)('returns div with correct props for given Cell props', async (cellProps, expectedProps) => {
-    const wrapper = await mountAndCheckA11Y(<Cell {...cellProps} />)
+    const wrapper = await mountAndCheckA11Y(<Cell {...cellProps}>Cell</Cell>)
 
-    expect(wrapper.findDataTest('table-cell').props()).toEqual({
-      ...expectedProps,
-    })
+    expect(wrapper.findDataTest('table-cell').props()).toEqual(expectedProps)
   })
 
   it('renders CellWarning when warning prop is defined', async () => {

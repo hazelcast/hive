@@ -43,7 +43,7 @@ export type CellProps = {
   align?: 'left' | 'right' | 'center'
   warning?: string
   colSpan?: number
-} & TableCellProps
+} & Omit<TableCellProps, 'key'>
 
 export const Cell: FC<CellProps> = ({ align = 'left', warning, colSpan, children, style, className, role }) => (
   <div

@@ -8,7 +8,6 @@ import { Header, HeaderProps } from '../../src/Table/Header'
 import styles from '../../src/Table/Header.module.scss'
 
 const headerPropsBase: HeaderProps = {
-  key: 1,
   align: 'left',
   canSort: false,
   isSorted: false,
@@ -72,9 +71,7 @@ describe('Header', () => {
   it.each(data)('returns div with correct props for given Header props', async (headerProps, expectedProps) => {
     const wrapper = await mountAndCheckA11Y(<Header {...headerProps}>Header</Header>)
 
-    expect(wrapper.findDataTest('table-header').props()).toEqual({
-      ...expectedProps,
-    })
+    expect(wrapper.findDataTest('table-header').props()).toEqual(expectedProps)
   })
 
   it('renders ChevronDown Icon when sorting in descending order', async () => {

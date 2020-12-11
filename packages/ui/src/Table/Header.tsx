@@ -21,7 +21,7 @@ export type HeaderProps = {
   canResize: boolean
   isResizing: boolean
   getResizerProps: (props?: Partial<TableResizerProps>) => TableResizerProps
-} & TableHeaderProps
+} & Omit<TableHeaderProps, 'key'>
 
 export const Header: FC<HeaderProps> = ({
   align = 'left',

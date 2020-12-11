@@ -14,12 +14,12 @@ type RowClickProps =
       onClick?: never
     }
 
-type RowProps = RowClickProps & Omit<TableHeaderGroupProps, 'key'> & { ariaRowIndex?: number }
+export type RowProps = RowClickProps & Omit<TableHeaderGroupProps, 'key'> & { ariaRowIndex?: number }
 
 export const Row: FC<RowProps> = ({ children, isHeaderRow = false, onClick, className, style, role, ariaRowIndex }) => {
   if (isHeaderRow) {
     return (
-      <div className={cn(styles.headerRow, className)} style={style} role={role}>
+      <div data-test="table-header-row" className={cn(styles.headerRow, className)} style={style} role={role} aria-rowindex={ariaRowIndex}>
         {children}
       </div>
     )
@@ -28,6 +28,7 @@ export const Row: FC<RowProps> = ({ children, isHeaderRow = false, onClick, clas
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events
     <div
+      data-test="table-cell-row"
       className={cn(
         styles.row,
         {
