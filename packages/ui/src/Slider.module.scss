@@ -62,6 +62,11 @@ ul.markDescriptions {
     position: absolute;
     bottom: c.$grid;
     transform: translateX(-50%);
+
+    &.activeMarkDescription {
+      font-weight: c.$fontWeightTextBold;
+      color: black;
+    }
   }
 }
 

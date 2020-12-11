@@ -1,6 +1,7 @@
 import React from 'react'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import { useUID } from 'react-uid'
+import sliderClasses from '../src/Slider.module.scss'
 
 import { getMarkMetadata, Slider } from '../src/Slider'
 
@@ -160,6 +161,34 @@ describe('Slider', () => {
     expect(wrapper.find("ul[data-test='mark-descriptions'] li").length).toEqual(2)
   })
 
+  it('Renders slider with marks, check that value indicator is hidden & mark is highlighted when value is equal to one of the marks', async () => {
+    const onChange = jest.fn()
+    const wrapper = await mountAndCheckA11Y(
+      <Slider
+        name="ram"
+        label="RAM"
+        value={[4, 10]}
+        min={2}
+        max={100}
+        onChange={onChange}
+        marks={[
+          {
+            value: 4,
+            label: '4 GB',
+          },
+          {
+            value: 20,
+            label: '20 GB',
+          },
+        ]}
+      />,
+    )
+    expect(wrapper.findDataTest('slider-first-value-indicator').exists()).toBeFalsy()
+    expect(wrapper.findDataTest('slider-second-value-indicator').exists()).toBeTruthy()
+    expect(wrapper.findDataTest('mark-description-4').hasClass(sliderClasses.activeMarkDescription)).toBeTruthy()
+    expect(wrapper.findDataTest('mark-description-20').hasClass(sliderClasses.activeMarkDescription)).toBeFalsy()
+  })
+
   it('Renders slider without marks, check that marks are not rendered', async () => {
     const onChange = jest.fn()
     const wrapper = await mountAndCheckA11Y(<Slider name="ram" label="RAM" value={4} min={1} max={100} onChange={onChange} />)
@@ -199,28 +228,33 @@ describe('Slider helper functions', () => {
    * Internal function tests
    */
   it('single value mode: getMarkMetadata returns correct metadata for the mark, given the thumb is before the mark', () => {
-    const { left, isActive } = getMarkMetadata(3, 10, [1, 10], false)
+    const { left, isActive } = getMarkMetadata(3, 0, 10, [1, 10], false)
     expect(left).toEqual(30)
     expect(isActive).toBe(false)
   })
   it('single value mode: getMarkMetadata returns correct metadata for the mark, given the thumb is after the mark', () => {
-    const { left, isActive } = getMarkMetadata(5, 10, [6, 10], false)
+    const { left, isActive } = getMarkMetadata(5, 0, 10, [6, 10], false)
     expect(left).toEqual(50)
     expect(isActive).toBe(true)
   })
   it('multi values mode: getMarkMetadata returns correct metadata for the mark, given the mark is after the active range', () => {
-    const { left, isActive } = getMarkMetadata(3, 20, [5, 10], true)
+    const { left, isActive } = getMarkMetadata(3, 0, 20, [5, 10], true)
     expect(left).toEqual(15)
     expect(isActive).toBe(false)
   })
   it('multi values mode: getMarkMetadata returns correct metadata for the mark, given the mark is within active range', () => {
-    const { left, isActive } = getMarkMetadata(7, 20, [5, 10], true)
+    const { left, isActive } = getMarkMetadata(7, 0, 20, [5, 10], true)
     expect(left).toEqual(35)
     expect(isActive).toBe(true)
   })
   it('multi values mode: getMarkMetadata returns correct metadata for the mark, given the mark is before the active range', () => {
-    const { left, isActive } = getMarkMetadata(12, 20, [5, 10], true)
+    const { left, isActive } = getMarkMetadata(12, 0, 20, [5, 10], true)
     expect(left).toEqual(60)
     expect(isActive).toBe(false)
+  })
+  it('single value mode: getMarkMetadata returns correct left value for the mark, given the min value is bigger than 0', () => {
+    const { left, isActive } = getMarkMetadata(3, 3, 10, [4, 10], false)
+    expect(left).toEqual(0)
+    expect(isActive).toBe(true)
   })
 })

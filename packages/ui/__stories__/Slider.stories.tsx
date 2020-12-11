@@ -100,10 +100,10 @@ export const SliderWithError = () => {
 }
 
 export const SliderWithHelperText = () => {
-  const [value, onChange] = useState<number>(0)
+  const [value, onChange] = useState<number>(2)
   return (
     <div>
-      <Slider name="name" label="Slider's label" value={value} onChange={onChange} min={0} max={100} helperText="Helper text" />
+      <Slider name="name" label="Slider's label" value={value} onChange={onChange} min={2} max={100} helperText="Helper text" />
     </div>
   )
 }
@@ -111,23 +111,42 @@ export const SliderWithHelperText = () => {
 export const SliderWithMarks = () => {
   const [value, onChange] = useState<number>(0)
   return (
-    <div>
-      <Slider
-        name="name"
-        label="Slider's label"
-        value={value}
-        onChange={onChange}
-        min={0}
-        max={100}
-        helperText="Helper text"
-        marks={[
-          { value: 0, label: '0GB' },
-          { value: 30, label: '1GB' },
-          { value: 70, label: '4GB' },
-          { value: 100, label: '100GB' },
-        ]}
-      />
-    </div>
+    <Slider
+      name="name"
+      label="Slider's label"
+      value={value}
+      onChange={onChange}
+      min={0}
+      max={100}
+      helperText="Helper text"
+      marks={[
+        { value: 0, label: '0GB' },
+        { value: 30, label: '1GB' },
+        { value: 70, label: '4GB' },
+        { value: 100, label: '100GB' },
+      ]}
+    />
+  )
+}
+
+export const RangeSliderWithMarks = () => {
+  const [value, onChange] = useState<[number, number]>([3, 9])
+  return (
+    <Slider
+      name="nameaaaa"
+      label="Slider's label"
+      value={value}
+      onChange={onChange}
+      min={2}
+      max={10}
+      helperText="Helper text"
+      marks={[
+        { value: 2, label: '2GB' },
+        { value: 3, label: '3GB' },
+        { value: 7, label: '7GB' },
+        { value: 10, label: '10GB' },
+      ]}
+    />
   )
 }
 

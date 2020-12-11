@@ -60,6 +60,7 @@ function isSingleValueGuard(value: Value, onChange?: SingleValueChangeFn | Multi
 /**
  * Determines the absolute left position of the mark given the markValue
  * @param markValue - value of the mark
+ * @param min - min value of a slider
  * @param max - max value of a slider
  * @param firstValue - current position of the first slider
  * @param secondValue - current position of the second slider, max if not in range mode
@@ -71,12 +72,13 @@ function isSingleValueGuard(value: Value, onChange?: SingleValueChangeFn | Multi
  */
 export function getMarkMetadata(
   markValue: number,
+  min: number,
   max: number,
   [firstValue, secondValue]: [number, number],
   isRange: boolean,
 ): { isActive: boolean; left: number } {
   return {
-    left: (markValue / max) * 100,
+    left: ((markValue - min) / (max - min)) * 100,
     isActive: isRange ? markValue >= firstValue && markValue <= secondValue : markValue < firstValue,
   }
 }
@@ -135,12 +137,13 @@ export function Slider<T extends Value = number>({
 
   // Slider operates in two modes, either we have a single value slider or range value slider
   const isRange: boolean = isRangeGuard(value)
-  const [firstValue, secondValue]: [number, number] = isRange ? (value as [number, number]) : [value as number, max]
+  const [firstValue, secondValue]: [number, number] = isRange ? (value as [number, number]) : [value as number, Infinity]
 
   // wrapper ref is used to catch clicks on a track in order to move the closes thumb to the position
   const wrapperRef = useRef<HTMLDivElement>(null)
   const firstRangeInputRef = useRef<HTMLInputElement>(null)
   const secondRangeInputRef = useRef<HTMLInputElement>(null)
+  const markValues: Array<number> = marks?.map(({ value }) => value) ?? []
 
   /**
    * We use this callback to update value either as number or [number, number] based on a rangeGuard
@@ -220,9 +223,10 @@ export function Slider<T extends Value = number>({
     [firstValue, updateValues],
   )
 
-  const width: number = ((secondValue - firstValue) / max) * 100
-  const left: number = firstValue / max
-  const secondValueLeft: number = secondValue / max
+  const left: number = (firstValue - min) / (max - min)
+
+  const secondValueLeft: number = (secondValue - min) / (max - min)
+  const widthInRangeMode: number = ((secondValue - firstValue) / (max - min)) * 100
 
   return (
     <div className={className} data-test={dataTest}>
@@ -239,9 +243,14 @@ export function Slider<T extends Value = number>({
           {!!marks?.length && (
             <ul className={styles.markDescriptions} data-test="mark-descriptions">
               {marks.map(({ label, value: markValue }) => {
-                const { left } = getMarkMetadata(markValue, max, [firstValue, secondValue], isRange)
+                const { left } = getMarkMetadata(markValue, min, max, [firstValue, secondValue], isRange)
                 return (
-                  <li key={markValue} style={{ left: `${left}%` }}>
+                  <li
+                    key={markValue}
+                    style={{ left: `${left}%` }}
+                    data-test={`mark-description-${markValue}`}
+                    className={cn({ [styles.activeMarkDescription]: [firstValue, secondValue].includes(markValue) })}
+                  >
                     {label}
                   </li>
                 )
@@ -307,7 +316,7 @@ export function Slider<T extends Value = number>({
                 style={
                   isRange
                     ? {
-                        width: `${width}%`,
+                        width: `${widthInRangeMode}%`,
                         marginLeft: `${left * 100}%`,
                       }
                     : {
@@ -319,7 +328,7 @@ export function Slider<T extends Value = number>({
               {!!marks?.length && (
                 <ul className={styles.marks} data-test="marks">
                   {marks.map(({ value: markValue }) => {
-                    const { isActive, left } = getMarkMetadata(markValue, max, [firstValue, secondValue], isRange)
+                    const { isActive, left } = getMarkMetadata(markValue, min, max, [firstValue, secondValue], isRange)
                     return (
                       <li
                         key={markValue}
@@ -335,15 +344,17 @@ export function Slider<T extends Value = number>({
             </div>
           </div>
           <div className={styles.valueIndicators}>
-            <span
-              style={{
-                left: `${left * 100}%`,
-              }}
-              data-test="slider-first-value-indicator"
-            >
-              {formatCurrentValue(firstValue)}
-            </span>
-            {isRange && (
+            {!markValues.includes(firstValue) && (
+              <span
+                style={{
+                  left: `${left * 100}%`,
+                }}
+                data-test="slider-first-value-indicator"
+              >
+                {formatCurrentValue(firstValue)}
+              </span>
+            )}
+            {isRange && !markValues.includes(secondValue) && (
               <span
                 style={{
                   left: `${secondValueLeft * 100}%`,
