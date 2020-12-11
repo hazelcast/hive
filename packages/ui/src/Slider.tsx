@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useRef } from 'react'
+import React, { ChangeEvent, useCallback, useMemo, useRef } from 'react'
 import { DataTestProp } from '@hazelcast/helpers'
 import useEvent from 'react-use/lib/useEvent'
 import cn from 'classnames'
@@ -143,7 +143,8 @@ export function Slider<T extends Value = number>({
   const wrapperRef = useRef<HTMLDivElement>(null)
   const firstRangeInputRef = useRef<HTMLInputElement>(null)
   const secondRangeInputRef = useRef<HTMLInputElement>(null)
-  const markValues: Array<number> = marks?.map(({ value }) => value) ?? []
+
+  const markValues: Set<number> = useMemo(() => new Set(marks?.map(({ value }) => value)), [marks])
 
   /**
    * We use this callback to update value either as number or [number, number] based on a rangeGuard
@@ -344,7 +345,7 @@ export function Slider<T extends Value = number>({
             </div>
           </div>
           <div className={styles.valueIndicators}>
-            {!markValues.includes(firstValue) && (
+            {!markValues.has(firstValue) && (
               <span
                 style={{
                   left: `${left * 100}%`,
@@ -354,7 +355,7 @@ export function Slider<T extends Value = number>({
                 {formatCurrentValue(firstValue)}
               </span>
             )}
-            {isRange && !markValues.includes(secondValue) && (
+            {isRange && !markValues.has(secondValue) && (
               <span
                 style={{
                   left: `${secondValueLeft * 100}%`,
