@@ -1,14 +1,17 @@
 import React, { useState } from 'react'
-import { Radio } from '../src/Radio'
 import { logger } from '@hazelcast/services'
-import { RadioGroup } from '../src/RadioGroup'
 import { Form, Formik } from 'formik'
+
 import { RadioGroupFieldFormik } from '../src/RadioGroupFormik'
 import { RadioFieldFormik } from '../src/RadioFormik'
+import { RadioGroup } from '../src/RadioGroup'
+import { Radio } from '../src/Radio'
+import { formDecorator } from './decorators'
 
 export default {
   title: 'Components/RadioGroup',
   component: RadioGroup,
+  decorators: [formDecorator],
 }
 
 export const RadioGroupDefault = () => {
@@ -63,6 +66,7 @@ export const RadioGroupWrappedInFormik = () => {
 
   return <TestForm />
 }
+RadioGroupWrappedInFormik.parameters = { ignoreFormDecorator: true }
 
 export const RadiosInline = () => {
   const [value, setValue] = useState<string>('test')
