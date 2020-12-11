@@ -9,25 +9,26 @@ import { Tooltip } from '../Tooltip'
 import styles from './Cell.module.scss'
 import { TableCellProps } from 'react-table'
 
-type CellWarningProps = {
+export type CellWarningProps = {
   align: 'left' | 'right'
   warning: string
 }
 
-const CellWarning: FC<CellWarningProps> = ({ align, warning }) => {
+export const CellWarning: FC<CellWarningProps> = ({ align, warning }) => {
   const id = useUID()
 
   return (
     <Tooltip id={id} content={warning}>
-      {(ref) => (
+      {(tooltipRef) => (
         <div
-          ref={ref}
+          data-test="cell-warning-content"
+          ref={tooltipRef}
           className={cn(styles.warningIcon, {
             [styles.left]: align === 'left',
             [styles.right]: align === 'right',
           })}
         >
-          <Icon icon={AlertTriangle} ariaLabel="Warning" aria-describedby={id} size="small" aria-labelledby={id} />
+          <Icon icon={AlertTriangle} ariaLabelledBy={id} size="small" />
         </div>
       )}
     </Tooltip>
@@ -46,6 +47,7 @@ export type CellProps = {
 
 export const Cell: FC<CellProps> = ({ align = 'left', warning, colSpan, children, style, className, role }) => (
   <div
+    data-test="table-cell"
     className={cn(
       styles.td,
       {
@@ -55,9 +57,9 @@ export const Cell: FC<CellProps> = ({ align = 'left', warning, colSpan, children
       },
       className,
     )}
+    aria-colspan={colSpan}
     style={style}
     role={role}
-    aria-colspan={colSpan}
   >
     {warning && align === 'right' && <CellWarning warning={warning} align="right" />}
     {children}

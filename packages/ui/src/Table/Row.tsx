@@ -26,6 +26,7 @@ export const Row: FC<RowProps> = ({ children, isHeaderRow = false, onClick, clas
   }
 
   return (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
     <div
       className={cn(
         styles.row,
@@ -38,7 +39,6 @@ export const Row: FC<RowProps> = ({ children, isHeaderRow = false, onClick, clas
       role={role}
       aria-rowindex={ariaRowIndex}
       onClick={onClick}
-      onKeyPress={onClick}
     >
       {children}
     </div>

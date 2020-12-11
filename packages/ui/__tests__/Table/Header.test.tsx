@@ -1,13 +1,13 @@
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import React from 'react'
 import { ChevronDown, ChevronUp } from 'react-feather'
-import { Icon, IconProps } from '../../src'
 
+import { Icon, IconProps } from '../../src/Icon'
 import { Header, HeaderProps } from '../../src/Table/Header'
 
 import styles from '../../src/Table/Header.module.scss'
 
-const HeaderPropsBase: HeaderProps = {
+const headerPropsBase: HeaderProps = {
   key: 1,
   align: 'left',
   canSort: false,
@@ -35,38 +35,42 @@ describe('Header', () => {
   const onClick = jest.fn()
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const data: [HeaderProps, Record<string, any>][] = [
-    [HeaderPropsBase, expectedPropsBase],
+    [headerPropsBase, expectedPropsBase],
     [
-      { ...HeaderPropsBase, canSort: true, isSorted: true, isSortedDesc: true },
+      { ...headerPropsBase, canSort: true, isSorted: true, isSortedDesc: true },
       { ...expectedPropsBase, className: `${styles.th} ${styles.sortable} ${styles.alignLeft}`, 'aria-sort': 'descending' },
     ],
     [
-      { ...HeaderPropsBase, canSort: true, isSorted: true, isSortedDesc: false },
+      { ...headerPropsBase, canSort: true, isSorted: true, isSortedDesc: false },
       { ...expectedPropsBase, className: `${styles.th} ${styles.sortable} ${styles.alignLeft}`, 'aria-sort': 'ascending' },
     ],
     [
-      { ...HeaderPropsBase, align: 'center' },
+      { ...headerPropsBase, align: 'left' },
+      { ...expectedPropsBase, className: `${styles.th} ${styles.alignLeft}` },
+    ],
+    [
+      { ...headerPropsBase, align: 'center' },
       { ...expectedPropsBase, className: `${styles.th} ${styles.alignCenter}` },
     ],
     [
-      { ...HeaderPropsBase, align: 'right' },
+      { ...headerPropsBase, align: 'right' },
       { ...expectedPropsBase, className: `${styles.th} ${styles.alignRight}` },
     ],
     [
-      { ...HeaderPropsBase, colSpan: 1, style: { width: 40 }, className: 'testClassName', onClick },
+      { ...headerPropsBase, colSpan: 1, style: { width: 40 }, className: 'testClassName', onClick, role: '' },
       {
         ...expectedPropsBase,
         className: `${styles.th} ${styles.alignLeft} testClassName`,
         'aria-colspan': 1,
         style: { width: 40 },
+        role: '',
         onClick,
-        onKeyPress: onClick,
       },
     ],
   ]
 
-  it.each(data)('returns div with correct props for given Header props', async (HeaderProps, expectedProps) => {
-    const wrapper = await mountAndCheckA11Y(<Header {...HeaderProps}>Header</Header>)
+  it.each(data)('returns div with correct props for given Header props', async (headerProps, expectedProps) => {
+    const wrapper = await mountAndCheckA11Y(<Header {...headerProps}>Header</Header>)
 
     expect(wrapper.findDataTest('table-header').props()).toEqual({
       ...expectedProps,
@@ -75,7 +79,7 @@ describe('Header', () => {
 
   it('renders ChevronDown Icon when sorting in descending order', async () => {
     const wrapper = await mountAndCheckA11Y(
-      <Header {...HeaderPropsBase} canSort isSorted isSortedDesc>
+      <Header {...headerPropsBase} canSort isSorted isSortedDesc>
         Header
       </Header>,
     )
@@ -90,7 +94,7 @@ describe('Header', () => {
 
   it('renders ChevronUp Icon when sorting in ascending order', async () => {
     const wrapper = await mountAndCheckA11Y(
-      <Header {...HeaderPropsBase} canSort isSorted isSortedDesc={false}>
+      <Header {...headerPropsBase} canSort isSorted isSortedDesc={false}>
         Header
       </Header>,
     )
@@ -109,7 +113,7 @@ describe('Header', () => {
     })
 
     const wrapper = await mountAndCheckA11Y(
-      <Header {...HeaderPropsBase} canResize getResizerProps={getResizerProps}>
+      <Header {...headerPropsBase} canResize getResizerProps={getResizerProps}>
         Header
       </Header>,
     )

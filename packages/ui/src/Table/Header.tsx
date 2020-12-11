@@ -59,6 +59,7 @@ export const Header: FC<HeaderProps> = ({
   )
 
   return (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
     <div
       data-test="table-header"
       className={cn(
@@ -76,7 +77,6 @@ export const Header: FC<HeaderProps> = ({
       aria-colspan={colSpan}
       aria-sort={ariaSort}
       onClick={onClick}
-      onKeyPress={onClick}
     >
       {canSort && align === 'right' && Chevron}
       {children}
