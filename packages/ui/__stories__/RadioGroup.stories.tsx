@@ -66,6 +66,7 @@ export const RadioGroupWrappedInFormik = () => {
 
   return <TestForm />
 }
+RadioGroupWrappedInFormik.parameters = { ignoreFormDecorator: true }
 
 export const RadiosInline = () => {
   const [value, setValue] = useState<string>('test')

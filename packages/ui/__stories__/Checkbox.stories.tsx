@@ -197,3 +197,4 @@ export const CheckboxWrappedInFormik = () => {
 
   return <TestForm />
 }
+CheckboxWrappedInFormik.parameters = { ignoreFormDecorator: true }
