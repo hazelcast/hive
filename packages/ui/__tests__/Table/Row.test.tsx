@@ -45,7 +45,7 @@ describe('Row', () => {
     ],
   ]
 
-  it.each(data)('returns div with correct props for given Cell props', async (cellProps, expectedProps) => {
+  it.each(data)('returns div with correct props for given Row props', async (cellProps, expectedProps) => {
     const wrapper = await mountAndCheckA11Y(<Row {...cellProps} />)
 
     expect(wrapper.findDataTest(expectedProps['data-test']).props()).toEqual(expectedProps)
