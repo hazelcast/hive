@@ -1,7 +1,6 @@
 import React, { FC, FocusEvent, ChangeEvent, AriaAttributes, useRef } from 'react'
 import cn from 'classnames'
-import { errorId } from './Error'
-// import { Error, errorId } from './Error'
+import { Error, errorId } from './Error'
 import { Help, helpTooltipId } from './Help'
 import { useUID } from 'react-uid'
 import { DataTestProp } from '@hazelcast/helpers'
@@ -68,8 +67,10 @@ export const Toggle: FC<ToggleProps> = ({
 
       {helperText && <Help parentId={id} helperText={helperText} />}
 
-      {/* xxx why does this fail? */}
-      {/* {error && <Error error={error} className={styles.errorContainer} inputId={id} />} */}
+      {/* xxx inline-flex */}
+      <div>
+        <Error error={error} className={styles.errorContainer} inputId={id} />
+      </div>
     </div>
   )
 }

@@ -1,18 +1,18 @@
-import React, { ReactElement, useContext } from 'react'
+import React, { ReactElement } from 'react'
 import { useField } from 'formik'
 import { FieldValidatorGeneric, getFieldError } from './utils/formik'
 
 import { Toggle, ToggleProps } from './Toggle'
 
 export type ToggleFormikProps = ToggleProps & {
-  value: string
+  name: string
+  validate?: FieldValidatorGeneric<boolean>
 }
 
-export const ToggleFormik = ({ value, ...props }: ToggleFormikProps): ReactElement => {
-  // xxx wip
+export const ToggleFormik = ({ name, validate, ...props }: ToggleFormikProps): ReactElement => {
   const [field, meta] = useField<boolean>({
     name,
-    // validate,
+    validate
   })
 
   return (

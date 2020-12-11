@@ -62,153 +62,28 @@ export const WithError = () => (
   <Toggle error="this is an error message!" checked label="Label" name="default" onChange={(e) => logger.log('change', e.target.checked)} />
 )
 
+export const ToggleWrappedInFormik = () => {
+  const validateTurbo = (value: boolean) => (!value ? 'turbo mode must be on!!!' : undefined)
 
-// export const FocusedUnchecked = () => (
-//   <Checkbox
-//     checked={false}
-//     classNameLabel={styles.focus}
-//     label="Label"
-//     name="default"
-//     onChange={(e) => logger.log('change', e.target.checked)}
-//   />
-// )
+  const TestForm = () => (
+    <Formik
+      initialValues={{
+        turboMode: false,
+      }}
+      onSubmit={(values) => logger.log('submit', values)}
+    >
+      {({ values }) => (
+        <Form>
+          Values: {JSON.stringify(values)}
+          <ToggleFormik
+            name="turboMode"
+            validate={validateTurbo}
+            label="Turbo Mode" />
+          <button type="submit">Submit</button>
+        </Form>
+      )}
+    </Formik>
+  )
 
-// export const HoverUnchecked = () => (
-//   <Checkbox
-//     checked={false}
-//     classNameLabel={styles.hover}
-//     label="Label"
-//     name="default"
-//     onChange={(e) => logger.log('change', e.target.checked)}
-//   />
-// )
-
-// export const HoverDisabledUnchecked = () => (
-//   <Checkbox
-//     checked={false}
-//     classNameLabel={styles.hover}
-//     disabled
-//     label="Label"
-//     name="default"
-//     onChange={(e) => logger.log('change', e.target.checked)}
-//   />
-// )
-
-// export const HoverDisabledChecked = () => (
-//   <Checkbox
-//     checked
-//     classNameLabel={styles.hover}
-//     disabled
-//     label="Label"
-//     name="default"
-//     onChange={(e) => logger.log('change', e.target.checked)}
-//   />
-// )
-
-// export const FocusedChecked = () => (
-//   <Checkbox checked classNameLabel={styles.focus} label="Label" name="default" onChange={(e) => logger.log('change', e.target.checked)} />
-// )
-
-// export const WithDescription = () => (
-//   <Checkbox
-//     checked={false}
-//     label="Label"
-//     helperText="Very long description"
-//     name="default"
-//     onChange={(e) => logger.log('change', e.target.checked)}
-//   />
-// )
-
-// export const LabelWithLink = () => (
-//   <Checkbox
-//     checked={false}
-//     label={
-//       <>
-//         Label{' '}
-//         <Link href="#" size="small">
-//           Link
-//         </Link>
-//       </>
-//     }
-//     name="default"
-//     onChange={(e) => logger.log('change', e.target.checked)}
-//   />
-// )
-
-// export const WithError = () => (
-//   <Checkbox
-//     checked={false}
-//     label="Label"
-//     helperText="Very long description"
-//     error="Something went wrong"
-//     name="default"
-//     onChange={(e) => logger.log('change', e.target.checked)}
-//   />
-// )
-
-// export const Indeterminate = () => (
-//   <Checkbox checked label="Indeterminate" indeterminate name="default" onChange={(e) => logger.log('change', e.target.checked)} />
-// )
-
-// export const IndeterminateWithError = () => (
-//   <Checkbox
-//     checked
-//     label="Indeterminate"
-//     error="Error message"
-//     indeterminate
-//     name="default"
-//     onChange={(e) => logger.log('change', e.target.checked)}
-//   />
-// )
-
-// export const IndeterminateDisabled = () => (
-//   <Checkbox checked disabled label="Disabled" indeterminate name="default" onChange={(e) => logger.log('change', e.target.checked)} />
-// )
-
-// export const CheckedDisabled = () => (
-//   <Checkbox checked disabled label="Checked Disabled" name="default" onChange={(e) => logger.log('change', e.target.checked)} />
-// )
-
-// export const UncheckedDisabled = () => (
-//   <Checkbox checked={false} disabled label="Unchecked Disabled" name="default" onChange={(e) => logger.log('change', e.target.checked)} />
-// )
-
-// export const TwoCheckboxes = () => (
-//   <div>
-//     <Checkbox
-//       checked
-//       label="Checked"
-//       name="default2"
-//       error="This is an error message"
-//       onChange={(e) => logger.log('change2', e.target.checked)}
-//     />
-//     <Checkbox checked={false} disabled label="Unchecked Disabled" name="default" onChange={(e) => logger.log('change', e.target.checked)} />
-//   </div>
-// )
-
-// export const ToggleWrappedInFormik = () => {
-//   type Values = {
-//     turboMode: boolean
-//   }
-
-//   const validateTurbo = (value: boolean) => (!value ? 'turbo mode must be on!!!' : undefined)
-
-//   const TestForm = () => (
-//     <Formik<Values>
-//       initialValues={{
-//         turboMode: false,
-//       }}
-//       onSubmit={(values) => logger.log('submit', values)}
-//     >
-//       {({ values }) => (
-//         <Form>
-//           Values: {JSON.stringify(values)}
-//           <ToggleFormik<Values> name="turbo" validate={validateTurbo} label="Turbo Mode" />
-//           <button type="submit">Submit</button>
-//         </Form>
-//       )}
-//     </Formik>
-//   )
-
-//   return <TestForm />
-// }
+  return <TestForm />
+}
