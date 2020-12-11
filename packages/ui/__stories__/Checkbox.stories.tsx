@@ -2,13 +2,15 @@ import React, { useState } from 'react'
 import { Form, Formik } from 'formik'
 import { logger } from '@hazelcast/services'
 
-import styles from '../src/Checkbox.module.scss'
-
 import { Checkbox, CheckboxFormik, Link } from '../src'
+import { formDecorator } from './decorators'
+
+import styles from '../src/Checkbox.module.scss'
 
 export default {
   title: 'Components/Checkbox',
   component: Checkbox,
+  decorators: [formDecorator],
 }
 
 export const Default = () => {

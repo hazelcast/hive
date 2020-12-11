@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
-import { Radio } from '../src/Radio'
-import styles from '../src/Radio.module.scss'
 import { logger } from '@hazelcast/services'
+
 import { RadioGroup } from '../src/RadioGroup'
+import { formDecorator } from './decorators'
+import { Radio } from '../src/Radio'
+
+import styles from '../src/Radio.module.scss'
 
 export default {
   title: 'Components/Radio',
   component: Radio,
+  decorators: [formDecorator],
 }
 
 export const DefaultRadio = () => {
