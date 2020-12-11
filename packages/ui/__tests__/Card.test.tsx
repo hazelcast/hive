@@ -35,12 +35,8 @@ describe('Card', () => {
     const title = wrapper.findDataTest('card-heading')
     const separator = wrapper.findDataTest('card-separator')
 
-    if (props.title) {
       expect(title.text()).toEqual(props.title)
       expect(title.getDOMNode().tagName).toEqual('H3')
-    } else {
-      expect(title.exists()).toBeFalsy()
-    }
 
     if (props.icon) {
       expect(wrapper.find(Icon).props()).toEqual<IconProps>({
