@@ -1,5 +1,10 @@
 @use '../styles/constants' as c;
 
+button.buttonReset {
+  border: none;
+  background: none;
+}
+
 @mixin link {
   display: inline-flex;
   justify-content: center;

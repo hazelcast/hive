@@ -46,14 +46,23 @@ type LinkRel =
 
 export type LinkProps = IconProps & {
   size?: keyof typeof sizes
-  kind?: 'primary' | 'secondary',
+  kind?: 'primary' | 'secondary'
   target?: LinkTarget
   rel?: LinkRel | LinkRel[]
   children: ReactNode
-  // Required by nextjs https://nextjs.org/docs/api-reference/next/link
-  onClick?: MouseEventHandler<HTMLAnchorElement>
-} & Required<Pick<AnchorAttributes, 'href'>> &
-  Pick<AnchorAttributes, 'className'>
+  // it's also required by next.js for <a> https://nextjs.org/docs/api-reference/next/link
+  onClick?: MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>
+} & Pick<AnchorAttributes, 'className'> &
+  (
+    | {
+        component: 'button'
+        href?: never
+      }
+    | {
+        component?: 'a'
+        href: string
+      }
+  )
 
 /**
  * ### Purpose
@@ -67,6 +76,7 @@ export type LinkProps = IconProps & {
  * - Link can be used as a stand-alone component with right chevron icon.
  */
 export const Link: FC<LinkProps> = ({
+  component: Component = 'a',
   kind = 'primary',
   size = 'normal',
   icon,
@@ -81,18 +91,23 @@ export const Link: FC<LinkProps> = ({
   const relFinal = useDeepCompareMemo(() => (Array.isArray(rel) ? rel.join(' ') : rel), [rel])
 
   return (
-    <a className={
-        cn(
-            styles[size],
-            {
-              [styles.primary]: kind === 'primary',
-              [styles.secondary]: kind === 'secondary',
-            },
-            className
-        )
-      } href={href} rel={relFinal} target={target} onClick={onClick}>
+    <Component
+      className={cn(
+        styles.buttonReset,
+        styles[size],
+        {
+          [styles.primary]: kind === 'primary',
+          [styles.secondary]: kind === 'secondary',
+        },
+        className,
+      )}
+      href={href}
+      rel={relFinal}
+      target={target}
+      onClick={onClick}
+    >
       {children}
       {icon && ariaLabel && <Icon icon={icon} ariaLabel={ariaLabel} size={size} />}
-    </a>
+    </Component>
   )
 }

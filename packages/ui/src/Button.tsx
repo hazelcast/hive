@@ -65,7 +65,7 @@ type ButtonCommonProps = {
   children: string
   capitalize?: boolean
   bodyClassName?: string
-} & Pick<HTMLAttributes<Element>, 'className' | 'onClick'>
+} & Pick<HTMLAttributes<HTMLAnchorElement | HTMLButtonElement>, 'className' | 'onClick'>
 
 type ButtonTypeProps =
   | ({
