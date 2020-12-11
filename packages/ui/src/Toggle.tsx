@@ -61,7 +61,7 @@ export const Toggle: FC<ToggleProps> = ({
       />
 
       <label className={cn(classNameLabel, {[styles.disabled]: disabled})} htmlFor={id}>
-        <span className={cn(styles.label)}>{label}</span>
+        <span className={cn(styles.labelText)}>{label}</span>
         <span className={cn(styles['toggle-track'])}></span>
       </label>
 

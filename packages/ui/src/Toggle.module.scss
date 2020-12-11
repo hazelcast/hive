@@ -11,9 +11,6 @@ $knob-bg-off: c.$colorNeutralLighter;
 $label-margin: 12px;
 
 .wrapper {
-  display: inline-flex;
-  align-items: center;
-
   // hide the actual input
   input[type="checkbox"] {
     display: none;
@@ -22,15 +19,16 @@ $label-margin: 12px;
   // faux wrapping label
   label {
     cursor: pointer;
-    display: inline-flex; // for aligning with the .label
+    display: inline-flex; // for aligning with the .labelText
+    align-items: center;
   }
 
   // actual text label
-  .label {
+  .labelText {
     margin-right: $label-margin;
   }
 
-  // track off state
+  // the `track` (default off state)
   .toggle-track {
     display: inline-block;
     height: $h;
@@ -40,17 +38,12 @@ $label-margin: 12px;
     position: relative;
   }
 
-  // disabled state
-  .disabled .toggle-track {
-    opacity: .3;
-  }
-
   // track on state
   input[type="checkbox"]:checked + label .toggle-track {
     background: $track-bg-on;
   }
 
-  // the `knob`
+  // the `knob` (default off state)
   .toggle-track:before {
     content: "";
     display: inline-block;
@@ -64,7 +57,7 @@ $label-margin: 12px;
     transition: right 0.2s ease-in;
   }
 
-  // knob off state
+  // knob on state
   input[type="checkbox"]:checked + label .toggle-track:before {
     background: $knob-bg-on;
     right: $knob-r;
@@ -78,6 +71,11 @@ $label-margin: 12px;
     right: 8px;
     font-size: .9rem;
     color: #fff;
+  }
+
+  // global disabled state
+  .disabled .toggle-track {
+    opacity: .3;
   }
 }
 
