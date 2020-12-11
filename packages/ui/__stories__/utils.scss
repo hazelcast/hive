@@ -1,3 +1,5 @@
+@use '../styles/constants' as c;
+
 .wrapperCentered {
   display: flex;
   flex-direction: column;
@@ -7,4 +9,7 @@
 .sliderSmallThumb::-webkit-slider-thumb {
   // this should never be possible to override, this is only for storybook purpose - visual regression testing
   opacity: 0.5 !important;
+}
+.typographyBodySmall {
+  @include c.typographyBodySmall;
 }
