@@ -1,4 +1,4 @@
-import React, { FC, FocusEvent, ChangeEvent, AriaAttributes, useRef } from 'react'
+import React, { FC, FocusEvent, ChangeEvent, useRef } from 'react'
 import cn from 'classnames'
 import { Error, errorId } from './Error'
 import { Help, helpTooltipId } from './Help'
@@ -40,8 +40,6 @@ export const Toggle: FC<ToggleProps> = ({
   const inputRef = useRef<HTMLInputElement>(null)
   const id = useUID()
 
-  let ariaChecked: AriaAttributes['aria-checked'] = checked ? 'true' : 'false'
-
   return (
     <div className={cn(styles.wrapper, className)} data-test={dataTest}>
       <input
@@ -54,7 +52,7 @@ export const Toggle: FC<ToggleProps> = ({
         onBlur={onBlur}
         value={value}
         disabled={disabled}
-        aria-checked={ariaChecked}
+        aria-checked={checked}
         aria-invalid={!!error}
         aria-describedby={helperText && helpTooltipId(id)}
         aria-errormessage={error && errorId(id)}

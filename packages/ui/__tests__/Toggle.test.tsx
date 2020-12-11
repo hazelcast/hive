@@ -29,7 +29,7 @@ describe('Toggle', () => {
       type: 'checkbox',
       name: 'hello',
       checked: true,
-      'aria-checked': 'true',
+      'aria-checked': true,
       'aria-invalid': false,
       disabled: undefined,
       id: 'uuidtest',
@@ -54,7 +54,7 @@ describe('Toggle', () => {
       name: 'hello',
       disabled: true,
       checked: false,
-      'aria-checked': 'false',
+      'aria-checked': false,
       'aria-invalid': false,
       id: 'uuidtest',
     })
