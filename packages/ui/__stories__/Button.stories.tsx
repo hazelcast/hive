@@ -345,3 +345,9 @@ export const NotCapitalized = () => (
     Not capitalized
   </Button>
 )
+
+export const PrimaryWithLinkSemantics = () => (
+  <Button kind="primary" component="a" href="#">
+    Primary
+  </Button>
+)

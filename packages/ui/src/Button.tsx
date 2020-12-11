@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes, forwardRef } from 'react'
+import React, { ButtonHTMLAttributes, forwardRef, HTMLAttributes } from 'react'
 import cn from 'classnames'
 import mergeRefs from 'react-merge-refs'
 import { useUID } from 'react-uid'
@@ -45,14 +45,19 @@ export type ButtonAccessibleIconRightProps =
       iconRightClassName?: never
     }
 
-export type ButtonDisabledProps =
-  | { disabledTooltip: string; disabled: boolean; disabledTooltipVisible?: boolean; disabledTooltipPlacement?: TooltipProps['placement'] }
-  | {
-      disabled?: never
-      disabledTooltip?: never
-      disabledTooltipVisible?: never
-      disabledTooltipPlacement?: never
-    }
+type ButtonNotDisabledProps = {
+  disabled?: never
+  disabledTooltip?: never
+  disabledTooltipVisible?: never
+  disabledTooltipPlacement?: never
+}
+
+export type ButtonDisabledProps = {
+  disabledTooltip: string
+  disabled: boolean
+  disabledTooltipVisible?: boolean
+  disabledTooltipPlacement?: TooltipProps['placement']
+}
 
 // Common props for all button "kinds"
 type ButtonCommonProps = {
@@ -60,13 +65,27 @@ type ButtonCommonProps = {
   children: string
   capitalize?: boolean
   bodyClassName?: string
-}
+} & Pick<HTMLAttributes<Element>, 'className' | 'onClick'>
 
-export type ButtonProps = ButtonCommonProps &
-  ButtonAccessibleIconLeftProps &
-  ButtonAccessibleIconRightProps &
-  ButtonDisabledProps &
-  Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'className' | 'autoFocus' | 'type'>
+type ButtonTypeProps =
+  | ({
+      component: 'a'
+      href: string
+    } & ButtonNotDisabledProps)
+  | ((
+      | {
+          component: 'button'
+          href?: never
+        }
+      | {
+          component?: undefined
+          href?: never
+        }
+    ) &
+      (ButtonDisabledProps | ButtonNotDisabledProps) &
+      Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'autoFocus' | 'type'>)
+
+export type ButtonProps = ButtonCommonProps & ButtonAccessibleIconLeftProps & ButtonAccessibleIconRightProps & ButtonTypeProps
 
 /**
  * ### Purpose
@@ -89,6 +108,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
   (
     {
       kind = 'primary',
+      component: Component = 'button',
       className,
       bodyClassName,
       children,
@@ -124,7 +144,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
         placement={disabledTooltipPlacement}
       >
         {(tooltipRef) => (
-          <button
+          <Component
             data-test="button"
             className={cn(
               styles.button,
@@ -136,7 +156,6 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
               className,
             )}
             aria-describedby={disabled ? tooltipId : undefined}
-            disabled={disabled}
             {...rest}
           >
             <span className={styles.outline} />
@@ -163,7 +182,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
                 />
               )}
             </span>
-          </button>
+          </Component>
         )}
       </Tooltip>
     )
