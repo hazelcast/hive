@@ -46,7 +46,7 @@ type LinkRel =
 
 export type LinkProps = IconProps & {
   size?: keyof typeof sizes
-  kind?: 'primary' | 'secondary',
+  kind?: 'primary' | 'secondary'
   target?: LinkTarget
   rel?: LinkRel | LinkRel[]
   children: ReactNode
@@ -81,16 +81,20 @@ export const Link: FC<LinkProps> = ({
   const relFinal = useDeepCompareMemo(() => (Array.isArray(rel) ? rel.join(' ') : rel), [rel])
 
   return (
-    <a className={
-        cn(
-            styles[size],
-            {
-              [styles.primary]: kind === 'primary',
-              [styles.secondary]: kind === 'secondary',
-            },
-            className
-        )
-      } href={href} rel={relFinal} target={target} onClick={onClick}>
+    <a
+      className={cn(
+        styles[size],
+        {
+          [styles.primary]: kind === 'primary',
+          [styles.secondary]: kind === 'secondary',
+        },
+        className,
+      )}
+      href={href}
+      rel={relFinal}
+      target={target}
+      onClick={onClick}
+    >
       {children}
       {icon && ariaLabel && <Icon icon={icon} ariaLabel={ariaLabel} size={size} />}
     </a>

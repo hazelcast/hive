@@ -86,7 +86,11 @@ describe('Link', () => {
   })
 
   it('Renders a secondary normal Link with correct props', async () => {
-    const wrapper = await mountAndCheckA11Y(<Link kind="secondary" href="https://hazelcast.com/">Normal Text Link</Link>)
+    const wrapper = await mountAndCheckA11Y(
+      <Link kind="secondary" href="https://hazelcast.com/">
+        Normal Text Link
+      </Link>,
+    )
 
     const anchor = wrapper.find('a')
     expect(anchor.props()).toEqual({
