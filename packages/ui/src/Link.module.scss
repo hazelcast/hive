@@ -1,15 +1,12 @@
 @use '../styles/constants' as c;
 
-button.buttonReset {
-  border: none;
-  background: none;
-}
-
 @mixin link {
   display: inline-flex;
   justify-content: center;
   align-items: center;
   text-decoration: none;
+  border: none;
+  background: none;
 
   &:hover,
   &.hover,
@@ -18,7 +15,7 @@ button.buttonReset {
   &:active,
   &.active {
     text-decoration: underline solid;
-    outline: none;
+    outline: transparent solid c.$outlineWidth;
   }
 
   &.primary {

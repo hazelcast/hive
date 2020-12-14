@@ -93,7 +93,6 @@ export const Link: FC<LinkProps> = ({
   return (
     <Component
       className={cn(
-        styles.buttonReset,
         styles[size],
         {
           [styles.primary]: kind === 'primary',
