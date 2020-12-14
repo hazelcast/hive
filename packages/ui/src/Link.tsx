@@ -24,10 +24,10 @@ type IconProps =
       ariaLabel?: never
     }
 
-type LinkTarget = '_self' | '_blank' | '_parent' | '_top'
+export type LinkTarget = '_self' | '_blank' | '_parent' | '_top'
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types
-type LinkRel =
+export type LinkRel =
   | 'alternate'
   | 'author'
   | 'bookmark'
@@ -47,8 +47,6 @@ type LinkRel =
 export type LinkProps = IconProps & {
   size?: keyof typeof sizes
   kind?: 'primary' | 'secondary'
-  target?: LinkTarget
-  rel?: LinkRel | LinkRel[]
   children: ReactNode
   // it's also required by next.js for <a> https://nextjs.org/docs/api-reference/next/link
   onClick?: MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>
@@ -57,10 +55,14 @@ export type LinkProps = IconProps & {
     | {
         component: 'button'
         href?: never
+        target?: never
+        rel?: never
       }
     | {
         component?: 'a'
         href: string
+        target?: LinkTarget
+        rel?: LinkRel | LinkRel[]
       }
   )
 
@@ -101,8 +103,8 @@ export const Link: FC<LinkProps> = ({
         className,
       )}
       href={href}
-      rel={relFinal}
-      target={target}
+      rel={Component === 'a' ? relFinal : undefined}
+      target={Component === 'a' ? target : undefined}
       onClick={onClick}
     >
       {children}

@@ -8,6 +8,8 @@ import { TruncatedText } from './TruncatedText'
 import { Tooltip, TooltipProps } from './Tooltip'
 
 import styles from './Button.module.scss'
+import { LinkRel, LinkTarget } from './Link'
+import { useDeepCompareMemo } from 'use-deep-compare'
 
 export type ButtonKind = 'primary' | 'secondary' | 'transparent'
 
@@ -71,10 +73,14 @@ type ButtonTypeProps =
   | ({
       component: 'a'
       href: string
+      target?: LinkTarget
+      rel?: LinkRel | LinkRel[]
     } & ButtonNotDisabledProps)
   | ({
       component?: 'button'
       href?: never
+      target?: never
+      rel?: never
     } & (ButtonDisabledProps | ButtonNotDisabledProps) &
       Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'autoFocus' | 'type'>)
 
@@ -123,11 +129,14 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
       iconRightSize,
       iconRightColor,
       iconRightClassName,
+      rel = 'noopener',
+      target,
       ...rest
     },
     ref,
   ) => {
     const tooltipId = useUID()
+    const relFinal = useDeepCompareMemo(() => (Array.isArray(rel) ? rel.join(' ') : rel), [rel])
 
     return (
       <Tooltip
@@ -149,6 +158,9 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
               className,
             )}
             aria-describedby={disabled ? tooltipId : undefined}
+            disabled={disabled}
+            rel={Component === 'a' ? relFinal : undefined}
+            target={Component === 'a' ? target : undefined}
             {...rest}
           >
             <span className={styles.outline} />
