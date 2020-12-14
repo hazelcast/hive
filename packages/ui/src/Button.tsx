@@ -72,17 +72,10 @@ type ButtonTypeProps =
       component: 'a'
       href: string
     } & ButtonNotDisabledProps)
-  | ((
-      | {
-          component: 'button'
-          href?: never
-        }
-      | {
-          component?: undefined
-          href?: never
-        }
-    ) &
-      (ButtonDisabledProps | ButtonNotDisabledProps) &
+  | ({
+      component?: 'button'
+      href?: never
+    } & (ButtonDisabledProps | ButtonNotDisabledProps) &
       Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'autoFocus' | 'type'>)
 
 export type ButtonProps = ButtonCommonProps & ButtonAccessibleIconLeftProps & ButtonAccessibleIconRightProps & ButtonTypeProps
