@@ -5,13 +5,71 @@ import { ChevronLeft, ChevronRight } from 'react-feather'
 import { Formik, FormikConfig } from 'formik'
 import Select from 'react-select'
 
-import { PageJumpFormValues, Pagination, PaginationProps } from '../src/Pagination'
+import {
+  getShownItemsRange,
+  GetShownItemsRangeParams,
+  PageJumpFormValues,
+  Pagination,
+  PaginationProps,
+  ShownItemsRange,
+} from '../src/Pagination'
 import { SelectField, SelectFieldOption, SelectProps } from '../src/SelectField'
 import { Button, ButtonProps } from '../src/Button'
 import { NumberFieldFormik, NumberFieldFormikProps } from '../src/NumberFieldFormik'
 
 import styles from '../src/Pagination.module.scss'
 import styleConsts from '../styles/constants/export.module.scss'
+
+describe('helpers', () => {
+  describe('getShownItemsRange', () => {
+    const data: [GetShownItemsRangeParams, ShownItemsRange][] = [
+      [
+        { currentPage: 1, pageSize: 5, numberOfItems: 54 },
+        { firstItemShown: 1, lastItemShown: 5 },
+      ],
+      [
+        { currentPage: 2, pageSize: 5, numberOfItems: 54 },
+        { firstItemShown: 6, lastItemShown: 10 },
+      ],
+      // ...
+      [
+        { currentPage: 11, pageSize: 5, numberOfItems: 54 },
+        { firstItemShown: 51, lastItemShown: 54 },
+      ],
+      // Let's try different pageSize
+      [
+        { currentPage: 1, pageSize: 10, numberOfItems: 54 },
+        { firstItemShown: 1, lastItemShown: 10 },
+      ],
+      [
+        { currentPage: 2, pageSize: 10, numberOfItems: 54 },
+        { firstItemShown: 11, lastItemShown: 20 },
+      ],
+      // ...
+      [
+        { currentPage: 6, pageSize: 10, numberOfItems: 54 },
+        { firstItemShown: 51, lastItemShown: 54 },
+      ],
+      // Let's try different pageSize
+      [
+        { currentPage: 1, pageSize: 20, numberOfItems: 54 },
+        { firstItemShown: 1, lastItemShown: 20 },
+      ],
+      [
+        { currentPage: 2, pageSize: 20, numberOfItems: 54 },
+        { firstItemShown: 21, lastItemShown: 40 },
+      ],
+      [
+        { currentPage: 3, pageSize: 20, numberOfItems: 54 },
+        { firstItemShown: 41, lastItemShown: 54 },
+      ],
+    ]
+
+    it.each(data)('returns %p for %p', (getShownItemsRangeParams, expectedShownItemsRange) => {
+      expect(getShownItemsRange(getShownItemsRangeParams)).toEqual<ShownItemsRange>(expectedShownItemsRange)
+    })
+  })
+})
 
 const numberOfItems = 10000
 const pageSize = 5
@@ -86,7 +144,7 @@ describe('Pagination', () => {
     expect(wrapper.findDataTest('pagination-range-of-shown-items').props()).toEqual({
       'data-test': 'pagination-range-of-shown-items',
       className: styles.shownItems,
-      children: '1 - 5 of 10000',
+      children: '1 – 5 of 10000',
     })
 
     const buttons = wrapper.find(Button)
@@ -170,7 +228,7 @@ describe('Pagination', () => {
     expect(wrapper.findDataTest('pagination-range-of-shown-items').props()).toEqual({
       'data-test': 'pagination-range-of-shown-items',
       className: styles.shownItems,
-      children: '4996 - 5000 of 10000',
+      children: '4996 – 5000 of 10000',
     })
 
     const buttons = wrapper.find(Button)
@@ -238,7 +296,7 @@ describe('Pagination', () => {
     expect(wrapper.findDataTest('pagination-range-of-shown-items').props()).toEqual({
       'data-test': 'pagination-range-of-shown-items',
       className: styles.shownItems,
-      children: '9996 - 10000 of 10000',
+      children: '9996 – 10000 of 10000',
     })
 
     const buttons = wrapper.find(Button)
@@ -308,7 +366,7 @@ describe('Pagination', () => {
     expect(wrapper.findDataTest('pagination-range-of-shown-items').props()).toEqual({
       'data-test': 'pagination-range-of-shown-items',
       className: styles.shownItems,
-      children: '4996 - 5000 of 10000',
+      children: '4996 – 5000 of 10000',
     })
 
     const buttons = wrapper.find(Button)

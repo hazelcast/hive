@@ -1,4 +1,5 @@
-import React, { FC, useCallback } from 'react'
+import React, { FC, useCallback, useMemo } from 'react'
+import { useDeepCompareMemo } from 'use-deep-compare'
 import { Form, Formik } from 'formik'
 import { ChevronLeft, ChevronRight } from 'react-feather'
 import cn from 'classnames'
@@ -10,6 +11,40 @@ import { NumberFieldFormik } from './NumberFieldFormik'
 
 import styles from './Pagination.module.scss'
 import styleConsts from '../styles/constants/export.module.scss'
+
+export type GetShownItemsRangeParams = {
+  currentPage: number
+  pageSize: number
+  numberOfItems: number
+}
+
+export type ShownItemsRange = {
+  firstItemShown: number
+  lastItemShown: number
+}
+
+export const getShownItemsRange = ({ currentPage, pageSize, numberOfItems }: GetShownItemsRangeParams): ShownItemsRange => {
+  /**
+   * Example for quick understanding: let's assume currentPage = 2, pageSize = 10, numberOfItems = 54, then
+   * firstItemShown = (2 * 10) - 10 + 1 = 20 - 9 = 11,
+   * lastItemShown = 11 + 10 - 1 = 20,
+   * resulting range of items is 11–20.
+   *
+   * Let's assume the page was changed to the last one, now we have currentPage = 6, pageSize = 10, numberOfItems = 54, then
+   * firstItemShown = (6 * 10) - 10 + 1 = 60 - 9 = 51,
+   * we're on the last page, we can safely assume the numberOfItems is what we're looking for: lastItemShown = 54,
+   * resulting range of items is 51–54.
+   */
+  const isLastPage = currentPage * pageSize > numberOfItems
+
+  const firstItemShown = currentPage * pageSize - pageSize + 1
+  const lastItemShown = isLastPage ? numberOfItems : firstItemShown + pageSize - 1
+
+  return {
+    firstItemShown,
+    lastItemShown,
+  }
+}
 
 export type PageJumpFormValues = {
   page: number
@@ -47,6 +82,28 @@ export const Pagination: FC<PaginationProps> = ({
   showRowsSelect = true,
 }) => {
   const pages = usePagination({ pageCount, currentPage })
+  const { firstItemShown, lastItemShown } = useMemo(
+    () =>
+      getShownItemsRange({
+        currentPage,
+        pageSize,
+        numberOfItems,
+      }),
+    [currentPage, pageSize, numberOfItems],
+  )
+
+  const rowsPerPageOptions: SelectFieldOption<number>[] = useDeepCompareMemo(
+    () => pageSizeOptions.map((opt) => ({ value: opt, label: opt.toString() })),
+    [pageSizeOptions],
+  )
+  const rowsPerPageValue: SelectFieldOption<number> = useMemo(() => ({ value: pageSize, label: pageSize.toString() }), [pageSize])
+
+  const onPageSizeChange = useCallback(
+    (option: SelectFieldOption<number>) => {
+      setPageSize(option.value)
+    },
+    [setPageSize],
+  )
 
   const submitPageJump = useCallback(
     ({ page }: PageJumpFormValues) => {
@@ -55,27 +112,15 @@ export const Pagination: FC<PaginationProps> = ({
     [goToPage],
   )
 
-  const lastShownItemNumber = currentPage * pageSize
-  const firstShownItemNumber = lastShownItemNumber - pageSize + 1
-
-  const options: SelectFieldOption<number>[] = pageSizeOptions.map((opt) => ({ value: opt, label: opt.toString() }))
-  const value: SelectFieldOption<number> = { value: pageSize, label: pageSize.toString() }
-  const onPageSizeChange = useCallback(
-    (newValue: SelectFieldOption<number>) => {
-      setPageSize(newValue.value)
-    },
-    [setPageSize],
-  )
-
   return (
     <div className={styles.container}>
       {showRowsSelect && (
         <SelectField
           className={styles.rowsPerPage}
           name="rowsPerPage"
-          value={value}
+          value={rowsPerPageValue}
           label="Rows per page"
-          options={options}
+          options={rowsPerPageOptions}
           onChange={onPageSizeChange}
         />
       )}
@@ -83,74 +128,76 @@ export const Pagination: FC<PaginationProps> = ({
       <span
         data-test="pagination-range-of-shown-items"
         className={styles.shownItems}
-      >{`${firstShownItemNumber} - ${lastShownItemNumber} of ${numberOfItems}`}</span>
+      >{`${firstItemShown} – ${lastItemShown} of ${numberOfItems}`}</span>
 
-      <div className={styles.buttons}>
-        {pages.map((page, i) => {
-          if (page === 'previous') {
-            return canPreviousPage ? (
+      {pageCount > 1 && (
+        <div className={styles.buttons}>
+          {pages.map((page, i) => {
+            if (page === 'previous') {
+              return canPreviousPage ? (
+                <Button
+                  key="previous"
+                  type="button"
+                  kind="transparent"
+                  className={styles.button}
+                  bodyClassName={styles.body}
+                  outlineClassName={styles.outline}
+                  capitalize={false}
+                  iconLeft={ChevronLeft}
+                  iconLeftColor={styleConsts.colorPrimary}
+                  iconLeftAriaLabel="Previous page"
+                  onClick={previousPage}
+                >
+                  Previous
+                </Button>
+              ) : null
+            }
+            if (page === 'next') {
+              return canNextPage ? (
+                <Button
+                  key="next"
+                  type="button"
+                  kind="transparent"
+                  className={styles.button}
+                  bodyClassName={styles.body}
+                  outlineClassName={styles.outline}
+                  capitalize={false}
+                  iconRight={ChevronRight}
+                  iconRightColor={styleConsts.colorPrimary}
+                  iconRightAriaLabel="Next page"
+                  onClick={nextPage}
+                >
+                  Next
+                </Button>
+              ) : null
+            }
+            if (page === 'ellipsis') {
+              return <span key={`ellipsis-${i}`}>&#8208;</span>
+            }
+
+            return (
               <Button
-                key="previous"
+                key={page}
                 type="button"
                 kind="transparent"
-                className={styles.button}
+                className={cn(styles.button, {
+                  [styles.selected]: page === currentPage,
+                })}
                 bodyClassName={styles.body}
                 outlineClassName={styles.outline}
                 capitalize={false}
-                iconLeft={ChevronLeft}
-                iconLeftColor={styleConsts.colorPrimary}
-                iconLeftAriaLabel="Previous page"
-                onClick={previousPage}
+                onClick={() => {
+                  goToPage(page)
+                }}
               >
-                Previous
+                {page.toString()}
               </Button>
-            ) : null
-          }
-          if (page === 'next') {
-            return canNextPage ? (
-              <Button
-                key="next"
-                type="button"
-                kind="transparent"
-                className={styles.button}
-                bodyClassName={styles.body}
-                outlineClassName={styles.outline}
-                capitalize={false}
-                iconRight={ChevronRight}
-                iconRightColor={styleConsts.colorPrimary}
-                iconRightAriaLabel="Next page"
-                onClick={nextPage}
-              >
-                Next
-              </Button>
-            ) : null
-          }
-          if (page === 'ellipsis') {
-            return <span key={`ellipsis-${i}`}>&#8208;</span>
-          }
+            )
+          })}
+        </div>
+      )}
 
-          return (
-            <Button
-              key={page}
-              type="button"
-              kind="transparent"
-              className={cn(styles.button, {
-                [styles.selected]: page === currentPage,
-              })}
-              bodyClassName={styles.body}
-              outlineClassName={styles.outline}
-              capitalize={false}
-              onClick={() => {
-                goToPage(page)
-              }}
-            >
-              {page.toString()}
-            </Button>
-          )
-        })}
-      </div>
-
-      {showPageJump && (
+      {showPageJump && pageCount > 1 && (
         <Formik<PageJumpFormValues>
           initialValues={{
             page: currentPage,
