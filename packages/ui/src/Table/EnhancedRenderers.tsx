@@ -17,7 +17,7 @@ export const EnhancedCellRenderer = <D extends object>({ cell, hasCellRenderer, 
   return <TruncatedTextRenderer id={cell.column.id} text={cell.value} columnResizing={columnResizing} />
 }
 
-type EnhancedHeaderRendererProps<D extends object> = {
+export type EnhancedHeaderRendererProps<D extends object> = {
   column: HeaderGroup<D>
   columnResizing: UseResizeColumnsState<D>['columnResizing']
 }

@@ -1,4 +1,5 @@
-import React, { PropsWithChildren, ReactElement, useEffect, useMemo } from 'react'
+import { DataTestProp } from '@hazelcast/helpers'
+import React, { ReactElement, useEffect, useMemo } from 'react'
 import {
   useTable,
   usePagination,
@@ -41,15 +42,16 @@ type TableProps<D extends object> = TableOptions<D> &
   ControlledPaginationProps & {
     onRowClick?: (rowInfo: RowType<D>) => void
     getCustomCellProps?: (cellInfo: CellType<D>) => CellProps | void
-  }
+  } & DataTestProp
 
 const defaultColumn = {
   // When using the useFlexLayout:
   minWidth: 60, // minWidth is only used as a limit for resizing
-  maxWidth: 200, // maxWidth is only used as a limit for resizing
+  maxWidth: 250, // maxWidth is only used as a limit for resizing
 }
 
 export function Table<D extends object>({
+  'data-test': dataTest,
   autoResetSortBy = false,
   columns,
   data,
@@ -63,7 +65,7 @@ export function Table<D extends object>({
   hidePagination = false,
   onRowClick,
   getCustomCellProps,
-}: PropsWithChildren<TableProps<D>>): ReactElement {
+}: TableProps<D>): ReactElement {
   const {
     getTableProps,
     headerGroups,
@@ -101,12 +103,12 @@ export function Table<D extends object>({
     useFlexLayout,
   )
 
-  // Debounce our `fetchData` call for 200ms
+  // Debounce our `fetchData` call for 200ms. This is useful if we're changing pag
   // We can use non-null assertion here since we're checking existence of `fetchData` in the `useEffect` below
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const onFetchDataDebounced = useAsyncDebounce<({ pageIndex, pageSize }: FetchDataProps) => void>(fetchData!, 200)
 
-  // Listen for changes in pagination and use the state to fetch new data
+  // Listen for changes in pagination and use the state to fetch new data. This is a recommended way to fetch new data: https://react-table.tanstack.com/docs/faq#how-can-i-use-the-table-state-to-fetch-new-data
   useEffect(() => {
     if (fetchData) {
       onFetchDataDebounced({ pageIndex, pageSize })
@@ -118,17 +120,16 @@ export function Table<D extends object>({
 
   // Total row count, + 1 is for header row
   const rowCount = data.length + 1
-  // We're using this offset to display correct aria-rowindex when pagination is in action.
-  // + 1 is for header row.
-  const ariaRowCellIndexOffset = pageSize * pageIndex + 1
   // Header row has always aria-rowindex = 1.
   const ariaRowHeaderIndex = 1
+  // We're using this offset to display correct aria-rowindex when pagination is in action.
+  const ariaRowCellIndexOffset = pageSize * pageIndex + ariaRowHeaderIndex
 
   return (
-    <>
+    <div data-test={dataTest ?? 'table-wrapper'}>
       <div className={styles.container}>
-        <div {...getTableProps()} className={styles.table} aria-rowcount={rowCount}>
-          <div role="rowgroup">
+        <div data-test="table" {...getTableProps()} className={styles.table} aria-rowcount={rowCount}>
+          <div data-test="table-header-row-group" role="rowgroup">
             {headerGroups.map((headerGroup) => {
               const { key: headerGroupKey, ...restHeaderGroupProps } = headerGroup.getHeaderGroupProps()
               return (
@@ -155,7 +156,7 @@ export function Table<D extends object>({
               )
             })}
           </div>
-          <div role="rowgroup">
+          <div data-test="table-cell-row-group" role="rowgroup">
             {page.map((row) => {
               prepareRow(row)
               const { key: rowKey, ...restRowProps } = row.getRowProps()
@@ -225,6 +226,6 @@ export function Table<D extends object>({
           numberOfItems={data.length}
         />
       )}
-    </>
+    </div>
   )
 }

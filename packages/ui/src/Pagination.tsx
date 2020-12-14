@@ -172,7 +172,7 @@ export const Pagination: FC<PaginationProps> = ({
               ) : null
             }
             if (page === 'ellipsis') {
-              return <span key={`ellipsis-${i}`}>&#8208;</span>
+              return <span key={`ellipsis-${i}`}>&ndash;</span>
             }
 
             return (
