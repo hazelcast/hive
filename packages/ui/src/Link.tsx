@@ -76,6 +76,7 @@ export type LinkProps = IconProps & {
  * - There are 2 sizes of Link available - normal (default) and small.
  * - The default state of all types of link is underlined and on hover it has no underline.
  * - Link can be used as a stand-alone component with right chevron icon.
+ * - You can change underlying semantics with a component property. Typescript will guard you on providing other properties related to the component type.
  */
 export const Link: FC<LinkProps> = ({
   component: Component = 'a',

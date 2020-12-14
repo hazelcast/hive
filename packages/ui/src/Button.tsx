@@ -98,6 +98,7 @@ export type ButtonProps = ButtonCommonProps & ButtonAccessibleIconLeftProps & Bu
  * - You can use an icon with the label to draw more attention.
  * - Button label is always in upper-case
  * - The labels should be actionable (e.g. "EDIT" or "ADD NEW FILTER") and it should be clear from the button label what will happen when the user interacts with it. Make button labels short and clear. Avoid long explanations in the button text.
+ * - You can change underlying semantics with a component property. Typescript will guard you on providing other properties related to the component type.
  *
  * ### Usage
  * - **Primary**: Use primary button for the single primary action on the screen. To call attention to an action on a form, or highlight the strongest call to action on a page. Primary button should only appear once per screen. Not every screen requires a primary button.
