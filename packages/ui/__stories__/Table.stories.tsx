@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { logger } from '@hazelcast/services'
 
-import { FetchDataProps, Table } from '../../src/Table/Table'
-import { getColumns, makeData, Person } from '../../__tests__/Table/utils'
+import { FetchDataProps, Table } from '../src/Table/Table'
+import { getColumns, makeData, Person } from '../__tests__/Table/utils'
 
 export default {
   title: 'Components/Table',
