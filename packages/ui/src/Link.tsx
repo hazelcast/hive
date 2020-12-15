@@ -1,7 +1,6 @@
 import React, { AnchorHTMLAttributes, FC, MouseEventHandler, ReactNode } from 'react'
 import { Icon as FeatherIcon } from 'react-feather'
 import cn from 'classnames'
-import { useDeepCompareMemo } from 'use-deep-compare'
 import { Icon } from './Icon'
 import styles from './Link.module.scss'
 
@@ -24,10 +23,10 @@ type IconProps =
       ariaLabel?: never
     }
 
-type LinkTarget = '_self' | '_blank' | '_parent' | '_top'
+export type LinkTarget = '_self' | '_blank' | '_parent' | '_top'
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types
-type LinkRel =
+export type LinkRel =
   | 'alternate'
   | 'author'
   | 'bookmark'
@@ -47,13 +46,24 @@ type LinkRel =
 export type LinkProps = IconProps & {
   size?: keyof typeof sizes
   kind?: 'primary' | 'secondary'
-  target?: LinkTarget
-  rel?: LinkRel | LinkRel[]
   children: ReactNode
-  // Required by nextjs https://nextjs.org/docs/api-reference/next/link
-  onClick?: MouseEventHandler<HTMLAnchorElement>
-} & Required<Pick<AnchorAttributes, 'href'>> &
-  Pick<AnchorAttributes, 'className'>
+  // it's also required by next.js for <a> https://nextjs.org/docs/api-reference/next/link
+  onClick?: MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>
+} & Pick<AnchorAttributes, 'className'> &
+  (
+    | {
+        component: 'button'
+        href?: never
+        target?: never
+        rel?: never
+      }
+    | {
+        component?: 'a'
+        href: string
+        target?: LinkTarget
+        rel?: LinkRel | LinkRel[]
+      }
+  )
 
 /**
  * ### Purpose
@@ -65,8 +75,10 @@ export type LinkProps = IconProps & {
  * - There are 2 sizes of Link available - normal (default) and small.
  * - The default state of all types of link is underlined and on hover it has no underline.
  * - Link can be used as a stand-alone component with right chevron icon.
+ * - You can change underlying semantics with a component property. Typescript will guard you on providing other properties related to the component type.
  */
 export const Link: FC<LinkProps> = ({
+  component: Component = 'a',
   kind = 'primary',
   size = 'normal',
   icon,
@@ -78,10 +90,10 @@ export const Link: FC<LinkProps> = ({
   className,
   children,
 }) => {
-  const relFinal = useDeepCompareMemo(() => (Array.isArray(rel) ? rel.join(' ') : rel), [rel])
+  const relFinal = Array.isArray(rel) ? rel.join(' ') : rel
 
   return (
-    <a
+    <Component
       className={cn(
         styles[size],
         {
@@ -91,12 +103,12 @@ export const Link: FC<LinkProps> = ({
         className,
       )}
       href={href}
-      rel={relFinal}
-      target={target}
+      rel={Component === 'a' ? relFinal : undefined}
+      target={Component === 'a' ? target : undefined}
       onClick={onClick}
     >
       {children}
       {icon && ariaLabel && <Icon icon={icon} ariaLabel={ariaLabel} size={size} />}
-    </a>
+    </Component>
   )
 }
