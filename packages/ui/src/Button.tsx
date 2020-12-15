@@ -9,7 +9,6 @@ import { Tooltip, TooltipProps } from './Tooltip'
 
 import styles from './Button.module.scss'
 import { LinkRel, LinkTarget } from './Link'
-import { useDeepCompareMemo } from 'use-deep-compare'
 
 export type ButtonKind = 'primary' | 'secondary' | 'transparent'
 
@@ -137,7 +136,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
     ref,
   ) => {
     const tooltipId = useUID()
-    const relFinal = useDeepCompareMemo(() => (Array.isArray(rel) ? rel.join(' ') : rel), [rel])
+    const relFinal = Array.isArray(rel) ? rel.join(' ') : rel
 
     return (
       <Tooltip

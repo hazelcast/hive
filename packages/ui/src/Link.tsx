@@ -1,7 +1,6 @@
 import React, { AnchorHTMLAttributes, FC, MouseEventHandler, ReactNode } from 'react'
 import { Icon as FeatherIcon } from 'react-feather'
 import cn from 'classnames'
-import { useDeepCompareMemo } from 'use-deep-compare'
 import { Icon } from './Icon'
 import styles from './Link.module.scss'
 
@@ -91,7 +90,7 @@ export const Link: FC<LinkProps> = ({
   className,
   children,
 }) => {
-  const relFinal = useDeepCompareMemo(() => (Array.isArray(rel) ? rel.join(' ') : rel), [rel])
+  const relFinal = Array.isArray(rel) ? rel.join(' ') : rel
 
   return (
     <Component
