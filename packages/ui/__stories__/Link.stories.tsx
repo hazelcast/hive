@@ -3,6 +3,7 @@ import { ChevronRight } from 'react-feather'
 
 import { Link } from '../src/Link'
 import styles from '../src/Link.module.scss'
+import { logger } from '@hazelcast/services'
 
 export default {
   title: 'Components/Link',
@@ -98,5 +99,39 @@ export const SmallWithIconFocused = () => (
 export const SmallWithIconActive = () => (
   <Link size="small" icon={ChevronRight} ariaLabel="Chevron right" href="https://hazelcast.com/" className={styles.active}>
     Small Text Link
+  </Link>
+)
+
+// A few 'secondary' kind variations:
+
+export const SecondaryNormal = () => (
+  <Link kind="secondary" href="https://hazelcast.com/">
+    Secondary Normal Link
+  </Link>
+)
+
+export const SecondaryNormalWithIcon = () => (
+  <Link kind="secondary" href="https://hazelcast.com/" icon={ChevronRight} ariaLabel="Chevron right">
+    Secondary Normal Link With Icon
+  </Link>
+)
+
+export const SecondarySmall = () => (
+  <Link kind="secondary" size="small" href="https://hazelcast.com/">
+    Secondary Small Link
+  </Link>
+)
+
+export const SecondarySmallWithIcon = () => (
+  <Link kind="secondary" size="small" icon={ChevronRight} ariaLabel="Chevron right" href="https://hazelcast.com/">
+    Secondary Small Link With Icon
+  </Link>
+)
+
+export const ButtonSemanticsNormal = () => <Link component="button">Normal Text Link</Link>
+
+export const ButtonSemanticsSecondarySmallWithIcon = () => (
+  <Link kind="secondary" size="small" icon={ChevronRight} ariaLabel="Chevron right" component="button" onClick={(e) => logger.log(e)}>
+    Secondary Small Link With Icon
   </Link>
 )

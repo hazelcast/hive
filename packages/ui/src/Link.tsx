@@ -1,11 +1,10 @@
 import React, { AnchorHTMLAttributes, FC, MouseEventHandler, ReactNode } from 'react'
 import { Icon as FeatherIcon } from 'react-feather'
 import cn from 'classnames'
-import { useDeepCompareMemo } from 'use-deep-compare'
-
 import { Icon } from './Icon'
-
 import styles from './Link.module.scss'
+
+export type LinkKind = 'primary' | 'secondary'
 
 const sizes = {
   normal: styles.normal,
@@ -24,10 +23,10 @@ type IconProps =
       ariaLabel?: never
     }
 
-type LinkTarget = '_self' | '_blank' | '_parent' | '_top'
+export type LinkTarget = '_self' | '_blank' | '_parent' | '_top'
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types
-type LinkRel =
+export type LinkRel =
   | 'alternate'
   | 'author'
   | 'bookmark'
@@ -46,13 +45,25 @@ type LinkRel =
 
 export type LinkProps = IconProps & {
   size?: keyof typeof sizes
-  target?: LinkTarget
-  rel?: LinkRel | LinkRel[]
+  kind?: 'primary' | 'secondary'
   children: ReactNode
-  // Required by nextjs https://nextjs.org/docs/api-reference/next/link
-  onClick?: MouseEventHandler<HTMLAnchorElement>
-} & Required<Pick<AnchorAttributes, 'href'>> &
-  Pick<AnchorAttributes, 'className'>
+  // it's also required by next.js for <a> https://nextjs.org/docs/api-reference/next/link
+  onClick?: MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>
+} & Pick<AnchorAttributes, 'className'> &
+  (
+    | {
+        component: 'button'
+        href?: never
+        target?: never
+        rel?: never
+      }
+    | {
+        component?: 'a'
+        href: string
+        target?: LinkTarget
+        rel?: LinkRel | LinkRel[]
+      }
+  )
 
 /**
  * ### Purpose
@@ -60,11 +71,15 @@ export type LinkProps = IconProps & {
  * Text links let you add actions in the form of text that fits with its surroundings. Users can see they can take an action, but their focus is not drawn much from your main flow.
  *
  * ### General Info
- * - There are 2 types of Link available - regular and small.
+ * - There are 2 kinds (colors) of Link available - primary (default) and secondary.
+ * - There are 2 sizes of Link available - normal (default) and small.
  * - The default state of all types of link is underlined and on hover it has no underline.
  * - Link can be used as a stand-alone component with right chevron icon.
+ * - You can change underlying semantics with a component property. Typescript will guard you on providing other properties related to the component type.
  */
 export const Link: FC<LinkProps> = ({
+  component: Component = 'a',
+  kind = 'primary',
   size = 'normal',
   icon,
   ariaLabel,
@@ -75,12 +90,25 @@ export const Link: FC<LinkProps> = ({
   className,
   children,
 }) => {
-  const relFinal = useDeepCompareMemo(() => (Array.isArray(rel) ? rel.join(' ') : rel), [rel])
+  const relFinal = Array.isArray(rel) ? rel.join(' ') : rel
 
   return (
-    <a className={cn(styles[size], className)} href={href} rel={relFinal} target={target} onClick={onClick}>
+    <Component
+      className={cn(
+        styles[size],
+        {
+          [styles.primary]: kind === 'primary',
+          [styles.secondary]: kind === 'secondary',
+        },
+        className,
+      )}
+      href={href}
+      rel={Component === 'a' ? relFinal : undefined}
+      target={Component === 'a' ? target : undefined}
+      onClick={onClick}
+    >
       {children}
       {icon && ariaLabel && <Icon icon={icon} ariaLabel={ariaLabel} size={size} />}
-    </a>
+    </Component>
   )
 }

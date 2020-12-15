@@ -1,4 +1,5 @@
 import React from 'react'
+import cn from 'classnames'
 import { ChevronRight } from 'react-feather'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 
@@ -13,7 +14,7 @@ describe('Link', () => {
 
     const anchor = wrapper.find('a')
     expect(anchor.props()).toEqual({
-      className: styles.normal,
+      className: cn(styles.normal, styles.primary),
       href: 'https://hazelcast.com/',
       rel: 'noopener',
       target: '_self',
@@ -30,7 +31,7 @@ describe('Link', () => {
 
     const anchor = wrapper.find('a')
     expect(anchor.props()).toMatchObject({
-      className: styles.normal,
+      className: cn(styles.normal, styles.primary),
       href: 'https://hazelcast.com/',
       rel: 'noopener',
       target: '_self',
@@ -53,7 +54,7 @@ describe('Link', () => {
 
     const anchor = wrapper.find('a')
     expect(anchor.props()).toEqual({
-      className: styles.small,
+      className: cn(styles.small, styles.primary),
       href: 'https://hazelcast.com/',
       rel: 'noopener',
       target: '_self',
@@ -70,7 +71,7 @@ describe('Link', () => {
 
     const anchor = wrapper.find('a')
     expect(anchor.props()).toMatchObject({
-      className: styles.small,
+      className: cn(styles.small, styles.primary),
       href: 'https://hazelcast.com/',
       rel: 'noopener',
       target: '_self',
@@ -84,6 +85,23 @@ describe('Link', () => {
     })
   })
 
+  it('Renders a secondary normal Link with correct props', async () => {
+    const wrapper = await mountAndCheckA11Y(
+      <Link kind="secondary" href="https://hazelcast.com/">
+        Normal Text Link
+      </Link>,
+    )
+
+    const anchor = wrapper.find('a')
+    expect(anchor.props()).toEqual({
+      className: cn(styles.normal, styles.secondary),
+      href: 'https://hazelcast.com/',
+      rel: 'noopener',
+      target: '_self',
+      children: ['Normal Text Link', undefined],
+    })
+  })
+
   it('Allows custom rel and target', async () => {
     const wrapper = await mountAndCheckA11Y(
       <Link href="https://hazelcast.com/" rel={['help', 'noreferrer']} target="_parent">
@@ -93,11 +111,37 @@ describe('Link', () => {
 
     const anchor = wrapper.find('a')
     expect(anchor.props()).toEqual({
-      className: styles.normal,
+      className: cn(styles.normal, styles.primary),
       href: 'https://hazelcast.com/',
       rel: 'help noreferrer',
       target: '_parent',
       children: ['Normal Text Link', undefined],
     })
+  })
+
+  it('Renders Link with button semantics', async () => {
+    const onClick = jest.fn()
+    const wrapper = await mountAndCheckA11Y(
+      <Link component="button" onClick={onClick}>
+        Normal Text Link
+      </Link>,
+    )
+
+    expect(wrapper.find('button').exists()).toBe(true)
+    expect(wrapper.find('a').exists()).toBe(false)
+  })
+
+  it('Renders Link with button semantics, proper props are passed to a button', async () => {
+    const onClick = jest.fn()
+    const wrapper = await mountAndCheckA11Y(
+      <Link component="button" onClick={onClick}>
+        Normal Text Link
+      </Link>,
+    )
+
+    const props = wrapper.find('button').props()
+    expect(props).toHaveProperty('onClick', onClick)
+    expect(props).toHaveProperty('rel', undefined)
+    expect(props).toHaveProperty('target', undefined)
   })
 })

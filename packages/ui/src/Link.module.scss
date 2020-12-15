@@ -4,8 +4,10 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  color: c.$colorPrimary;
   text-decoration: none;
+  border: none;
+  background: none;
+  cursor: pointer;
 
   &:hover,
   &.hover,
@@ -14,7 +16,14 @@
   &:active,
   &.active {
     text-decoration: underline solid;
-    outline: none;
+    outline: transparent solid c.$outlineWidth;
+  }
+
+  &.primary {
+    color: c.$colorPrimary;
+  }
+  &.secondary {
+    color: c.$colorTextSecondary;
   }
 }
 
