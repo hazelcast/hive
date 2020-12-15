@@ -42,6 +42,7 @@ export const Toggle: FC<ToggleProps> = ({
 
   return (
     <div className={cn(styles.wrapper, className)} data-test={dataTest}>
+      {/* hidden yet actual input */}
       <input
         type="checkbox"
         ref={inputRef}
@@ -58,6 +59,7 @@ export const Toggle: FC<ToggleProps> = ({
         aria-errormessage={error && errorId(id)}
       />
 
+      {/* label controlling the input above with the `toggle-track` element */}
       <label className={cn(classNameLabel, { [styles.disabled]: disabled })} htmlFor={id}>
         <span className={cn(styles.labelText)}>{label}</span>
         <span className={cn(styles['toggle-track'])}></span>
@@ -65,9 +67,11 @@ export const Toggle: FC<ToggleProps> = ({
 
       {helperText && <Help parentId={id} helperText={helperText} />}
 
-      <div>
-        <Error error={error} className={styles.errorContainer} inputId={id} />
-      </div>
+      {error && (
+        <div>
+          <Error error={error} className={styles.errorContainer} inputId={id} />
+        </div>
+      )}
     </div>
   )
 }

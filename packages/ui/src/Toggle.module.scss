@@ -4,11 +4,15 @@
 $h: 24px;
 $w: 60px;
 $knob-r: $w / 2 + 8px;
+$track-br: 22px;
 $track-bg-on: #1dbc22;
 $track-bg-off: c.$colorNeutralLight; // rgba(0,0,0,.32);
 $knob-bg-on: c.$colorNeutralWhite;
 $knob-bg-off: c.$colorNeutralLighter;
 $label-margin: 12px;
+$knob-h: 20px;
+$knob-w: 20px;
+$knob-offset: 2px;
 
 @keyframes fadein {
   from {
@@ -43,7 +47,7 @@ $label-margin: 12px;
     height: $h;
     width: $w;
     background: $track-bg-off;
-    border-radius: 22px;
+    border-radius: $track-br;
     position: relative;
   }
 
@@ -56,13 +60,13 @@ $label-margin: 12px;
   .toggle-track:before {
     content: '';
     display: inline-block;
-    height: 20px;
-    width: 20px;
+    height: $knob-h;
+    width: $knob-w;
     background: $knob-bg-off;
-    border-radius: 20px;
+    border-radius: 50%;
     position: absolute;
-    top: 2px;
-    right: 2px;
+    top: $knob-offset;
+    right: $knob-offset;
     transition: right 0.2s ease-in;
   }
 
