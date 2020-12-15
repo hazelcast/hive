@@ -345,3 +345,55 @@ export const NotCapitalized = () => (
     Not capitalized
   </Button>
 )
+
+export const LinkSemanticsPrimary = () => (
+  <Button kind="primary" component="a" href="#">
+    Primary
+  </Button>
+)
+
+export const LinkSemanticsNotCapitalizedWithIcons = () => (
+  <Button
+    capitalize={false}
+    kind="primary"
+    iconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+    iconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+    component="a"
+    href="#"
+  >
+    Not capitalized
+  </Button>
+)
+
+export const LinkSemanticsLong = () => (
+  <Button
+    kind="primary"
+    iconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+    iconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+    component="a"
+    href="#"
+  >
+    Looooooooooooooooooooooooooooooooong Primary Button
+  </Button>
+)
+
+export const LinkSemanticsTransparentIconBothFocused = () => (
+  <Button
+    className={styles.focus}
+    kind="transparent"
+    iconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+    iconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+    component="a"
+    href="#"
+    rel="noopener"
+    target="_blank"
+  >
+    Transparent
+  </Button>
+)
