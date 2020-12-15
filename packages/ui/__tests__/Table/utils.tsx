@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react'
+import React, { PropsWithChildren, useMemo } from 'react'
 import namor from 'namor'
 import { range } from '@hazelcast/helpers'
-import { Column } from 'react-table'
+import { CellProps, Column } from 'react-table'
 
 import { Link } from '../../src/Link'
 
@@ -38,6 +38,12 @@ export type GetColumns = {
   withNameLink?: boolean
 }
 
+const NameCell = (row: PropsWithChildren<CellProps<Person, string>>) => (
+  <Link href="https://hazelcast.com/" size="small">
+    {row.value}
+  </Link>
+)
+
 export const getColumns = ({ withFooter = false, withNameLink = false }: GetColumns): Column<Person>[] => [
   {
     Header: 'ID',
@@ -48,15 +54,7 @@ export const getColumns = ({ withFooter = false, withNameLink = false }: GetColu
     Header: 'Name',
     accessor: 'name',
     ...(withFooter && { Footer: 'Name' }),
-    ...(withNameLink && {
-      Cell: function Cell(row) {
-        return (
-          <Link href="https://hazelcast.com/" size="small">
-            {row.value}
-          </Link>
-        )
-      },
-    }),
+    ...(withNameLink && { Cell: NameCell }),
   },
   {
     Header: 'Age',
@@ -64,8 +62,7 @@ export const getColumns = ({ withFooter = false, withNameLink = false }: GetColu
     ...(withFooter && {
       Footer: (info) => {
         const total = useMemo(() => info.rows.reduce((sum, row) => (row.values.age as Person['age']) + sum, 0), [info.rows])
-        const footer = `Average Age: ${total / info.rows.length}`
-        return footer
+        return `Average Age: ${total / info.rows.length}`
       },
     }),
     align: 'right',
@@ -76,8 +73,7 @@ export const getColumns = ({ withFooter = false, withNameLink = false }: GetColu
     ...(withFooter && {
       Footer: (info) => {
         const total = useMemo(() => info.rows.reduce((sum, row) => (row.values.visits as Person['visits']) + sum, 0), [info.rows])
-        const footer = `Total: ${total}`
-        return footer
+        return `Total: ${total}`
       },
     }),
     align: 'right',

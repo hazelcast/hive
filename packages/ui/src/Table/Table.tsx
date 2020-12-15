@@ -1,5 +1,5 @@
 import { DataTestProp } from '@hazelcast/helpers'
-import React, { ReactElement, useEffect, useMemo } from 'react'
+import React, { ReactElement, useEffect } from 'react'
 import {
   useTable,
   usePagination,
@@ -15,7 +15,7 @@ import {
 
 import { Pagination } from '../Pagination'
 import { Cell, CellProps } from './Cell'
-import { EnhancedCellRenderer, EnhancedHeaderRenderer } from './EnhancedRenderers'
+import { EnhancedCellRenderer, EnhancedHeaderFooterRenderer } from './EnhancedRenderers'
 import { Header } from './Header'
 import { Row } from './Row'
 
@@ -116,7 +116,7 @@ export function Table<D extends object>({
   }, [fetchData, onFetchDataDebounced, pageIndex, pageSize])
 
   // If at least one of the columns has footer then we display the footer row
-  const hasFooter = useMemo(() => columns.some((col) => !!col.Footer), [columns])
+  const hasFooter = columns.some((col) => !!col.Footer)
 
   // Total row count, + 1 is for header row
   const rowCount = data.length + 1
@@ -148,7 +148,7 @@ export function Table<D extends object>({
                         getResizerProps={column.getResizerProps}
                         {...restHeaderProps}
                       >
-                        <EnhancedHeaderRenderer column={column} columnResizing={columnResizing} />
+                        <EnhancedHeaderFooterRenderer column={column} columnResizing={columnResizing} type="Header" />
                       </Header>
                     )
                   })}
@@ -177,7 +177,7 @@ export function Table<D extends object>({
                   {row.cells.map((cell, i) => {
                     const { key: cellKey, ...restCellProps } = cell.getCellProps()
                     const customCellProps = getCustomCellProps ? getCustomCellProps(cell) : {}
-                    // We don't want to use cell.column.Cell as that is a ColumnInstance which always has a cell renderer
+                    // We don't want to use cell.column.Cell as that is a ColumnInstance which already has a cell renderer
                     const column = columns[i] as ColumnInterfaceBasedOnValue<D>
                     return (
                       <Cell key={cellKey} align={cell.column.align} {...restCellProps} {...customCellProps}>
@@ -190,16 +190,17 @@ export function Table<D extends object>({
             })}
           </div>
           {hasFooter && (
-            <div role="rowgroup">
+            <div data-test="table-footer-row-group" role="rowgroup">
+              {/* Apparently footer props getters do not provide role attributes */}
               {footerGroups.map((group) => {
                 const { key: footerGroupKey, ...restFooterGroupProps } = group.getFooterGroupProps()
                 return (
-                  <Row key={footerGroupKey} isHeaderRow={false} {...restFooterGroupProps}>
+                  <Row key={footerGroupKey} isHeaderRow={false} {...restFooterGroupProps} role="row">
                     {group.headers.map((column) => {
                       const { key: footerKey, ...restFooterProps } = column.getFooterProps()
                       return (
-                        <Cell key={footerKey} {...restFooterProps} align={column.align}>
-                          {column.render('Footer')}
+                        <Cell key={footerKey} {...restFooterProps} align={column.align} role="cell">
+                          <EnhancedHeaderFooterRenderer column={column} columnResizing={columnResizing} type="Footer" />
                         </Cell>
                       )
                     })}
