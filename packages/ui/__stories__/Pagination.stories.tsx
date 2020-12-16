@@ -7,7 +7,11 @@ export default {
   component: Pagination,
 }
 
-const StoryBase: FC<Pick<PaginationProps, 'showPageJump' | 'showRowsSelect'>> = ({ showPageJump, showRowsSelect }) => {
+const StoryBase: FC<Pick<PaginationProps, 'showPageJump' | 'showRowsSelect' | 'showRangeOfShownItems'>> = ({
+  showPageJump,
+  showRowsSelect,
+  showRangeOfShownItems,
+}) => {
   const numberOfItems = 10000
   const [pageSize, setPageSize] = useState<number>(5)
   const pageSizeOptions = [5, 10]
@@ -35,6 +39,7 @@ const StoryBase: FC<Pick<PaginationProps, 'showPageJump' | 'showRowsSelect'>> = 
       setPageSize={setPageSize}
       pageSizeOptions={pageSizeOptions}
       numberOfItems={numberOfItems}
+      showRangeOfShownItems={showRangeOfShownItems}
       showPageJump={showPageJump}
       showRowsSelect={showRowsSelect}
     />
@@ -50,8 +55,10 @@ Default.parameters = {
   },
 }
 
+export const WithoutRangeOfShownItems = () => <StoryBase showRangeOfShownItems={false} />
+
 export const WithoutPageJump = () => <StoryBase showPageJump={false} />
 
 export const WithoutRowsSelect = () => <StoryBase showRowsSelect={false} />
 
-export const WithoutPageJumpAndRowsSelect = () => <StoryBase showPageJump={false} showRowsSelect={false} />
+export const MinimalExample = () => <StoryBase showPageJump={false} showRowsSelect={false} showRangeOfShownItems={false} />

@@ -62,6 +62,7 @@ export type PaginationProps = {
   setPageSize: (pageSize: number) => void
   pageSizeOptions: number[]
   numberOfItems: number
+  showRangeOfShownItems?: boolean
   showPageJump?: boolean
   showRowsSelect?: boolean
 }
@@ -78,6 +79,7 @@ export const Pagination: FC<PaginationProps> = ({
   setPageSize,
   pageSizeOptions,
   numberOfItems,
+  showRangeOfShownItems = true,
   showPageJump = true,
   showRowsSelect = true,
 }) => {
@@ -126,10 +128,12 @@ export const Pagination: FC<PaginationProps> = ({
         />
       )}
 
-      <span
-        data-test="pagination-range-of-shown-items"
-        className={styles.shownItems}
-      >{`${firstItemShown} – ${lastItemShown} of ${numberOfItems}`}</span>
+      {showRangeOfShownItems && (
+        <span
+          data-test="pagination-range-of-shown-items"
+          className={styles.shownItems}
+        >{`${firstItemShown} – ${lastItemShown} of ${numberOfItems}`}</span>
+      )}
 
       {pageCount > 1 && (
         <div className={styles.buttons}>
