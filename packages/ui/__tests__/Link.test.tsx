@@ -118,4 +118,30 @@ describe('Link', () => {
       children: ['Normal Text Link', undefined],
     })
   })
+
+  it('Renders Link with button semantics', async () => {
+    const onClick = jest.fn()
+    const wrapper = await mountAndCheckA11Y(
+      <Link component="button" onClick={onClick}>
+        Normal Text Link
+      </Link>,
+    )
+
+    expect(wrapper.find('button').exists()).toBe(true)
+    expect(wrapper.find('a').exists()).toBe(false)
+  })
+
+  it('Renders Link with button semantics, proper props are passed to a button', async () => {
+    const onClick = jest.fn()
+    const wrapper = await mountAndCheckA11Y(
+      <Link component="button" onClick={onClick}>
+        Normal Text Link
+      </Link>,
+    )
+
+    const props = wrapper.find('button').props()
+    expect(props).toHaveProperty('onClick', onClick)
+    expect(props).toHaveProperty('rel', undefined)
+    expect(props).toHaveProperty('target', undefined)
+  })
 })

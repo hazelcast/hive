@@ -37,6 +37,7 @@ export type ToastProps = {
   type: ToastType
   content: ReactNode
   closeToast?: (e: React.MouseEvent<HTMLButtonElement>) => void
+  className?: string
 }
 
 /**
@@ -49,17 +50,21 @@ export type ToastProps = {
  * ### Note
  * The toast is designed to be integrated with https://fkhadra.github.io/react-toastify/introduction/
  */
-export const Toast: FC<ToastProps> = ({ type, content, closeToast }) => {
+export const Toast: FC<ToastProps> = ({ type, content, closeToast, className }) => {
   const { icon, ariaLabel } = ToastIcon[type]
 
   return (
     <div
-      className={cn(styles.toast, {
-        [styles.success]: type === 'success',
-        [styles.info]: type === 'info',
-        [styles.warning]: type === 'warning',
-        [styles.critical]: type === 'critical',
-      })}
+      className={cn(
+        styles.toast,
+        {
+          [styles.success]: type === 'success',
+          [styles.info]: type === 'info',
+          [styles.warning]: type === 'warning',
+          [styles.critical]: type === 'critical',
+        },
+        className,
+      )}
     >
       <Icon data-test="toast-icon" ariaLabel={ariaLabel} icon={icon} className={styles.icon} />
       <div data-test="toast-content" className={styles.content}>

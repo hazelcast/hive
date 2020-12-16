@@ -3,6 +3,7 @@ import { ChevronRight } from 'react-feather'
 
 import { Link } from '../src/Link'
 import styles from '../src/Link.module.scss'
+import { logger } from '@hazelcast/services'
 
 export default {
   title: 'Components/Link',
@@ -123,6 +124,14 @@ export const SecondarySmall = () => (
 
 export const SecondarySmallWithIcon = () => (
   <Link kind="secondary" size="small" icon={ChevronRight} ariaLabel="Chevron right" href="https://hazelcast.com/">
+    Secondary Small Link With Icon
+  </Link>
+)
+
+export const ButtonSemanticsNormal = () => <Link component="button">Normal Text Link</Link>
+
+export const ButtonSemanticsSecondarySmallWithIcon = () => (
+  <Link kind="secondary" size="small" icon={ChevronRight} ariaLabel="Chevron right" component="button" onClick={(e) => logger.log(e)}>
     Secondary Small Link With Icon
   </Link>
 )
