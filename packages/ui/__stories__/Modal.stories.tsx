@@ -13,7 +13,9 @@ export default {
 }
 
 const onClose = () => console.log('onClose')
+
 const onAction = () => console.log('onAction')
+const actionLabel = 'Action'
 
 const ModalWithPortalFactory: FC<ModalProps> = ({ children, className, ...props }) => {
   // We need dynamic id in order not to portal Default & Normal into same sandbox
@@ -46,13 +48,13 @@ export const NotClosable = () => (
 )
 
 export const WithAction = () => (
-  <ModalWithPortalFactory title="Title of the Modal" isOpen action="Submit" onAction={onAction} onClose={onClose}>
+  <ModalWithPortalFactory title="Title of the Modal" isOpen onClose={onClose} onAction={onAction} actionLabel={actionLabel}>
     <div>Content</div>
   </ModalWithPortalFactory>
 )
 
 export const NotClosableWithAction = () => (
-  <ModalWithPortalFactory title="Title of the Modal" isOpen action="Submit" onAction={onAction}>
+  <ModalWithPortalFactory title="Title of the Modal" isOpen onAction={onAction} actionLabel={actionLabel}>
     <div>Content</div>
   </ModalWithPortalFactory>
 )
