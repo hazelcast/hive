@@ -1,4 +1,4 @@
-import React, { FC, FocusEvent, ChangeEvent, useRef } from 'react'
+import React, { FC, FocusEvent, ChangeEvent } from 'react'
 import cn from 'classnames'
 import { Error, errorId } from './Error'
 import { Help, helpTooltipId } from './Help'
@@ -6,14 +6,16 @@ import { useUID } from 'react-uid'
 import { DataTestProp } from '@hazelcast/helpers'
 import styles from './Toggle.module.scss'
 
-export type ToggleCoreProps = {
+type ToggleCoreProps = {
   name: string
   value?: string
   checked?: boolean
   onBlur?: (e: FocusEvent<HTMLInputElement>) => void
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void
   error?: string
+}
 
+export type ToggleExtraProps = {
   label: string | React.ReactNode
   helperText?: string
   disabled?: boolean
@@ -21,7 +23,7 @@ export type ToggleCoreProps = {
   classNameLabel?: string
 }
 
-export type ToggleProps = ToggleCoreProps & DataTestProp
+type ToggleProps = ToggleCoreProps & ToggleExtraProps & DataTestProp
 
 export const Toggle: FC<ToggleProps> = ({
   name,
@@ -37,7 +39,6 @@ export const Toggle: FC<ToggleProps> = ({
   classNameLabel,
   'data-test': dataTest,
 }) => {
-  const inputRef = useRef<HTMLInputElement>(null)
   const id = useUID()
 
   return (
@@ -45,7 +46,6 @@ export const Toggle: FC<ToggleProps> = ({
       {/* hidden yet actual input */}
       <input
         type="checkbox"
-        ref={inputRef}
         id={id}
         name={name}
         checked={!!checked}
@@ -53,7 +53,6 @@ export const Toggle: FC<ToggleProps> = ({
         onBlur={onBlur}
         value={value}
         disabled={disabled}
-        aria-checked={checked}
         aria-invalid={!!error}
         aria-describedby={helperText && helpTooltipId(id)}
         aria-errormessage={error && errorId(id)}
@@ -61,17 +60,15 @@ export const Toggle: FC<ToggleProps> = ({
 
       {/* label controlling the input above with the `toggle-track` element */}
       <label className={cn(classNameLabel, { [styles.disabled]: disabled })} htmlFor={id}>
-        <span className={cn(styles.labelText)}>{label}</span>
+        <span className={styles.labelText}>{label}</span>
         <span className={cn(styles['toggle-track'])}></span>
       </label>
 
       {helperText && <Help parentId={id} helperText={helperText} />}
 
-      {error && (
-        <div>
-          <Error error={error} className={styles.errorContainer} inputId={id} />
-        </div>
-      )}
+      <div>
+        <Error error={error} className={styles.errorContainer} inputId={id} />
+      </div>
     </div>
   )
 }

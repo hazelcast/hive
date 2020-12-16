@@ -3,16 +3,16 @@
 
 $h: 24px;
 $w: 60px;
-$knob-r: $w / 2 + 8px;
-$track-br: 22px;
-$track-bg-on: #1dbc22;
-$track-bg-off: c.$colorNeutralLight; // rgba(0,0,0,.32);
-$knob-bg-on: c.$colorNeutralWhite;
-$knob-bg-off: c.$colorNeutralLighter;
-$label-margin: 12px;
-$knob-h: 20px;
-$knob-w: 20px;
-$knob-offset: 2px;
+$knobRight: $w / 2 + 8px;
+$trackBr: 22px;
+$trackBgOn: #1dbc22;
+$trackBgOff: c.$colorNeutralLight; // rgba(0,0,0,.32);
+$knobBgOn: c.$colorNeutralWhite;
+$knobBgOff: c.$colorNeutralLighter;
+$labelMargin: 12px;
+$knobH: 20px;
+$knobW: 20px;
+$knobOffset: 2px;
 
 @keyframes fadein {
   from {
@@ -38,7 +38,7 @@ $knob-offset: 2px;
 
   // actual text label
   .labelText {
-    margin-right: $label-margin;
+    margin-right: $labelMargin;
   }
 
   // the `track` (default off state)
@@ -46,34 +46,34 @@ $knob-offset: 2px;
     display: inline-block;
     height: $h;
     width: $w;
-    background: $track-bg-off;
-    border-radius: $track-br;
+    background: $trackBgOff;
+    border-radius: $trackBr;
     position: relative;
   }
 
   // track on state
   input[type='checkbox']:checked + label .toggle-track {
-    background: $track-bg-on;
+    background: $trackBgOn;
   }
 
   // the `knob` (default off state)
   .toggle-track:before {
     content: '';
     display: inline-block;
-    height: $knob-h;
-    width: $knob-w;
-    background: $knob-bg-off;
+    height: $knobH;
+    width: $knobW;
+    background: $knobBgOff;
     border-radius: 50%;
     position: absolute;
-    top: $knob-offset;
-    right: $knob-offset;
-    transition: right 0.2s ease-in;
+    top: $knobOffset;
+    right: $knobOffset;
+    transition: right $transitionTimeMedium ease-in;
   }
 
   // knob on state
   input[type='checkbox']:checked + label .toggle-track:before {
-    background: $knob-bg-on;
-    right: $knob-r;
+    background: $knobBgOn;
+    right: $knobRight;
   }
 
   // th "ON" text
@@ -84,12 +84,13 @@ $knob-offset: 2px;
     right: 8px;
     font-size: 0.9rem;
     color: #fff;
-    animation: fadein 0.2s;
+    animation: fadein $transitionTimeMedium;
   }
 
   // global disabled state
   .disabled .toggle-track {
     opacity: 0.3;
+    cursor: not-allowed;
   }
 }
 

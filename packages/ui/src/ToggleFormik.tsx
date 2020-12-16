@@ -1,15 +1,16 @@
 import React, { ReactElement } from 'react'
 import { useField } from 'formik'
 import { FieldValidatorGeneric, getFieldError } from './utils/formik'
+import { ExtractKeysOfValueType } from './utils/types'
 
-import { Toggle, ToggleProps } from './Toggle'
+import { Toggle, ToggleExtraProps } from './Toggle'
 
-export type ToggleFormikProps = ToggleProps & {
-  name: string
+export type ToggleFormikProps<V extends object> = ToggleExtraProps & {
+  name: ExtractKeysOfValueType<V, boolean>
   validate?: FieldValidatorGeneric<boolean>
 }
 
-export const ToggleFormik = ({ name, validate, ...props }: ToggleFormikProps): ReactElement => {
+export const ToggleFormik = <V extends object>({ name, validate, ...props }: ToggleFormikProps<V>): ReactElement => {
   const [field, meta] = useField<boolean>({
     name,
     validate,
