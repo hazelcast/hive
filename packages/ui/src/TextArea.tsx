@@ -22,6 +22,7 @@ export type TextAreaCoreProps = {
 
 export type TextAreaExtraProps = {
   label: string
+  labelClassName?: string
   textareaClassName?: string
   errorClassName?: string
   resizable?: boolean
@@ -31,9 +32,7 @@ export type TextAreaExtraProps = {
 export type TextAreaProps = TextAreaCoreProps & TextAreaExtraProps & DataTestProp
 
 export const TextArea: FC<TextAreaProps> = ({
-  className,
   error,
-  textareaClassName,
   label,
   name,
   onBlur,
@@ -41,6 +40,9 @@ export const TextArea: FC<TextAreaProps> = ({
   placeholder,
   value,
   disabled,
+  className,
+  labelClassName,
+  textareaClassName,
   errorClassName,
   required,
   resizable = true,
@@ -71,7 +73,7 @@ export const TextArea: FC<TextAreaProps> = ({
         className,
       )}
     >
-      <Label id={id} label={label} />
+      <Label id={id} label={label} className={labelClassName} />
       <div className={styles.textAreaContainer}>
         <div className={styles.textAreaWrapper}>
           <textarea

@@ -206,7 +206,15 @@ export const Pagination: FC<PaginationProps> = ({
           onSubmit={submitPageJump}
         >
           <Form>
-            <NumberFieldFormik<PageJumpFormValues> className={styles.pageJump} name="page" label="Go to" min={1} max={pageCount} />
+            <NumberFieldFormik<PageJumpFormValues>
+              className={styles.pageJump}
+              labelClassName={styles.label}
+              inputClassName={styles.input}
+              name="page"
+              label="Go to"
+              min={1}
+              max={pageCount}
+            />
           </Form>
         </Formik>
       )}

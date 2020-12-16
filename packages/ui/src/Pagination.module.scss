@@ -4,7 +4,7 @@
 .container {
   display: flex;
   justify-content: flex-end;
-  align-items: flex-end;
+  align-items: center;
 
   > *:not(:last-child) {
     margin-right: c.$grid * 6.5;
@@ -33,7 +33,7 @@
       margin-right: c.$grid * 2;
     }
 
-    // Overwriting button styles
+    // Override button styles
     .button {
       color: c.$colorTextSecondary;
       background-color: c.$colorNeutralLighter;
@@ -63,8 +63,22 @@
     }
   }
 
-  // Comfortable to use with up to 4-digit numbers and still see all digits
-  .pageJump,
+  // Comfortable to use with up to 4-digit numbers
+  .pageJump {
+    display: flex;
+    align-items: center;
+
+    .label {
+      margin-right: c.$grid * 2.5;
+    }
+
+    .input {
+      margin-top: 0;
+      max-width: c.$grid * 30;
+      min-width: c.$grid * 30;
+    }
+  }
+
   .rowsPerPage {
     max-width: c.$grid * 30;
     min-width: c.$grid * 30;

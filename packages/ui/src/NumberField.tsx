@@ -27,6 +27,7 @@ export type NumberFieldExtraProps = {
   label: string
   helperText?: string | ReactElement
   className?: string
+  labelClassName?: string
   inputClassName?: string
   errorClassName?: string
 } & DataTestProp &
