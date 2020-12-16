@@ -117,6 +117,7 @@ export const Pagination: FC<PaginationProps> = ({
       {showRowsSelect && (
         <SelectField
           className={styles.rowsPerPage}
+          labelClassName={styles.label}
           name="rowsPerPage"
           value={rowsPerPageValue}
           label="Rows per page"
