@@ -1,6 +1,8 @@
 import React, { FC, ReactNode } from 'react'
 import { Modal, ModalProps, ModalActionCoreProps } from './Modal'
 
+const AFFIRMATION_DEFAULT = 'Are you sure you wish to proceed?'
+
 // Resolve the parentSelector
 type DialogModalProps = Pick<ModalProps, 'isOpen' | 'title' | 'onClose' | 'parentSelector'> & ModalActionCoreProps
 
@@ -35,13 +37,13 @@ export const Dialog: FC<DialogProps> = ({
   title,
   onClose,
   consequences,
-  affirmation,
+  affirmation = AFFIRMATION_DEFAULT,
   children,
   parentSelector,
-  ...rest
+  ...actionProps
 }) => {
   return (
-    <Modal className={modalClassName} isOpen={isOpen} title={title} onClose={onClose} parentSelector={parentSelector} {...rest}>
+    <Modal className={modalClassName} isOpen={isOpen} title={title} onClose={onClose} parentSelector={parentSelector} {...actionProps}>
       <div>
         <p className="lead">
           {affirmation}

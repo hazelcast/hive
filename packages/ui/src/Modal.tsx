@@ -8,7 +8,6 @@ import { IconButton } from './IconButton'
 
 import styles from './Modal.module.scss'
 import { Button, ButtonProps } from './Button'
-import { IconProps } from './Icon'
 
 export type ModalActionCorePropsPresent = {
   // Note: Source of `onClick` is nullable property from ButtonHTMLAttributes<HTMLButtonElement>

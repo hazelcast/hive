@@ -20,7 +20,7 @@ describe('Modal', () => {
     const onAction = jest.fn()
 
     const wrapper = mount(
-      <Modal isOpen title={modalTitle} onClose={onClose} action={modalAction} onAction={onAction}>
+      <Modal isOpen title={modalTitle} onClose={onClose} actionLabel={modalAction} onAction={onAction}>
         <ModalContent />
       </Modal>,
     )
@@ -209,7 +209,7 @@ describe('Modal', () => {
     const onAction = jest.fn()
 
     const wrapper = mount(
-      <Modal isOpen title={modalTitle} onAction={onAction} action={modalAction}>
+      <Modal isOpen title={modalTitle} onAction={onAction} actionLabel={modalAction}>
         <ModalContent />
       </Modal>,
     )
@@ -240,7 +240,7 @@ describe('Modal', () => {
     const onAction = jest.fn()
 
     const wrapper = mount(
-      <Modal isOpen title={modalTitle} onAction={onAction} action={modalAction} onClose={onClose}>
+      <Modal isOpen title={modalTitle} onAction={onAction} actionLabel={modalAction} onClose={onClose}>
         <ModalContent />
       </Modal>,
     )
