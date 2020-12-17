@@ -1,6 +1,12 @@
+@use '../../styles/constants' as c;
+
 .container {
   display: flex;
   overflow-x: auto;
+
+  &.margin {
+    margin-bottom: c.$grid * 3;
+  }
 
   .table {
     flex-grow: 1;

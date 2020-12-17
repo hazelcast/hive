@@ -8,8 +8,9 @@ export type UsePaginationProps = {
 }
 
 export const usePagination = ({ pageCount, currentPage }: UsePaginationProps) => {
-  const boundaryCount = 2
   const ellipsis = 2
+  // If a need arises boundaryCount and siblingCount can be parametrized in the future
+  const boundaryCount = 2
   const siblingCount = 1
   /**
    * Setting maximum number of visible blocks between previous and next buttons:

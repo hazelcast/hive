@@ -49,11 +49,11 @@ export const AgeColumnWithWarnings = () => {
       data={smallDataSet}
       disableSortBy
       hidePagination
-      getCellProps
       getCustomCellProps={(cellInfo) => {
         if (cellInfo.column.id === 'age' && cellInfo.value < 15) {
           return { warning: 'Younger than 15' }
         }
+        return {}
       }}
     />
   )

@@ -34,7 +34,7 @@ describe('Table', () => {
       'aria-rowcount': smallDataSet.length + 1,
       role: 'table',
       style: {
-        minWidth: '250px',
+        minWidth: '150px',
       },
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       children: expect.anything(),
@@ -56,7 +56,7 @@ describe('Table', () => {
       style: {
         display: 'flex',
         flex: '1 0 auto',
-        minWidth: '250px',
+        minWidth: '150px',
       },
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       children: expect.anything(),
@@ -80,7 +80,7 @@ describe('Table', () => {
         style: {
           boxSizing: 'border-box',
           flex: '150 0 auto',
-          minWidth: '50px',
+          minWidth: '30px',
           position: 'relative',
           width: '150px',
         },
@@ -121,7 +121,7 @@ describe('Table', () => {
         style: {
           display: 'flex',
           flex: '1 0 auto',
-          minWidth: '250px',
+          minWidth: '150px',
         },
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         children: expect.anything(),
@@ -135,7 +135,7 @@ describe('Table', () => {
           style: {
             boxSizing: 'border-box',
             flex: '150 0 auto',
-            minWidth: '50px',
+            minWidth: '30px',
             width: '150px',
           },
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -198,7 +198,7 @@ describe('Table', () => {
       style: {
         display: 'flex',
         flex: '1 0 auto',
-        minWidth: '250px',
+        minWidth: '150px',
       },
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       children: expect.anything(),
@@ -213,7 +213,7 @@ describe('Table', () => {
         style: {
           boxSizing: 'border-box',
           flex: '150 0 auto',
-          minWidth: '50px',
+          minWidth: '30px',
           width: '150px',
         },
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -263,7 +263,7 @@ describe('Table', () => {
         boxSizing: 'border-box',
         cursor: 'pointer',
         flex: '150 0 auto',
-        minWidth: '50px',
+        minWidth: '30px',
         position: 'relative',
         width: '150px',
       },
@@ -329,5 +329,14 @@ describe('Table', () => {
         isLastHeader,
       })
     })
+  })
+
+  it('works correctly with controlled pagination', async () => {
+    const columns = getColumns({})
+
+    const wrapper = await mountAndCheckA11Y(<Table data-test="table-test" columns={columns} data={smallDataSet} hidePagination />)
+
+    expect(wrapper.findDataTest('table').exists()).toBe(true)
+    expect(wrapper.find(Pagination).exists()).toBe(false)
   })
 })

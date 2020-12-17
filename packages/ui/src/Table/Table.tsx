@@ -1,5 +1,6 @@
 import { DataTestProp } from '@hazelcast/helpers'
 import React, { ReactElement, useEffect } from 'react'
+import cn from 'classnames'
 import {
   useTable,
   usePagination,
@@ -26,39 +27,58 @@ export type FetchDataProps = {
   pageSize: number
 }
 
+/**
+ * `defaultPageSize` should be one of the values in `pageSizeOptions`.
+ * If it's not it won't break anything but it is a bad UX
+ * because once user selects different page size he won't be able to select
+ * `defaultPageSize` again.
+ */
 type ExtendedPaginationProps = {
   defaultPageSize?: number
   pageSizeOptions?: number[]
   hidePagination?: boolean
 }
 
+// When using manual pagination always provide `fetchData` function and our own pageCount
 type ControlledPaginationProps = {
   manualPagination?: boolean
   fetchData?: ({ pageIndex, pageSize }: FetchDataProps) => void
 }
 
-type TableProps<D extends object> = TableOptions<D> &
-  ExtendedPaginationProps &
-  ControlledPaginationProps & {
-    onRowClick?: (rowInfo: RowType<D>) => void
-    getCustomCellProps?: (cellInfo: CellType<D>) => CellProps | void
-  } & DataTestProp
+type CustomTableProps<D extends object> = {
+  /**
+   * When using `onRowClick` it's a good practice to also make one of the cells in the table interactive
+   * by providing a button, link or something else.
+   * An example can be found in `ClickableRowsWithNameLink` story in Table.stories.tsx
+   */
+  onRowClick?: (rowInfo: RowType<D>) => void
+  // Custom props getter for Cell
+  getCustomCellProps?: (cellInfo: CellType<D>) => CellProps
+} & DataTestProp
 
-const defaultColumn = {
+type TableProps<D extends object> = TableOptions<D> & ExtendedPaginationProps & ControlledPaginationProps & CustomTableProps<D>
+
+const column = {
   // When using the useFlexLayout:
-  minWidth: 50, // minWidth is only used as a limit for resizing
+  minWidth: 30, // minWidth is only used as a limit for resizing
+  width: 150, // width is used for both the flex-basis and flex-grow
+  maxWidth: 200, // maxWidth is only used as a limit for resizing
 }
 
+// Inspiration here: https://react-table.tanstack.com/docs/examples/basic
 export function Table<D extends object>({
   'data-test': dataTest,
   autoResetSortBy = false,
   columns,
   data,
+  defaultColumn = column,
   disableSortBy,
   fetchData,
   manualPagination,
-  defaultPageSize = 10,
+  // TODO: ask Pawel to provide design for loading and empty state!
+  // loading,
   pageCount: controlledPageCount,
+  defaultPageSize = 10,
   pageSizeOptions = [5, 10, 20],
   hidePagination = false,
   onRowClick,
@@ -89,9 +109,9 @@ export function Table<D extends object>({
       autoResetSortBy,
       // Pass our hoisted table state
       initialState: { pageIndex: 0, pageSize: defaultPageSize },
-      // Tell the usePagination hook that we'll handle our own data fetching.
-      // This means we'll also have to provide our own pageCount.
+      // Tell the usePagination hook that we'll handle our own data fetching
       manualPagination: manualPagination,
+      // This means we'll also have to provide our own pageCount
       pageCount: controlledPageCount,
       defaultColumn,
     },
@@ -122,11 +142,14 @@ export function Table<D extends object>({
   const cellIndexOffset = pageSize * pageIndex + headerIndex
   // Total row count.
   const rowCount = data.length + headerIndex + (hasFooter ? 1 : 0)
-  const footerIndex = rowCount
 
   return (
     <div data-test={dataTest ?? 'table-wrapper'}>
-      <div className={styles.container}>
+      <div
+        className={cn(styles.container, {
+          [styles.margin]: !hidePagination,
+        })}
+      >
         <div data-test="table" {...getTableProps()} className={styles.table} aria-rowcount={rowCount}>
           <div data-test="table-header-row-group" role="rowgroup">
             {headerGroups.map((headerGroup) => {
@@ -195,7 +218,7 @@ export function Table<D extends object>({
               {footerGroups.map((group) => {
                 const { key: footerGroupKey, ...restFooterGroupProps } = group.getFooterGroupProps()
                 return (
-                  <Row key={footerGroupKey} ariaRowIndex={footerIndex} isHeaderRow={false} {...restFooterGroupProps} role="row">
+                  <Row key={footerGroupKey} ariaRowIndex={rowCount} isHeaderRow={false} {...restFooterGroupProps} role="row">
                     {group.headers.map((column) => {
                       const { key: footerKey, ...restFooterProps } = column.getFooterProps()
                       return (
