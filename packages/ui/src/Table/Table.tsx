@@ -22,11 +22,6 @@ import { Row } from './Row'
 
 import styles from './Table.module.scss'
 
-export type FetchDataProps = {
-  pageIndex: number
-  pageSize: number
-}
-
 /**
  * `defaultPageSize` should be one of the values in `pageSizeOptions`.
  * If it's not it won't break anything but it is a bad UX
@@ -39,10 +34,15 @@ type ExtendedPaginationProps = {
   hidePagination?: boolean
 }
 
+export type FetchDataProps = {
+  pageIndex: number
+  pageSize: number
+}
+
 // When using manual pagination always provide `fetchData` function and our own pageCount
-type ControlledPaginationProps = {
+export type ControlledPaginationProps = {
   manualPagination?: boolean
-  fetchData?: ({ pageIndex, pageSize }: FetchDataProps) => void
+  fetchData?: (fetchDataProps: FetchDataProps) => void
 }
 
 type CustomTableProps<D extends object> = {

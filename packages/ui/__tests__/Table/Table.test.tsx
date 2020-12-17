@@ -330,13 +330,4 @@ describe('Table', () => {
       })
     })
   })
-
-  it('works correctly with controlled pagination', async () => {
-    const columns = getColumns({})
-
-    const wrapper = await mountAndCheckA11Y(<Table data-test="table-test" columns={columns} data={smallDataSet} hidePagination />)
-
-    expect(wrapper.findDataTest('table').exists()).toBe(true)
-    expect(wrapper.find(Pagination).exists()).toBe(false)
-  })
 })
