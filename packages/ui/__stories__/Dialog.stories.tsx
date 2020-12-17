@@ -51,26 +51,66 @@ export const NotClosable = () => (
   </DialogWithPortalFactory>
 )
 
-export const WithPrimaryAction = () => (
+export const PrimaryAction = () => (
   <DialogWithPortalFactory title="Title of the Dialog" isOpen actionLabel={actionLabel} onAction={onAction}>
     <div>Dialog</div>
   </DialogWithPortalFactory>
 )
 
-export const WithCancelAndPrimaryAction = () => (
+export const PrimaryActionDisabled = () => (
+  <DialogWithPortalFactory title="Title of the Dialog" isOpen actionLabel={actionLabel} onAction={onAction} actionDisabled>
+    <div>Dialog</div>
+  </DialogWithPortalFactory>
+)
+
+export const CancelAndPrimaryAction = () => (
   <DialogWithPortalFactory title="Title of the Dialog" isOpen actionLabel={actionLabel} onAction={onAction} onClose={onClose}>
     <div>Dialog</div>
   </DialogWithPortalFactory>
 )
 
-export const WithDangerAction = () => (
-  <DialogWithPortalFactory title="Title of the Dialog" isOpen actionLabel={actionLabel} onAction={onAction}>
+export const CancelAndPrimaryActionDisabled = () => (
+  <DialogWithPortalFactory
+    title="Title of the Dialog"
+    isOpen
+    actionLabel={actionLabel}
+    onAction={onAction}
+    onClose={onClose}
+    actionDisabled
+  >
     <div>Dialog</div>
   </DialogWithPortalFactory>
 )
 
-export const WithCancelAndDangerAction = () => (
-  <DialogWithPortalFactory title="Title of the Dialog" isOpen actionLabel={actionLabel} onAction={onAction} onClose={onClose}>
+export const DangerAction = () => (
+  <DialogWithPortalFactory title="Title of the Dialog" isOpen actionKind="danger" actionLabel={actionLabel} onAction={onAction}>
+    <div>Dialog</div>
+  </DialogWithPortalFactory>
+)
+
+export const CancelAndDangerAction = () => (
+  <DialogWithPortalFactory
+    title="Title of the Dialog"
+    isOpen
+    actionKind="danger"
+    actionLabel={actionLabel}
+    onAction={onAction}
+    onClose={onClose}
+  >
+    <div>Dialog</div>
+  </DialogWithPortalFactory>
+)
+
+export const CancelAndDangerActionDisabled = () => (
+  <DialogWithPortalFactory
+    title="Title of the Dialog"
+    isOpen
+    actionKind="danger"
+    actionLabel={actionLabel}
+    onAction={onAction}
+    onClose={onClose}
+    actionDisabled
+  >
     <div>Dialog</div>
   </DialogWithPortalFactory>
 )

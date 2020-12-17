@@ -14,12 +14,14 @@ export type ModalActionCorePropsPresent = {
   onAction: NonNullable<ButtonProps['onClick']>
   actionKind?: ButtonProps['kind']
   actionLabel: string
+  actionDisabled?: ButtonProps['disabled']
 }
 
 export type ModalActionCorePropsNever = {
   onAction?: never
   actionKind?: never
   actionLabel?: never
+  actionDisabled?: never
 }
 
 // Pick + rename
@@ -57,11 +59,7 @@ export const Modal: FC<ModalProps> = ({
   title,
   ...restWithActionButton
 }) => {
-  // const actionKind = undefined
-  //const actionLabel = 'Label'
-  // const onAction = () => { }
-
-  const { actionKind, actionLabel, onAction, ...rest } = restWithActionButton
+  const { actionKind, actionLabel, actionDisabled = false, onAction, ...rest } = restWithActionButton
 
   return (
     <ReactModal
@@ -107,7 +105,7 @@ export const Modal: FC<ModalProps> = ({
               </Button>
             )}
             {onAction && actionLabel && (
-              <Button data-test="modal-button-action" kind={actionKind} onClick={onAction} type="button">
+              <Button data-test="modal-button-action" disabled={actionDisabled} kind={actionKind} onClick={onAction} type="button">
                 {actionLabel}
               </Button>
             )}
