@@ -4,6 +4,7 @@ import { X, ChevronRight } from 'react-feather'
 
 import { PartialRequired } from '@hazelcast/helpers'
 
+import {useCloseByEscKey} from './utils/hooks'
 import { Link } from './Link'
 import { Button, ButtonAccessibleIconLeftProps } from './Button'
 import { ToastIcon, ToastType } from './Toast'
@@ -46,6 +47,8 @@ export type AlertProps = {
 
 export const Alert: FC<AlertProps> = ({ type, title, content, actions, className, closeToast }) => {
   const { icon, ariaLabel } = ToastIcon[type]
+
+  useCloseByEscKey((event: any) => closeToast(event))
 
   return (
     <div
