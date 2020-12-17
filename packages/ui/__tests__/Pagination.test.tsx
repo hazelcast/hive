@@ -133,6 +133,7 @@ describe('Pagination', () => {
 
     expect(wrapper.find(SelectField).props()).toEqual<SelectProps<number>>({
       className: styles.rowsPerPage,
+      labelClassName: styles.label,
       name: 'rowsPerPage',
       value: { value: pageSize, label: pageSize.toString() },
       label: 'Rows per page',
@@ -195,6 +196,8 @@ describe('Pagination', () => {
     })
     expect(formik.find(NumberFieldFormik).props()).toEqual<NumberFieldFormikProps<PageJumpFormValues>>({
       className: styles.pageJump,
+      inputClassName: styles.input,
+      labelClassName: styles.label,
       name: 'page',
       label: 'Go to',
       min: 1,
