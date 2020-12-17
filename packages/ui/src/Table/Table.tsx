@@ -9,8 +9,8 @@ import {
   Cell as CellType,
   useAsyncDebounce,
   useResizeColumns,
-  useFlexLayout,
   ColumnInterfaceBasedOnValue,
+  useFlexLayout,
 } from 'react-table'
 
 import { Pagination } from '../Pagination'
@@ -46,8 +46,7 @@ type TableProps<D extends object> = TableOptions<D> &
 
 const defaultColumn = {
   // When using the useFlexLayout:
-  minWidth: 60, // minWidth is only used as a limit for resizing
-  maxWidth: 250, // maxWidth is only used as a limit for resizing
+  minWidth: 50, // minWidth is only used as a limit for resizing
 }
 
 export function Table<D extends object>({
@@ -57,7 +56,6 @@ export function Table<D extends object>({
   data,
   disableSortBy,
   fetchData,
-  // loading,
   manualPagination,
   defaultPageSize = 10,
   pageCount: controlledPageCount,
@@ -99,11 +97,11 @@ export function Table<D extends object>({
     },
     useSortBy,
     usePagination,
-    useResizeColumns,
     useFlexLayout,
+    useResizeColumns,
   )
 
-  // Debounce our `fetchData` call for 200ms. This is useful if we're changing pag
+  // Debounce our `fetchData` call for 200ms.
   // We can use non-null assertion here since we're checking existence of `fetchData` in the `useEffect` below
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const onFetchDataDebounced = useAsyncDebounce<({ pageIndex, pageSize }: FetchDataProps) => void>(fetchData!, 200)
@@ -118,12 +116,13 @@ export function Table<D extends object>({
   // If at least one of the columns has footer then we display the footer row
   const hasFooter = columns.some((col) => !!col.Footer)
 
-  // Total row count, + 1 is for header row
-  const rowCount = data.length + 1
   // Header row has always aria-rowindex = 1.
-  const ariaRowHeaderIndex = 1
+  const headerIndex = 1
   // We're using this offset to display correct aria-rowindex when pagination is in action.
-  const ariaRowCellIndexOffset = pageSize * pageIndex + ariaRowHeaderIndex
+  const cellIndexOffset = pageSize * pageIndex + headerIndex
+  // Total row count.
+  const rowCount = data.length + headerIndex + (hasFooter ? 1 : 0)
+  const footerIndex = rowCount
 
   return (
     <div data-test={dataTest ?? 'table-wrapper'}>
@@ -133,8 +132,8 @@ export function Table<D extends object>({
             {headerGroups.map((headerGroup) => {
               const { key: headerGroupKey, ...restHeaderGroupProps } = headerGroup.getHeaderGroupProps()
               return (
-                <Row key={headerGroupKey} {...restHeaderGroupProps} ariaRowIndex={ariaRowHeaderIndex} isHeaderRow>
-                  {headerGroup.headers.map((column) => {
+                <Row key={headerGroupKey} {...restHeaderGroupProps} ariaRowIndex={headerIndex} isHeaderRow>
+                  {headerGroup.headers.map((column, i) => {
                     const { key: columnKey, ...restHeaderProps } = column.getHeaderProps(column.getSortByToggleProps())
                     return (
                       <Header
@@ -143,6 +142,7 @@ export function Table<D extends object>({
                         canSort={column.canSort}
                         isSorted={column.isSorted}
                         isSortedDesc={column.isSortedDesc}
+                        isLastHeader={headerGroup.headers.length === i + 1}
                         canResize={column.canResize}
                         isResizing={column.isResizing}
                         getResizerProps={column.getResizerProps}
@@ -164,7 +164,7 @@ export function Table<D extends object>({
                 <Row
                   key={rowKey}
                   {...restRowProps}
-                  ariaRowIndex={row.index + 1 + ariaRowCellIndexOffset}
+                  ariaRowIndex={row.index + 1 + cellIndexOffset}
                   isHeaderRow={false}
                   onClick={
                     onRowClick
@@ -195,7 +195,7 @@ export function Table<D extends object>({
               {footerGroups.map((group) => {
                 const { key: footerGroupKey, ...restFooterGroupProps } = group.getFooterGroupProps()
                 return (
-                  <Row key={footerGroupKey} isHeaderRow={false} {...restFooterGroupProps} role="row">
+                  <Row key={footerGroupKey} ariaRowIndex={footerIndex} isHeaderRow={false} {...restFooterGroupProps} role="row">
                     {group.headers.map((column) => {
                       const { key: footerKey, ...restFooterProps } = column.getFooterProps()
                       return (

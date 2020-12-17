@@ -21,6 +21,7 @@ export type HeaderProps = {
   canResize: boolean
   isResizing: boolean
   getResizerProps: (props?: Partial<TableResizerProps>) => TableResizerProps
+  isLastHeader: boolean
 } & Omit<TableHeaderProps, 'key'>
 
 export const Header: FC<HeaderProps> = ({
@@ -33,6 +34,7 @@ export const Header: FC<HeaderProps> = ({
   canResize,
   isResizing,
   getResizerProps,
+  isLastHeader,
   onClick,
   style,
   className,
@@ -59,36 +61,40 @@ export const Header: FC<HeaderProps> = ({
   )
 
   return (
-    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
     <div
-      data-test="table-header"
-      className={cn(
-        styles.th,
-        {
-          [styles.sortable]: canSort,
-          [styles.alignLeft]: align === 'left',
-          [styles.alignRight]: align === 'right',
-          [styles.alignCenter]: align === 'center',
-        },
-        className,
-      )}
+      data-test="table-header-container"
+      className={cn(styles.container, className)}
       style={style}
       role={role}
       aria-colspan={colSpan}
       aria-sort={ariaSort}
-      onClick={onClick}
     >
-      {canSort && align === 'right' && Chevron}
-      {children}
-      {canSort && (align === 'left' || align === 'center') && Chevron}
-      {canResize && (
-        <div
-          data-test="table-header-column-resizer"
-          {...getResizerProps()}
-          className={cn(styles.resizer, {
-            [styles.isResizing]: isResizing,
-          })}
-        />
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+      <div
+        data-test="table-header-content"
+        className={cn(styles.th, {
+          [styles.sortable]: canSort,
+          [styles.alignLeft]: align === 'left',
+          [styles.alignRight]: align === 'right',
+          [styles.alignCenter]: align === 'center',
+        })}
+        role={onClick ? 'button' : undefined}
+        tabIndex={onClick ? 0 : undefined}
+        onClick={onClick}
+      >
+        {canSort && align === 'right' && Chevron}
+        {children}
+        {canSort && (align === 'left' || align === 'center') && Chevron}
+      </div>
+      {canResize && !isLastHeader && (
+        <div data-test="table-header-column-resizer-container" className={styles.resizer} {...getResizerProps()}>
+          <div
+            data-test="table-header-column-resizer"
+            className={cn(styles.separator, {
+              [styles.resizing]: isResizing,
+            })}
+          />
+        </div>
       )}
     </div>
   )

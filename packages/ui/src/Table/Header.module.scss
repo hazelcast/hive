@@ -1,65 +1,78 @@
 @use '../../styles/constants' as c;
 
-.th {
+.container {
   position: relative;
-  display: flex;
-  align-items: center;
-  padding-top: c.$grid * 2.5;
-  padding-bottom: c.$grid * 2.5;
-  padding-right: c.$grid * 3;
   padding-left: c.$grid * 3;
+  padding-right: c.$grid * 3;
   background-color: c.$colorNeutralLighter;
-  color: c.$colorTextSecondary;
-  @include c.typographyBodySmall;
 
   :last-child {
     border-right: 0;
   }
 
-  &.alignLeft {
-    justify-content: flex-start;
+  .th {
+    display: flex;
+    align-items: center;
+    padding-top: c.$grid * 2.5;
+    padding-bottom: c.$grid * 2.5;
+    color: c.$colorTextSecondary;
+    @include c.typographyBodySmall;
+
+    &.alignLeft {
+      justify-content: flex-start;
+    }
+
+    &.alignRight {
+      justify-content: flex-end;
+    }
+
+    &.alignCenter {
+      justify-content: center;
+    }
+
+    &.sortable {
+      cursor: pointer;
+    }
   }
 
-  &.alignRight {
-    justify-content: flex-end;
-  }
+  .sortingIcon {
+    flex-shrink: 0;
+    color: c.$colorTextSecondary;
 
-  &.alignCenter {
-    justify-content: center;
-  }
+    &.left {
+      margin-left: c.$grid * 2;
+    }
 
-  &.sortable {
-    cursor: pointer;
-  }
-
-  .resizer {
-    right: 0;
-    background: blue;
-    width: 6px;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    z-index: 1;
-    cursor: 'col-action';
-    // Prevents from scrolling while dragging on touch devices
-    /* doiuse-disable css-touch-action */
-    touch-action: none;
-    /* doiuse-enable css-touch-action */
-
-    &.isResizing {
-      background: red;
+    &.right {
+      margin-right: c.$grid * 2;
     }
   }
 }
 
-.sortingIcon {
-  color: c.$colorTextSecondary;
+.resizer {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: c.$grid * 6;
+  height: 100%;
+  top: 0;
+  right: -(c.$grid * 3);
+  z-index: 1;
+  cursor: col-resize;
+  // Prevents from scrolling while dragging on touch devices
+  /* doiuse-disable css-touch-action */
+  touch-action: none;
+  /* doiuse-enable css-touch-action */
 
-  &.left {
-    margin-left: c.$grid * 2;
+  .separator {
+    width: 2px;
+    height: 50%;
+    background: c.$colorNeutral;
   }
 
-  &.right {
-    margin-right: c.$grid * 2;
+  .resizing,
+  &:hover .separator {
+    background-color: c.$colorTextSecondary;
   }
 }

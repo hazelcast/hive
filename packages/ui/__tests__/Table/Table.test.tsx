@@ -34,7 +34,7 @@ describe('Table', () => {
       'aria-rowcount': smallDataSet.length + 1,
       role: 'table',
       style: {
-        minWidth: '300px',
+        minWidth: '250px',
       },
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       children: expect.anything(),
@@ -56,7 +56,7 @@ describe('Table', () => {
       style: {
         display: 'flex',
         flex: '1 0 auto',
-        minWidth: '300px',
+        minWidth: '250px',
       },
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       children: expect.anything(),
@@ -73,13 +73,14 @@ describe('Table', () => {
         isResizing: false,
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         getResizerProps: expect.anything(),
+        isLastHeader: headers.length === i + 1,
         onClick: undefined,
         colSpan: 1,
         role: 'columnheader',
         style: {
           boxSizing: 'border-box',
           flex: '150 0 auto',
-          minWidth: '60px',
+          minWidth: '50px',
           position: 'relative',
           width: '150px',
         },
@@ -120,7 +121,7 @@ describe('Table', () => {
         style: {
           display: 'flex',
           flex: '1 0 auto',
-          minWidth: '300px',
+          minWidth: '250px',
         },
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         children: expect.anything(),
@@ -134,7 +135,7 @@ describe('Table', () => {
           style: {
             boxSizing: 'border-box',
             flex: '150 0 auto',
-            minWidth: '60px',
+            minWidth: '50px',
             width: '150px',
           },
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -191,12 +192,13 @@ describe('Table', () => {
 
     const footerRow = footerRowGroup.find(Row)
     expect(footerRow.props()).toEqual<PropsWithChildren<RowProps>>({
+      ariaRowIndex: 12,
       isHeaderRow: false,
       role: 'row',
       style: {
         display: 'flex',
         flex: '1 0 auto',
-        minWidth: '300px',
+        minWidth: '250px',
       },
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       children: expect.anything(),
@@ -211,7 +213,7 @@ describe('Table', () => {
         style: {
           boxSizing: 'border-box',
           flex: '150 0 auto',
-          minWidth: '60px',
+          minWidth: '50px',
           width: '150px',
         },
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -261,7 +263,7 @@ describe('Table', () => {
         boxSizing: 'border-box',
         cursor: 'pointer',
         flex: '150 0 auto',
-        minWidth: '60px',
+        minWidth: '50px',
         position: 'relative',
         width: '150px',
       },
@@ -280,6 +282,7 @@ describe('Table', () => {
 
     const headers = wrapper.find(Header)
     headers.forEach((header, i) => {
+      const isLastHeader = headers.length === i + 1
       // Sorting enabled but not used
       expect(header.props()).toEqual<PropsWithChildren<HeaderProps>>({
         ...headerProps,
@@ -287,10 +290,11 @@ describe('Table', () => {
         canSort: true,
         isSorted: false,
         isSortedDesc: undefined,
+        isLastHeader,
       })
 
       // Let's sort!
-      header.simulate('click')
+      header.findDataTest('table-header-content').simulate('click')
       wrapper.update()
       expect(wrapper.find(Header).at(i).props()).toEqual<PropsWithChildren<HeaderProps>>({
         ...headerProps,
@@ -298,10 +302,11 @@ describe('Table', () => {
         canSort: true,
         isSorted: true,
         isSortedDesc: false,
+        isLastHeader,
       })
 
       // Let's sort in descending order
-      header.simulate('click')
+      header.findDataTest('table-header-content').simulate('click')
       wrapper.update()
       expect(wrapper.find(Header).at(i).props()).toEqual<PropsWithChildren<HeaderProps>>({
         ...headerProps,
@@ -309,10 +314,11 @@ describe('Table', () => {
         canSort: true,
         isSorted: true,
         isSortedDesc: true,
+        isLastHeader,
       })
 
       // Back to default state
-      header.simulate('click')
+      header.findDataTest('table-header-content').simulate('click')
       wrapper.update()
       expect(wrapper.find(Header).at(i).props()).toEqual<PropsWithChildren<HeaderProps>>({
         ...headerProps,
@@ -320,6 +326,7 @@ describe('Table', () => {
         canSort: true,
         isSorted: false,
         isSortedDesc: undefined,
+        isLastHeader,
       })
     })
   })
