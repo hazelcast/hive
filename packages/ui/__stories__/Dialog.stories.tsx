@@ -12,6 +12,9 @@ export default {
   component: Dialog,
 }
 
+const affirmation = 'Are you sure, young padawan?'
+const consequences = 'This action may disturb the Force.'
+
 const onClose = () => console.log('onClose')
 
 const onAction = () => console.log('onAction')
@@ -27,90 +30,106 @@ const DialogWithPortalFactory: FC<DialogProps> = ({ children, modalClassName, ..
         modalClassName={cn(modalClassName, utilsStyles.modal)}
         parentSelector={() => document.querySelector(`#${id}`) as HTMLElement}
       >
-        <div className={utilsStyles.modalChildrenWrapper}>{children}</div>
+        {children}
       </Dialog>
     </div>
   )
 }
 
-export const Default = () => (
-  <DialogWithPortalFactory title="Title of the Dialog" isOpen onClose={onClose}>
-    <div>Dialog</div>
-  </DialogWithPortalFactory>
-)
+export const Default = () => <DialogWithPortalFactory title="Title of the Dialog" affirmation={affirmation} isOpen onClose={onClose} />
 
 export const Focused = () => (
-  <DialogWithPortalFactory modalClassName={styles.focus} title="Title of the Dialog" isOpen onClose={onClose}>
-    <div>Dialog</div>
+  <DialogWithPortalFactory modalClassName={styles.focus} title="Title of the Dialog" affirmation={affirmation} isOpen onClose={onClose} />
+)
+
+export const NotClosable = () => <DialogWithPortalFactory title="Title of the Dialog" affirmation={affirmation} isOpen />
+
+export const WithConsequences = () => (
+  <DialogWithPortalFactory title="Title of the Dialog" affirmation={affirmation} consequences={consequences} isOpen onClose={onClose} />
+)
+
+export const WithChildren = () => (
+  <DialogWithPortalFactory title="Title of the Dialog" affirmation={affirmation} isOpen onClose={onClose}>
+    <div>Content</div>
   </DialogWithPortalFactory>
 )
 
-export const NotClosable = () => (
-  <DialogWithPortalFactory title="Title of the Dialog" isOpen>
-    <div>Dialog</div>
+export const WithConsequencesAndChildren = () => (
+  <DialogWithPortalFactory title="Title of the Dialog" affirmation={affirmation} consequences={consequences} isOpen onClose={onClose}>
+    <div>Content</div>
   </DialogWithPortalFactory>
 )
 
 export const PrimaryAction = () => (
-  <DialogWithPortalFactory title="Title of the Dialog" isOpen actionLabel={actionLabel} onAction={onAction}>
-    <div>Dialog</div>
-  </DialogWithPortalFactory>
+  <DialogWithPortalFactory title="Title of the Dialog" affirmation={affirmation} isOpen actionLabel={actionLabel} onAction={onAction} />
 )
 
 export const PrimaryActionDisabled = () => (
-  <DialogWithPortalFactory title="Title of the Dialog" isOpen actionLabel={actionLabel} onAction={onAction} actionDisabled>
-    <div>Dialog</div>
-  </DialogWithPortalFactory>
+  <DialogWithPortalFactory
+    title="Title of the Dialog"
+    affirmation={affirmation}
+    isOpen
+    actionLabel={actionLabel}
+    onAction={onAction}
+    actionDisabled
+  />
 )
 
 export const CancelAndPrimaryAction = () => (
-  <DialogWithPortalFactory title="Title of the Dialog" isOpen actionLabel={actionLabel} onAction={onAction} onClose={onClose}>
-    <div>Dialog</div>
-  </DialogWithPortalFactory>
+  <DialogWithPortalFactory
+    title="Title of the Dialog"
+    affirmation={affirmation}
+    isOpen
+    actionLabel={actionLabel}
+    onAction={onAction}
+    onClose={onClose}
+  />
 )
 
 export const CancelAndPrimaryActionDisabled = () => (
   <DialogWithPortalFactory
     title="Title of the Dialog"
+    affirmation={affirmation}
     isOpen
     actionLabel={actionLabel}
     onAction={onAction}
     onClose={onClose}
     actionDisabled
-  >
-    <div>Dialog</div>
-  </DialogWithPortalFactory>
+  />
 )
 
 export const DangerAction = () => (
-  <DialogWithPortalFactory title="Title of the Dialog" isOpen actionKind="danger" actionLabel={actionLabel} onAction={onAction}>
-    <div>Dialog</div>
-  </DialogWithPortalFactory>
+  <DialogWithPortalFactory
+    title="Title of the Dialog"
+    affirmation={affirmation}
+    isOpen
+    actionKind="danger"
+    actionLabel={actionLabel}
+    onAction={onAction}
+  />
 )
 
 export const CancelAndDangerAction = () => (
   <DialogWithPortalFactory
     title="Title of the Dialog"
+    affirmation={affirmation}
     isOpen
     actionKind="danger"
     actionLabel={actionLabel}
     onAction={onAction}
     onClose={onClose}
-  >
-    <div>Dialog</div>
-  </DialogWithPortalFactory>
+  />
 )
 
 export const CancelAndDangerActionDisabled = () => (
   <DialogWithPortalFactory
     title="Title of the Dialog"
+    affirmation={affirmation}
     isOpen
     actionKind="danger"
     actionLabel={actionLabel}
     onAction={onAction}
     onClose={onClose}
     actionDisabled
-  >
-    <div>Dialog</div>
-  </DialogWithPortalFactory>
+  />
 )

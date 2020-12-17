@@ -1,0 +1,19 @@
+@use '../styles/constants' as c;
+
+.modalFooter {
+  border-top: none !important;
+}
+
+.content {
+  padding: c.$grid * 6;
+
+  // TODO: Improvisation, get the proper size
+  .consequences {
+    margin-top: c.$grid * 3;
+  }
+
+  // TODO: Improvisation, get the proper size
+  .children {
+    margin-top: c.$grid * 3;
+  }
+}

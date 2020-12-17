@@ -39,6 +39,7 @@ export type ModalProps = {
   children?: ReactNode
   title: string
   onClose?: ReactModalProps['onRequestClose']
+  footerClassName?: string
 } & DataTestProp &
   ModalActionProps &
   Exclude<ReactModalProps, 'onRequestClose' | 'shouldFocusAfterRender' | 'shouldReturnFocusAfterClose'>
@@ -53,6 +54,7 @@ export const Modal: FC<ModalProps> = ({
   'data-test': dataTest,
   children,
   className,
+  footerClassName,
   closable = true,
   onClose,
   overlayClassName,
@@ -94,11 +96,9 @@ export const Modal: FC<ModalProps> = ({
             </div>
           )}
         </div>
-        <div data-test="modal-content" className={styles.content}>
-          {children}
-        </div>
+        <div data-test="modal-content">{children}</div>
         {(onClose || onAction) && (
-          <div data-test="modal-footer" className={styles.footer}>
+          <div data-test="modal-footer" className={cn(styles.footer, footerClassName)}>
             {onClose && (
               <Button data-test="modal-button-cancel" kind="secondary" onClick={onClose}>
                 Cancel
