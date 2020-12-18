@@ -28,10 +28,21 @@ export type IconProps = {
   icon: IconType
   size?: IconSize
   className?: string
+  bold?: boolean
 } & IconAriaProps
 
-export const Icon: FC<IconProps> = ({ color, icon: IconElement, ariaLabel, ariaLabelledBy, ariaHidden, className, size = 'normal' }) => {
+export const Icon: FC<IconProps> = ({
+  color,
+  icon: IconElement,
+  ariaLabel,
+  ariaLabelledBy,
+  ariaHidden,
+  className,
+  size = 'normal',
+  bold = false,
+}) => {
   const iconSize = size === 'small' ? styleConsts.iconSizeSmall : styleConsts.iconSizeNormal
+  const iconStroke = bold ? styleConsts.iconStrokeWidthBold : styleConsts.iconStrokeWidth
 
   const props: SVGProps<SVGElement> = {
     'aria-label': ariaLabel,
@@ -41,7 +52,7 @@ export const Icon: FC<IconProps> = ({ color, icon: IconElement, ariaLabel, ariaL
     width: iconSize,
     height: iconSize,
     className,
-    strokeWidth: styleConsts.iconStrokeWidth,
+    strokeWidth: iconStroke,
   }
 
   return <IconElement role="img" aria-label={ariaLabel} {...props} />

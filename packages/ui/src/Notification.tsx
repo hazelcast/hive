@@ -79,6 +79,7 @@ export const Notification: FC<NotificationProps> = ({ type, children, className,
           href={linkHref}
           icon={ChevronRight}
           ariaLabel="Icon chevron right"
+          bold
         >
           {link}
         </Link>

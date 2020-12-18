@@ -30,6 +30,8 @@
     min-height: c.$grid * 6;
     // TODO: Improvisation. Consult with @pawel.
     margin-left: c.$grid * 2;
+
+    @include c.typographyBodyWeight('bold');
   }
 
   /* Theme - success */
