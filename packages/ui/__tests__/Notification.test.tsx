@@ -1,5 +1,6 @@
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import React from 'react'
+import cn from 'classnames'
 import { AlertTriangle, CheckCircle, AlertCircle, Info, ChevronRight } from 'react-feather'
 
 import { Notification, NotificationType, NotificationIconDescriptor } from '../src/Notification'
@@ -47,7 +48,9 @@ describe('Notification', () => {
   it.each(typeTestData)('Renders all necessary components for type %s', async (type, className, { icon, ariaLabel }) => {
     const wrapper = await mountAndCheckA11Y(<Notification type={type}>{text}</Notification>)
 
-    expect(wrapper.findDataTest('notification').prop('className')).toContain(className)
+    expect(wrapper.findDataTest('notification').props()).toMatchObject({
+      className: cn(styles.notification, className),
+    })
     expect(wrapper.findDataTest('notification-icon').props()).toMatchObject({
       ariaLabel,
       icon,
@@ -66,7 +69,9 @@ describe('Notification', () => {
       </Notification>,
     )
 
-    expect(wrapper.findDataTest('notification').prop('className')).toContain(styles.success)
+    expect(wrapper.findDataTest('notification').props()).toMatchObject({
+      className: cn(styles.notification, styles.success),
+    })
     expect(wrapper.findDataTest('notification-icon').props()).toMatchObject({
       ariaLabel: 'Check circle icon',
       icon: CheckCircle,
@@ -78,6 +83,7 @@ describe('Notification', () => {
       href: linkHref,
       icon: ChevronRight,
       ariaLabel: 'Icon chevron right',
+      bold: true,
     })
     expect(wrapper.findDataTest('notification-link').text()).toBe(link)
   })
