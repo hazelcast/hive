@@ -19,3 +19,5 @@ export const Small = () => <Icon icon={Clipboard} ariaLabel="Icon copy to clipbo
 export const SmallCustomColour = () => (
   <Icon icon={Clipboard} ariaLabel="Icon copy to clipboard" size="small" color={styleConsts.colorSuccess} />
 )
+
+export const Bold = () => <Icon icon={Clipboard} ariaLabel="Icon copy to clipboard" bold />
