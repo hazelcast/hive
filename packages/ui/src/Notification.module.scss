@@ -1,0 +1,77 @@
+@use '../styles/constants' as c;
+
+.notification {
+  display: flex;
+  align-items: center;
+  padding: c.$grid * 2 c.$grid * 3;
+  border-radius: c.$borderRadiusNotification;
+
+  @include c.typographyBodySmall;
+
+  .icon {
+    flex: 0 0 auto;
+    margin-right: c.$grid * 2;
+  }
+
+  .content {
+    flex: 1 1 auto;
+  }
+
+  .link {
+    // TODO: Improvisation. Get real spacing.
+    margin-left: c.$grid * 2;
+  }
+
+  /* Themes */
+  &.success {
+    color: c.$colorNeutralWhite;
+    background-color: c.$colorSuccess;
+
+    .icon {
+      color: c.$colorNeutralWhite;
+    }
+
+    .link {
+      color: c.$colorNeutralWhite;
+    }
+  }
+
+  &.info {
+    color: c.$colorText;
+    background-color: c.$colorInfoLight;
+
+    .icon {
+      color: c.$colorInfoDark;
+    }
+
+    .link {
+      color: c.$colorInfoDark;
+    }
+  }
+
+  &.warning {
+    color: c.$colorText;
+    background-color: c.$colorWarningLight;
+
+    .icon {
+      color: c.$colorWarningDark;
+    }
+
+    .link {
+      color: c.$colorWarningDark;
+    }
+  }
+
+  &.error {
+    color: c.$colorNeutralWhite;
+    background-color: c.$colorError;
+
+    .icon {
+      color: c.$colorNeutralWhite;
+    }
+
+    .link {
+      color: c.$colorNeutralWhite;
+    }
+  }
+}
