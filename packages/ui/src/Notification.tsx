@@ -1,6 +1,6 @@
 import React, { FC, ReactNode } from 'react'
 import cn from 'classnames'
-import { AlertTriangle, CheckCircle, AlertCircle, Info, Icon as IconType } from 'react-feather'
+import { AlertTriangle, CheckCircle, AlertCircle, Info, ChevronRight, Icon as IconType } from 'react-feather'
 
 import { Icon } from './Icon'
 import { Link } from './Link'
@@ -70,7 +70,7 @@ export const Notification: FC<NotificationProps> = ({ type, children, className,
         {children}
       </div>
       {link && linkHref && (
-        <Link component="a" className={styles.link} href={linkHref}>
+        <Link component="a" size="small" className={styles.link} href={linkHref} icon={ChevronRight} ariaLabel="Icon chevron right">
           {link}
         </Link>
       )}

@@ -2,6 +2,7 @@ import React from 'react'
 
 import { Notification } from '../src/Notification'
 
+const text = 'Lorem ipsum dolor sit amet'
 const longText =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ultricies orci sed laoreet tempus. Suspendisse eget semper odio. Nulla vel erat tempor, feugiat nulla vitae, mollis purus. Maecenas varius ante sed mauris scelerisque aliquam. Aenean et congue ante. Etiam dictum, libero sit amet semper posuere, leo metus vestibulum libero, et fringilla metus ante eget lorem. Donec facilisis non nunc at pulvinar. Quisque cursus mi libero, in malesuada nulla tempor et. In at ligula ac est vehicula congue. Donec eget est sed ante cursus malesuada maximus a felis. Phasellus vitae pretium nibh, sed auctor purus. In congue, tortor sed dictum egestas, ligula nibh vehicula nulla, nec euismod ligula diam sit amet mauris. Vivamus congue interdum lorem sit amet facilisis.'
 
@@ -13,7 +14,7 @@ export default {
   component: Notification,
 }
 
-export const Success = () => <Notification type="success">Notification</Notification>
+export const Success = () => <Notification type="success">{text}</Notification>
 Success.parameters = {
   design: {
     type: 'figma',
@@ -25,7 +26,7 @@ export const SuccessWithLongText = () => <Notification type="success">{longText}
 
 export const SuccessWithLink = () => (
   <Notification type="success" link={link} linkHref={linkHref}>
-    Notification
+    {text}
   </Notification>
 )
 
@@ -35,7 +36,7 @@ export const SuccessWithLongTextAndLink = () => (
   </Notification>
 )
 
-export const Info = () => <Notification type="info">Notification</Notification>
+export const Info = () => <Notification type="info">{text}</Notification>
 Info.parameters = {
   design: {
     type: 'figma',
@@ -47,7 +48,7 @@ export const InfoWithLongText = () => <Notification type="info">{longText}</Noti
 
 export const InfoWithLink = () => (
   <Notification type="info" link={link} linkHref={linkHref}>
-    Notification
+    {text}
   </Notification>
 )
 
@@ -57,7 +58,7 @@ export const InfoWithLongTextAndLink = () => (
   </Notification>
 )
 
-export const Warning = () => <Notification type="warning">Notification</Notification>
+export const Warning = () => <Notification type="warning">{text}</Notification>
 Warning.parameters = {
   design: {
     type: 'figma',
@@ -69,7 +70,7 @@ export const WarningWithLongText = () => <Notification type="warning">{longText}
 
 export const WarningWithLink = () => (
   <Notification type="warning" link={link} linkHref={linkHref}>
-    Notification
+    {text}
   </Notification>
 )
 
@@ -79,7 +80,7 @@ export const WarningWithLongTextAndLink = () => (
   </Notification>
 )
 
-export const Error = () => <Notification type="error">Notification</Notification>
+export const Error = () => <Notification type="error">{text}</Notification>
 Error.parameters = {
   design: {
     type: 'figma',
@@ -91,7 +92,7 @@ export const ErrorWithLongText = () => <Notification type="error">{longText}</No
 
 export const ErrorWithLink = () => (
   <Notification type="error" link={link} linkHref={linkHref}>
-    Notification
+    {text}
   </Notification>
 )
 
