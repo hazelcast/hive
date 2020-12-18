@@ -29,7 +29,7 @@ export const BadgeIcon: { [key in NotificationType]: NotificationIconDescriptor 
   },
   error: {
     icon: AlertCircle,
-    ariaLabel: 'Info critical circle icon',
+    ariaLabel: 'Info error circle icon',
   },
 }
 
@@ -54,6 +54,7 @@ export const Notification: FC<NotificationProps> = ({ type, children, className,
 
   return (
     <div
+      data-test="notification"
       className={cn(
         styles.notification,
         {
@@ -70,7 +71,15 @@ export const Notification: FC<NotificationProps> = ({ type, children, className,
         {children}
       </div>
       {link && linkHref && (
-        <Link component="a" size="small" className={styles.link} href={linkHref} icon={ChevronRight} ariaLabel="Icon chevron right">
+        <Link
+          data-test="notification-link"
+          component="a"
+          size="small"
+          className={styles.link}
+          href={linkHref}
+          icon={ChevronRight}
+          ariaLabel="Icon chevron right"
+        >
           {link}
         </Link>
       )}
