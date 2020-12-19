@@ -141,6 +141,7 @@ describe('Button', () => {
     expect(props).toHaveProperty('onClick', onClick)
     expect(props).toHaveProperty('rel', 'noopener noreferrer')
     expect(props).toHaveProperty('target', '_blank')
+    expect(props).toHaveProperty('type', undefined)
   })
 
   it('Renders button with a default button semantics, link specific params are undefined', async () => {
@@ -149,6 +150,7 @@ describe('Button', () => {
     const props = wrapper.find('button').props()
     expect(props).toHaveProperty('rel', undefined)
     expect(props).toHaveProperty('target', undefined)
+    expect(props).toHaveProperty('type', 'button')
   })
 
   it('Renders button with a link semantics, check that noopener attribute is passed to a link by default', async () => {
