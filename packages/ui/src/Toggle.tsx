@@ -70,7 +70,7 @@ export const Toggle: FC<ToggleProps> = ({
         htmlFor={id}
       >
         <span className={styles.labelText}>{label}</span>
-        <span className={styles.toggleTrack} tabIndex={1}></span>
+        <span className={styles.toggleTrack} aria-checked={!!checked} role="checkbox" tabIndex={0}></span>
       </label>
 
       {helperText && <Help parentId={id} helperText={helperText} />}

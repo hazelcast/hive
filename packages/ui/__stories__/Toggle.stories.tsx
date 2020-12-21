@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Form, Formik } from 'formik'
 import { logger } from '@hazelcast/services'
 import styles from '../src/Toggle.module.scss'
-import { Toggle, ToggleFormik, Link } from '../src'
+import { Toggle, ToggleFormik } from '../src'
 
 export default {
   title: 'Components/Toggle',
