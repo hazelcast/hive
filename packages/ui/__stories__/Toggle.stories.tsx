@@ -107,10 +107,13 @@ export const WithError = () => (
 )
 
 export const ToggleWrappedInFormik = () => {
+  type Values = {
+    turboMode: boolean
+  }
   const validateTurbo = (value: boolean) => (!value ? 'turbo mode must be on!!!' : undefined)
 
   const TestForm = () => (
-    <Formik
+    <Formik<Values>
       initialValues={{
         turboMode: false,
       }}
@@ -119,7 +122,7 @@ export const ToggleWrappedInFormik = () => {
       {({ values }) => (
         <Form>
           Values: {JSON.stringify(values)}
-          <ToggleFormik name="turboMode" validate={validateTurbo} label="Turbo Mode" />
+          <ToggleFormik<Values> name="turboMode" validate={validateTurbo} label="Turbo Mode" />
           <button type="submit">Submit</button>
         </Form>
       )}
