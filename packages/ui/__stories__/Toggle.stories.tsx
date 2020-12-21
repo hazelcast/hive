@@ -54,7 +54,7 @@ export const DisabledChecked = () => (
 
 export const Hovered = () => (
   <Toggle
-    className={styles.hover}
+    classNameLabel={styles.hover}
     checked={true}
     label="hovered and checked"
     name="default"
@@ -64,7 +64,7 @@ export const Hovered = () => (
 
 export const UncheckedHovered = () => (
   <Toggle
-    className={styles.hover}
+    classNameLabel={styles.hover}
     checked={false}
     label="hovered and unchecked"
     name="default"
@@ -74,7 +74,7 @@ export const UncheckedHovered = () => (
 
 export const Focused = () => (
   <Toggle
-    className={styles.focus}
+    classNameLabel={styles.focus}
     checked={true}
     label="focused and checked"
     name="default"
@@ -84,7 +84,7 @@ export const Focused = () => (
 
 export const UncheckedFocused = () => (
   <Toggle
-    className={styles.focus}
+    classNameLabel={styles.focus}
     checked={false}
     label="focused and unchecked"
     name="default"

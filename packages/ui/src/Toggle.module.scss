@@ -23,6 +23,14 @@ $knobFontSize: c.$grid * 3.5;
   }
 }
 
+@mixin hoverState {
+  border-color: c.$colorPrimary;
+}
+
+@mixin focusState {
+  @include h.outlineFormField;
+}
+
 .wrapper {
   // hide the actual input, we will show the toggleTrack instead.
   input[type='checkbox'] {
@@ -51,35 +59,41 @@ $knobFontSize: c.$grid * 3.5;
     position: relative;
     border: c.$borderWidth solid transparent;
     box-sizing: border-box;
-  }
-
-  &:hover,
-  &.hover {
-    .toggleTrack {
-      border-color: c.$colorPrimary;
+    &:hover {
+      @include hoverState;
+    }
+    &:focus {
+      @include focusState;
     }
   }
 
-  &:focus,
-  &.focus {
-    .toggleTrack {
-      @include h.outlineFormField;
-    }
+  // track states
+  .hover .toggleTrack {
+    @include hoverState;
   }
 
-  .error {
-    .toggleTrack {
-      border-color: c.$colorError;
-    }
+  .focus .toggleTrack {
+    @include focusState;
   }
 
-  // track on state
+  .disabled .toggleTrack {
+    background-color: c.$colorNeutral;
+    color: c.$colorNeutralWhite;
+    border-color: c.$colorNeutralLight;
+    cursor: not-allowed;
+  }
+
+  .error .toggleTrack {
+    border-color: c.$colorError;
+  }
+
+  // track ON state
   input[type='checkbox']:checked + label .toggleTrack {
     background: $trackBgOn;
   }
 
-  // the `knob` (default off state)
-  // +1/-1 calculations used for pixel perfection with default $grid value.
+  // the `knob` OFF state
+  // +1/-1 magic values used for pixel perfection with default $grid value.
   // otherwise it looks 1px off :/
   .toggleTrack:before {
     content: '';
@@ -94,7 +108,7 @@ $knobFontSize: c.$grid * 3.5;
     transition: right c.$transitionTimeMedium ease-in;
   }
 
-  // knob on state
+  // knob ON state
   input[type='checkbox']:checked + label .toggleTrack:before {
     background: $knobBgOn;
     right: $knobRight;
@@ -116,14 +130,6 @@ $knobFontSize: c.$grid * 3.5;
     content: 'ON';
     right: 8px;
     left: unset;
-  }
-
-  // global disabled state
-  .disabled .toggleTrack {
-    background-color: c.$colorNeutral;
-    color: c.$colorNeutralWhite;
-    border-color: c.$colorNeutralLight;
-    cursor: not-allowed;
   }
 }
 
