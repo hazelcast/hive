@@ -18,7 +18,7 @@ describe('Toggle', () => {
     const onChange = jest.fn()
     const wrapper = await mountAndCheckA11Y(<Toggle checked name="hello" onChange={onChange} label="Hello World" />)
 
-    expect(wrapper.find('.toggle-track').exists()).toBeTruthy()
+    expect(wrapper.find('.toggleTrack').exists()).toBeTruthy()
     expect(wrapper.find('input').props()).toMatchObject({
       type: 'checkbox',
       name: 'hello',
@@ -34,7 +34,7 @@ describe('Toggle', () => {
     const onChange = jest.fn()
     const wrapper = await mountAndCheckA11Y(<Toggle disabled checked={false} name="hello" onChange={onChange} label="Hello World" />)
 
-    expect(wrapper.find('.toggle-track').exists()).toBeTruthy()
+    expect(wrapper.find('.toggleTrack').exists()).toBeTruthy()
     expect(wrapper.find('input').props()).toMatchObject({
       type: 'checkbox',
       name: 'hello',

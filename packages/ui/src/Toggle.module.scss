@@ -24,7 +24,7 @@ $knobOffset: 2px;
 }
 
 .wrapper {
-  // hide the actual input, we will show the toggle-track instead.
+  // hide the actual input, we will show the toggleTrack instead.
   input[type='checkbox'] {
     display: none;
   }
@@ -42,7 +42,7 @@ $knobOffset: 2px;
   }
 
   // the `track` (default off state)
-  .toggle-track {
+  .toggleTrack {
     display: inline-block;
     height: $h;
     width: $w;
@@ -52,12 +52,12 @@ $knobOffset: 2px;
   }
 
   // track on state
-  input[type='checkbox']:checked + label .toggle-track {
+  input[type='checkbox']:checked + label .toggleTrack {
     background: $trackBgOn;
   }
 
   // the `knob` (default off state)
-  .toggle-track:before {
+  .toggleTrack:before {
     content: '';
     display: inline-block;
     height: $knobH;
@@ -67,28 +67,28 @@ $knobOffset: 2px;
     position: absolute;
     top: $knobOffset;
     right: $knobOffset;
-    transition: right $transitionTimeMedium ease-in;
+    transition: right c.$transitionTimeMedium ease-in;
   }
 
   // knob on state
-  input[type='checkbox']:checked + label .toggle-track:before {
+  input[type='checkbox']:checked + label .toggleTrack:before {
     background: $knobBgOn;
     right: $knobRight;
   }
 
   // th "ON" text
-  input[type='checkbox']:checked + label .toggle-track:after {
+  input[type='checkbox']:checked + label .toggleTrack:after {
     content: 'ON';
     position: absolute;
     top: 2px;
     right: 8px;
     font-size: 0.9rem;
     color: #fff;
-    animation: fadein $transitionTimeMedium;
+    animation: fadein c.$transitionTimeMedium;
   }
 
   // global disabled state
-  .disabled .toggle-track {
+  .disabled .toggleTrack {
     opacity: 0.3;
     cursor: not-allowed;
   }

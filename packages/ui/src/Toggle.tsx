@@ -58,17 +58,15 @@ export const Toggle: FC<ToggleProps> = ({
         aria-errormessage={error && errorId(id)}
       />
 
-      {/* label controlling the input above with the `toggle-track` element */}
+      {/* label controlling the input above with the `toggleTrack` element */}
       <label className={cn(classNameLabel, { [styles.disabled]: disabled })} htmlFor={id}>
         <span className={styles.labelText}>{label}</span>
-        <span className={cn(styles['toggle-track'])}></span>
+        <span className={styles.toggleTrack}></span>
       </label>
 
       {helperText && <Help parentId={id} helperText={helperText} />}
 
-      <div>
-        <Error error={error} className={styles.errorContainer} inputId={id} />
-      </div>
+      <Error error={error} className={styles.errorContainer} inputId={id} />
     </div>
   )
 }
