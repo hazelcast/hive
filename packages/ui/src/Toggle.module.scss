@@ -1,25 +1,18 @@
 @use '../styles/constants' as c;
 @use '../styles/helpers' as h;
 
-$h: 24px;
-$w: 60px;
-$knobRight: $w / 2 + 8px;
+$h: c.$grid * 6;
+$w: c.$grid * 15;
+$labelMargin: c.$grid * 4;
 $trackBr: 22px;
 $trackBgOn: #1dbc22;
-$trackBgOff: c.$colorNeutralLight; // rgba(0,0,0,.32);
+$trackBgOff: c.$colorNeutralLight;
+$knobRight: $w * 0.6;
 $knobBgOn: c.$colorNeutralWhite;
 $knobBgOff: c.$colorNeutralLighter;
-$labelMargin: 12px;
-$knobH: 20px;
-$knobW: 20px;
-$knobOffset: 2px;
-
-// xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-// + hover - use the same border style as specified for the Toggle focus design, but use the color from checkbox hover.
-// + focus
-// + disabled - use all colors from the checkbox design
-// + error - same as hover, but use the error color
-// + helper text - use the same Help component with the same margin as for the checkbox.
+$knobR: $h * 0.9;
+$knobOffset: c.$grid * 0.3;
+$knobFontSize: c.$grid * 3.5;
 
 @keyframes fadein {
   from {
@@ -57,12 +50,13 @@ $knobOffset: 2px;
     border-radius: $trackBr;
     position: relative;
     border: c.$borderWidth solid transparent;
+    box-sizing: border-box;
   }
 
   &:hover,
   &.hover {
     .toggleTrack {
-      border: c.$borderWidth solid c.$colorPrimary;
+      border-color: c.$colorPrimary;
     }
   }
 
@@ -85,16 +79,18 @@ $knobOffset: 2px;
   }
 
   // the `knob` (default off state)
+  // +1/-1 calculations used for pixel perfection with default $grid value.
+  // otherwise it looks 1px off :/
   .toggleTrack:before {
     content: '';
     display: inline-block;
-    height: $knobH;
-    width: $knobW;
+    height: calc(#{$knobR} - 2px);
+    width: calc(#{$knobR} - 1px);
     background: $knobBgOff;
     border-radius: 50%;
     position: absolute;
-    top: $knobOffset;
-    right: $knobOffset;
+    top: calc(#{$knobOffset} + 0px);
+    right: calc(#{$knobOffset} + 0px);
     transition: right c.$transitionTimeMedium ease-in;
   }
 
@@ -108,9 +104,9 @@ $knobOffset: 2px;
   input[type='checkbox'] + label .toggleTrack:after {
     content: 'OFF';
     position: absolute;
-    top: 2px;
+    top: 1px;
     left: 6px;
-    font-size: 0.9rem;
+    font-size: $knobFontSize;
     color: #fff;
     animation: fadein c.$transitionTimeMedium;
   }
@@ -118,13 +114,8 @@ $knobOffset: 2px;
   // the "ON" text
   input[type='checkbox']:checked + label .toggleTrack:after {
     content: 'ON';
-    position: absolute;
-    top: 2px;
     right: 8px;
     left: unset;
-    font-size: 0.9rem;
-    color: #fff;
-    animation: fadein c.$transitionTimeMedium;
   }
 
   // global disabled state

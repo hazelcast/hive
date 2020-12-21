@@ -70,7 +70,7 @@ export const Toggle: FC<ToggleProps> = ({
         htmlFor={id}
       >
         <span className={styles.labelText}>{label}</span>
-        <span className={styles.toggleTrack}></span>
+        <span className={styles.toggleTrack} tabIndex={1}></span>
       </label>
 
       {helperText && <Help parentId={id} helperText={helperText} />}

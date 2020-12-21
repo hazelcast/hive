@@ -62,11 +62,31 @@ export const Hovered = () => (
   />
 )
 
+export const UncheckedHovered = () => (
+  <Toggle
+    className={styles.hover}
+    checked={false}
+    label="hovered and unchecked"
+    name="default"
+    onChange={(e) => logger.log('change', e.target.checked)}
+  />
+)
+
 export const Focused = () => (
   <Toggle
     className={styles.focus}
     checked={true}
     label="focused and checked"
+    name="default"
+    onChange={(e) => logger.log('change', e.target.checked)}
+  />
+)
+
+export const UncheckedFocused = () => (
+  <Toggle
+    className={styles.focus}
+    checked={false}
+    label="focused and unchecked"
     name="default"
     onChange={(e) => logger.log('change', e.target.checked)}
   />
