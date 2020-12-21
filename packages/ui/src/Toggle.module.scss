@@ -14,6 +14,13 @@ $knobH: 20px;
 $knobW: 20px;
 $knobOffset: 2px;
 
+// xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+// + hover - use the same border style as specified for the Toggle focus design, but use the color from checkbox hover.
+// + focus
+// + disabled - use all colors from the checkbox design
+// + error - same as hover, but use the error color
+// + helper text - use the same Help component with the same margin as for the checkbox.
+
 @keyframes fadein {
   from {
     opacity: 0;
@@ -49,6 +56,27 @@ $knobOffset: 2px;
     background: $trackBgOff;
     border-radius: $trackBr;
     position: relative;
+    border: c.$borderWidth solid transparent;
+  }
+
+  &:hover,
+  &.hover {
+    .toggleTrack {
+      border: c.$borderWidth solid c.$colorPrimary;
+    }
+  }
+
+  &:focus,
+  &.focus {
+    .toggleTrack {
+      @include h.outlineFormField;
+    }
+  }
+
+  .error {
+    .toggleTrack {
+      border-color: c.$colorError;
+    }
   }
 
   // track on state
@@ -76,12 +104,24 @@ $knobOffset: 2px;
     right: $knobRight;
   }
 
-  // th "ON" text
+  // the "OFF" text
+  input[type='checkbox'] + label .toggleTrack:after {
+    content: 'OFF';
+    position: absolute;
+    top: 2px;
+    left: 6px;
+    font-size: 0.9rem;
+    color: #fff;
+    animation: fadein c.$transitionTimeMedium;
+  }
+
+  // the "ON" text
   input[type='checkbox']:checked + label .toggleTrack:after {
     content: 'ON';
     position: absolute;
     top: 2px;
     right: 8px;
+    left: unset;
     font-size: 0.9rem;
     color: #fff;
     animation: fadein c.$transitionTimeMedium;
@@ -89,7 +129,9 @@ $knobOffset: 2px;
 
   // global disabled state
   .disabled .toggleTrack {
-    opacity: 0.3;
+    background-color: c.$colorNeutral;
+    color: c.$colorNeutralWhite;
+    border-color: c.$colorNeutralLight;
     cursor: not-allowed;
   }
 }

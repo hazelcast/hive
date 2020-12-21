@@ -52,6 +52,26 @@ export const DisabledChecked = () => (
   <Toggle disabled checked={true} label="disabled and checked" name="default" onChange={(e) => logger.log('change', e.target.checked)} />
 )
 
+export const Hovered = () => (
+  <Toggle
+    className={styles.hover}
+    checked={true}
+    label="hovered and checked"
+    name="default"
+    onChange={(e) => logger.log('change', e.target.checked)}
+  />
+)
+
+export const Focused = () => (
+  <Toggle
+    className={styles.focus}
+    checked={true}
+    label="focused and checked"
+    name="default"
+    onChange={(e) => logger.log('change', e.target.checked)}
+  />
+)
+
 export const WithHelperText = () => (
   <Toggle
     helperText="this is an helper text."

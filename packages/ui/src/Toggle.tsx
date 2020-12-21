@@ -59,7 +59,16 @@ export const Toggle: FC<ToggleProps> = ({
       />
 
       {/* label controlling the input above with the `toggleTrack` element */}
-      <label className={cn(classNameLabel, { [styles.disabled]: disabled })} htmlFor={id}>
+      <label
+        className={cn(
+          {
+            [styles.error]: !!error,
+            [styles.disabled]: disabled,
+          },
+          classNameLabel,
+        )}
+        htmlFor={id}
+      >
         <span className={styles.labelText}>{label}</span>
         <span className={styles.toggleTrack}></span>
       </label>
