@@ -25,6 +25,7 @@ export const IconButton: FC<IconButtonProps> = ({
   ariaHidden,
   ariaLabelledBy,
   ariaLabel,
+  type = 'button',
   ...rest
 }) => (
   <button
@@ -39,6 +40,7 @@ export const IconButton: FC<IconButtonProps> = ({
     aria-hidden={ariaHidden}
     aria-label={ariaLabel}
     aria-labelledby={ariaLabelledBy}
+    type={type}
     {...rest}
   >
     <span className={styles.outline} />
