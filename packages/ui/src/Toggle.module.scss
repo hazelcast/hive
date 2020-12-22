@@ -78,6 +78,10 @@ $knobFontSize: c.$grid * 3.5;
     @include focusState;
   }
 
+  .error .toggleTrack {
+    border-color: c.$colorError;
+  }
+
   .disabled .toggleTrack {
     background-color: c.$colorNeutral;
     color: c.$colorNeutralWhite;
@@ -89,10 +93,6 @@ $knobFontSize: c.$grid * 3.5;
     }
   }
 
-  .error .toggleTrack {
-    border-color: c.$colorError;
-  }
-
   // track ON state
   input[type='checkbox']:checked + label .toggleTrack {
     background: $trackBgOn;
@@ -101,7 +101,7 @@ $knobFontSize: c.$grid * 3.5;
   // the `knob` OFF state
   // +1/-1 magic values used for pixel perfection with default $grid value.
   // otherwise it looks 1px off :/
-  .toggleTrack:before {
+  .toggleTrack::before {
     content: '';
     display: inline-block;
     height: $knobRadius;
@@ -115,13 +115,13 @@ $knobFontSize: c.$grid * 3.5;
   }
 
   // knob ON state
-  input[type='checkbox']:checked + label .toggleTrack:before {
+  input[type='checkbox']:checked + label .toggleTrack::before {
     background: $knobBgOn;
     right: $w - $knobRadius - (3 * $knobOffset);
   }
 
   // the "OFF" text
-  input[type='checkbox'] + label .toggleTrack:after {
+  input[type='checkbox'] + label .toggleTrack::after {
     content: 'OFF';
     position: absolute;
     top: 50%; // center vertically by translate trick.
@@ -133,10 +133,10 @@ $knobFontSize: c.$grid * 3.5;
   }
 
   // the "ON" text
-  input[type='checkbox']:checked + label .toggleTrack:after {
+  input[type='checkbox']:checked + label .toggleTrack::after {
     content: 'ON';
     right: c.$grid * 2;
-    left: unset;
+    left: auto;
   }
 }
 
