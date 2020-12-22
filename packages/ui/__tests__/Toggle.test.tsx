@@ -23,9 +23,11 @@ describe('Toggle', () => {
       type: 'checkbox',
       name: 'hello',
       checked: true,
-      'aria-invalid': false,
       disabled: undefined,
       id: 'uuidtest',
+    })
+    expect(wrapper.find('.toggleTrack').props()).toMatchObject({
+      'aria-invalid': false,
     })
     expect(wrapper.find('input').getDOMNode<HTMLInputElement>().indeterminate).toBeFalsy()
   })
@@ -40,8 +42,10 @@ describe('Toggle', () => {
       name: 'hello',
       disabled: true,
       checked: false,
-      'aria-invalid': false,
       id: 'uuidtest',
+    })
+    expect(wrapper.find('.toggleTrack').props()).toMatchObject({
+      'aria-invalid': false,
     })
     expect(wrapper.find('input').getDOMNode<HTMLInputElement>().indeterminate).toBeFalsy()
   })

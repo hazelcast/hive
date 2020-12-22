@@ -40,6 +40,7 @@ export const Toggle: FC<ToggleProps> = ({
   'data-test': dataTest,
 }) => {
   const id = useUID()
+  const labelId = useUID() + '-label' // seconda call of useUID returns the same
 
   return (
     <div className={cn(styles.wrapper, className)} data-test={dataTest}>
@@ -53,13 +54,11 @@ export const Toggle: FC<ToggleProps> = ({
         onBlur={onBlur}
         value={value}
         disabled={disabled}
-        aria-invalid={!!error}
-        aria-describedby={helperText && helpTooltipId(id)}
-        aria-errormessage={error && errorId(id)}
       />
 
       {/* label controlling the input above with the `toggleTrack` element */}
       <label
+        id={labelId}
         className={cn(
           {
             [styles.error]: !!error,
@@ -70,7 +69,18 @@ export const Toggle: FC<ToggleProps> = ({
         htmlFor={id}
       >
         <span className={styles.labelText}>{label}</span>
-        <span className={styles.toggleTrack} aria-label={name} aria-checked={!!checked} role="checkbox" tabIndex={0}></span>
+        {/* actual element to render */}
+        <span
+          className={styles.toggleTrack}
+          aria-disabled={disabled}
+          aria-label={name}
+          aria-labelledby={labelId}
+          aria-checked={!!checked}
+          aria-invalid={!!error}
+          aria-describedby={helperText && helpTooltipId(id)}
+          aria-errormessage={error && errorId(id)}
+          role="checkbox"
+          tabIndex={0}></span>
       </label>
 
       {helperText && <Help parentId={id} helperText={helperText} />}
