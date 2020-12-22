@@ -2,8 +2,8 @@ import React, { ChangeEvent, useLayoutEffect, useRef, useState } from 'react'
 import { logger } from '@hazelcast/services'
 import { Form, Formik } from 'formik'
 
-import { PasswordField, VisibleRef } from '../src/PasswordField'
-import { PasswordFieldFormik } from '../src/PasswordFieldFormik'
+import { PasswordField, VisibleRef } from '../src'
+import { PasswordFieldFormik } from '../src'
 
 import styles from '../src/TextField.module.scss'
 
@@ -120,6 +120,10 @@ export const WithHelperText = () => (
     helperText="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
     {...eventHandlers}
   />
+)
+
+export const WithIcon = () => (
+  <PasswordField name="name" value="password" label="Wisest jedi" placeholder="Enter the name" withIcon {...eventHandlers} />
 )
 
 export const PasswordWrappedInFormik = () => {

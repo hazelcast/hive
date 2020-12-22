@@ -12,7 +12,7 @@ import React, {
   SetStateAction,
   Ref,
 } from 'react'
-import { Eye, EyeOff } from 'react-feather'
+import { Eye, EyeOff, Lock } from 'react-feather'
 import cn from 'classnames'
 
 import { TextField } from './TextField'
@@ -25,6 +25,7 @@ type PasswordFieldCoreProps = {
   value?: string
   onBlur?: (e: FocusEvent<HTMLInputElement>) => void
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
+  withIcon?: boolean
   error?: string
 }
 export type PasswordFieldExtraProps = {
@@ -49,6 +50,7 @@ export const PasswordField: FC<PasswordFieldProps> = ({
   showIconLabel = 'Show password',
   hideIconLabel = 'Hide password',
   inputClassName,
+  withIcon,
   disabled,
   visibleRef,
   ...props
@@ -87,6 +89,7 @@ export const PasswordField: FC<PasswordFieldProps> = ({
       type={visible ? 'text' : 'password'}
       inputContainerChild={overlay}
       inputClassName={cn(styles.inputContainer, inputClassName)}
+      inputIcon={withIcon ? Lock : undefined}
       disabled={disabled}
     />
   )
