@@ -29,6 +29,9 @@ $knobFontSize: c.$grid * 3.5;
 
 @mixin focusState {
   @include h.outlineFormField;
+
+  // override box-shadow decl from the mixin above to delete the inset
+  box-shadow: 0 0 0 (c.$outlineWidth - c.$borderWidth) c.$colorAccessibilityOutline;
 }
 
 .wrapper {
