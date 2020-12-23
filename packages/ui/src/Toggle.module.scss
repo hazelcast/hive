@@ -4,7 +4,9 @@
 $h: c.$grid * 6;
 $w: c.$grid * 15;
 $labelMargin: c.$grid * 2.5;
+/* doiuse-disable calc */
 $trackBr: calc(#{$h} - #{c.$borderWidth * 2});
+/* doiuse-enable calc */
 $trackBgOn: c.$colorSuccessLight;
 $trackBgOff: c.$colorNeutralLight;
 $knobBgOn: c.$colorNeutralWhite;
@@ -79,28 +81,28 @@ $knobHorizontalOffset: c.$outlineWidth;
   }
 
   // track states
-  .hover .toggleTrack,
-  .toggleTrack:hover {
+  label.hover .toggleTrack,
+  label:hover .toggleTrack {
     border-color: c.$colorPrimary;
   }
 
-  .error .toggleTrack {
+  label.error .toggleTrack {
     border-color: c.$colorError;
   }
 
-  .focus .toggleTrack,
-  input:focus + label .toggleTrack {
-    @include h.outlineFormField;
-  }
-
-  .disabled .toggleTrack {
+  label.disabled .toggleTrack {
     background-color: c.$colorNeutral;
     border-color: c.$colorNeutralLight;
     box-shadow: none;
   }
 
+  label.focus .toggleTrack,
+  input:focus + label .toggleTrack {
+    @include h.outlineFormField;
+  }
+
   // track ON state
-  input[type='checkbox']:checked + label .toggleTrack {
+  input:checked + label .toggleTrack {
     background: $trackBgOn;
   }
 
@@ -120,9 +122,11 @@ $knobHorizontalOffset: c.$outlineWidth;
   }
 
   // knob ON state
-  input[type='checkbox']:checked + label .toggleTrack::before {
+  input:checked + label .toggleTrack::before {
     background: $knobBgOn;
+    /* doiuse-disable calc */
     right: calc(#{$w - $knobRadius} - #{2 * $knobHorizontalOffset});
+    /* doiuse-enable calc */
   }
 
   .toggleTrackText {
@@ -133,14 +137,14 @@ $knobHorizontalOffset: c.$outlineWidth;
   }
 
   // the "OFF" text
-  input[type='checkbox']:not(:checked) + label .toggleTrackText {
+  input:not(:checked) + label .toggleTrackText {
     animation: switchOff c.$transitionTimeMedium ease-in;
     right: auto;
     left: c.$grid * 1.5;
   }
 
   // the "ON" text
-  input[type='checkbox']:checked + label .toggleTrackText {
+  input:checked + label .toggleTrackText {
     animation: switchOn c.$transitionTimeMedium ease-in;
     right: c.$grid * 2;
     left: auto;
