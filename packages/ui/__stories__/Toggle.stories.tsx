@@ -7,6 +7,7 @@ import { Toggle, ToggleFormik } from '../src'
 export default {
   title: 'Components/Toggle',
   component: Toggle,
+  decorators: [formDecorator],
 }
 
 export const Default = () => {
