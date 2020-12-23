@@ -16,6 +16,7 @@ type NumberFieldCoreProps = {
   onChange: (newValue?: number) => void
   error?: string
 }
+
 export type NumberFieldExtraProps = {
   incrementIconAriaLabel?: string
   decrementIconAriaLabel?: string
