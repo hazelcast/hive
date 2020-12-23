@@ -19,7 +19,7 @@ $select: ':global .hz-select-field__control';
   }
 
   .helperText {
-    margin-left: c.$grid;
+    margin-left: c.$grid * 1.5;
     display: block;
   }
 
