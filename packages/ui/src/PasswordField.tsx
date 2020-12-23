@@ -12,7 +12,7 @@ import React, {
   SetStateAction,
   Ref,
 } from 'react'
-import { Eye, EyeOff } from 'react-feather'
+import { Eye, EyeOff, Lock } from 'react-feather'
 import cn from 'classnames'
 
 import { TextField } from './TextField'
@@ -36,6 +36,7 @@ export type PasswordFieldExtraProps = {
   className?: string
   inputClassName?: string
   errorClassName?: string
+  withIcon?: boolean
   visibleRef?: Ref<VisibleRef>
 } & DataTestProp &
   Pick<InputHTMLAttributes<HTMLInputElement>, 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'>
@@ -50,6 +51,7 @@ export const PasswordField: FC<PasswordFieldProps> = ({
   showIconLabel = 'Show password',
   hideIconLabel = 'Hide password',
   inputClassName,
+  withIcon,
   disabled,
   visibleRef,
   ...props
@@ -88,6 +90,7 @@ export const PasswordField: FC<PasswordFieldProps> = ({
       type={visible ? 'text' : 'password'}
       inputContainerChild={overlay}
       inputClassName={cn(styles.inputContainer, inputClassName)}
+      inputIcon={withIcon ? Lock : undefined}
       disabled={disabled}
     />
   )

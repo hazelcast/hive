@@ -75,6 +75,7 @@ type ButtonTypeProps =
       href: string
       target?: LinkTarget
       rel?: LinkRel | LinkRel[]
+      type?: never
     } & ButtonNotDisabledProps)
   | ({
       component?: 'button'
@@ -133,6 +134,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
       iconRightClassName,
       rel = 'noopener',
       target,
+      type = 'button',
       ...rest
     },
     ref,
@@ -163,6 +165,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
             disabled={disabled}
             rel={Component === 'a' ? relFinal : undefined}
             target={Component === 'a' ? target : undefined}
+            type={Component === 'button' ? type : undefined}
             {...rest}
           >
             <span className={cn(styles.outline, outlineClassName)} />
