@@ -4,39 +4,42 @@
 $h: c.$grid * 6;
 $w: c.$grid * 15;
 $labelMargin: c.$grid * 2.5;
-$trackBr: 22px;
+/* doiuse-disable calc */
+$trackBr: calc(#{$h} - #{c.$borderWidth * 2});
+/* doiuse-enable calc */
 $trackBgOn: c.$colorSuccessLight;
 $trackBgOff: c.$colorNeutralLight;
 $knobBgOn: c.$colorNeutralWhite;
 $knobBgOff: c.$colorNeutralLighter;
 $knobRadius: c.$grid * 5;
-$knobOffset: c.$grid * 0.3;
-$knobFontSize: c.$grid * 3.5;
+$knobHorizontalOffset: c.$outlineWidth;
 
-@keyframes fadein {
+@keyframes switchOn {
   from {
     opacity: 0;
+    transform: translateY(-50%) translateX(-100%);
   }
   to {
     opacity: 1;
+    transform: translateY(-50%);
+  }
+}
+@keyframes switchOff {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%);
   }
 }
 
-@mixin hoverState {
-  border-color: c.$colorPrimary;
-}
-
-@mixin focusState {
-  @include h.outlineFormField;
-
-  // override box-shadow decl from the mixin above to remove the inset
-  box-shadow: 0 0 0 (c.$outlineWidth - c.$borderWidth) c.$colorAccessibilityOutline;
-}
-
 .wrapper {
-  // hide the actual input, we will show the toggleTrack instead.
-  input[type='checkbox'] {
-    display: none;
+  position: relative;
+
+  input {
+    @include h.visuallyHidden;
   }
 
   // faux wrapping label
@@ -44,11 +47,24 @@ $knobFontSize: c.$grid * 3.5;
     cursor: pointer;
     display: inline-flex; // for aligning with the .labelText
     align-items: center;
+    color: c.$colorText;
+    vertical-align: middle;
+
+    @include c.typographyBodySmall;
+
+    &.disabled {
+      cursor: not-allowed;
+      color: c.$colorNeutralLight;
+    }
   }
 
   // actual text label
   .labelText {
     margin-right: $labelMargin;
+  }
+
+  .helperText {
+    margin-left: c.$grid * 1.5;
   }
 
   // the `track` (default off state)
@@ -61,46 +77,36 @@ $knobFontSize: c.$grid * 3.5;
     position: relative;
     border: c.$borderWidth solid transparent;
     box-sizing: border-box;
-    &:hover {
-      @include hoverState;
-    }
-    &:focus {
-      @include focusState;
-    }
+    color: c.$colorNeutralWhite;
   }
 
   // track states
-  .hover .toggleTrack {
-    @include hoverState;
+  label.hover .toggleTrack,
+  label:hover .toggleTrack {
+    border-color: c.$colorPrimary;
   }
 
-  .focus .toggleTrack {
-    @include focusState;
-  }
-
-  .error .toggleTrack {
+  label.error .toggleTrack {
     border-color: c.$colorError;
   }
 
-  .disabled .toggleTrack {
+  label.disabled .toggleTrack {
     background-color: c.$colorNeutral;
-    color: c.$colorNeutralWhite;
     border-color: c.$colorNeutralLight;
-    cursor: not-allowed;
-    &:focus {
-      // undo focus effect when disabled
-      box-shadow: none;
-    }
+    box-shadow: none;
+  }
+
+  label.focus .toggleTrack,
+  input:focus + label .toggleTrack {
+    @include h.outlineFormField;
   }
 
   // track ON state
-  input[type='checkbox']:checked + label .toggleTrack {
+  input:checked + label .toggleTrack {
     background: $trackBgOn;
   }
 
   // the `knob` OFF state
-  // +1/-1 magic values used for pixel perfection with default $grid value.
-  // otherwise it looks 1px off :/
   .toggleTrack::before {
     content: '';
     display: inline-block;
@@ -109,32 +115,37 @@ $knobFontSize: c.$grid * 3.5;
     background: $knobBgOff;
     border-radius: 50%;
     position: absolute;
-    top: $knobOffset;
-    right: $knobOffset;
+    top: 50%;
+    transform: translateY(-50%);
+    right: $knobHorizontalOffset;
     transition: right c.$transitionTimeMedium ease-in;
   }
 
   // knob ON state
-  input[type='checkbox']:checked + label .toggleTrack::before {
+  input:checked + label .toggleTrack::before {
     background: $knobBgOn;
-    right: $w - $knobRadius - (3 * $knobOffset);
+    /* doiuse-disable calc */
+    right: calc(#{$w - $knobRadius} - #{2 * $knobHorizontalOffset});
+    /* doiuse-enable calc */
+  }
+
+  .toggleTrackText {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: c.$colorNeutralWhite;
   }
 
   // the "OFF" text
-  input[type='checkbox'] + label .toggleTrack::after {
-    content: 'OFF';
-    position: absolute;
-    top: 50%; // center vertically by translate trick.
-    transform: translateY(-50%);
+  input:not(:checked) + label .toggleTrackText {
+    animation: switchOff c.$transitionTimeMedium ease-in;
+    right: auto;
     left: c.$grid * 1.5;
-    font-size: $knobFontSize;
-    color: c.$colorNeutralWhite;
-    animation: fadein c.$transitionTimeMedium;
   }
 
   // the "ON" text
-  input[type='checkbox']:checked + label .toggleTrack::after {
-    content: 'ON';
+  input:checked + label .toggleTrackText {
+    animation: switchOn c.$transitionTimeMedium ease-in;
     right: c.$grid * 2;
     left: auto;
   }

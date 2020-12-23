@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import { Form, Formik } from 'formik'
 import { logger } from '@hazelcast/services'
-import styles from '../src/Toggle.module.scss'
+
 import { Toggle, ToggleFormik } from '../src'
+import { formDecorator } from './decorators'
+
+import styles from '../src/Toggle.module.scss'
 
 export default {
   title: 'Components/Toggle',
@@ -105,6 +108,17 @@ export const WithHelperText = () => (
 
 export const WithError = () => (
   <Toggle error="this is an error message!" checked label="Label" name="default" onChange={(e) => logger.log('change', e.target.checked)} />
+)
+
+export const WithErrorFocused = () => (
+  <Toggle
+    classNameLabel={styles.focus}
+    error="this is an error message!"
+    checked
+    label="Label"
+    name="default"
+    onChange={(e) => logger.log('change', e.target.checked)}
+  />
 )
 
 export const ToggleWrappedInFormik = () => {

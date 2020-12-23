@@ -1,9 +1,11 @@
 import React, { FC, FocusEvent, ChangeEvent } from 'react'
 import cn from 'classnames'
-import { Error, errorId } from './Error'
-import { Help, helpTooltipId } from './Help'
 import { useUID } from 'react-uid'
 import { DataTestProp } from '@hazelcast/helpers'
+
+import { Error, errorId } from './Error'
+import { Help, helpTooltipId } from './Help'
+
 import styles from './Toggle.module.scss'
 
 type ToggleCoreProps = {
@@ -40,7 +42,6 @@ export const Toggle: FC<ToggleProps> = ({
   'data-test': dataTest,
 }) => {
   const id = useUID()
-  const labelId = useUID() + '-label' // seconda call of useUID returns the same
 
   return (
     <div className={cn(styles.wrapper, className)} data-test={dataTest}>
@@ -54,11 +55,13 @@ export const Toggle: FC<ToggleProps> = ({
         onBlur={onBlur}
         value={value}
         disabled={disabled}
+        aria-invalid={!!error}
+        aria-describedby={helperText && helpTooltipId(id)}
+        aria-errormessage={error && errorId(id)}
       />
 
       {/* label controlling the input above with the `toggleTrack` element */}
       <label
-        id={labelId}
         className={cn(
           {
             [styles.error]: !!error,
@@ -70,20 +73,12 @@ export const Toggle: FC<ToggleProps> = ({
       >
         <span className={styles.labelText}>{label}</span>
         {/* actual element to render */}
-        <span
-          className={styles.toggleTrack}
-          aria-disabled={disabled}
-          aria-label={name}
-          aria-labelledby={labelId}
-          aria-checked={!!checked}
-          aria-invalid={!!error}
-          aria-describedby={helperText && helpTooltipId(id)}
-          aria-errormessage={error && errorId(id)}
-          role="checkbox"
-          tabIndex={0}></span>
+        <span className={styles.toggleTrack}>
+          <span className={styles.toggleTrackText}>{checked ? 'ON' : 'OFF'}</span>
+        </span>
       </label>
 
-      {helperText && <Help parentId={id} helperText={helperText} />}
+      {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} />}
 
       <Error error={error} className={styles.errorContainer} inputId={id} />
     </div>

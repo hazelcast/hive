@@ -102,7 +102,7 @@ export const Checkbox: FC<CheckboxProps> = ({
           aria-errormessage={error && errorId(id)}
         />
         {indeterminate ? <Minus className={styles.checkmark} /> : <Check className={styles.checkmark} />}
-        {helperText && <Help parentId={id} helperText={helperText} />}
+        {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} />}
       </label>
       <Error error={error} className={styles.errorContainer} inputId={id} />
     </div>

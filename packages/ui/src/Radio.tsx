@@ -85,7 +85,7 @@ export const Radio: FC<RadioProps> = ({
         {...errorProps}
       />
       <span className={styles.checkmark} />
-      {helperText && <Help parentId={id} helperText={helperText} />}
+      {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} />}
     </label>
   )
 }
