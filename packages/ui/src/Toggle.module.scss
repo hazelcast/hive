@@ -8,7 +8,7 @@ $labelMargin: c.$grid * 2.5;
 $trackBr: calc(#{$h} - #{c.$borderWidth * 2});
 /* doiuse-enable calc */
 $trackBgOn: c.$colorSuccessLight;
-$trackBgOff: c.$colorNeutralLight;
+$trackBgOff: c.$colorNeutral;
 $knobBgOn: c.$colorNeutralWhite;
 $knobBgOff: c.$colorNeutralLighter;
 $knobRadius: c.$grid * 5;
@@ -91,7 +91,7 @@ $knobHorizontalOffset: c.$outlineWidth;
   }
 
   label.disabled .toggleTrack {
-    background-color: c.$colorNeutral;
+    background-color: c.$colorNeutralLight;
     border-color: c.$colorNeutralLight;
     box-shadow: none;
   }
@@ -133,7 +133,6 @@ $knobHorizontalOffset: c.$outlineWidth;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    color: c.$colorNeutralWhite;
   }
 
   // the "OFF" text
@@ -141,6 +140,7 @@ $knobHorizontalOffset: c.$outlineWidth;
     animation: switchOff c.$transitionTimeMedium ease-in;
     right: auto;
     left: c.$grid * 1.5;
+    color: c.$colorTextSecondary;
   }
 
   // the "ON" text
@@ -148,6 +148,7 @@ $knobHorizontalOffset: c.$outlineWidth;
     animation: switchOn c.$transitionTimeMedium ease-in;
     right: c.$grid * 2;
     left: auto;
+    color: c.$colorNeutralWhite;
   }
 }
 
