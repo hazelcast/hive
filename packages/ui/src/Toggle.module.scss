@@ -4,14 +4,13 @@
 $h: c.$grid * 6;
 $w: c.$grid * 15;
 $labelMargin: c.$grid * 2.5;
-$trackBr: 22px;
+$trackBr: calc(#{$h} - #{c.$borderWidth * 2});
 $trackBgOn: c.$colorSuccessLight;
 $trackBgOff: c.$colorNeutralLight;
 $knobBgOn: c.$colorNeutralWhite;
 $knobBgOff: c.$colorNeutralLighter;
 $knobRadius: c.$grid * 5;
-$knobOffset: c.$grid * 0.3;
-$knobFontSize: c.$grid * 3.5;
+$knobOffset: c.$grid * 0.25;
 
 @keyframes fadein {
   from {
@@ -20,17 +19,6 @@ $knobFontSize: c.$grid * 3.5;
   to {
     opacity: 1;
   }
-}
-
-@mixin hoverState {
-  border-color: c.$colorPrimary;
-}
-
-@mixin focusState {
-  @include h.outlineFormField;
-
-  // override box-shadow decl from the mixin above to remove the inset
-  box-shadow: 0 0 0 (c.$outlineWidth - c.$borderWidth) c.$colorAccessibilityOutline;
 }
 
 .wrapper {
@@ -44,11 +32,24 @@ $knobFontSize: c.$grid * 3.5;
     cursor: pointer;
     display: inline-flex; // for aligning with the .labelText
     align-items: center;
+    color: c.$colorText;
+    vertical-align: middle;
+
+    @include c.typographyBodySmall;
+
+    &.disabled {
+      cursor: not-allowed;
+      color: c.$colorNeutralLight;
+    }
   }
 
   // actual text label
   .labelText {
     margin-right: $labelMargin;
+  }
+
+  .helperText {
+    margin-left: c.$grid * 1.5;
   }
 
   // the `track` (default off state)
@@ -61,36 +62,28 @@ $knobFontSize: c.$grid * 3.5;
     position: relative;
     border: c.$borderWidth solid transparent;
     box-sizing: border-box;
-    &:hover {
-      @include hoverState;
-    }
-    &:focus {
-      @include focusState;
-    }
+    color: c.$colorNeutralWhite;
   }
 
   // track states
-  .hover .toggleTrack {
-    @include hoverState;
-  }
-
-  .focus .toggleTrack {
-    @include focusState;
+  .hover .toggleTrack,
+  .toggleTrack:hover {
+    border-color: c.$colorPrimary;
   }
 
   .error .toggleTrack {
     border-color: c.$colorError;
   }
 
+  .focus .toggleTrack,
+  .toggleTrack:focus {
+    @include h.outlineFormField;
+  }
+
   .disabled .toggleTrack {
     background-color: c.$colorNeutral;
-    color: c.$colorNeutralWhite;
     border-color: c.$colorNeutralLight;
-    cursor: not-allowed;
-    &:focus {
-      // undo focus effect when disabled
-      box-shadow: none;
-    }
+    box-shadow: none;
   }
 
   // track ON state
@@ -99,8 +92,6 @@ $knobFontSize: c.$grid * 3.5;
   }
 
   // the `knob` OFF state
-  // +1/-1 magic values used for pixel perfection with default $grid value.
-  // otherwise it looks 1px off :/
   .toggleTrack::before {
     content: '';
     display: inline-block;
@@ -120,23 +111,24 @@ $knobFontSize: c.$grid * 3.5;
     right: $w - $knobRadius - (3 * $knobOffset);
   }
 
-  // the "OFF" text
-  input[type='checkbox'] + label .toggleTrack::after {
-    content: 'OFF';
+  .toggleTrackText {
     position: absolute;
-    top: 50%; // center vertically by translate trick.
+    top: 50%;
     transform: translateY(-50%);
-    left: c.$grid * 1.5;
-    font-size: $knobFontSize;
     color: c.$colorNeutralWhite;
+  }
+
+  // the "OFF" text
+  input[type='checkbox'] + label .toggleTrackText {
+    left: c.$grid * 1.5;
     animation: fadein c.$transitionTimeMedium;
   }
 
   // the "ON" text
-  input[type='checkbox']:checked + label .toggleTrack::after {
-    content: 'ON';
+  input[type='checkbox']:checked + label .toggleTrackText {
     right: c.$grid * 2;
     left: auto;
+    animation: fadein c.$transitionTimeMedium;
   }
 }
 

@@ -1,9 +1,11 @@
 import React, { FC, FocusEvent, ChangeEvent } from 'react'
 import cn from 'classnames'
-import { Error, errorId } from './Error'
-import { Help, helpTooltipId } from './Help'
 import { useUID } from 'react-uid'
 import { DataTestProp } from '@hazelcast/helpers'
+
+import { Error, errorId } from './Error'
+import { Help, helpTooltipId } from './Help'
+
 import styles from './Toggle.module.scss'
 
 type ToggleCoreProps = {
@@ -40,7 +42,7 @@ export const Toggle: FC<ToggleProps> = ({
   'data-test': dataTest,
 }) => {
   const id = useUID()
-  const labelId = useUID() + '-label' // seconda call of useUID returns the same
+  const labelId = `${id}-label`
 
   return (
     <div className={cn(styles.wrapper, className)} data-test={dataTest}>
@@ -80,10 +82,13 @@ export const Toggle: FC<ToggleProps> = ({
           aria-describedby={helperText && helpTooltipId(id)}
           aria-errormessage={error && errorId(id)}
           role="checkbox"
-          tabIndex={0}></span>
+          tabIndex={disabled ? -1 : 0}
+        >
+          <span className={styles.toggleTrackText}>{checked ? 'ON' : 'OFF'}</span>
+        </span>
       </label>
 
-      {helperText && <Help parentId={id} helperText={helperText} />}
+      {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} />}
 
       <Error error={error} className={styles.errorContainer} inputId={id} />
     </div>
