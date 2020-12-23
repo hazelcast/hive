@@ -10,21 +10,34 @@ $trackBgOff: c.$colorNeutralLight;
 $knobBgOn: c.$colorNeutralWhite;
 $knobBgOff: c.$colorNeutralLighter;
 $knobRadius: c.$grid * 5;
-$knobOffset: c.$grid * 0.25;
+$knobHorizontalOffset: c.$outlineWidth;
 
-@keyframes fadein {
+@keyframes switchOn {
   from {
     opacity: 0;
+    transform: translateY(-50%) translateX(-100%);
   }
   to {
     opacity: 1;
+    transform: translateY(-50%);
+  }
+}
+@keyframes switchOff {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%);
   }
 }
 
 .wrapper {
-  // hide the actual input, we will show the toggleTrack instead.
-  input[type='checkbox'] {
-    display: none;
+  position: relative;
+
+  input {
+    @include h.visuallyHidden;
   }
 
   // faux wrapping label
@@ -76,7 +89,7 @@ $knobOffset: c.$grid * 0.25;
   }
 
   .focus .toggleTrack,
-  .toggleTrack:focus {
+  input:focus + label .toggleTrack {
     @include h.outlineFormField;
   }
 
@@ -100,15 +113,16 @@ $knobOffset: c.$grid * 0.25;
     background: $knobBgOff;
     border-radius: 50%;
     position: absolute;
-    top: $knobOffset;
-    right: $knobOffset;
+    top: 50%;
+    transform: translateY(-50%);
+    right: $knobHorizontalOffset;
     transition: right c.$transitionTimeMedium ease-in;
   }
 
   // knob ON state
   input[type='checkbox']:checked + label .toggleTrack::before {
     background: $knobBgOn;
-    right: $w - $knobRadius - (3 * $knobOffset);
+    right: calc(#{$w - $knobRadius} - #{2 * $knobHorizontalOffset});
   }
 
   .toggleTrackText {
@@ -119,16 +133,17 @@ $knobOffset: c.$grid * 0.25;
   }
 
   // the "OFF" text
-  input[type='checkbox'] + label .toggleTrackText {
+  input[type='checkbox']:not(:checked) + label .toggleTrackText {
+    animation: switchOff c.$transitionTimeMedium ease-in;
+    right: auto;
     left: c.$grid * 1.5;
-    animation: fadein c.$transitionTimeMedium;
   }
 
   // the "ON" text
   input[type='checkbox']:checked + label .toggleTrackText {
+    animation: switchOn c.$transitionTimeMedium ease-in;
     right: c.$grid * 2;
     left: auto;
-    animation: fadein c.$transitionTimeMedium;
   }
 }
 

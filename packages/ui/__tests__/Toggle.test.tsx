@@ -3,9 +3,8 @@ import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import { useUID } from 'react-uid'
 
 import { Toggle } from '../src/Toggle'
-import { Error } from '../src/Error'
-
-import styles from '../src/Toggle.module.scss'
+import { Error, errorId } from '../src/Error'
+import { Help, helpTooltipId } from '../src'
 
 jest.mock('react-uid')
 
@@ -20,49 +19,89 @@ describe('Toggle', () => {
     const onChange = jest.fn()
     const wrapper = await mountAndCheckA11Y(<Toggle checked name="hello" onChange={onChange} label="Hello World" />)
 
-    expect(wrapper.find(`.${styles.toggleTrack}`).exists()).toBeTruthy()
     expect(wrapper.find('input').props()).toMatchObject({
       type: 'checkbox',
       name: 'hello',
       checked: true,
       disabled: undefined,
       id: 'uuidtest',
-    })
-    expect(wrapper.find(`.${styles.toggleTrack}`).props()).toMatchObject({
       'aria-invalid': false,
-      tabIndex: 0,
+      'aria-errormessage': undefined,
+      'aria-describedby': undefined,
     })
-    expect(wrapper.find('input').getDOMNode<HTMLInputElement>().indeterminate).toBeFalsy()
+
+    expect(wrapper.find(Error).props()).toMatchObject({
+      error: undefined,
+      inputId: 'uuidtest',
+    })
+
+    expect(wrapper.exists(Help)).toBeFalsy()
   })
 
-  it('Renders a disabled and unchecked Toggle', async () => {
+  it('Renders an unchecked Toggle', async () => {
     const onChange = jest.fn()
-    const wrapper = await mountAndCheckA11Y(<Toggle disabled checked={false} name="hello" onChange={onChange} label="Hello World" />)
+    const wrapper = await mountAndCheckA11Y(<Toggle checked={false} name="hello" onChange={onChange} label="Hello World" />)
 
-    expect(wrapper.find(`.${styles.toggleTrack}`).exists()).toBeTruthy()
     expect(wrapper.find('input').props()).toMatchObject({
       type: 'checkbox',
       name: 'hello',
-      disabled: true,
+      disabled: undefined,
       checked: false,
       id: 'uuidtest',
-    })
-    expect(wrapper.find(`.${styles.toggleTrack}`).props()).toMatchObject({
       'aria-invalid': false,
-      'aria-disabled': true,
-      tabIndex: -1,
+      'aria-errormessage': undefined,
+      'aria-describedby': undefined,
     })
-    expect(wrapper.find('input').getDOMNode<HTMLInputElement>().indeterminate).toBeFalsy()
+
+    expect(wrapper.find(Error).props()).toMatchObject({
+      error: undefined,
+      inputId: 'uuidtest',
+    })
+
+    expect(wrapper.exists(Help)).toBeFalsy()
+  })
+
+  it('Renders a disabled Toggle', async () => {
+    const onChange = jest.fn()
+    const wrapper = await mountAndCheckA11Y(<Toggle disabled checked={false} name="hello" onChange={onChange} label="Hello World" />)
+
+    expect(wrapper.find('input').props()).toMatchObject({
+      disabled: true,
+    })
+
+    expect(wrapper.find(Error).props()).toMatchObject({
+      error: undefined,
+      inputId: 'uuidtest',
+    })
+
+    expect(wrapper.exists(Help)).toBeFalsy()
+  })
+
+  it('Renders a Toggle with helper text', async () => {
+    const onChange = jest.fn()
+    const wrapper = await mountAndCheckA11Y(<Toggle name="hello" onChange={onChange} label="Hello World" helperText="Rocknroll" />)
+
+    expect(wrapper.find('input').props()).toMatchObject({
+      'aria-describedby': helpTooltipId('uuidtest'),
+    })
+
+    expect(wrapper.find(Help).props()).toMatchObject({
+      parentId: 'uuidtest',
+      helperText: 'Rocknroll',
+    })
   })
 
   it('Renders a Toggle with error', async () => {
     const onChange = jest.fn()
     const wrapper = await mountAndCheckA11Y(<Toggle name="hello" onChange={onChange} label="Hello World" error="Unexpected Error" />)
 
-    expect(wrapper.find(Error).exists()).toBe(true)
-    expect(wrapper.find(Error).props()).toEqual({
+    expect(wrapper.find('input').props()).toMatchObject({
+      'aria-invalid': true,
+      'aria-errormessage': errorId('uuidtest'),
+    })
+
+    expect(wrapper.find(Error).props()).toMatchObject({
       error: 'Unexpected Error',
-      className: styles.errorContainer,
       inputId: 'uuidtest',
     })
   })
