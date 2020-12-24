@@ -2,7 +2,7 @@ import React, { FC, ReactNode } from 'react'
 import cn from 'classnames'
 import { AlertTriangle, CheckCircle, AlertCircle, Info, Icon as IconType, X } from 'react-feather'
 
-import { useCloseByEscKey } from './utils/hooks'
+import useCloseByEscKey from './utils/hooks/useCloseByEscKey'
 import { IconButton } from './IconButton'
 import { Icon } from './Icon'
 
@@ -37,7 +37,7 @@ export const ToastIcon: { [key in ToastType]: ToastIconDescriptor } = {
 export type ToastProps = {
   type: ToastType
   content: ReactNode
-  closeToast?: (e: React.MouseEvent<HTMLButtonElement>) => void
+  closeToast?: (e?: React.MouseEvent<HTMLButtonElement>) => void
   className?: string
 }
 
@@ -54,7 +54,7 @@ export type ToastProps = {
 export const Toast: FC<ToastProps> = ({ type, content, closeToast, className }) => {
   const { icon, ariaLabel } = ToastIcon[type]
 
-  useCloseByEscKey((event: any) => closeToast(event))
+  useCloseByEscKey(() => closeToast && closeToast())
 
   return (
     <div
