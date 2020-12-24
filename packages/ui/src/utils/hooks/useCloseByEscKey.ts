@@ -1,16 +1,18 @@
 import { useEffect } from 'react'
 
-// `callback stack` to track callers of useCloseByEscKey
-let _cbStack: Function[] = []
+type CallbackFunction = (e?: KeyboardEvent) => void
 
-function _removeFromStack(cb: Function) {
+// `callback stack` to track callers of useCloseByEscKey
+const _cbStack: CallbackFunction[] = []
+
+function _removeFromStack(cb: CallbackFunction) {
   const idx = _cbStack.indexOf(cb)
   if (idx > -1) {
     _cbStack.splice(idx, 1)
   }
 }
 
-export default function useCloseByEscKey(cb: Function) {
+export default function useCloseByEscKey(cb: CallbackFunction) {
   useEffect(() => {
     function handleKeyDown(nativeEvent: KeyboardEvent) {
       // 'Esc' -> IE/Edge specific value
@@ -34,7 +36,7 @@ export default function useCloseByEscKey(cb: Function) {
       // unregister this callback
       _removeFromStack(cb)
     }
-  }, [])
+  }, [cb])
 
   return null
 }
