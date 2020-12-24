@@ -4,7 +4,7 @@ import { X, ChevronRight } from 'react-feather'
 
 import { PartialRequired } from '@hazelcast/helpers'
 
-import {useCloseByEscKey} from './utils/hooks'
+import useCloseByEscKey from './utils/hooks/useCloseByEscKey'
 import { Link } from './Link'
 import { Button, ButtonAccessibleIconLeftProps } from './Button'
 import { ToastIcon, ToastType } from './Toast'
@@ -42,13 +42,13 @@ export type AlertProps = {
   content: ReactNode
   actions?: AlertAction[]
   className?: string
-  closeToast: (e: React.MouseEvent<HTMLButtonElement>) => void
+  closeToast: (e?: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 export const Alert: FC<AlertProps> = ({ type, title, content, actions, className, closeToast }) => {
   const { icon, ariaLabel } = ToastIcon[type]
 
-  useCloseByEscKey((event: any) => closeToast(event))
+  useCloseByEscKey(() => closeToast && closeToast())
 
   return (
     <div
