@@ -1,7 +1,7 @@
 import { DataTestProp } from '@hazelcast/helpers'
 import React, { FocusEvent, InputHTMLAttributes, ReactElement } from 'react'
 import cn from 'classnames'
-import ReactSelect, { ActionMeta, components, IndicatorProps, InputProps, Props as ReactSelectProps, ValueType } from 'react-select'
+import ReactSelect, { ActionMeta, components, IndicatorProps, Props as ReactSelectProps, ValueType } from 'react-select'
 import { ChevronDown, X } from 'react-feather'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 import { useUID } from 'react-uid'
