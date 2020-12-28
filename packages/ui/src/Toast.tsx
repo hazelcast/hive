@@ -2,7 +2,7 @@ import React, { FC, ReactNode } from 'react'
 import cn from 'classnames'
 import { AlertTriangle, CheckCircle, AlertCircle, Info, Icon as IconType, X } from 'react-feather'
 
-import useCloseByEscKey from './utils/hooks/useCloseByEscKey'
+import { useCloseByEscKey } from './utils/hooks/useCloseByEscKey'
 import { IconButton } from './IconButton'
 import { Icon } from './Icon'
 

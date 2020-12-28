@@ -12,7 +12,7 @@ function _removeFromStack(cb: CallbackFunction) {
   }
 }
 
-export default function useCloseByEscKey(cb: CallbackFunction) {
+export const useCloseByEscKey = (cb: CallbackFunction) => {
   useEffect(() => {
     function handleKeyDown(nativeEvent: KeyboardEvent) {
       // 'Esc' -> IE/Edge specific value

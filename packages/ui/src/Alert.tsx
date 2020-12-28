@@ -4,7 +4,7 @@ import { X, ChevronRight } from 'react-feather'
 
 import { PartialRequired } from '@hazelcast/helpers'
 
-import useCloseByEscKey from './utils/hooks/useCloseByEscKey'
+import { useCloseByEscKey } from './utils/hooks/useCloseByEscKey'
 import { Link } from './Link'
 import { Button, ButtonAccessibleIconLeftProps } from './Button'
 import { ToastIcon, ToastType } from './Toast'
