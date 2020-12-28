@@ -7,6 +7,7 @@ import Select from 'react-select'
 import { SelectFieldFormik } from '../src/SelectFieldFormik'
 import { Error } from '../src/Error'
 import { SelectFieldOption } from '../src/SelectField'
+import { SELECT_FIELD_MOUNT_OPTIONS } from './SelectField.test'
 
 const options: SelectFieldOption<string>[] = [
   { value: 'selectValue0', label: 'selectValue0' },
@@ -37,7 +38,7 @@ describe('SelectFieldFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
+    const wrapper = await mountAndCheckA11Y(<TestForm />, SELECT_FIELD_MOUNT_OPTIONS)
     const selectInstance = wrapper.find(Select).instance() as Select
 
     expect(formikBag.current?.values).toEqual({
@@ -82,7 +83,7 @@ describe('SelectFieldFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
+    const wrapper = await mountAndCheckA11Y(<TestForm />, SELECT_FIELD_MOUNT_OPTIONS)
     const selectInstance = wrapper.find(Select).instance() as Select
 
     expect(wrapper.find(Error).prop('error')).toBe(undefined)

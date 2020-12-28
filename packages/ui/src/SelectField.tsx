@@ -28,7 +28,7 @@ const ClearIndicator = ({ innerProps }: IndicatorProps<SelectFieldOption<any>>) 
 const Input = (props: any) => {
   // autoComplete='off' is hard-coded inside SelectField, but doesn't work in Chrome.
   // Having an invalid value hard-coded disabled it in all browsers.
-  return <components.Input {...props} autoComplete="one-time-code" />
+  return <components.Input {...props} autoComplete="chrome-off" />
 }
 
 export type SelectFieldOption<V = string> = {
