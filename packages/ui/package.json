@@ -4,7 +4,7 @@
   "description": "Hazelcast design system components",
   "author": "",
   "homepage": "https://github.com/hazelcast/frontend-shared#readme",
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "main": "lib/index.js",
   "directories": {
     "lib": "lib",
