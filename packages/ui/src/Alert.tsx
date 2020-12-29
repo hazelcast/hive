@@ -4,7 +4,8 @@ import { X, ChevronRight } from 'react-feather'
 
 import { PartialRequired } from '@hazelcast/helpers'
 
-import { useCloseByEscKey } from './utils/hooks/useCloseByEscKey'
+import { useKey } from 'react-use'
+import { escKeyFilterPredicate } from './utils/keyboard'
 import { Link } from './Link'
 import { Button, ButtonAccessibleIconLeftProps } from './Button'
 import { ToastIcon, ToastType } from './Toast'
@@ -48,7 +49,14 @@ export type AlertProps = {
 export const Alert: FC<AlertProps> = ({ type, title, content, actions, className, closeToast }) => {
   const { icon, ariaLabel } = ToastIcon[type]
 
-  useCloseByEscKey(() => closeToast && closeToast())
+  useKey(
+    escKeyFilterPredicate,
+    (nativeEvent: KeyboardEvent) => {
+      closeToast && closeToast()
+      nativeEvent.stopImmediatePropagation()
+    },
+    { options: { once: true } },
+  )
 
   return (
     <div

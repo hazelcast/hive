@@ -2,7 +2,8 @@ import React, { FC, ReactNode } from 'react'
 import cn from 'classnames'
 import { AlertTriangle, CheckCircle, AlertCircle, Info, Icon as IconType, X } from 'react-feather'
 
-import { useCloseByEscKey } from './utils/hooks/useCloseByEscKey'
+import { useKey } from 'react-use'
+import { escKeyFilterPredicate } from './utils/keyboard'
 import { IconButton } from './IconButton'
 import { Icon } from './Icon'
 
@@ -54,7 +55,14 @@ export type ToastProps = {
 export const Toast: FC<ToastProps> = ({ type, content, closeToast, className }) => {
   const { icon, ariaLabel } = ToastIcon[type]
 
-  useCloseByEscKey(() => closeToast && closeToast())
+  useKey(
+    escKeyFilterPredicate,
+    (nativeEvent: KeyboardEvent) => {
+      closeToast && closeToast()
+      nativeEvent.stopImmediatePropagation()
+    },
+    { options: { once: true } },
+  )
 
   return (
     <div

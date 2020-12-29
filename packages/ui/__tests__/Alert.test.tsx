@@ -112,4 +112,20 @@ describe('Alert', () => {
         expect(child.props()).toMatchObject(actions[cI])
       })
   })
+
+  it('Alert.closeToast called after simulating Escape key', async () => {
+    const closeToast = jest.fn()
+
+    const wrapper = await mountAndCheckA11Y(<Alert type="success" title={title} content={content} closeToast={closeToast} />)
+
+    expect(closeToast).toHaveBeenCalledTimes(0)
+
+    act(() => {
+      const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })
+      document.dispatchEvent(event)
+    })
+    wrapper.update()
+
+    expect(closeToast).toHaveBeenCalledTimes(1)
+  })
 })
