@@ -1,6 +1,6 @@
 import React, { createRef } from 'react'
 import { Formik, Form, FormikProps } from 'formik'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { axeDefaultOptions, mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import { act } from 'react-dom/test-utils'
 import Select from 'react-select'
 
@@ -12,6 +12,13 @@ const options: SelectFieldOption<string>[] = [
   { value: 'selectValue0', label: 'selectValue0' },
   { value: 'selectValue1', label: 'selectValue1' },
 ]
+const SELECT_FIELD_AXE_OPTIONS = {
+  ...axeDefaultOptions,
+  rules: {
+    ...axeDefaultOptions?.rules,
+    'autocomplete-valid': { enabled: false },
+  },
+}
 
 describe('SelectFieldFormik', () => {
   it('can be used in a form', async () => {
@@ -37,7 +44,9 @@ describe('SelectFieldFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
+    const wrapper = await mountAndCheckA11Y(<TestForm />, {
+      axeOptions: SELECT_FIELD_AXE_OPTIONS,
+    })
     const selectInstance = wrapper.find(Select).instance() as Select
 
     expect(formikBag.current?.values).toEqual({
@@ -82,7 +91,9 @@ describe('SelectFieldFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
+    const wrapper = await mountAndCheckA11Y(<TestForm />, {
+      axeOptions: SELECT_FIELD_AXE_OPTIONS,
+    })
     const selectInstance = wrapper.find(Select).instance() as Select
 
     expect(wrapper.find(Error).prop('error')).toBe(undefined)
