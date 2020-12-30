@@ -1,9 +1,11 @@
-import React, { AnchorHTMLAttributes, FC, ReactNode } from 'react'
+import React, { AnchorHTMLAttributes, FC, ReactNode, useCallback } from 'react'
 import cn from 'classnames'
 import { X, ChevronRight } from 'react-feather'
 
 import { PartialRequired } from '@hazelcast/helpers'
 
+import { useKey } from 'react-use'
+import { escKeyFilterPredicate } from './utils/keyboard'
 import { Link } from './Link'
 import { Button, ButtonAccessibleIconLeftProps } from './Button'
 import { ToastIcon, ToastType } from './Toast'
@@ -41,11 +43,24 @@ export type AlertProps = {
   content: ReactNode
   actions?: AlertAction[]
   className?: string
-  closeToast?: (e: React.MouseEvent<HTMLButtonElement>) => void
+  dismissableByEscKey?: boolean
+  closeToast?: (e?: React.MouseEvent<HTMLButtonElement>) => void
 }
 
-export const Alert: FC<AlertProps> = ({ type, title, content, actions, className, closeToast }) => {
+export const Alert: FC<AlertProps> = ({ type, title, content, actions, className, dismissableByEscKey = true, closeToast }) => {
   const { icon, ariaLabel } = ToastIcon[type]
+
+  const closeByEsc = useCallback(
+    (nativeEvent: KeyboardEvent) => {
+      if (dismissableByEscKey) {
+        closeToast?.()
+        nativeEvent.stopImmediatePropagation()
+      }
+    },
+    [closeToast, dismissableByEscKey],
+  )
+
+  useKey(escKeyFilterPredicate, closeByEsc, { options: { once: true } }, [closeByEsc, dismissableByEscKey])
 
   return (
     <div
