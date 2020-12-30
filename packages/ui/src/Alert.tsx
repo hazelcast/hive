@@ -1,4 +1,4 @@
-import React, { AnchorHTMLAttributes, FC, ReactNode } from 'react'
+import React, { AnchorHTMLAttributes, FC, ReactNode, useCallback } from 'react'
 import cn from 'classnames'
 import { X, ChevronRight } from 'react-feather'
 
@@ -43,20 +43,22 @@ export type AlertProps = {
   content: ReactNode
   actions?: AlertAction[]
   className?: string
+  dismissableByEscKey?: boolean
   closeToast?: (e?: React.MouseEvent<HTMLButtonElement>) => void
 }
 
-export const Alert: FC<AlertProps> = ({ type, title, content, actions, className, closeToast }) => {
+export const Alert: FC<AlertProps> = ({ type, title, content, actions, className, dismissableByEscKey = true, closeToast }) => {
   const { icon, ariaLabel } = ToastIcon[type]
 
-  useKey(
-    escKeyFilterPredicate,
+  const closeByEsc = useCallback(
     (nativeEvent: KeyboardEvent) => {
-      closeToast && closeToast()
+      dismissableByEscKey && closeToast?.()
       nativeEvent.stopImmediatePropagation()
     },
-    { options: { once: true } },
+    [closeToast, dismissableByEscKey],
   )
+
+  useKey(escKeyFilterPredicate, closeByEsc, { options: { once: true } }, [closeByEsc, dismissableByEscKey])
 
   return (
     <div

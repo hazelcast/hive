@@ -128,4 +128,22 @@ describe('Alert', () => {
 
     expect(closeToast).toHaveBeenCalledTimes(1)
   })
+
+  it('Alert.dismissableByEscKey = false means no Esc key handling', async () => {
+    const closeToast = jest.fn()
+
+    const wrapper = await mountAndCheckA11Y(
+      <Alert type="success" dismissableByEscKey={false} title={title} content={content} closeToast={closeToast} />,
+    )
+
+    expect(closeToast).toHaveBeenCalledTimes(0)
+
+    act(() => {
+      const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })
+      document.dispatchEvent(event)
+    })
+    wrapper.update()
+
+    expect(closeToast).toHaveBeenCalledTimes(0)
+  })
 })
