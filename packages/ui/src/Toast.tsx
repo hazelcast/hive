@@ -58,8 +58,10 @@ export const Toast: FC<ToastProps> = ({ type, content, dismissableByEscKey = tru
 
   const closeByEsc = useCallback(
     (nativeEvent: KeyboardEvent) => {
-      dismissableByEscKey && closeToast?.()
-      nativeEvent.stopImmediatePropagation()
+      if (dismissableByEscKey) {
+        closeToast?.()
+        nativeEvent.stopImmediatePropagation()
+      }
     },
     [closeToast, dismissableByEscKey],
   )

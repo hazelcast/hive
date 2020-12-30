@@ -52,8 +52,10 @@ export const Alert: FC<AlertProps> = ({ type, title, content, actions, className
 
   const closeByEsc = useCallback(
     (nativeEvent: KeyboardEvent) => {
-      dismissableByEscKey && closeToast?.()
-      nativeEvent.stopImmediatePropagation()
+      if (dismissableByEscKey) {
+        closeToast?.()
+        nativeEvent.stopImmediatePropagation()
+      }
     },
     [closeToast, dismissableByEscKey],
   )
