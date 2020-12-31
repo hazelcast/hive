@@ -1,7 +1,7 @@
 import { DataTestProp } from '@hazelcast/helpers'
-import React, { ReactElement, FocusEvent, InputHTMLAttributes } from 'react'
+import React, { FocusEvent, InputHTMLAttributes, ReactElement } from 'react'
 import cn from 'classnames'
-import ReactSelect, { Props as ReactSelectProps, ValueType, IndicatorProps, ActionMeta } from 'react-select'
+import ReactSelect, { ActionMeta, components, IndicatorProps, Props as ReactSelectProps, ValueType } from 'react-select'
 import { ChevronDown, X } from 'react-feather'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 import { useUID } from 'react-uid'
@@ -22,6 +22,13 @@ const DropdownIndicator = () => <Icon icon={ChevronDown} ariaHidden size="normal
 const ClearIndicator = ({ innerProps }: IndicatorProps<SelectFieldOption<any>>) => {
   // Visually impaired people will use the keyboard (backspace) to remove the value. We do not want to confuse them by allowing to focus this button.
   return <IconButton {...innerProps} icon={X} ariaHidden kind="primary" size="normal" className={styles.clear} tabIndex={-1} />
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const Input = (props: any) => {
+  // autoComplete='off' is hard-coded inside SelectField, but doesn't work in Chrome.
+  // Having an invalid value hard-coded disabled it in all browsers.
+  return <components.Input {...props} autoComplete="chrome-off" />
 }
 
 export type SelectFieldOption<V = string> = {
@@ -54,7 +61,7 @@ export type SelectFieldExtraProps<V> = {
   errorClassName?: string
   menuPortalTarget?: 'body' | 'self' | HTMLElement | null
 } & DataTestProp &
-  Pick<InputHTMLAttributes<HTMLElement>, 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'> &
+  Pick<InputHTMLAttributes<HTMLElement>, 'autoFocus' | 'disabled' | 'required' | 'placeholder'> &
   Pick<ReactSelectProps, 'isSearchable' | 'menuIsOpen' | 'menuPlacement' | 'noOptionsMessage' | 'inputValue'>
 
 export type SelectProps<V> = SelectFieldCoreStaticProps & SelectFieldCoreDynamicProps<V> & SelectFieldExtraProps<V>
@@ -136,6 +143,7 @@ export const SelectField = <V,>({
           components={{
             DropdownIndicator,
             ClearIndicator,
+            Input,
           }}
           {...rest}
         />
