@@ -1,7 +1,9 @@
-import React, { FC, ReactNode } from 'react'
+import React, { FC, ReactNode, useCallback } from 'react'
 import cn from 'classnames'
 import { AlertTriangle, CheckCircle, AlertCircle, Info, Icon as IconType, X } from 'react-feather'
 
+import { useKey } from 'react-use'
+import { escKeyFilterPredicate } from './utils/keyboard'
 import { IconButton } from './IconButton'
 import { Icon } from './Icon'
 
@@ -36,7 +38,8 @@ export const ToastIcon: { [key in ToastType]: ToastIconDescriptor } = {
 export type ToastProps = {
   type: ToastType
   content: ReactNode
-  closeToast?: (e: React.MouseEvent<HTMLButtonElement>) => void
+  dismissableByEscKey?: boolean
+  closeToast?: (e?: React.MouseEvent<HTMLButtonElement>) => void
   className?: string
 }
 
@@ -50,8 +53,20 @@ export type ToastProps = {
  * ### Note
  * The toast is designed to be integrated with https://fkhadra.github.io/react-toastify/introduction/
  */
-export const Toast: FC<ToastProps> = ({ type, content, closeToast, className }) => {
+export const Toast: FC<ToastProps> = ({ type, content, dismissableByEscKey = true, closeToast, className }) => {
   const { icon, ariaLabel } = ToastIcon[type]
+
+  const closeByEsc = useCallback(
+    (nativeEvent: KeyboardEvent) => {
+      if (dismissableByEscKey) {
+        closeToast?.()
+        nativeEvent.stopImmediatePropagation()
+      }
+    },
+    [closeToast, dismissableByEscKey],
+  )
+
+  useKey(escKeyFilterPredicate, closeByEsc, { options: { once: true } }, [closeByEsc, dismissableByEscKey])
 
   return (
     <div
