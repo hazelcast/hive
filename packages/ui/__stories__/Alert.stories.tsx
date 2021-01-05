@@ -1,7 +1,7 @@
 import React from 'react'
 import { Clipboard } from 'react-feather'
 
-import { Alert, AlertAction, AlertActionButton, AlertActionLink } from '../src/Alert'
+import { Alert, AlertAction, AlertActionButton, AlertActionLink } from '../src'
 
 export default {
   title: 'components/Alert',
@@ -36,11 +36,15 @@ export const SuccessAction = () => <Alert type="success" title={title} content={
 
 export const SuccessActions = () => <Alert type="success" title={title} content={content} closeToast={noOp} actions={AlertActions2} />
 
+export const SuccessWithoutCloseButton = () => <Alert type="success" title={title} content={content} />
+
 export const Info = () => <Alert type="info" title={title} content={content} closeToast={noOp} />
 
 export const InfoAction = () => <Alert type="info" title={title} content={content} closeToast={noOp} actions={AlertActions1} />
 
 export const InfoActions = () => <Alert type="info" title={title} content={content} closeToast={noOp} actions={AlertActions2} />
+
+export const InfoWithoutCloseButton = () => <Alert type="info" title={title} content={content} />
 
 export const Warning = () => <Alert type="warning" title={title} content={content} closeToast={noOp} />
 
@@ -48,8 +52,12 @@ export const WarningAction = () => <Alert type="warning" title={title} content={
 
 export const WarningActions = () => <Alert type="warning" title={title} content={content} closeToast={noOp} actions={AlertActions2} />
 
+export const WarningWithoutCloseButton = () => <Alert type="warning" title={title} content={content} />
+
 export const Critical = () => <Alert type="critical" title={title} content={content} closeToast={noOp} />
 
 export const CriticalAction = () => <Alert type="critical" title={title} content={content} closeToast={noOp} actions={AlertActions1} />
 
 export const CriticalActions = () => <Alert type="critical" title={title} content={content} closeToast={noOp} actions={AlertActions2} />
+
+export const CriticalWithoutCloseButton = () => <Alert type="critical" title={title} content={content} />
