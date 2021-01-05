@@ -66,7 +66,7 @@ const column = {
 }
 
 // Inspiration here: https://react-table.tanstack.com/docs/examples/basic
-export function Table<D extends object>({
+export const Table = <D extends object>({
   'data-test': dataTest,
   autoResetSortBy = false,
   columns,
@@ -83,7 +83,7 @@ export function Table<D extends object>({
   hidePagination = false,
   onRowClick,
   getCustomCellProps,
-}: TableProps<D>): ReactElement {
+}: TableProps<D>): ReactElement => {
   const {
     getTableProps,
     headerGroups,
