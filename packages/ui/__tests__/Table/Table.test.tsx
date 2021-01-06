@@ -1,9 +1,9 @@
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { axeDefaultOptions, mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import React, { PropsWithChildren } from 'react'
 
 import { getColumns, makeData, Person } from './utils'
 import { Table } from '../../src/Table/Table'
-import { Row, RowProps } from '../../src/Table/Row'
+import { HeaderRow, Row, RowProps } from '../../src/Table/Row'
 import { Header, HeaderProps } from '../../src/Table/Header'
 import { Cell, CellProps } from '../../src/Table/Cell'
 import {
@@ -17,13 +17,22 @@ import { Pagination, PaginationProps } from '../../src/Pagination'
 import styles from '../../Table.module.scss'
 
 const smallDataSet = makeData(10)
-// const bigDataSet = makeData(10000)
+
+const axeOptions = {
+  ...axeDefaultOptions,
+  rules: {
+    ...axeDefaultOptions?.rules,
+    'autocomplete-valid': { enabled: false },
+  },
+}
 
 describe('Table', () => {
   it('renders table and pagination with correct props', async () => {
     const columns = getColumns({})
 
-    const wrapper = await mountAndCheckA11Y(<Table data-test="table-test" columns={columns} data={smallDataSet} disableSortBy />)
+    const wrapper = await mountAndCheckA11Y(<Table data-test="table-test" columns={columns} data={smallDataSet} disableSortBy />, {
+      axeOptions,
+    })
 
     const tableWrapper = wrapper.findDataTest('table-test')
 
@@ -48,10 +57,9 @@ describe('Table', () => {
       children: expect.anything(),
     })
 
-    const headerRow = headerRowGroup.find(Row)
+    const headerRow = headerRowGroup.find(HeaderRow)
     expect(headerRow.props()).toEqual<PropsWithChildren<RowProps>>({
       ariaRowIndex: 1,
-      isHeaderRow: true,
       role: 'row',
       style: {
         display: 'flex',
@@ -116,7 +124,6 @@ describe('Table', () => {
       expect(cellRow.props()).toEqual<PropsWithChildren<RowProps>>({
         // 1 for header row, 1 because we're indexing from 0
         ariaRowIndex: i + 2,
-        isHeaderRow: false,
         role: 'row',
         style: {
           display: 'flex',
@@ -180,7 +187,9 @@ describe('Table', () => {
   it('renders table footer with correct props', async () => {
     const columns = getColumns({ withFooter: true })
 
-    const wrapper = await mountAndCheckA11Y(<Table data-test="table-test" columns={columns} data={smallDataSet} disableSortBy />)
+    const wrapper = await mountAndCheckA11Y(<Table data-test="table-test" columns={columns} data={smallDataSet} disableSortBy />, {
+      axeOptions,
+    })
 
     const footerRowGroup = wrapper.findDataTest('table-footer-row-group')
     expect(footerRowGroup.props()).toEqual({
@@ -193,7 +202,6 @@ describe('Table', () => {
     const footerRow = footerRowGroup.find(Row)
     expect(footerRow.props()).toEqual<PropsWithChildren<RowProps>>({
       ariaRowIndex: 12,
-      isHeaderRow: false,
       role: 'row',
       style: {
         display: 'flex',
@@ -278,7 +286,7 @@ describe('Table', () => {
 
     const columns = getColumns({})
 
-    const wrapper = await mountAndCheckA11Y(<Table data-test="table-test" columns={columns} data={smallDataSet} />)
+    const wrapper = await mountAndCheckA11Y(<Table data-test="table-test" columns={columns} data={smallDataSet} />, { axeOptions })
 
     const headers = wrapper.find(Header)
     headers.forEach((header, i) => {

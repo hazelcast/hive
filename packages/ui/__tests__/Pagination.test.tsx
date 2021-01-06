@@ -1,6 +1,6 @@
 import React from 'react'
 import { act } from 'react-dom/test-utils'
-import { mountAndCheckA11Y, simulateChange } from '@hazelcast/test-helpers'
+import { axeDefaultOptions, mountAndCheckA11Y, simulateChange } from '@hazelcast/test-helpers'
 import { ChevronLeft, ChevronRight } from 'react-feather'
 import { Formik, FormikConfig } from 'formik'
 import Select from 'react-select'
@@ -97,6 +97,14 @@ const buttonPropsBase: ButtonProps = {
   children: 'Base',
 }
 
+const axeOptions = {
+  ...axeDefaultOptions,
+  rules: {
+    ...axeDefaultOptions?.rules,
+    'autocomplete-valid': { enabled: false },
+  },
+}
+
 describe('Pagination', () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -129,6 +137,7 @@ describe('Pagination', () => {
         showPageJump={showPageJump}
         showRowsSelect={showRowsSelect}
       />,
+      { axeOptions },
     )
 
     expect(wrapper.find(SelectField).props()).toEqual<SelectProps<number>>({
@@ -226,6 +235,7 @@ describe('Pagination', () => {
         showPageJump={showPageJump}
         showRowsSelect={showRowsSelect}
       />,
+      { axeOptions },
     )
 
     expect(wrapper.findDataTest('pagination-range-of-shown-items').props()).toEqual({
@@ -294,6 +304,7 @@ describe('Pagination', () => {
         showPageJump={showPageJump}
         showRowsSelect={showRowsSelect}
       />,
+      { axeOptions },
     )
 
     expect(wrapper.findDataTest('pagination-range-of-shown-items').props()).toEqual({
@@ -432,6 +443,7 @@ describe('Pagination', () => {
         showPageJump={showPageJump}
         showRowsSelect={showRowsSelect}
       />,
+      { axeOptions },
     )
 
     const buttons = wrapper.find(Button)
@@ -488,6 +500,7 @@ describe('Pagination', () => {
         showPageJump={showPageJump}
         showRowsSelect={showRowsSelect}
       />,
+      { axeOptions },
     )
 
     expect(goToPage).toHaveBeenCalledTimes(0)
@@ -530,6 +543,7 @@ describe('Pagination', () => {
         showPageJump={showPageJump}
         showRowsSelect={showRowsSelect}
       />,
+      { axeOptions },
     )
 
     expect(setPageSize).toHaveBeenCalledTimes(0)
