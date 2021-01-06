@@ -18,7 +18,7 @@ import { Pagination } from '../Pagination'
 import { Cell, CellProps } from './Cell'
 import { EnhancedCellRenderer, EnhancedHeaderFooterRenderer } from './EnhancedRenderers'
 import { Header } from './Header'
-import { Row } from './Row'
+import { HeaderRow, Row } from './Row'
 
 import styles from './Table.module.scss'
 import styleConsts from '../../styles/constants/export.module.scss'
@@ -46,16 +46,25 @@ export type ControlledPaginationProps = {
   fetchData?: (fetchDataProps: FetchDataProps) => void
 }
 
+type CustomTableRowClickProps<D extends object> =
+  | {
+      // When using `onRowClick` it's a good practice to also make one of the cells in the table interactive by providing a button, link or something else.
+      // An example can be found in `ClickableRowsWithNameLink` story in Table.stories.tsx
+      onRowClick?: (rowInfo: RowType<D>) => void
+      getHref?: never
+    }
+  | {
+      // Alternative to onRowClick is a getHref function.
+      // Provide a function which returns URL that will be used as href attribute for underlying <a> element.
+      getHref?: (rowInfo: RowType<D>) => string
+      onRowClick?: never
+    }
+
 type CustomTableProps<D extends object> = {
-  /**
-   * When using `onRowClick` it's a good practice to also make one of the cells in the table interactive
-   * by providing a button, link or something else.
-   * An example can be found in `ClickableRowsWithNameLink` story in Table.stories.tsx
-   */
-  onRowClick?: (rowInfo: RowType<D>) => void
   // Custom props getter for Cell
   getCustomCellProps?: (cellInfo: CellType<D>) => CellProps
-} & DataTestProp
+} & CustomTableRowClickProps<D> &
+  DataTestProp
 
 type TableProps<D extends object> = TableOptions<D> & ExtendedPaginationProps & ControlledPaginationProps & CustomTableProps<D>
 
@@ -83,6 +92,7 @@ export const Table = <D extends object>({
   pageSizeOptions = [5, 10, 20],
   hidePagination = false,
   onRowClick,
+  getHref,
   getCustomCellProps,
 }: TableProps<D>): ReactElement => {
   const {
@@ -156,7 +166,7 @@ export const Table = <D extends object>({
             {headerGroups.map((headerGroup) => {
               const { key: headerGroupKey, ...restHeaderGroupProps } = headerGroup.getHeaderGroupProps()
               return (
-                <Row key={headerGroupKey} {...restHeaderGroupProps} ariaRowIndex={headerIndex} isHeaderRow>
+                <HeaderRow key={headerGroupKey} {...restHeaderGroupProps} ariaRowIndex={headerIndex}>
                   {headerGroup.headers.map((column, i) => {
                     const { key: columnKey, ...restHeaderProps } = column.getHeaderProps(column.getSortByToggleProps())
                     return (
@@ -176,7 +186,7 @@ export const Table = <D extends object>({
                       </Header>
                     )
                   })}
-                </Row>
+                </HeaderRow>
               )
             })}
           </div>
@@ -189,9 +199,10 @@ export const Table = <D extends object>({
                   key={rowKey}
                   {...restRowProps}
                   ariaRowIndex={row.index + 1 + cellIndexOffset}
-                  isHeaderRow={false}
-                  onClick={
-                    onRowClick
+                  onClickOrHref={
+                    getHref
+                      ? getHref(row)
+                      : onRowClick
                       ? () => {
                           onRowClick(row)
                         }
@@ -219,7 +230,7 @@ export const Table = <D extends object>({
               {footerGroups.map((group) => {
                 const { key: footerGroupKey, ...restFooterGroupProps } = group.getFooterGroupProps()
                 return (
-                  <Row key={footerGroupKey} ariaRowIndex={rowCount} isHeaderRow={false} {...restFooterGroupProps} role="row">
+                  <Row key={footerGroupKey} ariaRowIndex={rowCount} {...restFooterGroupProps} role="row">
                     {group.headers.map((column) => {
                       const { key: footerKey, ...restFooterProps } = column.getFooterProps()
                       return (

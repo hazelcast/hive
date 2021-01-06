@@ -8,12 +8,12 @@
   }
 }
 
-.headerRow {
-  @include rowBase;
-}
-
 .row {
   @include rowBase;
+
+  &.link {
+    text-decoration: none;
+  }
 
   &:hover {
     background-color: c.$colorNeutralLighter;
@@ -26,4 +26,8 @@
       background-color: c.$colorInfoLight;
     }
   }
+}
+
+.headerRow {
+  @include rowBase;
 }

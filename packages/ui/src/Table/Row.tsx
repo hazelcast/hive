@@ -4,23 +4,15 @@ import cn from 'classnames'
 import styles from './Row.module.scss'
 import { TableHeaderGroupProps } from 'react-table'
 
-type RowClickProps =
-  | {
-      isHeaderRow: false
-      onClick?: () => void
-    }
-  | {
-      isHeaderRow: true
-      onClick?: never
-    }
+export type RowProps = Omit<TableHeaderGroupProps, 'key'> & { ariaRowIndex?: number; onClickOrHref?: string | (() => void) }
 
-export type RowProps = RowClickProps & Omit<TableHeaderGroupProps, 'key'> & { ariaRowIndex?: number }
-
-export const Row: FC<RowProps> = ({ children, isHeaderRow = false, onClick, className, style, role, ariaRowIndex }) => {
-  if (isHeaderRow) {
+export const Row: FC<RowProps> = ({ children, className, style, role, ariaRowIndex, onClickOrHref }) => {
+  if (typeof onClickOrHref === 'string') {
     return (
-      <div data-test="table-header-row" className={cn(styles.headerRow, className)} style={style} role={role} aria-rowindex={ariaRowIndex}>
-        {children}
+      <div data-test="table-cell-row" role={role} aria-rowindex={ariaRowIndex}>
+        <a className={cn(styles.row, styles.clickable, styles.link, className)} style={style} href={onClickOrHref}>
+          {children}
+        </a>
       </div>
     )
   }
@@ -32,16 +24,24 @@ export const Row: FC<RowProps> = ({ children, isHeaderRow = false, onClick, clas
       className={cn(
         styles.row,
         {
-          [styles.clickable]: !!onClick,
+          [styles.clickable]: !!onClickOrHref,
         },
         className,
       )}
       style={style}
       role={role}
       aria-rowindex={ariaRowIndex}
-      onClick={onClick}
+      onClick={onClickOrHref}
     >
       {children}
     </div>
   )
 }
+
+export type HeaderRowProps = Omit<TableHeaderGroupProps, 'key'> & { ariaRowIndex?: number }
+
+export const HeaderRow: FC<HeaderRowProps> = ({ children, className, style, role, ariaRowIndex }) => (
+  <div data-test="table-header-row" className={cn(styles.headerRow, className)} style={style} role={role} aria-rowindex={ariaRowIndex}>
+    {children}
+  </div>
+)

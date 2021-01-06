@@ -24,8 +24,8 @@ export const Footer = () => {
   return <Table columns={columns} data={smallDataSet} disableSortBy hidePagination />
 }
 
-export const ClickableRowsWithNameLink = () => {
-  const columns = useMemo(() => getColumns({ withNameLink: true }), [])
+export const ClickableRows = () => {
+  const columns = useMemo(() => getColumns({}), [])
 
   return (
     <Table
@@ -36,6 +36,21 @@ export const ClickableRowsWithNameLink = () => {
       onRowClick={(row) => {
         logger.log(`You just clicked row: ${row.values.name as Person['name']}`)
       }}
+    />
+  )
+}
+
+export const ClickableRowsWithHref = () => {
+  const columns = useMemo(() => getColumns({}), [])
+
+  return (
+    <Table
+      columns={columns}
+      data={smallDataSet}
+      disableSortBy
+      hidePagination
+      // You can use row to generate href
+      getHref={() => window.location.hash}
     />
   )
 }
