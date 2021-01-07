@@ -118,7 +118,7 @@ describe('Button', () => {
     })
   })
 
-  it('Renders disabled button with a disabled tooltip, correct tooltipVisible flag passed to TruncatedText', async () => {
+  it('Renders disabled button, tooltip is enabled, correct tooltipVisible flag passed to TruncatedText', async () => {
     const disabledTooltip = 'Disabled tooltip'
 
     const wrapper = await mountAndCheckA11Y(
@@ -135,7 +135,7 @@ describe('Button', () => {
     })
   })
 
-  it('Renders disabled button with a disabled tooltip and disabledTooltip is invisible, correct tooltipVisible flag passed to TruncatedText', async () => {
+  it('Renders disabled button, tooltip is disabled, correct tooltipVisible flag passed to TruncatedText', async () => {
     const disabledTooltip = 'Disabled tooltip'
 
     const wrapper = await mountAndCheckA11Y(
