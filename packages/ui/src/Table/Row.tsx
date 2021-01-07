@@ -1,44 +1,60 @@
-import React, { FC } from 'react'
+import React, { FC, useCallback, KeyboardEvent } from 'react'
 import cn from 'classnames'
 
 import styles from './Row.module.scss'
 import { TableHeaderGroupProps } from 'react-table'
+import { keyIsOneOf } from '../utils/keyboard'
 
-export type RowProps = Omit<TableHeaderGroupProps, 'key'> & { ariaRowIndex?: number; onClickOrHref?: string | (() => void) }
+type RowBase = Omit<TableHeaderGroupProps, 'key'> & { ariaRowIndex?: number }
+export type RowProps = RowBase & { onClick?: () => void }
+export type LinkRowProps = RowBase & { href: string }
+export type HeaderRowProps = RowBase
 
-export const Row: FC<RowProps> = ({ children, className, style, role, ariaRowIndex, onClickOrHref }) => {
-  if (typeof onClickOrHref === 'string') {
-    return (
-      <div data-test="table-cell-row" role={role} aria-rowindex={ariaRowIndex}>
-        <a className={cn(styles.row, styles.clickable, styles.link, className)} style={style} href={onClickOrHref}>
-          {children}
-        </a>
-      </div>
-    )
-  }
+export const Row: FC<RowProps> = ({ children, className, style, role, ariaRowIndex, onClick }) => {
+  const onKeyPress = useCallback(
+    (event: KeyboardEvent<HTMLDivElement>) => {
+      event.preventDefault()
+      if (keyIsOneOf(event, 'Enter') && onClick) {
+        onClick()
+      }
+    },
+    [onClick],
+  )
 
   return (
-    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
     <div
       data-test="table-cell-row"
       className={cn(
         styles.row,
         {
-          [styles.clickable]: !!onClickOrHref,
+          [styles.clickable]: !!onClick,
         },
         className,
       )}
-      style={style}
-      role={role}
       aria-rowindex={ariaRowIndex}
-      onClick={onClickOrHref}
+      role={role}
+      tabIndex={onClick ? 0 : undefined}
+      onKeyPress={onClick ? onKeyPress : undefined}
+      onClick={
+        onClick
+          ? () => {
+              onClick()
+            }
+          : undefined
+      }
     >
-      {children}
+      <div style={style}>{children}</div>
     </div>
   )
 }
 
-export type HeaderRowProps = Omit<TableHeaderGroupProps, 'key'> & { ariaRowIndex?: number }
+export const LinkRow: FC<LinkRowProps> = ({ children, className, style, role, ariaRowIndex, href }) => (
+  <div data-test="table-cell-row" className={cn(styles.linkRow, className)} role={role} aria-rowindex={ariaRowIndex}>
+    <a className={styles.link} style={style} href={href}>
+      {children}
+    </a>
+  </div>
+)
 
 export const HeaderRow: FC<HeaderRowProps> = ({ children, className, style, role, ariaRowIndex }) => (
   <div data-test="table-header-row" className={cn(styles.headerRow, className)} style={style} role={role} aria-rowindex={ariaRowIndex}>

@@ -1,4 +1,5 @@
 @use '../../styles/constants' as c;
+@use '../../styles/helpers' as h;
 
 @mixin rowBase {
   border-bottom: c.$borderWidth solid c.$colorNeutralWhite;
@@ -11,16 +12,41 @@
 .row {
   @include rowBase;
 
-  &.link {
-    text-decoration: none;
-  }
-
   &:hover {
     background-color: c.$colorNeutralLighter;
   }
 
   &.clickable {
     cursor: pointer;
+
+    &:focus {
+      // Do not remove outline for high-contrast modes
+      // https://stackoverflow.com/a/52616313
+      outline: c.$outlineWidth solid transparent;
+      @include h.outlineSimple;
+      background-color: c.$colorInfoLight;
+    }
+
+    &:hover {
+      background-color: c.$colorInfoLight;
+    }
+  }
+}
+
+.linkRow {
+  @include rowBase;
+  cursor: pointer;
+
+  .link {
+    text-decoration: none;
+
+    &:focus {
+      // Do not remove outline for high-contrast modes
+      // https://stackoverflow.com/a/52616313
+      outline: c.$outlineWidth solid transparent;
+      @include h.outlineSimple;
+      background-color: c.$colorInfoLight;
+    }
 
     &:hover {
       background-color: c.$colorInfoLight;

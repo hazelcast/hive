@@ -18,7 +18,7 @@ import { Pagination } from '../Pagination'
 import { Cell, CellProps } from './Cell'
 import { EnhancedCellRenderer, EnhancedHeaderFooterRenderer } from './EnhancedRenderers'
 import { Header } from './Header'
-import { HeaderRow, Row } from './Row'
+import { HeaderRow, LinkRow, Row } from './Row'
 
 import styles from './Table.module.scss'
 
@@ -193,32 +193,35 @@ export const Table = <D extends object>({
             {page.map((row) => {
               prepareRow(row)
               const { key: rowKey, ...restRowProps } = row.getRowProps()
-              return (
+              const cells = row.cells.map((cell, i) => {
+                const { key: cellKey, ...restCellProps } = cell.getCellProps()
+                const customCellProps = getCustomCellProps ? getCustomCellProps(cell) : {}
+                // We don't want to use cell.column.Cell as that is a ColumnInstance which already has a cell renderer
+                const column = columns[i] as ColumnInterfaceBasedOnValue<D>
+                return (
+                  <Cell key={cellKey} align={cell.column.align} {...restCellProps} {...customCellProps}>
+                    <EnhancedCellRenderer cell={cell} hasCellRenderer={!!column.Cell} columnResizing={columnResizing} />
+                  </Cell>
+                )
+              })
+              return getHref ? (
+                <LinkRow key={rowKey} {...restRowProps} ariaRowIndex={row.index + 1 + cellIndexOffset} href={getHref(row)}>
+                  {cells}
+                </LinkRow>
+              ) : (
                 <Row
                   key={rowKey}
                   {...restRowProps}
                   ariaRowIndex={row.index + 1 + cellIndexOffset}
-                  onClickOrHref={
-                    getHref
-                      ? getHref(row)
-                      : onRowClick
+                  onClick={
+                    onRowClick
                       ? () => {
                           onRowClick(row)
                         }
                       : undefined
                   }
                 >
-                  {row.cells.map((cell, i) => {
-                    const { key: cellKey, ...restCellProps } = cell.getCellProps()
-                    const customCellProps = getCustomCellProps ? getCustomCellProps(cell) : {}
-                    // We don't want to use cell.column.Cell as that is a ColumnInstance which already has a cell renderer
-                    const column = columns[i] as ColumnInterfaceBasedOnValue<D>
-                    return (
-                      <Cell key={cellKey} align={cell.column.align} {...restCellProps} {...customCellProps}>
-                        <EnhancedCellRenderer cell={cell} hasCellRenderer={!!column.Cell} columnResizing={columnResizing} />
-                      </Cell>
-                    )
-                  })}
+                  {cells}
                 </Row>
               )
             })}

@@ -34,7 +34,7 @@ export const ClickableRows = () => {
       disableSortBy
       hidePagination
       onRowClick={(row) => {
-        logger.log(`You just clicked row: ${row.values.name as Person['name']}`)
+        logger.log(`You just clicked (or pressed) row: ${row.values.name as Person['name']}`)
       }}
     />
   )

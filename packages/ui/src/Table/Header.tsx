@@ -4,9 +4,9 @@ import { TableHeaderProps, TableResizerProps } from 'react-table'
 import cn from 'classnames'
 
 import { Icon } from '../Icon'
+import { keyIsOneOf } from '../utils/keyboard'
 
 import styles from './Header.module.scss'
-import { enterOrSpaceFilterPredicate } from '../utils/keyboard'
 
 export type HeaderProps = {
   /**
@@ -64,7 +64,7 @@ export const Header: FC<HeaderProps> = ({
   const onKeyPress = useCallback(
     (event: KeyboardEvent<HTMLDivElement>) => {
       event.preventDefault()
-      if (enterOrSpaceFilterPredicate(event) && onClick) {
+      if (keyIsOneOf(event, 'Enter') && onClick) {
         onClick(event)
       }
     },
