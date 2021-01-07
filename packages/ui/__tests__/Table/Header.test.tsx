@@ -18,7 +18,8 @@ const headerPropsBase: HeaderProps = {
   isLastHeader: false,
 }
 
-const expectedContainerProps = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const expectedContainerProps: Record<string, any> = {
   'data-test': 'table-header-container',
   className: styles.container,
   style: undefined,
@@ -29,11 +30,13 @@ const expectedContainerProps = {
   children: expect.anything(),
 }
 
-const expectedContentProps = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const expectedContentProps: Record<string, any> = {
   'data-test': 'table-header-content',
   className: `${styles.th} ${styles.alignLeft}`,
   role: undefined,
   onClick: undefined,
+  onKeyPress: undefined,
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   children: expect.anything(),
 }
@@ -77,7 +80,8 @@ describe('Header', () => {
         role: '',
         'aria-colspan': 1,
       },
-      { ...expectedContentProps, onClick, role: 'button', tabIndex: 0 },
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      { ...expectedContentProps, role: 'button', tabIndex: 0, onClick, onKeyPress: expect.anything() },
     ],
   ]
 

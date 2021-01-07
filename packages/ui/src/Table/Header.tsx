@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react'
+import React, { FC, useMemo, useCallback, MouseEvent, KeyboardEvent } from 'react'
 import { ChevronDown, ChevronUp } from 'react-feather'
 import { TableHeaderProps, TableResizerProps } from 'react-table'
 import cn from 'classnames'
@@ -6,6 +6,7 @@ import cn from 'classnames'
 import { Icon } from '../Icon'
 
 import styles from './Header.module.scss'
+import { enterOrSpaceFilterPredicate } from '../utils/keyboard'
 
 export type HeaderProps = {
   /**
@@ -17,7 +18,7 @@ export type HeaderProps = {
   canSort: boolean
   isSorted: boolean
   isSortedDesc?: boolean
-  onClick?: () => void
+  onClick?: (event: MouseEvent | KeyboardEvent) => void
   canResize: boolean
   isResizing: boolean
   getResizerProps: (props?: Partial<TableResizerProps>) => TableResizerProps
@@ -60,6 +61,16 @@ export const Header: FC<HeaderProps> = ({
     [align, isSorted, isSortedDesc],
   )
 
+  const onKeyPress = useCallback(
+    (event: KeyboardEvent<HTMLDivElement>) => {
+      event.preventDefault()
+      if (enterOrSpaceFilterPredicate(event) && onClick) {
+        onClick(event)
+      }
+    },
+    [onClick],
+  )
+
   return (
     <div
       data-test="table-header-container"
@@ -69,7 +80,6 @@ export const Header: FC<HeaderProps> = ({
       aria-colspan={colSpan}
       aria-sort={ariaSort}
     >
-      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
       <div
         data-test="table-header-content"
         className={cn(styles.th, {
@@ -78,8 +88,9 @@ export const Header: FC<HeaderProps> = ({
           [styles.alignRight]: align === 'right',
           [styles.alignCenter]: align === 'center',
         })}
-        role={onClick ? 'button' : undefined}
         tabIndex={onClick ? 0 : undefined}
+        role={onClick ? 'button' : undefined}
+        onKeyPress={onClick ? onKeyPress : undefined}
         onClick={onClick}
       >
         {canSort && align === 'right' && Chevron}

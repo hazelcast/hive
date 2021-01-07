@@ -1,9 +1,8 @@
 @use '../../styles/constants' as c;
+@use '../../styles/helpers' as h;
 
 .container {
   position: relative;
-  padding-left: c.$grid * 3;
-  padding-right: c.$grid * 3;
   background-color: c.$colorNeutralLighter;
 
   :last-child {
@@ -13,10 +12,22 @@
   .th {
     display: flex;
     align-items: center;
+    position: relative;
     padding-top: c.$grid * 2.5;
     padding-bottom: c.$grid * 2.5;
+    padding-left: c.$grid * 3;
+    padding-right: c.$grid * 3;
     color: c.$colorTextSecondary;
     @include c.typographyBodySmall;
+
+    &:focus {
+      // Do not remove outline for high-contrast modes
+      // https://stackoverflow.com/a/52616313
+      outline: c.$outlineWidth solid transparent;
+      @include h.outlineSimple;
+      // Put outline over resizer
+      z-index: 10;
+    }
 
     &.alignLeft {
       justify-content: flex-start;
