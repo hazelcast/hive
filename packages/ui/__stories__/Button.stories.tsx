@@ -320,6 +320,35 @@ export const Long = () => (
   </Button>
 )
 
+export const LongDisabled = () => (
+  <Button
+    kind="primary"
+    disabled={true}
+    disabledTooltip={'Disabled'}
+    iconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+    iconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+  >
+    Looooooooooooooooooooooooooooooooong Primary Button
+  </Button>
+)
+
+export const LongDisabledWithDisabledTooltipVisibleFalse = () => (
+  <Button
+    kind="primary"
+    disabled={true}
+    disabledTooltip={'Disabled'}
+    disabledTooltipVisible={false}
+    iconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+    iconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+  >
+    Looooooooooooooooooooooooooooooooong Primary Button
+  </Button>
+)
+
 export const LongCentered = () => (
   <Button
     kind="primary"
