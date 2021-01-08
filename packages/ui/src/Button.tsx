@@ -60,6 +60,8 @@ export type ButtonDisabledProps = {
   disabledTooltipPlacement?: TooltipProps['placement']
 }
 
+export type ButtonDisabledPropsType = ButtonDisabledProps | ButtonNotDisabledProps
+
 // Common props for all button "kinds"
 type ButtonCommonProps = {
   kind?: ButtonKind

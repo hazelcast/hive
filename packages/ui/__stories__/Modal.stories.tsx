@@ -13,7 +13,6 @@ export default {
 }
 
 const onClose = () => console.log('onClose')
-
 const onAction = () => console.log('onAction')
 const actionLabel = 'Action'
 

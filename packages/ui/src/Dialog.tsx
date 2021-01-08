@@ -1,12 +1,12 @@
 import React, { FC, ReactNode } from 'react'
-import { Modal, ModalProps, ModalActionCoreProps } from './Modal'
+import { Modal, ModalProps, ModalActionProps } from './Modal'
 
 import styles from './Dialog.module.scss'
 
 const AFFIRMATION_DEFAULT = 'Are you sure you wish to proceed?'
 
 // Resolve the parentSelector
-type DialogModalProps = Pick<ModalProps, 'isOpen' | 'title' | 'onClose' | 'parentSelector'> & ModalActionCoreProps
+type DialogModalProps = Pick<ModalProps, 'isOpen' | 'title' | 'onClose' | 'parentSelector'> & ModalActionProps
 
 export type DialogProps = {
   children?: ReactNode
@@ -16,22 +16,13 @@ export type DialogProps = {
 } & DialogModalProps
 
 /*
- * What's the difference between Modal and Dialog? Does it make sense to even separate them?
+ * ### Purpose
+ * Occasionally there's a user-story that's not a part of the main user flow. Such action can be contained in a Dialog.
+ * Dialogs are used to drive simple actions such as a mere confirmation. In case there is a more complex action (e.g larger form, table etc.) use Modal.
  *
- * Dialog is a modal with:
- * - Pre-set content of affirmation + consequences
- * - Always 2 buttons - Cancel + Action
- * - Styles (especially height) are limited, scroll is disallowed
- *
- * Use case is:
- * - Simple confirmations, that do not require scroll
- * - With simple confirmation, configurable button
- * - Don't forget to take into account dialog with just one button - Cancel. That's a relevant use-case.
- *
- * The problem:
- * - Button config properties
- * - WE need to pick them and rename them
- * - Potentially do some type-checking along the way, which has proven to be challenging so far, but let's see!
+ * ### General Info
+ * - Dialog is a specification of Modal to fit a particular use-case of confirming an action
+ * - Use affirmation` and `consequences` props to set the content of the Dialog.
  */
 export const Dialog: FC<DialogProps> = ({
   modalClassName,

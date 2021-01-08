@@ -19,6 +19,7 @@ const onClose = () => console.log('onClose')
 
 const onAction = () => console.log('onAction')
 const actionLabel = 'Action'
+const disabledTooltip = 'Disabled Tooltip'
 
 const DialogWithPortalFactory: FC<DialogProps> = ({ children, modalClassName, ...props }) => {
   // We need dynamic id in order not to portal Default & Normal into same sandbox
@@ -72,6 +73,7 @@ export const PrimaryActionDisabled = () => (
     actionLabel={actionLabel}
     onAction={onAction}
     actionDisabled
+    actionDisabledTooltip={disabledTooltip}
   />
 )
 
@@ -95,6 +97,7 @@ export const CancelAndPrimaryActionDisabled = () => (
     onAction={onAction}
     onClose={onClose}
     actionDisabled
+    actionDisabledTooltip={disabledTooltip}
   />
 )
 
@@ -131,5 +134,6 @@ export const CancelAndDangerActionDisabled = () => (
     onAction={onAction}
     onClose={onClose}
     actionDisabled
+    actionDisabledTooltip={disabledTooltip}
   />
 )

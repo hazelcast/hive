@@ -7,32 +7,58 @@ import { X } from 'react-feather'
 import { IconButton } from './IconButton'
 
 import styles from './Modal.module.scss'
-import { Button, ButtonProps } from './Button'
+import { Button, ButtonProps, ButtonDisabledProps, ButtonAccessibleIconLeftProps } from './Button'
 
-export type ModalActionCorePropsPresent = {
-  // Note: Source of `onClick` is nullable property from ButtonHTMLAttributes<HTMLButtonElement>
-  onAction: NonNullable<ButtonProps['onClick']>
+/*
+ * What we do here, is pull the properties from Button and rename them. Unfortunately, we have to pull
+ * both part of the union separately, as picking the result discriminates the type and breaks the constrains of A | B.
+ *
+ * When Storybook supports tsc@4.1, this can be replaced with:
+ * type MapObjectUnion<T> = T extends Record<string, unknown> ? ModalActionMappedProps<T> : T
+ * type ModalActionMappedProps<T> = { [U in keyof T as `action${Capitalize<U>}`]: T[U] }
+ */
+type ModalActionDisabledProps =
+  | {
+      actionDisabledTooltip: ButtonDisabledProps['disabledTooltip']
+      actionDisabled: ButtonDisabledProps['disabled']
+      actionDisabledTooltipVisible?: ButtonDisabledProps['disabledTooltipVisible']
+      actionDisabledTooltipPlacement?: ButtonDisabledProps['disabledTooltipPlacement']
+    }
+  | {
+      actionDisabledTooltip?: never
+      actionDisabled?: never
+      actionDisabledTooltipVisible?: never
+      actionDisabledTooltipPlacement?: never
+    }
+
+type ModalActionIconProps =
+  | {
+      actionIconLeft: ButtonAccessibleIconLeftProps['iconLeft']
+      actionIconLeftAriaLabel: ButtonAccessibleIconLeftProps['iconLeftAriaLabel']
+      actionIconLeftSize?: ButtonAccessibleIconLeftProps['iconLeftSize']
+      actionIconLeftColor?: ButtonAccessibleIconLeftProps['iconLeftColor']
+      actionIconLeftClassName?: ButtonAccessibleIconLeftProps['iconLeftClassName']
+    }
+  | {
+      actionIconLeft?: never
+      actionIconLeftAriaLabel?: never
+      actionIconLeftSize?: never
+      actionIconLeftColor?: never
+      actionIconLeftClassName?: never
+    }
+
+type ModalActionCoreProps =
+  | {
+      // Note: Source of `onClick` is nullable property from ButtonHTMLAttributes<HTMLButtonElement>
+      onAction: NonNullable<ButtonProps['onClick']>
+      actionLabel: string
+    }
+  | { onAction?: never; actionLabel?: never }
+
+export type ModalActionProps = ModalActionCoreProps & {
   actionKind?: ButtonProps['kind']
-  actionLabel: string
-  actionDisabled?: ButtonProps['disabled']
-}
-
-export type ModalActionCorePropsNever = {
-  onAction?: never
-  actionKind?: never
-  actionLabel?: never
-  actionDisabled?: never
-}
-
-// Pick + rename
-// We could potentially create a mapped type for this, but I don't think that adds clarity
-// I don't think we need autoFocus or type
-// autoFocus does not make sense due to modal nature, the modal is gonna be autoFocused
-// type does not make sense, as it'll always be type=button
-// className may be added later on. Should not be needed though
-export type ModalActionCoreProps = ModalActionCorePropsPresent | ModalActionCorePropsNever
-
-export type ModalActionProps = ModalActionCoreProps
+} & ModalActionDisabledProps &
+  ModalActionIconProps
 
 export type ModalProps = {
   closable?: boolean
@@ -45,10 +71,16 @@ export type ModalProps = {
   Exclude<ReactModalProps, 'onRequestClose' | 'shouldFocusAfterRender' | 'shouldReturnFocusAfterClose'>
 
 /*
- * Action button is optional
- * [x] We need to reflect it in the props
- * The icon is also optional
- * [ ] We need to reflect it in the props
+ * ### Purpose
+ * Occasionally there's a user-story that's not a part of the main user flow. Such action can be contained in a Modal.
+ * Modals can contain components like forms, menus, tables etc.
+ * Usually modals are used to drive a complex action. In case there is a simple action (e.g. confirmation), consider using a Dialog.
+ *
+ * ### General Info
+ * - Modal always contains a title, icon "X" in the header, content and active buttons in the footer.
+ * - No interactions on the underlying page can be performed while a Modal.
+ * - Content beneath the modal is covered by a "blanket".
+ * - To close the Modal, use "Cancel" button in the footer, "X" button in the header, press "Esc" key or click anywhere on the "blanket".
  */
 export const Modal: FC<ModalProps> = ({
   'data-test': dataTest,
@@ -61,7 +93,24 @@ export const Modal: FC<ModalProps> = ({
   title,
   ...restWithActionButton
 }) => {
-  const { actionKind, actionLabel, actionDisabled = false, onAction, ...rest } = restWithActionButton
+  const {
+    actionKind,
+    actionLabel,
+    // Disabled
+    actionDisabled = false,
+    actionDisabledTooltip,
+    actionDisabledTooltipPlacement,
+    actionDisabledTooltipVisible,
+    // Icon
+    actionIconLeft,
+    actionIconLeftAriaLabel,
+    actionIconLeftSize,
+    actionIconLeftColor,
+    actionIconLeftClassName,
+    // Rest
+    onAction,
+    ...rest
+  } = restWithActionButton
 
   return (
     <ReactModal
@@ -105,7 +154,27 @@ export const Modal: FC<ModalProps> = ({
               </Button>
             )}
             {onAction && actionLabel && (
-              <Button data-test="modal-button-action" disabled={actionDisabled} kind={actionKind} onClick={onAction} type="button">
+              <Button
+                data-test="modal-button-action"
+                kind={actionKind}
+                onClick={onAction}
+                type="button"
+                {...(actionDisabled &&
+                  actionDisabledTooltip && {
+                    actionDisabled,
+                    actionDisabledTooltip,
+                    actionDisabledTooltipPlacement,
+                    actionDisabledTooltipVisible,
+                  })}
+                {...(actionIconLeft &&
+                  actionIconLeftAriaLabel && {
+                    actionIconLeft,
+                    actionIconLeftAriaLabel,
+                    actionIconLeftSize,
+                    actionIconLeftColor,
+                    actionIconLeftClassName,
+                  })}
+              >
                 {actionLabel}
               </Button>
             )}
