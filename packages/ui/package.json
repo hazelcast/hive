@@ -4,7 +4,7 @@
   "description": "Hazelcast design system components",
   "author": "",
   "homepage": "https://github.com/hazelcast/frontend-shared#readme",
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "main": "lib/index.js",
   "directories": {
     "lib": "lib",
@@ -45,6 +45,7 @@
   "dependencies": {
     "@hazelcast/helpers": "^0.1.0-alpha.0",
     "@hazelcast/services": "^0.1.0-alpha.0",
+    "@icons-pack/react-simple-icons": "^3.13.0",
     "@popperjs/core": "^2.5.3",
     "classnames": "^2.2.6",
     "formik": "^2.2.0",

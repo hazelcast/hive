@@ -409,6 +409,35 @@ export const Long = () => (
   </Button>
 )
 
+export const LongDisabled = () => (
+  <Button
+    kind="primary"
+    disabled={true}
+    disabledTooltip={'Disabled'}
+    iconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+    iconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+  >
+    Looooooooooooooooooooooooooooooooong Primary Button
+  </Button>
+)
+
+export const LongDisabledWithDisabledTooltipVisibleFalse = () => (
+  <Button
+    kind="primary"
+    disabled={true}
+    disabledTooltip={'Disabled'}
+    disabledTooltipVisible={false}
+    iconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+    iconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+  >
+    Looooooooooooooooooooooooooooooooong Primary Button
+  </Button>
+)
+
 export const LongCentered = () => (
   <Button
     kind="primary"
@@ -432,5 +461,57 @@ export const NotCapitalized = () => (
     iconRightAriaLabel="Chevron icon"
   >
     Not capitalized
+  </Button>
+)
+
+export const LinkSemanticsPrimary = () => (
+  <Button kind="primary" component="a" href="#">
+    Primary
+  </Button>
+)
+
+export const LinkSemanticsNotCapitalizedWithIcons = () => (
+  <Button
+    capitalize={false}
+    kind="primary"
+    iconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+    iconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+    component="a"
+    href="#"
+  >
+    Not capitalized
+  </Button>
+)
+
+export const LinkSemanticsLong = () => (
+  <Button
+    kind="primary"
+    iconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+    iconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+    component="a"
+    href="#"
+  >
+    Looooooooooooooooooooooooooooooooong Primary Button
+  </Button>
+)
+
+export const LinkSemanticsTransparentIconBothFocused = () => (
+  <Button
+    className={styles.focus}
+    kind="transparent"
+    iconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+    iconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+    component="a"
+    href="#"
+    rel="noopener"
+    target="_blank"
+  >
+    Transparent
   </Button>
 )

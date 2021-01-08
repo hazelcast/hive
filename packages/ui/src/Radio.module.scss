@@ -19,6 +19,10 @@
     @include h.visuallyHidden;
   }
 
+  .helperText {
+    margin-left: c.$grid * 0.5;
+  }
+
   // default visible checkmark
   .checkmark {
     width: c.$iconSizeSmall;

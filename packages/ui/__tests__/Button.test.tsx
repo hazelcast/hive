@@ -6,6 +6,7 @@ import { Tooltip } from '../src/Tooltip'
 import { Button, ButtonKind } from '../src/Button'
 
 import styles from '../src/Button.module.scss'
+import { TruncatedText } from '../src'
 
 const label = 'LABEL'
 const ariaLabel = 'X Icon'
@@ -115,5 +116,86 @@ describe('Button', () => {
     expect(wrapper.find(Tooltip).at(0).props()).toMatchObject({
       content: disabledTooltip,
     })
+  })
+
+  it('Renders disabled button, tooltip is enabled, correct tooltipVisible flag passed to TruncatedText', async () => {
+    const disabledTooltip = 'Disabled tooltip'
+
+    const wrapper = await mountAndCheckA11Y(
+      // div is required because `axe` cannot validate react fragments
+      <div>
+        <Button disabled disabledTooltip={disabledTooltip}>
+          {label}
+        </Button>
+      </div>,
+    )
+
+    expect(wrapper.find(TruncatedText).props()).toMatchObject({
+      tooltipVisible: false,
+    })
+  })
+
+  it('Renders disabled button, tooltip is disabled, correct tooltipVisible flag passed to TruncatedText', async () => {
+    const disabledTooltip = 'Disabled tooltip'
+
+    const wrapper = await mountAndCheckA11Y(
+      // div is required because `axe` cannot validate react fragments
+      <div>
+        <Button disabled disabledTooltip={disabledTooltip} disabledTooltipVisible={false}>
+          {label}
+        </Button>
+      </div>,
+    )
+
+    expect(wrapper.find(TruncatedText).props()).toMatchObject({
+      tooltipVisible: undefined,
+    })
+  })
+
+  it('Renders button with a link semantics', async () => {
+    const wrapper = await mountAndCheckA11Y(
+      <Button component="a" href="#test">
+        {label}
+      </Button>,
+    )
+
+    expect(wrapper.find('button').exists()).toBe(false)
+    expect(wrapper.find('a').exists()).toBe(true)
+  })
+
+  it('Renders button with a link semantics, proper parameters are passed to an anchor', async () => {
+    const onClick = jest.fn()
+    const wrapper = await mountAndCheckA11Y(
+      <Button component="a" href="#test" onClick={onClick} rel={['noopener', 'noreferrer']} target="_blank">
+        {label}
+      </Button>,
+    )
+
+    const props = wrapper.find('a').props()
+    expect(props).toHaveProperty('href', '#test')
+    expect(props).toHaveProperty('onClick', onClick)
+    expect(props).toHaveProperty('rel', 'noopener noreferrer')
+    expect(props).toHaveProperty('target', '_blank')
+    expect(props).toHaveProperty('type', undefined)
+  })
+
+  it('Renders button with a default button semantics, link specific params are undefined', async () => {
+    const wrapper = await mountAndCheckA11Y(<Button>{label}</Button>)
+
+    const props = wrapper.find('button').props()
+    expect(props).toHaveProperty('rel', undefined)
+    expect(props).toHaveProperty('target', undefined)
+    expect(props).toHaveProperty('type', 'button')
+  })
+
+  it('Renders button with a link semantics, check that noopener attribute is passed to a link by default', async () => {
+    const onClick = jest.fn()
+    const wrapper = await mountAndCheckA11Y(
+      <Button component="a" href="#test" onClick={onClick}>
+        {label}
+      </Button>,
+    )
+
+    expect(wrapper.find('a').props()).toHaveProperty('rel', 'noopener')
   })
 })
