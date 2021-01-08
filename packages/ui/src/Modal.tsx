@@ -21,30 +21,20 @@ type ModalActionDisabledProps =
   | {
       actionDisabledTooltip: ButtonDisabledProps['disabledTooltip']
       actionDisabled: ButtonDisabledProps['disabled']
-      actionDisabledTooltipVisible?: ButtonDisabledProps['disabledTooltipVisible']
-      actionDisabledTooltipPlacement?: ButtonDisabledProps['disabledTooltipPlacement']
     }
   | {
       actionDisabledTooltip?: never
       actionDisabled?: never
-      actionDisabledTooltipVisible?: never
-      actionDisabledTooltipPlacement?: never
     }
 
 type ModalActionIconProps =
   | {
       actionIconLeft: ButtonAccessibleIconLeftProps['iconLeft']
       actionIconLeftAriaLabel: ButtonAccessibleIconLeftProps['iconLeftAriaLabel']
-      actionIconLeftSize?: ButtonAccessibleIconLeftProps['iconLeftSize']
-      actionIconLeftColor?: ButtonAccessibleIconLeftProps['iconLeftColor']
-      actionIconLeftClassName?: ButtonAccessibleIconLeftProps['iconLeftClassName']
     }
   | {
       actionIconLeft?: never
       actionIconLeftAriaLabel?: never
-      actionIconLeftSize?: never
-      actionIconLeftColor?: never
-      actionIconLeftClassName?: never
     }
 
 type ModalActionCoreProps =
@@ -99,14 +89,9 @@ export const Modal: FC<ModalProps> = ({
     // Disabled
     actionDisabled = false,
     actionDisabledTooltip,
-    actionDisabledTooltipPlacement,
-    actionDisabledTooltipVisible,
     // Icon
     actionIconLeft,
     actionIconLeftAriaLabel,
-    actionIconLeftSize,
-    actionIconLeftColor,
-    actionIconLeftClassName,
     // Rest
     onAction,
     ...rest
@@ -161,18 +146,13 @@ export const Modal: FC<ModalProps> = ({
                 type="button"
                 {...(actionDisabled &&
                   actionDisabledTooltip && {
-                    actionDisabled,
-                    actionDisabledTooltip,
-                    actionDisabledTooltipPlacement,
-                    actionDisabledTooltipVisible,
+                    disabled: actionDisabled,
+                    disabledTooltip: actionDisabledTooltip,
                   })}
                 {...(actionIconLeft &&
                   actionIconLeftAriaLabel && {
-                    actionIconLeft,
-                    actionIconLeftAriaLabel,
-                    actionIconLeftSize,
-                    actionIconLeftColor,
-                    actionIconLeftClassName,
+                    iconLeft: actionIconLeft,
+                    iconLeftAriaLabel: actionIconLeftAriaLabel,
                   })}
               >
                 {actionLabel}

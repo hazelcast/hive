@@ -63,6 +63,8 @@ describe('Modal', () => {
       onClick: onAction,
       children: modalAction,
       'data-test': 'modal-button-action',
+      kind: undefined,
+      type: 'button',
     })
   })
 
@@ -232,6 +234,8 @@ describe('Modal', () => {
       onClick: onAction,
       children: modalAction,
       'data-test': 'modal-button-action',
+      kind: undefined,
+      type: 'button',
     })
   })
 
@@ -269,6 +273,8 @@ describe('Modal', () => {
       onClick: onAction,
       children: modalAction,
       'data-test': 'modal-button-action',
+      kind: undefined,
+      type: 'button',
     })
   })
 })

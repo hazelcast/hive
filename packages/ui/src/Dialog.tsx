@@ -3,7 +3,7 @@ import { Modal, ModalProps, ModalActionProps } from './Modal'
 
 import styles from './Dialog.module.scss'
 
-const AFFIRMATION_DEFAULT = 'Are you sure you wish to proceed?'
+export const DIALOG_AFFIRMATION_DEFAULT = 'Are you sure you wish to proceed?'
 
 // Resolve the parentSelector
 type DialogModalProps = Pick<ModalProps, 'isOpen' | 'title' | 'onClose' | 'parentSelector'> & ModalActionProps
@@ -30,7 +30,7 @@ export const Dialog: FC<DialogProps> = ({
   title,
   onClose,
   consequences,
-  affirmation = AFFIRMATION_DEFAULT,
+  affirmation = DIALOG_AFFIRMATION_DEFAULT,
   children,
   parentSelector,
   ...actionProps
@@ -53,7 +53,7 @@ export const Dialog: FC<DialogProps> = ({
           </div>
         )}
         {children && (
-          <div data-test="children" className={styles.children}>
+          <div data-test="dialog-children" className={styles.children}>
             {children}
           </div>
         )}

@@ -14,15 +14,12 @@ export default {
 
 const affirmation = 'Are you sure, young padawan?'
 const consequences = 'This action may disturb the Force.'
-
 const onClose = () => console.log('onClose')
-
 const onAction = () => console.log('onAction')
 const actionLabel = 'Action'
 const disabledTooltip = 'Disabled Tooltip'
 
 const DialogWithPortalFactory: FC<DialogProps> = ({ children, modalClassName, ...props }) => {
-  // We need dynamic id in order not to portal Default & Normal into same sandbox
   const id = `s${uuid()}`
   return (
     <div id={id} className={utilsStyles.modalWrapper}>

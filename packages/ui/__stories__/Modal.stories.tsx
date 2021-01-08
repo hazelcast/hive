@@ -15,9 +15,9 @@ export default {
 const onClose = () => console.log('onClose')
 const onAction = () => console.log('onAction')
 const actionLabel = 'Action'
+const disabledTooltip = 'Disabled Tooltip'
 
 const ModalWithPortalFactory: FC<ModalProps> = ({ children, className, ...props }) => {
-  // We need dynamic id in order not to portal Default & Normal into same sandbox
   const id = `s${uuid()}`
   return (
     <div id={id} className={utilsStyles.modalWrapper}>
@@ -54,6 +54,74 @@ export const WithAction = () => (
 
 export const NotClosableWithAction = () => (
   <ModalWithPortalFactory title="Title of the Modal" isOpen onAction={onAction} actionLabel={actionLabel}>
+    <div>Content</div>
+  </ModalWithPortalFactory>
+)
+
+export const WithActionDisabled = () => (
+  <ModalWithPortalFactory
+    title="Title of the Modal"
+    isOpen
+    actionLabel={actionLabel}
+    onAction={onAction}
+    onClose={onClose}
+    actionDisabled
+    actionDisabledTooltip={disabledTooltip}
+  >
+    <div>Content</div>
+  </ModalWithPortalFactory>
+)
+
+export const NotClosableWithActionDisabled = () => (
+  <ModalWithPortalFactory
+    title="Title of the Modal"
+    isOpen
+    actionLabel={actionLabel}
+    onAction={onAction}
+    actionDisabled
+    actionDisabledTooltip={disabledTooltip}
+  >
+    <div>Content</div>
+  </ModalWithPortalFactory>
+)
+
+export const WithDangerAction = () => (
+  <ModalWithPortalFactory
+    title="Title of the Modal"
+    isOpen
+    actionLabel={actionLabel}
+    onAction={onAction}
+    actionKind="danger"
+    onClose={onClose}
+  >
+    <div>Content</div>
+  </ModalWithPortalFactory>
+)
+
+export const WithDangerActionDisabled = () => (
+  <ModalWithPortalFactory
+    title="Title of the Modal"
+    isOpen
+    actionLabel={actionLabel}
+    onAction={onAction}
+    actionDisabled
+    actionDisabledTooltip={disabledTooltip}
+    actionKind="danger"
+  >
+    <div>Content</div>
+  </ModalWithPortalFactory>
+)
+
+export const NotClosableWithDangerActionDisabled = () => (
+  <ModalWithPortalFactory
+    title="Title of the Modal"
+    isOpen
+    actionLabel={actionLabel}
+    onAction={onAction}
+    actionDisabled
+    actionDisabledTooltip={disabledTooltip}
+    actionKind="danger"
+  >
     <div>Content</div>
   </ModalWithPortalFactory>
 )
