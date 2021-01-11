@@ -79,30 +79,6 @@ export const PrimaryActionDisabled = () => (
   />
 )
 
-export const CancelAndPrimaryAction = () => (
-  <DialogWithPortalFactory
-    title="Title of the Dialog"
-    affirmation={affirmation}
-    isOpen
-    actionLabel={actionLabel}
-    onAction={onAction}
-    onClose={onClose}
-  />
-)
-
-export const CancelAndPrimaryActionDisabled = () => (
-  <DialogWithPortalFactory
-    title="Title of the Dialog"
-    affirmation={affirmation}
-    isOpen
-    actionLabel={actionLabel}
-    onAction={onAction}
-    onClose={onClose}
-    actionDisabled
-    actionDisabledTooltip={disabledTooltip}
-  />
-)
-
 export const DangerAction = () => (
   <DialogWithPortalFactory
     title="Title of the Dialog"
@@ -115,19 +91,7 @@ export const DangerAction = () => (
   />
 )
 
-export const CancelAndDangerAction = () => (
-  <DialogWithPortalFactory
-    title="Title of the Dialog"
-    affirmation={affirmation}
-    isOpen
-    actionKind="danger"
-    actionLabel={actionLabel}
-    onAction={onAction}
-    onClose={onClose}
-  />
-)
-
-export const CancelAndDangerActionDisabled = () => (
+export const DangerActionDisabled = () => (
   <DialogWithPortalFactory
     title="Title of the Dialog"
     affirmation={affirmation}
