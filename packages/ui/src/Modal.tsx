@@ -54,7 +54,7 @@ export type ModalProps = {
   closable?: boolean
   children?: ReactNode
   title: string
-  onClose?: ReactModalProps['onRequestClose']
+  onClose: ReactModalProps['onRequestClose']
   footerClassName?: string
 } & DataTestProp &
   ModalActionProps &
@@ -114,50 +114,37 @@ export const Modal: FC<ModalProps> = ({
       <div className={styles.container}>
         <div data-test="modal-header" className={styles.header}>
           <h3 data-test="modal-title">{title}</h3>
-          {onClose && (
-            <div className={styles.close}>
-              {/* TODO: Get color */}
-              <IconButton
-                data-test="modal-button-close"
-                kind="transparent"
-                size="small"
-                ariaLabel="Close icon"
-                icon={X}
-                onClick={onClose}
-              />
-            </div>
-          )}
+          <div className={styles.close}>
+            {/* TODO: Get color */}
+            <IconButton data-test="modal-button-close" kind="transparent" size="small" ariaLabel="Close icon" icon={X} onClick={onClose} />
+          </div>
         </div>
         <div data-test="modal-content">{children}</div>
-        {(onClose || onAction) && (
-          <div data-test="modal-footer" className={cn(styles.footer, footerClassName)}>
-            {onClose && (
-              <Button data-test="modal-button-cancel" kind="secondary" onClick={onClose}>
-                Cancel
-              </Button>
-            )}
-            {onAction && actionLabel && (
-              <Button
-                data-test="modal-button-action"
-                kind={actionKind}
-                onClick={onAction}
-                type="button"
-                {...(actionDisabled &&
-                  actionDisabledTooltip && {
-                    disabled: actionDisabled,
-                    disabledTooltip: actionDisabledTooltip,
-                  })}
-                {...(actionIconLeft &&
-                  actionIconLeftAriaLabel && {
-                    iconLeft: actionIconLeft,
-                    iconLeftAriaLabel: actionIconLeftAriaLabel,
-                  })}
-              >
-                {actionLabel}
-              </Button>
-            )}
-          </div>
-        )}
+        <div data-test="modal-footer" className={cn(styles.footer, footerClassName)}>
+          <Button data-test="modal-button-cancel" kind="secondary" onClick={onClose}>
+            Cancel
+          </Button>
+          {onAction && actionLabel && (
+            <Button
+              data-test="modal-button-action"
+              kind={actionKind}
+              onClick={onAction}
+              type="button"
+              {...(actionDisabled &&
+                actionDisabledTooltip && {
+                  disabled: actionDisabled,
+                  disabledTooltip: actionDisabledTooltip,
+                })}
+              {...(actionIconLeft &&
+                actionIconLeftAriaLabel && {
+                  iconLeft: actionIconLeft,
+                  iconLeftAriaLabel: actionIconLeftAriaLabel,
+                })}
+            >
+              {actionLabel}
+            </Button>
+          )}
+        </div>
       </div>
     </ReactModal>
   )

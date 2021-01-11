@@ -69,8 +69,10 @@ describe('Modal', () => {
   })
 
   it('Does not render anything when isOpen is false', () => {
+    const onClose = jest.fn()
+
     const wrapper = mount(
-      <Modal isOpen={false} title={modalTitle}>
+      <Modal isOpen={false} onClose={onClose} title={modalTitle}>
         <ModalContent />
       </Modal>,
     )
@@ -153,7 +155,7 @@ describe('Modal', () => {
     })
   })
 
-  it('Renders footer with Cancel button onClose it passed', () => {
+  it('Renders footer with Cancel button', () => {
     const onClose = jest.fn()
 
     const wrapper = mount(
@@ -184,62 +186,7 @@ describe('Modal', () => {
     })
   })
 
-  it('Does not render footer when neither onAction not onClose are passed', () => {
-    const wrapper = mount(
-      <Modal isOpen title={modalTitle}>
-        <ModalContent />
-      </Modal>,
-    )
-
-    expect(wrapper.find(ReactModal).props()).toMatchObject({
-      ariaHideApp: true,
-      preventScroll: false,
-      role: 'dialog',
-      shouldCloseOnEsc: true,
-      shouldCloseOnOverlayClick: true,
-      shouldFocusAfterRender: true,
-      shouldReturnFocusAfterClose: true,
-      contentLabel: modalTitle,
-      isOpen: true,
-      onRequestClose: undefined,
-    })
-
-    expect(wrapper.findDataTest('modal-footer').children()).toHaveLength(0)
-  })
-
-  it('Renders footer with Action button onAction (and action) it passed', () => {
-    const onAction = jest.fn()
-
-    const wrapper = mount(
-      <Modal isOpen title={modalTitle} onAction={onAction} actionLabel={modalAction}>
-        <ModalContent />
-      </Modal>,
-    )
-
-    expect(wrapper.find(ReactModal).props()).toMatchObject({
-      ariaHideApp: true,
-      preventScroll: false,
-      role: 'dialog',
-      shouldCloseOnEsc: true,
-      shouldCloseOnOverlayClick: true,
-      shouldFocusAfterRender: true,
-      shouldReturnFocusAfterClose: true,
-      contentLabel: modalTitle,
-      isOpen: true,
-      onRequestClose: undefined,
-    })
-
-    expect(wrapper.findDataTest('modal-footer').children()).toHaveLength(1)
-    expect(wrapper.findDataTest('modal-button-action').at(0).props()).toStrictEqual({
-      onClick: onAction,
-      children: modalAction,
-      'data-test': 'modal-button-action',
-      kind: undefined,
-      type: 'button',
-    })
-  })
-
-  it('Renders footer with both Action and Cancel buttons when onClose and onAction are passed', () => {
+  it('Renders footer with Action and Cancel buttons when onAction is passed', () => {
     const onClose = jest.fn()
     const onAction = jest.fn()
 

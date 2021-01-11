@@ -39,9 +39,6 @@ export const Default = () => <DialogWithPortalFactory title="Title of the Dialog
 export const Focused = () => (
   <DialogWithPortalFactory modalClassName={styles.focus} title="Title of the Dialog" affirmation={affirmation} isOpen onClose={onClose} />
 )
-
-export const NotClosable = () => <DialogWithPortalFactory title="Title of the Dialog" affirmation={affirmation} isOpen />
-
 export const WithConsequences = () => (
   <DialogWithPortalFactory title="Title of the Dialog" affirmation={affirmation} consequences={consequences} isOpen onClose={onClose} />
 )
@@ -59,7 +56,14 @@ export const WithConsequencesAndChildren = () => (
 )
 
 export const PrimaryAction = () => (
-  <DialogWithPortalFactory title="Title of the Dialog" affirmation={affirmation} isOpen actionLabel={actionLabel} onAction={onAction} />
+  <DialogWithPortalFactory
+    title="Title of the Dialog"
+    onClose={onClose}
+    affirmation={affirmation}
+    isOpen
+    actionLabel={actionLabel}
+    onAction={onAction}
+  />
 )
 
 export const PrimaryActionDisabled = () => (
@@ -71,6 +75,7 @@ export const PrimaryActionDisabled = () => (
     onAction={onAction}
     actionDisabled
     actionDisabledTooltip={disabledTooltip}
+    onClose={onClose}
   />
 )
 
@@ -106,6 +111,7 @@ export const DangerAction = () => (
     actionKind="danger"
     actionLabel={actionLabel}
     onAction={onAction}
+    onClose={onClose}
   />
 )
 

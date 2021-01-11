@@ -34,30 +34,28 @@ export const Dialog: FC<DialogProps> = ({
   children,
   parentSelector,
   ...actionProps
-}) => {
-  return (
-    <Modal
-      className={modalClassName}
-      footerClassName={styles.modalFooter}
-      isOpen={isOpen}
-      title={title}
-      onClose={onClose}
-      parentSelector={parentSelector}
-      {...actionProps}
-    >
-      <div className={styles.content}>
-        <div data-test="dialog-affirmation">{affirmation}</div>
-        {consequences && (
-          <div data-test="dialog-consequences" className={styles.consequences}>
-            {consequences}
-          </div>
-        )}
-        {children && (
-          <div data-test="dialog-children" className={styles.children}>
-            {children}
-          </div>
-        )}
-      </div>
-    </Modal>
-  )
-}
+}) => (
+  <Modal
+    className={modalClassName}
+    footerClassName={styles.modalFooter}
+    isOpen={isOpen}
+    title={title}
+    onClose={onClose}
+    parentSelector={parentSelector}
+    {...actionProps}
+  >
+    <div className={styles.content}>
+      <div data-test="dialog-affirmation">{affirmation}</div>
+      {consequences && (
+        <div data-test="dialog-consequences" className={styles.consequences}>
+          {consequences}
+        </div>
+      )}
+      {children && (
+        <div data-test="dialog-children" className={styles.children}>
+          {children}
+        </div>
+      )}
+    </div>
+  </Modal>
+)

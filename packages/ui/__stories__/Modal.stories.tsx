@@ -40,20 +40,8 @@ export const Focused = () => (
   </ModalWithPortalFactory>
 )
 
-export const NotClosable = () => (
-  <ModalWithPortalFactory title="Title of the Modal" isOpen>
-    <div>Content</div>
-  </ModalWithPortalFactory>
-)
-
 export const WithAction = () => (
   <ModalWithPortalFactory title="Title of the Modal" isOpen onClose={onClose} onAction={onAction} actionLabel={actionLabel}>
-    <div>Content</div>
-  </ModalWithPortalFactory>
-)
-
-export const NotClosableWithAction = () => (
-  <ModalWithPortalFactory title="Title of the Modal" isOpen onAction={onAction} actionLabel={actionLabel}>
     <div>Content</div>
   </ModalWithPortalFactory>
 )
@@ -65,19 +53,6 @@ export const WithActionDisabled = () => (
     actionLabel={actionLabel}
     onAction={onAction}
     onClose={onClose}
-    actionDisabled
-    actionDisabledTooltip={disabledTooltip}
-  >
-    <div>Content</div>
-  </ModalWithPortalFactory>
-)
-
-export const NotClosableWithActionDisabled = () => (
-  <ModalWithPortalFactory
-    title="Title of the Modal"
-    isOpen
-    actionLabel={actionLabel}
-    onAction={onAction}
     actionDisabled
     actionDisabledTooltip={disabledTooltip}
   >
@@ -107,20 +82,7 @@ export const WithDangerActionDisabled = () => (
     actionDisabled
     actionDisabledTooltip={disabledTooltip}
     actionKind="danger"
-  >
-    <div>Content</div>
-  </ModalWithPortalFactory>
-)
-
-export const NotClosableWithDangerActionDisabled = () => (
-  <ModalWithPortalFactory
-    title="Title of the Modal"
-    isOpen
-    actionLabel={actionLabel}
-    onAction={onAction}
-    actionDisabled
-    actionDisabledTooltip={disabledTooltip}
-    actionKind="danger"
+    onClose={onClose}
   >
     <div>Content</div>
   </ModalWithPortalFactory>
