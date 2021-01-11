@@ -113,9 +113,7 @@ export const Modal: FC<ModalProps> = ({
       <div className={styles.outline} />
       <div className={styles.container}>
         <div data-test="modal-header" className={styles.header}>
-          <div data-test="modal-title" className={styles.title}>
-            {title}
-          </div>
+          <h3 data-test="modal-title">{title}</h3>
           {onClose && (
             <div className={styles.close}>
               {/* TODO: Get color */}
