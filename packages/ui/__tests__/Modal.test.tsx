@@ -7,8 +7,8 @@ import { act } from 'react-dom/test-utils'
 
 const modalTitle = 'Modal Title'
 const modalAction = 'Action'
-
 const ModalContent = () => <div>Content</div>
+const children = 'Action'
 
 describe('Modal', () => {
   beforeAll(() => {
@@ -17,10 +17,20 @@ describe('Modal', () => {
 
   it('Renders all expected components', () => {
     const onClose = jest.fn()
-    const onAction = jest.fn()
+    const onClick = jest.fn()
 
     const wrapper = mount(
-      <Modal isOpen title={modalTitle} onClose={onClose} actionLabel={modalAction} onAction={onAction}>
+      <Modal
+        isOpen
+        title={modalTitle}
+        onClose={onClose}
+        actions={[
+          {
+            children,
+            onClick,
+          },
+        ]}
+      >
         <ModalContent />
       </Modal>,
     )
@@ -60,11 +70,9 @@ describe('Modal', () => {
       'data-test': 'modal-button-cancel',
     })
     expect(wrapper.findDataTest('modal-button-action').at(0).props()).toStrictEqual({
-      onClick: onAction,
+      onClick: onClick,
       children: modalAction,
       'data-test': 'modal-button-action',
-      kind: undefined,
-      type: 'button',
     })
   })
 
@@ -87,7 +95,7 @@ describe('Modal', () => {
       shouldReturnFocusAfterClose: true,
       contentLabel: modalTitle,
       isOpen: false,
-      onRequestClose: undefined,
+      onRequestClose: onClose,
     })
     expect(wrapper.find('modal-content').exists()).toBeFalsy()
   })
@@ -186,12 +194,22 @@ describe('Modal', () => {
     })
   })
 
-  it('Renders footer with Action and Cancel buttons when onAction is passed', () => {
+  it('Renders footer with Action and Cancel buttons when actions are passed', () => {
     const onClose = jest.fn()
-    const onAction = jest.fn()
+    const onClick = jest.fn()
 
     const wrapper = mount(
-      <Modal isOpen title={modalTitle} onAction={onAction} actionLabel={modalAction} onClose={onClose}>
+      <Modal
+        isOpen
+        title={modalTitle}
+        actions={[
+          {
+            children,
+            onClick,
+          },
+        ]}
+        onClose={onClose}
+      >
         <ModalContent />
       </Modal>,
     )
@@ -217,11 +235,9 @@ describe('Modal', () => {
       'data-test': 'modal-button-cancel',
     })
     expect(wrapper.findDataTest('modal-button-action').at(0).props()).toStrictEqual({
-      onClick: onAction,
+      onClick: onClick,
       children: modalAction,
       'data-test': 'modal-button-action',
-      kind: undefined,
-      type: 'button',
     })
   })
 })

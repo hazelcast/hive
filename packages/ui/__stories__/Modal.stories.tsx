@@ -13,8 +13,8 @@ export default {
 }
 
 const onClose = () => console.log('onClose')
-const onAction = () => console.log('onAction')
-const actionLabel = 'Action'
+const onClick = () => console.log('onClick')
+const children = 'Action'
 const disabledTooltip = 'Disabled Tooltip'
 
 const ModalWithPortalFactory: FC<ModalProps> = ({ children, className, ...props }) => {
@@ -41,7 +41,17 @@ export const Focused = () => (
 )
 
 export const WithAction = () => (
-  <ModalWithPortalFactory title="Title of the Modal" isOpen onClose={onClose} onAction={onAction} actionLabel={actionLabel}>
+  <ModalWithPortalFactory
+    title="Title of the Modal"
+    isOpen
+    onClose={onClose}
+    actions={[
+      {
+        onClick,
+        children: 'Action',
+      },
+    ]}
+  >
     <div>Content</div>
   </ModalWithPortalFactory>
 )
@@ -50,11 +60,15 @@ export const WithActionDisabled = () => (
   <ModalWithPortalFactory
     title="Title of the Modal"
     isOpen
-    actionLabel={actionLabel}
-    onAction={onAction}
     onClose={onClose}
-    actionDisabled
-    actionDisabledTooltip={disabledTooltip}
+    actions={[
+      {
+        children,
+        onClick,
+        disabled: true,
+        disabledTooltip,
+      },
+    ]}
   >
     <div>Content</div>
   </ModalWithPortalFactory>
@@ -64,10 +78,14 @@ export const WithDangerAction = () => (
   <ModalWithPortalFactory
     title="Title of the Modal"
     isOpen
-    actionLabel={actionLabel}
-    onAction={onAction}
-    actionKind="danger"
     onClose={onClose}
+    actions={[
+      {
+        children,
+        onClick,
+        kind: 'danger',
+      },
+    ]}
   >
     <div>Content</div>
   </ModalWithPortalFactory>
@@ -77,12 +95,37 @@ export const WithDangerActionDisabled = () => (
   <ModalWithPortalFactory
     title="Title of the Modal"
     isOpen
-    actionLabel={actionLabel}
-    onAction={onAction}
-    actionDisabled
-    actionDisabledTooltip={disabledTooltip}
-    actionKind="danger"
     onClose={onClose}
+    actions={[
+      {
+        children,
+        onClick,
+        disabled: true,
+        disabledTooltip,
+        kind: 'danger',
+      },
+    ]}
+  >
+    <div>Content</div>
+  </ModalWithPortalFactory>
+)
+
+export const WithMultipleActions = () => (
+  <ModalWithPortalFactory
+    title="Title of the Modal"
+    isOpen
+    onClose={onClose}
+    actions={[
+      {
+        children,
+        onClick,
+      },
+      {
+        children,
+        onClick,
+        kind: 'danger',
+      },
+    ]}
   >
     <div>Content</div>
   </ModalWithPortalFactory>

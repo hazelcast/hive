@@ -1,19 +1,34 @@
-import React, { FC, ReactNode } from 'react'
+import React, { FC, ReactNode, useMemo } from 'react'
 import { Modal, ModalProps, ModalActionProps } from './Modal'
+import { ButtonKind } from './Button'
 
 import styles from './Dialog.module.scss'
 
 export const DIALOG_AFFIRMATION_DEFAULT = 'Are you sure you wish to proceed?'
 
-// Resolve the parentSelector
-type DialogModalProps = Pick<ModalProps, 'isOpen' | 'title' | 'onClose' | 'parentSelector'> & ModalActionProps
+type DialogActionProps =
+  | {
+      actionOnConfirm: ModalActionProps['onClick']
+      actionChildren: ModalActionProps['children']
+      actionDangerous?: boolean
+      actionDisabled?: ModalActionProps['disabled']
+      actionDisabledTooltip?: ModalActionProps['disabledTooltip']
+    }
+  | {
+      actionDangerous?: never
+      actionDisabled?: never
+      actionDisabledTooltip?: never
+      actionOnConfirm?: never
+      actionChildren?: never
+    }
 
 export type DialogProps = {
   children?: ReactNode
   modalClassName?: string
   affirmation?: ReactNode
   consequences?: ReactNode
-} & DialogModalProps
+} & DialogActionProps &
+  Pick<ModalProps, 'isOpen' | 'title' | 'onClose' | 'parentSelector'>
 
 /*
  * ### Purpose
@@ -33,29 +48,54 @@ export const Dialog: FC<DialogProps> = ({
   affirmation = DIALOG_AFFIRMATION_DEFAULT,
   children,
   parentSelector,
-  ...actionProps
-}) => (
-  <Modal
-    className={modalClassName}
-    footerClassName={styles.modalFooter}
-    isOpen={isOpen}
-    title={title}
-    onClose={onClose}
-    parentSelector={parentSelector}
-    {...actionProps}
-  >
-    <div className={styles.content}>
-      <div data-test="dialog-affirmation">{affirmation}</div>
-      {consequences && (
-        <div data-test="dialog-consequences" className={styles.consequences}>
-          {consequences}
-        </div>
-      )}
-      {children && (
-        <div data-test="dialog-children" className={styles.children}>
-          {children}
-        </div>
-      )}
-    </div>
-  </Modal>
-)
+  actionChildren,
+  actionDangerous,
+  actionDisabled,
+  actionDisabledTooltip,
+  actionOnConfirm,
+}) => {
+  const actions: ModalProps['actions'] = useMemo(
+    () =>
+      actionChildren && actionOnConfirm
+        ? [
+            {
+              kind: actionDangerous ? 'danger' : ('primary' as ButtonKind),
+              ...(actionDisabled &&
+                actionDisabledTooltip && {
+                  disabled: actionDisabled,
+                  disabledTooltip: actionDisabledTooltip,
+                }),
+              onClick: actionOnConfirm,
+              children: actionChildren,
+            },
+          ]
+        : [],
+    [actionDangerous, actionDisabled, actionDisabledTooltip, actionOnConfirm, actionChildren],
+  )
+
+  return (
+    <Modal
+      className={modalClassName}
+      footerClassName={styles.modalFooter}
+      isOpen={isOpen}
+      title={title}
+      onClose={onClose}
+      parentSelector={parentSelector}
+      actions={actions}
+    >
+      <div className={styles.content}>
+        <div data-test="dialog-affirmation">{affirmation}</div>
+        {consequences && (
+          <div data-test="dialog-consequences" className={styles.consequences}>
+            {consequences}
+          </div>
+        )}
+        {children && (
+          <div data-test="dialog-children" className={styles.children}>
+            {children}
+          </div>
+        )}
+      </div>
+    </Modal>
+  )
+}

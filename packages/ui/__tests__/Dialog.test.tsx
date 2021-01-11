@@ -7,7 +7,6 @@ const dialogTitle = 'Dialog Title'
 const dialogAction = 'Action'
 const dialogAffirmation = 'Dialog affirmation'
 const dialogConsequences = 'Dialog consequences'
-
 const dialogContent = 'Content'
 
 describe('Dialog', () => {
@@ -17,10 +16,10 @@ describe('Dialog', () => {
 
   it('Renders Modal with correct props and content', () => {
     const onClose = jest.fn()
-    const onAction = jest.fn()
+    const actionOnConfirm = jest.fn()
 
     const wrapper = mount(
-      <Dialog isOpen title={dialogTitle} onClose={onClose} actionLabel={dialogAction} onAction={onAction}>
+      <Dialog isOpen title={dialogTitle} onClose={onClose} actionChildren={dialogAction} actionOnConfirm={actionOnConfirm}>
         {dialogContent}
       </Dialog>,
     )
@@ -45,10 +44,17 @@ describe('Dialog', () => {
 
   it('Renders custom affirmation clause', () => {
     const onClose = jest.fn()
-    const onAction = jest.fn()
+    const actionOnConfirm = jest.fn()
 
     const wrapper = mount(
-      <Dialog isOpen title={dialogTitle} onClose={onClose} actionLabel={dialogAction} onAction={onAction} affirmation={dialogAffirmation}>
+      <Dialog
+        isOpen
+        title={dialogTitle}
+        onClose={onClose}
+        actionChildren={dialogAction}
+        actionOnConfirm={actionOnConfirm}
+        affirmation={dialogAffirmation}
+      >
         {dialogContent}
       </Dialog>,
     )
@@ -73,15 +79,15 @@ describe('Dialog', () => {
 
   it('Renders consequences clause', () => {
     const onClose = jest.fn()
-    const onAction = jest.fn()
+    const actionOnConfirm = jest.fn()
 
     const wrapper = mount(
       <Dialog
         isOpen
         title={dialogTitle}
         onClose={onClose}
-        actionLabel={dialogAction}
-        onAction={onAction}
+        actionChildren={dialogAction}
+        actionOnConfirm={actionOnConfirm}
         affirmation={dialogAffirmation}
         consequences={dialogConsequences}
       >

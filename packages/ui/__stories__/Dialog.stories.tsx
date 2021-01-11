@@ -12,12 +12,12 @@ export default {
   component: Dialog,
 }
 
+const onClose = () => console.log('onClose')
+const actionOnConfirm = () => console.log('onClick')
+const actionChildren = 'Action'
+const actionDisabledTooltip = 'Disabled Tooltip'
 const affirmation = 'Are you sure, young padawan?'
 const consequences = 'This action may disturb the Force.'
-const onClose = () => console.log('onClose')
-const onAction = () => console.log('onAction')
-const actionLabel = 'Action'
-const disabledTooltip = 'Disabled Tooltip'
 
 const DialogWithPortalFactory: FC<DialogProps> = ({ children, modalClassName, ...props }) => {
   const id = `s${useUID()}`
@@ -55,52 +55,52 @@ export const WithConsequencesAndChildren = () => (
   </DialogWithPortalFactory>
 )
 
-export const PrimaryAction = () => (
+export const WithAction = () => (
   <DialogWithPortalFactory
     title="Title of the Dialog"
     onClose={onClose}
     affirmation={affirmation}
     isOpen
-    actionLabel={actionLabel}
-    onAction={onAction}
+    actionChildren={actionChildren}
+    actionOnConfirm={actionOnConfirm}
   />
 )
 
-export const PrimaryActionDisabled = () => (
+export const WithActionDisabled = () => (
   <DialogWithPortalFactory
     title="Title of the Dialog"
     affirmation={affirmation}
     isOpen
-    actionLabel={actionLabel}
-    onAction={onAction}
+    actionChildren={actionChildren}
+    actionOnConfirm={actionOnConfirm}
     actionDisabled
-    actionDisabledTooltip={disabledTooltip}
+    actionDisabledTooltip={actionDisabledTooltip}
     onClose={onClose}
   />
 )
 
-export const DangerAction = () => (
+export const WithDangerAction = () => (
   <DialogWithPortalFactory
     title="Title of the Dialog"
     affirmation={affirmation}
     isOpen
-    actionKind="danger"
-    actionLabel={actionLabel}
-    onAction={onAction}
+    actionDangerous
+    actionChildren={actionChildren}
+    actionOnConfirm={actionOnConfirm}
     onClose={onClose}
   />
 )
 
-export const DangerActionDisabled = () => (
+export const WithDangerActionDisabled = () => (
   <DialogWithPortalFactory
     title="Title of the Dialog"
     affirmation={affirmation}
     isOpen
-    actionKind="danger"
-    actionLabel={actionLabel}
-    onAction={onAction}
+    actionDangerous
+    actionChildren={actionChildren}
+    actionOnConfirm={actionOnConfirm}
     onClose={onClose}
     actionDisabled
-    actionDisabledTooltip={disabledTooltip}
+    actionDisabledTooltip={actionDisabledTooltip}
   />
 )

@@ -7,48 +7,9 @@ import { X } from 'react-feather'
 import { IconButton } from './IconButton'
 
 import styles from './Modal.module.scss'
-import { Button, ButtonProps, ButtonDisabledProps, ButtonAccessibleIconLeftProps } from './Button'
+import { Button, ButtonProps } from './Button'
 
-/*
- * What we do here, is pull the properties from Button and rename them. Unfortunately, we have to pull
- * both part of the union separately, as picking the result discriminates the type and breaks the constrains of A | B.
- *
- * When Storybook supports tsc@4.1, this can be replaced with:
- * type MapObjectUnion<T> = T extends Record<string, unknown> ? ModalActionMappedProps<T> : T
- * type ModalActionMappedProps<T> = { [U in keyof T as `action${Capitalize<U>}`]: T[U] }
- */
-type ModalActionDisabledProps =
-  | {
-      actionDisabledTooltip: ButtonDisabledProps['disabledTooltip']
-      actionDisabled: ButtonDisabledProps['disabled']
-    }
-  | {
-      actionDisabledTooltip?: never
-      actionDisabled?: never
-    }
-
-type ModalActionIconProps =
-  | {
-      actionIconLeft: ButtonAccessibleIconLeftProps['iconLeft']
-      actionIconLeftAriaLabel: ButtonAccessibleIconLeftProps['iconLeftAriaLabel']
-    }
-  | {
-      actionIconLeft?: never
-      actionIconLeftAriaLabel?: never
-    }
-
-type ModalActionCoreProps =
-  | {
-      // Note: Source of `onClick` is nullable property from ButtonHTMLAttributes<HTMLButtonElement>
-      onAction: NonNullable<ButtonProps['onClick']>
-      actionLabel: string
-    }
-  | { onAction?: never; actionLabel?: never }
-
-export type ModalActionProps = ModalActionCoreProps & {
-  actionKind?: ButtonProps['kind']
-} & ModalActionDisabledProps &
-  ModalActionIconProps
+export type ModalActionProps = ButtonProps
 
 export type ModalProps = {
   closable?: boolean
@@ -56,8 +17,8 @@ export type ModalProps = {
   title: string
   onClose: ReactModalProps['onRequestClose']
   footerClassName?: string
+  actions?: ModalActionProps[]
 } & DataTestProp &
-  ModalActionProps &
   Exclude<ReactModalProps, 'onRequestClose' | 'shouldFocusAfterRender' | 'shouldReturnFocusAfterClose'>
 
 /*
@@ -73,6 +34,7 @@ export type ModalProps = {
  * - To close the Modal, use "Cancel" button in the footer, "X" button in the header, press "Esc" key or click anywhere on the "blanket".
  */
 export const Modal: FC<ModalProps> = ({
+  actions,
   'data-test': dataTest,
   children,
   className,
@@ -81,71 +43,40 @@ export const Modal: FC<ModalProps> = ({
   onClose,
   overlayClassName,
   title,
-  ...restWithActionButton
-}) => {
-  const {
-    actionKind,
-    actionLabel,
-    // Disabled
-    actionDisabled = false,
-    actionDisabledTooltip,
-    // Icon
-    actionIconLeft,
-    actionIconLeftAriaLabel,
-    // Rest
-    onAction,
-    ...rest
-  } = restWithActionButton
-
-  return (
-    <ReactModal
-      contentLabel={title}
-      className={cn(styles.modal, className)}
-      overlayClassName={cn(styles.overlay, overlayClassName)}
-      data-test={dataTest}
-      onRequestClose={onClose}
-      shouldCloseOnEsc={closable}
-      shouldCloseOnOverlayClick={closable}
-      shouldFocusAfterRender
-      shouldReturnFocusAfterClose
-      {...rest}
-    >
-      <div className={styles.outline} />
-      <div className={styles.container}>
-        <div data-test="modal-header" className={styles.header}>
-          <h3 data-test="modal-title">{title}</h3>
-          <div className={styles.close}>
-            {/* TODO: Get color */}
-            <IconButton data-test="modal-button-close" kind="transparent" size="small" ariaLabel="Close icon" icon={X} onClick={onClose} />
-          </div>
-        </div>
-        <div data-test="modal-content">{children}</div>
-        <div data-test="modal-footer" className={cn(styles.footer, footerClassName)}>
-          <Button data-test="modal-button-cancel" kind="secondary" onClick={onClose}>
-            Cancel
-          </Button>
-          {onAction && actionLabel && (
-            <Button
-              data-test="modal-button-action"
-              kind={actionKind}
-              onClick={onAction}
-              type="button"
-              {...(actionDisabled &&
-                actionDisabledTooltip && {
-                  disabled: actionDisabled,
-                  disabledTooltip: actionDisabledTooltip,
-                })}
-              {...(actionIconLeft &&
-                actionIconLeftAriaLabel && {
-                  iconLeft: actionIconLeft,
-                  iconLeftAriaLabel: actionIconLeftAriaLabel,
-                })}
-            >
-              {actionLabel}
-            </Button>
-          )}
+  ...rest
+}) => (
+  <ReactModal
+    contentLabel={title}
+    className={cn(styles.modal, className)}
+    overlayClassName={cn(styles.overlay, overlayClassName)}
+    data-test={dataTest}
+    onRequestClose={onClose}
+    shouldCloseOnEsc={closable}
+    shouldCloseOnOverlayClick={closable}
+    shouldFocusAfterRender
+    shouldReturnFocusAfterClose
+    {...rest}
+  >
+    <div className={styles.outline} />
+    <div className={styles.container}>
+      <div data-test="modal-header" className={styles.header}>
+        <h3 data-test="modal-title">{title}</h3>
+        <div className={styles.close}>
+          {/* TODO: Get color */}
+          <IconButton data-test="modal-button-close" kind="transparent" size="small" ariaLabel="Close icon" icon={X} onClick={onClose} />
         </div>
       </div>
-    </ReactModal>
-  )
-}
+      <div data-test="modal-content">{children}</div>
+      <div data-test="modal-footer" className={cn(styles.footer, footerClassName)}>
+        <Button data-test="modal-button-cancel" kind="secondary" onClick={onClose}>
+          Cancel
+        </Button>
+        {actions?.map(({ children, ...actionPropsRest }, key) => (
+          <Button key={key} data-test="modal-button-action" {...actionPropsRest}>
+            {children}
+          </Button>
+        ))}
+      </div>
+    </div>
+  </ReactModal>
+)

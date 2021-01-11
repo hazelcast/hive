@@ -76,8 +76,7 @@
     // TODO: Get color
     border-top: c.$borderWidth solid c.$colorNeutralLight;
 
-    // There are <0; 2> buttons, assert the margin only if there are 2
-    & > button:nth-of-type(2) {
+    & > button:not(:first-of-type) {
       margin-left: c.$grid * 3;
     }
   }
