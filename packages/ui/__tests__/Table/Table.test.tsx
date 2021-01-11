@@ -42,9 +42,8 @@ describe('Table', () => {
       className: styles.table,
       'aria-rowcount': smallDataSet.length + 1,
       role: 'table',
-      style: {
-        minWidth: '150px',
-      },
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      style: expect.anything(),
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       children: expect.anything(),
     })
@@ -61,11 +60,8 @@ describe('Table', () => {
     expect(headerRow.props()).toEqual<PropsWithChildren<RowProps>>({
       ariaRowIndex: 1,
       role: 'row',
-      style: {
-        display: 'flex',
-        flex: '1 0 auto',
-        minWidth: '150px',
-      },
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      style: expect.anything(),
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       children: expect.anything(),
     })
@@ -85,13 +81,8 @@ describe('Table', () => {
         onClick: undefined,
         colSpan: 1,
         role: 'columnheader',
-        style: {
-          boxSizing: 'border-box',
-          flex: '150 0 auto',
-          minWidth: '30px',
-          position: 'relative',
-          width: '150px',
-        },
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        style: expect.anything(),
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         children: expect.anything(),
       })
@@ -125,11 +116,8 @@ describe('Table', () => {
         // 1 for header row, 1 because we're indexing from 0
         ariaRowIndex: i + 2,
         role: 'row',
-        style: {
-          display: 'flex',
-          flex: '1 0 auto',
-          minWidth: '150px',
-        },
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        style: expect.anything(),
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         children: expect.anything(),
       })
@@ -139,12 +127,8 @@ describe('Table', () => {
         expect(cell.props()).toEqual<PropsWithChildren<CellProps>>({
           align: columns[j].align,
           role: 'cell',
-          style: {
-            boxSizing: 'border-box',
-            flex: '150 0 auto',
-            minWidth: '30px',
-            width: '150px',
-          },
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          style: expect.anything(),
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           children: expect.anything(),
         })
@@ -203,11 +187,8 @@ describe('Table', () => {
     expect(footerRow.props()).toEqual<PropsWithChildren<RowProps>>({
       ariaRowIndex: 12,
       role: 'row',
-      style: {
-        display: 'flex',
-        flex: '1 0 auto',
-        minWidth: '150px',
-      },
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      style: expect.anything(),
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       children: expect.anything(),
     })
@@ -218,12 +199,8 @@ describe('Table', () => {
         align: columns[i].align,
         colSpan: 1,
         role: 'cell',
-        style: {
-          boxSizing: 'border-box',
-          flex: '150 0 auto',
-          minWidth: '30px',
-          width: '150px',
-        },
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        style: expect.anything(),
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         children: expect.anything(),
       })
@@ -267,14 +244,8 @@ describe('Table', () => {
       onClick: expect.anything(),
       colSpan: 1,
       role: 'columnheader',
-      style: {
-        boxSizing: 'border-box',
-        cursor: 'pointer',
-        flex: '150 0 auto',
-        minWidth: '30px',
-        position: 'relative',
-        width: '150px',
-      },
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      style: expect.anything(),
       // We ignore typescript error here since `title` prop is not described in @types/react-table and we're not using it anyway.
       // TODO: Remove once the types are correct
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment

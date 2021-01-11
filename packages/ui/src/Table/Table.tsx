@@ -21,6 +21,7 @@ import { Header } from './Header'
 import { HeaderRow, LinkRow, Row } from './Row'
 
 import styles from './Table.module.scss'
+import styleConsts from '../../styles/constants/export.module.scss'
 
 /**
  * `defaultPageSize` should be one of the values in `pageSizeOptions`.
@@ -69,9 +70,9 @@ type TableProps<D extends object> = TableOptions<D> & ExtendedPaginationProps & 
 
 const column = {
   // When using the useFlexLayout:
-  minWidth: 30, // minWidth is only used as a limit for resizing
-  width: 150, // width is used for both the flex-basis and flex-grow
-  maxWidth: 200, // maxWidth is only used as a limit for resizing
+  minWidth: Number(styleConsts.tableColumnMinWidth), // minWidth is only used as a limit for resizing
+  width: Number(styleConsts.tableColumnWidth), // width is used for both the flex-basis and flex-grow
+  maxWidth: Number(styleConsts.tableColumnMaxWidth), // maxWidth is only used as a limit for resizing
 }
 
 // Inspiration here: https://react-table.tanstack.com/docs/examples/basic
