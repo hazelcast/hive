@@ -23,6 +23,10 @@
   // TODO: Get color
   box-shadow: c.$grid * 1.25 c.$grid * 5 c.$grid * 20 0 #353d49;
 
+  .close {
+    margin-left: c.$grid * 3;
+  }
+
   .outline {
     position: absolute;
     border-radius: c.$borderRadius;
