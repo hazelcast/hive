@@ -1,12 +1,8 @@
 import React, { useState } from 'react'
-import { Form, Formik } from 'formik'
 import { logger } from '@hazelcast/services'
 
 import { SelectFieldOption } from '../src/SelectField'
 import { MultiSelect } from '../src'
-import { formDecorator } from './decorators'
-
-import styles from '../src/MultiSelect.module.scss'
 
 export default {
   title: 'Components/MultiSelect',
