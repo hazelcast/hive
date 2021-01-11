@@ -13,9 +13,10 @@ interface TruncatedTextProps {
   // Pass a new value to trigger a force re-render
   forceUpdateToken?: ReactText
   className?: string
+  tooltipVisible?: boolean
 }
 
-export const TruncatedText: FC<TruncatedTextProps> = ({ text, forceUpdateToken, className }) => {
+export const TruncatedText: FC<TruncatedTextProps> = ({ text, forceUpdateToken, className, tooltipVisible }) => {
   const textRef = useRef<HTMLDivElement>(null)
   const [tooltip, setTooltip] = useState<ReactChild | undefined>()
   const idTooltip = useUID()
@@ -32,7 +33,7 @@ export const TruncatedText: FC<TruncatedTextProps> = ({ text, forceUpdateToken, 
   }, [text, forceUpdateToken])
 
   return (
-    <Tooltip id={idTooltip} placement="top" content={tooltip}>
+    <Tooltip id={idTooltip} placement="top" content={tooltip} visible={tooltipVisible}>
       {(ref) => (
         <div ref={mergeRefs([textRef, ref])} className={cn(styles.truncatedText, className)}>
           <span aria-labelledby={tooltip ? idTooltip : undefined}>{text}</span>

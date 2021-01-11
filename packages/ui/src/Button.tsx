@@ -180,7 +180,16 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
                   color={iconLeftColor}
                 />
               )}
-              <TruncatedText text={capitalize ? children.toUpperCase() : children} />
+              <TruncatedText
+                text={capitalize ? children.toUpperCase() : children}
+                /*
+                  If a button is disabled and text is long we don't want to show 2 popups.
+                  1. In case a button is disabled and no `disabledTooltipVisible` is enforced, we just hide truncated popup.
+                  2. In case a button is disabled and disabledTooltip is hidden with a false flag, there is a space to show
+                  the truncated popup -> setting it to undefined will leave the default behaviour.
+                */
+                tooltipVisible={disabled && disabledTooltipVisible !== false ? false : undefined}
+              />
               {iconRight && iconRightAriaLabel && (
                 <Icon
                   icon={iconRight}

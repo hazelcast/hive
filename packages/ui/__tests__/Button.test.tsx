@@ -6,6 +6,7 @@ import { Tooltip } from '../src/Tooltip'
 import { Button, ButtonKind } from '../src/Button'
 
 import styles from '../src/Button.module.scss'
+import { TruncatedText } from '../src'
 
 const label = 'LABEL'
 const ariaLabel = 'X Icon'
@@ -114,6 +115,40 @@ describe('Button', () => {
     expect(wrapper.find('button').prop('disabled')).toBe(true)
     expect(wrapper.find(Tooltip).at(0).props()).toMatchObject({
       content: disabledTooltip,
+    })
+  })
+
+  it('Renders disabled button, tooltip is enabled, correct tooltipVisible flag passed to TruncatedText', async () => {
+    const disabledTooltip = 'Disabled tooltip'
+
+    const wrapper = await mountAndCheckA11Y(
+      // div is required because `axe` cannot validate react fragments
+      <div>
+        <Button disabled disabledTooltip={disabledTooltip}>
+          {label}
+        </Button>
+      </div>,
+    )
+
+    expect(wrapper.find(TruncatedText).props()).toMatchObject({
+      tooltipVisible: false,
+    })
+  })
+
+  it('Renders disabled button, tooltip is disabled, correct tooltipVisible flag passed to TruncatedText', async () => {
+    const disabledTooltip = 'Disabled tooltip'
+
+    const wrapper = await mountAndCheckA11Y(
+      // div is required because `axe` cannot validate react fragments
+      <div>
+        <Button disabled disabledTooltip={disabledTooltip} disabledTooltipVisible={false}>
+          {label}
+        </Button>
+      </div>,
+    )
+
+    expect(wrapper.find(TruncatedText).props()).toMatchObject({
+      tooltipVisible: undefined,
     })
   })
 
