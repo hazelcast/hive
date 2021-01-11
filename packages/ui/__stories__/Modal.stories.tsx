@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import cn from 'classnames'
-import { v4 as uuid } from 'uuid'
+import { useUID } from 'react-uid'
 
 import { Modal, ModalProps } from '../src/Modal'
 
@@ -18,7 +18,7 @@ const actionLabel = 'Action'
 const disabledTooltip = 'Disabled Tooltip'
 
 const ModalWithPortalFactory: FC<ModalProps> = ({ children, className, ...props }) => {
-  const id = `s${uuid()}`
+  const id = `s${useUID()}`
   return (
     <div id={id} className={utilsStyles.modalWrapper}>
       <Modal {...props} className={cn(className, utilsStyles.modal)} parentSelector={() => document.querySelector(`#${id}`) as HTMLElement}>

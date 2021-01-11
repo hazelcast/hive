@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import cn from 'classnames'
-import { v4 as uuid } from 'uuid'
+import { useUID } from 'react-uid'
 
 import { Dialog, DialogProps } from '../src/Dialog'
 
@@ -20,7 +20,7 @@ const actionLabel = 'Action'
 const disabledTooltip = 'Disabled Tooltip'
 
 const DialogWithPortalFactory: FC<DialogProps> = ({ children, modalClassName, ...props }) => {
-  const id = `s${uuid()}`
+  const id = `s${useUID()}`
   return (
     <div id={id} className={utilsStyles.modalWrapper}>
       <Dialog
