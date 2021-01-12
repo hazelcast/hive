@@ -55,7 +55,6 @@ export const Modal: FC<ModalProps> = ({
     onRequestClose={onClose}
     shouldCloseOnEsc={closable}
     shouldCloseOnOverlayClick={closable}
-    shouldFocusAfterRender
     shouldReturnFocusAfterClose
     {...rest}
   >
