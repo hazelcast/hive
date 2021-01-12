@@ -19,7 +19,7 @@ const actionDisabledTooltip = 'Disabled Tooltip'
 const affirmation = 'Are you sure, young padawan?'
 const consequences = 'This action may disturb the Force.'
 
-const DialogWithPortalFactory: FC<DialogProps> = ({ children, modalClassName, ...props }) => {
+const DialogWithPortalFactory: FC<DialogProps> = ({ modalClassName, ...props }) => {
   const id = `s${useUID()}`
   return (
     <div id={id} className={utilsStyles.modalWrapper}>
@@ -27,9 +27,7 @@ const DialogWithPortalFactory: FC<DialogProps> = ({ children, modalClassName, ..
         {...props}
         modalClassName={cn(modalClassName, utilsStyles.modal)}
         parentSelector={() => document.querySelector(`#${id}`) as HTMLElement}
-      >
-        {children}
-      </Dialog>
+      />
     </div>
   )
 }

@@ -7,7 +7,6 @@ const dialogTitle = 'Dialog Title'
 const dialogAction = 'Action'
 const dialogAffirmation = 'Dialog affirmation'
 const dialogConsequences = 'Dialog consequences'
-const dialogContent = 'Content'
 
 describe('Dialog', () => {
   beforeAll(() => {
@@ -19,9 +18,7 @@ describe('Dialog', () => {
     const actionOnConfirm = jest.fn()
 
     const wrapper = mount(
-      <Dialog isOpen title={dialogTitle} onClose={onClose} actionChildren={dialogAction} actionOnConfirm={actionOnConfirm}>
-        {dialogContent}
-      </Dialog>,
+      <Dialog isOpen title={dialogTitle} onClose={onClose} actionChildren={dialogAction} actionOnConfirm={actionOnConfirm} />,
     )
 
     expect(wrapper.find(ReactModal).props()).toMatchObject({
@@ -39,7 +36,6 @@ describe('Dialog', () => {
 
     expect(wrapper.findDataTest('dialog-affirmation').text()).toEqual(DIALOG_AFFIRMATION_DEFAULT)
     expect(wrapper.findDataTest('dialog-consequences').exists()).toBeFalsy()
-    expect(wrapper.findDataTest('dialog-children').text()).toBe(dialogContent)
   })
 
   it('Renders custom affirmation clause', () => {
@@ -54,9 +50,7 @@ describe('Dialog', () => {
         actionChildren={dialogAction}
         actionOnConfirm={actionOnConfirm}
         affirmation={dialogAffirmation}
-      >
-        {dialogContent}
-      </Dialog>,
+      />,
     )
 
     expect(wrapper.find(ReactModal).props()).toMatchObject({
@@ -74,7 +68,6 @@ describe('Dialog', () => {
 
     expect(wrapper.findDataTest('dialog-affirmation').text()).toEqual(dialogAffirmation)
     expect(wrapper.findDataTest('dialog-consequences').exists()).toBeFalsy()
-    expect(wrapper.findDataTest('dialog-children').text()).toBe(dialogContent)
   })
 
   it('Renders consequences clause', () => {
@@ -90,9 +83,7 @@ describe('Dialog', () => {
         actionOnConfirm={actionOnConfirm}
         affirmation={dialogAffirmation}
         consequences={dialogConsequences}
-      >
-        {dialogContent}
-      </Dialog>,
+      />,
     )
 
     expect(wrapper.find(ReactModal).props()).toMatchObject({
@@ -110,6 +101,5 @@ describe('Dialog', () => {
 
     expect(wrapper.findDataTest('dialog-affirmation').text()).toEqual(dialogAffirmation)
     expect(wrapper.findDataTest('dialog-consequences').text()).toEqual(dialogConsequences)
-    expect(wrapper.findDataTest('dialog-children').text()).toBe(dialogContent)
   })
 })

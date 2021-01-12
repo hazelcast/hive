@@ -1,6 +1,5 @@
 import React, { FC, ReactNode, useMemo } from 'react'
 import { Modal, ModalProps, ModalActionProps } from './Modal'
-import { ButtonKind } from './Button'
 
 import styles from './Dialog.module.scss'
 
@@ -46,7 +45,6 @@ export const Dialog: FC<DialogProps> = ({
   onClose,
   consequences,
   affirmation = DIALOG_AFFIRMATION_DEFAULT,
-  children,
   parentSelector,
   actionChildren,
   actionDangerous,
@@ -59,7 +57,7 @@ export const Dialog: FC<DialogProps> = ({
       actionChildren && actionOnConfirm
         ? [
             {
-              kind: actionDangerous ? 'danger' : ('primary' as ButtonKind),
+              kind: actionDangerous ? 'danger' : 'primary',
               ...(actionDisabled &&
                 actionDisabledTooltip && {
                   disabled: actionDisabled,
@@ -88,11 +86,6 @@ export const Dialog: FC<DialogProps> = ({
         {consequences && (
           <div data-test="dialog-consequences" className={styles.consequences}>
             {consequences}
-          </div>
-        )}
-        {children && (
-          <div data-test="dialog-children" className={styles.children}>
-            {children}
           </div>
         )}
       </div>
