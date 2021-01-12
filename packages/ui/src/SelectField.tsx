@@ -13,6 +13,7 @@ import { Icon } from './Icon'
 import { IconButton } from './IconButton'
 import { canUseDOM } from './utils/ssr'
 
+import styleConsts from '../styles/constants/export.module.scss'
 import styles from './SelectField.module.scss'
 
 const DropdownIndicator = () => <Icon icon={ChevronDown} ariaHidden size="normal" className={styles.chevron} />
@@ -40,6 +41,7 @@ export type SelectFieldCoreStaticProps = {
   name: string
   onBlur?: (e: FocusEvent<HTMLElement>) => void
   error?: string
+  isMulti?: boolean
 }
 export type SelectFieldCoreDynamicProps<V> =
   | {
@@ -81,6 +83,7 @@ export const SelectField = <V,>({
   className,
   error,
   errorClassName,
+  isMulti = false,
   isClearable,
   disabled,
   isSearchable = true,
@@ -102,6 +105,27 @@ export const SelectField = <V,>({
       menuContainer.className = `${menuContainer.className} ${styles.menuContainer}`
     }
   }, [menuPortalTarget])
+
+  // Custom styling
+  //
+  // This is the recommend way of styling react-select:
+  // (https://react-select.com/styles#using-classnames)
+  //
+  // ps. Also it's impossible to style the focused state of
+  // multiValue tags via CSS.
+  const customStyles = {
+    multiValueRemove: (styles: any, { isFocused }: { [key: string]: any }) => ({
+      ...styles,
+      backgroundColor: isFocused && styleConsts.colorWarning,
+      borderWidth: isFocused && 1,
+      borderStyle: isFocused && 'solid',
+      borderColor: isFocused && styleConsts.colorAccessibilityOutline,
+      ':hover': {
+        backgroundColor: styleConsts.colorWarning,
+        borderColor: styleConsts.colorPrimary
+      },
+    }),
+  };
 
   return (
     <div
@@ -132,8 +156,9 @@ export const SelectField = <V,>({
           aria-required={required}
           isClearable={isClearable ?? false}
           isDisabled={disabled}
-          isMulti={false}
           isSearchable={isSearchable}
+          isMulti={isMulti}
+          styles={customStyles}
           name={name}
           value={value}
           onChange={onChange as (value: ValueType<SelectFieldOption<V>>, action: ActionMeta<SelectFieldOption<V>>) => void}

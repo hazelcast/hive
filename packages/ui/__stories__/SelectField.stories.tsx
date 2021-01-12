@@ -300,6 +300,41 @@ export const NonSearchableOpen = () => {
   )
 }
 
+export const MultipleSelections = () => {
+  const [currentValue, setValue] = useState([options[1], options[2]])
+  return (
+    <SelectField name={name} value={currentValue} isMulti={true} label={label} options={options} onBlur={() => logger.log('blur')} onChange={setValue} />
+  )
+}
+
+export const MultipleSelectionsMultipleRows = () => {
+  const [currentValue, setValue] = useState([...options])
+  return (
+    <SelectField name={name} value={currentValue} isMulti={true} label={label} options={options} onBlur={() => logger.log('blur')} onChange={setValue} />
+  )
+}
+
+export const MultipleSelectionsAndOpen = () => {
+  // xxx this is still problematic :/
+  const [currentValue, setValue] = useState([options[1], options[2]])
+  const ref = useRef<HTMLDivElement>(null)
+  return (
+    <div ref={ref} style={{ height: 350 }}>
+      <SelectField
+        name="name"
+        value={currentValue}
+        isMulti={true}
+        label="Character"
+        options={options}
+        onBlur={() => logger.log('blur')}
+        onChange={setValue}
+        menuIsOpen
+        menuPortalTarget={ref.current}
+      />
+    </div>
+  )
+}
+
 export const SelectFieldWrappedInFormik = () => {
   type Values = {
     character: SelectFieldOption<string>

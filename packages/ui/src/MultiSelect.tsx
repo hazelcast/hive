@@ -1,15 +1,9 @@
-import React, { FC } from 'react'
-import cn from 'classnames'
-
+import React, { ReactElement } from 'react'
 import { SelectField, SelectProps } from './SelectField'
 
 import styleConsts from '../styles/constants/export.module.scss'
 
-type MultiSelectCoreProps = {}
-
-type MultiSelectProps<V> = SelectProps<V> & MultiSelectCoreProps
-
-export const MultiSelect: FC<MultiSelectProps> = ({ ...rest }) => {
+export const MultiSelect = <V,>({ ...rest }: SelectProps<V>): ReactElement<SelectProps<V>> => {
   // This is the recommend way of styling react-select:
   // ps. Also it's impossible to style the focused state of
   // multiValue tags via CSS.
