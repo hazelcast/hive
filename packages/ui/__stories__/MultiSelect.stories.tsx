@@ -35,3 +35,10 @@ Default.parameters = {
     url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE-Hazelcast-Design-System?node-id=10187%3A30',
   },
 }
+
+export const MultipleRows = () => {
+  const [currentValue, setValue] = useState([...options])
+  return (
+    <MultiSelect name={name} value={currentValue} label={label} options={options} onBlur={() => logger.log('blur')} onChange={setValue} />
+  )
+}

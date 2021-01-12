@@ -53,7 +53,7 @@ $select: ':global .hz-select-field__control';
   #{$select} {
     cursor: pointer;
     color: c.$colorText;
-    height: c.$inputHeight;
+    min-height: c.$inputHeight;
     padding-left: c.$grid * 3;
     padding-right: c.$grid * 2;
     box-sizing: border-box;
