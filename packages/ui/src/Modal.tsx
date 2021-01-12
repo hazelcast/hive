@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from 'react'
-import ReactModal, { Props as ReactModalProps } from 'react-modal'
+import ReactModal, { Props as ReactModalProps, setAppElement as setAppElementRM } from 'react-modal'
 import cn from 'classnames'
 import { DataTestProp } from '@hazelcast/helpers'
 import { X } from 'react-feather'
@@ -8,6 +8,8 @@ import { IconButton } from './IconButton'
 
 import styles from './Modal.module.scss'
 import { Button, ButtonProps } from './Button'
+
+export const setAppElement = setAppElementRM
 
 export type ModalActionProps = ButtonProps
 
