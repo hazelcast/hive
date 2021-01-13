@@ -138,7 +138,7 @@ export const Pagination: FC<PaginationProps> = ({
       )}
 
       {pageCount > 1 && (
-        <div className={styles.buttons}>
+        <div data-test="pagination-buttons" className={styles.buttons}>
           {pages.map((page, i) => {
             if (page === 'previous') {
               return canPreviousPage ? (
@@ -166,6 +166,7 @@ export const Pagination: FC<PaginationProps> = ({
                 />
               ) : null
             }
+
             if (page === 'ellipsis') {
               return <span key={`ellipsis-${i}`}>&ndash;</span>
             }

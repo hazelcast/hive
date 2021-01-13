@@ -1,8 +1,11 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { logger } from '@hazelcast/services'
 
-import { FetchDataProps, Table } from '../src/Table/Table'
+import { FetchDataProps, PaginationOptions, Table } from '../src/Table/Table'
 import { getColumns, makeData, Person } from '../__tests__/Table/utils'
+import { Toggle } from '../src/Toggle'
+
+import styles from './Table.stories.module.scss'
 
 export default {
   title: 'Components/Table',
@@ -12,10 +15,86 @@ export default {
 const smallDataSet = makeData(10)
 const bigDataSet = makeData(10000)
 
-export const Basic = () => {
-  const columns = useMemo(() => getColumns({}), [])
+export const Default = () => {
+  const [withFooter, setWithFooter] = useState(false)
+  const [sorting, setSorting] = useState(false)
+  const [paginate, setPaginate] = useState(false)
+  const [showRowsSelect, setShowRowsSelect] = useState(true)
+  const [showRangeOfShownItems, setShowRangeOfShownItems] = useState(true)
+  const [showPageJump, setShowPageJump] = useState(true)
 
-  return <Table columns={columns} data={smallDataSet} disableSortBy hidePagination />
+  const paginationOptions: PaginationOptions = {
+    showRangeOfShownItems,
+    showPageJump,
+    showRowsSelect,
+  }
+
+  return (
+    <>
+      <Table
+        columns={getColumns({ withFooter })}
+        data={bigDataSet}
+        disableSortBy={!sorting}
+        hidePagination={!paginate}
+        paginationOptions={paginationOptions}
+      />
+
+      <hr />
+      <div className={styles.toggles}>
+        <Toggle
+          name="default"
+          checked={withFooter}
+          label="Footer"
+          onChange={(e) => {
+            setWithFooter(e.target.checked)
+          }}
+        />
+        <Toggle
+          name="default"
+          checked={sorting}
+          label="Sorting"
+          onChange={(e) => {
+            setSorting(e.target.checked)
+          }}
+        />
+        <Toggle
+          name="default"
+          checked={paginate}
+          label="Pagination"
+          onChange={(e) => {
+            setPaginate(e.target.checked)
+          }}
+        />
+        <Toggle
+          name="default"
+          checked={showRowsSelect}
+          disabled={!paginate}
+          label="Show Row Select"
+          onChange={(e) => {
+            setShowRowsSelect(e.target.checked)
+          }}
+        />
+        <Toggle
+          name="default"
+          checked={showRangeOfShownItems}
+          disabled={!paginate}
+          label="Show Range of Shown Items"
+          onChange={(e) => {
+            setShowRangeOfShownItems(e.target.checked)
+          }}
+        />
+        <Toggle
+          name="default"
+          checked={showPageJump}
+          disabled={!paginate}
+          label="Show Page Jump"
+          onChange={(e) => {
+            setShowPageJump(e.target.checked)
+          }}
+        />
+      </div>
+    </>
+  )
 }
 
 export const Footer = () => {

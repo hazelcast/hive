@@ -23,6 +23,10 @@ import { HeaderRow, LinkRow, Row } from './Row'
 import styles from './Table.module.scss'
 import styleConsts from '../../styles/constants/export.module.scss'
 
+export type PaginationOptions = Partial<
+  Pick<PaginationProps, 'pageSizeOptions' | 'siblingCount' | 'showRangeOfShownItems' | 'showPageJump' | 'showRowsSelect'>
+>
+
 /**
  * `defaultPageSize` should be one of the values in `pageSizeOptions`.
  * If it's not it won't break anything but it is a bad UX
@@ -30,9 +34,8 @@ import styleConsts from '../../styles/constants/export.module.scss'
  * `defaultPageSize` again.
  */
 type ExtendedPaginationProps = {
-  defaultPageSize?: PaginationProps['pageSize']
-  pageSizeOptions?: PaginationProps['pageSizeOptions']
-  pageSiblingCount?: PaginationProps['siblingCount']
+  paginationOptions?: PaginationOptions
+  defaultPageSize?: number
   hidePagination?: boolean
 }
 
@@ -88,11 +91,10 @@ export const Table = <D extends object>({
   manualPagination,
   // TODO: ask Pawel to provide design for loading and empty state!
   // loading,
+  hidePagination = false,
   pageCount: controlledPageCount,
   defaultPageSize = 10,
-  pageSizeOptions = [5, 10, 20],
-  hidePagination = false,
-  pageSiblingCount,
+  paginationOptions,
   onRowClick,
   getHref,
   getCustomCellProps,
@@ -263,9 +265,9 @@ export const Table = <D extends object>({
           previousPage={previousPage}
           pageSize={pageSize}
           setPageSize={setPageSize}
-          pageSizeOptions={pageSizeOptions}
           numberOfItems={data.length}
-          siblingCount={pageSiblingCount}
+          pageSizeOptions={paginationOptions?.pageSizeOptions ?? [5, 10, 20]}
+          {...paginationOptions}
         />
       )}
     </div>

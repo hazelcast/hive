@@ -9,7 +9,7 @@ export type UsePaginationProps = {
   siblingCount?: number
 }
 
-const getZeroSiblingCountItems = (pageCount: number, currentPage: number): PaginationItem[] => {
+export const getZeroSiblingCountItems = (pageCount: number, currentPage: number): PaginationItem[] => {
   // If there are 3 or less pages we just show them all
   if (pageCount <= 3) {
     return range(1, pageCount)

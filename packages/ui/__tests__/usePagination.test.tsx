@@ -1,5 +1,5 @@
 import { testHook, getHookRes } from '@hazelcast/test-helpers'
-import { PaginationItem, usePagination, UsePaginationProps } from '../src/hooks/usePagination'
+import { getZeroSiblingCountItems, PaginationItem, usePagination, UsePaginationProps } from '../src/hooks/usePagination'
 
 describe('usePagination', () => {
   const data: [UsePaginationProps, PaginationItem[]][] = [
@@ -39,6 +39,36 @@ describe('usePagination', () => {
     const { spyHookRes } = testHook(() => usePagination(hookArgs))
     const items = getHookRes(spyHookRes)
 
-    expect(items).toStrictEqual(expectedHookRes)
+    expect(items).toEqual(expectedHookRes)
+  })
+
+  const zeroSiblingCountData: [UsePaginationProps['pageCount'], UsePaginationProps['currentPage'], PaginationItem[]][] = [
+    // Show everything
+    [1, 1, [1]],
+    [2, 1, [1, 2]],
+    [3, 1, [1, 2, 3]],
+    [3, 2, [1, 2, 3]],
+    [3, 3, [1, 2, 3]],
+
+    // Show max 3 pages (+ ellipsis)
+    [5, 1, [1, 2, 'ellipsis', 5]],
+    [5, 3, [1, 'ellipsis', 3, 'ellipsis', 5]],
+    [5, 5, [1, 'ellipsis', 4, 5]],
+
+    // A high number of pages
+    [100, 1, [1, 2, 'ellipsis', 100]],
+    [100, 2, [1, 2, 'ellipsis', 100]],
+    [100, 3, [1, 'ellipsis', 3, 'ellipsis', 100]],
+    [100, 25, [1, 'ellipsis', 25, 'ellipsis', 100]],
+    [100, 75, [1, 'ellipsis', 75, 'ellipsis', 100]],
+    [100, 98, [1, 'ellipsis', 98, 'ellipsis', 100]],
+    [100, 99, [1, 'ellipsis', 99, 100]],
+    [100, 100, [1, 'ellipsis', 99, 100]],
+  ]
+
+  it.each(zeroSiblingCountData)('for page count %p and current pge %p returns %p', (currentPage, pageCount, expectedRes) => {
+    const items = getZeroSiblingCountItems(currentPage, pageCount)
+
+    expect(items).toEqual(expectedRes)
   })
 })

@@ -14,11 +14,11 @@ import {
   ShownItemsRange,
 } from '../src/Pagination'
 import { SelectField, SelectFieldOption, SelectProps } from '../src/SelectField'
+import { IconButton, IconButtonProps } from '../src/IconButton'
 import { Button, ButtonProps } from '../src/Button'
 import { NumberFieldFormik, NumberFieldFormikProps } from '../src/NumberFieldFormik'
 
 import styles from '../src/Pagination.module.scss'
-import styleConsts from '../styles/constants/export.module.scss'
 
 describe('helpers', () => {
   describe('getShownItemsRange', () => {
@@ -97,6 +97,16 @@ const buttonPropsBase: ButtonProps = {
   children: 'Base',
 }
 
+const iconButtonPropsBase: IconButtonProps = {
+  kind: 'primary',
+  icon: ChevronRight,
+  ariaLabel: 'Base',
+  className: styles.iconButton,
+  outlineClassName: styles.outline,
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  onClick: expect.anything(),
+}
+
 const axeOptions = {
   ...axeDefaultOptions,
   rules: {
@@ -157,8 +167,15 @@ describe('Pagination', () => {
       children: '1 – 5 of 10000',
     })
 
-    const buttons = wrapper.find(Button)
-    expect(buttons).toHaveLength(7)
+    const iconButton = wrapper.findDataTest('pagination-buttons').find(IconButton)
+    expect(iconButton.props()).toEqual<IconButtonProps>({
+      ...iconButtonPropsBase,
+      icon: ChevronRight,
+      ariaLabel: 'Next page',
+    })
+
+    const buttons = wrapper.findDataTest('pagination-buttons').find(Button)
+    expect(buttons).toHaveLength(6)
     expect(buttons.at(0).props()).toEqual<ButtonProps>({
       ...buttonPropsBase,
       className: `${styles.button} ${styles.selected}`,
@@ -183,13 +200,6 @@ describe('Pagination', () => {
     expect(buttons.at(5).props()).toEqual<ButtonProps>({
       ...buttonPropsBase,
       children: '2000',
-    })
-    expect(buttons.at(6).props()).toEqual<ButtonProps>({
-      ...buttonPropsBase,
-      iconRight: ChevronRight,
-      iconRightColor: styleConsts.colorPrimary,
-      iconRightAriaLabel: 'Next page',
-      children: 'Next',
     })
 
     const formik = wrapper.find(Formik)
@@ -244,42 +254,41 @@ describe('Pagination', () => {
       children: '4996 – 5000 of 10000',
     })
 
-    const buttons = wrapper.find(Button)
-    expect(buttons).toHaveLength(7)
-    expect(buttons.at(0).props()).toEqual<ButtonProps>({
-      ...buttonPropsBase,
-      iconLeft: ChevronLeft,
-      iconLeftColor: styleConsts.colorPrimary,
-      iconLeftAriaLabel: 'Previous page',
-      children: 'Previous',
+    const iconButton = wrapper.findDataTest('pagination-buttons').find(IconButton)
+    expect(iconButton).toHaveLength(2)
+    expect(iconButton.at(0).props()).toEqual<IconButtonProps>({
+      ...iconButtonPropsBase,
+      icon: ChevronLeft,
+      ariaLabel: 'Previous page',
     })
-    expect(buttons.at(1).props()).toEqual<ButtonProps>({
+    expect(iconButton.at(1).props()).toEqual<IconButtonProps>({
+      ...iconButtonPropsBase,
+      icon: ChevronRight,
+      ariaLabel: 'Next page',
+    })
+
+    const buttons = wrapper.find(Button)
+    expect(buttons).toHaveLength(5)
+    expect(buttons.at(0).props()).toEqual<ButtonProps>({
       ...buttonPropsBase,
       children: '1',
     })
-    expect(buttons.at(2).props()).toEqual<ButtonProps>({
+    expect(buttons.at(1).props()).toEqual<ButtonProps>({
       ...buttonPropsBase,
       children: '999',
     })
-    expect(buttons.at(3).props()).toEqual<ButtonProps>({
+    expect(buttons.at(2).props()).toEqual<ButtonProps>({
       ...buttonPropsBase,
       className: `${styles.button} ${styles.selected}`,
       children: '1000',
     })
-    expect(buttons.at(4).props()).toEqual<ButtonProps>({
+    expect(buttons.at(3).props()).toEqual<ButtonProps>({
       ...buttonPropsBase,
       children: '1001',
     })
-    expect(buttons.at(5).props()).toEqual<ButtonProps>({
+    expect(buttons.at(4).props()).toEqual<ButtonProps>({
       ...buttonPropsBase,
       children: '2000',
-    })
-    expect(buttons.at(6).props()).toEqual<ButtonProps>({
-      ...buttonPropsBase,
-      iconRight: ChevronRight,
-      iconRightColor: styleConsts.colorPrimary,
-      iconRightAriaLabel: 'Next page',
-      children: 'Next',
     })
   })
 
@@ -313,36 +322,36 @@ describe('Pagination', () => {
       children: '9996 – 10000 of 10000',
     })
 
-    const buttons = wrapper.find(Button)
-    expect(buttons).toHaveLength(7)
-    expect(buttons.at(0).props()).toEqual<ButtonProps>({
-      ...buttonPropsBase,
-      iconLeft: ChevronLeft,
-      iconLeftColor: styleConsts.colorPrimary,
-      iconLeftAriaLabel: 'Previous page',
-      children: 'Previous',
+    const iconButton = wrapper.findDataTest('pagination-buttons').find(IconButton)
+    expect(iconButton.props()).toEqual<IconButtonProps>({
+      ...iconButtonPropsBase,
+      icon: ChevronLeft,
+      ariaLabel: 'Previous page',
     })
-    expect(buttons.at(1).props()).toEqual<ButtonProps>({
+
+    const buttons = wrapper.find(Button)
+    expect(buttons).toHaveLength(6)
+    expect(buttons.at(0).props()).toEqual<ButtonProps>({
       ...buttonPropsBase,
       children: '1',
     })
-    expect(buttons.at(2).props()).toEqual<ButtonProps>({
+    expect(buttons.at(1).props()).toEqual<ButtonProps>({
       ...buttonPropsBase,
       children: '1996',
     })
-    expect(buttons.at(3).props()).toEqual<ButtonProps>({
+    expect(buttons.at(2).props()).toEqual<ButtonProps>({
       ...buttonPropsBase,
       children: '1997',
     })
-    expect(buttons.at(4).props()).toEqual<ButtonProps>({
+    expect(buttons.at(3).props()).toEqual<ButtonProps>({
       ...buttonPropsBase,
       children: '1998',
     })
-    expect(buttons.at(5).props()).toEqual<ButtonProps>({
+    expect(buttons.at(4).props()).toEqual<ButtonProps>({
       ...buttonPropsBase,
       children: '1999',
     })
-    expect(buttons.at(6).props()).toEqual<ButtonProps>({
+    expect(buttons.at(5).props()).toEqual<ButtonProps>({
       ...buttonPropsBase,
       className: `${styles.button} ${styles.selected}`,
       children: '2000',
@@ -383,42 +392,41 @@ describe('Pagination', () => {
       children: '4996 – 5000 of 10000',
     })
 
-    const buttons = wrapper.find(Button)
-    expect(buttons).toHaveLength(7)
-    expect(buttons.at(0).props()).toEqual<ButtonProps>({
-      ...buttonPropsBase,
-      iconLeft: ChevronLeft,
-      iconLeftColor: styleConsts.colorPrimary,
-      iconLeftAriaLabel: 'Previous page',
-      children: 'Previous',
+    const iconButton = wrapper.findDataTest('pagination-buttons').find(IconButton)
+    expect(iconButton).toHaveLength(2)
+    expect(iconButton.at(0).props()).toEqual<IconButtonProps>({
+      ...iconButtonPropsBase,
+      icon: ChevronLeft,
+      ariaLabel: 'Previous page',
     })
-    expect(buttons.at(1).props()).toEqual<ButtonProps>({
+    expect(iconButton.at(1).props()).toEqual<IconButtonProps>({
+      ...iconButtonPropsBase,
+      icon: ChevronRight,
+      ariaLabel: 'Next page',
+    })
+
+    const buttons = wrapper.find(Button)
+    expect(buttons).toHaveLength(5)
+    expect(buttons.at(0).props()).toEqual<ButtonProps>({
       ...buttonPropsBase,
       children: '1',
     })
-    expect(buttons.at(2).props()).toEqual<ButtonProps>({
+    expect(buttons.at(1).props()).toEqual<ButtonProps>({
       ...buttonPropsBase,
       children: '999',
     })
-    expect(buttons.at(3).props()).toEqual<ButtonProps>({
+    expect(buttons.at(2).props()).toEqual<ButtonProps>({
       ...buttonPropsBase,
       className: `${styles.button} ${styles.selected}`,
       children: '1000',
     })
-    expect(buttons.at(4).props()).toEqual<ButtonProps>({
+    expect(buttons.at(3).props()).toEqual<ButtonProps>({
       ...buttonPropsBase,
       children: '1001',
     })
-    expect(buttons.at(5).props()).toEqual<ButtonProps>({
+    expect(buttons.at(4).props()).toEqual<ButtonProps>({
       ...buttonPropsBase,
       children: '2000',
-    })
-    expect(buttons.at(6).props()).toEqual<ButtonProps>({
-      ...buttonPropsBase,
-      iconRight: ChevronRight,
-      iconRightColor: styleConsts.colorPrimary,
-      iconRightAriaLabel: 'Next page',
-      children: 'Next',
     })
   })
 
@@ -446,32 +454,33 @@ describe('Pagination', () => {
       { axeOptions },
     )
 
-    const buttons = wrapper.find(Button)
+    const iconButtons = wrapper.findDataTest('pagination-buttons').find(IconButton)
+    const buttons = wrapper.findDataTest('pagination-buttons').find(Button)
     expect(previousPage).toHaveBeenCalledTimes(0)
     expect(nextPage).toHaveBeenCalledTimes(0)
     expect(goToPage).toHaveBeenCalledTimes(0)
 
     // Let's click on `Previous` button
-    buttons.at(0).simulate('click')
+    iconButtons.at(0).simulate('click')
     expect(previousPage).toHaveBeenCalledTimes(1)
     // Let's click on `Next` button
-    buttons.at(6).simulate('click')
+    iconButtons.at(1).simulate('click')
     expect(nextPage).toHaveBeenCalledTimes(1)
 
     // Let's click on page buttons
-    buttons.at(1).simulate('click')
+    buttons.at(0).simulate('click')
     expect(goToPage).toHaveBeenCalledTimes(1)
     expect(goToPage).toHaveBeenCalledWith<Parameters<typeof goToPage>>(1)
-    buttons.at(2).simulate('click')
+    buttons.at(1).simulate('click')
     expect(goToPage).toHaveBeenCalledTimes(2)
     expect(goToPage).toHaveBeenCalledWith<Parameters<typeof goToPage>>(9)
-    buttons.at(3).simulate('click')
+    buttons.at(2).simulate('click')
     expect(goToPage).toHaveBeenCalledTimes(3)
     expect(goToPage).toHaveBeenCalledWith<Parameters<typeof goToPage>>(10)
-    buttons.at(4).simulate('click')
+    buttons.at(3).simulate('click')
     expect(goToPage).toHaveBeenCalledTimes(4)
     expect(goToPage).toHaveBeenCalledWith<Parameters<typeof goToPage>>(11)
-    buttons.at(5).simulate('click')
+    buttons.at(4).simulate('click')
     expect(goToPage).toHaveBeenCalledTimes(5)
     expect(goToPage).toHaveBeenCalledWith<Parameters<typeof goToPage>>(2000)
 
