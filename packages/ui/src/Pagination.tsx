@@ -8,9 +8,9 @@ import { usePagination } from './hooks/usePagination'
 import { SelectField, SelectFieldOption } from './SelectField'
 import { Button } from './Button'
 import { NumberFieldFormik } from './NumberFieldFormik'
+import { IconButton } from './IconButton'
 
 import styles from './Pagination.module.scss'
-import styleConsts from '../styles/constants/export.module.scss'
 
 export type GetShownItemsRangeParams = {
   currentPage: number
@@ -62,6 +62,7 @@ export type PaginationProps = {
   setPageSize: (pageSize: number) => void
   pageSizeOptions: number[]
   numberOfItems: number
+  siblingCount?: number
   showRangeOfShownItems?: boolean
   showPageJump?: boolean
   showRowsSelect?: boolean
@@ -79,11 +80,12 @@ export const Pagination: FC<PaginationProps> = ({
   setPageSize,
   pageSizeOptions,
   numberOfItems,
+  siblingCount,
   showRangeOfShownItems = true,
   showPageJump = true,
   showRowsSelect = true,
 }) => {
-  const pages = usePagination({ pageCount, currentPage })
+  const pages = usePagination({ pageCount, currentPage, siblingCount })
   const { firstItemShown, lastItemShown } = useMemo(
     () =>
       getShownItemsRange({
@@ -140,40 +142,28 @@ export const Pagination: FC<PaginationProps> = ({
           {pages.map((page, i) => {
             if (page === 'previous') {
               return canPreviousPage ? (
-                <Button
+                <IconButton
                   key="previous"
-                  type="button"
-                  kind="transparent"
-                  className={styles.button}
-                  bodyClassName={styles.body}
+                  kind="primary"
+                  icon={ChevronLeft}
+                  ariaLabel="Previous page"
+                  className={styles.iconButton}
                   outlineClassName={styles.outline}
-                  capitalize={false}
-                  iconLeft={ChevronLeft}
-                  iconLeftColor={styleConsts.colorPrimary}
-                  iconLeftAriaLabel="Previous page"
                   onClick={previousPage}
-                >
-                  Previous
-                </Button>
+                />
               ) : null
             }
             if (page === 'next') {
               return canNextPage ? (
-                <Button
+                <IconButton
                   key="next"
-                  type="button"
-                  kind="transparent"
-                  className={styles.button}
-                  bodyClassName={styles.body}
+                  kind="primary"
+                  icon={ChevronRight}
+                  ariaLabel="Next page"
+                  className={styles.iconButton}
                   outlineClassName={styles.outline}
-                  capitalize={false}
-                  iconRight={ChevronRight}
-                  iconRightColor={styleConsts.colorPrimary}
-                  iconRightAriaLabel="Next page"
                   onClick={nextPage}
-                >
-                  Next
-                </Button>
+                />
               ) : null
             }
             if (page === 'ellipsis') {

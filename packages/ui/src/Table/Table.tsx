@@ -14,7 +14,7 @@ import {
   useFlexLayout,
 } from 'react-table'
 
-import { Pagination } from '../Pagination'
+import { Pagination, PaginationProps } from '../Pagination'
 import { Cell, CellProps } from './Cell'
 import { EnhancedCellRenderer, EnhancedHeaderFooterRenderer } from './EnhancedRenderers'
 import { Header } from './Header'
@@ -30,8 +30,9 @@ import styleConsts from '../../styles/constants/export.module.scss'
  * `defaultPageSize` again.
  */
 type ExtendedPaginationProps = {
-  defaultPageSize?: number
-  pageSizeOptions?: number[]
+  defaultPageSize?: PaginationProps['pageSize']
+  pageSizeOptions?: PaginationProps['pageSizeOptions']
+  pageSiblingCount?: PaginationProps['siblingCount']
   hidePagination?: boolean
 }
 
@@ -91,6 +92,7 @@ export const Table = <D extends object>({
   defaultPageSize = 10,
   pageSizeOptions = [5, 10, 20],
   hidePagination = false,
+  pageSiblingCount,
   onRowClick,
   getHref,
   getCustomCellProps,
@@ -263,6 +265,7 @@ export const Table = <D extends object>({
           setPageSize={setPageSize}
           pageSizeOptions={pageSizeOptions}
           numberOfItems={data.length}
+          siblingCount={pageSiblingCount}
         />
       )}
     </div>

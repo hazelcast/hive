@@ -12,6 +12,7 @@ export type IconButtonProps = {
   icon: FeatherIcon
   size?: IconProps['size']
   iconClassName?: string
+  outlineClassName?: string
   kind?: IconButtonKind
 } & IconAriaProps &
   Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'className' | 'autoFocus' | 'disabled' | 'type' | 'tabIndex'>
@@ -20,6 +21,7 @@ export const IconButton: FC<IconButtonProps> = ({
   icon,
   iconClassName,
   className,
+  outlineClassName,
   size,
   kind = 'transparent',
   ariaHidden,
@@ -43,7 +45,7 @@ export const IconButton: FC<IconButtonProps> = ({
     type={type}
     {...rest}
   >
-    <span className={styles.outline} />
+    <span className={cn(styles.outline, outlineClassName)} />
     <Icon className={iconClassName} icon={icon} size={size} ariaHidden />
   </button>
 )
