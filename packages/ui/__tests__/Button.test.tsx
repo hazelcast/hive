@@ -2,11 +2,9 @@ import React from 'react'
 import { X } from 'react-feather'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 
-import { Tooltip } from '../src/Tooltip'
-import { Button, ButtonKind } from '../src/Button'
+import { Loader, TruncatedText, Tooltip, Button, ButtonKind } from '../src'
 
 import styles from '../src/Button.module.scss'
-import { TruncatedText } from '../src'
 
 const label = 'LABEL'
 const ariaLabel = 'X Icon'
@@ -100,6 +98,23 @@ describe('Button', () => {
     })
   })
 
+  it('Renders loading button', async () => {
+    const wrapper = await mountAndCheckA11Y(
+      // div is required because `axe` cannot validate react fragments
+      <div>
+        <Button loading>{label}</Button>
+      </div>,
+    )
+
+    expect(wrapper.find('button').prop('disabled')).toBe(true)
+    expect(wrapper.find(Tooltip).at(0).props()).toMatchObject({
+      content: undefined,
+    })
+    expect(wrapper.find(Loader).props()).toEqual({
+      className: styles.iconLeft,
+    })
+  })
+
   it('Renders disabled button with a disabled tooltip', async () => {
     const disabledTooltip = 'Disabled tooltip'
 
@@ -115,6 +130,28 @@ describe('Button', () => {
     expect(wrapper.find('button').prop('disabled')).toBe(true)
     expect(wrapper.find(Tooltip).at(0).props()).toMatchObject({
       content: disabledTooltip,
+    })
+    expect(wrapper.exists(Loader)).toBeFalsy()
+  })
+
+  it('Renders disabled loading button with a disabled tooltip', async () => {
+    const disabledTooltip = 'Disabled tooltip'
+
+    const wrapper = await mountAndCheckA11Y(
+      // div is required because `axe` cannot validate react fragments
+      <div>
+        <Button disabled loading disabledTooltip={disabledTooltip}>
+          {label}
+        </Button>
+      </div>,
+    )
+
+    expect(wrapper.find('button').prop('disabled')).toBe(true)
+    expect(wrapper.find(Tooltip).at(0).props()).toMatchObject({
+      content: disabledTooltip,
+    })
+    expect(wrapper.find(Loader).props()).toEqual({
+      className: styles.iconLeft,
     })
   })
 

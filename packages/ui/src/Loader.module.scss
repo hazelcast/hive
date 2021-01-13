@@ -26,6 +26,9 @@ $opacityMin: 0.2;
   &.contrast {
     color: c.$colorNeutralWhite;
   }
+  &.inherit {
+    color: inherit;
+  }
 
   > line {
     animation-duration: $duration;

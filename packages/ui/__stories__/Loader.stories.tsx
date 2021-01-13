@@ -7,11 +7,31 @@ export default {
   component: Loader,
 }
 
-export const PrimaryNormal = () => <Loader />
+const InheritWrapper: FC = ({ children }) => <div style={{ color: 'red' }}>{children}</div>
 
-export const PrimarySmall = () => <Loader size="small" />
+export const InheritNormal = () => (
+  <InheritWrapper>
+    <Loader />
+  </InheritWrapper>
+)
 
-export const PrimaryXLarge = () => <Loader size="xlarge" />
+export const InheritSmall = () => (
+  <InheritWrapper>
+    <Loader size="small" />
+  </InheritWrapper>
+)
+
+export const InheritXLarge = () => (
+  <InheritWrapper>
+    <Loader size="xlarge" />
+  </InheritWrapper>
+)
+
+export const PrimaryNormal = () => <Loader kind="primary" />
+
+export const PrimarySmall = () => <Loader size="small" kind="primary" />
+
+export const PrimaryXLarge = () => <Loader size="xlarge" kind="primary" />
 
 const ContrastWrapper: FC = ({ children }) => <div style={{ backgroundColor: 'black' }}>{children}</div>
 
