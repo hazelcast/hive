@@ -1,5 +1,5 @@
 import { DataTestProp } from '@hazelcast/helpers'
-import React, { FocusEvent, InputHTMLAttributes, ReactElement } from 'react'
+import React, { FocusEvent, InputHTMLAttributes, ReactElement, CSSProperties } from 'react'
 import cn from 'classnames'
 import ReactSelect, { ActionMeta, components, IndicatorProps, Props as ReactSelectProps, ValueType } from 'react-select'
 import { ChevronDown, X } from 'react-feather'
@@ -37,23 +37,27 @@ export type SelectFieldOption<V = string> = {
   value: V
 }
 
+export type SelectFieldValue<V = string> = SelectFieldOption<V> | SelectFieldOption<V>[]
+
 export type SelectFieldCoreStaticProps = {
   name: string
   onBlur?: (e: FocusEvent<HTMLElement>) => void
   error?: string
   isMulti?: boolean
 }
+
 export type SelectFieldCoreDynamicProps<V> =
   | {
       isClearable: true
-      value: SelectFieldOption<V> | null
-      onChange: (newValue: SelectFieldOption<V> | null) => void
+      value: SelectFieldValue<V> | null
+      onChange: (newValue: SelectFieldValue<V> | null) => void
     }
   | {
       isClearable?: false
-      value: SelectFieldOption<V>
-      onChange: (newValue: SelectFieldOption<V>) => void
+      value: SelectFieldValue<V>
+      onChange: (newValue: SelectFieldValue<V>) => void
     }
+
 export type SelectFieldExtraProps<V> = {
   options: SelectFieldOption<V>[]
   label: string
@@ -114,7 +118,7 @@ export const SelectField = <V,>({
   // ps. Also it's impossible to style the focused state of
   // multiValue tags via CSS.
   const customStyles = {
-    multiValueRemove: (styles: any, { isFocused }: { [key: string]: any }) => ({
+    multiValueRemove: (styles: CSSProperties, { isFocused }: ReactSelectProps) => ({
       ...styles,
       backgroundColor: isFocused && styleConsts.colorWarning,
       borderWidth: isFocused && 1,
@@ -122,10 +126,10 @@ export const SelectField = <V,>({
       borderColor: isFocused && styleConsts.colorAccessibilityOutline,
       ':hover': {
         backgroundColor: styleConsts.colorWarning,
-        borderColor: styleConsts.colorPrimary
+        borderColor: styleConsts.colorPrimary,
       },
     }),
-  };
+  }
 
   return (
     <div
@@ -161,7 +165,7 @@ export const SelectField = <V,>({
           styles={customStyles}
           name={name}
           value={value}
-          onChange={onChange as (value: ValueType<SelectFieldOption<V>>, action: ActionMeta<SelectFieldOption<V>>) => void}
+          onChange={onChange as (value: ValueType<SelectFieldValue<V>>, action: ActionMeta<SelectFieldOption<V>>) => void}
           menuPortalTarget={getMenuContainer(menuPortalTarget)}
           components={{
             DropdownIndicator,
