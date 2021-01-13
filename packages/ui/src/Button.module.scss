@@ -133,6 +133,18 @@
     color: c.$colorNeutralWhite;
     background-color: c.$colorError;
 
+    &:hover,
+    &.hover,
+    &:focus,
+    &.focus {
+      background-color: c.$colorErrorLight;
+    }
+
+    &:active,
+    &.active {
+      background-color: c.$colorErrorDark;
+    }
+
     &:disabled {
       color: c.$colorTextSecondary;
       background-color: c.$colorNeutral;
