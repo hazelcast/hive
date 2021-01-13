@@ -1,6 +1,9 @@
 import React, { FC, useState } from 'react'
 
 import { Pagination, PaginationProps } from '../src/Pagination'
+import { Toggle } from '../src/Toggle'
+
+import styles from './utils.scss'
 
 export default {
   title: 'Components/Pagination',
@@ -46,7 +49,45 @@ const StoryBase: FC<Pick<PaginationProps, 'showPageJump' | 'showRowsSelect' | 's
   )
 }
 
-export const Default = () => <StoryBase showPageJump />
+export const Default = () => {
+  const [showRowsSelect, setShowRowsSelect] = useState(true)
+  const [showRangeOfShownItems, setShowRangeOfShownItems] = useState(true)
+  const [showPageJump, setShowPageJump] = useState(true)
+
+  return (
+    <>
+      <StoryBase showRowsSelect={showRowsSelect} showRangeOfShownItems={showRangeOfShownItems} showPageJump={showPageJump} />
+
+      <hr />
+      <div className={styles.toggles}>
+        <Toggle
+          name="default"
+          checked={showRowsSelect}
+          label="Show Row Select"
+          onChange={(e) => {
+            setShowRowsSelect(e.target.checked)
+          }}
+        />
+        <Toggle
+          name="default"
+          checked={showRangeOfShownItems}
+          label="Show Range of Shown Items"
+          onChange={(e) => {
+            setShowRangeOfShownItems(e.target.checked)
+          }}
+        />
+        <Toggle
+          name="default"
+          checked={showPageJump}
+          label="Show Page Jump"
+          onChange={(e) => {
+            setShowPageJump(e.target.checked)
+          }}
+        />
+      </div>
+    </>
+  )
+}
 
 Default.parameters = {
   design: {

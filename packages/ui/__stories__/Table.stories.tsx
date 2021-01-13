@@ -5,7 +5,7 @@ import { FetchDataProps, PaginationOptions, Table } from '../src/Table/Table'
 import { getColumns, makeData, Person } from '../__tests__/Table/utils'
 import { Toggle } from '../src/Toggle'
 
-import styles from './Table.stories.module.scss'
+import styles from './utils.scss'
 
 export default {
   title: 'Components/Table',

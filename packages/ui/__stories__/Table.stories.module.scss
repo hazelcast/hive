@@ -1,5 +1,0 @@
-@use '../styles/constants' as c;
-
-.toggles > *:not(:last-child) {
-  margin-bottom: c.$grid * 3;
-}
