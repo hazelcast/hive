@@ -26,6 +26,10 @@ export const getZeroSiblingCountItems = (pageCount: number, currentPage: number)
 }
 
 export const usePagination = ({ pageCount, currentPage, siblingCount = 1 }: UsePaginationProps) => {
+  if (siblingCount < 0) {
+    siblingCount = 1
+  }
+
   const ellipsis = 2
   // If a need arises boundaryCount can be parametrized in the future
   const boundaryCount = 2

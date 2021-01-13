@@ -20,6 +20,18 @@
     color: c.$colorTextSecondary;
     @include c.typographyBodySmall;
 
+    .sortingIcon {
+      flex-shrink: 0;
+
+      &.left {
+        margin-left: c.$grid * 2;
+      }
+
+      &.right {
+        margin-right: c.$grid * 2;
+      }
+    }
+
     &:focus {
       // Do not remove outline for high-contrast modes
       // https://stackoverflow.com/a/52616313
@@ -53,18 +65,6 @@
 
     &.alignCenter {
       justify-content: center;
-    }
-
-    .sortingIcon {
-      flex-shrink: 0;
-
-      &.left {
-        margin-left: c.$grid * 2;
-      }
-
-      &.right {
-        margin-right: c.$grid * 2;
-      }
     }
   }
 }
