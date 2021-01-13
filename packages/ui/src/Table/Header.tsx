@@ -53,7 +53,7 @@ export const Header: FC<HeaderProps> = ({
           [styles.left]: align === 'left',
           [styles.right]: align === 'right',
         })}
-        icon={!isSorted || isSortedDesc ? ChevronDown : ChevronUp}
+        icon={!isSorted ? ChevronUp : isSortedDesc ? ChevronDown : ChevronUp}
         ariaLabel={!isSorted ? 'Not Sorted' : isSortedDesc ? 'Descending' : 'Ascending'}
         size="small"
       />

@@ -27,6 +27,20 @@
       @include h.outlineSimple;
       // Put outline over resizer
       z-index: 10;
+
+      .sortingIcon {
+        color: c.$colorPrimary;
+      }
+    }
+
+    &:hover {
+      .sortingIcon {
+        color: c.$colorPrimary;
+      }
+    }
+
+    &.sortable {
+      cursor: pointer;
     }
 
     &.alignLeft {
@@ -41,21 +55,16 @@
       justify-content: center;
     }
 
-    &.sortable {
-      cursor: pointer;
-    }
-  }
+    .sortingIcon {
+      flex-shrink: 0;
 
-  .sortingIcon {
-    flex-shrink: 0;
-    color: c.$colorTextSecondary;
+      &.left {
+        margin-left: c.$grid * 2;
+      }
 
-    &.left {
-      margin-left: c.$grid * 2;
-    }
-
-    &.right {
-      margin-right: c.$grid * 2;
+      &.right {
+        margin-right: c.$grid * 2;
+      }
     }
   }
 }
