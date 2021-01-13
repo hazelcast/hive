@@ -5,7 +5,6 @@ import { useUID } from 'react-uid'
 import { Dialog, DialogProps } from '../src/Dialog'
 
 import utilsStyles from './utils.scss'
-import styles from '../src/Dialog.module.scss'
 
 export default {
   title: 'Components/Dialog',
@@ -34,9 +33,6 @@ const DialogWithPortalFactory: FC<DialogProps> = ({ modalClassName, ...props }) 
 
 export const Default = () => <DialogWithPortalFactory title="Title of the Dialog" affirmation={affirmation} isOpen onClose={onClose} />
 
-export const Focused = () => (
-  <DialogWithPortalFactory modalClassName={styles.focus} title="Title of the Dialog" affirmation={affirmation} isOpen onClose={onClose} />
-)
 export const WithConsequences = () => (
   <DialogWithPortalFactory title="Title of the Dialog" affirmation={affirmation} consequences={consequences} isOpen onClose={onClose} />
 )

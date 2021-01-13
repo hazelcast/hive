@@ -57,6 +57,7 @@ export const Dialog: FC<DialogProps> = ({
       actionChildren && actionOnConfirm
         ? [
             {
+              autoFocus: !actionDangerous,
               kind: actionDangerous ? 'danger' : 'primary',
               ...(actionDisabled &&
                 actionDisabledTooltip && {

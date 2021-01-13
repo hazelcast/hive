@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react'
+import React, { FC, ReactNode, useMemo } from 'react'
 import ReactModal, { Props as ReactModalProps, setAppElement as setAppElementRM } from 'react-modal'
 import cn from 'classnames'
 import { DataTestProp } from '@hazelcast/helpers'
@@ -7,13 +7,15 @@ import { X } from 'react-feather'
 import { IconButton } from './IconButton'
 
 import styles from './Modal.module.scss'
-import { Button, ButtonProps } from './Button'
+import { Button, ButtonProps, ButtonTypeButtonProps } from './Button'
 
 export const setAppElement = setAppElementRM
 
-export type ModalActionProps = ButtonProps
+export type ModalActionProps = ButtonProps<ButtonTypeButtonProps>
 
 export type ModalProps = {
+  // Note: Turns of default autoFocus biding to Cancel/Action buttons. Set to "false" when a content element should be auto focused.
+  autoFocus?: boolean
   closable?: boolean
   children?: ReactNode
   title: string
@@ -37,6 +39,7 @@ export type ModalProps = {
  */
 export const Modal: FC<ModalProps> = ({
   actions,
+  autoFocus = true,
   'data-test': dataTest,
   children,
   className,
@@ -46,38 +49,43 @@ export const Modal: FC<ModalProps> = ({
   overlayClassName,
   title,
   ...rest
-}) => (
-  <ReactModal
-    contentLabel={title}
-    className={cn(styles.modal, className)}
-    overlayClassName={cn(styles.overlay, overlayClassName)}
-    data-test={dataTest}
-    onRequestClose={onClose}
-    shouldCloseOnEsc={closable}
-    shouldCloseOnOverlayClick={closable}
-    shouldReturnFocusAfterClose
-    {...rest}
-  >
-    <div className={styles.outline} />
-    <div className={styles.container}>
-      <div data-test="modal-header" className={styles.header}>
-        <h3 data-test="modal-title">{title}</h3>
-        <div className={styles.close}>
-          {/* TODO: Get color */}
-          <IconButton data-test="modal-button-close" kind="transparent" size="small" ariaLabel="Close icon" icon={X} onClick={onClose} />
+}) => {
+  const shouldAutoFocusCancelButton = useMemo(() => autoFocus && !actions?.some((action) => action?.autoFocus), [autoFocus, actions])
+
+  return (
+    <ReactModal
+      contentLabel={title}
+      className={cn(styles.modal, className)}
+      overlayClassName={cn(styles.overlay, overlayClassName)}
+      data-test={dataTest}
+      onRequestClose={onClose}
+      shouldFocusAfterRender={false}
+      shouldCloseOnEsc={closable}
+      shouldCloseOnOverlayClick={closable}
+      shouldReturnFocusAfterClose
+      {...rest}
+    >
+      <div className={styles.outline} />
+      <div className={styles.container}>
+        <div data-test="modal-header" className={styles.header}>
+          <h3 data-test="modal-title">{title}</h3>
+          <div className={styles.close}>
+            {/* TODO: Get color */}
+            <IconButton data-test="modal-button-close" kind="transparent" size="small" ariaLabel="Close icon" icon={X} onClick={onClose} />
+          </div>
+        </div>
+        <div data-test="modal-content">{children}</div>
+        <div data-test="modal-footer" className={cn(styles.footer, footerClassName)}>
+          <Button autoFocus={shouldAutoFocusCancelButton} data-test="modal-button-cancel" kind="secondary" onClick={onClose}>
+            Cancel
+          </Button>
+          {actions?.map(({ children, ...actionPropsRest }, key) => (
+            <Button key={key} data-test="modal-button-action" {...actionPropsRest}>
+              {children}
+            </Button>
+          ))}
         </div>
       </div>
-      <div data-test="modal-content">{children}</div>
-      <div data-test="modal-footer" className={cn(styles.footer, footerClassName)}>
-        <Button data-test="modal-button-cancel" kind="secondary" onClick={onClose}>
-          Cancel
-        </Button>
-        {actions?.map(({ children, ...actionPropsRest }, key) => (
-          <Button key={key} data-test="modal-button-action" {...actionPropsRest}>
-            {children}
-          </Button>
-        ))}
-      </div>
-    </div>
-  </ReactModal>
-)
+    </ReactModal>
+  )
+}

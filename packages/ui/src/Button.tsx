@@ -68,23 +68,25 @@ type ButtonCommonProps = {
   bodyClassName?: string
 } & Pick<HTMLAttributes<HTMLAnchorElement | HTMLButtonElement>, 'className' | 'onClick'>
 
-type ButtonTypeProps =
-  | ({
-      component: 'a'
-      href: string
-      target?: LinkTarget
-      rel?: LinkRel | LinkRel[]
-      type?: never
-    } & ButtonNotDisabledProps)
-  | ({
-      component?: 'button'
-      href?: never
-      target?: never
-      rel?: never
-    } & (ButtonDisabledProps | ButtonNotDisabledProps) &
-      Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'autoFocus' | 'type'>)
+export type ButtonTypeAnchorProps = {
+  component: 'a'
+  href: string
+  target?: LinkTarget
+  rel?: LinkRel | LinkRel[]
+  type?: never
+} & ButtonNotDisabledProps
 
-export type ButtonProps = ButtonCommonProps & ButtonAccessibleIconLeftProps & ButtonAccessibleIconRightProps & ButtonTypeProps
+export type ButtonTypeButtonProps = {
+  component?: 'button'
+  href?: never
+  target?: never
+  rel?: never
+} & (ButtonDisabledProps | ButtonNotDisabledProps) &
+  Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'autoFocus' | 'type'>
+
+export type ButtonTypeProps = ButtonTypeAnchorProps | ButtonTypeButtonProps
+
+export type ButtonProps<T = ButtonTypeProps> = ButtonCommonProps & ButtonAccessibleIconLeftProps & ButtonAccessibleIconRightProps & T
 
 /**
  * ### Purpose

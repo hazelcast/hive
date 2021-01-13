@@ -41,7 +41,7 @@ describe('Modal', () => {
       role: 'dialog',
       shouldCloseOnEsc: true,
       shouldCloseOnOverlayClick: true,
-      shouldFocusAfterRender: true,
+      shouldFocusAfterRender: false,
       shouldReturnFocusAfterClose: true,
       contentLabel: modalTitle,
       isOpen: true,
@@ -68,6 +68,7 @@ describe('Modal', () => {
       onClick: onClose,
       children: 'Cancel',
       'data-test': 'modal-button-cancel',
+      autoFocus: true,
     })
     expect(wrapper.findDataTest('modal-button-action').at(0).props()).toStrictEqual({
       onClick: onClick,
@@ -91,7 +92,7 @@ describe('Modal', () => {
       role: 'dialog',
       shouldCloseOnEsc: true,
       shouldCloseOnOverlayClick: true,
-      shouldFocusAfterRender: true,
+      shouldFocusAfterRender: false,
       shouldReturnFocusAfterClose: true,
       contentLabel: modalTitle,
       isOpen: false,
@@ -155,7 +156,7 @@ describe('Modal', () => {
       role: 'dialog',
       shouldCloseOnEsc: false,
       shouldCloseOnOverlayClick: false,
-      shouldFocusAfterRender: true,
+      shouldFocusAfterRender: false,
       shouldReturnFocusAfterClose: true,
       contentLabel: modalTitle,
       isOpen: true,
@@ -163,7 +164,7 @@ describe('Modal', () => {
     })
   })
 
-  it('Renders footer with Cancel button', () => {
+  it('Renders footer with only Cancel button, which is defensively auto-focused by default.', () => {
     const onClose = jest.fn()
 
     const wrapper = mount(
@@ -178,7 +179,7 @@ describe('Modal', () => {
       role: 'dialog',
       shouldCloseOnEsc: true,
       shouldCloseOnOverlayClick: true,
-      shouldFocusAfterRender: true,
+      shouldFocusAfterRender: false,
       shouldReturnFocusAfterClose: true,
       contentLabel: modalTitle,
       isOpen: true,
@@ -191,7 +192,9 @@ describe('Modal', () => {
       onClick: onClose,
       children: 'Cancel',
       'data-test': 'modal-button-cancel',
+      autoFocus: true,
     })
+    expect(wrapper.findDataTest('modal-button-cancel').at(0).is(':focus')).toBe(true)
   })
 
   it('Renders footer with Action and Cancel buttons when actions are passed', () => {
@@ -220,7 +223,7 @@ describe('Modal', () => {
       role: 'dialog',
       shouldCloseOnEsc: true,
       shouldCloseOnOverlayClick: true,
-      shouldFocusAfterRender: true,
+      shouldFocusAfterRender: false,
       shouldReturnFocusAfterClose: true,
       contentLabel: modalTitle,
       isOpen: true,
@@ -233,11 +236,119 @@ describe('Modal', () => {
       onClick: onClose,
       children: 'Cancel',
       'data-test': 'modal-button-cancel',
+      autoFocus: true,
     })
+    expect(wrapper.findDataTest('modal-button-cancel').at(0).is(':focus')).toBe(true)
     expect(wrapper.findDataTest('modal-button-action').at(0).props()).toStrictEqual({
       onClick: onClick,
       children: modalAction,
       'data-test': 'modal-button-action',
     })
+  })
+
+  it('When "autoFocus" is passed to an action, the action is focused. This disables autoFocus on Cancel button.', () => {
+    const onClose = jest.fn()
+    const onClick = jest.fn()
+
+    const wrapper = mount(
+      <Modal
+        isOpen
+        title={modalTitle}
+        actions={[
+          {
+            children,
+            onClick,
+            autoFocus: true,
+          },
+        ]}
+        onClose={onClose}
+      >
+        <ModalContent />
+      </Modal>,
+    )
+
+    expect(wrapper.find(ReactModal).props()).toMatchObject({
+      ariaHideApp: true,
+      preventScroll: false,
+      role: 'dialog',
+      shouldCloseOnEsc: true,
+      shouldCloseOnOverlayClick: true,
+      shouldFocusAfterRender: false,
+      shouldReturnFocusAfterClose: true,
+      contentLabel: modalTitle,
+      isOpen: true,
+      onRequestClose: onClose,
+    })
+
+    expect(wrapper.findDataTest('modal-footer').children()).toHaveLength(2)
+    expect(wrapper.findDataTest('modal-button-cancel').at(0).props()).toStrictEqual({
+      kind: 'secondary',
+      onClick: onClose,
+      children: 'Cancel',
+      'data-test': 'modal-button-cancel',
+      autoFocus: false,
+    })
+    expect(wrapper.findDataTest('modal-button-cancel').at(0).is(':focus')).toBe(false)
+    expect(wrapper.findDataTest('modal-button-action').at(0).props()).toStrictEqual({
+      onClick: onClick,
+      children: modalAction,
+      'data-test': 'modal-button-action',
+      autoFocus: true,
+    })
+    expect(wrapper.findDataTest('modal-button-action').at(0).is(':focus')).toBe(true)
+  })
+
+  it('Modal child element can be auto-focused when modal "autoFocus" is false', () => {
+    const onClose = jest.fn()
+    const onClick = jest.fn()
+    const modalChildren = <input data-test="test-input" type="text" autoFocus />
+
+    const wrapper = mount(
+      <Modal
+        autoFocus={false}
+        isOpen
+        title={modalTitle}
+        onClose={onClose}
+        actions={[
+          {
+            children,
+            onClick,
+          },
+        ]}
+      >
+        {modalChildren}
+      </Modal>,
+    )
+
+    expect(wrapper.find(ReactModal).props()).toMatchObject({
+      ariaHideApp: true,
+      preventScroll: false,
+      role: 'dialog',
+      shouldCloseOnEsc: true,
+      shouldCloseOnOverlayClick: true,
+      shouldFocusAfterRender: false,
+      shouldReturnFocusAfterClose: true,
+      contentLabel: modalTitle,
+      isOpen: true,
+      onRequestClose: onClose,
+    })
+
+    expect(wrapper.findDataTest('modal-footer').children()).toHaveLength(2)
+    expect(wrapper.findDataTest('modal-button-cancel').at(0).props()).toStrictEqual({
+      kind: 'secondary',
+      onClick: onClose,
+      children: 'Cancel',
+      'data-test': 'modal-button-cancel',
+      autoFocus: false,
+    })
+    expect(wrapper.findDataTest('modal-button-cancel').at(0).is(':focus')).toBe(false)
+    expect(wrapper.findDataTest('modal-button-action').at(0).props()).toStrictEqual({
+      onClick: onClick,
+      children: modalAction,
+      'data-test': 'modal-button-action',
+    })
+    expect(wrapper.findDataTest('modal-button-action').at(0).is(':focus')).toBe(false)
+
+    expect(wrapper.findDataTest('test-input').is(':focus')).toBe(true)
   })
 })
