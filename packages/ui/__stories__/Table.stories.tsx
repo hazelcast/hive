@@ -69,7 +69,7 @@ export const Default = () => {
           name="default"
           checked={showRowsSelect}
           disabled={!paginate}
-          label="Show Row Select"
+          label="Row Select"
           onChange={(e) => {
             setShowRowsSelect(e.target.checked)
           }}
@@ -78,7 +78,7 @@ export const Default = () => {
           name="default"
           checked={showRangeOfShownItems}
           disabled={!paginate}
-          label="Show Range of Shown Items"
+          label="Range of Shown Items"
           onChange={(e) => {
             setShowRangeOfShownItems(e.target.checked)
           }}
@@ -87,7 +87,7 @@ export const Default = () => {
           name="default"
           checked={showPageJump}
           disabled={!paginate}
-          label="Show Page Jump"
+          label="Page Jump"
           onChange={(e) => {
             setShowPageJump(e.target.checked)
           }}

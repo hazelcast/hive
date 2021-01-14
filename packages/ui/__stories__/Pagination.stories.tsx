@@ -45,6 +45,7 @@ const StoryBase: FC<Pick<PaginationProps, 'showPageJump' | 'showRowsSelect' | 's
       showRangeOfShownItems={showRangeOfShownItems}
       showPageJump={showPageJump}
       showRowsSelect={showRowsSelect}
+      s
     />
   )
 }
@@ -63,7 +64,7 @@ export const Default = () => {
         <Toggle
           name="default"
           checked={showRowsSelect}
-          label="Show Row Select"
+          label="Row Select"
           onChange={(e) => {
             setShowRowsSelect(e.target.checked)
           }}
@@ -71,7 +72,7 @@ export const Default = () => {
         <Toggle
           name="default"
           checked={showRangeOfShownItems}
-          label="Show Range of Shown Items"
+          label="Range of Shown Items"
           onChange={(e) => {
             setShowRangeOfShownItems(e.target.checked)
           }}
@@ -79,7 +80,7 @@ export const Default = () => {
         <Toggle
           name="default"
           checked={showPageJump}
-          label="Show Page Jump"
+          label="Page Jump"
           onChange={(e) => {
             setShowPageJump(e.target.checked)
           }}

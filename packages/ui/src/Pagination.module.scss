@@ -7,7 +7,7 @@
   align-items: center;
 
   > *:not(:last-child) {
-    margin-right: c.$grid * 6.5;
+    margin-right: c.$grid * 6;
   }
 
   .rows {
@@ -51,11 +51,11 @@
       }
 
       &:focus {
+        border-color: c.$colorAccessibilityOutline;
+
         .outline {
           box-shadow: none;
         }
-
-        border-color: c.$colorAccessibilityOutline;
       }
     }
 
