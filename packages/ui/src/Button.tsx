@@ -9,6 +9,7 @@ import { Tooltip, TooltipProps } from './Tooltip'
 
 import styles from './Button.module.scss'
 import { LinkRel, LinkTarget } from './Link'
+import { Loader } from './Loader'
 
 export type ButtonKind = 'primary' | 'secondary' | 'danger' | 'transparent'
 
@@ -74,6 +75,7 @@ export type ButtonTypeAnchorProps = {
   target?: LinkTarget
   rel?: LinkRel | LinkRel[]
   type?: never
+  loading?: never
 } & ButtonNotDisabledProps
 
 export type ButtonTypeButtonProps = {
@@ -81,6 +83,7 @@ export type ButtonTypeButtonProps = {
   href?: never
   target?: never
   rel?: never
+  loading?: boolean
 } & (ButtonDisabledProps | ButtonNotDisabledProps) &
   Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'autoFocus' | 'type'>
 
@@ -137,6 +140,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
       rel = 'noopener',
       target,
       type = 'button',
+      loading,
       ...rest
     },
     ref,
@@ -165,7 +169,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
               className,
             )}
             aria-describedby={disabled ? tooltipId : undefined}
-            disabled={disabled}
+            disabled={disabled ?? loading}
             rel={Component === 'a' ? relFinal : undefined}
             target={Component === 'a' ? target : undefined}
             type={Component === 'button' ? type : undefined}
@@ -173,7 +177,8 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
           >
             <span className={styles.outline} />
             <span className={cn(styles.body, bodyClassName)} ref={mergeRefs([ref, tooltipRef])}>
-              {iconLeft && iconLeftAriaLabel && (
+              {loading && <Loader className={styles.iconLeft} />}
+              {iconLeft && iconLeftAriaLabel && !loading && (
                 <Icon
                   icon={iconLeft}
                   ariaLabel={iconLeftAriaLabel}
