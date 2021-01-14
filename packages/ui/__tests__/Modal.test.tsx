@@ -1,6 +1,6 @@
 import { mount } from 'enzyme'
 import ReactModal from 'react-modal'
-import { X } from 'react-feather'
+import { CloudLightning, X } from 'react-feather'
 import React from 'react'
 import { Modal } from '../src/Modal'
 import { act } from 'react-dom/test-utils'
@@ -48,12 +48,9 @@ describe('Modal', () => {
       onRequestClose: onClose,
     })
 
-    expect(wrapper.existsDataTest('modal-header')).toBeTruthy()
-
-    expect(wrapper.findDataTest('modal-title').text()).toBe(modalTitle)
+    expect(wrapper.findDataTest('modal-header-title').text()).toBe(modalTitle)
     expect(wrapper.findDataTest('modal-button-close').at(0).props()).toStrictEqual({
       kind: 'transparent',
-      size: 'small',
       ariaLabel: 'Close icon',
       icon: X,
       onClick: onClose,
@@ -75,6 +72,46 @@ describe('Modal', () => {
       children: modalAction,
       'data-test': 'modal-button-action',
     })
+  })
+
+  it('Renders header icon', () => {
+    const onClose = jest.fn()
+    const icon = CloudLightning
+    const iconAriaLabel = 'Icon Cloud'
+
+    const wrapper = mount(
+      <Modal isOpen onClose={onClose} title={modalTitle} icon={icon} iconAriaLabel={iconAriaLabel}>
+        <ModalContent />
+      </Modal>,
+    )
+
+    expect(wrapper.find(ReactModal).props()).toMatchObject({
+      ariaHideApp: true,
+      preventScroll: false,
+      role: 'dialog',
+      shouldCloseOnEsc: true,
+      shouldCloseOnOverlayClick: true,
+      shouldFocusAfterRender: false,
+      shouldReturnFocusAfterClose: true,
+      contentLabel: modalTitle,
+      isOpen: true,
+      onRequestClose: onClose,
+    })
+
+    expect(wrapper.findDataTest('modal-header-icon').props()).toMatchObject({
+      icon: CloudLightning,
+      ariaLabel: iconAriaLabel,
+    })
+    expect(wrapper.findDataTest('modal-header-title').text()).toBe(modalTitle)
+    expect(wrapper.findDataTest('modal-button-close').at(0).props()).toStrictEqual({
+      kind: 'transparent',
+      ariaLabel: 'Close icon',
+      icon: X,
+      onClick: onClose,
+      'data-test': 'modal-button-close',
+    })
+
+    expect(wrapper.findDataTest('modal-content').find(ModalContent).exists()).toBeTruthy()
   })
 
   it('Does not render anything when isOpen is false', () => {
@@ -121,7 +158,7 @@ describe('Modal', () => {
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 
-  it('Can be closed via bottom Cancel button', () => {
+  it('Can be closed via footer Cancel button', () => {
     const onClose = jest.fn()
 
     const wrapper = mount(

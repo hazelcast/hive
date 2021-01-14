@@ -43,11 +43,10 @@ $cardShadowBlur: 4px !default;
 $selectMenuShadowSize: 1px !default;
 $selectMenuShadowBlur: 4px !default;
 
-/* doiuse-disable calc */
-$modalWidth: calc(100% - #{$grid} * 10);
+$modalWidth: 75%;
+$modalMinWidth: 480px !default;
 $modalMaxWidth: 960px !default;
-$modalMaxHeight: calc(100% - #{$grid} * 10);
-/* doiuse-enable calc */
+$modalMaxHeight: 75%;
 
 // border radius on left/right size of the progress tracker
 $sliderTrackBorderRadius: $grid * 2;

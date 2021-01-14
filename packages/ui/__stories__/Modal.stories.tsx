@@ -1,6 +1,7 @@
 import React, { FC } from 'react'
 import cn from 'classnames'
 import { useUID } from 'react-uid'
+import { CloudLightning } from 'react-feather'
 
 import { Modal, ModalProps } from '../src/Modal'
 
@@ -13,8 +14,16 @@ export default {
 
 const onClose = () => console.log('onClose')
 const onClick = () => console.log('onClick')
+const title = 'Modal title'
 const children = 'Action'
 const disabledTooltip = 'Disabled Tooltip'
+const Content = (
+  <div>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis tortor sed nibh elementum congue. Phasellus leo mi, pellentesque in
+    consequat sed, semper id felis. Quisque sed eros tristique, suscipit libero eu, varius ex. Mauris luctus sem et lorem tincidunt, id
+    pellentesque eros pretium.
+  </div>
+)
 
 const ModalWithPortalFactory: FC<ModalProps> = ({ children, className, ...props }) => {
   const id = `s${useUID()}`
@@ -26,21 +35,27 @@ const ModalWithPortalFactory: FC<ModalProps> = ({ children, className, ...props 
         portalClassName={utilsStyles.modalPortal}
         parentSelector={() => document.querySelector(`#${id}`) as HTMLElement}
       >
-        <div className={utilsStyles.modalChildrenWrapper}>{children}</div>
+        {children}
       </Modal>
     </div>
   )
 }
 
 export const Default = () => (
-  <ModalWithPortalFactory title="Title of the Modal" isOpen onClose={onClose}>
-    <div>Content</div>
+  <ModalWithPortalFactory title={title} isOpen onClose={onClose}>
+    {Content}
+  </ModalWithPortalFactory>
+)
+
+export const WithIcon = () => (
+  <ModalWithPortalFactory title={title} isOpen onClose={onClose} icon={CloudLightning} iconAriaLabel="Icon Cloud">
+    {Content}
   </ModalWithPortalFactory>
 )
 
 export const WithAction = () => (
   <ModalWithPortalFactory
-    title="Title of the Modal"
+    title={title}
     isOpen
     onClose={onClose}
     actions={[
@@ -50,13 +65,13 @@ export const WithAction = () => (
       },
     ]}
   >
-    <div>Content</div>
+    {Content}
   </ModalWithPortalFactory>
 )
 
 export const WithActionDisabled = () => (
   <ModalWithPortalFactory
-    title="Title of the Modal"
+    title={title}
     isOpen
     onClose={onClose}
     actions={[
@@ -68,13 +83,13 @@ export const WithActionDisabled = () => (
       },
     ]}
   >
-    <div>Content</div>
+    {Content}
   </ModalWithPortalFactory>
 )
 
 export const WithDangerAction = () => (
   <ModalWithPortalFactory
-    title="Title of the Modal"
+    title={title}
     isOpen
     onClose={onClose}
     actions={[
@@ -85,13 +100,13 @@ export const WithDangerAction = () => (
       },
     ]}
   >
-    <div>Content</div>
+    {Content}
   </ModalWithPortalFactory>
 )
 
 export const WithDangerActionDisabled = () => (
   <ModalWithPortalFactory
-    title="Title of the Modal"
+    title={title}
     isOpen
     onClose={onClose}
     actions={[
@@ -104,13 +119,13 @@ export const WithDangerActionDisabled = () => (
       },
     ]}
   >
-    <div>Content</div>
+    {Content}
   </ModalWithPortalFactory>
 )
 
 export const WithMultipleActions = () => (
   <ModalWithPortalFactory
-    title="Title of the Modal"
+    title={title}
     isOpen
     onClose={onClose}
     actions={[
@@ -125,6 +140,16 @@ export const WithMultipleActions = () => (
       },
     ]}
   >
-    <div>Content</div>
+    {Content}
+  </ModalWithPortalFactory>
+)
+
+export const WithLongTitle = () => (
+  <ModalWithPortalFactory
+    title="This is a veeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeery long title of this modal window."
+    isOpen
+    onClose={onClose}
+  >
+    {Content}
   </ModalWithPortalFactory>
 )

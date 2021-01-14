@@ -4,24 +4,27 @@ import cn from 'classnames'
 import { DataTestProp } from '@hazelcast/helpers'
 import { X } from 'react-feather'
 
+import { Button, ButtonProps, ButtonTypeButtonProps } from './Button'
+import { Icon, IconProps } from './Icon'
 import { IconButton } from './IconButton'
 
 import styles from './Modal.module.scss'
-import { Button, ButtonProps, ButtonTypeButtonProps } from './Button'
 
 export const setAppElement = setAppElementRM
 
 export type ModalActionProps = ButtonProps<ButtonTypeButtonProps>
 
 export type ModalProps = {
+  actions?: ModalActionProps[]
   // Note: Turns of default autoFocus biding to Cancel/Action buttons. Set to "false" when a content element should be auto focused.
   autoFocus?: boolean
-  closable?: boolean
   children?: ReactNode
-  title: string
-  onClose: ReactModalProps['onRequestClose']
+  closable?: boolean
   footerClassName?: string
-  actions?: ModalActionProps[]
+  icon?: IconProps['icon']
+  iconAriaLabel?: IconProps['ariaLabel']
+  onClose: ReactModalProps['onRequestClose']
+  title: string
 } & DataTestProp &
   Exclude<ReactModalProps, 'onRequestClose' | 'shouldFocusAfterRender' | 'shouldReturnFocusAfterClose'>
 
@@ -38,13 +41,15 @@ export type ModalProps = {
  * - To close the Modal, use "Cancel" button in the footer, "X" button in the header, press "Esc" key or click anywhere on the "blanket".
  */
 export const Modal: FC<ModalProps> = ({
+  'data-test': dataTest,
   actions,
   autoFocus = true,
-  'data-test': dataTest,
   children,
   className,
-  footerClassName,
   closable = true,
+  footerClassName,
+  icon,
+  iconAriaLabel,
   onClose,
   overlayClassName,
   title,
@@ -68,21 +73,24 @@ export const Modal: FC<ModalProps> = ({
       <div className={styles.outline} />
       <div className={styles.container}>
         <div data-test="modal-header" className={styles.header}>
-          <h3 data-test="modal-title">{title}</h3>
+          {icon && iconAriaLabel && <Icon data-test="modal-header-icon" className={styles.icon} icon={icon} ariaLabel={iconAriaLabel} />}
+          <h3 data-test="modal-header-title" className={styles.title}>
+            {title}
+          </h3>
           <div className={styles.close}>
             <IconButton data-test="modal-button-close" kind="transparent" ariaLabel="Close icon" icon={X} onClick={onClose} />
           </div>
         </div>
         <div data-test="modal-content">{children}</div>
         <div data-test="modal-footer" className={cn(styles.footer, footerClassName)}>
-          <Button autoFocus={shouldAutoFocusCancelButton} data-test="modal-button-cancel" kind="secondary" onClick={onClose}>
-            Cancel
-          </Button>
           {actions?.map(({ children, ...actionPropsRest }, key) => (
             <Button key={key} data-test="modal-button-action" {...actionPropsRest}>
               {children}
             </Button>
           ))}
+          <Button autoFocus={shouldAutoFocusCancelButton} data-test="modal-button-cancel" kind="secondary" onClick={onClose}>
+            Cancel
+          </Button>
         </div>
       </div>
     </ReactModal>

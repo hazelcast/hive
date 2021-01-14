@@ -22,13 +22,6 @@
   /* doiuse-enable calc */
 }
 
-.modalChildrenWrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 20px;
-}
-
 .sliderSmallThumb::-webkit-slider-thumb {
   // this should never be possible to override, this is only for storybook purpose - visual regression testing
   opacity: 0.5 !important;
