@@ -43,10 +43,15 @@ $cardShadowBlur: 4px !default;
 $selectMenuShadowSize: 1px !default;
 $selectMenuShadowBlur: 4px !default;
 
+// Modal
 $modalWidth: 75%;
 $modalMinWidth: 480px !default;
 $modalMaxWidth: 960px !default;
 $modalMaxHeight: 75%;
+
+// Dialog
+$dialogWidth: 400px !default;
+$dialogMinHeight: 200px !default;
 
 // border radius on left/right size of the progress tracker
 $sliderTrackBorderRadius: $grid * 2;

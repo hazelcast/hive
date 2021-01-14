@@ -47,6 +47,12 @@ export const Default = () => (
   </ModalWithPortalFactory>
 )
 
+export const NotClosable = () => (
+  <ModalWithPortalFactory title={title} isOpen onClose={onClose} closable={false}>
+    {Content}
+  </ModalWithPortalFactory>
+)
+
 export const WithIcon = () => (
   <ModalWithPortalFactory title={title} isOpen onClose={onClose} icon={CloudLightning} iconAriaLabel="Icon Cloud">
     {Content}

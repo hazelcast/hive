@@ -25,35 +25,20 @@ const DialogWithPortalFactory: FC<DialogProps> = ({ modalClassName, ...props }) 
       <Dialog
         {...props}
         modalClassName={cn(modalClassName, utilsStyles.modal)}
+        portalClassName={utilsStyles.modalPortal}
         parentSelector={() => document.querySelector(`#${id}`) as HTMLElement}
       />
     </div>
   )
 }
 
-export const Default = () => <DialogWithPortalFactory title="Title of the Dialog" affirmation={affirmation} isOpen onClose={onClose} />
-
-export const WithConsequences = () => (
-  <DialogWithPortalFactory title="Title of the Dialog" affirmation={affirmation} consequences={consequences} isOpen onClose={onClose} />
-)
-
-export const WithChildren = () => (
-  <DialogWithPortalFactory title="Title of the Dialog" affirmation={affirmation} isOpen onClose={onClose}>
-    <div>Content</div>
-  </DialogWithPortalFactory>
-)
-
-export const WithConsequencesAndChildren = () => (
-  <DialogWithPortalFactory title="Title of the Dialog" affirmation={affirmation} consequences={consequences} isOpen onClose={onClose}>
-    <div>Content</div>
-  </DialogWithPortalFactory>
-)
+export const Default = () => <DialogWithPortalFactory affirmation={affirmation} consequences={consequences} isOpen onClose={onClose} />
 
 export const WithAction = () => (
   <DialogWithPortalFactory
-    title="Title of the Dialog"
     onClose={onClose}
     affirmation={affirmation}
+    consequences={consequences}
     isOpen
     actionChildren={actionChildren}
     actionOnConfirm={actionOnConfirm}
@@ -62,8 +47,8 @@ export const WithAction = () => (
 
 export const WithActionDisabled = () => (
   <DialogWithPortalFactory
-    title="Title of the Dialog"
     affirmation={affirmation}
+    consequences={consequences}
     isOpen
     actionChildren={actionChildren}
     actionOnConfirm={actionOnConfirm}
@@ -75,8 +60,8 @@ export const WithActionDisabled = () => (
 
 export const WithDangerAction = () => (
   <DialogWithPortalFactory
-    title="Title of the Dialog"
     affirmation={affirmation}
+    consequences={consequences}
     isOpen
     actionDangerous
     actionChildren={actionChildren}
@@ -87,8 +72,8 @@ export const WithDangerAction = () => (
 
 export const WithDangerActionDisabled = () => (
   <DialogWithPortalFactory
-    title="Title of the Dialog"
     affirmation={affirmation}
+    consequences={consequences}
     isOpen
     actionDangerous
     actionChildren={actionChildren}

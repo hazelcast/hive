@@ -1,4 +1,6 @@
 import React, { FC, ReactNode, useMemo } from 'react'
+import cn from 'classnames'
+
 import { Modal, ModalProps, ModalActionProps } from './Modal'
 
 import styles from './Dialog.module.scss'
@@ -22,12 +24,11 @@ type DialogActionProps =
     }
 
 export type DialogProps = {
-  children?: ReactNode
   modalClassName?: string
-  affirmation?: ReactNode
-  consequences?: ReactNode
+  affirmation: string
+  consequences: ReactNode
 } & DialogActionProps &
-  Pick<ModalProps, 'isOpen' | 'title' | 'onClose' | 'parentSelector'>
+  Pick<ModalProps, 'isOpen' | 'onClose' | 'parentSelector' | 'portalClassName'>
 
 /*
  * ### Purpose
@@ -40,17 +41,14 @@ export type DialogProps = {
  */
 export const Dialog: FC<DialogProps> = ({
   modalClassName,
-  isOpen,
-  title,
-  onClose,
   consequences,
   affirmation = DIALOG_AFFIRMATION_DEFAULT,
-  parentSelector,
   actionChildren,
   actionDangerous,
   actionDisabled,
   actionDisabledTooltip,
   actionOnConfirm,
+  ...rest
 }) => {
   const actions: ModalProps['actions'] = useMemo(
     () =>
@@ -74,21 +72,18 @@ export const Dialog: FC<DialogProps> = ({
 
   return (
     <Modal
-      className={modalClassName}
-      footerClassName={styles.modalFooter}
-      isOpen={isOpen}
-      title={title}
-      onClose={onClose}
-      parentSelector={parentSelector}
+      className={cn(styles.dialog, modalClassName)}
+      headerClassName={styles.dialogHeader}
+      bodyClassName={styles.dialogBody}
+      contentClassName={styles.dialogContent}
+      footerClassName={styles.dialogFooter}
       actions={actions}
+      title={affirmation}
+      closable={false}
+      {...rest}
     >
-      <div className={styles.content}>
-        <div data-test="dialog-affirmation">{affirmation}</div>
-        {consequences && (
-          <div data-test="dialog-consequences" className={styles.consequences}>
-            {consequences}
-          </div>
-        )}
+      <div data-test="dialog-content" className={styles.content}>
+        {consequences}
       </div>
     </Modal>
   )

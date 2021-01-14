@@ -20,6 +20,9 @@ export type ModalProps = {
   autoFocus?: boolean
   children?: ReactNode
   closable?: boolean
+  bodyClassName?: string
+  headerClassName?: string
+  contentClassName?: string
   footerClassName?: string
   icon?: IconProps['icon']
   iconAriaLabel?: IconProps['ariaLabel']
@@ -47,6 +50,9 @@ export const Modal: FC<ModalProps> = ({
   children,
   className,
   closable = true,
+  bodyClassName,
+  headerClassName,
+  contentClassName,
   footerClassName,
   icon,
   iconAriaLabel,
@@ -71,17 +77,22 @@ export const Modal: FC<ModalProps> = ({
       {...rest}
     >
       <div className={styles.outline} />
-      <div className={styles.container}>
-        <div data-test="modal-header" className={styles.header}>
+      <div className={cn(styles.body, bodyClassName)}>
+        <div data-test="modal-header" className={cn(styles.header, headerClassName)}>
           {icon && iconAriaLabel && <Icon data-test="modal-header-icon" className={styles.icon} icon={icon} ariaLabel={iconAriaLabel} />}
           <h3 data-test="modal-header-title" className={styles.title}>
             {title}
           </h3>
-          <div className={styles.close}>
-            <IconButton data-test="modal-button-close" kind="transparent" ariaLabel="Close icon" icon={X} onClick={onClose} />
-          </div>
+          {closable && (
+            // Note: Dialog use-case. "Not closable" modal must be closed via "Cancel" button.
+            <div className={styles.close}>
+              <IconButton data-test="modal-button-close" kind="transparent" ariaLabel="Close icon" icon={X} onClick={onClose} />
+            </div>
+          )}
         </div>
-        <div data-test="modal-content">{children}</div>
+        <div data-test="modal-content" className={cn(styles.content, contentClassName)}>
+          {children}
+        </div>
         <div data-test="modal-footer" className={cn(styles.footer, footerClassName)}>
           {actions?.map(({ children, ...actionPropsRest }, key) => (
             <Button key={key} data-test="modal-button-action" {...actionPropsRest}>

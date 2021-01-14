@@ -1,19 +1,53 @@
 @use '../styles/constants' as c;
 
-.modalFooter {
-  border-top: none !important;
-}
+.dialog {
+  box-sizing: border-box;
+  width: c.$dialogWidth;
+  min-width: unset;
+  max-width: unset;
+  max-height: unset;
+  min-height: c.$dialogMinHeight;
+  display: flex;
+  flex-direction: column;
 
-.content {
-  padding: c.$grid * 6;
-
-  // TODO: Improvisation, get the proper size
-  .consequences {
-    margin-top: c.$grid * 3;
+  .dialogHeader {
+    margin-right: 0 !important;
+    justify-content: center;
   }
 
-  // TODO: Improvisation, get the proper size
-  .children {
-    margin-top: c.$grid * 3;
+  .dialogBody {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    text-align: center;
+
+    .dialogContent {
+      flex: 1;
+    }
+
+    .dialogFooter {
+      display: flex;
+      margin: 0 (c.$grid * -5) (c.$grid * -5) (c.$grid * -5);
+
+      & > button {
+        flex: 1;
+        margin: 0 !important;
+        max-width: unset;
+      }
+
+      // Note: In case there are 2 buttons
+      & > button:not(:only-of-type) {
+        // Note: Disable right borders
+        &:nth-of-type(1) {
+          border-top-right-radius: unset;
+          border-bottom-right-radius: unset;
+        }
+        // Note: Disable left borders
+        &:nth-of-type(2) {
+          border-top-left-radius: unset;
+          border-bottom-left-radius: unset;
+        }
+      }
+    }
   }
 }
