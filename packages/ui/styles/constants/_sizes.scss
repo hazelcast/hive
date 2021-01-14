@@ -46,7 +46,7 @@ $selectMenuShadowBlur: 4px !default;
 /* doiuse-disable calc */
 $modalWidth: calc(100% - #{$grid} * 10);
 $modalMaxWidth: 960px !default;
-$modalHeight: calc(100% - #{$grid} * 10);
+$modalMaxHeight: calc(100% - #{$grid} * 10);
 /* doiuse-enable calc */
 
 // border radius on left/right size of the progress tracker

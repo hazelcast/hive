@@ -70,8 +70,7 @@ export const Modal: FC<ModalProps> = ({
         <div data-test="modal-header" className={styles.header}>
           <h3 data-test="modal-title">{title}</h3>
           <div className={styles.close}>
-            {/* TODO: Get color */}
-            <IconButton data-test="modal-button-close" kind="transparent" size="small" ariaLabel="Close icon" icon={X} onClick={onClose} />
+            <IconButton data-test="modal-button-close" kind="transparent" ariaLabel="Close icon" icon={X} onClick={onClose} />
           </div>
         </div>
         <div data-test="modal-content">{children}</div>

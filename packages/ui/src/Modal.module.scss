@@ -4,8 +4,8 @@
 .overlay {
   width: 100%;
   height: 100%;
-  // TODO: Get color
-  background-color: transparentize(c.$colorNeutralLight, 0.9);
+  background-color: c.$colorText;
+  opacity: 0.8;
 }
 
 .modal {
@@ -16,12 +16,11 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  // TODO: get spacing
   max-width: c.$modalMaxWidth;
   width: c.$modalWidth;
-  max-height: c.$modalHeight;
+  max-height: c.$modalMaxHeight;
   z-index: c.$zIndex1000;
-  // TODO: Get color
-  box-shadow: c.$grid * 1.25 c.$grid * 5 c.$grid * 20 0 #353d49;
 
   .close {
     margin-left: c.$grid * 3;
