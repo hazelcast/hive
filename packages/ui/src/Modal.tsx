@@ -65,14 +65,14 @@ export const Modal: FC<ModalProps> = ({
 
   return (
     <ReactModal
-      contentLabel={title}
       className={cn(styles.modal, className)}
-      overlayClassName={cn(styles.overlay, overlayClassName)}
+      contentLabel={title}
       data-test={dataTest}
       onRequestClose={onClose}
-      shouldFocusAfterRender={false}
+      overlayClassName={cn(styles.overlay, overlayClassName)}
       shouldCloseOnEsc={closable}
       shouldCloseOnOverlayClick={closable}
+      shouldFocusAfterRender={false}
       shouldReturnFocusAfterClose
       {...rest}
     >
@@ -84,7 +84,7 @@ export const Modal: FC<ModalProps> = ({
             {title}
           </h3>
           {closable && (
-            // Note: Dialog use-case. "Not closable" modal must be closed via "Cancel" button.
+            // Note: Dialog use-case. "Not closable" modal can only be closed via "Cancel" button.
             <div className={styles.close}>
               <IconButton data-test="modal-button-close" kind="transparent" ariaLabel="Close icon" icon={X} onClick={onClose} />
             </div>
