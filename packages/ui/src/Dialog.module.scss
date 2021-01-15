@@ -34,19 +34,23 @@
         flex: 1;
         margin: 0 !important;
         max-width: unset;
+        // Note: Unset border-radius for the buttons
+        border-radius: unset;
+      }
+
+      // Note: In case there is only one button (Cancel)
+      & > button:only-of-type {
+        border-bottom-left-radius: c.$borderRadius;
+        border-bottom-right-radius: c.$borderRadius;
       }
 
       // Note: In case there are 2 buttons
       & > button:not(:only-of-type) {
-        // Note: Unset right border-radiuses of the first one
         &:nth-of-type(1) {
-          border-top-right-radius: unset;
-          border-bottom-right-radius: unset;
+          border-bottom-left-radius: c.$borderRadius;
         }
-        // Note: Unset left border-radiuses of the second one
         &:nth-of-type(2) {
-          border-top-left-radius: unset;
-          border-bottom-left-radius: unset;
+          border-bottom-right-radius: c.$borderRadius;
         }
       }
     }
