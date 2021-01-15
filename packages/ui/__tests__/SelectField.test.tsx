@@ -233,4 +233,45 @@ describe('SelectField', () => {
 
     expect(wrapper.find(IconButton).prop('icon')).toBe(X)
   })
+
+  it('Renders multiple selections with correct props', async () => {
+    const onChange = jest.fn()
+
+    const value = [selectOptions[0], selectOptions[1]]
+    const wrapper = await mountAndCheckA11Y(
+      <SelectField name={selectName} label={selectLabel} isMulti={true} options={selectOptions} value={value} onChange={onChange} />,
+      {
+        axeOptions: SELECT_FIELD_AXE_OPTIONS,
+      },
+    )
+
+    expect(wrapper.find('.hz-select-field__multi-value')).toHaveLength(2);
+
+    expect(wrapper.find(Label).props()).toEqual({
+      id: selectId,
+      label: selectLabel,
+    })
+
+    expect(wrapper.find(ReactSelect).props()).toMatchObject({
+      inputId: selectId,
+      name: selectName,
+      'aria-invalid': false,
+      'aria-required': undefined,
+      'aria-errormessage': undefined,
+      isClearable: false,
+      isDisabled: undefined,
+      isMulti: true,
+      isSearchable: true,
+      options: selectOptions,
+      value,
+      onChange,
+    })
+
+    expect(wrapper.find(Error).props()).toEqual({
+      error: undefined,
+      className: styles.errorContainer,
+      inputId: selectId,
+    })
+  })
+
 })
