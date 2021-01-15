@@ -5,19 +5,16 @@ import cn from 'classnames'
 import { Tooltip } from '../src/Tooltip'
 import styles from '../src/Tooltip.module.scss'
 
-// div is required because `axe` cannot validate react fragments
 describe('Tooltip', () => {
   it('Renders correctly if "content" property is defined.', async () => {
     const wrapper = await mountAndCheckA11Y(
-      <div>
-        <Tooltip id="tooltip-test" content="Tooltip content">
-          {(ref) => (
-            <button ref={ref} data-test="tooltip-reference">
-              Hover me
-            </button>
-          )}
-        </Tooltip>
-      </div>,
+      <Tooltip id="tooltip-test" content="Tooltip content">
+        {(ref) => (
+          <button ref={ref} data-test="tooltip-reference">
+            Hover me
+          </button>
+        )}
+      </Tooltip>,
     )
 
     const tooltipOverlay = wrapper.findDataTest('tooltip-overlay')
@@ -40,15 +37,13 @@ describe('Tooltip', () => {
 
   it('Does not render tooltip if "content" property is not defined.', async () => {
     const wrapper = await mountAndCheckA11Y(
-      <div>
-        <Tooltip id="tooltip-test" content={undefined}>
-          {(ref) => (
-            <button ref={ref} data-test="tooltip-reference">
-              Hover me
-            </button>
-          )}
-        </Tooltip>
-      </div>,
+      <Tooltip id="tooltip-test" content={undefined}>
+        {(ref) => (
+          <button ref={ref} data-test="tooltip-reference">
+            Hover me
+          </button>
+        )}
+      </Tooltip>,
     )
 
     expect(wrapper.findDataTest('tooltip-overlay').exists()).toBeFalsy()
@@ -56,15 +51,13 @@ describe('Tooltip', () => {
 
   it('Shows tooltip overlay by default if "visible" prop is true.', async () => {
     const wrapper = await mountAndCheckA11Y(
-      <div>
-        <Tooltip id="tooltip-test" content="Tooltip content" visible>
-          {(ref) => (
-            <button ref={ref} data-test="tooltip-reference">
-              Hover me
-            </button>
-          )}
-        </Tooltip>
-      </div>,
+      <Tooltip id="tooltip-test" content="Tooltip content" visible>
+        {(ref) => (
+          <button ref={ref} data-test="tooltip-reference">
+            Hover me
+          </button>
+        )}
+      </Tooltip>,
     )
 
     expect(wrapper.findDataTest('tooltip-overlay').hasClass(styles.hidden)).toBeFalsy()
