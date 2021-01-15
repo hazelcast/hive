@@ -37,8 +37,6 @@ export type SelectFieldOption<V = string> = {
   value: V
 }
 
-export type SelectFieldValue<V = string> = SelectFieldOption<V> | SelectFieldOption<V>[]
-
 export type SelectFieldCoreStaticProps = {
   name: string
   onBlur?: (e: FocusEvent<HTMLElement>) => void
@@ -46,16 +44,30 @@ export type SelectFieldCoreStaticProps = {
   isMulti?: boolean
 }
 
-export type SelectFieldCoreDynamicProps<V> =
+type SelectFieldCoreDynamicProps<V> =
   | {
       isClearable: true
-      value: SelectFieldValue<V> | null
-      onChange: (newValue: SelectFieldValue<V> | null) => void
+      isMulti?: false
+      value: SelectFieldOption<V> | null
+      onChange: (newValue: SelectFieldOption<V> | null) => void
     }
   | {
       isClearable?: false
-      value: SelectFieldValue<V>
-      onChange: (newValue: SelectFieldValue<V>) => void
+      isMulti?: false
+      value: SelectFieldOption<V>
+      onChange: (newValue: SelectFieldOption<V>) => void
+    }
+  | {
+      isClearable: true
+      isMulti: true
+      value: SelectFieldOption<V>[] | null
+      onChange: (newValue: SelectFieldOption<V>[] | null) => void
+    }
+  | {
+      isClearable?: false
+      isMulti: true
+      value: SelectFieldOption<V>[]
+      onChange: (newValue: SelectFieldOption<V>[]) => void
     }
 
 export type SelectFieldExtraProps<V> = {
@@ -165,7 +177,7 @@ export const SelectField = <V,>({
           styles={customStyles}
           name={name}
           value={value}
-          onChange={onChange as (value: ValueType<SelectFieldValue<V>>, action: ActionMeta<SelectFieldOption<V>>) => void}
+          onChange={onChange as (value: ValueType<SelectFieldOption<V>>, action: ActionMeta<SelectFieldOption<V>>) => void}
           menuPortalTarget={getMenuContainer(menuPortalTarget)}
           components={{
             DropdownIndicator,

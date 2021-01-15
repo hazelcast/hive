@@ -2,7 +2,7 @@ import React, { useLayoutEffect, useRef, useState } from 'react'
 import { logger } from '@hazelcast/services'
 import { Form, Formik } from 'formik'
 
-import { SelectField, SelectFieldOption, SelectFieldValue } from '../src/SelectField'
+import { SelectField, SelectFieldOption } from '../src/SelectField'
 import { SelectFieldFormik } from '../src/SelectFieldFormik'
 
 import styles from '../src/SelectField.module.scss'
@@ -26,7 +26,7 @@ const options: SelectFieldOption<string>[] = [
 const value = options[1]
 
 export const Default = () => {
-  const [currentValue, setValue] = useState<SelectFieldValue>(value)
+  const [currentValue, setValue] = useState(value)
   return (
     <SelectField name={name} value={currentValue} label={label} options={options} onBlur={() => logger.log('blur')} onChange={setValue} />
   )
@@ -142,7 +142,7 @@ export const WithHelperText = () => (
 )
 
 export const Clearable = () => {
-  const [currentValue, setValue] = useState<SelectFieldValue | null>(value)
+  const [currentValue, setValue] = useState<SelectFieldOption | null>(value)
   return (
     <SelectField
       name="name"
@@ -301,7 +301,7 @@ export const NonSearchableOpen = () => {
 }
 
 export const MultipleSelections = () => {
-  const [currentValue, setValue] = useState<SelectFieldValue>([options[1], options[2]])
+  const [currentValue, setValue] = useState([options[1], options[2]])
   return (
     <SelectField
       name={name}
@@ -316,7 +316,7 @@ export const MultipleSelections = () => {
 }
 
 export const MultipleSelectionsMultipleRows = () => {
-  const [currentValue, setValue] = useState<SelectFieldValue>([...options])
+  const [currentValue, setValue] = useState([...options])
   return (
     <SelectField
       name={name}
@@ -334,7 +334,7 @@ export const MultipleSelectionsAndOpen = () => {
   //
   // xxx WIP very problematic in storybooks :/
   //
-  const [currentValue, setValue] = useState<SelectFieldValue>([options[1], options[2]])
+  const [currentValue, setValue] = useState([options[1], options[2]])
   const ref = useRef<HTMLDivElement>(null)
   return (
     <div ref={ref} style={{ height: 350 }}>
