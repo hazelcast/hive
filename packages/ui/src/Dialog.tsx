@@ -36,7 +36,7 @@ export type DialogProps = {
  * Dialogs are used to drive simple actions such as a mere confirmation. In case there is a more complex action (e.g larger form, table etc.) use Modal.
  *
  * ### General Info
- * - Dialog is a specification of Modal to fit a particular use-case of confirming an action
+ * - Dialog is a special kind of Modal. It's made for simple use-cases such as confirmations.
  * - Use affirmation` and `consequences` props to set the content of the Dialog.
  */
 export const Dialog: FC<DialogProps> = ({
