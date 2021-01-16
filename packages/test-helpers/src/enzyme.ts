@@ -1,6 +1,6 @@
 import { MountRendererProps, mount as mountEnzyme, ReactWrapper } from 'enzyme'
 import { axe, JestAxe, toHaveNoViolations } from 'jest-axe'
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import { act } from 'react-dom/test-utils'
 
 expect.extend(toHaveNoViolations)
@@ -16,46 +16,28 @@ export const axeDefaultOptions: AxeOptions = {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-let beforeAxeGlobal: ((wrapper: ReactWrapper<any>) => void | Promise<void>) | undefined
+let getAxeNodeDefault: (wrapper: ReactWrapper<any>) => Element = () => document.body
 /**
- * Use it to attach modal
- *
- * @example
- *
- * import { setAppElement } from 'react-modal'
- * ...
- * await mountAndCheckA11Y(<App />, { beforeAxe: (wrapper) => setAppElement(wrapper.getDOMNode()) })
+ * Use it to set the DOM node passed to Axe
+ * @default getAxeNodeDefault: () => document.body
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const setBeforeAxeGlobal = (newBeforeAxeGlobal: (wrapper: ReactWrapper<any>) => void | Promise<void>) => {
-  beforeAxeGlobal = newBeforeAxeGlobal
+export const getAxeNodeGlobal = (newGetAxeNode: (wrapper: ReactWrapper<any>) => Element) => {
+  getAxeNodeDefault = newGetAxeNode
 }
 
 export interface MountAndCheckA11YOptions<P> {
   mountOptions?: MountRendererProps
   act?: 'sync' | 'async'
   axeOptions?: AxeOptions
-  /**
-   * Use it to attach modal
-   * Overrides `setBeforeAxeGlobal`
-   */
-  beforeAxe?: (wrapper: ReactWrapper<P>) => void | Promise<void>
-  /**
-   * Wrap node with `div` to handle Fragments and Portals
-   * As jest-axe expects a valid HTML string
-   */
-  wrap?: boolean
+  getAxeNode?: (wrapper: ReactWrapper<P>) => Element
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const mountAndCheckA11Y = async <P,>(
+export const mountAndCheckA11Y = async <P>(
   node: ReactElement<P>,
-  { axeOptions = axeDefaultOptions, beforeAxe, mountOptions, act: actOption = 'async', wrap = true }: MountAndCheckA11YOptions<P> = {},
+  { axeOptions = axeDefaultOptions, mountOptions, getAxeNode, act: actOption = 'async' }: MountAndCheckA11YOptions<P> = {},
 ) => {
-  if (wrap) {
-    node = <div>{node}</div>
-  }
-
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   let wrapper!: ReactWrapper<P>
 
@@ -72,8 +54,7 @@ export const mountAndCheckA11Y = async <P,>(
     wrapper = mountEnzyme(node, mountOptions)
   }
 
-  await (beforeAxeGlobal ?? beforeAxe)?.(wrapper)
-  const results = await axe(wrapper.getDOMNode(), axeOptions)
+  const results = await axe((getAxeNode ?? getAxeNodeDefault)(wrapper), axeOptions)
   expect(results).toHaveNoViolations()
 
   return wrapper
