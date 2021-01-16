@@ -7,7 +7,7 @@ import { ExtractKeysOfValueType } from './utils/types'
 
 export type PasswordFieldFormikProps<V extends object> = PasswordFieldExtraProps & {
   name: ExtractKeysOfValueType<V, string | undefined>
-  validate?: FieldValidatorGeneric<string | undefined>
+  validate?: FieldValidatorGeneric<V[keyof V]>
 }
 
 export const PasswordFieldFormik = <V extends object>({ name, validate, ...props }: PasswordFieldFormikProps<V>): ReactElement => {
