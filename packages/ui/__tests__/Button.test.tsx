@@ -1,6 +1,7 @@
 import React from 'react'
 import { X } from 'react-feather'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import cn from 'classnames'
 
 import { Loader, TruncatedText, Tooltip, Button, ButtonKind } from '../src'
 
@@ -19,7 +20,7 @@ describe('Button', () => {
   it.each(buttonKindTestData)('Renders Button with correct className which corresponds to button kind', async (kind, className) => {
     const wrapper = await mountAndCheckA11Y(<Button kind={kind}>Label</Button>)
 
-    expect(wrapper.findDataTest('button').prop('className')).toMatch(`button ${className}`)
+    expect(wrapper.findDataTest('button').prop('className')).toBe(cn(styles.button, className))
   })
 
   const labelTestData: [string][] = [['label'], [label], ['lAbEl']]
@@ -159,12 +160,9 @@ describe('Button', () => {
     const disabledTooltip = 'Disabled tooltip'
 
     const wrapper = await mountAndCheckA11Y(
-      // div is required because `axe` cannot validate react fragments
-      <div>
-        <Button disabled disabledTooltip={disabledTooltip}>
-          {label}
-        </Button>
-      </div>,
+      <Button disabled disabledTooltip={disabledTooltip}>
+        {label}
+      </Button>,
     )
 
     expect(wrapper.find(TruncatedText).props()).toMatchObject({
@@ -176,12 +174,9 @@ describe('Button', () => {
     const disabledTooltip = 'Disabled tooltip'
 
     const wrapper = await mountAndCheckA11Y(
-      // div is required because `axe` cannot validate react fragments
-      <div>
-        <Button disabled disabledTooltip={disabledTooltip} disabledTooltipVisible={false}>
-          {label}
-        </Button>
-      </div>,
+      <Button disabled disabledTooltip={disabledTooltip} disabledTooltipVisible={false}>
+        {label}
+      </Button>,
     )
 
     expect(wrapper.find(TruncatedText).props()).toMatchObject({
