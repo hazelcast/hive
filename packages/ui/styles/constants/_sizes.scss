@@ -22,6 +22,7 @@ $borderWidthButton: 2px !default;
 $outlineWidth: 2px !default;
 
 $iconStrokeWidth: 2px !default;
+$iconStrokeWidthBold: 3px !default;
 
 $iconSizeSmall: $grid * 4 !default;
 $iconSizeNormal: $grid * 6 !default;
@@ -53,3 +54,5 @@ $sliderThumbHoverBorderSize: 1px;
 $sliderThumbShadowSize: 1px;
 $sliderThumbShadowBlur: $grid;
 $sliderFillBorderSize: 1px;
+
+$borderRadiusNotification: 3px;

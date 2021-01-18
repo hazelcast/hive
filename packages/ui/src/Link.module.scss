@@ -36,3 +36,7 @@
   @include link;
   @include c.typographyBodySmall;
 }
+
+.bold {
+  @include c.typographyBodyWeight('bold');
+}

@@ -102,6 +102,48 @@ export const SmallWithIconActive = () => (
   </Link>
 )
 
+export const Bold = () => (
+  <Link bold href="https://hazelcast.com/">
+    Bold Text Link
+  </Link>
+)
+export const BoldHovered = () => (
+  <Link bold href="https://hazelcast.com/" className={styles.hover}>
+    Bold Text Link
+  </Link>
+)
+export const BoldFocused = () => (
+  <Link bold href="https://hazelcast.com/" className={styles.focus}>
+    Bold Text Link
+  </Link>
+)
+export const BoldActive = () => (
+  <Link bold href="https://hazelcast.com/" className={styles.active}>
+    Bold Text Link
+  </Link>
+)
+
+export const BoldWithIcon = () => (
+  <Link bold icon={ChevronRight} ariaLabel="Chevron right" href="https://hazelcast.com/">
+    Bold Text Link
+  </Link>
+)
+export const BoldWithIconHovered = () => (
+  <Link bold icon={ChevronRight} ariaLabel="Chevron right" href="https://hazelcast.com/" className={styles.hover}>
+    Bold Text Link
+  </Link>
+)
+export const BoldWithIconFocused = () => (
+  <Link bold icon={ChevronRight} ariaLabel="Chevron right" href="https://hazelcast.com/" className={styles.focus}>
+    Bold Text Link
+  </Link>
+)
+export const BoldWithIconActive = () => (
+  <Link bold icon={ChevronRight} ariaLabel="Chevron right" href="https://hazelcast.com/" className={styles.active}>
+    Bold Text Link
+  </Link>
+)
+
 // A few 'secondary' kind variations:
 
 export const SecondaryNormal = () => (
