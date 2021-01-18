@@ -7,7 +7,7 @@ import { ExtractKeysOfValueType } from './utils/types'
 
 export type TextFieldFormikProps<V extends object> = TextFieldExtraProps<Exclude<TextFieldTypes, 'number' | 'password'>> & {
   name: ExtractKeysOfValueType<V, string | undefined>
-  validate?: FieldValidatorGeneric<V[keyof V]>
+  validate?: FieldValidatorGeneric<string | undefined>
 }
 
 export const TextFieldFormik = <V extends object>({ type, name, validate, ...props }: TextFieldFormikProps<V>): ReactElement => {
