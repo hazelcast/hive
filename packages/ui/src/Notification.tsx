@@ -14,7 +14,7 @@ export type NotificationIconDescriptor = {
   ariaLabel: string
 }
 
-export const BadgeIcon: { [key in NotificationType]: NotificationIconDescriptor } = {
+export const NotificationIcon: { [key in NotificationType]: NotificationIconDescriptor } = {
   success: {
     icon: CheckCircle,
     ariaLabel: 'Check circle icon',
@@ -50,7 +50,7 @@ export type NotificationProps = {
 } & NotificationLink
 
 export const Notification: FC<NotificationProps> = ({ type, children, className, link, linkHref }) => {
-  const { icon, ariaLabel } = BadgeIcon[type]
+  const { icon, ariaLabel } = NotificationIcon[type]
 
   return (
     <div
