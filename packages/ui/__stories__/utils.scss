@@ -6,6 +6,17 @@
   align-items: center;
 }
 
+.modalWrapper {
+  width: 100%;
+  height: 500px;
+}
+
+.modal {
+  /* doiuse-disable calc */
+  width: calc(#{c.$modalWidth} - 200px);
+  /* doiuse-enable calc */
+}
+
 .sliderSmallThumb::-webkit-slider-thumb {
   // this should never be possible to override, this is only for storybook purpose - visual regression testing
   opacity: 0.5 !important;

@@ -1,0 +1,88 @@
+@use '../styles/constants' as c;
+@use '../styles/helpers' as h;
+
+.portal {
+  width: 100%;
+  height: 100%;
+}
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  background-color: transparentize(c.$colorText, 0.2);
+}
+
+.modal {
+  background-color: c.$colorNeutralWhite;
+  border: none;
+  border-radius: c.$borderRadius;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: c.$modalWidth;
+  min-width: c.$modalMinWidth;
+  max-width: c.$modalMaxWidth;
+  max-height: c.$modalMaxHeight;
+  z-index: c.$zIndex1000;
+  padding: c.$grid * 5;
+
+  .close {
+    position: absolute;
+    right: c.$grid * 1.5;
+    top: c.$grid * 2;
+  }
+
+  .outline {
+    position: absolute;
+    border-radius: c.$borderRadius;
+    pointer-events: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    z-index: c.$zIndex100;
+    visibility: hidden;
+
+    @include h.outlineSimple;
+  }
+
+  &:focus,
+  &.focus {
+    // Do not remove outline for high-contrast modes
+    // https://stackoverflow.com/a/52616313
+    outline: transparent solid c.$outlineWidth;
+
+    .outline {
+      visibility: visible;
+    }
+  }
+
+  .body {
+    .header {
+      display: flex;
+      flex-direction: row;
+      margin: 0 c.$grid * 5 c.$grid * 5 0;
+
+      .icon {
+        margin-right: c.$grid * 2.5;
+      }
+
+      .title {
+        margin: 0;
+      }
+    }
+
+    .footer {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin: c.$grid * 5 0 c.$grid * 2.5;
+
+      & > button:not(:first-of-type) {
+        margin-left: c.$grid * 5;
+      }
+    }
+  }
+}
