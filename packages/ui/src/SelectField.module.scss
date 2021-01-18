@@ -95,6 +95,19 @@ $select: ':global .hz-select-field__control';
   }
 }
 
+// Styles for MultiValue chips - hover and focused states.
+// We inject `.multiValueIsFocused` from js (it does not have a :focused state as its tabIndex is not given).
+.multiValueIsFocused {
+  :global .hz-select-field__multi-value__remove {
+    background-color: c.$colorWarning;
+    border: 1px solid c.$colorAccessibilityOutline;
+  }
+}
+:global .hz-select-field__multi-value__remove:hover {
+  background-color: c.$colorWarning;
+  border: 1px solid c.$colorPrimary;
+}
+
 .menuContainer {
   :global .hz-select-field__menu {
     margin-top: $menuMargin;

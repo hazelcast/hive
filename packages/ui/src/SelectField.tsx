@@ -1,5 +1,5 @@
 import { DataTestProp } from '@hazelcast/helpers'
-import React, { FocusEvent, InputHTMLAttributes, ReactElement, CSSProperties } from 'react'
+import React, { FocusEvent, InputHTMLAttributes, ReactElement } from 'react'
 import cn from 'classnames'
 import ReactSelect, { ActionMeta, components, IndicatorProps, Props as ReactSelectProps, ValueType } from 'react-select'
 import { ChevronDown, X } from 'react-feather'
@@ -13,7 +13,6 @@ import { Icon } from './Icon'
 import { IconButton } from './IconButton'
 import { canUseDOM } from './utils/ssr'
 
-import styleConsts from '../styles/constants/export.module.scss'
 import styles from './SelectField.module.scss'
 
 const DropdownIndicator = () => <Icon icon={ChevronDown} ariaHidden size="normal" className={styles.chevron} />
@@ -30,6 +29,11 @@ const Input = (props: any) => {
   // autoComplete='off' is hard-coded inside SelectField, but doesn't work in Chrome.
   // Having an invalid value hard-coded disabled it in all browsers.
   return <components.Input {...props} autoComplete="chrome-off" />
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const MultiValue = (props: any) => {
+  return <components.MultiValue {...props} className={cn({ [styles.multiValueIsFocused]: props.isFocused })} />
 }
 
 export type SelectFieldOption<V = string> = {
@@ -122,27 +126,6 @@ export const SelectField = <V,>({
     }
   }, [menuPortalTarget])
 
-  // Custom styling
-  //
-  // This is the recommend way of styling react-select:
-  // (https://react-select.com/styles#using-classnames)
-  //
-  // ps. Also it's impossible to style the focused state of
-  // multiValue tags via CSS.
-  const customStyles = {
-    multiValueRemove: (styles: CSSProperties, { isFocused }: ReactSelectProps) => ({
-      ...styles,
-      backgroundColor: isFocused && styleConsts.colorWarning,
-      borderWidth: isFocused && 1,
-      borderStyle: isFocused && 'solid',
-      borderColor: isFocused && styleConsts.colorAccessibilityOutline,
-      ':hover': {
-        backgroundColor: styleConsts.colorWarning,
-        borderColor: styleConsts.colorPrimary,
-      },
-    }),
-  }
-
   return (
     <div
       data-test={dataTest}
@@ -174,7 +157,6 @@ export const SelectField = <V,>({
           isDisabled={disabled}
           isSearchable={isSearchable}
           isMulti={isMulti}
-          styles={customStyles}
           name={name}
           value={value}
           onChange={onChange as (value: ValueType<SelectFieldOption<V>>, action: ActionMeta<SelectFieldOption<V>>) => void}
@@ -183,6 +165,7 @@ export const SelectField = <V,>({
             DropdownIndicator,
             ClearIndicator,
             Input,
+            MultiValue,
           }}
           {...rest}
         />
