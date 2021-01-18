@@ -39,7 +39,7 @@ export type ToastProps = {
   type: ToastType
   content: ReactNode
   dismissableByEscKey?: boolean
-  closeToast?: (e?: React.MouseEvent<HTMLButtonElement>) => void
+  closeToast?: (e?: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void
   className?: string
 }
 

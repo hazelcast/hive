@@ -21,15 +21,17 @@ type IconButtonCommonProps = {
 } & IconAriaProps &
   Pick<ButtonHTMLAttributes<HTMLAnchorElement | HTMLButtonElement>, 'onClick' | 'className' | 'tabIndex'>
 
-type IconButtonNotDisabledProps = {
+export type IconButtonNotDisabledProps = {
   disabledTooltip?: never
   disabled?: never
   disabledTooltipPlacement?: never
+  disabledTooltipVisible?: never
 }
-type IconButtonDisabledProps = {
+export type IconButtonDisabledProps = {
   disabledTooltip: string
   disabled: boolean
   disabledTooltipPlacement?: TooltipProps['placement']
+  disabledTooltipVisible?: boolean
 }
 type IconButtonComponentProps =
   | ({
@@ -65,6 +67,7 @@ export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
       // Disabled tooltip
       disabled,
       disabledTooltip,
+      disabledTooltipVisible,
       disabledTooltipPlacement,
       rel = 'noopener',
       target,
@@ -79,7 +82,12 @@ export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
     const labelledByFinal = [ariaLabelledBy, disabled ? tooltipId : undefined].filter(Boolean).join(' ')
 
     return (
-      <Tooltip id={tooltipId} content={disabled ? disabledTooltip : undefined} placement={disabledTooltipPlacement}>
+      <Tooltip
+        id={tooltipId}
+        content={disabled ? disabledTooltip : undefined}
+        placement={disabledTooltipPlacement}
+        visible={disabledTooltipVisible}
+      >
         {(tooltipRef) => (
           <Component
             className={cn(
