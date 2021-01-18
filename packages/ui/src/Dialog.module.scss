@@ -5,16 +5,17 @@
   display: flex;
   flex-direction: column;
   // Note: Unset properties set by Modal
-  min-width: none;
+  min-width: 0;
   max-width: none;
   min-height: c.$dialogMinHeight;
   max-height: none;
   width: c.$dialogWidth;
+  padding-bottom: 0;
 
   .dialogBody {
     display: flex;
     flex-direction: column;
-    flex: 1;
+    flex: 1 1 auto;
     text-align: center;
 
     .dialogHeader {
@@ -23,15 +24,15 @@
     }
 
     .dialogConsequences {
-      flex: 1;
+      flex: 1 1 auto;
     }
 
     .dialogFooter {
       display: flex;
-      margin: 0 (c.$grid * -5) (c.$grid * -5) (c.$grid * -5);
+      margin: (c.$grid * 5) (c.$grid * -5) 0 (c.$grid * -5);
 
       & > button {
-        flex: 1;
+        flex: 1 1 auto;
         margin: 0 !important;
         max-width: none;
         // Note: Unset border-radius for the buttons

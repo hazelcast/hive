@@ -35,7 +35,7 @@ describe('Dialog', () => {
     })
 
     expect(wrapper.findDataTest('modal-header-title').text()).toEqual(DIALOG_AFFIRMATION_DEFAULT)
-    expect(wrapper.findDataTest('dialog-consequences').text()).toEqual(dialogConsequences)
+    expect(wrapper.findDataTest('modal-content').text()).toEqual(dialogConsequences)
   })
 
   it('Renders custom affirmation clause', () => {
@@ -67,7 +67,7 @@ describe('Dialog', () => {
     })
 
     expect(wrapper.findDataTest('modal-header-title').text()).toEqual(dialogAffirmation)
-    expect(wrapper.findDataTest('dialog-consequences').text()).toEqual(dialogConsequences)
+    expect(wrapper.findDataTest('modal-content').text()).toEqual(dialogConsequences)
   })
 
   it("Auto-focuses confirmation action, in case it's not dangerous", () => {

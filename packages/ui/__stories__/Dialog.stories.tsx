@@ -9,6 +9,12 @@ import utilsStyles from './utils.scss'
 export default {
   title: 'Components/Dialog',
   component: Dialog,
+  parameters: {
+    docs: {
+      inlineStories: false,
+      iframeHeight: 500,
+    },
+  },
 }
 
 const onClose = () => console.log('onClose')
@@ -17,6 +23,9 @@ const actionChildren = 'Action'
 const actionDisabledTooltip = 'Disabled Tooltip'
 const affirmation = 'Are you sure, young padawan?'
 const consequences = 'This action may disturb the Force.'
+
+const consequencesLong =
+  'It is a period of civil war. Rebel spaceships, striking from a hidden base, have won their first victory against the evil Galactic Empire. During the battle, Rebel spies managed to steal secret plans to the Empire’s ultimate weapon, the DEATH STAR, an armored space station with enough power to destroy an entire planet. Pursued by the Empire’s sinister agents, Princess Leia races home aboard her starship, custodian of the stolen plans that can save her people and restore freedom to the galaxy….'
 
 const DialogWithPortalFactory: FC<DialogProps> = ({ modalClassName, ...props }) => {
   const id = `s${useUID()}`
@@ -82,3 +91,5 @@ export const WithDangerActionDisabled = () => (
     actionDisabledTooltip={actionDisabledTooltip}
   />
 )
+
+export const Long = () => <DialogWithPortalFactory affirmation={affirmation} consequences={consequencesLong} isOpen onClose={onClose} />

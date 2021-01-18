@@ -10,6 +10,12 @@ import utilsStyles from './utils.scss'
 export default {
   title: 'Components/Modal',
   component: Modal,
+  parameters: {
+    docs: {
+      inlineStories: false,
+      iframeHeight: 500,
+    },
+  },
 }
 
 const onClose = () => console.log('onClose')
