@@ -5,10 +5,10 @@
   display: flex;
   flex-direction: column;
   // Note: Unset properties set by Modal
-  min-width: unset;
-  max-width: unset;
+  min-width: none;
+  max-width: none;
   min-height: c.$dialogMinHeight;
-  max-height: unset;
+  max-height: none;
   width: c.$dialogWidth;
 
   .dialogBody {
@@ -33,9 +33,9 @@
       & > button {
         flex: 1;
         margin: 0 !important;
-        max-width: unset;
+        max-width: none;
         // Note: Unset border-radius for the buttons
-        border-radius: unset;
+        border-radius: 0;
       }
 
       // Note: In case there is only one button (Cancel)
