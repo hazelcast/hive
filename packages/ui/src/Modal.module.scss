@@ -1,6 +1,11 @@
 @use '../styles/constants' as c;
 @use '../styles/helpers' as h;
 
+.portal {
+  width: 100%;
+  height: 100%;
+}
+
 .overlay {
   width: 100%;
   height: 100%;

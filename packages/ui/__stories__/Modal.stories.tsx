@@ -29,12 +29,7 @@ const ModalWithPortalFactory: FC<ModalProps> = ({ children, className, ...props 
   const id = `s${useUID()}`
   return (
     <div id={id} className={utilsStyles.modalWrapper}>
-      <Modal
-        {...props}
-        className={cn(className, utilsStyles.modal)}
-        portalClassName={utilsStyles.modalPortal}
-        parentSelector={() => document.querySelector(`#${id}`) as HTMLElement}
-      >
+      <Modal {...props} className={cn(className, utilsStyles.modal)} parentSelector={() => document.querySelector(`#${id}`) as HTMLElement}>
         {children}
       </Modal>
     </div>

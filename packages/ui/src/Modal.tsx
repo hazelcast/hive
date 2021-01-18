@@ -65,6 +65,7 @@ export const Modal: FC<ModalProps> = ({
 
   return (
     <ReactModal
+      portalClassName={styles.portal}
       className={cn(styles.modal, className)}
       contentLabel={title}
       data-test={dataTest}

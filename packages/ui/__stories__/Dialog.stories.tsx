@@ -25,7 +25,6 @@ const DialogWithPortalFactory: FC<DialogProps> = ({ modalClassName, ...props }) 
       <Dialog
         {...props}
         modalClassName={cn(modalClassName, utilsStyles.modal)}
-        portalClassName={utilsStyles.modalPortal}
         parentSelector={() => document.querySelector(`#${id}`) as HTMLElement}
       />
     </div>
