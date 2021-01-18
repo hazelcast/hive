@@ -75,16 +75,14 @@ export const Dialog: FC<DialogProps> = ({
       className={cn(styles.dialog, modalClassName)}
       headerClassName={styles.dialogHeader}
       bodyClassName={styles.dialogBody}
-      contentClassName={styles.dialogContent}
+      contentClassName={styles.dialogConsequences}
       footerClassName={styles.dialogFooter}
       actions={actions}
       title={affirmation}
       closable={false}
       {...rest}
     >
-      <div data-test="dialog-consequences" className={styles.dialogConsequences}>
-        {consequences}
-      </div>
+      {consequences}
     </Modal>
   )
 }
