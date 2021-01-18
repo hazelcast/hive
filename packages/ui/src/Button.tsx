@@ -9,6 +9,7 @@ import { Tooltip, TooltipProps } from './Tooltip'
 
 import styles from './Button.module.scss'
 import { LinkRel, LinkTarget } from './Link'
+import { Loader } from './Loader'
 
 export type ButtonKind = 'primary' | 'secondary' | 'transparent'
 
@@ -66,7 +67,7 @@ type ButtonCommonProps = {
   children: string
   capitalize?: boolean
   bodyClassName?: string
-} & Pick<HTMLAttributes<HTMLAnchorElement | HTMLButtonElement>, 'className' | 'onClick'>
+} & Pick<HTMLAttributes<HTMLAnchorElement | HTMLButtonElement>, 'className' | 'onClick' | 'tabIndex'>
 
 type ButtonTypeProps =
   | ({
@@ -75,12 +76,14 @@ type ButtonTypeProps =
       target?: LinkTarget
       rel?: LinkRel | LinkRel[]
       type?: never
+      loading?: never
     } & ButtonNotDisabledProps)
   | ({
       component?: 'button'
       href?: never
       target?: never
       rel?: never
+      loading?: boolean
     } & (ButtonDisabledProps | ButtonNotDisabledProps) &
       Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'autoFocus' | 'type'>)
 
@@ -133,6 +136,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
       rel = 'noopener',
       target,
       type = 'button',
+      loading,
       ...rest
     },
     ref,
@@ -160,7 +164,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
               className,
             )}
             aria-describedby={disabled ? tooltipId : undefined}
-            disabled={disabled}
+            disabled={disabled ?? loading}
             rel={Component === 'a' ? relFinal : undefined}
             target={Component === 'a' ? target : undefined}
             type={Component === 'button' ? type : undefined}
@@ -168,7 +172,8 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
           >
             <span className={styles.outline} />
             <span className={cn(styles.body, bodyClassName)} ref={mergeRefs([ref, tooltipRef])}>
-              {iconLeft && iconLeftAriaLabel && (
+              {loading && <Loader className={styles.iconLeft} />}
+              {iconLeft && iconLeftAriaLabel && !loading && (
                 <Icon
                   icon={iconLeft}
                   ariaLabel={iconLeftAriaLabel}
@@ -178,7 +183,16 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
                   color={iconLeftColor}
                 />
               )}
-              <TruncatedText text={capitalize ? children.toUpperCase() : children} />
+              <TruncatedText
+                text={capitalize ? children.toUpperCase() : children}
+                /*
+                  If a button is disabled and text is long we don't want to show 2 popups.
+                  1. In case a button is disabled and no `disabledTooltipVisible` is enforced, we just hide truncated popup.
+                  2. In case a button is disabled and disabledTooltip is hidden with a false flag, there is a space to show
+                  the truncated popup -> setting it to undefined will leave the default behaviour.
+                */
+                tooltipVisible={disabled && disabledTooltipVisible !== false ? false : undefined}
+              />
               {iconRight && iconRightAriaLabel && (
                 <Icon
                   icon={iconRight}

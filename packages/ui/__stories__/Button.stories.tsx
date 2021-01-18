@@ -135,6 +135,18 @@ export const PrimaryIconBothActive = () => (
   </Button>
 )
 
+export const PrimaryLoading = () => (
+  <Button kind="primary" loading>
+    Primary
+  </Button>
+)
+
+export const PrimaryIconBothLoading = () => (
+  <Button kind="primary" iconLeft={Info} iconLeftAriaLabel="Info icon" iconRight={ChevronDown} iconRightAriaLabel="Chevron icon" loading>
+    Primary
+  </Button>
+)
+
 export const Secondary = () => <Button kind="secondary">Secondary</Button>
 
 Secondary.parameters = {
@@ -231,6 +243,18 @@ export const SecondaryIconBothActive = () => (
   </Button>
 )
 
+export const SecondaryLoading = () => (
+  <Button kind="secondary" loading>
+    Secondary
+  </Button>
+)
+
+export const SecondaryIconBothLoading = () => (
+  <Button kind="secondary" iconLeft={Info} iconLeftAriaLabel="Info icon" iconRight={ChevronDown} iconRightAriaLabel="Chevron icon" loading>
+    Secondary
+  </Button>
+)
+
 export const Transparent = () => <Button kind="transparent">Transparent</Button>
 
 export const TransparentHovered = () => (
@@ -314,8 +338,56 @@ export const TransparentIconBothActive = () => (
   </Button>
 )
 
+export const TransparentLoading = () => (
+  <Button kind="transparent" loading>
+    Transparent
+  </Button>
+)
+
+export const TransparentIconBothLoading = () => (
+  <Button
+    kind="transparent"
+    iconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+    iconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+    loading
+  >
+    Transparent
+  </Button>
+)
+
 export const Long = () => (
   <Button kind="primary" iconLeft={Info} iconLeftAriaLabel="Info icon" iconRight={ChevronDown} iconRightAriaLabel="Chevron icon">
+    Looooooooooooooooooooooooooooooooong Primary Button
+  </Button>
+)
+
+export const LongDisabled = () => (
+  <Button
+    kind="primary"
+    disabled={true}
+    disabledTooltip={'Disabled'}
+    iconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+    iconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+  >
+    Looooooooooooooooooooooooooooooooong Primary Button
+  </Button>
+)
+
+export const LongDisabledWithDisabledTooltipVisibleFalse = () => (
+  <Button
+    kind="primary"
+    disabled={true}
+    disabledTooltip={'Disabled'}
+    disabledTooltipVisible={false}
+    iconLeft={Info}
+    iconLeftAriaLabel="Info icon"
+    iconRight={ChevronDown}
+    iconRightAriaLabel="Chevron icon"
+  >
     Looooooooooooooooooooooooooooooooong Primary Button
   </Button>
 )

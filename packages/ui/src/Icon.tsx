@@ -4,7 +4,7 @@ import { Icon as SimpleIconType } from '@icons-pack/react-simple-icons'
 
 import styleConsts from '../styles/constants/export.module.scss'
 
-type IconSize = 'small' | 'normal'
+export type IconSize = 'small' | 'normal' | 'xlarge'
 
 // Makes it required to set either "aria-label", "aria-labelledby" or "aria-hidden" attribute.
 export type IconAriaProps =

@@ -1,9 +1,9 @@
 import React from 'react'
 import { X } from 'react-feather'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import cn from 'classnames'
 
-import { Tooltip } from '../src/Tooltip'
-import { Button, ButtonKind } from '../src/Button'
+import { Loader, TruncatedText, Tooltip, Button, ButtonKind } from '../src'
 
 import styles from '../src/Button.module.scss'
 
@@ -20,7 +20,7 @@ describe('Button', () => {
   it.each(buttonKindTestData)('Renders Button with correct className which corresponds to button kind', async (kind, className) => {
     const wrapper = await mountAndCheckA11Y(<Button kind={kind}>Label</Button>)
 
-    expect(wrapper.findDataTest('button').prop('className')).toMatch(`button ${className}`)
+    expect(wrapper.findDataTest('button').prop('className')).toBe(cn(styles.button, className))
   })
 
   const labelTestData: [string][] = [['label'], [label], ['lAbEl']]
@@ -99,6 +99,23 @@ describe('Button', () => {
     })
   })
 
+  it('Renders loading button', async () => {
+    const wrapper = await mountAndCheckA11Y(
+      // div is required because `axe` cannot validate react fragments
+      <div>
+        <Button loading>{label}</Button>
+      </div>,
+    )
+
+    expect(wrapper.find('button').prop('disabled')).toBe(true)
+    expect(wrapper.find(Tooltip).at(0).props()).toMatchObject({
+      content: undefined,
+    })
+    expect(wrapper.find(Loader).props()).toEqual({
+      className: styles.iconLeft,
+    })
+  })
+
   it('Renders disabled button with a disabled tooltip', async () => {
     const disabledTooltip = 'Disabled tooltip'
 
@@ -114,6 +131,56 @@ describe('Button', () => {
     expect(wrapper.find('button').prop('disabled')).toBe(true)
     expect(wrapper.find(Tooltip).at(0).props()).toMatchObject({
       content: disabledTooltip,
+    })
+    expect(wrapper.exists(Loader)).toBeFalsy()
+  })
+
+  it('Renders disabled loading button with a disabled tooltip', async () => {
+    const disabledTooltip = 'Disabled tooltip'
+
+    const wrapper = await mountAndCheckA11Y(
+      // div is required because `axe` cannot validate react fragments
+      <div>
+        <Button disabled loading disabledTooltip={disabledTooltip}>
+          {label}
+        </Button>
+      </div>,
+    )
+
+    expect(wrapper.find('button').prop('disabled')).toBe(true)
+    expect(wrapper.find(Tooltip).at(0).props()).toMatchObject({
+      content: disabledTooltip,
+    })
+    expect(wrapper.find(Loader).props()).toEqual({
+      className: styles.iconLeft,
+    })
+  })
+
+  it('Renders disabled button, tooltip is enabled, correct tooltipVisible flag passed to TruncatedText', async () => {
+    const disabledTooltip = 'Disabled tooltip'
+
+    const wrapper = await mountAndCheckA11Y(
+      <Button disabled disabledTooltip={disabledTooltip}>
+        {label}
+      </Button>,
+    )
+
+    expect(wrapper.find(TruncatedText).props()).toMatchObject({
+      tooltipVisible: false,
+    })
+  })
+
+  it('Renders disabled button, tooltip is disabled, correct tooltipVisible flag passed to TruncatedText', async () => {
+    const disabledTooltip = 'Disabled tooltip'
+
+    const wrapper = await mountAndCheckA11Y(
+      <Button disabled disabledTooltip={disabledTooltip} disabledTooltipVisible={false}>
+        {label}
+      </Button>,
+    )
+
+    expect(wrapper.find(TruncatedText).props()).toMatchObject({
+      tooltipVisible: undefined,
     })
   })
 
