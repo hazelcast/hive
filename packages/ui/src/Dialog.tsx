@@ -25,7 +25,7 @@ type DialogActionProps =
 
 export type DialogProps = {
   modalClassName?: string
-  affirmation: string
+  affirmation?: string
   consequences: ReactNode
 } & DialogActionProps &
   Pick<ModalProps, 'isOpen' | 'onClose' | 'parentSelector' | 'portalClassName'>
@@ -82,7 +82,7 @@ export const Dialog: FC<DialogProps> = ({
       closable={false}
       {...rest}
     >
-      <div data-test="dialog-content" className={styles.content}>
+      <div data-test="dialog-consequences" className={styles.dialogConsequences}>
         {consequences}
       </div>
     </Modal>

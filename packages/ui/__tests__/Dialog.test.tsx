@@ -4,7 +4,6 @@ import React from 'react'
 import { Dialog, DIALOG_AFFIRMATION_DEFAULT } from '../src/Dialog'
 import { Modal } from '../src/Modal'
 
-const dialogTitle = 'Dialog Title'
 const dialogAction = 'Action'
 const dialogAffirmation = 'Dialog affirmation'
 const dialogConsequences = 'Dialog consequences'
@@ -19,12 +18,12 @@ describe('Dialog', () => {
     const actionOnConfirm = jest.fn()
 
     const wrapper = mount(
-      <Dialog isOpen title={dialogTitle} onClose={onClose} actionChildren={dialogAction} actionOnConfirm={actionOnConfirm} />,
+      <Dialog isOpen consequences={dialogConsequences} onClose={onClose} actionChildren={dialogAction} actionOnConfirm={actionOnConfirm} />,
     )
 
     expect(wrapper.find(Modal).props()).toMatchObject({
       isOpen: true,
-      title: dialogTitle,
+      title: DIALOG_AFFIRMATION_DEFAULT,
       onClose,
       actions: [
         {
@@ -35,8 +34,8 @@ describe('Dialog', () => {
       ],
     })
 
-    expect(wrapper.findDataTest('dialog-affirmation').text()).toEqual(DIALOG_AFFIRMATION_DEFAULT)
-    expect(wrapper.findDataTest('dialog-consequences').exists()).toBeFalsy()
+    expect(wrapper.findDataTest('modal-header-title').text()).toEqual(DIALOG_AFFIRMATION_DEFAULT)
+    expect(wrapper.findDataTest('dialog-consequences').text()).toEqual(dialogConsequences)
   })
 
   it('Renders custom affirmation clause', () => {
@@ -46,50 +45,17 @@ describe('Dialog', () => {
     const wrapper = mount(
       <Dialog
         isOpen
-        title={dialogTitle}
-        onClose={onClose}
-        actionChildren={dialogAction}
-        actionOnConfirm={actionOnConfirm}
-        affirmation={dialogAffirmation}
-      />,
-    )
-
-    expect(wrapper.find(Modal).props()).toMatchObject({
-      isOpen: true,
-      title: dialogTitle,
-      onClose,
-      actions: [
-        {
-          children: dialogAction,
-          kind: 'primary',
-          onClick: actionOnConfirm,
-        },
-      ],
-    })
-
-    expect(wrapper.findDataTest('dialog-affirmation').text()).toEqual(dialogAffirmation)
-    expect(wrapper.findDataTest('dialog-consequences').exists()).toBeFalsy()
-  })
-
-  it('Renders consequences clause', () => {
-    const onClose = jest.fn()
-    const actionOnConfirm = jest.fn()
-
-    const wrapper = mount(
-      <Dialog
-        isOpen
-        title={dialogTitle}
-        onClose={onClose}
-        actionChildren={dialogAction}
-        actionOnConfirm={actionOnConfirm}
         affirmation={dialogAffirmation}
         consequences={dialogConsequences}
+        onClose={onClose}
+        actionChildren={dialogAction}
+        actionOnConfirm={actionOnConfirm}
       />,
     )
 
     expect(wrapper.find(Modal).props()).toMatchObject({
       isOpen: true,
-      title: dialogTitle,
+      title: dialogAffirmation,
       onClose,
       actions: [
         {
@@ -100,7 +66,7 @@ describe('Dialog', () => {
       ],
     })
 
-    expect(wrapper.findDataTest('dialog-affirmation').text()).toEqual(dialogAffirmation)
+    expect(wrapper.findDataTest('modal-header-title').text()).toEqual(dialogAffirmation)
     expect(wrapper.findDataTest('dialog-consequences').text()).toEqual(dialogConsequences)
   })
 
@@ -111,17 +77,17 @@ describe('Dialog', () => {
     const wrapper = mount(
       <Dialog
         isOpen
-        title={dialogTitle}
+        affirmation={dialogAffirmation}
+        consequences={dialogConsequences}
         onClose={onClose}
         actionChildren={dialogAction}
         actionOnConfirm={actionOnConfirm}
-        affirmation={dialogAffirmation}
       />,
     )
 
     expect(wrapper.find(Modal).props()).toMatchObject({
       isOpen: true,
-      title: dialogTitle,
+      title: dialogAffirmation,
       onClose,
       actions: [
         {
@@ -143,18 +109,18 @@ describe('Dialog', () => {
     const wrapper = mount(
       <Dialog
         isOpen
-        title={dialogTitle}
+        affirmation={dialogAffirmation}
+        consequences={dialogConsequences}
         onClose={onClose}
         actionDangerous
         actionChildren={dialogAction}
         actionOnConfirm={actionOnConfirm}
-        affirmation={dialogAffirmation}
       />,
     )
 
     expect(wrapper.find(Modal).props()).toMatchObject({
       isOpen: true,
-      title: dialogTitle,
+      title: dialogAffirmation,
       onClose,
       actions: [
         {
