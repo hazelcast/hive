@@ -95,7 +95,7 @@ const buttonPropsBase: ButtonProps = {
   children: 'Base',
 }
 
-const iconButtonPropsBase: IconButtonProps = {
+const nextPrevButtonPropsBase: IconButtonProps = {
   kind: 'primary',
   icon: ChevronRight,
   ariaLabel: 'Base',
@@ -140,6 +140,7 @@ describe('Pagination', () => {
         setPageSize={setPageSize}
         pageSizeOptions={pageSizeOptions}
         numberOfItems={numberOfItems}
+        // This way we can force-display full pagination
         displaySmallBreakpoint={0}
       />,
       { axeOptions },
@@ -164,7 +165,7 @@ describe('Pagination', () => {
 
     const iconButton = wrapper.findDataTest('pagination-buttons').find(IconButton)
     expect(iconButton.props()).toEqual<IconButtonProps>({
-      ...iconButtonPropsBase,
+      ...nextPrevButtonPropsBase,
       icon: ChevronRight,
       ariaLabel: 'Next page',
     })
@@ -237,6 +238,7 @@ describe('Pagination', () => {
         setPageSize={setPageSize}
         pageSizeOptions={pageSizeOptions}
         numberOfItems={numberOfItems}
+        // This way we can force-display full pagination
         displaySmallBreakpoint={0}
       />,
       { axeOptions },
@@ -251,12 +253,12 @@ describe('Pagination', () => {
     const iconButton = wrapper.findDataTest('pagination-buttons').find(IconButton)
     expect(iconButton).toHaveLength(2)
     expect(iconButton.at(0).props()).toEqual<IconButtonProps>({
-      ...iconButtonPropsBase,
+      ...nextPrevButtonPropsBase,
       icon: ChevronLeft,
       ariaLabel: 'Previous page',
     })
     expect(iconButton.at(1).props()).toEqual<IconButtonProps>({
-      ...iconButtonPropsBase,
+      ...nextPrevButtonPropsBase,
       icon: ChevronRight,
       ariaLabel: 'Next page',
     })
@@ -304,6 +306,7 @@ describe('Pagination', () => {
         setPageSize={setPageSize}
         pageSizeOptions={pageSizeOptions}
         numberOfItems={numberOfItems}
+        // This way we can force-display full pagination
         displaySmallBreakpoint={0}
       />,
       { axeOptions },
@@ -317,7 +320,7 @@ describe('Pagination', () => {
 
     const iconButton = wrapper.findDataTest('pagination-buttons').find(IconButton)
     expect(iconButton.props()).toEqual<IconButtonProps>({
-      ...iconButtonPropsBase,
+      ...nextPrevButtonPropsBase,
       icon: ChevronLeft,
       ariaLabel: 'Previous page',
     })
@@ -369,6 +372,7 @@ describe('Pagination', () => {
         setPageSize={setPageSize}
         pageSizeOptions={pageSizeOptions}
         numberOfItems={numberOfItems}
+        // This way we can force-display full pagination
         displaySmallBreakpoint={0}
       />,
       { axeOptions },
@@ -426,6 +430,7 @@ describe('Pagination', () => {
         setPageSize={setPageSize}
         pageSizeOptions={pageSizeOptions}
         numberOfItems={numberOfItems}
+        // This way we can force-display full pagination
         displaySmallBreakpoint={0}
       />,
       { axeOptions },
@@ -468,6 +473,7 @@ describe('Pagination', () => {
         setPageSize={setPageSize}
         pageSizeOptions={pageSizeOptions}
         numberOfItems={numberOfItems}
+        // This way we can force-display full pagination
         displaySmallBreakpoint={0}
       />,
       { axeOptions },
@@ -505,13 +511,12 @@ describe('Pagination', () => {
         setPageSize={setPageSize}
         pageSizeOptions={pageSizeOptions}
         numberOfItems={numberOfItems}
-        displaySmallBreakpoint={1024}
       />,
       { axeOptions },
     )
 
     expect(wrapper.findDataTest('pagination-buttons').find(IconButton).props()).toEqual<IconButtonProps>({
-      ...iconButtonPropsBase,
+      ...nextPrevButtonPropsBase,
       icon: ChevronRight,
       ariaLabel: 'Next page',
     })
@@ -584,7 +589,7 @@ describe('Pagination', () => {
     wrapper.update()
 
     expect(wrapper.findDataTest('pagination-buttons').find(IconButton).props()).toEqual<IconButtonProps>({
-      ...iconButtonPropsBase,
+      ...nextPrevButtonPropsBase,
       icon: ChevronRight,
       ariaLabel: 'Next page',
     })
