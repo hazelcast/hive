@@ -44,7 +44,7 @@ export type AlertProps = {
   actions?: AlertAction[]
   className?: string
   dismissableByEscKey?: boolean
-  closeToast?: (e?: React.MouseEvent<HTMLButtonElement>) => void
+  closeToast?: (e?: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void
 }
 
 export const Alert: FC<AlertProps> = ({ type, title, content, actions, className, dismissableByEscKey = true, closeToast }) => {

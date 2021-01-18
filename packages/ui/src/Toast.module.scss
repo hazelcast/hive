@@ -14,7 +14,9 @@
   }
 
   .content {
-    word-break: break-all;
+    @include c.typographyBodyNormal;
+
+    word-break: break-word;
   }
 
   .close {
