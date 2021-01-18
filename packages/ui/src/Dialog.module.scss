@@ -29,8 +29,7 @@
 
     .dialogFooter {
       display: flex;
-      margin-left: c.$grid * -5;
-      margin-right: c.$grid * -5;
+      margin: (c.$grid * 5) (c.$grid * -5) 0 (c.$grid * -5);
 
       & > button {
         flex: 1 1 auto;
