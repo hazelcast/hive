@@ -10,12 +10,12 @@ export type SelectFieldFormikProps<V extends object, OV = string> = SelectFieldE
     | {
         name: ExtractKeysOfValueType<V, SelectFieldOption<OV> | null>
         isClearable: true
-        validate?: FieldValidatorGeneric<V[keyof V]>
+        validate?: FieldValidatorGeneric<SelectFieldOption<OV> | null>
       }
     | {
         name: ExtractKeysOfValueType<V, SelectFieldOption<OV>>
         isClearable?: false
-        validate?: FieldValidatorGeneric<V[keyof V]>
+        validate?: FieldValidatorGeneric<SelectFieldOption<OV>>
       }
   )
 
