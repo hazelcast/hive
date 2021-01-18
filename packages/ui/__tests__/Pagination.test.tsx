@@ -79,8 +79,6 @@ const pageCount = Math.ceil(numberOfItems / pageSize)
 const goToPage = jest.fn() as PaginationProps['goToPage']
 const previousPage = jest.fn() as PaginationProps['previousPage']
 const nextPage = jest.fn() as PaginationProps['nextPage']
-let showPageJump = true
-let showRowsSelect = true
 let currentPage = 1
 let canPreviousPage = true
 let canNextPage = true
@@ -119,8 +117,6 @@ describe('Pagination', () => {
   beforeEach(() => {
     jest.clearAllMocks()
 
-    showPageJump = true
-    showRowsSelect = true
     currentPage = 1
     canPreviousPage = true
     canNextPage = true
@@ -144,8 +140,7 @@ describe('Pagination', () => {
         setPageSize={setPageSize}
         pageSizeOptions={pageSizeOptions}
         numberOfItems={numberOfItems}
-        showPageJump={showPageJump}
-        showRowsSelect={showRowsSelect}
+        displaySmallBreakpoint={0}
       />,
       { axeOptions },
     )
@@ -242,8 +237,7 @@ describe('Pagination', () => {
         setPageSize={setPageSize}
         pageSizeOptions={pageSizeOptions}
         numberOfItems={numberOfItems}
-        showPageJump={showPageJump}
-        showRowsSelect={showRowsSelect}
+        displaySmallBreakpoint={0}
       />,
       { axeOptions },
     )
@@ -310,8 +304,7 @@ describe('Pagination', () => {
         setPageSize={setPageSize}
         pageSizeOptions={pageSizeOptions}
         numberOfItems={numberOfItems}
-        showPageJump={showPageJump}
-        showRowsSelect={showRowsSelect}
+        displaySmallBreakpoint={0}
       />,
       { axeOptions },
     )
@@ -358,78 +351,6 @@ describe('Pagination', () => {
     })
   })
 
-  it('renders only buttons', async () => {
-    currentPage = 1000
-    canPreviousPage = currentPage !== 1
-    canNextPage = currentPage !== pageCount
-    showPageJump = false
-    showRowsSelect = false
-
-    const wrapper = await mountAndCheckA11Y(
-      <Pagination
-        pageCount={pageCount}
-        currentPage={currentPage}
-        canPreviousPage={canPreviousPage}
-        canNextPage={canNextPage}
-        goToPage={goToPage}
-        nextPage={nextPage}
-        previousPage={previousPage}
-        pageSize={pageSize}
-        setPageSize={setPageSize}
-        pageSizeOptions={pageSizeOptions}
-        numberOfItems={numberOfItems}
-        showPageJump={showPageJump}
-        showRowsSelect={showRowsSelect}
-      />,
-    )
-
-    expect(wrapper.find(SelectField).exists()).toBe(false)
-    expect(wrapper.find(Formik).exists()).toBe(false)
-
-    expect(wrapper.findDataTest('pagination-range-of-shown-items').props()).toEqual({
-      'data-test': 'pagination-range-of-shown-items',
-      className: styles.shownItems,
-      children: '4996 – 5000 of 10000',
-    })
-
-    const iconButton = wrapper.findDataTest('pagination-buttons').find(IconButton)
-    expect(iconButton).toHaveLength(2)
-    expect(iconButton.at(0).props()).toEqual<IconButtonProps>({
-      ...iconButtonPropsBase,
-      icon: ChevronLeft,
-      ariaLabel: 'Previous page',
-    })
-    expect(iconButton.at(1).props()).toEqual<IconButtonProps>({
-      ...iconButtonPropsBase,
-      icon: ChevronRight,
-      ariaLabel: 'Next page',
-    })
-
-    const buttons = wrapper.find(Button)
-    expect(buttons).toHaveLength(5)
-    expect(buttons.at(0).props()).toEqual<ButtonProps>({
-      ...buttonPropsBase,
-      children: '1',
-    })
-    expect(buttons.at(1).props()).toEqual<ButtonProps>({
-      ...buttonPropsBase,
-      children: '999',
-    })
-    expect(buttons.at(2).props()).toEqual<ButtonProps>({
-      ...buttonPropsBase,
-      className: `${styles.button} ${styles.selected}`,
-      children: '1000',
-    })
-    expect(buttons.at(3).props()).toEqual<ButtonProps>({
-      ...buttonPropsBase,
-      children: '1001',
-    })
-    expect(buttons.at(4).props()).toEqual<ButtonProps>({
-      ...buttonPropsBase,
-      children: '2000',
-    })
-  })
-
   it('changes pages correctly', async () => {
     currentPage = 10
     canPreviousPage = currentPage !== 1
@@ -448,8 +369,7 @@ describe('Pagination', () => {
         setPageSize={setPageSize}
         pageSizeOptions={pageSizeOptions}
         numberOfItems={numberOfItems}
-        showPageJump={showPageJump}
-        showRowsSelect={showRowsSelect}
+        displaySmallBreakpoint={0}
       />,
       { axeOptions },
     )
@@ -506,8 +426,7 @@ describe('Pagination', () => {
         setPageSize={setPageSize}
         pageSizeOptions={pageSizeOptions}
         numberOfItems={numberOfItems}
-        showPageJump={showPageJump}
-        showRowsSelect={showRowsSelect}
+        displaySmallBreakpoint={0}
       />,
       { axeOptions },
     )
@@ -549,8 +468,7 @@ describe('Pagination', () => {
         setPageSize={setPageSize}
         pageSizeOptions={pageSizeOptions}
         numberOfItems={numberOfItems}
-        showPageJump={showPageJump}
-        showRowsSelect={showRowsSelect}
+        displaySmallBreakpoint={0}
       />,
       { axeOptions },
     )
@@ -567,5 +485,128 @@ describe('Pagination', () => {
 
     expect(setPageSize).toHaveBeenCalledTimes(1)
     expect(setPageSize).toHaveBeenCalledWith<Parameters<typeof setPageSize>>(10)
+  })
+
+  it('renders small version of pagination', async () => {
+    currentPage = 1
+    canPreviousPage = currentPage !== 1
+    canNextPage = currentPage !== pageCount
+
+    const wrapper = await mountAndCheckA11Y(
+      <Pagination
+        pageCount={pageCount}
+        currentPage={currentPage}
+        canPreviousPage={canPreviousPage}
+        canNextPage={canNextPage}
+        goToPage={goToPage}
+        nextPage={nextPage}
+        previousPage={previousPage}
+        pageSize={pageSize}
+        setPageSize={setPageSize}
+        pageSizeOptions={pageSizeOptions}
+        numberOfItems={numberOfItems}
+        displaySmallBreakpoint={1024}
+      />,
+      { axeOptions },
+    )
+
+    expect(wrapper.findDataTest('pagination-buttons').find(IconButton).props()).toEqual<IconButtonProps>({
+      ...iconButtonPropsBase,
+      icon: ChevronRight,
+      ariaLabel: 'Next page',
+    })
+
+    let buttons = wrapper.findDataTest('pagination-buttons').find(Button)
+    expect(buttons).toHaveLength(3)
+    expect(buttons.at(0).props()).toEqual<ButtonProps>({
+      ...buttonPropsBase,
+      className: `${styles.button} ${styles.selected}`,
+      children: '1',
+    })
+    expect(buttons.at(1).props()).toEqual<ButtonProps>({
+      ...buttonPropsBase,
+      children: '2',
+    })
+    expect(buttons.at(2).props()).toEqual<ButtonProps>({
+      ...buttonPropsBase,
+      children: '2000',
+    })
+
+    expect(wrapper.findDataTest('pagination-range-of-shown-items').exists()).toBe(false)
+    expect(wrapper.find(SelectField).exists()).toBe(false)
+    expect(wrapper.find(Formik).exists()).toBe(false)
+
+    // Show more options
+    act(() => {
+      wrapper.find(IconButton).at(1).simulate('click')
+    })
+    wrapper.update()
+
+    expect(wrapper.findDataTest('pagination-buttons').exists()).toBe(false)
+    expect(wrapper.findDataTest('pagination-range-of-shown-items').exists()).toBe(false)
+
+    expect(wrapper.find(SelectField).props()).toEqual<SelectProps<number>>({
+      className: styles.rowsPerPage,
+      labelClassName: styles.label,
+      name: 'rowsPerPage',
+      value: { value: pageSize, label: pageSize.toString() },
+      label: 'Rows per page',
+      options: pageSizeOptions.map((opt) => ({ value: opt, label: opt.toString() })),
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      onChange: expect.anything(),
+    })
+
+    const formik = wrapper.find(Formik)
+    expect(formik.props()).toEqual<FormikConfig<PageJumpFormValues>>({
+      initialValues: {
+        page: currentPage,
+      },
+      enableReinitialize: true,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      onSubmit: expect.anything(),
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      children: expect.anything(),
+    })
+    expect(formik.find(NumberFieldFormik).props()).toEqual<NumberFieldFormikProps<PageJumpFormValues>>({
+      className: styles.pageJump,
+      inputClassName: styles.input,
+      labelClassName: styles.label,
+      name: 'page',
+      label: 'Go to',
+      min: 1,
+      max: pageCount,
+    })
+
+    // Back to pagination buttons
+    act(() => {
+      wrapper.find(IconButton).at(2).simulate('click')
+    })
+    wrapper.update()
+
+    expect(wrapper.findDataTest('pagination-buttons').find(IconButton).props()).toEqual<IconButtonProps>({
+      ...iconButtonPropsBase,
+      icon: ChevronRight,
+      ariaLabel: 'Next page',
+    })
+
+    buttons = wrapper.findDataTest('pagination-buttons').find(Button)
+    expect(buttons).toHaveLength(3)
+    expect(buttons.at(0).props()).toEqual<ButtonProps>({
+      ...buttonPropsBase,
+      className: `${styles.button} ${styles.selected}`,
+      children: '1',
+    })
+    expect(buttons.at(1).props()).toEqual<ButtonProps>({
+      ...buttonPropsBase,
+      children: '2',
+    })
+    expect(buttons.at(2).props()).toEqual<ButtonProps>({
+      ...buttonPropsBase,
+      children: '2000',
+    })
+
+    expect(wrapper.findDataTest('pagination-range-of-shown-items').exists()).toBe(false)
+    expect(wrapper.find(SelectField).exists()).toBe(false)
+    expect(wrapper.find(Formik).exists()).toBe(false)
   })
 })

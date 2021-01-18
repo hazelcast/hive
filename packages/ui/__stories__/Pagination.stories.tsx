@@ -1,20 +1,13 @@
 import React, { FC, useState } from 'react'
 
 import { Pagination, PaginationProps } from '../src/Pagination'
-import { Toggle } from '../src/Toggle'
-
-import styles from './utils.scss'
 
 export default {
   title: 'Components/Pagination',
   component: Pagination,
 }
 
-const StoryBase: FC<Pick<PaginationProps, 'showPageJump' | 'showRowsSelect' | 'showRangeOfShownItems'>> = ({
-  showPageJump,
-  showRowsSelect,
-  showRangeOfShownItems,
-}) => {
+const PaginationStoryBase: FC<Pick<PaginationProps, 'displaySmallBreakpoint'>> = ({ displaySmallBreakpoint }) => {
   const numberOfItems = 10000
   const [pageSize, setPageSize] = useState<number>(5)
   const pageSizeOptions = [5, 10, 100, 1000]
@@ -42,52 +35,13 @@ const StoryBase: FC<Pick<PaginationProps, 'showPageJump' | 'showRowsSelect' | 's
       setPageSize={setPageSize}
       pageSizeOptions={pageSizeOptions}
       numberOfItems={numberOfItems}
-      showRangeOfShownItems={showRangeOfShownItems}
-      showPageJump={showPageJump}
-      showRowsSelect={showRowsSelect}
-      s
+      displaySmallBreakpoint={displaySmallBreakpoint}
     />
   )
 }
 
 export const Default = () => {
-  const [showRowsSelect, setShowRowsSelect] = useState(true)
-  const [showRangeOfShownItems, setShowRangeOfShownItems] = useState(true)
-  const [showPageJump, setShowPageJump] = useState(true)
-
-  return (
-    <>
-      <StoryBase showRowsSelect={showRowsSelect} showRangeOfShownItems={showRangeOfShownItems} showPageJump={showPageJump} />
-
-      <hr />
-      <div className={styles.toggles}>
-        <Toggle
-          name="default"
-          checked={showRowsSelect}
-          label="Row Select"
-          onChange={(e) => {
-            setShowRowsSelect(e.target.checked)
-          }}
-        />
-        <Toggle
-          name="default"
-          checked={showRangeOfShownItems}
-          label="Range of Shown Items"
-          onChange={(e) => {
-            setShowRangeOfShownItems(e.target.checked)
-          }}
-        />
-        <Toggle
-          name="default"
-          checked={showPageJump}
-          label="Page Jump"
-          onChange={(e) => {
-            setShowPageJump(e.target.checked)
-          }}
-        />
-      </div>
-    </>
-  )
+  return <PaginationStoryBase />
 }
 
 Default.parameters = {
@@ -97,10 +51,4 @@ Default.parameters = {
   },
 }
 
-export const WithoutRangeOfShownItems = () => <StoryBase showRangeOfShownItems={false} />
-
-export const WithoutPageJump = () => <StoryBase showPageJump={false} />
-
-export const WithoutRowsSelect = () => <StoryBase showRowsSelect={false} />
-
-export const MinimalExample = () => <StoryBase showPageJump={false} showRowsSelect={false} showRangeOfShownItems={false} />
+export const Full = () => <PaginationStoryBase displaySmallBreakpoint={800} />

@@ -23,9 +23,7 @@ import { HeaderRow, LinkRow, Row } from './Row'
 import styles from './Table.module.scss'
 import styleConsts from '../../styles/constants/export.module.scss'
 
-export type PaginationOptions = Partial<
-  Pick<PaginationProps, 'pageSizeOptions' | 'siblingCount' | 'showRangeOfShownItems' | 'showPageJump' | 'showRowsSelect'>
->
+export type PaginationOptions = Partial<Pick<PaginationProps, 'pageSizeOptions'>>
 
 /**
  * `defaultPageSize` should be one of the values in `pageSizeOptions`.
@@ -267,7 +265,6 @@ export const Table = <D extends object>({
           setPageSize={setPageSize}
           numberOfItems={data.length}
           pageSizeOptions={paginationOptions?.pageSizeOptions ?? [5, 10, 20]}
-          {...paginationOptions}
         />
       )}
     </div>

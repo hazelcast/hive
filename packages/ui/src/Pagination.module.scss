@@ -33,32 +33,6 @@
       margin-right: c.$grid * 2;
     }
 
-    // Override IconButton styles
-    .iconButton {
-      display: flex;
-      align-items: center;
-      background-color: c.$colorNeutralLighter;
-      border: 1px solid;
-      border-color: c.$colorNeutralLight;
-      height: c.$grid * 10;
-      padding: 0 c.$grid * 2;
-
-      &:hover,
-      &:active,
-      &.selected {
-        box-shadow: none;
-        border-color: c.$colorPrimary;
-      }
-
-      &:focus {
-        border-color: c.$colorAccessibilityOutline;
-
-        .outline {
-          box-shadow: none;
-        }
-      }
-    }
-
     // Override Button styles
     .button {
       color: c.$colorTextSecondary;
@@ -85,6 +59,32 @@
 
         color: c.$colorText;
         border-color: c.$colorAccessibilityOutline;
+      }
+    }
+  }
+
+  // Override IconButton styles
+  .iconButton {
+    display: flex;
+    align-items: center;
+    background-color: c.$colorNeutralLighter;
+    border: 1px solid;
+    border-color: c.$colorNeutralLight;
+    height: c.$grid * 10;
+    padding: 0 c.$grid * 2;
+
+    &:hover,
+    &:active,
+    &.selected {
+      box-shadow: none;
+      border-color: c.$colorPrimary;
+    }
+
+    &:focus {
+      border-color: c.$colorAccessibilityOutline;
+
+      .outline {
+        box-shadow: none;
       }
     }
   }

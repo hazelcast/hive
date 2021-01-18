@@ -6,7 +6,7 @@ export type PaginationItem = number | 'previous' | 'next' | 'ellipsis'
 export type UsePaginationProps = {
   pageCount: number
   currentPage: number
-  siblingCount?: number
+  small?: boolean
 }
 
 export const getZeroSiblingCountItems = (pageCount: number, currentPage: number): PaginationItem[] => {
@@ -25,29 +25,26 @@ export const getZeroSiblingCountItems = (pageCount: number, currentPage: number)
   }
 }
 
-export const usePagination = ({ pageCount, currentPage, siblingCount = 1 }: UsePaginationProps) => {
-  if (siblingCount < 0) {
-    siblingCount = 1
-  }
-
+export const usePagination = ({ pageCount, currentPage, small = false }: UsePaginationProps) => {
+  const currentPageCount = 1
+  const boundaryCount = 1
+  const siblingCount = 1
   const ellipsis = 2
-  // If a need arises boundaryCount can be parametrized in the future
-  const boundaryCount = 2
 
   const items: PaginationItem[] = useMemo(() => {
     /**
      * Setting maximum number of visible blocks between previous and next buttons:
-     * 1 for current page
-     * boundaryCount for first and last page
+     * currentPageCount for current page
+     * boundaryCount * 2 for first and last page
      * siblingCount * 2 for left and right siblings of current page
      * ellipsis for not shown pages
      */
-    const maxVisibleBlocks = 1 + boundaryCount + siblingCount * 2 + ellipsis
+    const maxVisibleBlocks = currentPageCount + boundaryCount * 2 + siblingCount * 2 + ellipsis
 
     let paginationItems: PaginationItem[] = []
 
-    // Zero-based sibling count pagination is a bit specific so we have separate function to handle it
-    if (siblingCount === 0) {
+    // Separate function to handle small pagination
+    if (small) {
       paginationItems = getZeroSiblingCountItems(pageCount, currentPage)
     }
     // If page count is equal to or less than maxVisibleBlocks we just show all pages
@@ -63,18 +60,12 @@ export const usePagination = ({ pageCount, currentPage, siblingCount = 1 }: UseP
         paginationItems = [1, 'ellipsis', ...range(pageCount - visibleMiddle, pageCount)]
         // If the current page is somewhere in the middle then show ellipsis at both sides
       } else {
-        paginationItems = [
-          1,
-          'ellipsis',
-          ...(siblingCount === 0 ? [currentPage] : range(currentPage - siblingCount, currentPage + siblingCount)),
-          'ellipsis',
-          pageCount,
-        ]
+        paginationItems = [1, 'ellipsis', ...range(currentPage - siblingCount, currentPage + siblingCount), 'ellipsis', pageCount]
       }
     }
 
     return ['previous', ...paginationItems, 'next']
-  }, [pageCount, currentPage, siblingCount])
+  }, [pageCount, currentPage, small])
 
   return items
 }

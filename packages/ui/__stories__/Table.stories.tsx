@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { logger } from '@hazelcast/services'
 
-import { FetchDataProps, PaginationOptions, Table } from '../src/Table/Table'
+import { FetchDataProps, Table } from '../src/Table/Table'
 import { getColumns, makeData, Person } from '../__tests__/Table/utils'
 import { Toggle } from '../src/Toggle'
 
@@ -19,25 +19,10 @@ export const Default = () => {
   const [withFooter, setWithFooter] = useState(false)
   const [sorting, setSorting] = useState(false)
   const [paginate, setPaginate] = useState(false)
-  const [showRowsSelect, setShowRowsSelect] = useState(true)
-  const [showRangeOfShownItems, setShowRangeOfShownItems] = useState(true)
-  const [showPageJump, setShowPageJump] = useState(true)
-
-  const paginationOptions: PaginationOptions = {
-    showRangeOfShownItems,
-    showPageJump,
-    showRowsSelect,
-  }
 
   return (
     <>
-      <Table
-        columns={getColumns({ withFooter })}
-        data={bigDataSet}
-        disableSortBy={!sorting}
-        hidePagination={!paginate}
-        paginationOptions={paginationOptions}
-      />
+      <Table columns={getColumns({ withFooter })} data={bigDataSet} disableSortBy={!sorting} hidePagination={!paginate} />
 
       <hr />
       <div className={styles.toggles}>
@@ -63,33 +48,6 @@ export const Default = () => {
           label="Pagination"
           onChange={(e) => {
             setPaginate(e.target.checked)
-          }}
-        />
-        <Toggle
-          name="default"
-          checked={showRowsSelect}
-          disabled={!paginate}
-          label="Row Select"
-          onChange={(e) => {
-            setShowRowsSelect(e.target.checked)
-          }}
-        />
-        <Toggle
-          name="default"
-          checked={showRangeOfShownItems}
-          disabled={!paginate}
-          label="Range of Shown Items"
-          onChange={(e) => {
-            setShowRangeOfShownItems(e.target.checked)
-          }}
-        />
-        <Toggle
-          name="default"
-          checked={showPageJump}
-          disabled={!paginate}
-          label="Page Jump"
-          onChange={(e) => {
-            setShowPageJump(e.target.checked)
           }}
         />
       </div>
@@ -198,8 +156,10 @@ export const ControlledPagination = () => {
       manualPagination
       pageCount={pageCount}
       defaultPageSize={15}
-      pageSizeOptions={[5, 10, 15]}
       disableSortBy
+      paginationOptions={{
+        pageSizeOptions: [5, 10, 15],
+      }}
     />
   )
 }
