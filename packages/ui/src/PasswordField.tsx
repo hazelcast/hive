@@ -16,7 +16,7 @@ import { Eye, EyeOff, Lock } from 'react-feather'
 import cn from 'classnames'
 
 import { TextField } from './TextField'
-import { IconButton } from './IconButton'
+import { IconButton, IconButtonDisabledProps, IconButtonNotDisabledProps } from './IconButton'
 
 import styles from './PasswordField.module.scss'
 
@@ -58,22 +58,31 @@ export const PasswordField: FC<PasswordFieldProps> = ({
 }) => {
   const [visible, setVisible] = useState(false)
 
-  const overlay = useMemo(
-    () => (
+  const overlay = useMemo(() => {
+    let disabledProps: IconButtonDisabledProps | IconButtonNotDisabledProps = {}
+    if (disabled) {
+      // The IconButton is disabled only when the entire input is disabled. No need for a tooltip.
+      disabledProps = {
+        disabled: true,
+        disabledTooltip: '',
+        disabledTooltipVisible: false,
+      }
+    }
+
+    return (
       <IconButton
         size="small"
         icon={visible ? EyeOff : Eye}
         ariaLabel={visible ? hideIconLabel : showIconLabel}
         className={styles.toggle}
         onClick={() => setVisible((prev) => !prev)}
-        disabled={disabled}
         kind="primary"
         data-test="password-field-toggle"
         type="button"
+        {...disabledProps}
       />
-    ),
-    [visible, hideIconLabel, showIconLabel, disabled],
-  )
+    )
+  }, [visible, hideIconLabel, showIconLabel, disabled])
 
   useImperativeHandle(
     visibleRef,
