@@ -170,16 +170,17 @@ export const ClearableDisabled = () => (
 )
 
 export const Open = () => {
+  const [currentValue, setValue] = useState(value)
   const ref = useRef<HTMLDivElement>(null)
   return (
     <div ref={ref} style={{ height: 350 }}>
       <SelectField
         name="name"
-        value={value}
+        value={currentValue}
         label="Character"
         options={options}
         onBlur={() => logger.log('blur')}
-        onChange={(val: unknown) => logger.log('change', val)}
+        onChange={setValue}
         menuIsOpen
         menuPortalTarget={ref.current}
       />
