@@ -5,7 +5,7 @@ import cn from 'classnames'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 
 import { TextField } from './TextField'
-import { IconButton } from './IconButton'
+import { IconButton, IconButtonDisabledProps, IconButtonNotDisabledProps } from './IconButton'
 
 import styles from './NumberField.module.scss'
 
@@ -75,8 +75,48 @@ export const NumberField: FC<NumberFieldProps> = ({
     onChange(newValue)
   }, [value, onChange, step, max])
 
-  const overlay = useMemo(
-    () => (
+  const overlay = useMemo(() => {
+    let decrementDisabledProps: IconButtonDisabledProps | IconButtonNotDisabledProps = {}
+    if (value === undefined) {
+      decrementDisabledProps = {
+        disabled: true,
+        disabledTooltip: 'Please, fill in the initial value',
+      }
+    } else if (min !== undefined && value <= min) {
+      decrementDisabledProps = {
+        disabled: true,
+        disabledTooltip: `Value must be greater than ${min}`,
+      }
+    } else if (disabled) {
+      // The entire input is disabled. No need for a tooltip.
+      decrementDisabledProps = {
+        disabled: true,
+        disabledTooltip: '',
+        disabledTooltipVisible: false,
+      }
+    }
+
+    let incrementDisabledProps: IconButtonDisabledProps | IconButtonNotDisabledProps = {}
+    if (value === undefined) {
+      incrementDisabledProps = {
+        disabled: true,
+        disabledTooltip: 'Please, fill in the initial value',
+      }
+    } else if (max !== undefined && value >= max) {
+      incrementDisabledProps = {
+        disabled: true,
+        disabledTooltip: `Value must be less than ${max}`,
+      }
+    } else if (disabled) {
+      // The entire input is disabled. No need for a tooltip.
+      incrementDisabledProps = {
+        disabled: true,
+        disabledTooltip: '',
+        disabledTooltipVisible: false,
+      }
+    }
+
+    return (
       <>
         <IconButton
           size="small"
@@ -84,10 +124,10 @@ export const NumberField: FC<NumberFieldProps> = ({
           ariaLabel={decrementIconAriaLabel}
           className={styles.decrement}
           onClick={onDecrement}
-          disabled={disabled || value === undefined || (min !== undefined && value <= min)}
           kind="primary"
           data-test="number-field-decrement"
           type="button"
+          {...decrementDisabledProps}
         />
         <IconButton
           size="small"
@@ -95,15 +135,14 @@ export const NumberField: FC<NumberFieldProps> = ({
           ariaLabel={incrementIconAriaLabel}
           className={styles.increment}
           onClick={onIncrement}
-          disabled={disabled || value === undefined || (max !== undefined && value >= max)}
           kind="primary"
           data-test="number-field-increment"
           type="button"
+          {...incrementDisabledProps}
         />
       </>
-    ),
-    [onIncrement, onDecrement, decrementIconAriaLabel, incrementIconAriaLabel, min, max, value, disabled],
-  )
+    )
+  }, [onIncrement, onDecrement, decrementIconAriaLabel, incrementIconAriaLabel, value, disabled, min, max])
 
   const onChangeWrapped = useCallback(
     ({ target: { value: newValue } }: ChangeEvent<HTMLInputElement>) => {

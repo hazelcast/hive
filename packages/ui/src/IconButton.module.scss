@@ -2,7 +2,7 @@
 
 .iconButton {
   z-index: c.$zIndex200;
-  display: flex;
+  display: inline-flex;
   cursor: pointer;
   border: none;
   position: relative;
@@ -20,6 +20,10 @@
     height: 100%;
     border-radius: c.$borderRadius;
     border-color: c.$colorAccessibilityOutline;
+  }
+
+  .body {
+    display: inline-flex;
   }
 
   &:focus,

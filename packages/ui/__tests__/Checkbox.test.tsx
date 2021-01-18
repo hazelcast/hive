@@ -41,8 +41,7 @@ describe('Checkbox', () => {
       />,
     )
 
-    // mountAndCheckA11Y wraps the component in its own div
-    expect(wrapper.childAt(0).find('div').at(0).props()).toHaveProperty('data-test', 'test-e2e')
+    expect(wrapper.find('div').at(0).props()).toHaveProperty('data-test', 'test-e2e')
 
     expect(wrapper.find('input').props()).toEqual({
       type: 'checkbox',
