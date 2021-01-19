@@ -46,12 +46,14 @@ export const mountAndCheckA11Y = async <P>(
   if (actOption === 'sync') {
     act(() => {
       wrapper = mountEnzyme(node, mountOptions)
+      wrapper.update()
     })
   } else if (actOption === 'async') {
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
       wrapper = mountEnzyme(node, mountOptions)
     })
+    wrapper.update()
   } else {
     wrapper = mountEnzyme(node, mountOptions)
   }
