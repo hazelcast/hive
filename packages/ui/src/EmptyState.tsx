@@ -41,6 +41,18 @@ export type EmptyStateProps = {
   iconLabel: string
 } & EmptyStateAction
 
+/**
+ * ### Purpose
+ * Sometimes users performs an action, that yields an empty result. Such cases may be first use of a feature, view with no data, user cleared view or an error state.
+ * Help the user understand the situation by providing them with guidance in form of an Empty State.
+ *
+ * ### General Info
+ * - There are 2 variations of Empty State: vertical (available in normal and large size) and horizontal (only one size). The use depends on available space in UI.
+ * - Every empty state must contain title (should be specific and clear).
+ * - Good practice is add an action button to guide a user for the next steps to get out of the empty state.
+ * - Description helps to describe the semantics more thoroughly.
+ * - For horizontal type of empty state, use Link component instead of classic button.
+ */
 export const EmptyState: FC<EmptyStateProps> = ({
   direction = 'vertical',
   size = 'normal',

@@ -9,19 +9,11 @@
   text-align: center;
 
   .content {
-    /*
-     * small: 14px => 16px (fontSizeH3 + override)
-     * large: 18px => 20px (fontSizeH3)
-     */
     .title {
       margin: c.$grid * 4.5 0 0 0;
       @include c.typographyBodyNormal('bold');
     }
 
-    /*
-    * small: 12px => 14px (typographyBodySmall)
-    * large: 14px => 16px (fontSizeBodyNormal)
-    */
     .description {
       color: c.$colorTextSecondary;
       margin-top: c.$grid;
