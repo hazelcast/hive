@@ -217,12 +217,9 @@ describe('SelectField', () => {
     const value = [selectOptions[0], selectOptions[1]]
     const wrapper = await mountAndCheckA11Y(
       <SelectField name={selectName} label={selectLabel} isMulti={true} options={selectOptions} value={value} onChange={onChange} />,
-      {
-        // xxx axeOptions: SELECT_FIELD_AXE_OPTIONS,
-      },
     )
 
-    expect(wrapper.find('.hz-select-field__multi-value')).toHaveLength(2);
+    expect(wrapper.find('.hz-select-field__multi-value')).toHaveLength(2)
 
     expect(wrapper.find(Label).props()).toEqual({
       id: selectId,
@@ -250,5 +247,4 @@ describe('SelectField', () => {
       inputId: selectId,
     })
   })
-
 })
