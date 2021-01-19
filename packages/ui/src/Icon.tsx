@@ -1,19 +1,12 @@
 import React, { FC, SVGProps } from 'react'
 import { Icon as FeatherIconType } from 'react-feather'
 import { Icon as SimpleIconType } from '@icons-pack/react-simple-icons'
+import cn from 'classnames'
 
 import styleConsts from '../styles/constants/export.module.scss'
+import styles from './Icon.module.scss'
 
 export type IconSize = 'small' | 'normal' | 'medium' | 'large' | 'xlarge'
-
-const getIconSize = (size: IconSize) =>
-  ({
-    small: styleConsts.iconSizeSmall,
-    normal: styleConsts.iconSizeNormal,
-    medium: styleConsts.iconSizeMedium,
-    large: styleConsts.iconSizeLarge,
-    xlarge: styleConsts.iconSizeXLarge,
-  }[size])
 
 // Makes it required to set either "aria-label", "aria-labelledby" or "aria-hidden" attribute.
 export type IconAriaProps =
@@ -38,21 +31,40 @@ export type IconProps = {
   icon: FeatherIconType | SimpleIconType
   size?: IconSize
   className?: string
+  bold?: boolean
 } & IconAriaProps
 
-export const Icon: FC<IconProps> = ({ color, icon: IconElement, ariaLabel, ariaLabelledBy, ariaHidden, className, size = 'normal' }) => {
-  const iconSize = getIconSize(size)
+export const Icon: FC<IconProps> = ({
+  color,
+  icon: IconElement,
+  ariaLabel,
+  ariaLabelledBy,
+  ariaHidden,
+  className,
+  size = 'normal',
+  bold = false,
+}) => {
+  const iconStroke = bold ? styleConsts.iconStrokeWidthBold : styleConsts.iconStrokeWidth
 
   const props: SVGProps<SVGElement> = {
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledBy,
     'aria-hidden': ariaHidden,
     color,
-    width: iconSize,
-    height: iconSize,
-    className,
-    strokeWidth: styleConsts.iconStrokeWidth,
+    width: '1em',
+    height: '1em',
+    className: cn(
+      {
+        [styles.small]: size === 'small',
+        [styles.normal]: size === 'normal',
+        [styles.medium]: size === 'medium',
+        [styles.large]: size === 'large',
+        [styles.xlarge]: size === 'xlarge',
+      },
+      className,
+    ),
+    strokeWidth: iconStroke,
   }
 
-  return <IconElement role="img" aria-label={ariaLabel} {...props} />
+  return <IconElement role="img" {...props} />
 }

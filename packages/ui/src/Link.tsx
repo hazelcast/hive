@@ -47,6 +47,7 @@ export type LinkProps = IconProps & {
   size?: keyof typeof sizes
   kind?: 'primary' | 'secondary'
   children: ReactNode
+  bold?: boolean
   // it's also required by next.js for <a> https://nextjs.org/docs/api-reference/next/link
   onClick?: MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>
 } & Pick<AnchorAttributes, 'className'> &
@@ -81,6 +82,7 @@ export const Link: FC<LinkProps> = ({
   component: Component = 'a',
   kind = 'primary',
   size = 'normal',
+  bold = false,
   icon,
   ariaLabel,
   href,
@@ -97,8 +99,11 @@ export const Link: FC<LinkProps> = ({
       className={cn(
         styles[size],
         {
+          // kind
           [styles.primary]: kind === 'primary',
           [styles.secondary]: kind === 'secondary',
+          // bold
+          [styles.bold]: bold,
         },
         className,
       )}
@@ -108,7 +113,7 @@ export const Link: FC<LinkProps> = ({
       onClick={onClick}
     >
       {children}
-      {icon && ariaLabel && <Icon icon={icon} ariaLabel={ariaLabel} size={size} />}
+      {icon && ariaLabel && <Icon bold={bold} icon={icon} ariaLabel={ariaLabel} size={size} />}
     </Component>
   )
 }

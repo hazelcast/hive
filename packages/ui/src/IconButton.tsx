@@ -107,7 +107,6 @@ export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
             type={Component === 'button' ? type : undefined}
             {...rest}
           >
-            <span className={styles.outline} />
             <span className={styles.body} ref={mergeRefs([ref, tooltipRef])}>
               {loading && <Loader size={size} />}
               {!loading && <Icon className={iconClassName} icon={icon} size={size} ariaHidden />}

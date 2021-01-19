@@ -13,6 +13,10 @@ export default {
 
 export const Transparent = () => <IconButton kind="transparent" ariaLabel="Close icon" icon={X} />
 
+export const TransparentSmall = () => <IconButton kind="transparent" ariaLabel="Close icon" icon={X} size="small" />
+
+export const TransparentXLarge = () => <IconButton kind="transparent" ariaLabel="Close icon" icon={X} size="xlarge" />
+
 export const TransparentHover = () => <IconButton kind="transparent" ariaLabel="Close icon" className={styles.hover} icon={X} />
 
 export const TransparentFocused = () => <IconButton kind="transparent" ariaLabel="Close icon" className={styles.focus} icon={X} />
@@ -69,6 +73,10 @@ export const TransparentInheritColorLinkSemantics = () => (
 )
 
 export const Primary = () => <IconButton kind="primary" ariaLabel="Close icon" icon={X} />
+
+export const PrimarySmall = () => <IconButton kind="primary" ariaLabel="Close icon" icon={X} size="small" />
+
+export const PrimaryXLarge = () => <IconButton kind="primary" ariaLabel="Close icon" icon={X} size="xlarge" />
 
 export const PrimaryHover = () => <IconButton kind="primary" ariaLabel="Close icon" className={styles.hover} icon={X} />
 

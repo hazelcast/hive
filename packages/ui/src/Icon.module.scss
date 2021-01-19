@@ -1,0 +1,22 @@
+@use '../styles/constants' as c;
+
+.small {
+  width: c.$iconSizeSmall;
+  height: c.$iconSizeSmall;
+}
+.normal {
+  width: c.$iconSizeNormal;
+  height: c.$iconSizeNormal;
+}
+.medium {
+  width: c.$iconSizeMedium;
+  height: c.$iconSizeMedium;
+}
+.large {
+  width: c.$iconSizeLarge;
+  height: c.$iconSizeLarge;
+}
+.xlarge {
+  width: c.$iconSizeXLarge;
+  height: c.$iconSizeXLarge;
+}

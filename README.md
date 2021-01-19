@@ -22,7 +22,7 @@
   - [Run unit tests](#run-unit-tests)
   - [Run visual regression tests](#run-visual-regression-tests)
   - [Approve the updated for visual regression test screenshots](#approve-the-updated-for-visual-regression-test-screenshots)
-  - [Generate new screenshots for the new components](#generate-new-screenshots-for-the-new-components)
+  - [Generate new screenshots for the new/updated components](#generate-new-screenshots-for-the-newupdated-components)
   - [Run all checks at once](#run-all-checks-at-once)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -146,10 +146,11 @@ npm run test:visual
 
 Now, if the test suite failed, we need to go to `packages/ui/.loki` and manually review the screenshots in the `current` folder and the diff in the `difference` folder. If we like what we see, we need to run `npm run test:visual:approve` in the `packages/ui` folder. It will update the reference screenshots.
 
-### Generate new screenshots for the new components
+### Generate new screenshots for the new/updated components
 
 ```
 cd packages/ui
+npm run build-storybook # if you don't run this new stories won't get picked up
 npm run generate-screenshots
 ```
 
