@@ -1,6 +1,6 @@
 import React from 'react'
 import { useUID } from 'react-uid'
-import { axeDefaultOptions, mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import ReactSelect from 'react-select'
 import { X } from 'react-feather'
 
@@ -26,14 +26,6 @@ const selectOptions: SelectFieldOption<string>[] = [
   { value: 'selectValue2', label: 'selectValue2' },
 ]
 
-const SELECT_FIELD_AXE_OPTIONS = {
-  ...axeDefaultOptions,
-  rules: {
-    ...axeDefaultOptions?.rules,
-    'autocomplete-valid': { enabled: false },
-  },
-}
-
 describe('SelectField', () => {
   beforeEach(() => {
     useUIDMock.mockImplementation(() => selectId)
@@ -44,9 +36,6 @@ describe('SelectField', () => {
 
     const wrapper = await mountAndCheckA11Y(
       <SelectField name={selectName} label={selectLabel} options={selectOptions} value={selectValue} onChange={onChange} />,
-      {
-        axeOptions: SELECT_FIELD_AXE_OPTIONS,
-      },
     )
 
     expect(wrapper.find(Label).props()).toEqual({
@@ -89,9 +78,6 @@ describe('SelectField', () => {
         onChange={onChange}
         error={selectError}
       />,
-      {
-        axeOptions: SELECT_FIELD_AXE_OPTIONS,
-      },
     )
 
     expect(wrapper.find(Label).props()).toEqual({
@@ -126,9 +112,6 @@ describe('SelectField', () => {
 
     const wrapper = await mountAndCheckA11Y(
       <SelectField name={selectName} label={selectLabel} options={selectOptions} value={selectValue} onChange={onChange} required />,
-      {
-        axeOptions: SELECT_FIELD_AXE_OPTIONS,
-      },
     )
 
     expect(wrapper.find(Label).props()).toEqual({
@@ -163,9 +146,6 @@ describe('SelectField', () => {
 
     const wrapper = await mountAndCheckA11Y(
       <SelectField name={selectName} label={selectLabel} value={selectValue} onChange={onChange} options={selectOptions} disabled />,
-      {
-        axeOptions: SELECT_FIELD_AXE_OPTIONS,
-      },
     )
 
     expect(wrapper.find(Label).props()).toEqual({
@@ -200,9 +180,6 @@ describe('SelectField', () => {
 
     const wrapper = await mountAndCheckA11Y(
       <SelectField name={selectName} label={selectLabel} value={selectValue} onChange={onChange} options={selectOptions} isClearable />,
-      {
-        axeOptions: SELECT_FIELD_AXE_OPTIONS,
-      },
     )
 
     expect(wrapper.find(Label).props()).toEqual({
