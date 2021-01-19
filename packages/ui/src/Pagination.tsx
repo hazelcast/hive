@@ -252,6 +252,7 @@ export const Pagination: FC<PaginationProps> = ({
       {!displaySmall && PageJump}
 
       {displaySmall && (
+        // TODO: button should display an overlay with more options
         <IconButton
           key="next"
           kind="primary"
