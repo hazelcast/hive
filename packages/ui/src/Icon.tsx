@@ -1,8 +1,10 @@
 import React, { FC, SVGProps } from 'react'
 import { Icon as FeatherIconType } from 'react-feather'
 import { Icon as SimpleIconType } from '@icons-pack/react-simple-icons'
+import cn from 'classnames'
 
 import styleConsts from '../styles/constants/export.module.scss'
+import styles from './Icon.module.scss'
 
 export type IconSize = 'small' | 'normal' | 'xlarge'
 
@@ -42,7 +44,6 @@ export const Icon: FC<IconProps> = ({
   size = 'normal',
   bold = false,
 }) => {
-  const iconSize = size === 'small' ? styleConsts.iconSizeSmall : styleConsts.iconSizeNormal
   const iconStroke = bold ? styleConsts.iconStrokeWidthBold : styleConsts.iconStrokeWidth
 
   const props: SVGProps<SVGElement> = {
@@ -50,11 +51,18 @@ export const Icon: FC<IconProps> = ({
     'aria-labelledby': ariaLabelledBy,
     'aria-hidden': ariaHidden,
     color,
-    width: iconSize,
-    height: iconSize,
-    className,
+    width: '1em',
+    height: '1em',
+    className: cn(
+      {
+        [styles.small]: size === 'small',
+        [styles.normal]: size === 'normal',
+        [styles.xlarge]: size === 'xlarge',
+      },
+      className,
+    ),
     strokeWidth: iconStroke,
   }
 
-  return <IconElement role="img" aria-label={ariaLabel} {...props} />
+  return <IconElement role="img" {...props} />
 }
