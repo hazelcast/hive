@@ -62,32 +62,34 @@ export type ButtonDisabledProps = {
 }
 
 // Common props for all button "kinds"
-type ButtonCommonProps = {
+export type ButtonCommonProps = {
   kind?: ButtonKind
   children: string
   capitalize?: boolean
   bodyClassName?: string
 } & Pick<HTMLAttributes<HTMLAnchorElement | HTMLButtonElement>, 'className' | 'onClick' | 'tabIndex'>
 
-type ButtonTypeProps =
-  | ({
-      component: 'a'
-      href: string
-      target?: LinkTarget
-      rel?: LinkRel | LinkRel[]
-      type?: never
-      loading?: never
-    } & ButtonNotDisabledProps)
-  | ({
-      component?: 'button'
-      href?: never
-      target?: never
-      rel?: never
-      loading?: boolean
-    } & (ButtonDisabledProps | ButtonNotDisabledProps) &
-      Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'autoFocus' | 'type'>)
+export type ButtonTypeAnchorProps = {
+  component: 'a'
+  href: string
+  target?: LinkTarget
+  rel?: LinkRel | LinkRel[]
+  type?: never
+  loading?: never
+} & ButtonNotDisabledProps
 
-export type ButtonProps = ButtonCommonProps & ButtonAccessibleIconLeftProps & ButtonAccessibleIconRightProps & ButtonTypeProps
+export type ButtonTypeButtonProps = {
+  component?: 'button'
+  href?: never
+  target?: never
+  rel?: never
+  loading?: boolean
+} & (ButtonDisabledProps | ButtonNotDisabledProps) &
+  Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'autoFocus' | 'type'>
+
+export type ButtonTypeProps = ButtonTypeAnchorProps | ButtonTypeButtonProps
+
+export type ButtonProps<T = ButtonTypeProps> = ButtonCommonProps & ButtonAccessibleIconLeftProps & ButtonAccessibleIconRightProps & T
 
 /**
  * ### Purpose
