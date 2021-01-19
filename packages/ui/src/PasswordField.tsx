@@ -13,7 +13,6 @@ import React, {
   Ref,
 } from 'react'
 import { Eye, EyeOff, Lock } from 'react-feather'
-import cn from 'classnames'
 
 import { TextField } from './TextField'
 import { IconButton, IconButtonDisabledProps, IconButtonNotDisabledProps } from './IconButton'
@@ -97,7 +96,8 @@ export const PasswordField: FC<PasswordFieldProps> = ({
       {...props}
       type={visible ? 'text' : 'password'}
       inputContainerChild={overlay}
-      inputClassName={cn(styles.inputContainer, inputClassName)}
+      inputContainerClassName={styles.inputContainer}
+      inputClassName={inputClassName}
       inputIcon={withIcon ? Lock : undefined}
       disabled={disabled}
     />

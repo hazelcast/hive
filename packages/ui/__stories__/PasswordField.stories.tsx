@@ -46,7 +46,7 @@ export const Hovered = () => (
     value="password"
     placeholder="Enter the name"
     label="Wisest jedi"
-    className={styles.hover}
+    inputClassName={styles.hover}
     {...eventHandlers}
   />
 )
@@ -57,7 +57,7 @@ export const Focused = () => (
     value="password"
     placeholder="Enter the name"
     label="Wisest jedi"
-    className={styles.focus}
+    inputClassName={styles.focus}
     {...eventHandlers}
   />
 )
@@ -68,7 +68,7 @@ export const FocusedWithError = () => (
     value="password"
     placeholder="Enter the name"
     label="Wisest jedi"
-    className={styles.focus}
+    inputClassName={styles.focus}
     error="Dark side"
     {...eventHandlers}
   />
