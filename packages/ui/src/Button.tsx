@@ -67,7 +67,10 @@ type ButtonCommonProps = {
   children: string
   capitalize?: boolean
   bodyClassName?: string
-} & Pick<HTMLAttributes<HTMLAnchorElement | HTMLButtonElement>, 'className' | 'onClick' | 'tabIndex'>
+} & Pick<
+  HTMLAttributes<HTMLAnchorElement | HTMLButtonElement>,
+  'className' | 'onClick' | 'tabIndex' | 'role' | 'id' | 'onFocus' | 'onKeyPress'
+>
 
 export type ButtonTypeAnchorProps = {
   component: 'a'
