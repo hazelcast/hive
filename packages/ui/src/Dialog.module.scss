@@ -1,0 +1,59 @@
+@use '../styles/constants' as c;
+
+.dialog {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  // Note: Unset properties set by Modal
+  min-width: 0;
+  max-width: none;
+  min-height: c.$dialogMinHeight;
+  max-height: none;
+  width: c.$dialogWidth;
+  padding-bottom: 0;
+
+  .dialogBody {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    text-align: center;
+
+    .dialogHeader {
+      margin-right: 0;
+      justify-content: center;
+    }
+
+    .dialogConsequences {
+      flex: 1 1 auto;
+    }
+
+    .dialogFooter {
+      display: flex;
+      margin: (c.$grid * 5) (c.$grid * -5) 0 (c.$grid * -5);
+
+      & > button {
+        flex: 1 1 auto;
+        margin: 0 !important;
+        max-width: none;
+        // Note: Unset border-radius for the buttons
+        border-radius: 0;
+      }
+
+      // Note: In case there is only one button (Cancel)
+      & > button:only-of-type {
+        border-bottom-left-radius: c.$borderRadius;
+        border-bottom-right-radius: c.$borderRadius;
+      }
+
+      // Note: In case there are 2 buttons
+      & > button:not(:only-of-type) {
+        &:nth-of-type(1) {
+          border-bottom-left-radius: c.$borderRadius;
+        }
+        &:nth-of-type(2) {
+          border-bottom-right-radius: c.$borderRadius;
+        }
+      }
+    }
+  }
+}

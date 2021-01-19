@@ -182,7 +182,6 @@ export const Pagination: FC<PaginationProps> = ({
                   icon={ChevronLeft}
                   ariaLabel="Previous page"
                   className={styles.iconButton}
-                  outlineClassName={styles.outline}
                   onClick={previousPage}
                 />
               ) : null
@@ -195,7 +194,6 @@ export const Pagination: FC<PaginationProps> = ({
                   icon={ChevronRight}
                   ariaLabel="Next page"
                   className={styles.iconButton}
-                  outlineClassName={styles.outline}
                   onClick={nextPage}
                 />
               ) : null

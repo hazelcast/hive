@@ -22,6 +22,7 @@ $borderWidthButton: 2px !default;
 $outlineWidth: 2px !default;
 
 $iconStrokeWidth: 2px !default;
+$iconStrokeWidthBold: 3px !default;
 
 $iconSizeSmall: $grid * 4 !default;
 $iconSizeNormal: $grid * 6 !default;
@@ -43,6 +44,16 @@ $cardShadowBlur: 4px !default;
 $selectMenuShadowSize: 1px !default;
 $selectMenuShadowBlur: 4px !default;
 
+// Modal
+$modalWidth: 75%;
+$modalMinWidth: 480px !default;
+$modalMaxWidth: 960px !default;
+$modalMaxHeight: 75%;
+
+// Dialog
+$dialogWidth: 400px !default;
+$dialogMinHeight: 200px !default;
+
 // border radius on left/right size of the progress tracker
 $sliderTrackBorderRadius: $grid * 2;
 // height of the track
@@ -53,6 +64,8 @@ $sliderThumbHoverBorderSize: 1px;
 $sliderThumbShadowSize: 1px;
 $sliderThumbShadowBlur: $grid;
 $sliderFillBorderSize: 1px;
+
+$borderRadiusNotification: 3px;
 
 // Table column widths
 $tableColumnMinWidth: 30;
