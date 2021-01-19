@@ -1,7 +1,7 @@
 import { DataTestProp } from '@hazelcast/helpers'
 import React, { FocusEvent, InputHTMLAttributes, ReactElement } from 'react'
 import cn from 'classnames'
-import ReactSelect, { ActionMeta, components, IndicatorProps, Props as ReactSelectProps, ValueType } from 'react-select'
+import ReactSelect, { ActionMeta, components, IndicatorProps, Props as ReactSelectProps, ValueType, MultiValueProps } from 'react-select'
 import { ChevronDown, X } from 'react-feather'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 import { useUID } from 'react-uid'
@@ -31,9 +31,9 @@ const Input = (props: any) => {
   return <components.Input {...props} autoComplete="chrome-off" />
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 // this component is implemented because we want to style things with the css (as opposed to the react-select recommended way of styling things via js).
-const MultiValue = (props: any) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const MultiValue = (props: MultiValueProps<any>) => {
   return <components.MultiValue {...props} className={cn({ [styles.multiValueIsFocused]: props.isFocused })} />
 }
 

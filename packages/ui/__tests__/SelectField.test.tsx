@@ -218,7 +218,7 @@ describe('SelectField', () => {
     const wrapper = await mountAndCheckA11Y(
       <SelectField name={selectName} label={selectLabel} isMulti={true} options={selectOptions} value={value} onChange={onChange} />,
       {
-        axeOptions: SELECT_FIELD_AXE_OPTIONS,
+        // xxx axeOptions: SELECT_FIELD_AXE_OPTIONS,
       },
     )
 
