@@ -49,7 +49,7 @@ export type SelectFieldCoreStaticProps = {
   isMulti?: boolean
 }
 
-type SelectFieldCoreDynamicProps<V> =
+export type SelectFieldCoreDynamicProps<V> =
   | {
       isClearable: true
       isMulti?: false
