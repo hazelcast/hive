@@ -1,6 +1,6 @@
 import React from 'react'
 import { act } from 'react-dom/test-utils'
-import { axeDefaultOptions, mountAndCheckA11Y, simulateChange } from '@hazelcast/test-helpers'
+import { mountAndCheckA11Y, simulateChange } from '@hazelcast/test-helpers'
 import { ChevronLeft, ChevronRight } from 'react-feather'
 import { Formik, FormikConfig } from 'formik'
 import Select from 'react-select'
@@ -100,17 +100,8 @@ const nextPrevButtonPropsBase: IconButtonProps = {
   icon: ChevronRight,
   ariaLabel: 'Base',
   className: styles.iconButton,
-  outlineClassName: styles.outline,
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   onClick: expect.anything(),
-}
-
-const axeOptions = {
-  ...axeDefaultOptions,
-  rules: {
-    ...axeDefaultOptions?.rules,
-    'autocomplete-valid': { enabled: false },
-  },
 }
 
 describe('Pagination', () => {
@@ -143,7 +134,6 @@ describe('Pagination', () => {
         // This way we can force-display full pagination
         displaySmallBreakpoint={0}
       />,
-      { axeOptions },
     )
 
     expect(wrapper.find(SelectField).props()).toEqual<SelectProps<number>>({
@@ -241,7 +231,6 @@ describe('Pagination', () => {
         // This way we can force-display full pagination
         displaySmallBreakpoint={0}
       />,
-      { axeOptions },
     )
 
     expect(wrapper.findDataTest('pagination-range-of-shown-items').props()).toEqual({
@@ -309,7 +298,6 @@ describe('Pagination', () => {
         // This way we can force-display full pagination
         displaySmallBreakpoint={0}
       />,
-      { axeOptions },
     )
 
     expect(wrapper.findDataTest('pagination-range-of-shown-items').props()).toEqual({
@@ -375,7 +363,6 @@ describe('Pagination', () => {
         // This way we can force-display full pagination
         displaySmallBreakpoint={0}
       />,
-      { axeOptions },
     )
 
     const iconButtons = wrapper.findDataTest('pagination-buttons').find(IconButton)
@@ -433,7 +420,6 @@ describe('Pagination', () => {
         // This way we can force-display full pagination
         displaySmallBreakpoint={0}
       />,
-      { axeOptions },
     )
 
     expect(goToPage).toHaveBeenCalledTimes(0)
@@ -476,7 +462,6 @@ describe('Pagination', () => {
         // This way we can force-display full pagination
         displaySmallBreakpoint={0}
       />,
-      { axeOptions },
     )
 
     expect(setPageSize).toHaveBeenCalledTimes(0)
@@ -512,7 +497,6 @@ describe('Pagination', () => {
         pageSizeOptions={pageSizeOptions}
         numberOfItems={numberOfItems}
       />,
-      { axeOptions },
     )
 
     expect(wrapper.findDataTest('pagination-buttons').find(IconButton).props()).toEqual<IconButtonProps>({
