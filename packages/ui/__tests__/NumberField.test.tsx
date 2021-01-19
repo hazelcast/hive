@@ -51,7 +51,7 @@ describe('NumberField', () => {
       className: styles.decrement,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       onClick: expect.anything(),
-      disabled: false,
+      disabled: undefined,
       kind: 'primary',
       type: 'button',
     })
@@ -63,7 +63,7 @@ describe('NumberField', () => {
       className: styles.increment,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       onClick: expect.anything(),
-      disabled: false,
+      disabled: undefined,
       kind: 'primary',
       type: 'button',
     })
@@ -196,7 +196,7 @@ describe('NumberField', () => {
       className: styles.decrement,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       onClick: expect.anything(),
-      disabled: false,
+      disabled: undefined,
       kind: 'primary',
       type: 'button',
     })
@@ -208,7 +208,7 @@ describe('NumberField', () => {
       className: styles.increment,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       onClick: expect.anything(),
-      disabled: false,
+      disabled: undefined,
       kind: 'primary',
       type: 'button',
     })

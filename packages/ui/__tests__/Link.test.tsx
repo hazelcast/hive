@@ -19,6 +19,7 @@ describe('Link', () => {
       rel: 'noopener',
       target: '_self',
       children: ['Normal Text Link', undefined],
+      onClick: undefined,
     })
   })
 
@@ -42,6 +43,7 @@ describe('Link', () => {
       icon: ChevronRight,
       ariaLabel: 'Chevron right',
       size: 'normal',
+      bold: false,
     })
   })
 
@@ -59,6 +61,7 @@ describe('Link', () => {
       rel: 'noopener',
       target: '_self',
       children: ['Small Link', undefined],
+      onClick: undefined,
     })
   })
 
@@ -75,6 +78,7 @@ describe('Link', () => {
       href: 'https://hazelcast.com/',
       rel: 'noopener',
       target: '_self',
+      onClick: undefined,
     })
 
     expect(anchor.text()).toBe('Small Text Link with Icon')
@@ -82,6 +86,50 @@ describe('Link', () => {
       icon: ChevronRight,
       ariaLabel: 'Chevron right',
       size: 'small',
+      bold: false,
+    })
+  })
+
+  it('Renders bold Link with correct props', async () => {
+    const wrapper = await mountAndCheckA11Y(
+      <Link bold href="https://hazelcast.com/">
+        Bold Link
+      </Link>,
+    )
+
+    const anchor = wrapper.find('a')
+    expect(anchor.props()).toEqual({
+      className: cn(styles.normal, styles.primary, styles.bold),
+      href: 'https://hazelcast.com/',
+      rel: 'noopener',
+      target: '_self',
+      children: ['Bold Link', undefined],
+      onClick: undefined,
+    })
+  })
+
+  it('Renders bold Link with Icon with correct props', async () => {
+    const wrapper = await mountAndCheckA11Y(
+      <Link bold icon={ChevronRight} ariaLabel="Chevron right" href="https://hazelcast.com/">
+        Bold Text Link with Icon
+      </Link>,
+    )
+
+    const anchor = wrapper.find('a')
+    expect(anchor.props()).toMatchObject({
+      className: cn(styles.normal, styles.primary, styles.bold),
+      href: 'https://hazelcast.com/',
+      rel: 'noopener',
+      target: '_self',
+      onClick: undefined,
+    })
+
+    expect(anchor.text()).toBe('Bold Text Link with Icon')
+    expect(anchor.find(Icon).props()).toEqual({
+      icon: ChevronRight,
+      ariaLabel: 'Chevron right',
+      bold: true,
+      size: 'normal',
     })
   })
 

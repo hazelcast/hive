@@ -13,6 +13,8 @@ export default {
 
 export const FeatherIconNormal = () => <Icon icon={Clipboard} ariaLabel="Icon copy to clipboard" />
 
+export const FeatherIconBold = () => <Icon icon={Clipboard} ariaLabel="Icon copy to clipboard" bold />
+
 export const FeatherIconNormalCustomColour = () => (
   <Icon icon={Clipboard} ariaLabel="Icon copy to clipboard" color={styleConsts.colorSuccess} />
 )
@@ -24,6 +26,8 @@ export const FeatherIconSmallCustomColour = () => (
 )
 
 export const SimpleIconNormal = () => <Icon icon={Google} ariaLabel="Icon copy to clipboard" />
+
+export const SimpleIconBold = () => <Icon icon={Google} ariaLabel="Icon copy to clipboard" bold />
 
 export const SimpleIconNormalCustomColour = () => <Icon icon={Google} ariaLabel="Icon copy to clipboard" color={styleConsts.colorSuccess} />
 
