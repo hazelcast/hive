@@ -1,7 +1,9 @@
 import React, { FC } from 'react'
 import cn from 'classnames'
+import { ChevronRight } from 'react-feather'
 
-import { ButtonTypeButtonProps, ButtonTypeAnchorProps, ButtonProps, Button } from './Button'
+import { ButtonTypeAnchorProps, ButtonProps, Button } from './Button'
+import { Link } from './Link'
 import { Icon, IconProps } from './Icon'
 
 import styles from './EmptyState.module.scss'
@@ -46,24 +48,11 @@ export const EmptyState: FC<EmptyStateProps> = ({
   description,
   icon,
   iconLabel,
-  ...restWithActionProps
+  ...restWActionProps
 }) => {
-  const { action, actionHref, actionOnClick, actionTarget, actionRel } = restWithActionProps
+  const { action, actionHref, actionOnClick, actionTarget, actionRel } = restWActionProps
 
-  const buttonProps =
-    direction === 'vertical'
-      ? ({
-          component: 'button',
-          onClick: actionOnClick,
-          children: action,
-        } as ButtonProps<ButtonTypeButtonProps>)
-      : ({
-          component: 'a',
-          href: actionHref,
-          target: actionTarget,
-          rel: actionRel,
-          children: action,
-        } as ButtonProps<ButtonTypeAnchorProps>)
+  const iconSize = direction === 'vertical' ? (size === 'normal' ? 'large' : 'xlarge') : 'large'
 
   return (
     <div
@@ -74,11 +63,29 @@ export const EmptyState: FC<EmptyStateProps> = ({
         [styles.large]: size === 'large',
       })}
     >
-      <Icon className={styles.icon} icon={icon} ariaLabel={iconLabel} size="xlarge" />
+      <Icon className={styles.icon} icon={icon} ariaLabel={iconLabel} size={iconSize} />
       <div className={styles.content}>
-        <h3 className={styles.title}>{title}</h3>
-        <div className={styles.description}>{description}</div>
-        <Button className={styles.button} {...buttonProps} />
+        <div className={styles.title} role="heading" aria-level={3}>
+          {title}
+        </div>
+        {description && <div className={styles.description}>{description}</div>}
+        {direction === 'horizontal' && actionHref !== undefined ? (
+          <Link
+            className={styles.action}
+            icon={ChevronRight}
+            ariaLabel="Chevron right"
+            href={actionHref}
+            target={actionTarget}
+            rel={actionRel}
+            size="small"
+          >
+            {action}
+          </Link>
+        ) : (
+          <Button className={styles.action} onClick={actionOnClick}>
+            {action}
+          </Button>
+        )}
       </div>
     </div>
   )

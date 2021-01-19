@@ -1,5 +1,5 @@
 import React from 'react'
-import { Cpu } from 'react-feather'
+import { Figma } from 'react-feather'
 
 import { EmptyState } from '../src/EmptyState'
 
@@ -9,18 +9,19 @@ export default {
 }
 
 // Common
-const title = 'Fancy new CPU'
-const titleLong = 'Faaaaaaaaaaaaaancy new CPU!'
+const title = 'Figma'
+const titleLong = 'Figma Design Tool'
+const descriptionShort = 'Figma is a collaborative interface design tool.'
 const description =
-  'A central processing unit (CPU), is the electronic circuitry that executes instructions that make up a computer program.'
+  'Figma is a vector graphics editor and prototyping tool, with additional offline features enabled by desktop applications for macOS and Windows.'
 const descriptionLong =
-  'A central processing unit (CPU), also called a central processor, main processor or just processor, is the electronic circuitry within a computer that executes instructions that make up a computer program.'
+  'Figma is a vector graphics editor and prototyping tool which is primarily web-based, with additional offline features enabled by desktop applications for macOS and Windows. The Figma Mirror companion apps for Android and iOS allow viewing Figma prototypes on mobile devices. The feature set of Figma focuses on use in user interface and user experience design, with an emphasis on real-time collaboration.'
 // Icon
-const icon = Cpu
-const iconLabel = 'Icon CPU'
+const icon = Figma
+const iconLabel = 'Icon Figma'
 // Action
-const action = 'Aight!'
-const actionLong = 'All right, my man!'
+const action = 'Cool!'
+const actionLong = 'Cool, my man!'
 const actionOnClick = () => console.log('action')
 const actionHref = ''
 
@@ -77,22 +78,10 @@ export const HorizontalWithDescription = () => (
   <EmptyState
     direction="horizontal"
     title={title}
-    description={description}
+    description={descriptionShort}
     icon={icon}
     iconLabel={iconLabel}
     action={action}
-    actionHref={actionHref}
-  />
-)
-
-export const HorizontalWithDescriptionLong = () => (
-  <EmptyState
-    direction="horizontal"
-    title={titleLong}
-    icon={icon}
-    description={descriptionLong}
-    iconLabel={iconLabel}
-    action={actionLong}
     actionHref={actionHref}
   />
 )

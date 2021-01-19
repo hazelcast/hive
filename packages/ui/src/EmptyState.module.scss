@@ -3,15 +3,16 @@
 .container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   max-width: c.$emptyStateMaxWidth;
   text-align: center;
 
   .content {
     /*
-    * small: 14px => 16px (fontSizeH3 + override)
-    * large: 18px => 20px (fontSizeH3)
-    */
+     * small: 14px => 16px (fontSizeH3 + override)
+     * large: 18px => 20px (fontSizeH3)
+     */
     .title {
       margin: c.$grid * 4.5 0 0 0;
       @include c.typographyBodyNormal('bold');
@@ -23,26 +24,16 @@
     */
     .description {
       color: c.$colorTextSecondary;
-      margin: c.$grid 0 c.$grid * 5;
+      margin-top: c.$grid;
 
       @include c.typographyBodySmall;
     }
 
-    .button {
+    .action {
       flex: 1;
       min-width: c.$emptyStateButtonMinWidthNormal;
+      margin-top: c.$grid * 5;
     }
-  }
-
-  // Direction
-  &.horizontal {
-    flex: 1;
-
-    .icon {
-      flex: 0 0 auto;
-    }
-
-    flex-direction: row;
   }
 
   // Size
@@ -53,13 +44,51 @@
       }
 
       .description {
-        margin: c.$grid * 2 0 c.$grid * 6;
+        margin-top: c.$grid * 2;
 
         @include c.typographyBodyNormal;
       }
 
-      .button {
+      .action {
         min-width: c.$emptyStateButtonMinWidthLarge;
+        margin-top: c.$grid * 6;
+      }
+    }
+  }
+
+  // Direction
+  &.horizontal {
+    flex: 1;
+    flex-direction: row;
+    text-align: initial;
+
+    .icon {
+      flex: 0 0 auto;
+      align-self: flex-start;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      margin-left: c.$grid * 2;
+
+      .title {
+        margin: 0;
+
+        @include c.typographyBodyNormal('bold');
+      }
+
+      .description {
+        margin-top: c.$grid;
+
+        @include c.typographyBodySmall;
+      }
+
+      .action {
+        align-self: flex-start;
+        min-width: auto;
+        margin: c.$grid 0 0 0;
       }
     }
   }

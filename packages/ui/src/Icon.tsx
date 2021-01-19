@@ -4,7 +4,16 @@ import { Icon as SimpleIconType } from '@icons-pack/react-simple-icons'
 
 import styleConsts from '../styles/constants/export.module.scss'
 
-export type IconSize = 'small' | 'normal' | 'xlarge'
+export type IconSize = 'small' | 'normal' | 'medium' | 'large' | 'xlarge'
+
+const getIconSize = (size: IconSize) =>
+  ({
+    small: styleConsts.iconSizeSmall,
+    normal: styleConsts.iconSizeNormal,
+    medium: styleConsts.iconSizeMedium,
+    large: styleConsts.iconSizeLarge,
+    xlarge: styleConsts.iconSizeXLarge,
+  }[size])
 
 // Makes it required to set either "aria-label", "aria-labelledby" or "aria-hidden" attribute.
 export type IconAriaProps =
@@ -32,7 +41,7 @@ export type IconProps = {
 } & IconAriaProps
 
 export const Icon: FC<IconProps> = ({ color, icon: IconElement, ariaLabel, ariaLabelledBy, ariaHidden, className, size = 'normal' }) => {
-  const iconSize = size === 'small' ? styleConsts.iconSizeSmall : styleConsts.iconSizeNormal
+  const iconSize = getIconSize(size)
 
   const props: SVGProps<SVGElement> = {
     'aria-label': ariaLabel,
