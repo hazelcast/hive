@@ -46,7 +46,6 @@ export type SelectFieldCoreStaticProps = {
   name: string
   onBlur?: (e: FocusEvent<HTMLElement>) => void
   error?: string
-  isMulti?: boolean
 }
 
 export type SelectFieldCoreDynamicProps<V> =
