@@ -332,9 +332,6 @@ export const MultipleSelectionsMultipleRows = () => {
 }
 
 export const MultipleSelectionsAndOpen = () => {
-  //
-  // xxx WIP very problematic in storybooks :/
-  //
   const [currentValue, setValue] = useState([options[1], options[2]])
   const ref = useRef<HTMLDivElement>(null)
   return (
@@ -348,7 +345,7 @@ export const MultipleSelectionsAndOpen = () => {
         onBlur={() => logger.log('blur')}
         onChange={setValue}
         menuIsOpen
-        menuPortalTarget={ref.current}
+        menuPortalTarget={null}
       />
     </div>
   )

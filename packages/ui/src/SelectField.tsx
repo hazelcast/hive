@@ -32,6 +32,7 @@ const Input = (props: any) => {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+// this component is implemented because we want to style things with the css (as opposed to the react-select recommended way of styling things via js).
 const MultiValue = (props: any) => {
   return <components.MultiValue {...props} className={cn({ [styles.multiValueIsFocused]: props.isFocused })} />
 }
