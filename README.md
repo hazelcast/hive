@@ -146,10 +146,11 @@ npm run test:visual
 
 Now, if the test suite failed, we need to go to `packages/ui/.loki` and manually review the screenshots in the `current` folder and the diff in the `difference` folder. If we like what we see, we need to run `npm run test:visual:approve` in the `packages/ui` folder. It will update the reference screenshots.
 
-### Generate new screenshots for the new components
+### Generate new screenshots for the new/updated components
 
 ```
 cd packages/ui
+npm run build-storybook # if you don't run this new stories won't get picked up
 npm run generate-screenshots
 ```
 
