@@ -67,6 +67,16 @@ export type PaginationProps = {
   displaySmallBreakpoint?: number
 }
 
+/**
+ * ### Purpose
+ * Pagination component is used to show sequence of pages which are connected and have similar content.
+ * Typical use-case is a table.
+ *
+ * ### General Info
+ * When the width of a component hits the "display small" breakpoint it displays a smaller
+ * version of Pagination with all its features. In that case the features
+ * (rows per page select and page jump) are hidden under "More Options" button.
+ */
 export const Pagination: FC<PaginationProps> = ({
   pageCount,
   currentPage,

@@ -77,6 +77,16 @@ const column = {
   maxWidth: Number(styleConsts.tableColumnMaxWidth), // maxWidth is only used as a limit for resizing
 }
 
+/**
+ * ### Purpose
+ * Table component allows to arrange data in rows and columns.
+ *
+ * ### General Info
+ * - Has built-in pagination which can be either controlled or uncontrolled
+ * - Is able to sort data (you can provide custom sorting function)
+ * - Rows can be clickable. If you supply Table with `getHref` function rows will become <a> tags!
+ * - Is able to resize columns out of the box
+ */
 // Inspiration here: https://react-table.tanstack.com/docs/examples/basic
 export const Table = <D extends object>({
   'data-test': dataTest,
@@ -231,14 +241,15 @@ export const Table = <D extends object>({
           </div>
           {hasFooter && (
             <div data-test="table-footer-row-group" role="rowgroup">
-              {/* Apparently footer props getters do not provide role attributes */}
               {footerGroups.map((group) => {
                 const { key: footerGroupKey, ...restFooterGroupProps } = group.getFooterGroupProps()
                 return (
+                  // Footer props getters do not provide role attributes
                   <Row key={footerGroupKey} ariaRowIndex={rowCount} {...restFooterGroupProps} role="row">
                     {group.headers.map((column) => {
                       const { key: footerKey, ...restFooterProps } = column.getFooterProps()
                       return (
+                        // Footer props getters do not provide role attributes
                         <Cell key={footerKey} {...restFooterProps} align={column.align} role="cell">
                           <EnhancedHeaderFooterRenderer column={column} columnResizing={columnResizing} type="Footer" />
                         </Cell>
