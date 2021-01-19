@@ -12,6 +12,8 @@ export const axeDefaultOptions: AxeOptions = {
     region: {
       enabled: false,
     },
+    // We are using chrome-off for SelectField
+    'autocomplete-valid': { enabled: false },
   },
 }
 
