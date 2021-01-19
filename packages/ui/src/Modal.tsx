@@ -1,5 +1,5 @@
 import React, { FC, ReactNode, useMemo } from 'react'
-import ReactModal, { Props as ReactModalProps, setAppElement as setAppElementRM } from 'react-modal'
+import ReactModal, { Props as ReactModalProps } from 'react-modal'
 import cn from 'classnames'
 import { DataTestProp } from '@hazelcast/helpers'
 import { X } from 'react-feather'
@@ -10,7 +10,9 @@ import { IconButton } from './IconButton'
 
 import styles from './Modal.module.scss'
 
-export const setAppElement = setAppElementRM
+// Direct re-exporting is breaking tests in MC
+// TODO: Investigate why
+export const setAppElement = (appElement: string | HTMLElement) => ReactModal.setAppElement(appElement)
 
 export type ModalActionProps = ButtonProps<ButtonTypeButtonProps>
 
