@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { logger } from '@hazelcast/services'
 import { Mail } from 'react-feather'
 import { Form, Formik } from 'formik'
+import cn from 'classnames'
 
 import { TextField } from '../src/TextField'
 import { TextFieldFormik } from '../src/TextFieldFormik'
@@ -59,7 +60,7 @@ export const Hovered = () => (
     label="Wisest jedi"
     onBlur={() => logger.log('blur')}
     onChange={(e) => logger.log('change', e.target.value)}
-    className={styles.hover}
+    inputClassName={styles.hover}
   />
 )
 
@@ -71,7 +72,7 @@ export const Focused = () => (
     label="Wisest jedi"
     onBlur={() => logger.log('blur')}
     onChange={(e) => logger.log('change', e.target.value)}
-    className={styles.focus}
+    inputClassName={styles.focus}
   />
 )
 
@@ -84,8 +85,21 @@ export const FocusedWithError = () => (
     onBlur={() => logger.log('blur')}
     onChange={(e) => logger.log('change', e.target.value)}
     // eslint-disable-next-line jsx-a11y/no-autofocus
-    className={styles.focus}
+    inputClassName={styles.focus}
     error="Dark side"
+  />
+)
+
+export const FocusedWithHover = () => (
+  <TextField
+    name="name"
+    value="Yoda"
+    placeholder="Enter the name"
+    label="Wisest jedi"
+    onBlur={() => logger.log('blur')}
+    onChange={(e) => logger.log('change', e.target.value)}
+    // eslint-disable-next-line jsx-a11y/no-autofocus
+    inputClassName={cn(styles.focus, styles.hover)}
   />
 )
 
@@ -97,6 +111,20 @@ export const Disabled = () => (
     label="Wisest jedi"
     onBlur={() => logger.log('blur')}
     onChange={(e) => logger.log('change', e.target.value)}
+    disabled
+  />
+)
+
+export const DisabledWithHover = () => (
+  <TextField
+    name="name"
+    value="Yoda"
+    placeholder="Enter the name"
+    label="Wisest jedi"
+    onBlur={() => logger.log('blur')}
+    onChange={(e) => logger.log('change', e.target.value)}
+    // eslint-disable-next-line jsx-a11y/no-autofocus
+    inputClassName={styles.hover}
     disabled
   />
 )
@@ -158,7 +186,7 @@ export const WithIconHovered = () => (
     onBlur={() => logger.log('blur')}
     onChange={(e) => logger.log('change', e.target.value)}
     inputIcon={Mail}
-    className={styles.hover}
+    inputClassName={styles.hover}
   />
 )
 
@@ -171,7 +199,7 @@ export const WithIconFocused = () => (
     onBlur={() => logger.log('blur')}
     onChange={(e) => logger.log('change', e.target.value)}
     inputIcon={Mail}
-    className={styles.focus}
+    inputClassName={styles.focus}
   />
 )
 
@@ -185,7 +213,7 @@ export const WithIconFocusedWithError = () => (
     onChange={(e) => logger.log('change', e.target.value)}
     inputIcon={Mail}
     error="Dark side"
-    className={styles.focus}
+    inputClassName={styles.focus}
   />
 )
 
@@ -233,7 +261,7 @@ export const TextFieldWrappedInFormik = () => {
     name: string
   }
 
-  const validateName = (value: string) => (value === 'invalid_name' ? 'Name is invalid' : undefined)
+  const validateName = (value?: string) => (value === 'invalid_name' ? 'Name is invalid' : undefined)
 
   const TestForm = () => (
     <Formik<Values>

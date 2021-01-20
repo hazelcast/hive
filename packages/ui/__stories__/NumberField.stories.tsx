@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { logger } from '@hazelcast/services'
+import { Form, Formik } from 'formik'
 
 import { NumberField } from '../src/NumberField'
-import styles from '../src/TextField.module.scss'
-import { Form, Formik } from 'formik'
 import { NumberFieldFormik } from '../src/NumberFieldFormik'
+
+import styles from '../src/TextField.module.scss'
 
 const eventHandlers = {
   onBlur: () => logger.log('blur'),
@@ -25,11 +26,11 @@ export const Error = () => (
 )
 
 export const Hovered = () => (
-  <NumberField name="name" value={42} placeholder="Enter the name" label="Wisest jedi" className={styles.hover} {...eventHandlers} />
+  <NumberField name="name" value={42} placeholder="Enter the name" label="Wisest jedi" inputClassName={styles.hover} {...eventHandlers} />
 )
 
 export const Focused = () => (
-  <NumberField name="name" value={42} placeholder="Enter the name" label="Wisest jedi" className={styles.focus} {...eventHandlers} />
+  <NumberField name="name" value={42} placeholder="Enter the name" label="Wisest jedi" inputClassName={styles.focus} {...eventHandlers} />
 )
 
 export const FocusedWithError = () => (
@@ -38,7 +39,7 @@ export const FocusedWithError = () => (
     value={42}
     placeholder="Enter the name"
     label="Wisest jedi"
-    className={styles.focus}
+    inputClassName={styles.focus}
     error="Dark side"
     {...eventHandlers}
   />
