@@ -1,7 +1,33 @@
+@use '../../styles/constants' as c;
+@use '../../styles/helpers' as h;
+
 .tab {
-  color: red;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  height: c.$grid * 10;
+  min-width: c.$grid * 40;
+  padding: 0 c.$grid * 5;
+  border: none;
+  border-bottom: 1px solid;
+  border-color: c.$colorNeutralLight;
+  background-color: transparent;
+  cursor: pointer;
+
+  @include c.typographyH3;
+
+  @include h.overflowEllipsis;
 
   &.selected {
-    color: green;
+    color: c.$colorPrimary;
+    border-color: c.$colorPrimary;
+    box-shadow: inset 0 -4px 0 0 c.$colorPrimary;
+  }
+
+  &.fullWidth {
+    flex: 1 1 auto;
   }
 }

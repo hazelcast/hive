@@ -5,6 +5,7 @@ export type TabContextValue = {
   onChange: (value: number) => void
   value: number
   idPrefix: string
+  fullWidth?: boolean
 }
 
 export const tabContextDefaultValue: TabContextValue = {
@@ -13,19 +14,21 @@ export const tabContextDefaultValue: TabContextValue = {
   },
   value: 0,
   idPrefix: '',
+  fullWidth: false,
 }
 
 export const TabContext = createContext<TabContextValue>(tabContextDefaultValue)
 
 export const useTabContext = () => useContext(TabContext)
 
-export type TabContextComponentProps = { children: ReactNode }
+export type TabContextComponentProps = { fullWidth?: boolean; children: ReactNode }
 
-export const TabContextComponent: FC<TabContextComponentProps> = ({ children }) => {
+// If you want more control over the value state (active tab) you can use TabContextComponentControlled
+export const TabContextComponent: FC<TabContextComponentProps> = ({ fullWidth, children }) => {
   const [value, setValue] = useState<number>(0)
 
   return (
-    <TabContextComponentControlled value={value} onChange={setValue}>
+    <TabContextComponentControlled value={value} onChange={setValue} fullWidth={fullWidth}>
       {children}
     </TabContextComponentControlled>
   )
@@ -33,15 +36,16 @@ export const TabContextComponent: FC<TabContextComponentProps> = ({ children }) 
 
 export type TabContextComponentControlledProps = Omit<TabContextValue, 'idPrefix'> & { children: ReactNode }
 
-export const TabContextComponentControlled: FC<TabContextComponentControlledProps> = ({ onChange, value, children }) => {
+export const TabContextComponentControlled: FC<TabContextComponentControlledProps> = ({ onChange, value, fullWidth, children }) => {
   const id = useUID()
   const contextValue: TabContextValue = useMemo(
     () => ({
       onChange,
       value,
       idPrefix: id,
+      fullWidth,
     }),
-    [onChange, value, id],
+    [onChange, value, id, fullWidth],
   )
 
   return <TabContext.Provider value={contextValue}>{children}</TabContext.Provider>

@@ -2,7 +2,6 @@ import React, { FC, useCallback, KeyboardEvent } from 'react'
 import cn from 'classnames'
 
 import { useTabContext, getTabId, getPanelId } from './TabContext'
-import { Button } from '../Button'
 import { keyIsOneOf } from '../utils/keyboard'
 
 import styles from './Tab.module.scss'
@@ -13,7 +12,7 @@ export type TabProps = {
 }
 
 export const Tab: FC<TabProps> = ({ label, value }) => {
-  const { onChange, value: activeValue, idPrefix } = useTabContext()
+  const { onChange, value: activeValue, idPrefix, fullWidth } = useTabContext()
   const selected = value === activeValue
 
   const handleClick = useCallback(() => {
@@ -35,9 +34,8 @@ export const Tab: FC<TabProps> = ({ label, value }) => {
   )
 
   return (
-    <Button
-      className={cn(styles.tab, { [styles.selected]: selected })}
-      kind="secondary"
+    <button
+      className={cn(styles.tab, { [styles.selected]: selected, [styles.fullWidth]: fullWidth })}
       role="tab"
       id={getTabId(idPrefix, value.toString())}
       aria-controls={getPanelId(idPrefix, value.toString())}
@@ -47,6 +45,6 @@ export const Tab: FC<TabProps> = ({ label, value }) => {
       onClick={handleClick}
     >
       {label}
-    </Button>
+    </button>
   )
 }
