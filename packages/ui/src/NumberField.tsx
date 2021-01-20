@@ -1,7 +1,6 @@
 import { DataTestProp } from '@hazelcast/helpers'
 import React, { FC, FocusEvent, ChangeEvent, ReactElement, InputHTMLAttributes, useCallback, useMemo } from 'react'
 import { Plus, Minus } from 'react-feather'
-import cn from 'classnames'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 
 import { TextField } from './TextField'
@@ -170,7 +169,8 @@ export const NumberField: FC<NumberFieldProps> = ({
       onChange={onChangeWrapped}
       type="number"
       inputContainerChild={overlay}
-      inputClassName={cn(styles.inputContainer, inputClassName)}
+      inputContainerClassName={styles.inputContainer}
+      inputClassName={inputClassName}
       disabled={disabled}
     />
   )

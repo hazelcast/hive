@@ -1,6 +1,5 @@
 import React from 'react'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
-import cn from 'classnames'
 import { Minus, Plus } from 'react-feather'
 
 import { NumberField } from '../src/NumberField'
@@ -39,7 +38,8 @@ describe('NumberField', () => {
       type: 'number',
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       inputContainerChild: expect.anything(),
-      inputClassName: cn(styles.inputContainer, 'amidala'),
+      inputContainerClassName: styles.inputContainer,
+      inputClassName: 'amidala',
       className: 'padme',
     })
 

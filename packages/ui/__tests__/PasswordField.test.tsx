@@ -1,6 +1,5 @@
 import React from 'react'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
-import cn from 'classnames'
 import { Eye, EyeOff } from 'react-feather'
 import { act } from 'react-dom/test-utils'
 
@@ -39,7 +38,8 @@ describe('PasswordField', () => {
       type: 'password',
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       inputContainerChild: expect.anything(),
-      inputClassName: cn(styles.inputContainer, 'amidala'),
+      inputContainerClassName: styles.inputContainer,
+      inputClassName: 'amidala',
       className: 'padme',
     })
 
