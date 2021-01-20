@@ -112,7 +112,7 @@ export const AgeColumnWithWarnings = () => {
 }
 
 export const Sorting = () => {
-  return <Table columns={getColumns({})} data={smallDataSet} />
+  return <Table columns={getColumns({})} data={smallDataSet} hidePagination />
 }
 
 export const UncontrolledPagination = () => <Table columns={getColumns({})} data={bigDataSet} disableSortBy />
