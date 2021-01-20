@@ -88,7 +88,7 @@ export type ButtonTypeButtonProps = {
   rel?: never
   loading?: boolean
 } & (ButtonDisabledProps | ButtonNotDisabledProps) &
-  Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'autoFocus' | 'type'>
+  Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'autoFocus' | 'type' | 'aria-controls' | 'aria-selected'>
 
 export type ButtonTypeProps = ButtonTypeAnchorProps | ButtonTypeButtonProps
 

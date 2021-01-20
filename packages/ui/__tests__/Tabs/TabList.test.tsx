@@ -5,7 +5,7 @@ import { TabList } from '../../src/Tabs/TabList'
 
 import styles from '../../src/Tabs/Tabs.module.scss'
 
-describe('Tabs', () => {
+describe('TabList', () => {
   it('renders <div> with correct props', () => {
     const ariaLabel = 'testAriaLabel'
     const children = 'testChildren'
@@ -16,6 +16,8 @@ describe('Tabs', () => {
       className: styles.tabList,
       'aria-label': ariaLabel,
       children,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      onKeyDown: expect.anything(),
     })
   })
 })
