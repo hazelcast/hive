@@ -20,8 +20,8 @@ const descriptionLong =
 const icon = Figma
 const iconLabel = 'Icon Figma'
 // Action
-const action = 'Cool!'
-const actionLong = 'Cool, my man!'
+const action = 'Ok'
+const actionLong = 'Understood'
 const actionOnClick = () => console.log('action')
 const actionHref = ''
 
