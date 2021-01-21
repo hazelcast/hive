@@ -125,7 +125,7 @@ describe('Alert', () => {
     ['2 actions', [AlertAction1, AlertAction2]],
   ]
 
-  it.each(alertActionsTestData)('Renders correct text properties for Alert with %s', async (x, actions) => {
+  it.each(alertActionsTestData)('Renders correct text properties for Alert with %s', async (_, actions) => {
     const wrapper = await mountAndCheckA11Y(<Alert type="success" title={title} content={content} closeToast={noOp} actions={actions} />)
 
     wrapper
