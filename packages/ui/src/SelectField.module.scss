@@ -100,12 +100,15 @@ $select: ':global .hz-select-field__control';
 .multiValueIsFocused {
   :global .hz-select-field__multi-value__remove {
     background-color: c.$colorWarning;
-    border: 1px solid c.$colorAccessibilityOutline;
+    border: c.$borderWidth solid c.$colorAccessibilityOutline;
   }
+}
+:global .hz-select-field__multi-value__remove {
+  border: c.$borderWidth solid transparent;
 }
 :global .hz-select-field__multi-value__remove:hover {
   background-color: c.$colorWarning;
-  border: 1px solid c.$colorPrimary;
+  border: c.$borderWidth solid c.$colorPrimary;
 }
 
 .menuContainer {
