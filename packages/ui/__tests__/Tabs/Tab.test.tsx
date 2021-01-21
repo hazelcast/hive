@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ButtonHTMLAttributes } from 'react'
 import cn from 'classnames'
 import { mount } from 'enzyme'
 import { useUID } from 'react-uid'
@@ -6,7 +6,6 @@ import { act } from 'react-dom/test-utils'
 
 import { getPanelId, getTabId, TabContextComponent, TabContextComponentControlled } from '../../src/Tabs/TabContext'
 import { Tab } from '../../src/Tabs/Tab'
-import { Button, ButtonProps } from '../../src'
 
 import styles from '../Tab.module.scss'
 
@@ -36,19 +35,18 @@ describe('Tab', () => {
       </TabContextComponent>,
     )
 
-    expect(wrapper.find(Button).props()).toEqual<ButtonProps>({
+    expect(wrapper.find('button').props()).toEqual<ButtonHTMLAttributes<HTMLButtonElement>>({
       className: styles.tab,
-      kind: 'secondary',
       role: 'tab',
       id: getTabId(testId, value.toString()),
       'aria-controls': getPanelId(testId, value.toString()),
       'aria-selected': false,
       tabIndex: -1,
-      children: label,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      onKeyPress: expect.anything(),
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       onClick: expect.anything(),
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      onKeyPress: expect.anything(),
+      children: label,
     })
   })
 
@@ -67,9 +65,8 @@ describe('Tab', () => {
       </TabContextComponent>,
     )
 
-    expect(wrapper.find(Button).props()).toEqual<ButtonProps>({
+    expect(wrapper.find('button').props()).toEqual<ButtonHTMLAttributes<HTMLButtonElement>>({
       className: cn(styles.tab, styles.selected),
-      kind: 'secondary',
       role: 'tab',
       id: getTabId(testId, value.toString()),
       'aria-controls': getPanelId(testId, value.toString()),
@@ -99,11 +96,10 @@ describe('Tab', () => {
       </TabContextComponentControlled>,
     )
 
-    const button = wrapper.find(Button)
+    const button = wrapper.find('button')
 
-    expect(button.props()).toEqual<ButtonProps>({
+    expect(button.props()).toEqual<ButtonHTMLAttributes<HTMLButtonElement>>({
       className: styles.tab,
-      kind: 'secondary',
       role: 'tab',
       id: getTabId(testId, value.toString()),
       'aria-controls': getPanelId(testId, value.toString()),

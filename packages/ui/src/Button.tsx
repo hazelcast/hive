@@ -67,10 +67,7 @@ type ButtonCommonProps = {
   children: string
   capitalize?: boolean
   bodyClassName?: string
-} & Pick<
-  HTMLAttributes<HTMLAnchorElement | HTMLButtonElement>,
-  'className' | 'onClick' | 'tabIndex' | 'role' | 'id' | 'onFocus' | 'onKeyPress'
->
+} & Pick<HTMLAttributes<HTMLAnchorElement | HTMLButtonElement>, 'className' | 'onClick' | 'tabIndex' | 'role' | 'id' | 'onFocus'>
 
 export type ButtonTypeAnchorProps = {
   component: 'a'
@@ -88,7 +85,7 @@ export type ButtonTypeButtonProps = {
   rel?: never
   loading?: boolean
 } & (ButtonDisabledProps | ButtonNotDisabledProps) &
-  Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'autoFocus' | 'type' | 'aria-controls' | 'aria-selected'>
+  Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'autoFocus' | 'type'>
 
 export type ButtonTypeProps = ButtonTypeAnchorProps | ButtonTypeButtonProps
 

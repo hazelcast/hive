@@ -10,20 +10,29 @@ export type TabContextValue = {
 
 export const tabContextDefaultValue: TabContextValue = {
   onChange: () => {
-    // default function - do nothing
+    // default function - do nothing ¯\_(ツ)_/¯
   },
   value: 0,
   idPrefix: '',
   fullWidth: false,
 }
 
+/**
+ * A context used to pass valid values to Tab and TabPanel components.
+ */
 export const TabContext = createContext<TabContextValue>(tabContextDefaultValue)
 
+/**
+ * A custom hook utilizing context for easy usage.
+ */
 export const useTabContext = () => useContext(TabContext)
 
 export type TabContextComponentProps = { fullWidth?: boolean; children: ReactNode }
 
-// If you want more control over the value state (active tab) you can use TabContextComponentControlled
+/**
+ * A basic component that keeps track of selected tab.
+ * If you want more control over the value state (active tab) you can use TabContextComponentControlled.
+ */
 export const TabContextComponent: FC<TabContextComponentProps> = ({ fullWidth, children }) => {
   const [value, setValue] = useState<number>(0)
 
@@ -36,6 +45,9 @@ export const TabContextComponent: FC<TabContextComponentProps> = ({ fullWidth, c
 
 export type TabContextComponentControlledProps = Omit<TabContextValue, 'idPrefix'> & { children: ReactNode }
 
+/**
+ * If you want to control the value state (active tab) from outside, this component might come in handy.
+ */
 export const TabContextComponentControlled: FC<TabContextComponentControlledProps> = ({ onChange, value, fullWidth, children }) => {
   const id = useUID()
   const contextValue: TabContextValue = useMemo(
@@ -51,6 +63,7 @@ export const TabContextComponentControlled: FC<TabContextComponentControlledProp
   return <TabContext.Provider value={contextValue}>{children}</TabContext.Provider>
 }
 
+// Helpers which provide ids from passed values
 export const getTabId = (prefix: string, value: string) => `${prefix}-tab-${value}`
 
 export const getPanelId = (prefix: string, value: string) => `${prefix}-panel-${value}`

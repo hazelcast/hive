@@ -14,6 +14,7 @@
   border: none;
   border-bottom: 1px solid;
   border-color: c.$colorNeutralLight;
+
   background-color: transparent;
   cursor: pointer;
 
@@ -23,11 +24,27 @@
 
   &.selected {
     color: c.$colorPrimary;
+    border-radius: none;
     border-color: c.$colorPrimary;
     box-shadow: inset 0 -4px 0 0 c.$colorPrimary;
   }
 
   &.fullWidth {
     flex: 1 1 auto;
+  }
+
+  &:hover {
+    color: c.$colorPrimary;
+  }
+
+  &:focus {
+    // Do not remove outline for high-contrast modes
+    // https://stackoverflow.com/a/52616313
+    outline: c.$outlineWidth solid transparent;
+    color: c.$colorPrimary;
+    border-radius: c.$borderRadius;
+    border-color: transparent;
+
+    @include h.outlineSimple;
   }
 }

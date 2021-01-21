@@ -11,6 +11,17 @@ export type TabProps = {
   value: number
 }
 
+/**
+ * ### Purpose
+ * A single tab implementation that works together with TabContext and TabList components.
+ *
+ * ### General Info
+ * - Use as a direct child of TabList component.
+ * - Implemented as `Tabs with Manual Activation` since displaying a new panel in some cases might
+ * cause a network request and therefore devastate the experience for keyboard/screen reader users.
+ * More info - https://www.w3.org/TR/wai-aria-practices/#kbd_selection_follows_focus
+ *
+ */
 export const Tab: FC<TabProps> = ({ label, value }) => {
   const { onChange, value: activeValue, idPrefix, fullWidth } = useTabContext()
   const selected = value === activeValue
@@ -21,7 +32,6 @@ export const Tab: FC<TabProps> = ({ label, value }) => {
 
   // Since we're not automatically following focus we have
   // to handle keyboard selection with Enter and Space ourselves.
-  // More info: https://www.w3.org/TR/wai-aria-practices/#kbd_selection_follows_focus
   const onKeyPress = useCallback(
     (event: KeyboardEvent<HTMLButtonElement>) => {
       event.preventDefault()

@@ -9,15 +9,24 @@ export type TabsProps = {
   children: ReactNode
 }
 
+/**
+ * ### Purpose
+ * A base component for building tabs (apart from TabContext). Use as a parent for Tab components.
+ *
+ * ### General Info
+ * - Expects direct children to have [role="tab"].
+ * - Implemented according to best practices: https://www.w3.org/TR/wai-aria-practices/examples/tabs/tabs-2/tabs.html.
+ *
+ */
 export const TabList: FC<TabsProps> = ({ ariaLabel, className, children }) => {
   const tabListRef = useRef<HTMLDivElement>(null)
 
-  // Keyboard navigation assumes that TabList has only Tab components as children
+  // Keyboard navigation assumes that the direct children have [role="tab"]
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     const target = event.target as HTMLDivElement
     const role = target.getAttribute('role')
     if (role !== 'tab') {
-      console.warn('Your Tab component are not siblings. Keyboard navigation will not work as expected.')
+      console.warn('Children of TabList component do not have [role="tab"]. Keyboard navigation will not work as expected.')
       return
     }
 
@@ -26,16 +35,24 @@ export const TabList: FC<TabsProps> = ({ ariaLabel, className, children }) => {
     const nextItemKey = 'ArrowRight'
 
     switch (event.key) {
+      // When a tab has focus:
+      // - Moves focus to the previous tab.
+      // - If focus is on the first tab, moves focus to the last tab.
       case previousItemKey:
         newFocusTarget =
           (target.previousElementSibling as HTMLButtonElement) ?? (tabListRef.current?.lastChild as HTMLButtonElement) ?? null
         break
+      // When a tab has focus:
+      // - Moves focus to the next tab.
+      // - If focus is on the last tab, moves focus to the first tab.
       case nextItemKey:
         newFocusTarget = (target.nextElementSibling as HTMLButtonElement) ?? (tabListRef.current?.firstChild as HTMLButtonElement) ?? null
         break
+      // When a tab has focus, moves focus to the first tab.
       case 'Home':
         newFocusTarget = (tabListRef.current?.firstChild as HTMLButtonElement) ?? null
         break
+      // When a tab has focus, moves focus to the last tab.
       case 'End':
         newFocusTarget = (tabListRef.current?.lastChild as HTMLButtonElement) ?? null
         break

@@ -1,9 +1,12 @@
 import React from 'react'
 import { mount } from 'enzyme'
 import { useUID } from 'react-uid'
+import cn from 'classnames'
 
 import { getPanelId, getTabId, TabContextComponent } from '../../src/Tabs/TabContext'
 import { TabPanel } from '../../src/Tabs/TabPanel'
+
+import styles from '../../src/TabPanel.module.scss'
 
 jest.mock('react-uid')
 
@@ -16,7 +19,7 @@ describe('TabPanel', () => {
   beforeEach(() => {
     useUIDMock.mockImplementation(() => testId)
   })
-  it('renders null when panel is not selected', () => {
+  it('renders <div> with correct props when panel is not selected', () => {
     const contextValues = {
       value: 0,
       onChange: jest.fn(),
@@ -31,10 +34,16 @@ describe('TabPanel', () => {
       </TabContextComponent>,
     )
 
-    expect(wrapper.isEmptyRender()).toBeTruthy()
+    expect(wrapper.find('div').first().props()).toEqual({
+      className: cn(styles.tabPanel, styles.hidden),
+      role: 'tabpanel',
+      id: getPanelId(testId, index.toString()),
+      'aria-labelledby': getTabId(testId, index.toString()),
+      children: null,
+    })
   })
 
-  it('renders div with children when panel is selected', () => {
+  it('renders <div> with correct props when panel is selected', () => {
     const contextValues = {
       value: 0,
       onChange: jest.fn(),
@@ -50,6 +59,7 @@ describe('TabPanel', () => {
     )
 
     expect(wrapper.find('div').first().props()).toEqual({
+      className: styles.tabPanel,
       role: 'tabpanel',
       id: getPanelId(testId, index.toString()),
       'aria-labelledby': getTabId(testId, index.toString()),
