@@ -319,15 +319,17 @@ export const MultipleSelections = () => {
 export const MultipleSelectionsMultipleRows = () => {
   const [currentValue, setValue] = useState([...options])
   return (
-    <SelectField
-      name={name}
-      value={currentValue}
-      isMulti={true}
-      label={label}
-      options={options}
-      onBlur={() => logger.log('blur')}
-      onChange={setValue}
-    />
+    <div style={{ maxWidth: '400px' }}>
+      <SelectField
+        name={name}
+        value={currentValue}
+        isMulti={true}
+        label={label}
+        options={options}
+        onBlur={() => logger.log('blur')}
+        onChange={setValue}
+      />
+    </div>
   )
 }
 
