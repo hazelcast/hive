@@ -201,7 +201,7 @@ describe('Pagination', () => {
     })
     expect(formik.find(NumberFieldFormik).props()).toEqual<NumberFieldFormikProps<PageJumpFormValues>>({
       className: styles.pageJump,
-      inputClassName: styles.input,
+      inputContainerClassName: styles.inputContainer,
       labelClassName: styles.label,
       name: 'page',
       label: 'Go to',
@@ -558,7 +558,7 @@ describe('Pagination', () => {
     })
     expect(formik.find(NumberFieldFormik).props()).toEqual<NumberFieldFormikProps<PageJumpFormValues>>({
       className: styles.pageJump,
-      inputClassName: styles.input,
+      inputContainerClassName: styles.inputContainer,
       labelClassName: styles.label,
       name: 'page',
       label: 'Go to',

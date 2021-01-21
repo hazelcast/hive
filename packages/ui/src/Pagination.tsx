@@ -157,7 +157,7 @@ export const Pagination: FC<PaginationProps> = ({
             <NumberFieldFormik<PageJumpFormValues>
               className={styles.pageJump}
               labelClassName={styles.label}
-              inputClassName={styles.input}
+              inputContainerClassName={styles.inputContainer}
               name="page"
               label="Go to"
               min={1}

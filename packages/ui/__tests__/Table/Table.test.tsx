@@ -1,7 +1,7 @@
 import { axeDefaultOptions, mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import React, { PropsWithChildren } from 'react'
 
-import { getColumns, makeData, Person } from './utils'
+import { getColumns, Person } from './utils'
 import { Table } from '../../src/Table/Table'
 import { HeaderRow, Row, RowProps } from '../../src/Table/Row'
 import { Header, HeaderProps } from '../../src/Table/Header'
@@ -13,10 +13,9 @@ import {
   EnhancedHeaderFooterRendererProps,
 } from '../../src/Table/EnhancedRenderers'
 import { Pagination, PaginationProps } from '../../src/Pagination'
+import { smallDataSet } from './consts'
 
 import styles from '../../Table.module.scss'
-
-const smallDataSet = makeData(10)
 
 const axeOptions = {
   ...axeDefaultOptions,

@@ -1,6 +1,4 @@
 import React, { PropsWithChildren, useMemo } from 'react'
-import namor from 'namor'
-import { range } from '@hazelcast/helpers'
 import { CellProps, Column } from 'react-table'
 
 import { Link } from '../../src/Link'
@@ -12,26 +10,6 @@ export type Person = {
   visits: number
   status: 'relationship' | 'complicated' | 'single'
 }
-
-const newPerson = (id: number): Person => {
-  const statusChance = Math.random()
-  return {
-    name: `${namor.generate({
-      words: 1,
-      saltLength: 0,
-    })} ${namor.generate({
-      words: 1,
-      saltLength: 0,
-      subset: 'manly',
-    })}`,
-    id: id,
-    age: Math.floor((Math.random() + 0.01) * 40),
-    visits: Math.floor(Math.random() * 100),
-    status: statusChance > 0.66 ? 'relationship' : statusChance > 0.33 ? 'complicated' : 'single',
-  }
-}
-
-export const makeData = (length: number): Person[] => range(1, length).map((id) => newPerson(id))
 
 export type GetColumns = {
   withFooter?: boolean

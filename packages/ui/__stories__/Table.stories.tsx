@@ -2,8 +2,9 @@ import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { logger } from '@hazelcast/services'
 
 import { FetchDataProps, Table } from '../src/Table/Table'
-import { getColumns, makeData, Person } from '../__tests__/Table/utils'
 import { Toggle } from '../src/Toggle'
+import { getColumns, Person } from '../__tests__/Table/utils'
+import { bigDataSet, smallDataSet } from '../__tests__/Table/consts'
 
 import styles from './utils.scss'
 
@@ -11,9 +12,6 @@ export default {
   title: 'Components/Table',
   component: Table,
 }
-
-const smallDataSet = makeData(10)
-const bigDataSet = makeData(10000)
 
 export const Default = () => {
   const [withFooter, setWithFooter] = useState(false)
