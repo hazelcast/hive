@@ -1,12 +1,12 @@
-import React, { AnchorHTMLAttributes, FC, ReactNode, useCallback } from 'react'
+import React, { FC, ReactNode, useCallback } from 'react'
 import cn from 'classnames'
-import { X, ChevronRight } from 'react-feather'
+import { ChevronRight, X } from 'react-feather'
 
 import { PartialRequired } from '@hazelcast/helpers'
 
 import { useKey } from 'react-use'
 import { escKeyFilterPredicate } from './utils/keyboard'
-import { Link } from './Link'
+import { Link, LinkProps } from './Link'
 import { Button, ButtonAccessibleIconLeftProps } from './Button'
 import { ToastIcon, ToastType } from './Toast'
 import { Icon, IconProps } from './Icon'
@@ -29,9 +29,14 @@ export type AlertActionButton = {
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void
 } & AlertAccessibleActionButtonIconProps
 
+/*
+ We want to:
+ 1) Enforce size in this component
+ 2) 'text' string prop is being used instead of 'children'
+ */
 export type AlertActionLink = {
   text: string
-} & PartialRequired<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>
+} & Omit<PartialRequired<LinkProps, 'href'>, 'children' | 'size'>
 
 export type AlertAction = AlertActionButton | AlertActionLink
 
@@ -115,10 +120,18 @@ export const Alert: FC<AlertProps> = ({ type, title, content, actions, className
                 )
               }
 
-              const { text, href } = action
+              const { text, href, ...props } = action
 
               return (
-                <Link key={aI} href={href} icon={ChevronRight} ariaLabel="Icon chevron right" className={styles.action} size="small">
+                <Link
+                  key={aI}
+                  href={href}
+                  icon={ChevronRight}
+                  ariaLabel="Icon chevron right"
+                  className={styles.action}
+                  size="small"
+                  {...props}
+                >
                   {text}
                 </Link>
               )
