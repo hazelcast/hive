@@ -24,6 +24,11 @@ const options: SelectFieldOption<string>[] = [
   { value: 'Jar Jar Binks', label: 'Jar Jar Binks' },
 ]
 const value = options[1]
+const badGuyValues = [
+  options[0], // darthie boy
+  options[5], // boba fett
+  options[6], // jj binks - he sucks so much he counts as evil.
+]
 
 export const Default = () => {
   const [currentValue, setValue] = useState(value)
@@ -408,6 +413,31 @@ export const SelectFieldClearableWrappedInFormik = () => {
         <Form>
           Values: {JSON.stringify(values)}
           <SelectFieldFormik<Values> name="character" label="Character" options={options} validate={validateCharacter} isClearable />
+          <button type="submit">Submit</button>
+        </Form>
+      )}
+    </Formik>
+  )
+
+  return <TestForm />
+}
+
+export const SelectFieldMultiSelectionWrappedInFormik = () => {
+  type Values = {
+    badCharacters: SelectFieldOption<string>[]
+  }
+
+  const TestForm = () => (
+    <Formik<Values>
+      initialValues={{
+        badCharacters: badGuyValues,
+      }}
+      onSubmit={(values) => logger.log('submit', values)}
+    >
+      {({ values }) => (
+        <Form>
+          Values: {JSON.stringify(values)}
+          <SelectFieldFormik<Values> name="badCharacters" label="Bad Characters" isMulti={true} isClearable={true} options={options} />
           <button type="submit">Submit</button>
         </Form>
       )}
