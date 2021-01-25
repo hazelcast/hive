@@ -31,10 +31,23 @@ const Input = (props: any) => {
   return <components.Input {...props} autoComplete="chrome-off" />
 }
 
-// this component is implemented because we want to style things with the css (as opposed to the react-select recommended way of styling things via js).
+// This component is implemented because we want to style things with the css (as opposed to the react-select
+// recommended way of styling things via js).
+// We simply inject `.multiValueIsFocused`.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const MultiValue = (props: MultiValueProps<any>) => {
+  props.components.Remove = MultiValueRemove
   return <components.MultiValue {...props} className={cn({ [styles.multiValueIsFocused]: props.isFocused })} />
+}
+
+// self styled version of the MultiValue/Remove button
+const MultiValueRemove = (props: any) => {
+  return <IconButton
+    icon={X}
+    ariaHidden
+    kind="primary"
+    size="small"
+    tabIndex={-1} />
 }
 
 export type SelectFieldOption<V = string> = {
@@ -50,29 +63,29 @@ export type SelectFieldCoreStaticProps = {
 
 export type SelectFieldCoreDynamicProps<V> =
   | {
-      isClearable: true
-      isMulti?: false
-      value: SelectFieldOption<V> | null
-      onChange: (newValue: SelectFieldOption<V> | null) => void
-    }
+    isClearable: true
+    isMulti?: false
+    value: SelectFieldOption<V> | null
+    onChange: (newValue: SelectFieldOption<V> | null) => void
+  }
   | {
-      isClearable?: false
-      isMulti?: false
-      value: SelectFieldOption<V>
-      onChange: (newValue: SelectFieldOption<V>) => void
-    }
+    isClearable?: false
+    isMulti?: false
+    value: SelectFieldOption<V>
+    onChange: (newValue: SelectFieldOption<V>) => void
+  }
   | {
-      isClearable: true
-      isMulti: true
-      value: SelectFieldOption<V>[] | null
-      onChange: (newValue: SelectFieldOption<V>[] | null) => void
-    }
+    isClearable: true
+    isMulti: true
+    value: SelectFieldOption<V>[] | null
+    onChange: (newValue: SelectFieldOption<V>[] | null) => void
+  }
   | {
-      isClearable?: false
-      isMulti: true
-      value: SelectFieldOption<V>[]
-      onChange: (newValue: SelectFieldOption<V>[]) => void
-    }
+    isClearable?: false
+    isMulti: true
+    value: SelectFieldOption<V>[]
+    onChange: (newValue: SelectFieldOption<V>[]) => void
+  }
 
 export type SelectFieldExtraProps<V> = {
   options: SelectFieldOption<V>[]

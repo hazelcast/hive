@@ -95,19 +95,13 @@ $select: ':global .hz-select-field__control';
   }
 }
 
-// Styles for MultiValue chips - hover and focused states.
-// We inject `.multiValueIsFocused` from js (it does not have a :focused state as its tabIndex is not given).
-:global .hz-select-field__multi-value__remove {
-  border: c.$borderWidth solid transparent;
-}
-:global .hz-select-field__multi-value__remove:hover {
-  background-color: c.$colorWarning;
-  border: c.$borderWidth solid c.$colorPrimary;
-}
+// Styles for MultiValue chips - focused state.
+// We inject `.multiValueIsFocused` from js (it does not have an actual :focused state).
 .multiValueIsFocused {
-  :global .hz-select-field__multi-value__remove {
-    background-color: c.$colorWarning;
-    border: c.$borderWidth solid c.$colorAccessibilityOutline;
+  @include h.outlineFormField;
+  :global .hz-select-field__multi-value__label {
+    // turn off the bogus shadow of the label
+    box-shadow: none;
   }
 }
 
