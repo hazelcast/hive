@@ -36,12 +36,13 @@ const Input = (props: any) => {
 // We simply inject `.multiValueIsFocused`.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const MultiValue = (props: MultiValueProps<any>) => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   props.components.Remove = MultiValueRemove
   return <components.MultiValue {...props} className={cn({ [styles.multiValueIsFocused]: props.isFocused })} />
 }
 
 // self styled version of the MultiValue/Remove button
-const MultiValueRemove = (props: any) => {
+const MultiValueRemove = () => {
   return <IconButton
     icon={X}
     ariaHidden
