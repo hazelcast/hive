@@ -27,7 +27,7 @@ export const TabContext = createContext<TabContextValue>(tabContextDefaultValue)
  */
 export const useTabContext = () => useContext(TabContext)
 
-export type TabContextComponentProps = { fullWidth?: boolean; children: ReactNode }
+export type TabContextComponentProps = Pick<TabContextValue, 'fullWidth'> & { children: ReactNode }
 
 /**
  * A basic component that keeps track of selected tab.

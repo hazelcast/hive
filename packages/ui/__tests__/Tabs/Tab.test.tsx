@@ -126,7 +126,7 @@ describe('Tab', () => {
     })
     wrapper.update()
     expect(onChange).toHaveBeenCalledTimes(2)
-    // Parameter is the index value
+    // Parameter is the value
     expect(onChange).toHaveBeenLastCalledWith(1)
 
     act(() => {
@@ -134,16 +134,16 @@ describe('Tab', () => {
     })
     wrapper.update()
     expect(onChange).toHaveBeenCalledTimes(3)
-    // Parameter is the index value
+    // Parameter is the value
     expect(onChange).toHaveBeenLastCalledWith(1)
 
-    // Shouldn't do anything if you press anything apart from Enter and Space
+    // Do nothing if you press anything apart from Enter and Space
     act(() => {
       button.simulate('keypress', { key: 'Esc' })
     })
     wrapper.update()
     expect(onChange).toHaveBeenCalledTimes(3)
-    // Parameter is the index value
+    // Parameter is the value
     expect(onChange).toHaveBeenLastCalledWith(1)
   })
 })

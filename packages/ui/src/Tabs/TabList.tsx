@@ -23,7 +23,7 @@ export const TabList: FC<TabsProps> = ({ ariaLabel, className, children }) => {
 
   // Keyboard navigation assumes that the direct children have [role="tab"]
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    const target = event.target as HTMLDivElement
+    const target = event.target as HTMLButtonElement
     const role = target.getAttribute('role')
     if (role !== 'tab') {
       console.warn('Children of TabList component do not have [role="tab"]. Keyboard navigation will not work as expected.')
