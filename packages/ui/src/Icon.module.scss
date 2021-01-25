@@ -1,14 +1,19 @@
 @use '../styles/constants' as c;
 
-.small {
-  width: c.$iconSizeSmall;
-  height: c.$iconSizeSmall;
-}
-.normal {
-  width: c.$iconSizeNormal;
-  height: c.$iconSizeNormal;
-}
-.xlarge {
-  width: c.$iconSizeXLarge;
-  height: c.$iconSizeXLarge;
+.iconContainer {
+  // Note: Font-size reset in order break inheritance.
+  font-size: 0;
+
+  .small {
+    width: c.$iconSizeSmall;
+    height: c.$iconSizeSmall;
+  }
+  .normal {
+    width: c.$iconSizeNormal;
+    height: c.$iconSizeNormal;
+  }
+  .xlarge {
+    width: c.$iconSizeXLarge;
+    height: c.$iconSizeXLarge;
+  }
 }
