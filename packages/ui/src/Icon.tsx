@@ -31,6 +31,7 @@ export type IconProps = {
   icon: FeatherIconType | SimpleIconType
   size?: IconSize
   className?: string
+  containerClassName?: string
   bold?: boolean
 } & IconAriaProps
 
@@ -41,6 +42,7 @@ export const Icon: FC<IconProps> = ({
   ariaLabelledBy,
   ariaHidden,
   className,
+  containerClassName,
   size = 'normal',
   bold = false,
 }) => {
@@ -64,8 +66,10 @@ export const Icon: FC<IconProps> = ({
     strokeWidth: iconStroke,
   }
 
+  console.log(props.className)
+
   return (
-    <div className={styles.iconContainer}>
+    <div className={cn(styles.iconContainer, containerClassName)}>
       <IconElement role="img" {...props} />
     </div>
   )

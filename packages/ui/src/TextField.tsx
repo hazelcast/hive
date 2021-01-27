@@ -111,7 +111,15 @@ export const TextField = <T extends TextFieldTypes>({
             {...htmlAttrs}
           />
           <div className={styles.borderOverlay} />
-          {inputIcon && <Icon icon={inputIcon} ariaLabel={label} className={styles.inputIcon} size="small" />}
+          {inputIcon && (
+            <Icon
+              icon={inputIcon}
+              ariaLabel={label}
+              containerClassName={styles.inputIconContainer}
+              className={styles.inputIcon}
+              size="small"
+            />
+          )}
           {inputContainerChild}
         </div>
         {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} />}
