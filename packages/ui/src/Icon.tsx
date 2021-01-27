@@ -6,7 +6,7 @@ import cn from 'classnames'
 import styleConsts from '../styles/constants/export.module.scss'
 import styles from './Icon.module.scss'
 
-export type IconSize = 'small' | 'normal' | 'medium' | 'large' | 'xlarge'
+export type IconSize = 'small' | 'normal' | 'large' | 'xlarge'
 
 // Makes it required to set either "aria-label", "aria-labelledby" or "aria-hidden" attribute.
 export type IconAriaProps =
@@ -57,7 +57,6 @@ export const Icon: FC<IconProps> = ({
       {
         [styles.small]: size === 'small',
         [styles.normal]: size === 'normal',
-        [styles.medium]: size === 'medium',
         [styles.large]: size === 'large',
         [styles.xlarge]: size === 'xlarge',
       },
