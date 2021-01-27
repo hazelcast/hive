@@ -1,6 +1,7 @@
 @use '../styles/constants' as c;
 
 .iconContainer {
+  display: inline-block;
   // Note: Font-size reset in order break inheritance.
   font-size: 0;
 
