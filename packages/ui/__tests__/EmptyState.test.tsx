@@ -1,10 +1,13 @@
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import { Figma } from '@icons-pack/react-simple-icons'
 import React from 'react'
+import cn from 'classnames'
+
 import { LinkRel } from '../src/Link'
 import { EmptyState } from '../src/EmptyState'
 import { ChevronRight } from 'react-feather'
-import { IconProps } from '../src/Icon'
+
+import styles from '../src/EmptyState.module.scss'
 
 // Common
 const title = 'Figma'
@@ -27,14 +30,11 @@ describe('EmptyState', () => {
       <EmptyState title={title} icon={icon} iconLabel={iconLabel} action={action} actionOnClick={actionOnClick} />,
     )
 
-    expect(wrapper.findDataTest('empty-state-icon').props()).toEqual<IconProps>({
+    expect(wrapper.findDataTest('empty-state-container').prop('className')).toBe(cn(styles.container))
+    expect(wrapper.findDataTest('empty-state-icon').props()).toMatchObject({
       icon,
       ariaLabel: iconLabel,
       size: 'large',
-    })
-    expect(wrapper.findDataTest('empty-state-title').props()).toMatchObject({
-      role: 'heading',
-      'aria-level': 3,
     })
     expect(wrapper.findDataTest('empty-state-title').text()).toBe(title)
     expect(wrapper.existsDataTest('empty-state-description')).toBeFalsy()
@@ -58,14 +58,11 @@ describe('EmptyState', () => {
       />,
     )
 
+    expect(wrapper.findDataTest('empty-state-container').prop('className')).toBe(cn(styles.container))
     expect(wrapper.findDataTest('empty-state-icon').props()).toMatchObject({
       icon,
       ariaLabel: iconLabel,
       size: 'large',
-    })
-    expect(wrapper.findDataTest('empty-state-title').props()).toMatchObject({
-      role: 'heading',
-      'aria-level': 3,
     })
     expect(wrapper.findDataTest('empty-state-title').text()).toBe(title)
     expect(wrapper.findDataTest('empty-state-description').text()).toBe(description)
@@ -82,14 +79,11 @@ describe('EmptyState', () => {
       <EmptyState title={title} icon={icon} size="large" iconLabel={iconLabel} action={action} actionOnClick={actionOnClick} />,
     )
 
+    expect(wrapper.findDataTest('empty-state-container').prop('className')).toBe(cn(styles.container, styles.large))
     expect(wrapper.findDataTest('empty-state-icon').props()).toMatchObject({
       icon,
       ariaLabel: iconLabel,
       size: 'xlarge',
-    })
-    expect(wrapper.findDataTest('empty-state-title').props()).toMatchObject({
-      role: 'heading',
-      'aria-level': 3,
     })
     expect(wrapper.findDataTest('empty-state-title').text()).toBe(title)
     expect(wrapper.existsDataTest('empty-state-description')).toBeFalsy()
@@ -113,14 +107,11 @@ describe('EmptyState', () => {
       />,
     )
 
+    expect(wrapper.findDataTest('empty-state-container').prop('className')).toBe(cn(styles.container, styles.horizontal))
     expect(wrapper.findDataTest('empty-state-icon').props()).toMatchObject({
       icon,
       ariaLabel: iconLabel,
       size: 'large',
-    })
-    expect(wrapper.findDataTest('empty-state-title').props()).toMatchObject({
-      role: 'heading',
-      'aria-level': 3,
     })
     expect(wrapper.findDataTest('empty-state-title').text()).toBe(title)
     expect(wrapper.existsDataTest('empty-state-description')).toBeFalsy()

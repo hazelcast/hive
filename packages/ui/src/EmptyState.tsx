@@ -77,6 +77,7 @@ export const EmptyState: FC<EmptyStateProps> = ({
 
   return (
     <div
+      data-test="empty-state-container"
       className={cn(styles.container, {
         // Direction
         [styles.horizontal]: direction === 'horizontal',
