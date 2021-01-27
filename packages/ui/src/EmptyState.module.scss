@@ -11,12 +11,12 @@
   .content {
     .title {
       margin: c.$grid * 4.5 0 0 0;
-      @include c.typographyBodyNormal('bold');
+      @include c.typographyBodyNormal('bold' !important);
     }
 
     .description {
       color: c.$colorTextSecondary;
-      margin-top: c.$grid;
+      margin: c.$grid 0 0 0;
 
       @include c.typographyBodySmall;
     }
@@ -68,7 +68,7 @@
       .title {
         margin: 0;
 
-        @include c.typographyBodyNormal('bold');
+        @include c.typographyBodyNormal('bold' !important);
       }
 
       .description {

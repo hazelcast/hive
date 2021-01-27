@@ -4,6 +4,7 @@ import React from 'react'
 import { LinkRel } from '../src/Link'
 import { EmptyState } from '../src/EmptyState'
 import { ChevronRight } from 'react-feather'
+import { IconProps } from '../src/Icon'
 
 // Common
 const title = 'Figma'
@@ -26,7 +27,7 @@ describe('EmptyState', () => {
       <EmptyState title={title} icon={icon} iconLabel={iconLabel} action={action} actionOnClick={actionOnClick} />,
     )
 
-    expect(wrapper.findDataTest('empty-state-icon').props()).toMatchObject({
+    expect(wrapper.findDataTest('empty-state-icon').props()).toEqual<IconProps>({
       icon,
       ariaLabel: iconLabel,
       size: 'large',

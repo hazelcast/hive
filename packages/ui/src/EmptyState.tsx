@@ -61,7 +61,6 @@ export type EmptyStateProps = {
  * - Every empty state must contain title (should be specific and clear).
  * - Good practice is add an action button to guide a user for the next steps to get out of the empty state.
  * - Description helps to describe the semantics more thoroughly.
- * - For horizontal type of empty state, use Link component instead of classic button.
  */
 export const EmptyState: FC<EmptyStateProps> = ({
   direction = 'vertical',
@@ -88,13 +87,13 @@ export const EmptyState: FC<EmptyStateProps> = ({
       <Icon data-test="empty-state-icon" className={styles.icon} icon={icon} ariaLabel={iconLabel} size={iconSize} />
       <div className={styles.content}>
         {/* Note: div used instead of h3 due to styling override */}
-        <div data-test="empty-state-title" className={styles.title} role="heading" aria-level={3}>
+        <h3 data-test="empty-state-title" className={styles.title}>
           {title}
-        </div>
+        </h3>
         {description && (
-          <div data-test="empty-state-description" className={styles.description}>
+          <p data-test="empty-state-description" className={styles.description}>
             {description}
-          </div>
+          </p>
         )}
         {action ? (
           direction === 'horizontal' && actionHref !== undefined ? (
