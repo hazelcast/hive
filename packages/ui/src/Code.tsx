@@ -1,18 +1,33 @@
 import React, { FC } from 'react'
 import cn from 'classnames'
 
-import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
-// import jsx from 'react-syntax-highlighter/dist/esm/languages/prism/jsx';
-// import js from 'react-syntax-highlighter/dist/esm/languages/prism/js';
-// import prism from 'react-syntax-highlighter/dist/esm/styles/prism/prism';
-
-// SyntaxHighlighter.registerLanguage('jsx', jsx);
-// SyntaxHighlighter.registerLanguage('js', js);
-
 import styles from './Code.module.scss'
 
+import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter'
+
+// Let's hand pick the languages and themes we want to provide:
+// We don't want a large bundle size.
+//
+// Languages:
+import jsx from 'react-syntax-highlighter/dist/esm/languages/prism/jsx'
+import cpp from 'react-syntax-highlighter/dist/esm/languages/prism/cpp'
+import csharp from 'react-syntax-highlighter/dist/esm/languages/prism/csharp'
+import java from 'react-syntax-highlighter/dist/esm/languages/prism/java'
+import kotlin from 'react-syntax-highlighter/dist/esm/languages/prism/kotlin'
+
+// Themes
+import darcula from 'react-syntax-highlighter/dist/esm/styles/prism/darcula'
+
+SyntaxHighlighter.registerLanguage('jsx', jsx)
+SyntaxHighlighter.registerLanguage('cpp', cpp)
+SyntaxHighlighter.registerLanguage('csharp', csharp)
+SyntaxHighlighter.registerLanguage('java', java)
+SyntaxHighlighter.registerLanguage('kotlin', kotlin)
+
+type language = 'jsx' | 'cpp' | 'csharp' | 'java' | 'kotlin'
+
 type CodeProps = {
-  language?: string
+  language?: language
   className?: string
 }
 
@@ -24,18 +39,12 @@ type CodeProps = {
 
   * We're using the light version of the Prism backend.
 */
-export const Code: FC<CodeProps> = ({
-  language,
-  children,
-  className
-}) => {
+export const Code: FC<CodeProps> = ({ language, children, className }) => {
   return (
-    // <pre className={cn(styles.wrapper, className)}>
-    //   {children}
-    // </pre>
-    <SyntaxHighlighter language="javascript">
-      {children}
-    </SyntaxHighlighter>
-
+    <div className={cn(styles.wrapper, className)}>
+      <SyntaxHighlighter className="xxx" language={language} style={darcula}>
+        {children}
+      </SyntaxHighlighter>
+    </div>
   )
 }

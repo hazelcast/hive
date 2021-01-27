@@ -5,7 +5,7 @@ import { Code } from '../src'
 
 export default {
   title: 'Components/Code',
-  component: Code
+  component: Code,
 }
 
 const SAMPLE_CODE = `
@@ -19,10 +19,5 @@ for (let i = 1; i <= 100; i++) {
 `
 
 export const Default = () => {
-  return (
-    <Code>
-      {SAMPLE_CODE}
-    </Code>
-  )
+  return <Code language="jsx">{SAMPLE_CODE}</Code>
 }
-
