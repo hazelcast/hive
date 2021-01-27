@@ -66,8 +66,6 @@ export const Icon: FC<IconProps> = ({
     strokeWidth: iconStroke,
   }
 
-  console.log(props.className)
-
   return (
     <div className={cn(styles.iconContainer, containerClassName)}>
       <IconElement role="img" {...props} />
