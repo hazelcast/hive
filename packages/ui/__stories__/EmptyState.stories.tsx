@@ -25,13 +25,19 @@ const actionLong = 'Understood'
 const actionOnClick = () => console.log('action')
 const actionHref = ''
 
-export const Vertical = () => <EmptyState title={title} icon={icon} iconLabel={iconLabel} action={action} actionOnClick={actionOnClick} />
+export const Vertical = () => <EmptyState title={title} icon={icon} iconLabel={iconLabel} />
 
-export const VerticalWithDescription = () => (
+export const VerticalWithAction = () => (
+  <EmptyState title={title} icon={icon} iconLabel={iconLabel} action={action} actionOnClick={actionOnClick} />
+)
+
+export const VerticalWithDescription = () => <EmptyState title={title} icon={icon} description={description} iconLabel={iconLabel} />
+
+export const VerticalDescriptionAndAction = () => (
   <EmptyState title={title} icon={icon} description={description} iconLabel={iconLabel} action={action} actionOnClick={actionOnClick} />
 )
 
-export const VerticalWithDescriptionLong = () => (
+export const VerticalWithDescriptionAndActionLong = () => (
   <EmptyState
     title={titleLong}
     icon={icon}
@@ -42,11 +48,17 @@ export const VerticalWithDescriptionLong = () => (
   />
 )
 
-export const VerticalLarge = () => (
+export const VerticalLarge = () => <EmptyState size="large" title={title} icon={icon} iconLabel={iconLabel} />
+
+export const VerticalLargeWithAction = () => (
   <EmptyState size="large" title={title} icon={icon} iconLabel={iconLabel} action={action} actionOnClick={actionOnClick} />
 )
 
-export const VerticalWithDescriptionLarge = () => (
+export const VerticalLargeWithDescription = () => (
+  <EmptyState size="large" title={title} icon={icon} description={description} iconLabel={iconLabel} />
+)
+
+export const VerticalLargeWithDescriptionAndAction = () => (
   <EmptyState
     size="large"
     title={title}
@@ -58,7 +70,7 @@ export const VerticalWithDescriptionLarge = () => (
   />
 )
 
-export const VerticalWithDescriptionLargeLong = () => (
+export const VerticalLargeWithDescriptionAndActionLong = () => (
   <EmptyState
     size="large"
     title={titleLong}
@@ -70,15 +82,33 @@ export const VerticalWithDescriptionLargeLong = () => (
   />
 )
 
-export const Horizontal = () => (
+export const Horizontal = () => <EmptyState direction="horizontal" title={title} icon={icon} iconLabel={iconLabel} />
+
+export const HorizontalWithAction = () => (
   <EmptyState direction="horizontal" title={title} icon={icon} iconLabel={iconLabel} action={action} actionHref={actionHref} />
 )
 
 export const HorizontalWithDescription = () => (
+  <EmptyState direction="horizontal" title={title} description={descriptionShort} icon={icon} iconLabel={iconLabel} />
+)
+
+export const HorizontalWithDescriptionAndAction = () => (
   <EmptyState
     direction="horizontal"
     title={title}
     description={descriptionShort}
+    icon={icon}
+    iconLabel={iconLabel}
+    action={action}
+    actionHref={actionHref}
+  />
+)
+
+export const HorizontalWithDescriptionAndActionLong = () => (
+  <EmptyState
+    direction="horizontal"
+    title={title}
+    description={descriptionLong}
     icon={icon}
     iconLabel={iconLabel}
     action={action}

@@ -16,7 +16,6 @@ type EmptyStateActionButton = {
   actionHref?: never
   actionTarget?: never
   actionRel?: never
-} & {
   size?: EmptyStateSize
 }
 
@@ -26,13 +25,24 @@ type EmptyStateActionLink = {
   actionTarget?: ButtonTypeAnchorProps['target']
   actionRel?: ButtonTypeAnchorProps['rel']
   actionOnClick?: never
-} & {
   size?: never
 }
 
-type EmptyStateAction = {
-  action: string
-} & (EmptyStateActionButton | EmptyStateActionLink)
+type EmptyStateAction =
+  // Action is present
+  | ({
+      action: string
+    } & (EmptyStateActionButton | EmptyStateActionLink))
+  // Action is not present
+  | {
+      action?: never
+      direction?: 'vertical' | 'horizontal'
+      actionOnClick?: never
+      actionHref?: never
+      actionTarget?: never
+      actionRel?: never
+      size?: EmptyStateSize
+    }
 
 export type EmptyStateProps = {
   title: string
@@ -86,24 +96,26 @@ export const EmptyState: FC<EmptyStateProps> = ({
             {description}
           </div>
         )}
-        {direction === 'horizontal' && actionHref !== undefined ? (
-          <Link
-            data-test="empty-state-link"
-            className={styles.action}
-            icon={ChevronRight}
-            ariaLabel="Icon Chevron Right"
-            href={actionHref}
-            target={actionTarget}
-            rel={actionRel}
-            size="small"
-          >
-            {action}
-          </Link>
-        ) : (
-          <Button data-test="empty-state-button" className={styles.action} onClick={actionOnClick}>
-            {action}
-          </Button>
-        )}
+        {action ? (
+          direction === 'horizontal' && actionHref !== undefined ? (
+            <Link
+              data-test="empty-state-link"
+              className={styles.action}
+              icon={ChevronRight}
+              ariaLabel="Icon Chevron Right"
+              href={actionHref}
+              target={actionTarget}
+              rel={actionRel}
+              size="small"
+            >
+              {action}
+            </Link>
+          ) : (
+            <Button data-test="empty-state-button" className={styles.action} onClick={actionOnClick}>
+              {action}
+            </Button>
+          )
+        ) : null}
       </div>
     </div>
   )
