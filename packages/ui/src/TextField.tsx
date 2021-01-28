@@ -12,6 +12,20 @@ import { Help, helpTooltipId } from './Help'
 
 import styles from './TextField.module.scss'
 
+type TextFieldTrailingIcon =
+  | {
+      inputTrailingIcon: IconType
+      inputTrailingIconLabel: string
+      inputTrailingIconColor?: string
+      inputTrailingIconClassName?: string
+    }
+  | {
+      inputTrailingIcon?: never
+      inputTrailingIconLabel?: never
+      inputTrailingIconColor?: never
+      inputTrailingIconClassName?: never
+    }
+
 export type TextFieldTypes = 'email' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'url' | undefined
 
 type TextFieldCoreProps<T extends TextFieldTypes> = {
@@ -32,7 +46,8 @@ export type TextFieldExtraProps<T extends TextFieldTypes> = {
   inputIcon?: IconType
   type?: T
 } & DataTestProp &
-  Pick<InputHTMLAttributes<HTMLInputElement>, 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'>
+  Pick<InputHTMLAttributes<HTMLInputElement>, 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'> &
+  TextFieldTrailingIcon
 
 type TextFieldProps<T extends TextFieldTypes> = TextFieldCoreProps<T> & TextFieldExtraProps<T>
 
@@ -72,6 +87,9 @@ export const TextField = <T extends TextFieldTypes>({
   placeholder,
   inputContainerChild,
   inputIcon,
+  inputTrailingIcon,
+  inputTrailingIconLabel,
+  inputTrailingIconColor,
   ...htmlAttrs
 }: TextFieldProps<T>) => {
   const id = useUID()
@@ -107,12 +125,22 @@ export const TextField = <T extends TextFieldTypes>({
             aria-errormessage={error && errorId(id)}
             disabled={disabled}
             placeholder={placeholder}
-            className={inputClassName}
+            className={cn(inputClassName, {
+              [styles.trailingIcon]: inputTrailingIcon,
+            })}
             {...htmlAttrs}
           />
           <div className={styles.borderOverlay} />
           {inputIcon && <Icon icon={inputIcon} ariaLabel={label} className={styles.inputIcon} size="small" />}
           {inputContainerChild}
+          {inputTrailingIcon && inputTrailingIconLabel && (
+            <Icon
+              icon={inputTrailingIcon}
+              ariaLabel={inputTrailingIconLabel}
+              className={styles.inputIconTrailing}
+              color={inputTrailingIconColor}
+            />
+          )}
         </div>
         {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} />}
       </div>

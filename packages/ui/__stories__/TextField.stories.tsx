@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { logger } from '@hazelcast/services'
-import { Mail } from 'react-feather'
+import { Calendar, Mail } from 'react-feather'
 import { Form, Formik } from 'formik'
 import cn from 'classnames'
 
 import { TextField } from '../src/TextField'
 import { TextFieldFormik } from '../src/TextFieldFormik'
+
+import styleConsts from '../styles/constants/export.module.scss'
 
 import styles from '../src/TextField.module.scss'
 
@@ -253,6 +255,33 @@ export const WithIconWithHelperText = () => (
     onChange={(e) => logger.log('change', e.target.value)}
     helperText="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
     inputIcon={Mail}
+  />
+)
+
+export const WithTrailingIcon = () => (
+  <TextField
+    name="name"
+    value="Yoda"
+    label="Wisest jedi"
+    placeholder="Enter the name"
+    onBlur={() => logger.log('blur')}
+    onChange={(e) => logger.log('change', e.target.value)}
+    inputTrailingIcon={Calendar}
+    inputTrailingIconLabel="Calendar icon"
+  />
+)
+
+export const WithColouredTrailingIcon = () => (
+  <TextField
+    name="name"
+    value="Yoda"
+    label="Wisest jedi"
+    placeholder="Enter the name"
+    onBlur={() => logger.log('blur')}
+    onChange={(e) => logger.log('change', e.target.value)}
+    inputTrailingIcon={Calendar}
+    inputTrailingIconLabel="Calendar icon"
+    inputTrailingIconColor={styleConsts.colorInfoDark}
   />
 )
 

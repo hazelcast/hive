@@ -1,0 +1,11 @@
+// TODO: Extract
+$minWidth: 242px;
+
+.dateTimeInputContainer {
+  .dateTimeInput {
+  }
+
+  .dateTimeCustomInput {
+    min-width: $minWidth;
+  }
+}
