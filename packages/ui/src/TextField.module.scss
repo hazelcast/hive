@@ -112,7 +112,7 @@ $marginLeftWithIcon: c.$grid * 5;
     & ~ .borderOverlay {
       border-color: c.$colorPrimary;
     }
-    & ~ .inputIcon {
+    & ~ .inputIconContainer > .inputIcon {
       color: c.$colorPrimary;
     }
   }
@@ -132,7 +132,7 @@ $marginLeftWithIcon: c.$grid * 5;
     & ~ .borderOverlay {
       @include h.outlineFormField;
     }
-    & ~ .inputIcon {
+    & ~ .inputIconContainer > .inputIcon {
       color: c.$colorPrimary;
     }
   }
@@ -140,7 +140,7 @@ $marginLeftWithIcon: c.$grid * 5;
   // .hasError styles split in two groups to always color the icon with the error color but the change the color of the border
   /* stylelint-disable-next-line no-duplicate-selectors */
   &.hasError input {
-    & ~ .inputIcon {
+    ~ .inputIconContainer > .inputIcon {
       color: c.$colorError;
     }
   }
@@ -153,10 +153,10 @@ $marginLeftWithIcon: c.$grid * 5;
     }
 
     input {
-      ~ .borderOverlay {
+      & ~ .borderOverlay {
         border-color: c.$colorNeutralLight;
       }
-      ~ .inputIcon {
+      & ~ .inputIconContainer > .inputIcon {
         color: c.$colorTextSecondary;
       }
     }
