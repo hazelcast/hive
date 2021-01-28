@@ -3,7 +3,7 @@ import cn from 'classnames'
 
 import styles from './TabList.module.scss'
 
-export type TabsProps = {
+export type TabListProps = {
   ariaLabel: string
   className?: string
   children: ReactNode
@@ -17,7 +17,7 @@ export type TabsProps = {
  * - Expects direct children to have [role="tab"].
  * - Implemented according to best practices: https://www.w3.org/TR/wai-aria-practices/examples/tabs/tabs-2/tabs.html.
  */
-export const TabList: FC<TabsProps> = ({ ariaLabel, className, children }) => {
+export const TabList: FC<TabListProps> = ({ ariaLabel, className, children }) => {
   const tabListRef = useRef<HTMLDivElement>(null)
 
   // Keyboard navigation assumes that the direct children have [role="tab"]
