@@ -1,7 +1,7 @@
 import React from 'react'
-import { mount } from 'enzyme'
 import { useUID } from 'react-uid'
 import { getHookRes, testHook } from '@hazelcast/test-helpers/src/hooks'
+import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 
 import {
   getTabId,
@@ -15,10 +15,14 @@ import {
 } from '../../src/Tabs/TabContext'
 
 jest.mock('react-uid')
-
 const useUIDMock = useUID as jest.Mock<ReturnType<typeof useUID>>
+const testId = 'testId'
 
 describe('TabContext', () => {
+  beforeEach(() => {
+    useUIDMock.mockImplementation(() => testId)
+  })
+
   describe('Helper ID generation functions', () => {
     describe('getTabId', () => {
       it('returns ID with correct prefix and value', () => {
@@ -47,10 +51,10 @@ describe('TabContext', () => {
 
   describe('Provider components', () => {
     describe('TabContextComponent', () => {
-      it('renders TabContextComponentControlled', () => {
+      it('renders TabContextComponentControlled', async () => {
         const children = 'testChildren'
 
-        const wrapper = mount(<TabContextComponent>{children}</TabContextComponent>)
+        const wrapper = await mountAndCheckA11Y(<TabContextComponent>{children}</TabContextComponent>)
 
         expect(wrapper.find(TabContextComponentControlled).props()).toEqual<TabContextComponentControlledProps>({
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -62,10 +66,7 @@ describe('TabContext', () => {
     })
 
     describe('TabContextComponentControlled', () => {
-      it('provides context values', () => {
-        const testIdPrefix = 'testIdPrefix'
-        useUIDMock.mockImplementation(() => testIdPrefix)
-
+      it('provides context values', async () => {
         const contextValues = {
           value: 2,
           onChange: jest.fn(),
@@ -89,9 +90,9 @@ describe('TabContext', () => {
           return null
         }
 
-        mount(
+        await mountAndCheckA11Y(
           <TabContextComponentControlled {...contextValues}>
-            <ConsumerComponent expectedValues={{ ...contextValues, idPrefix: testIdPrefix }} />
+            <ConsumerComponent expectedValues={{ ...contextValues, idPrefix: testId }} />
           </TabContextComponentControlled>,
         )
       })

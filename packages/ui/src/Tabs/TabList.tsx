@@ -68,7 +68,14 @@ export const TabList: FC<TabsProps> = ({ ariaLabel, className, children }) => {
 
   return (
     // eslint-disable-next-line jsx-a11y/interactive-supports-focus
-    <div className={cn(styles.tabList, className)} aria-label={ariaLabel} role="tablist" ref={tabListRef} onKeyDown={handleKeyDown}>
+    <div
+      data-test="tab-list"
+      className={cn(styles.tabList, className)}
+      aria-label={ariaLabel}
+      role="tablist"
+      ref={tabListRef}
+      onKeyDown={handleKeyDown}
+    >
       {children}
     </div>
   )

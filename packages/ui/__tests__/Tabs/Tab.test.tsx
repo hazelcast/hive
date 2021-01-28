@@ -1,78 +1,71 @@
 import React, { ButtonHTMLAttributes } from 'react'
 import cn from 'classnames'
-import { mount } from 'enzyme'
 import { useUID } from 'react-uid'
 import { act } from 'react-dom/test-utils'
+import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 
 import { getPanelId, getTabId, TabContextComponent, TabContextComponentControlled } from '../../src/Tabs/TabContext'
 import { Tab } from '../../src/Tabs/Tab'
+import { TabList } from '../../src/Tabs/TabList'
+import { TabPanel } from '../../src/Tabs/TabPanel'
 
 import styles from '../Tab.module.scss'
 
 jest.mock('react-uid')
-
 const useUIDMock = useUID as jest.Mock<ReturnType<typeof useUID>>
-
 const testId = 'testId'
+
+const ariaLabel = 'testAriaLabel'
+
+/**
+ * Both [role="tab"] and [role="tabPanel"] need a parent with [role="tabList"].
+ * Moreover, Tab's attribute aria-controls needs an element with attribute id which has the same value.
+ */
+const tabsComponent = (
+  <TabContextComponent>
+    <TabList ariaLabel={ariaLabel}>
+      <Tab data-test="tab1" label="Tab 1" value={0} />
+      <Tab data-test="tab2" label="Tab 2" value={1} />
+    </TabList>
+    <TabPanel value={0}>Panel 1</TabPanel>
+    <TabPanel value={1}>Panel 2</TabPanel>
+  </TabContextComponent>
+)
 
 describe('Tab', () => {
   beforeEach(() => {
     useUIDMock.mockImplementation(() => testId)
   })
 
-  it('renders button with correct props', () => {
-    const contextValues = {
-      value: 0,
-      onChange: jest.fn(),
-    }
+  it('renders button with correct props', async () => {
+    const wrapper = await mountAndCheckA11Y(tabsComponent)
 
-    const label = 'testLabel'
-    const value = 1
-
-    const wrapper = mount(
-      <TabContextComponent {...contextValues}>
-        <Tab label={label} value={value} />
-      </TabContextComponent>,
-    )
-
-    expect(wrapper.find('button').props()).toEqual<ButtonHTMLAttributes<HTMLButtonElement>>({
+    expect(wrapper.findDataTest('tab2').find('button').props()).toEqual<ButtonHTMLAttributes<HTMLButtonElement>>({
       className: styles.tab,
       role: 'tab',
-      id: getTabId(testId, value.toString()),
-      'aria-controls': getPanelId(testId, value.toString()),
+      id: getTabId(testId, '1'),
+      'aria-controls': getPanelId(testId, '1'),
       'aria-selected': false,
       tabIndex: -1,
+      children: 'Tab 2',
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       onClick: expect.anything(),
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       onKeyPress: expect.anything(),
-      children: label,
     })
   })
 
-  it('renders selected button with correct props', () => {
-    const contextValues = {
-      value: 0,
-      onChange: jest.fn(),
-    }
+  it('renders selected button with correct props', async () => {
+    const wrapper = await mountAndCheckA11Y(tabsComponent)
 
-    const label = 'testLabel'
-    const value = 0
-
-    const wrapper = mount(
-      <TabContextComponent {...contextValues}>
-        <Tab label={label} value={value} />
-      </TabContextComponent>,
-    )
-
-    expect(wrapper.find('button').props()).toEqual<ButtonHTMLAttributes<HTMLButtonElement>>({
+    expect(wrapper.findDataTest('tab1').find('button').props()).toEqual<ButtonHTMLAttributes<HTMLButtonElement>>({
       className: cn(styles.tab, styles.selected),
       role: 'tab',
-      id: getTabId(testId, value.toString()),
-      'aria-controls': getPanelId(testId, value.toString()),
+      id: getTabId(testId, '0'),
+      'aria-controls': getPanelId(testId, '0'),
       'aria-selected': true,
       tabIndex: 0,
-      children: label,
+      children: 'Tab 1',
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       onKeyPress: expect.anything(),
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -80,37 +73,25 @@ describe('Tab', () => {
     })
   })
 
-  it('fires onChange with correct parameter on click, Enter press and Space press', () => {
+  it('fires onChange with correct parameter on click, Enter press and Space press', async () => {
     const onChange = jest.fn()
     const contextValues = {
       value: 0,
       onChange,
     }
 
-    const label = 'testLabel'
-    const value = 1
-
-    const wrapper = mount(
+    const wrapper = await mountAndCheckA11Y(
       <TabContextComponentControlled {...contextValues}>
-        <Tab label={label} value={value} />
+        <TabList ariaLabel={ariaLabel}>
+          <Tab data-test="tab1" label="Tab 1" value={0} />
+          <Tab data-test="tab2" label="Tab 2" value={1} />
+        </TabList>
+        <TabPanel value={0}>Panel 1</TabPanel>
+        <TabPanel value={1}>Panel 2</TabPanel>
       </TabContextComponentControlled>,
     )
 
-    const button = wrapper.find('button')
-
-    expect(button.props()).toEqual<ButtonHTMLAttributes<HTMLButtonElement>>({
-      className: styles.tab,
-      role: 'tab',
-      id: getTabId(testId, value.toString()),
-      'aria-controls': getPanelId(testId, value.toString()),
-      'aria-selected': false,
-      tabIndex: -1,
-      children: label,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      onKeyPress: expect.anything(),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      onClick: expect.anything(),
-    })
+    const button = wrapper.findDataTest('tab2')
 
     // We do not use any of the event's props
     act(() => {
