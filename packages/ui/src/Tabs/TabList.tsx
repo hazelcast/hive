@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, KeyboardEvent, useRef } from 'react'
+import React, { FC, ReactNode, KeyboardEvent, useRef, useCallback } from 'react'
 import cn from 'classnames'
 
 import styles from './TabList.module.scss'
@@ -16,13 +16,12 @@ export type TabsProps = {
  * ### General Info
  * - Expects direct children to have [role="tab"].
  * - Implemented according to best practices: https://www.w3.org/TR/wai-aria-practices/examples/tabs/tabs-2/tabs.html.
- *
  */
 export const TabList: FC<TabsProps> = ({ ariaLabel, className, children }) => {
   const tabListRef = useRef<HTMLDivElement>(null)
 
   // Keyboard navigation assumes that the direct children have [role="tab"]
-  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+  const handleKeyDown = useCallback((event: KeyboardEvent<HTMLDivElement>) => {
     const target = event.target as HTMLButtonElement
     const role = target.getAttribute('role')
     if (role !== 'tab') {
@@ -64,7 +63,7 @@ export const TabList: FC<TabsProps> = ({ ariaLabel, className, children }) => {
       newFocusTarget.focus()
       event.preventDefault()
     }
-  }
+  }, [])
 
   return (
     // eslint-disable-next-line jsx-a11y/interactive-supports-focus
