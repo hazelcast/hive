@@ -1,7 +1,6 @@
 import React from 'react'
 import { useUID } from 'react-uid'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
-// import { act } from 'react-dom/test-utils'
 
 import { TabContextProvider } from '../../src/Tabs/TabContext'
 import { TabList } from '../../src/Tabs/TabList'
