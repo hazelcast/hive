@@ -4,7 +4,7 @@ import { useUID } from 'react-uid'
 import { act } from 'react-dom/test-utils'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 
-import { getPanelId, getTabId, TabContextComponent, TabContextComponentControlled } from '../../src/Tabs/TabContext'
+import { getPanelId, getTabId, TabContextProvider, TabContextProviderControlled } from '../../src/Tabs/TabContext'
 import { Tab } from '../../src/Tabs/Tab'
 import { TabList } from '../../src/Tabs/TabList'
 import { TabPanel } from '../../src/Tabs/TabPanel'
@@ -22,14 +22,14 @@ const ariaLabel = 'testAriaLabel'
  * Moreover, Tab's attribute aria-controls needs an element with attribute id which has the same value.
  */
 const tabsComponent = (
-  <TabContextComponent>
+  <TabContextProvider>
     <TabList ariaLabel={ariaLabel}>
       <Tab data-test="tab1" label="Tab 1" value={0} />
       <Tab data-test="tab2" label="Tab 2" value={1} />
     </TabList>
     <TabPanel value={0}>Panel 1</TabPanel>
     <TabPanel value={1}>Panel 2</TabPanel>
-  </TabContextComponent>
+  </TabContextProvider>
 )
 
 describe('Tab', () => {
@@ -81,14 +81,14 @@ describe('Tab', () => {
     }
 
     const wrapper = await mountAndCheckA11Y(
-      <TabContextComponentControlled {...contextValues}>
+      <TabContextProviderControlled {...contextValues}>
         <TabList ariaLabel={ariaLabel}>
           <Tab data-test="tab1" label="Tab 1" value={0} />
           <Tab data-test="tab2" label="Tab 2" value={1} />
         </TabList>
         <TabPanel value={0}>Panel 1</TabPanel>
         <TabPanel value={1}>Panel 2</TabPanel>
-      </TabContextComponentControlled>,
+      </TabContextProviderControlled>,
     )
 
     const button = wrapper.findDataTest('tab2')

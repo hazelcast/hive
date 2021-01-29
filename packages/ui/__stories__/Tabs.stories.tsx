@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { TabContextComponent, TabContextComponentControlled } from '../src/Tabs/TabContext'
+import { TabContextProvider, TabContextProviderControlled } from '../src/Tabs/TabContext'
 import { TabList } from '../src/Tabs/TabList'
 import { Tab } from '../src/Tabs/Tab'
 import { TabPanel } from '../src/Tabs/TabPanel'
@@ -11,7 +11,7 @@ export default {
 }
 
 export const Default = () => (
-  <TabContextComponent>
+  <TabContextProvider>
     <TabList ariaLabel="Tabs Story">
       <Tab label="Tab 1" value={0} />
       <Tab label="Tab 2" value={1} />
@@ -22,7 +22,7 @@ export const Default = () => (
     <TabPanel value={1}>Panel 2</TabPanel>
     <TabPanel value={2}>Panel 3</TabPanel>
     <TabPanel value={3}>Panel 4</TabPanel>
-  </TabContextComponent>
+  </TabContextProvider>
 )
 
 Default.parameters = {
@@ -33,14 +33,14 @@ Default.parameters = {
 }
 
 export const FullWidth = () => (
-  <TabContextComponent fullWidth>
+  <TabContextProvider fullWidth>
     <TabList ariaLabel="Tabs Story">
       <Tab label="Tab 1" value={0} />
       <Tab label="Tab 2" value={1} />
     </TabList>
     <TabPanel value={0}>Panel 1</TabPanel>
     <TabPanel value={1}>Panel 2</TabPanel>
-  </TabContextComponent>
+  </TabContextProvider>
 )
 
 export const Controlled = () => {
@@ -48,16 +48,16 @@ export const Controlled = () => {
 
   return (
     <>
-      <div>You can have more control over the value state by using TabContextComponentControlled component.</div>
+      <div>You can have more control over the value state by using TabContextProviderControlled component.</div>
       <div>Active Tab: {value + 1}</div>
-      <TabContextComponentControlled value={value} onChange={setValue}>
+      <TabContextProviderControlled value={value} onChange={setValue}>
         <TabList ariaLabel="Tabs Story">
           <Tab label="Tab 1" value={0} />
           <Tab label="Tab 2" value={1} />
         </TabList>
         <TabPanel value={0}>Panel 1</TabPanel>
         <TabPanel value={1}>Panel 2</TabPanel>
-      </TabContextComponentControlled>
+      </TabContextProviderControlled>
     </>
   )
 }

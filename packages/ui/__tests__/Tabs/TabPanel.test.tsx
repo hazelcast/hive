@@ -3,7 +3,7 @@ import { useUID } from 'react-uid'
 import cn from 'classnames'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 
-import { getPanelId, getTabId, TabContextComponent } from '../../src/Tabs/TabContext'
+import { getPanelId, getTabId, TabContextProvider } from '../../src/Tabs/TabContext'
 import { TabPanel } from '../../src/Tabs/TabPanel'
 import { TabList } from '../../src/Tabs/TabList'
 import { Tab } from '../../src/Tabs/Tab'
@@ -21,7 +21,7 @@ const ariaLabel = 'testAriaLabel'
  * Moreover, Tab's attribute aria-controls needs an element with attribute id which has the same value.
  */
 const tabsComponent = (
-  <TabContextComponent>
+  <TabContextProvider>
     <TabList ariaLabel={ariaLabel}>
       <Tab label="Tab 1" value={0} />
       <Tab label="Tab 2" value={1} />
@@ -32,7 +32,7 @@ const tabsComponent = (
     <TabPanel data-test="tabPanel2" value={1}>
       Panel 2
     </TabPanel>
-  </TabContextComponent>
+  </TabContextProvider>
 )
 
 describe('TabPanel', () => {
@@ -61,28 +61,4 @@ describe('TabPanel', () => {
       children: null,
     })
   })
-
-  // it('renders <div> with correct props when panel is selected', async () => {
-  //   const contextValues = {
-  //     value: 0,
-  //     onChange: jest.fn(),
-  //   }
-
-  //   // Same as context value
-  //   const index = 0
-
-  //   const wrapper = await mountAndCheckA11Y(
-  //     <TabContextComponent {...contextValues}>
-  //       <TabPanel value={index}>{testChildren}</TabPanel>
-  //     </TabContextComponent>,
-  //   )
-
-  //   expect(wrapper.find('div').first().props()).toEqual({
-  //     className: styles.tabPanel,
-  //     role: 'tabpanel',
-  //     id: getPanelId(testId, index.toString()),
-  //     'aria-labelledby': getTabId(testId, index.toString()),
-  //     children: testChildren,
-  //   })
-  // })
 })

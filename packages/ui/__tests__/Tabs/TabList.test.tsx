@@ -3,7 +3,7 @@ import { useUID } from 'react-uid'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 // import { act } from 'react-dom/test-utils'
 
-import { TabContextComponent } from '../../src/Tabs/TabContext'
+import { TabContextProvider } from '../../src/Tabs/TabContext'
 import { TabList } from '../../src/Tabs/TabList'
 import { Tab } from '../../src/Tabs/Tab'
 import { TabPanel } from '../../src/Tabs/TabPanel'
@@ -21,7 +21,7 @@ const ariaLabel = 'testAriaLabel'
  * Moreover, Tab's attribute aria-controls needs an element with attribute id which has the same value.
  */
 const tabsComponent = (
-  <TabContextComponent>
+  <TabContextProvider>
     <TabList ariaLabel={ariaLabel}>
       <Tab data-test="tab1" label="Tab 1" value={0} />
       <Tab data-test="tab2" label="Tab 2" value={1} />
@@ -32,7 +32,7 @@ const tabsComponent = (
     <TabPanel value={1}>Panel 2</TabPanel>
     <TabPanel value={2}>Panel 3</TabPanel>
     <TabPanel value={3}>Panel 4</TabPanel>
-  </TabContextComponent>
+  </TabContextProvider>
 )
 
 describe('TabList', () => {

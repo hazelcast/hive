@@ -27,28 +27,28 @@ export const TabContext = createContext<TabContextValue>(tabContextDefaultValue)
  */
 export const useTabContext = () => useContext(TabContext)
 
-export type TabContextComponentProps = Pick<TabContextValue, 'fullWidth'> & { children: ReactNode }
+export type TabContextProviderProps = Pick<TabContextValue, 'fullWidth'> & { children: ReactNode }
 
 /**
  * A basic component that keeps track of selected tab.
- * If you want more control over the value state (active tab) you can use TabContextComponentControlled.
+ * If you want more control over the value state (active tab) you can use TabContextProviderControlled.
  */
-export const TabContextComponent: FC<TabContextComponentProps> = ({ fullWidth, children }) => {
+export const TabContextProvider: FC<TabContextProviderProps> = ({ fullWidth, children }) => {
   const [value, setValue] = useState<number>(0)
 
   return (
-    <TabContextComponentControlled value={value} onChange={setValue} fullWidth={fullWidth}>
+    <TabContextProviderControlled value={value} onChange={setValue} fullWidth={fullWidth}>
       {children}
-    </TabContextComponentControlled>
+    </TabContextProviderControlled>
   )
 }
 
-export type TabContextComponentControlledProps = Omit<TabContextValue, 'idPrefix'> & { children: ReactNode }
+export type TabContextProviderControlledProps = Omit<TabContextValue, 'idPrefix'> & { children: ReactNode }
 
 /**
  * If you want to control the value state (active tab) from outside, this component might come in handy.
  */
-export const TabContextComponentControlled: FC<TabContextComponentControlledProps> = ({ onChange, value, fullWidth, children }) => {
+export const TabContextProviderControlled: FC<TabContextProviderControlledProps> = ({ onChange, value, fullWidth, children }) => {
   const id = useUID()
   const contextValue: TabContextValue = useMemo(
     () => ({

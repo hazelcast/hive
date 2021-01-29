@@ -7,11 +7,11 @@ import {
   getTabId,
   getPanelId,
   useTabContext,
-  TabContextComponent,
+  TabContextProvider,
   TabContextValue,
   tabContextDefaultValue,
-  TabContextComponentControlled,
-  TabContextComponentControlledProps,
+  TabContextProviderControlled,
+  TabContextProviderControlledProps,
 } from '../../src/Tabs/TabContext'
 
 jest.mock('react-uid')
@@ -50,13 +50,13 @@ describe('TabContext', () => {
   })
 
   describe('Provider components', () => {
-    describe('TabContextComponent', () => {
-      it('renders TabContextComponentControlled', async () => {
+    describe('TabContextProvider', () => {
+      it('renders TabContextProviderControlled', async () => {
         const children = 'testChildren'
 
-        const wrapper = await mountAndCheckA11Y(<TabContextComponent>{children}</TabContextComponent>)
+        const wrapper = await mountAndCheckA11Y(<TabContextProvider>{children}</TabContextProvider>)
 
-        expect(wrapper.find(TabContextComponentControlled).props()).toEqual<TabContextComponentControlledProps>({
+        expect(wrapper.find(TabContextProviderControlled).props()).toEqual<TabContextProviderControlledProps>({
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           onChange: expect.anything(),
           value: 0,
@@ -65,7 +65,7 @@ describe('TabContext', () => {
       })
     })
 
-    describe('TabContextComponentControlled', () => {
+    describe('TabContextProviderControlled', () => {
       it('provides context values', async () => {
         const contextValues = {
           value: 2,
@@ -76,7 +76,7 @@ describe('TabContext', () => {
         const ConsumerComponent = ({
           expectedValues: { value, idPrefix },
         }: {
-          expectedValues: TabContextComponentControlledProps & { idPrefix: string }
+          expectedValues: TabContextProviderControlledProps & { idPrefix: string }
         }) => {
           const values = useTabContext()
 
@@ -91,9 +91,9 @@ describe('TabContext', () => {
         }
 
         await mountAndCheckA11Y(
-          <TabContextComponentControlled {...contextValues}>
+          <TabContextProviderControlled {...contextValues}>
             <ConsumerComponent expectedValues={{ ...contextValues, idPrefix: testId }} />
-          </TabContextComponentControlled>,
+          </TabContextProviderControlled>,
         )
       })
     })
