@@ -37,7 +37,7 @@ export type PasswordFieldExtraProps = {
   withIcon?: boolean
   visibleRef?: Ref<VisibleRef>
 } & DataTestProp &
-  Pick<InputHTMLAttributes<HTMLInputElement>, 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'>
+  Pick<InputHTMLAttributes<HTMLInputElement>, 'id' | 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'>
 type PasswordFieldProps = PasswordFieldCoreProps & PasswordFieldExtraProps
 
 export type VisibleRef = {
