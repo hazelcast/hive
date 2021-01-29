@@ -107,41 +107,24 @@ $marginLeftWithIcon: c.$grid * 5;
     color: c.$colorTextSecondary;
   }
 
-  &.disabled {
-    color: c.$colorTextSecondary;
-
-    .inputContainer {
-      background-color: c.$colorNeutral;
-    }
-    .borderOverlay {
-      border-color: c.$colorNeutralLight;
-    }
-    .inputIcon {
-      color: c.$colorTextSecondary;
-    }
-  }
-
-  &.hasError .borderOverlay {
-    border-color: c.$colorError;
-  }
-
-  &.focus {
-    .borderOverlay {
-      @include h.outlineFormField;
-    }
-    .inputIcon {
-      color: c.$colorPrimary;
-    }
-  }
-  &.hover {
-    .borderOverlay {
+  input:hover,
+  input.hover {
+    & ~ .borderOverlay {
       border-color: c.$colorPrimary;
     }
-    .inputIcon {
+    & ~ .inputIconContainer > .inputIcon {
       color: c.$colorPrimary;
     }
   }
-  input:focus {
+
+  &.hasError input {
+    & ~ .borderOverlay {
+      border-color: c.$colorError;
+    }
+  }
+
+  input:focus,
+  input.focus {
     // Do not remove outline for high-contrast modes
     // https://stackoverflow.com/a/52616313
     outline: transparent solid c.$outlineWidth;
@@ -149,21 +132,33 @@ $marginLeftWithIcon: c.$grid * 5;
     & ~ .borderOverlay {
       @include h.outlineFormField;
     }
-    & ~ .inputIcon {
-      color: c.$colorPrimary;
-    }
-  } // We target specifically .inputContainer not to apply hover styles to the input when a helper icon is hovered
-  .inputContainer:hover {
-    .borderOverlay {
-      border-color: c.$colorPrimary;
-    }
-    .inputIcon {
+    & ~ .inputIconContainer > .inputIcon {
       color: c.$colorPrimary;
     }
   }
 
-  // input ~ is required to increase the specificity of the selector to override focus styles
-  &.hasError .inputContainer input ~ .inputIcon {
-    color: c.$colorError;
+  // .hasError styles split in two groups to always color the icon with the error color but the change the color of the border
+  /* stylelint-disable-next-line no-duplicate-selectors */
+  &.hasError input {
+    ~ .inputIconContainer > .inputIcon {
+      color: c.$colorError;
+    }
+  }
+
+  &.disabled {
+    color: c.$colorTextSecondary;
+
+    .inputContainer {
+      background-color: c.$colorNeutral;
+    }
+
+    input {
+      & ~ .borderOverlay {
+        border-color: c.$colorNeutralLight;
+      }
+      & ~ .inputIconContainer > .inputIcon {
+        color: c.$colorTextSecondary;
+      }
+    }
   }
 }
