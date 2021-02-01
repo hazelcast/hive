@@ -67,7 +67,8 @@ type ButtonCommonProps = {
   children: string
   capitalize?: boolean
   bodyClassName?: string
-} & Pick<HTMLAttributes<HTMLAnchorElement | HTMLButtonElement>, 'className' | 'onClick' | 'tabIndex' | 'role' | 'id' | 'onFocus'>
+  outlineClassName?: string
+} & Pick<HTMLAttributes<HTMLAnchorElement | HTMLButtonElement>, 'className' | 'onClick' | 'tabIndex'>
 
 export type ButtonTypeAnchorProps = {
   component: 'a'
@@ -118,6 +119,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
       component: Component = 'button',
       className,
       bodyClassName,
+      outlineClassName,
       children,
       capitalize = true,
       // Disabled tooltip
@@ -175,7 +177,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
             type={Component === 'button' ? type : undefined}
             {...rest}
           >
-            <span className={styles.outline} />
+            <span className={cn(styles.outline, outlineClassName)} />
             <span className={cn(styles.body, bodyClassName)} ref={mergeRefs([ref, tooltipRef])}>
               {loading && <Loader className={styles.iconLeft} />}
               {iconLeft && iconLeftAriaLabel && !loading && (

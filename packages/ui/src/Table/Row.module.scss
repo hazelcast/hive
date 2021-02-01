@@ -1,0 +1,62 @@
+@use '../../styles/constants' as c;
+@use '../../styles/helpers' as h;
+
+@mixin rowBase {
+  border-bottom: c.$borderWidth solid c.$colorNeutralWhite;
+
+  > *:not(:last-child) {
+    border-right: c.$borderWidth solid c.$colorNeutralWhite;
+  }
+}
+
+.row {
+  @include rowBase;
+
+  &:hover {
+    background-color: c.$colorNeutralLighter;
+  }
+
+  &.clickable {
+    cursor: pointer;
+
+    &:focus {
+      @include h.outlineSimple;
+
+      // Do not remove outline for high-contrast modes
+      // https://stackoverflow.com/a/52616313
+      outline: c.$outlineWidth solid transparent;
+      background-color: c.$colorInfoLight;
+    }
+
+    &:hover {
+      background-color: c.$colorInfoLight;
+    }
+  }
+}
+
+.linkRow {
+  @include rowBase;
+
+  cursor: pointer;
+
+  .link {
+    text-decoration: none;
+
+    &:focus {
+      @include h.outlineSimple;
+
+      // Do not remove outline for high-contrast modes
+      // https://stackoverflow.com/a/52616313
+      outline: c.$outlineWidth solid transparent;
+      background-color: c.$colorInfoLight;
+    }
+
+    &:hover {
+      background-color: c.$colorInfoLight;
+    }
+  }
+}
+
+.headerRow {
+  @include rowBase;
+}

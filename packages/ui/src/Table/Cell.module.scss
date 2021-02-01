@@ -1,0 +1,37 @@
+@use '../../styles/constants' as c;
+
+.td {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-top: c.$grid * 2.5;
+  padding-bottom: c.$grid * 2.5;
+  padding-right: c.$grid * 3;
+  padding-left: c.$grid * 3;
+  color: c.$colorText;
+  @include c.typographyBodySmall;
+
+  &.alignLeft {
+    justify-content: flex-start;
+  }
+
+  &.alignRight {
+    justify-content: flex-end;
+  }
+
+  &.alignCenter {
+    justify-content: center;
+  }
+}
+
+.warningIcon {
+  color: c.$colorWarningLight;
+
+  &.left {
+    margin-left: c.$grid * 2;
+  }
+
+  &.right {
+    margin-right: c.$grid * 2;
+  }
+}
