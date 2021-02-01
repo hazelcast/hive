@@ -1,5 +1,6 @@
 export * from './asserts'
 export * from './enzyme'
 export * from './form'
+export * from './hooks'
 export * from './time'
 export * from './utils'

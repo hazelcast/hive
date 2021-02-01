@@ -25,6 +25,7 @@ export type TextFieldExtraProps<T extends TextFieldTypes> = {
   label: string
   helperText?: string | ReactElement
   className?: string
+  labelClassName?: string
   inputContainerClassName?: string
   inputClassName?: string
   errorClassName?: string
@@ -66,6 +67,7 @@ export const TextField = <T extends TextFieldTypes>({
   'data-test': dataTest,
   type,
   className,
+  labelClassName,
   inputContainerClassName,
   inputClassName,
   errorClassName,
@@ -93,7 +95,7 @@ export const TextField = <T extends TextFieldTypes>({
         className,
       )}
     >
-      <Label id={id} label={label} />
+      <Label id={id} label={label} className={labelClassName} />
       <div className={styles.inputBlock}>
         <div className={cn(styles.inputContainer, inputContainerClassName)}>
           <input

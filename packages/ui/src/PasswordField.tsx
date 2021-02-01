@@ -31,6 +31,7 @@ export type PasswordFieldExtraProps = {
   hideIconLabel?: string
   label: string
   helperText?: string | ReactElement
+  labelClassName?: string
   className?: string
   inputClassName?: string
   errorClassName?: string
