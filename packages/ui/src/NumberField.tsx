@@ -2,6 +2,7 @@ import { DataTestProp } from '@hazelcast/helpers'
 import React, { FC, FocusEvent, ChangeEvent, ReactElement, InputHTMLAttributes, useCallback, useMemo } from 'react'
 import { Plus, Minus } from 'react-feather'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
+import cn from 'classnames'
 
 import { TextField } from './TextField'
 import { IconButton, IconButtonDisabledProps, IconButtonNotDisabledProps } from './IconButton'
@@ -27,7 +28,9 @@ export type NumberFieldExtraProps = {
   label: string
   helperText?: string | ReactElement
   className?: string
+  labelClassName?: string
   inputClassName?: string
+  inputContainerClassName?: string
   errorClassName?: string
 } & DataTestProp &
   Pick<InputHTMLAttributes<HTMLInputElement>, 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'>
@@ -42,6 +45,7 @@ export const NumberField: FC<NumberFieldProps> = ({
   value,
   numberType = 'int',
   inputClassName,
+  inputContainerClassName,
   onChange,
   disabled,
   ...props
@@ -169,7 +173,7 @@ export const NumberField: FC<NumberFieldProps> = ({
       onChange={onChangeWrapped}
       type="number"
       inputContainerChild={overlay}
-      inputContainerClassName={styles.inputContainer}
+      inputContainerClassName={cn(styles.inputContainer, inputContainerClassName)}
       inputClassName={inputClassName}
       disabled={disabled}
     />
