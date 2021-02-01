@@ -33,7 +33,7 @@ export type TextFieldExtraProps<T extends TextFieldTypes> = {
   inputIcon?: IconType
   type?: T
 } & DataTestProp &
-  Pick<InputHTMLAttributes<HTMLInputElement>, 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'>
+  Pick<InputHTMLAttributes<HTMLInputElement>, 'id' | 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'>
 
 type TextFieldProps<T extends TextFieldTypes> = TextFieldCoreProps<T> & TextFieldExtraProps<T>
 
@@ -55,6 +55,7 @@ type TextFieldProps<T extends TextFieldTypes> = TextFieldCoreProps<T> & TextFiel
  * Use a text input when the expected user input is a single line of text.
  */
 export const TextField = <T extends TextFieldTypes>({
+  id: explicitId,
   name,
   value,
   label,
@@ -76,7 +77,9 @@ export const TextField = <T extends TextFieldTypes>({
   inputIcon,
   ...htmlAttrs
 }: TextFieldProps<T>) => {
-  const id = useUID()
+  // Use an auto generated id if it's not set explicitly
+  const autoId = useUID()
+  const id = explicitId ?? autoId
 
   return (
     <div
@@ -113,7 +116,15 @@ export const TextField = <T extends TextFieldTypes>({
             {...htmlAttrs}
           />
           <div className={styles.borderOverlay} />
-          {inputIcon && <Icon icon={inputIcon} ariaLabel={label} className={styles.inputIcon} size="small" />}
+          {inputIcon && (
+            <Icon
+              icon={inputIcon}
+              ariaLabel={label}
+              containerClassName={styles.inputIconContainer}
+              className={styles.inputIcon}
+              size="small"
+            />
+          )}
           {inputContainerChild}
         </div>
         {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} />}

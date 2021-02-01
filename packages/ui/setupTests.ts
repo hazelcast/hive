@@ -13,13 +13,16 @@ const createMountRendererOriginal: any = (Adapter.prototype as any).createMountR
 // eslint-disable-next-line
 ;(Adapter.prototype as any).createMountRenderer = function (options: object) {
   const attachTo = document.createElement('div')
+  attachTo.id = 'enzymeContainer'
+  // create a DOM element and mount component onto that element
+  document.body.appendChild(attachTo)
 
   attachments.push(attachTo)
 
   // eslint-disable-next-line
   return createMountRendererOriginal.call(this, {
     ...options,
-    attachTo,
+    attachTo: attachTo,
   })
 }
 
@@ -27,6 +30,8 @@ const cleanup = () => {
   attachments.forEach((node) => {
     // Unmount react component after each test
     unmountComponentAtNode(node)
+    // remove earlier created DOM element
+    node.remove()
   })
 }
 
