@@ -26,6 +26,7 @@ $iconStrokeWidthBold: 3px !default;
 
 $iconSizeSmall: $grid * 4 !default;
 $iconSizeNormal: $grid * 6 !default;
+$iconSizeLarge: $grid * 10 !default;
 $iconSizeXLarge: $grid * 12 !default;
 
 $tooltipArrowSize: 6px !default;
@@ -64,6 +65,10 @@ $sliderThumbHoverBorderSize: 1px;
 $sliderThumbShadowSize: 1px;
 $sliderThumbShadowBlur: $grid;
 $sliderFillBorderSize: 1px;
+
+$emptyStateMaxWidth: 960px !important;
+$emptyStateButtonMinWidthNormal: 120px !default;
+$emptyStateButtonMinWidthLarge: 140px !default;
 
 $borderRadiusNotification: 3px;
 

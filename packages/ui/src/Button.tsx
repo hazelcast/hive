@@ -62,7 +62,7 @@ export type ButtonDisabledProps = {
 }
 
 // Common props for all button "kinds"
-type ButtonCommonProps = {
+export type ButtonCommonProps = {
   kind?: ButtonKind
   children: string
   capitalize?: boolean
