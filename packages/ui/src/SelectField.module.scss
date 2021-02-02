@@ -12,7 +12,6 @@ $select: ':global .hz-select-field__control';
   }
 
   .selectBlock {
-    margin-top: c.$grid;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -51,6 +50,7 @@ $select: ':global .hz-select-field__control';
   }
 
   #{$select} {
+    margin-top: c.$grid;
     cursor: pointer;
     color: c.$colorText;
     min-height: c.$inputHeight;

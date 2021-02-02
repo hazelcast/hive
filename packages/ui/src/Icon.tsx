@@ -6,7 +6,7 @@ import cn from 'classnames'
 import styleConsts from '../styles/constants/export.module.scss'
 import styles from './Icon.module.scss'
 
-export type IconSize = 'small' | 'normal' | 'xlarge'
+export type IconSize = 'small' | 'normal' | 'large' | 'xlarge'
 
 // Makes it required to set either "aria-label", "aria-labelledby" or "aria-hidden" attribute.
 export type IconAriaProps =
@@ -31,6 +31,7 @@ export type IconProps = {
   icon: FeatherIconType | SimpleIconType
   size?: IconSize
   className?: string
+  containerClassName?: string
   bold?: boolean
 } & IconAriaProps
 
@@ -41,6 +42,7 @@ export const Icon: FC<IconProps> = ({
   ariaLabelledBy,
   ariaHidden,
   className,
+  containerClassName,
   size = 'normal',
   bold = false,
 }) => {
@@ -57,6 +59,7 @@ export const Icon: FC<IconProps> = ({
       {
         [styles.small]: size === 'small',
         [styles.normal]: size === 'normal',
+        [styles.large]: size === 'large',
         [styles.xlarge]: size === 'xlarge',
       },
       className,
@@ -64,5 +67,9 @@ export const Icon: FC<IconProps> = ({
     strokeWidth: iconStroke,
   }
 
-  return <IconElement role="img" {...props} />
+  return (
+    <div className={cn(styles.iconContainer, containerClassName)}>
+      <IconElement role="img" {...props} />
+    </div>
+  )
 }

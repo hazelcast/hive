@@ -93,6 +93,7 @@ export type SelectFieldExtraProps<V> = {
   label: string
   helperText?: string | ReactElement
   className?: string
+  labelClassName?: string
   errorClassName?: string
   menuPortalTarget?: 'body' | 'self' | HTMLElement | null
 } & DataTestProp &
@@ -114,6 +115,7 @@ const getMenuContainer = (menuPortalTarget: 'body' | 'self' | HTMLElement | null
 
 export const SelectField = <V,>({
   'data-test': dataTest,
+  labelClassName,
   className,
   error,
   errorClassName,
@@ -157,7 +159,7 @@ export const SelectField = <V,>({
         className,
       )}
     >
-      <Label id={id} label={label} />
+      <Label id={id} label={label} className={labelClassName} />
       <div className={styles.selectBlock}>
         <ReactSelect<SelectFieldOption<V>>
           inputId={id}

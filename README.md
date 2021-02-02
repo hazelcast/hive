@@ -22,7 +22,7 @@
   - [Run unit tests](#run-unit-tests)
   - [Run visual regression tests](#run-visual-regression-tests)
   - [Approve the updated for visual regression test screenshots](#approve-the-updated-for-visual-regression-test-screenshots)
-  - [Generate new screenshots for the new components](#generate-new-screenshots-for-the-new-components)
+  - [Generate new screenshots for the new/updated components](#generate-new-screenshots-for-the-newupdated-components)
   - [Run all checks at once](#run-all-checks-at-once)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
