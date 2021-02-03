@@ -1,7 +1,7 @@
 import { DataTestProp } from '@hazelcast/helpers'
 import React, { FocusEvent, InputHTMLAttributes, ReactElement } from 'react'
 import cn from 'classnames'
-import ReactSelect, { ActionMeta, components, IndicatorProps, Props as ReactSelectProps, ValueType, MultiValueProps, MultiValueRemoveProps } from 'react-select'
+import ReactSelect, { ActionMeta, components, IndicatorProps, Props as ReactSelectProps, ValueType, MultiValueProps } from 'react-select'
 import { ChevronDown, X } from 'react-feather'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 import { useUID } from 'react-uid'
@@ -43,7 +43,7 @@ const MultiValue = (props: MultiValueProps<any>) => {
 
 // Self styled version of the MultiValue/Remove button
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const MultiValueRemove = (props: MultiValueRemoveProps<any>) => {
+const MultiValueRemove = (props: any) => {
   // We have to pass down the onClick and onMouseDown handler to our IconButton
   // otherwise a click is a noop.
 
