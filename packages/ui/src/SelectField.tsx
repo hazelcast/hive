@@ -1,7 +1,7 @@
 import { DataTestProp } from '@hazelcast/helpers'
 import React, { FocusEvent, InputHTMLAttributes, ReactElement } from 'react'
 import cn from 'classnames'
-import ReactSelect, { ActionMeta, components, IndicatorProps, Props as ReactSelectProps, ValueType, MultiValueProps } from 'react-select'
+import ReactSelect, { ActionMeta, components, IndicatorProps, Props as ReactSelectProps, ValueType, MultiValueProps, MultiValueRemoveProps } from 'react-select'
 import { ChevronDown, X } from 'react-feather'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 import { useUID } from 'react-uid'
@@ -41,14 +41,29 @@ const MultiValue = (props: MultiValueProps<any>) => {
   return <components.MultiValue {...props} className={cn({ [styles.multiValueIsFocused]: props.isFocused })} />
 }
 
-// self styled version of the MultiValue/Remove button
-const MultiValueRemove = () => {
+// Self styled version of the MultiValue/Remove button
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const MultiValueRemove = (props: MultiValueRemoveProps<any>) => {
+  // We have to pass down the onClick and onMouseDown handler to our IconButton
+  // otherwise a click is a noop.
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,  @typescript-eslint/no-unsafe-assignment
+  const onClick: React.MouseEventHandler = props.innerProps.onClick
+
+  const handleMouseDown = (event: React.MouseEvent) => {
+    event.preventDefault()
+    event.stopPropagation()
+  }
+
   return <IconButton
     icon={X}
     ariaHidden
     kind="primary"
     size="small"
-    tabIndex={-1} />
+    tabIndex={-1}
+    onClick={onClick}
+    onMouseDown={handleMouseDown}
+    />
 }
 
 export type SelectFieldOption<V = string> = {
