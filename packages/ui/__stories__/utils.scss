@@ -28,3 +28,7 @@
 .calendarWrapper {
   height: 500px;
 }
+
+.toggles > *:not(:last-child) {
+  margin-bottom: c.$grid * 3;
+}

@@ -1,0 +1,118 @@
+@use '../styles/constants' as c;
+@use '../styles/helpers' as h;
+
+.container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  > *:not(:last-child) {
+    margin-right: c.$grid * 6;
+  }
+
+  .rows {
+    display: flex;
+    align-items: flex-end;
+
+    > *:first-child {
+      margin-right: c.$grid * 5;
+    }
+  }
+
+  .shownItems {
+    @include c.typographyBodyNormal;
+
+    color: c.$colorTextSecondary;
+  }
+
+  .buttons {
+    display: flex;
+    align-items: center;
+
+    > *:not(:last-child) {
+      margin-right: c.$grid * 2;
+    }
+
+    // Override Button styles
+    .button {
+      color: c.$colorTextSecondary;
+      background-color: c.$colorNeutralLighter;
+      border: 1px solid;
+      border-color: c.$colorNeutralLight;
+      @include c.typographyBodySmall;
+
+      .body {
+        padding: 0 c.$grid * 3.5;
+      }
+
+      &:hover,
+      &:active,
+      &.selected {
+        color: c.$colorText;
+        border-color: c.$colorPrimary;
+      }
+
+      &:focus {
+        .outline {
+          visibility: hidden;
+        }
+
+        color: c.$colorText;
+        border-color: c.$colorAccessibilityOutline;
+      }
+    }
+  }
+
+  // Override IconButton styles
+  .iconButton {
+    display: flex;
+    align-items: center;
+    background-color: c.$colorNeutralLighter;
+    border: 1px solid;
+    border-color: c.$colorNeutralLight;
+    height: c.$grid * 10;
+    padding: 0 c.$grid * 2;
+
+    &:hover,
+    &:active,
+    &.selected {
+      border-color: c.$colorPrimary;
+    }
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
+  .pageJump {
+    display: flex;
+    align-items: center;
+
+    .label {
+      margin-right: c.$grid * 2.5;
+    }
+
+    .inputContainer {
+      margin-top: 0;
+      // Comfortable to use with up to 5-digit numbers and small enough to not take much space
+      max-width: c.$grid * 26;
+      min-width: c.$grid * 26;
+    }
+  }
+
+  .rowsPerPage {
+    display: flex;
+    align-items: center;
+
+    .label {
+      margin-right: c.$grid * 2.5;
+    }
+
+    :global .hz-select-field__control {
+      margin-top: 0;
+      // Comfortable to use with up to 4-digit numbers and small enough to not take much space
+      max-width: c.$grid * 25;
+      min-width: c.$grid * 25;
+    }
+  }
+}

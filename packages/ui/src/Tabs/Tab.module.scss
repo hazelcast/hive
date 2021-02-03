@@ -1,0 +1,49 @@
+@use '../../styles/constants' as c;
+@use '../../styles/helpers' as h;
+
+.tab {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  height: c.$grid * 10;
+  min-width: c.$grid * 40;
+  padding: 0 c.$grid * 5;
+  border: none;
+  border-bottom: 1px solid;
+  border-color: c.$colorNeutralLight;
+  background-color: transparent;
+  cursor: pointer;
+
+  @include c.typographyH3;
+
+  @include h.overflowEllipsis;
+
+  &.selected {
+    color: c.$colorPrimary;
+    border-radius: none;
+    border-color: c.$colorPrimary;
+    box-shadow: inset 0 -4px 0 0 c.$colorPrimary;
+  }
+
+  &.fullWidth {
+    flex: 1 1 auto;
+  }
+
+  &:hover {
+    color: c.$colorPrimary;
+  }
+
+  &:focus {
+    // Do not remove outline for high-contrast modes
+    // https://stackoverflow.com/a/52616313
+    outline: c.$outlineWidth solid transparent;
+    color: c.$colorPrimary;
+    border-radius: c.$borderRadius;
+    border-color: transparent;
+
+    @include h.outlineSimple;
+  }
+}
