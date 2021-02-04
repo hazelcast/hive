@@ -48,6 +48,7 @@
     "@icons-pack/react-simple-icons": "^3.13.0",
     "@popperjs/core": "^2.5.3",
     "classnames": "^2.2.6",
+    "date-fns": "^2.16.1",
     "formik": "^2.2.0",
     "rc-tooltip": "^4.2.3",
     "react-datepicker": "^3.4.1",

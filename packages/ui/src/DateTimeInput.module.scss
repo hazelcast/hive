@@ -1,11 +1,53 @@
+@use '../styles/constants' as c;
+
 // TODO: Extract
-$minWidth: 242px;
+$inputWidth: 300px;
 
-.dateTimeInputContainer {
-  .dateTimeInput {
+/*
+ * Internal styles override for those that cannot be
+ * overriden using classNames composition
+ */
+:global .react-datepicker-wrapper {
+  width: 100%;
+}
+
+:global .react-datepicker {
+  :global .react-datepicker__header {
+    margin: 0;
+    padding: 0;
+    background-color: c.$colorNeutralWhite;
+    border: none;
+    border-radius: 0;
+
+    :global .react-datepicker__day-names {
+      :global .react-datepicker__day-name {
+        width: 32px;
+        height: 32px;
+      }
+    }
   }
+}
 
-  .dateTimeCustomInput {
-    min-width: $minWidth;
+/*
+ * Rest of styles
+ */
+.container {
+  min-width: $inputWidth;
+
+  .calendar {
+    padding: c.$grid * 3 c.$grid * 2;
+
+    .headerContainer {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+
+      .headerMonthAndYear {
+        color: c.$colorTextSecondary;
+
+        @include c.typographyBodySmall('bold');
+      }
+    }
   }
 }

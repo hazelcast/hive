@@ -15,9 +15,10 @@ export type IconButtonKind = 'primary' | 'transparent'
 
 type IconButtonCommonProps = {
   icon: FeatherIcon
-  size?: IconProps['size']
   iconClassName?: string
+  iconColor?: string
   kind?: IconButtonKind
+  size?: IconProps['size']
 } & IconAriaProps &
   Pick<ButtonHTMLAttributes<HTMLAnchorElement | HTMLButtonElement>, 'onClick' | 'className' | 'tabIndex'>
 
@@ -58,6 +59,7 @@ export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
       component: Component = 'button',
       icon,
       iconClassName,
+      iconColor,
       className,
       size,
       kind = 'transparent',
@@ -109,7 +111,7 @@ export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
           >
             <span className={styles.body} ref={mergeRefs([ref, tooltipRef])}>
               {loading && <Loader size={size} />}
-              {!loading && <Icon className={iconClassName} icon={icon} size={size} ariaHidden />}
+              {!loading && <Icon className={iconClassName} color={iconColor} icon={icon} size={size} ariaHidden />}
             </span>
           </Component>
         )}
