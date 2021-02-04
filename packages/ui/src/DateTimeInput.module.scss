@@ -1,4 +1,5 @@
 @use '../styles/constants' as c;
+@use '../styles/helpers' as h;
 
 // TODO: Extract
 $inputWidth: 300px;
@@ -15,14 +16,86 @@ $inputWidth: 300px;
   :global .react-datepicker__header {
     margin: 0;
     padding: 0;
-    background-color: c.$colorNeutralWhite;
+    background-color: c.$colorNeutralLighter;
     border: none;
     border-radius: 0;
 
     :global .react-datepicker__day-names {
       :global .react-datepicker__day-name {
-        width: 32px;
-        height: 32px;
+      }
+    }
+  }
+
+  :global .react-datepicker__month {
+    /*
+     * Note: The calendar part is asymmetrical by design
+     * It's padded by 2 extra px from the left
+     */
+    margin: 0 0 0 (c.$grid * 0.5);
+
+    :global .react-datepicker__week {
+      &:not(:last-of-type) {
+        margin-bottom: c.$grid * 2;
+      }
+
+      /*
+       * Note:
+       * We need to use :global override here, as 'renderCustomDay' only allows us to override
+       * the child of thin element, which does not allow us to touch the styles properly
+       *
+       * Source styles: https://github.com/Hacker0x01/react-datepicker/blob/master/src/stylesheets/datepicker.scss#L395
+       * TODO:
+       * Figure out what these do and regulate them
+       *
+       * --highlighted
+       * --in-selecting-range
+       * --in-range
+       * --in-selecting-range:not(&--in-range)
+       * --in-range:not(&--in-selecting-range)
+       */
+      :global .react-datepicker__day {
+        border-radius: c.$grid;
+        width: c.$grid * 8;
+        height: c.$grid * 8;
+        background-color: c.$colorNeutralWhite;
+        color: c.$colorTextSecondary;
+        text-align: center;
+        vertical-align: middle;
+        line-height: c.$grid * 8 !important;
+        margin: 0;
+
+        @include c.typographyBodySmall;
+
+        &--today {
+          @include c.typographyBodySmall('bold');
+        }
+
+        &--selected {
+          background-color: c.$colorPrimary;
+          color: c.$colorNeutralWhite;
+          // Note: Disable default browser outline, force our only on :focus
+          outline: none;
+
+          @include c.typographyBodySmall('bold');
+        }
+
+        &--keyboard-selected {
+          // Note: Disable default browser outline, force our only on :focus
+          outline: none;
+        }
+
+        &--disabled {
+          cursor: default;
+          color: c.$colorNeutral;
+        }
+
+        &:focus {
+          @include h.outlineSimple;
+        }
+
+        &:not(:last-of-type) {
+          margin-right: c.$grid * 2;
+        }
       }
     }
   }
@@ -35,7 +108,9 @@ $inputWidth: 300px;
   min-width: $inputWidth;
 
   .calendar {
-    padding: c.$grid * 3 c.$grid * 2;
+    border: c.$borderWidth solid c.$colorNeutralLight;
+    background-color: c.$colorNeutralLighter;
+    padding: c.$grid * 3;
 
     .headerContainer {
       display: flex;

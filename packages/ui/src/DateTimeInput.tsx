@@ -1,4 +1,4 @@
-import React, { FC, InputHTMLAttributes, ChangeEvent, useState, useCallback } from 'react'
+import React, { FC, InputHTMLAttributes, ChangeEvent, useState, useCallback, memo } from 'react'
 import cn from 'classnames'
 import DatePicker, { ReactDatePickerProps } from 'react-datepicker'
 import { Calendar, ChevronLeft, ChevronRight } from 'react-feather'
@@ -24,9 +24,9 @@ type ExtractFnArgumentType<T> = T extends (arg: infer U) => any ? U : never
  *
  * There is no significant benefit other than readability and potentially couple of saved renders.
  */
-type DatePickerCustomHeaderProps = ExtractFnArgumentType<ReactDatePickerProps['renderCustomHeader']>
+type DatePickerHeaderProps = ExtractFnArgumentType<ReactDatePickerProps['renderCustomHeader']>
 
-const DatePickerCustomHeader: FC<DatePickerCustomHeaderProps> = ({
+const DatePickerHeader: FC<DatePickerHeaderProps> = ({
   date,
   decreaseMonth,
   increaseMonth,
@@ -106,7 +106,7 @@ export const DateTimeInput: FC<DateTimeInputProps> = ({ calendarClassName, conta
         //showTimeInput
         showPopperArrow={false}
         customInput={<DatePickerCustomInput onChange={onChange} value={value.toString()} />}
-        renderCustomHeader={DatePickerCustomHeader}
+        renderCustomHeader={DatePickerHeader}
         //popperPlacement={position}
         //placeholderText="Now"
         //disabled={disabled}
