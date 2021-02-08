@@ -1,11 +1,11 @@
 import React from 'react'
-import { DateTimeInput } from '../src/DateTimeInput'
+import { DateTimeField } from '../src/DateTime/DateTimeField'
 
 import utilsStyles from './utils.scss'
 
 export default {
   title: 'Components/DateTimeInput',
-  component: DateTimeInput,
+  component: DateTimeField,
 }
 
 // Equivalent to `2021-02-08T09:00:00.000Z`
@@ -14,7 +14,7 @@ const onTimestampChange = (t?: number | undefined) => console.log(t)
 
 export const Default = () => (
   <div className={utilsStyles.modalWrapper}>
-    <DateTimeInput timestamp={timestamp} onTimestampChange={onTimestampChange} />
+    <DateTimeField timestamp={timestamp} onTimestampChange={onTimestampChange} />
   </div>
 )
 
@@ -27,6 +27,6 @@ Default.parameters = {
 
 export const Disabled = () => (
   <div className={utilsStyles.modalWrapper}>
-    <DateTimeInput disabled timestamp={timestamp} onTimestampChange={onTimestampChange} />
+    <DateTimeField disabled timestamp={timestamp} onTimestampChange={onTimestampChange} />
   </div>
 )

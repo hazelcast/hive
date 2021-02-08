@@ -3,7 +3,7 @@ import React from 'react'
 import ReactDatePicker from 'react-datepicker'
 import { act } from 'react-dom/test-utils'
 import { Calendar, ChevronLeft, ChevronRight } from 'react-feather'
-import { DateTimeInput } from '../src/DateTimeInput'
+import { DateTimeField } from '../src/DateTime/DateTimeField'
 
 import styleConsts from '../styles/constants/export.module.scss'
 
@@ -12,11 +12,11 @@ const timestamp = 1612774800000
 // TODO: Check potential failures in different timezones
 const timestampString = new Date(1612774800000)
 
-describe('DateTimeInput', () => {
+describe('DateTimeField', () => {
   it('Renders basic collapsed input', async () => {
     const onTimestampChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(<DateTimeInput timestamp={timestamp} onTimestampChange={onTimestampChange} />)
+    const wrapper = await mountAndCheckA11Y(<DateTimeField timestamp={timestamp} onTimestampChange={onTimestampChange} />)
 
     // ReactDatePicker
     expect(wrapper.find(ReactDatePicker).props()).toMatchObject({
@@ -47,7 +47,7 @@ describe('DateTimeInput', () => {
   it('Renders basic disabled input', async () => {
     const onTimestampChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(<DateTimeInput disabled timestamp={timestamp} onTimestampChange={onTimestampChange} />)
+    const wrapper = await mountAndCheckA11Y(<DateTimeField disabled timestamp={timestamp} onTimestampChange={onTimestampChange} />)
 
     // ReactDatePicker
     expect(wrapper.find(ReactDatePicker).props()).toMatchObject({
@@ -86,7 +86,7 @@ describe('DateTimeInput', () => {
   it('Renders basic expanded input', async () => {
     const onTimestampChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(<DateTimeInput timestamp={timestamp} onTimestampChange={onTimestampChange} />)
+    const wrapper = await mountAndCheckA11Y(<DateTimeField timestamp={timestamp} onTimestampChange={onTimestampChange} />)
 
     // ReactDatePicker
     expect(wrapper.find(ReactDatePicker).props()).toMatchObject({
