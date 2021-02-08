@@ -11,7 +11,6 @@ import 'react-datepicker/dist/react-datepicker.css'
 
 import styles from './DateTimeInput.module.scss'
 import styleConsts from '../styles/constants/export.module.scss'
-import { Placement } from '@popperjs/core'
 
 const DatePickerPopperContainer: FC = ({ children }) => <div data-test="date-picker-popper-container">{children}</div>
 
@@ -93,20 +92,17 @@ type DateTimeInputProps = {
   calendarClassName?: string
   containerClassName?: string
   className?: string
-  disabled?: boolean
   timestamp: number | undefined
   onTimestampChange: (timestamp?: number) => void
-  position?: Placement
-}
+} & Omit<ReactDatePickerProps, 'onChange'>
 
 export const DateTimeInput: FC<DateTimeInputProps> = ({
   calendarClassName,
   containerClassName,
   className,
-  disabled = false,
-  position = 'auto',
   timestamp,
   onTimestampChange,
+  ...props
 }) => {
   const [internalValue, setInternalValue] = useState(timestamp ? new Date(timestamp) : undefined)
 
@@ -124,6 +120,7 @@ export const DateTimeInput: FC<DateTimeInputProps> = ({
   return (
     <div className={cn(styles.container, containerClassName)}>
       <DatePicker
+        {...props}
         calendarClassName={cn(styles.calendar, calendarClassName)}
         className={cn(styles.input, className)}
         /*
@@ -133,18 +130,11 @@ export const DateTimeInput: FC<DateTimeInputProps> = ({
          */
         customInput={<DatePickerInput />}
         dateFormat="yyyy-MM-dd HH:mm"
-        disabled={disabled}
         onChange={onChange}
         popperContainer={DatePickerPopperContainer}
-        popperPlacement={position}
         renderCustomHeader={DatePickerHeader}
         selected={internalValue}
         showPopperArrow={false}
-        //placeholderText="Now"\
-        //highlightDates={[new Date()]}
-        //maxDate={new Date()}
-        //minDate={maxOffset ? new Date(Date.now() - maxOffset) : undefined}
-        //showTimeInput
       />
     </div>
   )
