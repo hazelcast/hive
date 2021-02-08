@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import { DateTimeInput } from '../src/DateTimeInput'
 
 import utilsStyles from './utils.scss'
@@ -8,11 +8,19 @@ export default {
   component: DateTimeInput,
 }
 
-export const Default = () => (
-  <div className={utilsStyles.modalWrapper}>
-    <DateTimeInput />
-  </div>
-)
+export const Default = () => {
+  const [timestamp, setTimestamp] = useState<number | undefined>(Date.now())
+
+  const onTimestampChange = useCallback((t?: number | undefined) => {
+    setTimestamp(t)
+  }, [])
+
+  return (
+    <div className={utilsStyles.modalWrapper}>
+      <DateTimeInput timestamp={timestamp} onTimestampChange={onTimestampChange} />
+    </div>
+  )
+}
 
 Default.parameters = {
   design: {

@@ -120,7 +120,7 @@ $inputWidth: 300px;
  * Rest of styles
  */
 .container {
-  min-width: $inputWidth;
+  max-width: $inputWidth;
 
   .calendar {
     border: c.$borderWidth solid c.$colorNeutralLight;
