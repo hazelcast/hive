@@ -2,8 +2,8 @@ import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import React from 'react'
 import ReactDatePicker from 'react-datepicker'
 import { act } from 'react-dom/test-utils'
-import { Calendar, ChevronLeft, ChevronRight } from 'react-feather'
-import { DateTimeField } from '../src/DateTime/DateTimeField'
+import { Calendar as CalendarIcon, ChevronLeft, ChevronRight } from 'react-feather'
+import { Calendar } from '../src/Calendar/Calendar'
 
 import styleConsts from '../styles/constants/export.module.scss'
 
@@ -12,11 +12,11 @@ const timestamp = 1612774800000
 // TODO: Check potential failures in different timezones
 const timestampString = new Date(1612774800000)
 
-describe('DateTimeField', () => {
+describe('Calendar', () => {
   it('Renders basic collapsed input', async () => {
     const onTimestampChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(<DateTimeField timestamp={timestamp} onTimestampChange={onTimestampChange} />)
+    const wrapper = await mountAndCheckA11Y(<Calendar timestamp={timestamp} onTimestampChange={onTimestampChange} />)
 
     // ReactDatePicker
     expect(wrapper.find(ReactDatePicker).props()).toMatchObject({
@@ -34,7 +34,7 @@ describe('DateTimeField', () => {
       type: 'text',
       name: 'date-picker-input',
       label: 'Date picker input',
-      inputTrailingIcon: Calendar,
+      inputTrailingIcon: CalendarIcon,
       inputTrailingIconLabel: 'Calendar Icon',
       inputTrailingIconColor: styleConsts.colorPrimary,
     })
@@ -47,7 +47,7 @@ describe('DateTimeField', () => {
   it('Renders basic disabled input', async () => {
     const onTimestampChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(<DateTimeField disabled timestamp={timestamp} onTimestampChange={onTimestampChange} />)
+    const wrapper = await mountAndCheckA11Y(<Calendar disabled timestamp={timestamp} onTimestampChange={onTimestampChange} />)
 
     // ReactDatePicker
     expect(wrapper.find(ReactDatePicker).props()).toMatchObject({
@@ -65,7 +65,7 @@ describe('DateTimeField', () => {
       type: 'text',
       name: 'date-picker-input',
       label: 'Date picker input',
-      inputTrailingIcon: Calendar,
+      inputTrailingIcon: CalendarIcon,
       inputTrailingIconLabel: 'Calendar Icon',
       inputTrailingIconColor: styleConsts.colorPrimary,
       disabled: true,
@@ -86,7 +86,7 @@ describe('DateTimeField', () => {
   it('Renders basic expanded input', async () => {
     const onTimestampChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(<DateTimeField timestamp={timestamp} onTimestampChange={onTimestampChange} />)
+    const wrapper = await mountAndCheckA11Y(<Calendar timestamp={timestamp} onTimestampChange={onTimestampChange} />)
 
     // ReactDatePicker
     expect(wrapper.find(ReactDatePicker).props()).toMatchObject({
@@ -104,7 +104,7 @@ describe('DateTimeField', () => {
       type: 'text',
       name: 'date-picker-input',
       label: 'Date picker input',
-      inputTrailingIcon: Calendar,
+      inputTrailingIcon: CalendarIcon,
       inputTrailingIconLabel: 'Calendar Icon',
       inputTrailingIconColor: styleConsts.colorPrimary,
     })

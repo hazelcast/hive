@@ -5,8 +5,8 @@ import { format } from 'date-fns'
 
 import { IconButton } from '../IconButton'
 
-import styles from './DateTimeInput.module.scss'
-import styleConsts from '../styles/constants/export.module.scss'
+import styles from './Calendar.module.scss'
+import styleConsts from '../../styles/constants/export.module.scss'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ExtractFnArgumentType<T> = T extends (arg: infer U) => any ? U : never
@@ -20,9 +20,9 @@ type ExtractFnArgumentType<T> = T extends (arg: infer U) => any ? U : never
  *
  * There is no significant benefit other than readability and potentially couple of saved renders.
  */
-type DateTimeHeaderProps = ExtractFnArgumentType<ReactDatePickerProps['renderCustomHeader']>
+type CalendarHeaderProps = ExtractFnArgumentType<ReactDatePickerProps['renderCustomHeader']>
 
-export const DateTimeHeader: FC<DateTimeHeaderProps> = ({ date, decreaseMonth, increaseMonth }) => {
+export const CalendarHeader: FC<CalendarHeaderProps> = ({ date, decreaseMonth, increaseMonth }) => {
   return (
     <div data-test="date-picker-header" className={styles.headerContainer}>
       <IconButton

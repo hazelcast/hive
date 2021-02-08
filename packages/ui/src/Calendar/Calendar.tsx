@@ -2,16 +2,16 @@ import React, { FC, useState, useEffect, useCallback } from 'react'
 import cn from 'classnames'
 import DatePicker, { ReactDatePickerProps } from 'react-datepicker'
 
-import { DateTimeInput } from './DateTimeInput'
-import { DateTimeHeader } from './DateTimeHeader'
+import { CalendarInput } from './CalendarInput'
+import { CalendarHeader } from './CalendarHeader'
 
-import styles from './DateTimeInput.module.scss'
+import styles from './Calendar.module.scss'
 
 import 'react-datepicker/dist/react-datepicker.css'
 
 const DatePickerPopperContainer: FC = ({ children }) => <div data-test="date-picker-popper-container">{children}</div>
 
-type DateTimeInputProps = {
+type CalendarInputProps = {
   calendarClassName?: string
   containerClassName?: string
   className?: string
@@ -19,7 +19,7 @@ type DateTimeInputProps = {
   onTimestampChange: (timestamp?: number) => void
 } & Omit<ReactDatePickerProps, 'onChange'>
 
-export const DateTimeField: FC<DateTimeInputProps> = ({
+export const Calendar: FC<CalendarInputProps> = ({
   calendarClassName,
   containerClassName,
   className,
@@ -51,11 +51,11 @@ export const DateTimeField: FC<DateTimeInputProps> = ({
          * The library instantiates the component using React.cloneElement
          * Source: https://github.com/Hacker0x01/react-datepicker/blob/master/src/index.jsx#L926
          */
-        customInput={<DateTimeInput />}
+        customInput={<CalendarInput />}
         dateFormat="yyyy-MM-dd HH:mm"
         onChange={onChange}
         popperContainer={DatePickerPopperContainer}
-        renderCustomHeader={DateTimeHeader}
+        renderCustomHeader={CalendarHeader}
         selected={internalValue}
         showPopperArrow={false}
       />
