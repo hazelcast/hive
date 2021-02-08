@@ -52,6 +52,7 @@ $marginLeftWithIcon: c.$grid * 5;
 
   .inputIconTrailing {
     right: -(c.$grid);
+    color: c.$colorPrimary;
   }
 
   // Here we go. Another border hack. Why?
@@ -170,6 +171,9 @@ $marginLeftWithIcon: c.$grid * 5;
         border-color: c.$colorNeutralLight;
       }
       & ~ .inputIconContainer > .inputIcon {
+        color: c.$colorTextSecondary;
+      }
+      & ~ .inputIconContainer > .inputIconTrailing {
         color: c.$colorTextSecondary;
       }
     }

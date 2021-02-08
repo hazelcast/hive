@@ -17,7 +17,7 @@ export const Default = () => {
 
   return (
     <div className={utilsStyles.modalWrapper}>
-      <DateTimeInput timestamp={timestamp} onTimestampChange={onTimestampChange} />
+      <DateTimeInput disabled timestamp={timestamp} onTimestampChange={onTimestampChange} />
     </div>
   )
 }

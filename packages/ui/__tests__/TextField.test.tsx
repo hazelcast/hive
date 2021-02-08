@@ -43,6 +43,7 @@ describe('TextField', () => {
       'aria-required': undefined,
       'aria-describedby': undefined,
       'aria-errormessage': undefined,
+      className: '',
       disabled: undefined,
       placeholder: 'Enter the name',
     })
@@ -126,6 +127,7 @@ describe('TextField', () => {
       'aria-required': undefined,
       'aria-describedby': helpTooltipId('republic'),
       'aria-errormessage': undefined,
+      className: '',
       disabled: undefined,
       placeholder: 'Enter the name',
     })
@@ -175,6 +177,7 @@ describe('TextField', () => {
       'aria-required': undefined,
       'aria-describedby': undefined,
       'aria-errormessage': errorId('republic'),
+      className: '',
       disabled: undefined,
       placeholder: 'Enter the name',
     })
@@ -212,6 +215,7 @@ describe('TextField', () => {
       'aria-required': true,
       'aria-describedby': undefined,
       'aria-errormessage': undefined,
+      className: '',
       disabled: undefined,
       placeholder: 'Enter the name',
     })
@@ -249,6 +253,7 @@ describe('TextField', () => {
       'aria-required': undefined,
       'aria-describedby': undefined,
       'aria-errormessage': undefined,
+      className: '',
       disabled: true,
       placeholder: 'Enter the name',
     })

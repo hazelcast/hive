@@ -1,4 +1,4 @@
-import React, { FC, FormEvent, useState, useEffect, forwardRef } from 'react'
+import React, { FC, FormEvent, useState, useEffect, forwardRef, useCallback } from 'react'
 import cn from 'classnames'
 import DatePicker, { ReactDatePickerProps } from 'react-datepicker'
 import { Calendar, ChevronLeft, ChevronRight } from 'react-feather'
@@ -11,8 +11,9 @@ import 'react-datepicker/dist/react-datepicker.css'
 
 import styles from './DateTimeInput.module.scss'
 import styleConsts from '../styles/constants/export.module.scss'
-import { useCallback } from '@storybook/addons'
 import { Placement } from '@popperjs/core'
+
+const DatePickerPopperContainer: FC = ({ children }) => <div data-test="date-picker-popper-container">{children}</div>
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ExtractFnArgumentType<T> = T extends (arg: infer U) => any ? U : never
@@ -28,12 +29,24 @@ type ExtractFnArgumentType<T> = T extends (arg: infer U) => any ? U : never
  */
 type DatePickerHeaderProps = ExtractFnArgumentType<ReactDatePickerProps['renderCustomHeader']>
 
-const DatePickerHeader: FC<DatePickerHeaderProps> = ({ date, decreaseMonth, increaseMonth }) => {
+export const DatePickerHeader: FC<DatePickerHeaderProps> = ({ date, decreaseMonth, increaseMonth }) => {
   return (
-    <div className={styles.headerContainer}>
-      <IconButton icon={ChevronLeft} ariaLabel="Next month" iconColor={styleConsts.colorPrimary} onClick={decreaseMonth} />
+    <div data-test="date-picker-header" className={styles.headerContainer}>
+      <IconButton
+        data-test="date-picker-header-icon-previous"
+        icon={ChevronLeft}
+        ariaLabel="Previous month"
+        iconColor={styleConsts.colorPrimary}
+        onClick={decreaseMonth}
+      />
       <div className={styles.headerMonthAndYear}>{format(date, 'MMMM y')}</div>
-      <IconButton icon={ChevronRight} ariaLabel="Previous month" iconColor={styleConsts.colorPrimary} onClick={increaseMonth} />
+      <IconButton
+        data-test="date-picker-header-icon-next"
+        icon={ChevronRight}
+        ariaLabel="Next month"
+        iconColor={styleConsts.colorPrimary}
+        onClick={increaseMonth}
+      />
     </div>
   )
 }
@@ -52,13 +65,15 @@ type DatePickerInputProps = {
  * Note: Cannot be typed due to cloneElement nature
  *
  * TODO: Pass the reference to TextField
+ * TODO: Go over the props that are spread to TextField and ensure there are no shenanigans going on
  */
-const DatePickerInput: FC<DatePickerInputProps> = forwardRef(({ className, value, onChange, ...props }, ref) => {
+export const DatePickerInput: FC<DatePickerInputProps> = forwardRef(({ className, value, onChange, ...props }, ref) => {
   const onChangeWrapper = (e: FormEvent<HTMLInputElement>) => {}
 
   return (
     <TextField<'text'>
       {...props}
+      data-test="date-picker-input"
       value={value as string}
       onChange={onChangeWrapper}
       inputContainerClassName={cn(styles.dateTimeCustomInputContainer, className)}
@@ -99,29 +114,32 @@ export const DateTimeInput: FC<DateTimeInputProps> = ({
     setInternalValue(timestamp ? new Date(timestamp) : undefined)
   }, [timestamp])
 
-  // TODO: For some reason useCallback throws in story
-  const onChange = (date: Date) => {
-    onTimestampChange(date.valueOf())
-  }
+  const onChange = useCallback(
+    (date: Date) => {
+      onTimestampChange(date.valueOf())
+    },
+    [onTimestampChange],
+  )
 
   return (
     <div className={cn(styles.container, containerClassName)}>
       <DatePicker
         calendarClassName={cn(styles.calendar, calendarClassName)}
         className={cn(styles.input, className)}
-        dateFormat="yyyy-MM-dd HH:mm"
-        selected={internalValue}
-        onChange={onChange}
-        disabled={disabled}
-        showPopperArrow={false}
         /*
          * Note: We cannot pass any custom props to 'customInput'
          * The library instantiates the component using React.cloneElement
          * Source: https://github.com/Hacker0x01/react-datepicker/blob/master/src/index.jsx#L926
          */
         customInput={<DatePickerInput />}
-        renderCustomHeader={DatePickerHeader}
+        dateFormat="yyyy-MM-dd HH:mm"
+        disabled={disabled}
+        onChange={onChange}
+        popperContainer={DatePickerPopperContainer}
         popperPlacement={position}
+        renderCustomHeader={DatePickerHeader}
+        selected={internalValue}
+        showPopperArrow={false}
         //placeholderText="Now"\
         //highlightDates={[new Date()]}
         //maxDate={new Date()}

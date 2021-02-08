@@ -271,7 +271,7 @@ export const WithTrailingIcon = () => (
   />
 )
 
-export const WithColouredTrailingIcon = () => (
+export const WithTrailingIconDisabled = () => (
   <TextField
     name="name"
     value="Yoda"
@@ -282,6 +282,7 @@ export const WithColouredTrailingIcon = () => (
     inputTrailingIcon={Calendar}
     inputTrailingIconLabel="Calendar icon"
     inputTrailingIconColor={styleConsts.colorInfoDark}
+    disabled
   />
 )
 

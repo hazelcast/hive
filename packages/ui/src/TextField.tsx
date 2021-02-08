@@ -150,8 +150,8 @@ export const TextField = <T extends TextFieldTypes>({
             <Icon
               icon={inputTrailingIcon}
               ariaLabel={inputTrailingIconLabel}
+              containerClassName={styles.inputIconContainer}
               className={styles.inputIconTrailing}
-              color={inputTrailingIconColor}
             />
           )}
         </div>
