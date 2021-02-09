@@ -2,7 +2,7 @@
 @use '../../styles/helpers' as h;
 
 $calendarHeight: 277px;
-$calendarPaddingBottom: 12px;
+$calendarPadding: 24px;
 $headerHeight: 34px;
 
 .container {
@@ -12,14 +12,13 @@ $headerHeight: 34px;
     align-items: center;
     // Note: Header height
     height: 26px;
-    background-color: rgb(146, 124, 124);
     // Note: Header margin bottom
     margin-bottom: 8px;
   }
 
   .datePoints {
     // TODO: Refactor
-    height: calc(#{$calendarHeight} - #{$headerHeight} - #{$calendarPaddingBottom});
+    height: calc(#{$calendarHeight} - #{$headerHeight} - #{$calendarPadding});
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
@@ -27,6 +26,7 @@ $headerHeight: 34px;
     > .datePoint {
       color: c.$colorTextSubdued;
       height: c.$grid * 5;
+      padding: 0 c.$grid * 5;
 
       @include c.typographyBodySmall;
 
