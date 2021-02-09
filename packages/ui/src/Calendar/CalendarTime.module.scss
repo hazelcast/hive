@@ -5,6 +5,10 @@ $calendarHeight: 277px;
 $calendarPadding: 24px;
 $headerHeight: 34px;
 
+// Note: Add padding in order to preserve button's outline
+// TODO: 4px should be enough, why do we need 5px?
+$outlinePreservingPadding: c.$grid * 1.25;
+
 .container {
   .header {
     display: flex;
@@ -17,16 +21,17 @@ $headerHeight: 34px;
   }
 
   .datePoints {
-    // TODO: Refactor
-    height: calc(#{$calendarHeight} - #{$headerHeight} - #{$calendarPadding});
     display: flex;
     flex-direction: column;
+    // TODO: Refactor
+    height: calc(#{$calendarHeight} - #{$headerHeight} - #{$calendarPadding});
     overflow-y: scroll;
+    padding: 0 $outlinePreservingPadding;
 
     > .datePoint {
       color: c.$colorTextSubdued;
       height: c.$grid * 5;
-      padding: 0 c.$grid * 5;
+      padding: 0 c.$grid * 3;
 
       @include c.typographyBodySmall;
 
