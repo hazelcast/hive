@@ -3,6 +3,7 @@
 
 // TODO: Extract
 $inputWidth: 300px;
+$inputHeight: 277px;
 
 /*
  * Internal styles override for those that cannot be
@@ -21,7 +22,7 @@ $inputWidth: 300px;
     border-radius: 0;
 
     :global .react-datepicker__day-names {
-      margin-bottom: c.$grid * 2;
+      margin-bottom: c.$grid;
 
       :global .react-datepicker__day-name {
         width: c.$grid * 8;
@@ -114,6 +115,17 @@ $inputWidth: 300px;
       }
     }
   }
+
+  :global .react-datepicker__input-time-container {
+    // Note: Header days + body
+    max-height: calc(192px + 32px);
+    margin: 0;
+    padding: 0;
+
+    :global .react-datepicker-time__caption {
+      display: none;
+    }
+  }
 }
 
 /*
@@ -122,23 +134,32 @@ $inputWidth: 300px;
 .container {
   max-width: $inputWidth;
 
+  // TODO: Rename this class, the component is named Calendar now
   .calendar {
+    display: flex;
+    flex-direction: row;
     border: c.$borderWidth solid c.$colorNeutralLight;
     background-color: c.$colorNeutralLighter;
     padding: c.$grid * 3;
+    max-height: $inputHeight;
 
     .headerContainer {
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: c.$grid * 2;
+      // Note: There is 1.5px in designs - also $separatorWidth is not semantically the best fit
+      margin-bottom: c.$separatorWidth;
 
       .headerMonthAndYear {
         color: c.$colorTextSecondary;
 
         @include c.typographyBodySmall('bold');
       }
+    }
+
+    .swag {
+      background-color: red;
     }
   }
 }

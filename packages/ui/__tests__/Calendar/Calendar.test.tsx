@@ -3,7 +3,7 @@ import React from 'react'
 import ReactDatePicker from 'react-datepicker'
 import { act } from 'react-dom/test-utils'
 import { Calendar as CalendarIcon, ChevronLeft, ChevronRight } from 'react-feather'
-import { Calendar } from '../src/Calendar/Calendar'
+import { Calendar } from '../../src/Calendar/Calendar'
 
 import styleConsts from '../styles/constants/export.module.scss'
 

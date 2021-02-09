@@ -30,3 +30,9 @@ export const Disabled = () => (
     <Calendar disabled timestamp={timestamp} onTimestampChange={onTimestampChange} />
   </div>
 )
+
+export const WithTime = () => (
+  <div className={utilsStyles.modalWrapper}>
+    <Calendar timestamp={timestamp} onTimestampChange={onTimestampChange} showTimeInput />
+  </div>
+)

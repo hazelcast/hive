@@ -1,0 +1,42 @@
+@use '../../styles/constants' as c;
+@use '../../styles/helpers' as h;
+
+$calendarHeight: 277px;
+$calendarPaddingBottom: 12px;
+$headerHeight: 34px;
+
+.container {
+  .header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // Note: Header height
+    height: 26px;
+    background-color: rgb(146, 124, 124);
+    // Note: Header margin bottom
+    margin-bottom: 8px;
+  }
+
+  .datePoints {
+    // TODO: Refactor
+    height: calc(#{$calendarHeight} - #{$headerHeight} - #{$calendarPaddingBottom});
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+
+    > .datePoint {
+      color: c.$colorTextSubdued;
+      height: c.$grid * 5;
+
+      @include c.typographyBodySmall;
+
+      &:not(:last-of-type) {
+        margin-bottom: c.$grid;
+      }
+
+      > .datePointBody {
+        padding: 0;
+      }
+    }
+  }
+}

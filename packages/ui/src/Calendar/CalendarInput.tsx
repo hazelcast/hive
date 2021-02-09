@@ -12,7 +12,7 @@ import styleConsts from '../../styles/constants/export.module.scss'
   onChange: (dateTime: Date) => void
 } & Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange'> */
 
-type CalendarInputProps = {
+export type CalendarInputProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any
 }
