@@ -33,15 +33,32 @@ const Input = (props: any) => {
 
 // This component is implemented because we want to style things with the css (as opposed to the react-select
 // recommended way of styling things via js).
+//
 // We simply inject `.multiValueIsFocused`.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const MultiValue = (props: MultiValueProps<any>) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   props.components.Remove = MultiValueRemove
-  return <components.MultiValue {...props} className={cn({ [styles.multiValueIsFocused]: props.isFocused })} />
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  props.components.Label = MultiValueLabel
+
+  return <components.MultiValue {...props} className={cn(styles.multiValue, { [styles.multiValueIsFocused]: props.isFocused })} />
+}
+
+// Self styled version of the MultiValue/Label
+//
+// refactor: newer react-select packages have better typings for this.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const MultiValueLabel = (props: any) => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,  @typescript-eslint/no-unsafe-assignment
+  const children = props.children
+  return <div className={cn(styles.multiValueLabel)}> {children} </div>
 }
 
 // Self styled version of the MultiValue/Remove button
+//
+// refactor: newer react-select packages have better typings for this.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const MultiValueRemove = (props: any) => {
   // We have to pass down the onClick and onMouseDown handler to our IconButton
@@ -55,15 +72,7 @@ const MultiValueRemove = (props: any) => {
     event.stopPropagation()
   }
 
-  return <IconButton
-    icon={X}
-    ariaHidden
-    kind="primary"
-    size="small"
-    tabIndex={-1}
-    onClick={onClick}
-    onMouseDown={handleMouseDown}
-    />
+  return <IconButton icon={X} ariaHidden kind="primary" size="small" tabIndex={-1} onClick={onClick} onMouseDown={handleMouseDown} />
 }
 
 export type SelectFieldOption<V = string> = {
@@ -79,29 +88,29 @@ export type SelectFieldCoreStaticProps = {
 
 export type SelectFieldCoreDynamicProps<V> =
   | {
-    isClearable: true
-    isMulti?: false
-    value: SelectFieldOption<V> | null
-    onChange: (newValue: SelectFieldOption<V> | null) => void
-  }
+      isClearable: true
+      isMulti?: false
+      value: SelectFieldOption<V> | null
+      onChange: (newValue: SelectFieldOption<V> | null) => void
+    }
   | {
-    isClearable?: false
-    isMulti?: false
-    value: SelectFieldOption<V>
-    onChange: (newValue: SelectFieldOption<V>) => void
-  }
+      isClearable?: false
+      isMulti?: false
+      value: SelectFieldOption<V>
+      onChange: (newValue: SelectFieldOption<V>) => void
+    }
   | {
-    isClearable: true
-    isMulti: true
-    value: SelectFieldOption<V>[] | null
-    onChange: (newValue: SelectFieldOption<V>[] | null) => void
-  }
+      isClearable: true
+      isMulti: true
+      value: SelectFieldOption<V>[] | null
+      onChange: (newValue: SelectFieldOption<V>[] | null) => void
+    }
   | {
-    isClearable?: false
-    isMulti: true
-    value: SelectFieldOption<V>[]
-    onChange: (newValue: SelectFieldOption<V>[]) => void
-  }
+      isClearable?: false
+      isMulti: true
+      value: SelectFieldOption<V>[]
+      onChange: (newValue: SelectFieldOption<V>[]) => void
+    }
 
 export type SelectFieldExtraProps<V> = {
   options: SelectFieldOption<V>[]
@@ -166,6 +175,7 @@ export const SelectField = <V,>({
           [styles.disabled]: disabled,
           [styles.hasError]: error,
           [styles.empty]: !value,
+          [styles.multiContainer]: isMulti,
         },
         // Menu container is either this select itself or any other element
         // We can always add this class to the select itself because even if the menu container is any parent it won't break it

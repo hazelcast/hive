@@ -95,13 +95,44 @@ $select: ':global .hz-select-field__control';
   }
 }
 
-// Styles for MultiValue chips - focused state.
-// We inject `.multiValueIsFocused` from js (it does not have an actual :focused state).
-.multiValueIsFocused {
-  @include h.outlineFormField;
-  :global .hz-select-field__multi-value__label {
-    // turn off the bogus shadow of the label
-    box-shadow: none;
+// when .isMulti is true, we have some tweaks overall
+.multiContainer {
+  #{$select} {
+    padding: c.$grid;
+  }
+
+  :global .hz-select-field__indicators {
+    align-items: flex-start;
+    padding-top: c.$grid;
+  }
+
+  .multiValue {
+    background-color: c.$colorNeutralWhite !important;
+    border: c.$borderWidth solid c.$colorNeutralLight;
+    border-radius: c.$borderRadius;
+    margin: c.$grid * 0.5 !important; // margin collapsing is not there in flexbox. we give half margins to multiValues.
+    height: c.$grid * 5.5; // makes 22px; design is 21px.
+  }
+
+  // Styles for MultiValue chips - focused state.
+  // We inject `.multiValueIsFocused` from js (it does not have an actual :focused state).
+  .multiValueIsFocused {
+    @include h.outlineFormField;
+    :global .hz-select-field__multi-value__label {
+      // turn off the bogus shadow of the label
+      box-shadow: none;
+    }
+  }
+
+  .multiValueLabel {
+    @include c.typographyBodySmall;
+
+    color: c.$colorText;
+    padding: 0 c.$grid;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    box-sizing: border-box;
   }
 }
 
