@@ -6,14 +6,14 @@ import { getDatesSequence } from './helpers/time'
 
 import styles from './CalendarTime.module.scss'
 
-export type CalendarTimeProps = {
+/* export type CalendarTimeProps = {
   date: Date
   // TODO: Specify
   onChange: Function
   value: string
-}
+} */
 
-export const CalendarTime: FC<CalendarTimeProps> = ({ date, value, onChange }) => {
+export const CalendarTime: FC<any> = ({ date, value, onChange }) => {
   const datesSequence: string[] = useMemo(() => getDatesSequence(date).map((d) => format(d, 'hh:mm a')), [date])
 
   return (
@@ -21,6 +21,7 @@ export const CalendarTime: FC<CalendarTimeProps> = ({ date, value, onChange }) =
       <div className={styles.header}>{value}</div>
       <div className={styles.datePoints}>
         {datesSequence.map((dP) => (
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           <Button className={styles.datePoint} bodyClassName={styles.datePointBody} key={dP} kind="transparent" onClick={onChange}>
             {dP}
           </Button>

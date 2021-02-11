@@ -2,9 +2,9 @@ import React, { FC, useState, useEffect, useCallback } from 'react'
 import cn from 'classnames'
 import DatePicker, { ReactDatePickerProps } from 'react-datepicker'
 
-import { CalendarInput } from './CalendarInput'
+// import { CalendarInput } from './CalendarInput'
 import { CalendarHeader } from './CalendarHeader'
-import { CalendarTime, CalendarTimeProps } from './CalendarTime'
+import { CalendarTime } from './CalendarTime'
 
 import styles from './Calendar.module.scss'
 
