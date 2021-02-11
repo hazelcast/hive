@@ -1,6 +1,8 @@
 @use '../styles/constants' as c;
 @use '../styles/helpers' as h;
 
-.wrapper {
-  border: 1px solid red;
+.container {
+  .syntaxHighlighter {
+    margin: 0 !important; // reset default `pre` element margins
+  }
 }
