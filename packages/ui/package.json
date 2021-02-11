@@ -22,7 +22,7 @@
     "url": "git+https://github.com/hazelcast/frontend-shared.git"
   },
   "scripts": {
-    "compile": "shx mkdir lib && shx cp -r src/* lib && shx rm -r lib/**/*.{tsx,ts} && tsc -p tsconfig.build.json",
+    "compile": "shx rm -f *.tsbuildinfo && shx rm -rf lib && shx mkdir lib && shx cp -r src/* lib && shx rm -r lib/**/*.{tsx,ts} && tsc -p tsconfig.build.json",
     "test": "jest",
     "test:watch": "jest --watch",
     "start": "npm run storybook",
