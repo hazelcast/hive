@@ -30,7 +30,7 @@ export type DialogProps = {
 } & DialogActionProps &
   Pick<ModalProps, 'isOpen' | 'onClose' | 'parentSelector' | 'portalClassName'>
 
-/*
+/**
  * ### Purpose
  * Occasionally there's a user-story that's not a part of the main user flow. Such action can be contained in a Dialog.
  * Dialogs are used to drive simple actions such as a mere confirmation. In case there is a more complex action (e.g larger form, table etc.) use Modal.

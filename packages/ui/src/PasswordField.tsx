@@ -31,13 +31,14 @@ export type PasswordFieldExtraProps = {
   hideIconLabel?: string
   label: string
   helperText?: string | ReactElement
+  labelClassName?: string
   className?: string
   inputClassName?: string
   errorClassName?: string
   withIcon?: boolean
   visibleRef?: Ref<VisibleRef>
 } & DataTestProp &
-  Pick<InputHTMLAttributes<HTMLInputElement>, 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'>
+  Pick<InputHTMLAttributes<HTMLInputElement>, 'id' | 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'>
 type PasswordFieldProps = PasswordFieldCoreProps & PasswordFieldExtraProps
 
 export type VisibleRef = {
