@@ -17,9 +17,9 @@ describe('Code', () => {
   it('Renders the default Code', async () => {
     const wrapper = await mountAndCheckA11Y(<Code language="jsx">{SAMPLE_CODE}</Code>)
 
-    expect(wrapper.find('input').props()).toMatchObject({
+    expect(wrapper.exists('pre')).toBeTruthy()
+    expect(wrapper.find(Code).props()).toMatchObject({
       language: 'jsx',
-      theme: 'light',
     })
   })
 })
