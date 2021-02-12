@@ -14,6 +14,8 @@ export default {
 
 const name = 'Character'
 const label = 'Character'
+const nameMulti = 'Characters'
+const labelMulti = 'Characters'
 const options: SelectFieldOption<string>[] = [
   { value: 'Darth Vader', label: 'Darth Vader' },
   { value: 'Luke Skywalker', label: 'Luke Skywalker' },
@@ -310,10 +312,10 @@ export const MultipleSelections = () => {
   const [currentValue, setValue] = useState([options[1], options[2]])
   return (
     <SelectField
-      name={name}
+      name={nameMulti}
       value={currentValue}
       isMulti={true}
-      label={label}
+      label={labelMulti}
       options={options}
       onBlur={() => logger.log('blur')}
       onChange={setValue}
@@ -326,10 +328,28 @@ export const MultipleSelectionsMultipleRows = () => {
   return (
     <div style={{ maxWidth: '400px' }}>
       <SelectField
-        name={name}
+        name={nameMulti}
         value={currentValue}
         isMulti={true}
-        label={label}
+        label={labelMulti}
+        options={options}
+        onBlur={() => logger.log('blur')}
+        onChange={setValue}
+      />
+    </div>
+  )
+}
+
+export const MultipleSelectionsClearable = () => {
+  const [currentValue, setValue] = useState<SelectFieldOption[] | null>([...options])
+  return (
+    <div style={{ maxWidth: '400px' }}>
+      <SelectField
+        name={nameMulti}
+        value={currentValue}
+        isMulti={true}
+        isClearable={true}
+        label={labelMulti}
         options={options}
         onBlur={() => logger.log('blur')}
         onChange={setValue}
@@ -344,10 +364,10 @@ export const MultipleSelectionsAndOpen = () => {
   return (
     <div ref={ref} style={{ height: 350 }}>
       <SelectField
-        name="name"
+        name="nameMulti"
         value={currentValue}
         isMulti={true}
-        label="Character"
+        label={labelMulti}
         options={options}
         onBlur={() => logger.log('blur')}
         onChange={setValue}
@@ -355,6 +375,38 @@ export const MultipleSelectionsAndOpen = () => {
         menuPortalTarget={null}
       />
     </div>
+  )
+}
+
+export const EmptySelectFields = () => {
+  const [currentValue, setValue] = useState<SelectFieldOption | null>(null)
+  const [currentValues, setValues] = useState<SelectFieldOption[] | null>([])
+  return (
+    <>
+      <SelectField
+        name={name}
+        value={currentValue}
+        isMulti={false}
+        isClearable
+        label={label}
+        options={options}
+        onBlur={() => logger.log('blur')}
+        onChange={setValue}
+      />
+
+      <br />
+
+      <SelectField
+        name={nameMulti}
+        value={currentValues}
+        isMulti={true}
+        isClearable
+        label={labelMulti}
+        options={options}
+        onBlur={() => logger.log('blur')}
+        onChange={setValues}
+      />
+    </>
   )
 }
 
