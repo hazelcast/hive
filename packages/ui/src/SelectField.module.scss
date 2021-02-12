@@ -126,12 +126,10 @@ $select: ':global .hz-select-field__control';
 
   .multiValueLabel {
     @include c.typographyBodySmall;
+    @include h.overflowEllipsis;
 
     color: c.$colorText;
     padding: 0 c.$grid;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
     box-sizing: border-box;
   }
 }
