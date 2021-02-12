@@ -1,6 +1,6 @@
 module.exports = {
   roots: ['<rootDir>'],
-  transformIgnorePatterns: ['node_modules/(?!@hazelcast)'],
+  transformIgnorePatterns: ['node_modules/(?!@hazelcast|react-syntax-highlighter)'],
   preset: 'ts-jest/presets/js-with-ts',
   testRegex: '^.+\\.(test|spec)\\.tsx?$',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
