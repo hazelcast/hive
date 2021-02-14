@@ -323,6 +323,13 @@ export const MultipleSelections = () => {
   )
 }
 
+MultipleSelections.parameters = {
+  design: {
+    type: 'figma',
+    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=510%3A101',
+  },
+}
+
 export const MultipleSelectionsMultipleRows = () => {
   const [currentValue, setValue] = useState([...options])
   return (
