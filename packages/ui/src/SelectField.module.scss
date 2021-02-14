@@ -97,8 +97,8 @@ $select: ':global .hz-select-field__control';
 
 // when .isMulti is true, we have some tweaks overall
 .multiContainer {
-  #{$select}.hz-select-field__control--has-value {
-    padding: c.$grid; // padding is narrower in .multiContainer (when it has any values selected)
+  :global .hz-select-field__value-container--has-value {
+    margin-left: -c.$grid * 1.5; // padding is narrower in .multiContainer (when it has any values selected)
   }
 
   :global .hz-select-field__indicators {
