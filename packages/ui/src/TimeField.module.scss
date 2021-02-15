@@ -3,11 +3,16 @@
 
 /*
  * TODO:
- * - Disabled state
- * - Hovered state
- * - Active state
+ * [x] Disabled state
+ * [x] Hovered state
+ * [x] Active state
+ * [] Error state
  */
 .container {
+  .errorContainer {
+    margin-top: c.$grid;
+  }
+
   .inputContainer {
     position: relative;
     display: inline-flex;
@@ -36,12 +41,26 @@
       color: c.$colorTextSubdued;
       padding: (c.$grid * 0.5) c.$grid c.$grid;
       cursor: pointer;
+      border-radius: c.$borderRadiusTimeField;
       border: none;
 
       // TODO: Check other browsers
       &::-webkit-calendar-picker-indicator {
         display: none;
         background: none;
+      }
+    }
+
+    input.error {
+      & ~ .borderOverlay {
+        border-color: c.$colorError;
+      }
+    }
+
+    input:hover,
+    input.hover {
+      & ~ .borderOverlay {
+        border-color: c.$colorPrimary;
       }
     }
 
@@ -55,16 +74,15 @@
         @include h.outlineFormField;
       }
     }
-  }
-}
 
-/* &.disabled {
-  .textAreaWrapper {
-    color: c.$colorTextSecondary;
-    background-color: c.$colorNeutral;
+    input.disabled {
+      cursor: not-allowed;
+      color: c.$colorTextSecondary;
+      background-color: c.$colorNeutral;
 
-    .borderOverlay {
-      border-color: c.$colorNeutralLight;
+      & ~ .borderOverlay {
+        border-color: c.$colorNeutralLight;
+      }
     }
   }
-} */
+}
