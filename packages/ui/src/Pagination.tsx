@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useMemo, useRef, useState } from 'react'
-import { useDeepCompareMemo } from 'use-deep-compare'
+import { useDeepCompareMemo } from './hooks/useDeepCompareMemo'
 import { Form, Formik } from 'formik'
 import { ChevronLeft, ChevronRight, Settings, ArrowLeft } from 'react-feather'
 import cn from 'classnames'
