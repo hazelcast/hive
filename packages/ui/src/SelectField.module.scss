@@ -97,6 +97,10 @@ $select: ':global .hz-select-field__control';
 
 // when .isMulti is true, we have some tweaks overall
 .multiContainer {
+  :global .hz-select-field__value-container {
+    padding: c.$grid 0;
+  }
+
   :global .hz-select-field__value-container--has-value {
     margin-left: -1.5 * c.$grid; // padding is narrower in .multiContainer (when it has any values selected)
   }
@@ -110,7 +114,6 @@ $select: ':global .hz-select-field__control';
     background-color: c.$colorNeutralWhite !important;
     border: c.$borderWidth solid c.$colorNeutralLight;
     border-radius: c.$borderRadius;
-    margin: c.$grid * 0.5 !important; // margin collapsing is not there in flexbox. we give half margins to multiValues.
     height: c.$grid * 5.5; // makes 22px; design is 21px.
   }
 
@@ -166,6 +169,7 @@ $select: ':global .hz-select-field__control';
         @include h.outlineSimple;
 
         color: c.$colorText;
+        background-color: c.$colorNeutral;
       }
 
       &:global.hz-select-field__option--is-selected {
