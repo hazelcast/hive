@@ -1,5 +1,5 @@
 import { RefObject, useCallback, useEffect, useState } from 'react'
-import { useEvent } from 'react-use'
+import useEvent from 'react-use/lib/useEvent'
 
 export type Dimensions = {
   width: number
