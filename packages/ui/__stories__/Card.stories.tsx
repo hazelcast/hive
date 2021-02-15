@@ -1,7 +1,7 @@
 import React from 'react'
 import { Database } from 'react-feather'
 
-import { Card } from '../src'
+import { Card, IconButton } from '../src'
 
 import styles from './utils.scss'
 
@@ -13,49 +13,58 @@ export default {
   component: Card,
 }
 
-export const CardSimple = () => <Card title="Card title">{cardContent}</Card>
+export const Simple = () => <Card title="Card title">{cardContent}</Card>
 
-CardSimple.parameters = {
+Simple.parameters = {
   design: {
     type: 'figma',
     url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE-Hazelcast-Design-System?node-id=10093%3A8',
   },
 }
 
-export const CardWithSeparator = () => (
+export const WithSeparator = () => (
   <Card title="Card title" separator>
     {cardContent}
   </Card>
 )
 
-CardWithSeparator.parameters = {
+WithSeparator.parameters = {
   design: {
     type: 'figma',
     url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE-Hazelcast-Design-System?node-id=10093%3A21',
   },
 }
 
-export const CardWithIcon = () => (
-  <Card title="Card title" icon={Database}>
+export const WithIcon = () => (
+  <Card title="Card title" headingIcon={Database}>
     {cardContent}
   </Card>
 )
 
-CardWithIcon.parameters = {
+WithIcon.parameters = {
   design: {
     type: 'figma',
     url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE-Hazelcast-Design-System?node-id=10181%3A15',
   },
 }
 
-export const CardWithIconAndSeparator = () => (
-  <Card title="Card title" icon={Database} separator>
+export const WithIconAndSeparator = () => (
+  <Card title="Card title" headingIcon={Database} separator>
     {cardContent}
   </Card>
 )
 
-export const CardWithSmallText = () => (
+export const WithSmallText = () => (
   <Card title="Card title">
     <div className={styles.typographyBodySmall}>{cardContent}</div>
+  </Card>
+)
+
+export const WithHeadingContent = () => (
+  <Card
+    title="Card title"
+    headingContent={<IconButton kind="primary" ariaLabel="Check out the Database" icon={Database} component="a" href="#" />}
+  >
+    {cardContent}
   </Card>
 )
