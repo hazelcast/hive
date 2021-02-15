@@ -4,7 +4,7 @@ import { ChevronRight, X } from 'react-feather'
 
 import { PartialRequired } from '@hazelcast/helpers'
 
-import { useKey } from 'react-use'
+import useKey from 'react-use/lib/useKey'
 import { escKeyFilterPredicate } from './utils/keyboard'
 import { Link, LinkProps } from './Link'
 import { Button, ButtonAccessibleIconLeftProps } from './Button'
