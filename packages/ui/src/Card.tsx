@@ -1,28 +1,17 @@
-import React, { FC } from 'react'
-import { Icon, IconProps } from './Icon'
-import { IconButton, IconButtonProps } from './IconButton'
+import React, { FC, ReactNode } from 'react'
+import cn from 'classnames'
 import { DataTestProp } from '@hazelcast/helpers'
+
+import { Icon, IconProps } from './Icon'
 
 import styles from './Card.module.scss'
 
-type CardIconButtonLinkProps =
-  | {
-      iconButton: IconButtonProps['icon']
-      iconButtonHref: string
-      ariaLabel: string
-    }
-  | {
-      iconButton?: never
-      iconButtonHref?: never
-      ariaLabel?: never
-    }
-
 export type CardProps = {
+  headingIcon?: IconProps['icon']
   title: string
-  icon?: IconProps['icon']
+  headingContent?: ReactNode
   separator?: boolean
-} & DataTestProp &
-  CardIconButtonLinkProps
+} & DataTestProp
 
 /**
  * ### Purpose
@@ -31,31 +20,15 @@ export type CardProps = {
  * ### General Info
  * - Card can be rendered with an optional separator and/or icon.
  */
-export const Card: FC<CardProps> = ({
-  title,
-  icon,
-  iconButton,
-  iconButtonHref,
-  ariaLabel,
-  separator = false,
-  'data-test': dataTest,
-  children,
-}) => (
+export const Card: FC<CardProps> = ({ headingIcon, title, headingContent, separator = false, 'data-test': dataTest, children }) => (
   <div data-test={dataTest ?? 'card-wrapper'} className={styles.wrapper}>
-    <h3 data-test="card-heading" className={styles.heading}>
-      {icon && <Icon data-test="card-icon" icon={icon} className={styles.icon} ariaHidden />}
-      {title}
-      {iconButton && iconButtonHref && ariaLabel && (
-        <IconButton
-          className={styles.iconButton}
-          kind="primary"
-          component="a"
-          icon={iconButton}
-          href={iconButtonHref}
-          ariaLabel={ariaLabel}
-        />
-      )}
-    </h3>
+    <div data-test="card-heading" className={styles.heading}>
+      {headingIcon && <Icon data-test="card-heading-icon" icon={headingIcon} className={styles.icon} ariaHidden />}
+      <h3 data-test="card-heading-title" className={cn(styles.title, { [styles.space]: !!headingContent })}>
+        {title}
+      </h3>
+      {headingContent}
+    </div>
 
     {separator && <div data-test="card-separator" className={styles.separator} />}
 

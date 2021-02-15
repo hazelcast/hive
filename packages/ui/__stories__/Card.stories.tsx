@@ -1,7 +1,7 @@
 import React from 'react'
-import { Database, FileText } from 'react-feather'
+import { Database } from 'react-feather'
 
-import { Card } from '../src'
+import { Card, IconButton } from '../src'
 
 import styles from './utils.scss'
 
@@ -36,7 +36,7 @@ WithSeparator.parameters = {
 }
 
 export const WithIcon = () => (
-  <Card title="Card title" icon={Database}>
+  <Card title="Card title" headingIcon={Database}>
     {cardContent}
   </Card>
 )
@@ -49,7 +49,7 @@ WithIcon.parameters = {
 }
 
 export const WithIconAndSeparator = () => (
-  <Card title="Card title" icon={Database} separator>
+  <Card title="Card title" headingIcon={Database} separator>
     {cardContent}
   </Card>
 )
@@ -60,8 +60,11 @@ export const WithSmallText = () => (
   </Card>
 )
 
-export const WithIconButton = () => (
-  <Card title="Card title" iconButton={FileText} iconButtonHref="#" ariaLabel="See Documentation">
+export const WithHeadingContent = () => (
+  <Card
+    title="Card title"
+    headingContent={<IconButton kind="primary" ariaLabel="Check out the Database" icon={Database} component="a" href="#" />}
+  >
     {cardContent}
   </Card>
 )
