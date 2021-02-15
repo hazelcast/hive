@@ -33,7 +33,7 @@ export const CalendarTime: FC<any> = ({ date, value, onChange }) => {
 
   return (
     <div className={styles.container}>
-      <input className={styles.header} type="time" onChange={onChangeHandler} value={value} />
+      <input type="time" className={styles.input} onChange={onChangeHandler} value={value} />
       <div className={styles.datePoints}>
         {datesSequence.map((dP) => (
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
