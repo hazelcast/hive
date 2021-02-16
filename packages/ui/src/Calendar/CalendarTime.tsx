@@ -1,8 +1,8 @@
 import React, { FC, MouseEvent, useCallback, useMemo } from 'react'
-import { format, isValid, parse } from 'date-fns'
+import { format, parse } from 'date-fns'
 
 import { Button } from '../Button'
-import { getDatesSequence } from './helpers/time'
+import { getDatesSequence, getSafeTimeString } from './helpers/time'
 import { TimeField } from '../TimeField'
 
 import styles from './CalendarTime.module.scss'
@@ -17,21 +17,12 @@ import styles from './CalendarTime.module.scss'
 const DATE_FORMAT = 'hh:mm a'
 const DATE_FORMAT_NO_MERIDIEM = 'hh:mm'
 
-const addZero = (i: number) => (i < 10 ? `0${i}` : `${i}`)
-
-const getSafeDate = (timeString: string, dateFallback: Date) => {
-  const timeValid = isValid(dateFallback) && Boolean(dateFallback)
-  const timeStringFallback = timeValid ? `${addZero(dateFallback.getHours())}:${addZero(dateFallback.getMinutes())}` : ''
-
-  return timeString || timeStringFallback
-}
-
 export const CalendarTime: FC<any> = ({ date, value, onChange }) => {
   const datesSequence: string[] = useMemo(() => getDatesSequence(date).map((d) => format(d, DATE_FORMAT)), [date])
 
   const handleTimeInputChange = useCallback(
     (e: MouseEvent<HTMLInputElement>) => {
-      onChange(getSafeDate(e.currentTarget.value, date))
+      onChange(getSafeTimeString(e.currentTarget.value, date))
     },
     [onChange, date],
   )
@@ -40,7 +31,7 @@ export const CalendarTime: FC<any> = ({ date, value, onChange }) => {
     (dp) => () => {
       const parsedDate = parse(dp, DATE_FORMAT, date)
       const timeStringWithoutAm = format(parsedDate, DATE_FORMAT_NO_MERIDIEM)
-      onChange(getSafeDate(timeStringWithoutAm, parsedDate))
+      onChange(getSafeTimeString(timeStringWithoutAm, parsedDate))
     },
     [onChange, date],
   )
