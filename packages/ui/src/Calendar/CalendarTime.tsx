@@ -1,5 +1,5 @@
-import React, { FC, useCallback, useMemo } from 'react'
-import { format, isValid } from 'date-fns'
+import React, { FC, MouseEvent, useCallback, useMemo } from 'react'
+import { format, isValid, parse } from 'date-fns'
 
 import { Button } from '../Button'
 import { getDatesSequence } from './helpers/time'
@@ -14,34 +14,41 @@ import styles from './CalendarTime.module.scss'
   value: string
 } */
 
+const DATE_FORMAT = 'hh:mm a'
+const DATE_FORMAT_NO_MERIDIEM = 'hh:mm'
+
 const addZero = (i: number) => (i < 10 ? `0${i}` : `${i}`)
 
+const getSafeDate = (timeString: string, dateFallback: Date) => {
+  const timeValid = isValid(dateFallback) && Boolean(dateFallback)
+  const timeStringFallback = timeValid ? `${addZero(dateFallback.getHours())}:${addZero(dateFallback.getMinutes())}` : ''
+
+  return timeString || timeStringFallback
+}
+
 export const CalendarTime: FC<any> = ({ date, value, onChange }) => {
-  const datesSequence: string[] = useMemo(() => getDatesSequence(date).map((d) => format(d, 'hh:mm a')), [date])
+  const datesSequence: string[] = useMemo(() => getDatesSequence(date).map((d) => format(d, DATE_FORMAT)), [date])
 
-  const onChangeHandler = useCallback(
-    (e) => {
-      const d = date as Date
-
-      const timeValid = isValid(d) && Boolean(d)
-      const timeString = timeValid ? `${addZero(d.getHours())}:${addZero(d.getMinutes())}` : ''
-
-      onChange(e.target.value || timeString)
+  const handleTimeInputChange = useCallback(
+    (e: MouseEvent<HTMLInputElement>) => {
+      onChange(getSafeDate(e.currentTarget.value, date))
     },
-    [onChange],
+    [onChange, date],
   )
 
-  const onDateClickHandler = useCallback(
+  const handleDateClick = useCallback(
     (dp) => () => {
-      console.log(dp)
+      const parsedDate = parse(dp, DATE_FORMAT, date)
+      const timeStringWithoutAm = format(parsedDate, DATE_FORMAT_NO_MERIDIEM)
+      onChange(getSafeDate(timeStringWithoutAm, parsedDate))
     },
-    [],
+    [onChange, date],
   )
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <TimeField className={styles.input} name="time" value={value as string} onChange={onChangeHandler} />
+        <TimeField className={styles.input} name="time" value={value as string} onChange={handleTimeInputChange} />
       </div>
       <div className={styles.datePoints}>
         {datesSequence.map((dP) => (
@@ -51,7 +58,7 @@ export const CalendarTime: FC<any> = ({ date, value, onChange }) => {
             bodyClassName={styles.datePointBody}
             key={dP}
             kind="transparent"
-            onClick={onDateClickHandler(dP)}
+            onClick={handleDateClick(dP)}
           >
             {dP}
           </Button>
