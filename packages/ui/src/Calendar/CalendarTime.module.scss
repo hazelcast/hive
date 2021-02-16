@@ -1,6 +1,9 @@
 @use '../../styles/constants' as c;
 @use '../../styles/helpers' as h;
 
+$calendarHeaderHeight: 26px;
+$calendarHeaderMarginBottom: 1px;
+
 $calendarHeight: 277px;
 $calendarPadding: 24px;
 $headerHeight: 34px;
@@ -10,14 +13,20 @@ $headerHeight: 34px;
 $outlinePreservingPadding: c.$grid * 1.25;
 
 .container {
-  .input {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  /*
+   * Match height of: react-datepicker__header.
+   */
+  .header {
     display: flex;
     justify-content: center;
     align-items: center;
-    // Note: Header height
-    height: 26px;
-    // Note: Header margin bottom
-    margin-bottom: 8px;
+    height: $calendarHeaderHeight;
+    margin-bottom: $calendarHeaderMarginBottom;
   }
 
   .datePoints {
@@ -26,7 +35,8 @@ $outlinePreservingPadding: c.$grid * 1.25;
     // TODO: Refactor
     height: calc(#{$calendarHeight} - #{$headerHeight} - #{$calendarPadding});
     overflow-y: scroll;
-    padding: 0 $outlinePreservingPadding;
+    padding: $outlinePreservingPadding;
+    //margin-top: c.$grid;
 
     > .datePoint {
       color: c.$colorTextSubdued;

@@ -18,7 +18,7 @@ type CalendarInputProps = {
   className?: string
   timestamp: number | undefined
   onTimestampChange: (timestamp?: number) => void
-} & Omit<ReactDatePickerProps, 'onChange'>
+} & Omit<ReactDatePickerProps, 'value', 'onChange'>
 
 export const Calendar: FC<CalendarInputProps> = ({
   calendarClassName,
@@ -28,9 +28,10 @@ export const Calendar: FC<CalendarInputProps> = ({
   onTimestampChange,
   ...props
 }) => {
-  const [internalValue, setInternalValue] = useState(timestamp ? new Date(timestamp) : undefined)
+  /* const [internalValue, setInternalValue] = useState(timestamp ? new Date(timestamp) : undefined)
 
   useEffect(() => {
+    console.log('here')
     setInternalValue(timestamp ? new Date(timestamp) : undefined)
   }, [timestamp])
 
@@ -39,7 +40,7 @@ export const Calendar: FC<CalendarInputProps> = ({
       onTimestampChange(date.valueOf())
     },
     [onTimestampChange],
-  )
+  ) */
 
   return (
     <div className={cn(styles.container, containerClassName)}>
@@ -59,11 +60,14 @@ export const Calendar: FC<CalendarInputProps> = ({
         // customInput={(props: CalendarInputProps) => <CalendarInput {...props} />}
         customTimeInput={<CalendarTime />}
         dateFormat="yyyy-MM-dd HH:mm"
-        onChange={onChange}
+        onChange={onTimestampChange}
         popperContainer={CalendarPopperContainer}
         renderCustomHeader={CalendarHeader}
-        selected={internalValue}
+        selected={timestamp}
         showPopperArrow={false}
+        //showTimeInput
+        //showTimeSelect
+        //timeIntervals={5}
       />
     </div>
   )

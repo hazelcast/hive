@@ -1,8 +1,9 @@
 import React, { FC, useCallback, useMemo } from 'react'
-import { format } from 'date-fns'
+import { format, isValid } from 'date-fns'
 
 import { Button } from '../Button'
 import { getDatesSequence } from './helpers/time'
+import { TimeField } from '../TimeField'
 
 import styles from './CalendarTime.module.scss'
 
@@ -13,13 +14,19 @@ import styles from './CalendarTime.module.scss'
   value: string
 } */
 
+const addZero = (i: number) => (i < 10 ? `0${i}` : `${i}`)
+
 export const CalendarTime: FC<any> = ({ date, value, onChange }) => {
   const datesSequence: string[] = useMemo(() => getDatesSequence(date).map((d) => format(d, 'hh:mm a')), [date])
 
   const onChangeHandler = useCallback(
     (e) => {
-      console.log(e.target.value)
-      onChange(e.target.value)
+      const d = date as Date
+
+      const timeValid = isValid(d) && Boolean(d)
+      const timeString = timeValid ? `${addZero(d.getHours())}:${addZero(d.getMinutes())}` : ''
+
+      onChange(e.target.value || timeString)
     },
     [onChange],
   )
@@ -33,7 +40,9 @@ export const CalendarTime: FC<any> = ({ date, value, onChange }) => {
 
   return (
     <div className={styles.container}>
-      <input type="time" className={styles.input} onChange={onChangeHandler} value={value} />
+      <div className={styles.header}>
+        <TimeField className={styles.input} name="time" value={value as string} onChange={onChangeHandler} />
+      </div>
       <div className={styles.datePoints}>
         {datesSequence.map((dP) => (
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

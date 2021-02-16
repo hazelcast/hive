@@ -1,21 +1,18 @@
 @use '../styles/constants' as c;
 @use '../styles/helpers' as h;
 
-/*
- * TODO:
- * [x] Disabled state
- * [x] Hovered state
- * [x] Active state
- * [] Error state
- */
 .container {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
   .errorContainer {
     margin-top: c.$grid;
   }
 
   .inputContainer {
     position: relative;
-    display: inline-flex;
+    display: flex;
 
     .borderOverlay {
       position: absolute;

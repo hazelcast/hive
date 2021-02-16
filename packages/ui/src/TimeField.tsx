@@ -1,4 +1,4 @@
-import React, { FocusEvent, ChangeEvent, FC, useCallback, useState } from 'react'
+import React, { FocusEvent, ChangeEvent, FC } from 'react'
 import cn from 'classnames'
 import { useUID } from 'react-uid'
 
@@ -16,51 +16,53 @@ export type TimeFieldCoreProps = {
 }
 
 export type TimeFieldExtraProps = {
-  label: string
-  labelClassName?: string
+  // label: string
+  // labelClassName?: string
   inputClassName?: string
   errorClassName?: string
   seconds?: boolean
-} & Partial<Pick<HTMLInputElement, 'className' | 'disabled' | 'placeholder' | 'required'>>
+} & Partial<Pick<HTMLInputElement, 'className' | 'disabled' | 'required'>>
 
 export type TypeFieldProps = TimeFieldCoreProps & TimeFieldExtraProps & DataTestProp
 
+/*
+ * [] Label
+ */
 export const TimeField: FC<TypeFieldProps> = ({
   'data-test': dataTest,
   className,
   disabled,
   error,
   errorClassName,
-  seconds = false,
   inputClassName,
+  label,
+  labelClassName,
+  name,
+  onBlur,
   onChange,
+  required,
+  seconds = false,
+  value,
   ...props
 }) => {
   const id = useUID()
-
-  const [value, setValue] = useState<string | undefined>()
-
-  const onChangeWrapper = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      setValue(e.target.value)
-      onChange(e)
-    },
-    [onChange, setValue],
-  )
 
   return (
     <div data-test={dataTest} className={cn(styles.container, className)}>
       <div className={styles.inputContainer}>
         <input
           id={id}
+          name={name}
+          onBlur={onBlur}
           className={cn(styles.input, inputClassName, {
             [styles.disabled]: disabled,
             [styles.error]: error,
           })}
           type="time"
           step={seconds ? '1' : undefined}
-          onChange={onChangeWrapper}
+          onChange={onChange}
           value={value}
+          required={required}
           {...props}
         />
         <div className={styles.borderOverlay} />

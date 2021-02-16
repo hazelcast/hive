@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import { Calendar } from '../src/Calendar/Calendar'
 
 import utilsStyles from './utils.scss'
@@ -31,8 +31,18 @@ export const Disabled = () => (
   </div>
 )
 
-export const WithTime = () => (
-  <div className={utilsStyles.modalWrapper}>
-    <Calendar timestamp={timestamp} onTimestampChange={onTimestampChange} showTimeInput />
-  </div>
-)
+export const WithTime = () => {
+  const [time, setTime] = useState<Date>(new Date())
+
+  const onTimeChange = useCallback((date: Date) => {
+    console.log(date)
+
+    setTime(date)
+  }, [])
+
+  return (
+    <div className={utilsStyles.modalWrapper}>
+      <Calendar timestamp={time} onTimestampChange={onTimeChange} showTimeInput />
+    </div>
+  )
+}

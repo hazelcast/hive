@@ -131,6 +131,10 @@ $inputHeight: 277px;
 
       :global .react-datepicker-time__input {
         margin: 0;
+
+        input {
+          width: auto;
+        }
       }
     }
   }
