@@ -72,7 +72,11 @@ const MultiValueRemove = (props: any) => {
     event.stopPropagation()
   }
 
-  return <IconButton icon={X} ariaHidden kind="primary" size="small" tabIndex={-1} onClick={onClick} onMouseDown={handleMouseDown} />
+  return (
+    <div className={cn(styles.multiValueRemove)} onClick={onClick}>
+      <Icon icon={X} size="small" ariaHidden />
+    </div>
+  )
 }
 
 export type SelectFieldOption<V = string> = {

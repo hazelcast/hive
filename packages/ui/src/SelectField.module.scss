@@ -115,6 +115,9 @@ $select: ':global .hz-select-field__control';
     border: c.$borderWidth solid c.$colorNeutralLight;
     border-radius: c.$borderRadius;
     height: c.$grid * 5.5; // makes 22px; design is 21px.
+    box-sizing: border-box;
+    overflow: hidden;
+    // box-shadow: 0 0 0 1px c.$colorNeutralLight; // XXX THIS WORKS!!! but too much of a hack
   }
 
   // Styles for MultiValue chips - focused state.
@@ -133,7 +136,34 @@ $select: ':global .hz-select-field__control';
 
     color: c.$colorText;
     padding: 0 c.$grid;
-    box-sizing: border-box;
+  }
+
+  .multiValueRemove {
+    display: flex;
+    align-items: center;
+    color: c.$colorPrimary;
+    background-color: red;
+
+    &:hover {
+      background-color: c.$colorNeutral;
+      border-color: c.$colorNeutralLight;
+    }
+  }
+}
+
+.btnOverride {
+  // background-color: red !important;
+  // margin-top: 1px;
+  display: block;
+  height: 20px;
+  border-top-right-radius: c.$borderRadius;
+  border-bottom-right-radius: c.$borderRadius;
+  &:hover,
+  &.hover {
+    // background-color: c.$colorNeutralLighter;
+    // border-color: c.$colorNeutralLight;
+    // background-color: red !important;
+    border-color: c.$colorNeutralLight;
   }
 }
 
