@@ -8,8 +8,10 @@ import { TimeField } from '../TimeField'
 
 import styles from './CalendarTime.module.scss'
 
+// Note: AM/PM 1-12 hours time
 const DATE_FORMAT = 'hh:mm a'
-const DATE_FORMAT_NO_MERIDIEM = 'hh:mm'
+// Note: 0-23 hours time
+const DATE_FORMAT_NO_MERIDIEM = 'H:mm'
 
 export const CalendarTime: FC<any> = ({ date, value, onChange }) => {
   const handleTimeInputChange = useCallback(
@@ -21,7 +23,9 @@ export const CalendarTime: FC<any> = ({ date, value, onChange }) => {
 
   const handleDateClick = useCallback(
     (dp) => () => {
+      // Note: Input time (derived from timePoints) is in 'DATE_FORMAT'
       const parsedDate = parse(dp, DATE_FORMAT, date)
+      // Note: Output time, that we feed back to 'react-datetime' is in 'DATE_FORMAT_NO_MERIDIEM' format
       const timeStringWithoutAm = format(parsedDate, DATE_FORMAT_NO_MERIDIEM)
       onChange(getSafeTimeString(timeStringWithoutAm, parsedDate))
     },
