@@ -1,5 +1,5 @@
 // https://zeroheight.com/11d0e6dac/p/316944-text-field
-import React, { ChangeEvent, ReactElement, InputHTMLAttributes, FocusEvent, Ref } from 'react'
+import React, { ChangeEvent, ReactElement, InputHTMLAttributes, FocusEvent } from 'react'
 import cn from 'classnames'
 import { DataTestProp } from '@hazelcast/helpers'
 import { Icon as IconType } from 'react-feather'

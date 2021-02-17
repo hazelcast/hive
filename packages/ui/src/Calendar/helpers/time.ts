@@ -14,8 +14,6 @@ export const getSafeTimeString = (timeString: string | undefined, dateFallback: 
     return timeString
   }
 
-  console.log('oops,', timeString)
-
   const timeValid = isValid(dateFallback) && Boolean(dateFallback)
   const timeStringFallback = timeValid
     ? `${ensureZeroPrefix(dateFallback.getUTCHours())}:${ensureZeroPrefix(dateFallback.getUTCMinutes())}`

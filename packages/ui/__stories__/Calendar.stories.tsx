@@ -24,7 +24,7 @@ export const Default = () => {
   )
 
   return (
-    <div className={utilsStyles.modalWrapper}>
+    <div className={utilsStyles.calendarWrapper}>
       <Calendar date={date} onDateChange={onDateChange} inputLabel={inputLabel} />
     </div>
   )
@@ -37,8 +37,14 @@ Default.parameters = {
   },
 }
 
+export const Open = () => (
+  <div className={utilsStyles.calendarWrapper}>
+    <Calendar date={new Date(timestamp)} onDateChange={onDateChange} inputLabel={inputLabel} open />
+  </div>
+)
+
 export const Disabled = () => (
-  <div className={utilsStyles.modalWrapper}>
+  <div className={utilsStyles.calendarWrapper}>
     <Calendar disabled date={new Date(timestamp)} onDateChange={onDateChange} inputLabel={inputLabel} />
   </div>
 )
@@ -54,7 +60,7 @@ export const WithTime = () => {
   )
 
   return (
-    <div className={utilsStyles.modalWrapper}>
+    <div className={utilsStyles.calendarWrapper}>
       <Calendar date={date} onDateChange={onDateChange} inputLabel={inputLabel} showTimeInput />
     </div>
   )

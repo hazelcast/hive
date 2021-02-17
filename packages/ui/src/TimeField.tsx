@@ -16,8 +16,6 @@ export type TimeFieldCoreProps = {
 }
 
 export type TimeFieldExtraProps = {
-  // label: string
-  // labelClassName?: string
   inputClassName?: string
   errorClassName?: string
   seconds?: boolean
@@ -25,9 +23,6 @@ export type TimeFieldExtraProps = {
 
 export type TypeFieldProps = TimeFieldCoreProps & TimeFieldExtraProps & DataTestProp
 
-/*
- * [] Label
- */
 export const TimeField: FC<TypeFieldProps> = ({
   'data-test': dataTest,
   className,
@@ -35,8 +30,6 @@ export const TimeField: FC<TypeFieldProps> = ({
   error,
   errorClassName,
   inputClassName,
-  label,
-  labelClassName,
   name,
   onBlur,
   onChange,

@@ -11,7 +11,7 @@ import styles from './CalendarTime.module.scss'
 // Note: AM/PM 1-12 hours time
 const DATE_FORMAT = 'hh:mm a'
 // Note: 0-23 hours time
-const DATE_FORMAT_NO_MERIDIEM = 'H:mm'
+const DATE_FORMAT_NO_MERIDIEM = 'HH:mm'
 
 export type CalendarTimeInternalProps = {
   date: Date
@@ -22,7 +22,7 @@ export type CalendarTimeInternalProps = {
 export const CalendarTimeInternal: FC<CalendarTimeInternalProps> = ({ date, value, onChange }) => {
   const handleTimeInputChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      onChange(getSafeTimeString(e.currentTarget.value, date))
+      onChange(getSafeTimeString(e.target.value, date))
     },
     [onChange, date],
   )
@@ -39,11 +39,11 @@ export const CalendarTimeInternal: FC<CalendarTimeInternalProps> = ({ date, valu
   )
 
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <TimeField className={styles.input} name="time" value={value} onChange={handleTimeInputChange} />
+    <div data-test="calendar-time" className={styles.container}>
+      <div data-test="calendar-time-header" className={styles.header}>
+        <TimeField aria-label="Time Input" className={styles.input} name="time" value={value} onChange={handleTimeInputChange} />
       </div>
-      <div className={styles.timePoints}>
+      <div data-test="calendar-time-timePoints" className={styles.timePoints}>
         {timePoints.map((tP) => (
           <Button
             className={styles.timePoint}

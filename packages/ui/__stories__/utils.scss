@@ -32,3 +32,8 @@
 .toggles > *:not(:last-child) {
   margin-bottom: c.$grid * 3;
 }
+
+.calendarWrapper {
+  width: 100%;
+  height: 400px;
+}
