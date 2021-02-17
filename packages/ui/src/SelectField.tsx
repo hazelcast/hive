@@ -61,11 +61,13 @@ const MultiValueLabel = (props: any) => {
 // refactor: newer react-select packages have better typings for this.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const MultiValueRemove = (props: any) => {
-  // We have to pass down the onClick and onMouseDown handler to our IconButton
-  // otherwise a click is a noop.
-
+  // We have to pass down the onClick
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,  @typescript-eslint/no-unsafe-assignment
   const onClick: React.MouseEventHandler = props.innerProps.onClick
+
+  const handleClick = (event: React.MouseEvent) => {
+    onClick && onClick(event)
+  }
 
   const handleMouseDown = (event: React.MouseEvent) => {
     event.preventDefault()
@@ -73,7 +75,7 @@ const MultiValueRemove = (props: any) => {
   }
 
   return (
-    <div className={cn(styles.multiValueRemove)} onClick={onClick}>
+    <div className={cn(styles.multiValueRemove)} onClick={handleClick} onMouseDown={handleMouseDown}>
       <Icon icon={X} size="small" ariaHidden />
     </div>
   )
