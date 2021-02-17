@@ -65,17 +65,14 @@ const MultiValueRemove = (props: any) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,  @typescript-eslint/no-unsafe-assignment
   const onClick: React.MouseEventHandler = props.innerProps.onClick
 
-  const handleClick = (event: React.MouseEvent) => {
-    onClick && onClick(event)
-  }
-
   const handleMouseDown = (event: React.MouseEvent) => {
     event.preventDefault()
     event.stopPropagation()
+    event.button === 0 && onClick && onClick(event)
   }
 
   return (
-    <div className={cn(styles.multiValueRemove)} onClick={handleClick} onMouseDown={handleMouseDown}>
+    <div className={cn(styles.multiValueRemove)} onMouseDown={handleMouseDown} role="button" tabIndex={-1}>
       <Icon icon={X} size="small" ariaHidden />
     </div>
   )
