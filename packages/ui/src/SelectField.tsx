@@ -72,7 +72,7 @@ const MultiValueRemove = (props: any) => {
   }
 
   return (
-    <div className={cn(styles.multiValueRemove)} onMouseDown={handleMouseDown} role="button" tabIndex={-1}>
+    <div className={cn(styles.multiValueRemove)} onMouseDown={handleMouseDown} role="button" tabIndex={-1} aria-label="Remove">
       <Icon icon={X} size="small" ariaHidden />
     </div>
   )
