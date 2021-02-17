@@ -20,7 +20,7 @@ type ExtractFnArgumentType<T> = T extends (arg: infer U) => any ? U : never
  *
  * There is no significant benefit other than readability.
  */
-type CalendarHeaderProps = ExtractFnArgumentType<ReactDatePickerProps['renderCustomHeader']>
+export type CalendarHeaderProps = ExtractFnArgumentType<ReactDatePickerProps['renderCustomHeader']>
 
 export const CalendarHeader: FC<CalendarHeaderProps> = ({ date, decreaseMonth, increaseMonth }) => {
   return (

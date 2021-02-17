@@ -29,7 +29,9 @@ export type CalendarProps = {
  * [x] - Complete stories set for CalendarRange (at least add open)
  * [] - Complete tests set for Calendar
  * [] - Complete tests set for CalendarRange
- * [] - Revisit tests for the rest of the components
+ * [] - Complete tests set for CalendarHeader
+ * [] - Complete tests set for CalendarInput
+ * [x] - Complete tests set for CalendarTime
  * [] - Revisit TimeField component and check code status
  * [] - Revisit TimeField component and check stories
  * [] - Revisit TimeField component and check tests status
