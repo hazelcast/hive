@@ -1,13 +1,12 @@
 @use '../../styles/constants' as c;
 @use '../../styles/helpers' as h;
 
-// TODO: Extract
 $inputWidth: 300px;
 $inputHeight: 277px;
 
 /*
  * Internal styles override for those that cannot be
- * overriden using classNames composition
+ * overridden using classNames composition
  */
 :global .react-datepicker-wrapper {
   width: 100%;
@@ -60,14 +59,6 @@ $inputHeight: 277px;
        * the child of thin element, which does not allow us to touch the styles properly
        *
        * Source styles: https://github.com/Hacker0x01/react-datepicker/blob/master/src/stylesheets/datepicker.scss#L395
-       * TODO:
-       * Figure out what these do and regulate them
-       *
-       * --highlighted
-       * --in-selecting-range
-       * --in-range
-       * --in-selecting-range:not(&--in-range)
-       * --in-range:not(&--in-selecting-range)
        */
       :global .react-datepicker__day {
         border-radius: c.$grid;
@@ -86,8 +77,15 @@ $inputHeight: 277px;
           @include c.typographyBodySmall('bold');
         }
 
+        &--in-selecting-range,
+        &--in-range {
+          // TODO: Improvised colour, consult with @Pawel
+          background-color: c.$colorInfoLight;
+          color: c.$colorNeutralWhite;
+        }
+
         &--selected {
-          background-color: c.$colorPrimary;
+          background-color: c.$colorPrimaryLight;
           color: c.$colorNeutralWhite;
           // Note: Disable default browser outline, force our only on :focus
           outline: none;

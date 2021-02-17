@@ -11,12 +11,13 @@ import styleConsts from '../styles/constants/export.module.scss'
 const timestamp = 1612774800000
 // TODO: Check potential failures in different timezones
 const date = new Date(timestamp)
+const inputLabel = 'Calendar Input'
 
 describe('Calendar', () => {
   it('Renders basic collapsed input', async () => {
     const onDateChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(<Calendar date={date} onDateChange={onDateChange} />)
+    const wrapper = await mountAndCheckA11Y(<Calendar date={date} onDateChange={onDateChange} inputLabel={inputLabel} />)
 
     // ReactDatePicker
     expect(wrapper.find(ReactDatePicker).props()).toMatchObject({
@@ -47,7 +48,7 @@ describe('Calendar', () => {
   it('Renders basic disabled input', async () => {
     const onDateChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(<Calendar disabled date={date} onDateChange={onDateChange} />)
+    const wrapper = await mountAndCheckA11Y(<Calendar disabled date={date} onDateChange={onDateChange} inputLabel={inputLabel} />)
 
     // ReactDatePicker
     expect(wrapper.find(ReactDatePicker).props()).toMatchObject({
@@ -86,7 +87,7 @@ describe('Calendar', () => {
   it('Renders basic expanded input', async () => {
     const onDateChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(<Calendar date={date} onDateChange={onDateChange} />)
+    const wrapper = await mountAndCheckA11Y(<Calendar date={date} onDateChange={onDateChange} inputLabel={inputLabel} />)
 
     // ReactDatePicker
     expect(wrapper.find(ReactDatePicker).props()).toMatchObject({

@@ -1,5 +1,5 @@
 // https://zeroheight.com/11d0e6dac/p/316944-text-field
-import React, { ChangeEvent, ReactElement, InputHTMLAttributes, FocusEvent } from 'react'
+import React, { ChangeEvent, ReactElement, InputHTMLAttributes, FocusEvent, Ref } from 'react'
 import cn from 'classnames'
 import { DataTestProp } from '@hazelcast/helpers'
 import { Icon as IconType } from 'react-feather'
@@ -16,13 +16,11 @@ type TextFieldTrailingIcon =
   | {
       inputTrailingIcon: IconType
       inputTrailingIconLabel: string
-      inputTrailingIconColor?: string
       inputTrailingIconClassName?: string
     }
   | {
       inputTrailingIcon?: never
       inputTrailingIconLabel?: never
-      inputTrailingIconColor?: never
       inputTrailingIconClassName?: never
     }
 
@@ -70,29 +68,28 @@ type TextFieldProps<T extends TextFieldTypes> = TextFieldCoreProps<T> & TextFiel
  * Use a text input when the expected user input is a single line of text.
  */
 export const TextField = <T extends TextFieldTypes>({
-  id: explicitId,
-  name,
-  value,
-  label,
-  onBlur,
-  onChange,
-  required,
-  helperText,
-  error,
   'data-test': dataTest,
-  type,
   className,
-  labelClassName,
-  inputContainerClassName,
-  inputClassName,
-  errorClassName,
   disabled,
-  placeholder,
+  error,
+  errorClassName,
+  helperText,
+  id: explicitId,
+  inputClassName,
   inputContainerChild,
+  inputContainerClassName,
   inputIcon,
   inputTrailingIcon,
   inputTrailingIconLabel,
-  inputTrailingIconColor,
+  label,
+  labelClassName,
+  name,
+  onBlur,
+  onChange,
+  placeholder,
+  required,
+  type,
+  value,
   ...htmlAttrs
 }: TextFieldProps<T>) => {
   // Use an auto generated id if it's not set explicitly

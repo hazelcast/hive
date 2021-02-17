@@ -1,10 +1,10 @@
 import React, { ChangeEvent, FC, useCallback } from 'react'
 import { format, parse } from 'date-fns'
 
-import { Button } from '../Button'
-import { timePoints } from './helpers/consts'
-import { getSafeTimeString } from './helpers/time'
-import { TimeField } from '../TimeField'
+import { Button } from '../../Button'
+import { timePoints } from '../helpers/consts'
+import { getSafeTimeString } from '../helpers/time'
+import { TimeField } from '../../TimeField'
 
 import styles from './CalendarTime.module.scss'
 
@@ -13,7 +13,13 @@ const DATE_FORMAT = 'hh:mm a'
 // Note: 0-23 hours time
 const DATE_FORMAT_NO_MERIDIEM = 'H:mm'
 
-export const CalendarTime: FC<any> = ({ date, value, onChange }) => {
+export type CalendarTimeInternalProps = {
+  date: Date
+  onChange: (timeString: string) => void
+  value: string
+}
+
+export const CalendarTimeInternal: FC<CalendarTimeInternalProps> = ({ date, value, onChange }) => {
   const handleTimeInputChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       onChange(getSafeTimeString(e.currentTarget.value, date))
@@ -35,7 +41,7 @@ export const CalendarTime: FC<any> = ({ date, value, onChange }) => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <TimeField className={styles.input} name="time" value={value as string} onChange={handleTimeInputChange} />
+        <TimeField className={styles.input} name="time" value={value} onChange={handleTimeInputChange} />
       </div>
       <div className={styles.timePoints}>
         {timePoints.map((tP) => (
@@ -52,4 +58,19 @@ export const CalendarTime: FC<any> = ({ date, value, onChange }) => {
       </div>
     </div>
   )
+}
+
+/*
+ * Note:
+ * The types are not available, the element is internally instantiated via React.cloneElement
+ * We need to accept the props as unknown and cast them in place
+ * Otherwise "Calendar.customTimeInput" would require us to pass them explicitly
+ */
+export type CalendarTimeProps = unknown
+
+export const CalendarTime: FC<CalendarTimeProps> = (props) => {
+  // Note: Cast the "unknown" props to the actual type
+  const propsTyped = props as CalendarTimeInternalProps
+
+  return <CalendarTimeInternal {...propsTyped} />
 }

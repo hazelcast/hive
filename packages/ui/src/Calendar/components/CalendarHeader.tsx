@@ -3,10 +3,10 @@ import { ReactDatePickerProps } from 'react-datepicker'
 import { ChevronLeft, ChevronRight } from 'react-feather'
 import { format } from 'date-fns'
 
-import { IconButton } from '../IconButton'
+import { IconButton } from '../../IconButton'
 
-import styles from './Calendar.module.scss'
-import styleConsts from '../../styles/constants/export.module.scss'
+import styles from '../Calendar.module.scss'
+import styleConsts from '../../../styles/constants/export.module.scss'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ExtractFnArgumentType<T> = T extends (arg: infer U) => any ? U : never
@@ -18,7 +18,7 @@ type ExtractFnArgumentType<T> = T extends (arg: infer U) => any ? U : never
  * This way we can pick the argument type from the render function and convert the property
  * to use a regular component, rather than a render-prop.
  *
- * There is no significant benefit other than readability and potentially couple of saved renders.
+ * There is no significant benefit other than readability.
  */
 type CalendarHeaderProps = ExtractFnArgumentType<ReactDatePickerProps['renderCustomHeader']>
 
