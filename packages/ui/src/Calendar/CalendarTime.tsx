@@ -1,27 +1,19 @@
-import React, { FC, MouseEvent, useCallback, useMemo } from 'react'
+import React, { ChangeEvent, FC, useCallback } from 'react'
 import { format, parse } from 'date-fns'
 
 import { Button } from '../Button'
-import { getDatesSequence, getSafeTimeString } from './helpers/time'
+import { timePoints } from './helpers/consts'
+import { getSafeTimeString } from './helpers/time'
 import { TimeField } from '../TimeField'
 
 import styles from './CalendarTime.module.scss'
-
-/* export type CalendarTimeProps = {
-  date: Date
-  // TODO: Specify
-  onChange: Function
-  value: string
-} */
 
 const DATE_FORMAT = 'hh:mm a'
 const DATE_FORMAT_NO_MERIDIEM = 'hh:mm'
 
 export const CalendarTime: FC<any> = ({ date, value, onChange }) => {
-  const datesSequence: string[] = useMemo(() => getDatesSequence(date).map((d) => format(d, DATE_FORMAT)), [date])
-
   const handleTimeInputChange = useCallback(
-    (e: MouseEvent<HTMLInputElement>) => {
+    (e: ChangeEvent<HTMLInputElement>) => {
       onChange(getSafeTimeString(e.currentTarget.value, date))
     },
     [onChange, date],
@@ -41,17 +33,16 @@ export const CalendarTime: FC<any> = ({ date, value, onChange }) => {
       <div className={styles.header}>
         <TimeField className={styles.input} name="time" value={value as string} onChange={handleTimeInputChange} />
       </div>
-      <div className={styles.datePoints}>
-        {datesSequence.map((dP) => (
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      <div className={styles.timePoints}>
+        {timePoints.map((tP) => (
           <Button
-            className={styles.datePoint}
-            bodyClassName={styles.datePointBody}
-            key={dP}
+            className={styles.timePoint}
+            bodyClassName={styles.timePointBody}
+            key={tP}
             kind="transparent"
-            onClick={handleDateClick(dP)}
+            onClick={handleDateClick(tP)}
           >
-            {dP}
+            {tP}
           </Button>
         ))}
       </div>

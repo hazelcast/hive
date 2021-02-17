@@ -1,8 +1,8 @@
-import React, { FC, useState, useEffect, useCallback } from 'react'
+import React, { FC } from 'react'
 import cn from 'classnames'
 import DatePicker, { ReactDatePickerProps } from 'react-datepicker'
 
-// import { CalendarInput } from './CalendarInput'
+import { CalendarInput } from './CalendarInput'
 import { CalendarHeader } from './CalendarHeader'
 import { CalendarTime } from './CalendarTime'
 
@@ -16,39 +16,17 @@ type CalendarInputProps = {
   calendarClassName?: string
   containerClassName?: string
   className?: string
-  timestamp: number | undefined
-  onTimestampChange: (timestamp?: number) => void
-} & Omit<ReactDatePickerProps, 'value', 'onChange'>
+  date: ReactDatePickerProps['selected']
+  onDateChange: ReactDatePickerProps['onChange']
+} & Omit<ReactDatePickerProps, 'value' | 'onChange'>
 
-export const Calendar: FC<CalendarInputProps> = ({
-  calendarClassName,
-  containerClassName,
-  className,
-  timestamp,
-  onTimestampChange,
-  ...props
-}) => {
-  /* const [internalValue, setInternalValue] = useState(timestamp ? new Date(timestamp) : undefined)
-
-  useEffect(() => {
-    console.log('here')
-    setInternalValue(timestamp ? new Date(timestamp) : undefined)
-  }, [timestamp])
-
-  const onChange = useCallback(
-    (date: Date) => {
-      onTimestampChange(date.valueOf())
-    },
-    [onTimestampChange],
-  ) */
-
+export const Calendar: FC<CalendarInputProps> = ({ calendarClassName, containerClassName, className, date, onDateChange, ...props }) => {
   return (
     <div className={cn(styles.container, containerClassName)}>
       <DatePicker
         {...props}
         calendarClassName={cn(styles.calendar, calendarClassName)}
         className={cn(styles.input, className)}
-        timeClassName={() => styles.swag}
         /*
          * Note: We cannot pass any custom props to 'customInput'
          * The library instantiates the component using React.cloneElement
@@ -57,17 +35,14 @@ export const Calendar: FC<CalendarInputProps> = ({
          * TODO: Type the props on our end properly, so we at least have awareness about the API
          * TODO: Memo the component(s)
          */
-        // customInput={(props: CalendarInputProps) => <CalendarInput {...props} />}
+        customInput={<CalendarInput />}
         customTimeInput={<CalendarTime />}
-        dateFormat="yyyy-MM-dd HH:mm"
-        onChange={onTimestampChange}
+        dateFormat="yyyy-MM-dd hh:mm a"
+        onChange={onDateChange}
         popperContainer={CalendarPopperContainer}
         renderCustomHeader={CalendarHeader}
-        selected={timestamp}
+        selected={date}
         showPopperArrow={false}
-        //showTimeInput
-        //showTimeSelect
-        //timeIntervals={5}
       />
     </div>
   )

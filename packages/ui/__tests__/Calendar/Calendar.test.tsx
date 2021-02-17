@@ -10,13 +10,13 @@ import styleConsts from '../styles/constants/export.module.scss'
 // Equivalent to `2021-02-08T09:00:00.000Z`
 const timestamp = 1612774800000
 // TODO: Check potential failures in different timezones
-const timestampString = new Date(1612774800000)
+const date = new Date(timestamp)
 
 describe('Calendar', () => {
   it('Renders basic collapsed input', async () => {
-    const onTimestampChange = jest.fn()
+    const onDateChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(<Calendar timestamp={timestamp} onTimestampChange={onTimestampChange} />)
+    const wrapper = await mountAndCheckA11Y(<Calendar date={date} onDateChange={onDateChange} />)
 
     // ReactDatePicker
     expect(wrapper.find(ReactDatePicker).props()).toMatchObject({
@@ -24,7 +24,7 @@ describe('Calendar', () => {
       disabled: false,
       showPopperArrow: false,
       popperPlacement: 'auto',
-      selected: timestampString,
+      selected: date,
     })
 
     // Date Input
@@ -45,9 +45,9 @@ describe('Calendar', () => {
   })
 
   it('Renders basic disabled input', async () => {
-    const onTimestampChange = jest.fn()
+    const onDateChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(<Calendar disabled timestamp={timestamp} onTimestampChange={onTimestampChange} />)
+    const wrapper = await mountAndCheckA11Y(<Calendar disabled date={date} onDateChange={onDateChange} />)
 
     // ReactDatePicker
     expect(wrapper.find(ReactDatePicker).props()).toMatchObject({
@@ -55,7 +55,7 @@ describe('Calendar', () => {
       disabled: true,
       showPopperArrow: false,
       popperPlacement: 'auto',
-      selected: timestampString,
+      selected: date,
     })
 
     // Date Input
@@ -84,9 +84,9 @@ describe('Calendar', () => {
   })
 
   it('Renders basic expanded input', async () => {
-    const onTimestampChange = jest.fn()
+    const onDateChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(<Calendar timestamp={timestamp} onTimestampChange={onTimestampChange} />)
+    const wrapper = await mountAndCheckA11Y(<Calendar date={date} onDateChange={onDateChange} />)
 
     // ReactDatePicker
     expect(wrapper.find(ReactDatePicker).props()).toMatchObject({
@@ -94,7 +94,7 @@ describe('Calendar', () => {
       disabled: false,
       showPopperArrow: false,
       popperPlacement: 'auto',
-      selected: timestampString,
+      selected: date,
     })
 
     // Date Input

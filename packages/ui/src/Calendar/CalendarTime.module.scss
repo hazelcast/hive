@@ -29,7 +29,7 @@ $outlinePreservingPadding: c.$grid * 1.25;
     margin-bottom: $calendarHeaderMarginBottom;
   }
 
-  .datePoints {
+  .timePoints {
     display: flex;
     flex-direction: column;
     // TODO: Refactor
@@ -38,7 +38,7 @@ $outlinePreservingPadding: c.$grid * 1.25;
     padding: $outlinePreservingPadding;
     //margin-top: c.$grid;
 
-    > .datePoint {
+    > .timePoint {
       color: c.$colorTextSubdued;
       height: c.$grid * 5;
       padding: 0 c.$grid * 3;
@@ -49,7 +49,7 @@ $outlinePreservingPadding: c.$grid * 1.25;
         margin-bottom: c.$grid;
       }
 
-      > .datePointBody {
+      > .timePointBody {
         padding: 0;
       }
     }

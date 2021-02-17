@@ -30,7 +30,7 @@ export const CalendarInput: FC<CalendarInputProps> = forwardRef(({ className, va
     <TextField<'text'>
       {...props}
       data-test="date-picker-input"
-      value={value as string}
+      value={value.toString()}
       onChange={onChangeWrapper}
       inputContainerClassName={cn(styles.calendarInputContainer, className)}
       type="text"

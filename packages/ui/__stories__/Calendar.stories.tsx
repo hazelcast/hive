@@ -10,11 +10,12 @@ export default {
 
 // Equivalent to `2021-02-08T09:00:00.000Z`
 const timestamp = 1612774800000
-const onTimestampChange = (t?: number | undefined) => console.log(t)
+const date = new Date(timestamp)
+const onDateChange = (d: Date) => console.log(d)
 
 export const Default = () => (
   <div className={utilsStyles.modalWrapper}>
-    <Calendar timestamp={timestamp} onTimestampChange={onTimestampChange} />
+    <Calendar date={date} onDateChange={onDateChange} />
   </div>
 )
 
@@ -27,22 +28,23 @@ Default.parameters = {
 
 export const Disabled = () => (
   <div className={utilsStyles.modalWrapper}>
-    <Calendar disabled timestamp={timestamp} onTimestampChange={onTimestampChange} />
+    <Calendar disabled date={new Date(timestamp)} onDateChange={onDateChange} />
   </div>
 )
 
 export const WithTime = () => {
-  const [time, setTime] = useState<Date>(new Date())
+  const [date, setDate] = useState<Date>(new Date())
 
-  const onTimeChange = useCallback((date: Date) => {
-    console.log(date)
-
-    setTime(date)
-  }, [])
+  const onDateChange = useCallback(
+    (d: Date) => {
+      setDate(d)
+    },
+    [setDate],
+  )
 
   return (
     <div className={utilsStyles.modalWrapper}>
-      <Calendar timestamp={time} onTimestampChange={onTimeChange} showTimeInput />
+      <Calendar date={date} onDateChange={onDateChange} showTimeInput />
     </div>
   )
 }

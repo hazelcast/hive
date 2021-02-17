@@ -1,18 +1,9 @@
-import { ensureZeroPrefix, getDatesSequence, getSafeTimeString } from '../../../src/Calendar/helpers/time'
-import { dateSequence1_1_2021 } from '../../../src/Calendar/helpers/consts'
+import { ensureZeroPrefix, getSafeTimeString } from '../../../src/Calendar/helpers/time'
 
 // 9-2-2021-9:00:00am CET (epoch in millis)
 const timestamp = 1612861200000
 
 describe('Time helpers', () => {
-  describe('getDatesSequence', () => {
-    it('Generates Dates sequence from 00:00 AM to 23:45 PM, seeded with 15-minutes slots', () => {
-      const now = new Date(timestamp)
-
-      expect(getDatesSequence(now).map((d) => d.toISOString())).toEqual(dateSequence1_1_2021)
-    })
-  })
-
   describe('ensureZeroPrefix', () => {
     it('Returns 01 when 1 is passed', () => {
       const input = 1
