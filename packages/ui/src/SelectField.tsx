@@ -1,7 +1,7 @@
 import { DataTestProp } from '@hazelcast/helpers'
 import React, { FocusEvent, InputHTMLAttributes, ReactElement } from 'react'
 import cn from 'classnames'
-import ReactSelect, { ActionMeta, components, IndicatorProps, Props as ReactSelectProps, ValueType } from 'react-select'
+import ReactSelect, { ActionMeta, components, IndicatorProps, Props as ReactSelectProps, ValueType, MultiValueProps } from 'react-select'
 import { ChevronDown, X } from 'react-feather'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 import { useUID } from 'react-uid'
@@ -31,6 +31,65 @@ const Input = (props: any) => {
   return <components.Input {...props} autoComplete="chrome-off" />
 }
 
+// This component is implemented because we want to style things with the css (as opposed to the react-select
+// recommended way of styling things via js).
+//
+// We simply inject `.multiValueIsFocused`.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const MultiValue = (props: MultiValueProps<any>) => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  props.components.Remove = MultiValueRemove
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  props.components.Label = MultiValueLabel
+
+  return <components.MultiValue {...props} className={cn(styles.multiValue, { [styles.multiValueIsFocused]: props.isFocused })} />
+}
+
+// Self styled version of the MultiValue/Label
+//
+// refactor: newer react-select packages have better typings for this.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const MultiValueLabel = (props: any) => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,  @typescript-eslint/no-unsafe-assignment
+  const children = props.children
+  return <div className={cn(styles.multiValueLabel)}> {children} </div>
+}
+
+// Self styled version of the MultiValue/Remove button
+//
+// refactor: newer react-select packages have better typings for this.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const MultiValueRemove = (props: any) => {
+  // We have to pass down the onClick
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,  @typescript-eslint/no-unsafe-assignment
+  const onClick: React.MouseEventHandler = props.innerProps.onClick
+
+  const handleMouseDown = (event: React.MouseEvent) => {
+    // prevent opening the dropdown
+    event.preventDefault()
+    event.stopPropagation()
+  }
+
+  const handleClick = (event: React.MouseEvent) => {
+    event.button === 0 && onClick && onClick(event)
+  }
+
+  return (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+    <div
+      className={cn(styles.multiValueRemove)}
+      onClick={handleClick}
+      onMouseDown={handleMouseDown}
+      role="button"
+      tabIndex={-1}
+      aria-label="Remove"
+    >
+      <Icon icon={X} size="small" ariaHidden />
+    </div>
+  )
+}
+
 export type SelectFieldOption<V = string> = {
   label: string
   value: V
@@ -41,17 +100,33 @@ export type SelectFieldCoreStaticProps = {
   onBlur?: (e: FocusEvent<HTMLElement>) => void
   error?: string
 }
+
 export type SelectFieldCoreDynamicProps<V> =
   | {
       isClearable: true
+      isMulti?: false
       value: SelectFieldOption<V> | null
       onChange: (newValue: SelectFieldOption<V> | null) => void
     }
   | {
       isClearable?: false
+      isMulti?: false
       value: SelectFieldOption<V>
       onChange: (newValue: SelectFieldOption<V>) => void
     }
+  | {
+      isClearable: true
+      isMulti: true
+      value: SelectFieldOption<V>[] | null
+      onChange: (newValue: SelectFieldOption<V>[] | null) => void
+    }
+  | {
+      isClearable?: false
+      isMulti: true
+      value: SelectFieldOption<V>[]
+      onChange: (newValue: SelectFieldOption<V>[]) => void
+    }
+
 export type SelectFieldExtraProps<V> = {
   options: SelectFieldOption<V>[]
   label: string
@@ -83,6 +158,7 @@ export const SelectField = <V,>({
   className,
   error,
   errorClassName,
+  isMulti = false,
   isClearable,
   disabled,
   isSearchable = true,
@@ -114,6 +190,7 @@ export const SelectField = <V,>({
           [styles.disabled]: disabled,
           [styles.hasError]: error,
           [styles.empty]: !value,
+          [styles.multiContainer]: isMulti,
         },
         // Menu container is either this select itself or any other element
         // We can always add this class to the select itself because even if the menu container is any parent it won't break it
@@ -134,8 +211,8 @@ export const SelectField = <V,>({
           aria-required={required}
           isClearable={isClearable ?? false}
           isDisabled={disabled}
-          isMulti={false}
           isSearchable={isSearchable}
+          isMulti={isMulti}
           name={name}
           value={value}
           onChange={onChange as (value: ValueType<SelectFieldOption<V>>, action: ActionMeta<SelectFieldOption<V>>) => void}
@@ -144,6 +221,7 @@ export const SelectField = <V,>({
             DropdownIndicator,
             ClearIndicator,
             Input,
+            MultiValue,
           }}
           {...rest}
         />

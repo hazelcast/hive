@@ -55,7 +55,7 @@
     "react-modal": "^3.12.1",
     "react-popper": "^2.2.3",
     "react-resize-aware": "^3.1.0",
-    "react-select": "^3.1.1",
+    "react-select": "^4.1.0",
     "react-uid": "^2.3.1",
     "react-use": "^15.3.4",
     "use-deep-compare": "^1.1.0"
