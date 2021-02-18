@@ -66,13 +66,25 @@ const MultiValueRemove = (props: any) => {
   const onClick: React.MouseEventHandler = props.innerProps.onClick
 
   const handleMouseDown = (event: React.MouseEvent) => {
+    // prevent opening the dropdown
     event.preventDefault()
     event.stopPropagation()
+  }
+
+  const handleClick = (event: React.MouseEvent) => {
     event.button === 0 && onClick && onClick(event)
   }
 
   return (
-    <div className={cn(styles.multiValueRemove)} onMouseDown={handleMouseDown} role="button" tabIndex={-1} aria-label="Remove">
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+    <div
+      className={cn(styles.multiValueRemove)}
+      onClick={handleClick}
+      onMouseDown={handleMouseDown}
+      role="button"
+      tabIndex={-1}
+      aria-label="Remove"
+    >
       <Icon icon={X} size="small" ariaHidden />
     </div>
   )
