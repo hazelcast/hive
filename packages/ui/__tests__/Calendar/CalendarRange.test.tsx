@@ -26,7 +26,7 @@ describe('CalendarRange', () => {
       endDate: date,
       inputLabel: 'From',
       showTimeInput: undefined,
-      open: false,
+      open: undefined,
     })
 
     // Icon
@@ -45,7 +45,7 @@ describe('CalendarRange', () => {
       minDate: date,
       inputLabel: 'To',
       showTimeInput: undefined,
-      open: false,
+      open: undefined,
     })
   })
 
@@ -72,7 +72,7 @@ describe('CalendarRange', () => {
       endDate: date,
       inputLabel: 'From',
       showTimeInput: true,
-      open: false,
+      open: undefined,
     })
 
     // Icon
@@ -91,7 +91,7 @@ describe('CalendarRange', () => {
       minDate: date,
       inputLabel: 'To',
       showTimeInput: true,
-      open: false,
+      open: undefined,
     })
   })
 })
