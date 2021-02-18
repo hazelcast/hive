@@ -38,7 +38,7 @@ export type CalendarProps = {
  * [] - Revisit TimeField component and check code status
  * [] - Revisit TimeField component and check stories
  * [] - Revisit TimeField component and check tests status
- * [] - Revisit and clean up styles
+ * [x] - Revisit and clean up styles
  * [] - Resolve leftover TODOs
  */
 export const Calendar: FC<CalendarProps> = ({
@@ -59,8 +59,6 @@ export const Calendar: FC<CalendarProps> = ({
       /*
        * Note: The library instantiates the component using React.cloneElement
        * Source: https://github.com/Hacker0x01/react-datepicker/blob/master/src/index.jsx#L926
-       *
-       * TODO: Type the props on our end properly, so we at least have awareness about the API
        */
       customInput={<CalendarInput label={inputLabel} />}
       customTimeInput={<CalendarTime />}
