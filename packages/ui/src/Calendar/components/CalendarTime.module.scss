@@ -1,47 +1,36 @@
 @use '../../../styles/constants' as c;
 @use '../../../styles/helpers' as h;
 
-$calendarHeaderHeight: 26px;
-$calendarHeaderMarginBottom: 1px;
-
-$calendarHeight: 277px;
-$calendarPadding: 24px;
-$headerHeight: 34px;
-
 // Note: Add padding in order to preserve button's outline
-// TODO: 4px should be enough, why do we need 5px?
 $outlinePreservingPadding: c.$grid * 1.25;
 
 .container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  height: 100%;
 
-  /*
-   * Match height of: react-datepicker__header.
-   */
   .header {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: $calendarHeaderHeight;
-    margin-bottom: $calendarHeaderMarginBottom;
+    padding-left: c.$grid * 1.5;
+    margin-bottom: c.$grid * 2;
   }
 
   .timePoints {
     display: flex;
     flex-direction: column;
-    // TODO: Refactor
-    height: calc(#{$calendarHeight} - #{$headerHeight} - #{$calendarPadding});
     overflow-y: scroll;
     padding: $outlinePreservingPadding;
-    //margin-top: c.$grid;
 
     > .timePoint {
       color: c.$colorTextSubdued;
-      height: c.$grid * 5;
-      padding: 0 c.$grid * 3;
+      /*
+       * Note: Using min-height instead of height to workaround IE11 flex-bug
+       * where flex text content on overflow: scroll disappears
+       */
+      min-height: c.$grid * 5;
 
       @include c.typographyBodySmall;
 

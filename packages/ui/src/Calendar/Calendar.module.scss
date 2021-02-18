@@ -2,7 +2,9 @@
 @use '../../styles/helpers' as h;
 
 $inputWidth: 300px;
-$inputHeight: 277px;
+// Note: Designed height is 277px, however our icons are 24x24, not 21x21
+$inputHeight: 283px;
+$inputPadding: c.$grid * 3;
 
 /*
  * Internal styles override for those that cannot be
@@ -56,7 +58,7 @@ $inputHeight: 277px;
       /*
        * Note:
        * We need to use :global override here, as 'renderCustomDay' only allows us to override
-       * the child of thin element, which does not allow us to touch the styles properly
+       * the child of this element, which does not allow us to touch the styles properly
        *
        * Source styles: https://github.com/Hacker0x01/react-datepicker/blob/master/src/stylesheets/datepicker.scss#L395
        */
@@ -115,8 +117,6 @@ $inputHeight: 277px;
   }
 
   :global .react-datepicker__input-time-container {
-    // Note: Header days + body
-    max-height: calc(192px + 32px);
     margin: 0;
     padding: 0;
 
@@ -125,9 +125,11 @@ $inputHeight: 277px;
     }
 
     :global .react-datepicker-time__input-container {
+      height: 100%;
       margin: 0 c.$grid 0 c.$grid * 5;
 
       :global .react-datepicker-time__input {
+        height: 100%;
         margin: 0;
 
         input {
@@ -144,14 +146,14 @@ $inputHeight: 277px;
 .container {
   max-width: $inputWidth;
 
-  // TODO: Rename this class, the component is named Calendar now
   .calendar {
     display: flex;
     flex-direction: row;
     border: c.$borderWidth solid c.$colorNeutralLight;
     background-color: c.$colorNeutralLighter;
-    padding: c.$grid * 3;
-    max-height: $inputHeight;
+    padding: $inputPadding;
+    height: $inputHeight;
+    box-sizing: border-box;
 
     .headerContainer {
       display: flex;
