@@ -170,5 +170,6 @@ describe('Calendar', () => {
     })
 
     // Time input
+    expect(wrapper.existsDataTest('calendar-time')).toBeTruthy()
   })
 })

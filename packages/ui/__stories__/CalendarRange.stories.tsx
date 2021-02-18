@@ -49,3 +49,34 @@ export const EndOpen = () => (
     <CalendarRange startDate={date} onStartDateChange={onDateChange} endDate={date} onEndDateChange={onDateChange} endOpen />
   </div>
 )
+
+export const WithTimeInputs = () => {
+  const [startDate, setStartDate] = useState<Date>(new Date())
+  const [endDate, setEndDate] = useState<Date>(new Date())
+
+  const onStartDateChange = useCallback(
+    (d: Date) => {
+      setStartDate(d)
+    },
+    [setStartDate],
+  )
+
+  const onEndDateChange = useCallback(
+    (d: Date) => {
+      setEndDate(d)
+    },
+    [setEndDate],
+  )
+
+  return (
+    <div className={utilsStyles.calendarWrapper}>
+      <CalendarRange
+        startDate={startDate}
+        onStartDateChange={onStartDateChange}
+        endDate={endDate}
+        onEndDateChange={onEndDateChange}
+        showTimeInput
+      />
+    </div>
+  )
+}

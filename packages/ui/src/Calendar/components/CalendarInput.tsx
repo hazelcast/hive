@@ -9,8 +9,6 @@ import styles from '../Calendar.module.scss'
 export type CalendarInputInternalProps = CalendarInputExtraProps & InputHTMLAttributes<HTMLInputElement>
 
 export const CalendarInputInternal: FC<CalendarInputInternalProps> = ({ className, value, onChange, label, ...props }) => {
-  console.log({ className, value, onChange, label, ...props })
-
   // TODO: Runtime validation and push only if the date is correct
   const onChangeWrapper = (e: ChangeEvent<HTMLInputElement>) => {}
 

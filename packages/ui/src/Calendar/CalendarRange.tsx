@@ -20,17 +20,18 @@ export type CalendarRangeProps = {
 export const CalendarRange: FC<CalendarRangeProps> = ({
   startDate,
   startInputLabel = 'From',
-  startOpen = false,
+  startOpen,
   onStartDateChange,
   endDate,
   endInputLabel = 'To',
-  endOpen = false,
+  endOpen,
   onEndDateChange,
   showTimeInput,
 }) => {
   return (
     <div className={styles.container}>
       <Calendar
+        data-test="calendar-range-start"
         date={startDate}
         onDateChange={onStartDateChange}
         selectsStart
@@ -40,8 +41,9 @@ export const CalendarRange: FC<CalendarRangeProps> = ({
         showTimeInput={showTimeInput}
         open={startOpen}
       />
-      <Icon className={styles.arrowRight} icon={ArrowRight} ariaLabel="Arrow Right" />
+      <Icon data-test="calendar-range-icon" className={styles.arrowRight} icon={ArrowRight} ariaLabel="Arrow Right" />
       <Calendar
+        data-test="calendar-range-end"
         date={endDate}
         onDateChange={onEndDateChange}
         selectsEnd
