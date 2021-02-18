@@ -122,6 +122,11 @@ $select: ':global .hz-select-field__control';
   // We inject `.multiValueIsFocused` from js (it does not have an actual :focused state).
   .multiValueIsFocused {
     @include h.outlineFormField;
+
+    // override our outlineFormField inset shadow, for fixing
+    // the glitch case on an hovered remove button.
+    box-shadow: 0 0 0 (c.$outlineWidth - c.$borderWidth) c.$colorAccessibilityOutline;
+
     :global .hz-select-field__multi-value__label {
       // turn off the bogus shadow of the label
       box-shadow: none;
