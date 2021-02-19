@@ -1,11 +1,13 @@
 import React, { ReactElement } from 'react'
 import { FieldValidator, useField } from 'formik'
-import { Slider, SliderExtraProps } from './Slider'
-import { formikTouchAndUpdate, getFieldError } from './utils/formik'
 import { useMemo } from 'react'
 
+import { Slider, SliderExtraProps, SliderValue } from './Slider'
+import { formikTouchAndUpdate, getFieldError } from './utils/formik'
+import { ExtractKeysOfValueType } from './utils/types'
+
 export type SliderFormikProps<V extends object> = SliderExtraProps & {
-  name: keyof V
+  name: ExtractKeysOfValueType<V, SliderValue>
   validate?: FieldValidator
 }
 

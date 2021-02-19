@@ -20,7 +20,7 @@ type IconButtonCommonProps = {
   kind?: IconButtonKind
   size?: IconProps['size']
 } & IconAriaProps &
-  Pick<ButtonHTMLAttributes<HTMLAnchorElement | HTMLButtonElement>, 'onClick' | 'className' | 'tabIndex'>
+  Pick<ButtonHTMLAttributes<HTMLAnchorElement | HTMLButtonElement>, 'onClick' | 'onMouseDown' | 'className' | 'tabIndex'>
 
 export type IconButtonNotDisabledProps = {
   disabledTooltip?: never

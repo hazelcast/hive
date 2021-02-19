@@ -1,7 +1,6 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "keyofStringsOnly": true,
     "composite": true
   },
   "include": ["./**/*.ts", "./**/*.tsx"]

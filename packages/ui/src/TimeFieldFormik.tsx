@@ -1,11 +1,13 @@
 import React, { ReactElement } from 'react'
-import { FieldValidator, useField } from 'formik'
+import { useField } from 'formik'
 
 import { TimeField, TimeFieldExtraProps } from './TimeField'
+import { ExtractKeysOfValueType } from '../src/utils/types'
+import { FieldValidatorGeneric } from './utils/formik'
 
 export type TimeFieldFormikProps<V extends object> = TimeFieldExtraProps & {
-  name: keyof V
-  validate?: FieldValidator
+  name: ExtractKeysOfValueType<V, string | undefined>
+  validate?: FieldValidatorGeneric<string | undefined>
 }
 
 export const TimeFieldFormik = <V extends object>({ name, validate, ...props }: TimeFieldFormikProps<V>): ReactElement => {

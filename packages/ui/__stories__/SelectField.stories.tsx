@@ -14,6 +14,8 @@ export default {
 
 const name = 'Character'
 const label = 'Character'
+const nameMulti = 'Characters'
+const labelMulti = 'Characters'
 const options: SelectFieldOption<string>[] = [
   { value: 'Darth Vader', label: 'Darth Vader' },
   { value: 'Luke Skywalker', label: 'Luke Skywalker' },
@@ -24,6 +26,11 @@ const options: SelectFieldOption<string>[] = [
   { value: 'Jar Jar Binks', label: 'Jar Jar Binks' },
 ]
 const value = options[1]
+const badGuyValues = [
+  options[0], // darthie boy
+  options[5], // boba fett
+  options[6], // jj binks - he sucks so much he counts as evil.
+]
 
 export const Default = () => {
   const [currentValue, setValue] = useState(value)
@@ -142,7 +149,7 @@ export const WithHelperText = () => (
 )
 
 export const Clearable = () => {
-  const [currentValue, setValue] = useState<SelectFieldOption<string> | null>(value)
+  const [currentValue, setValue] = useState<SelectFieldOption | null>(value)
   return (
     <SelectField
       name="name"
@@ -170,16 +177,17 @@ export const ClearableDisabled = () => (
 )
 
 export const Open = () => {
+  const [currentValue, setValue] = useState(value)
   const ref = useRef<HTMLDivElement>(null)
   return (
     <div ref={ref} style={{ height: 350 }}>
       <SelectField
         name="name"
-        value={value}
+        value={currentValue}
         label="Character"
         options={options}
         onBlur={() => logger.log('blur')}
-        onChange={(val: unknown) => logger.log('change', val)}
+        onChange={setValue}
         menuIsOpen
         menuPortalTarget={ref.current}
       />
@@ -300,6 +308,115 @@ export const NonSearchableOpen = () => {
   )
 }
 
+export const MultipleSelections = () => {
+  const [currentValue, setValue] = useState([options[1], options[2]])
+  return (
+    <SelectField
+      name={nameMulti}
+      value={currentValue}
+      isMulti={true}
+      label={labelMulti}
+      options={options}
+      onBlur={() => logger.log('blur')}
+      onChange={setValue}
+    />
+  )
+}
+
+MultipleSelections.parameters = {
+  design: {
+    type: 'figma',
+    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=510%3A101',
+  },
+}
+
+export const MultipleSelectionsMultipleRows = () => {
+  const [currentValue, setValue] = useState([...options])
+  return (
+    <div style={{ maxWidth: '400px' }}>
+      <SelectField
+        name={nameMulti}
+        value={currentValue}
+        isMulti={true}
+        label={labelMulti}
+        options={options}
+        onBlur={() => logger.log('blur')}
+        onChange={setValue}
+      />
+    </div>
+  )
+}
+
+export const MultipleSelectionsClearable = () => {
+  const [currentValue, setValue] = useState<SelectFieldOption[] | null>([...options])
+  return (
+    <div style={{ maxWidth: '400px' }}>
+      <SelectField
+        name={nameMulti}
+        value={currentValue}
+        isMulti={true}
+        isClearable={true}
+        label={labelMulti}
+        options={options}
+        onBlur={() => logger.log('blur')}
+        onChange={setValue}
+      />
+    </div>
+  )
+}
+
+export const MultipleSelectionsAndOpen = () => {
+  const [currentValue, setValue] = useState([options[1], options[2]])
+  const ref = useRef<HTMLDivElement>(null)
+  return (
+    <div ref={ref} style={{ height: 350 }}>
+      <SelectField
+        name="nameMulti"
+        value={currentValue}
+        isMulti={true}
+        label={labelMulti}
+        options={options}
+        onBlur={() => logger.log('blur')}
+        onChange={setValue}
+        menuIsOpen
+        menuPortalTarget={null}
+      />
+    </div>
+  )
+}
+
+export const EmptySelectFields = () => {
+  const [currentValue, setValue] = useState<SelectFieldOption | null>(null)
+  const [currentValues, setValues] = useState<SelectFieldOption[] | null>([])
+  return (
+    <>
+      <SelectField
+        name={name}
+        value={currentValue}
+        isMulti={false}
+        isClearable
+        label={label}
+        options={options}
+        onBlur={() => logger.log('blur')}
+        onChange={setValue}
+      />
+
+      <br />
+
+      <SelectField
+        name={nameMulti}
+        value={currentValues}
+        isMulti={true}
+        isClearable
+        label={labelMulti}
+        options={options}
+        onBlur={() => logger.log('blur')}
+        onChange={setValues}
+      />
+    </>
+  )
+}
+
 export const SelectFieldWrappedInFormik = () => {
   type Values = {
     character: SelectFieldOption<string>
@@ -355,6 +472,31 @@ export const SelectFieldClearableWrappedInFormik = () => {
         <Form>
           Values: {JSON.stringify(values)}
           <SelectFieldFormik<Values> name="character" label="Character" options={options} validate={validateCharacter} isClearable />
+          <button type="submit">Submit</button>
+        </Form>
+      )}
+    </Formik>
+  )
+
+  return <TestForm />
+}
+
+export const SelectFieldMultiSelectionWrappedInFormik = () => {
+  type Values = {
+    badCharacters: SelectFieldOption<string>[]
+  }
+
+  const TestForm = () => (
+    <Formik<Values>
+      initialValues={{
+        badCharacters: badGuyValues,
+      }}
+      onSubmit={(values) => logger.log('submit', values)}
+    >
+      {({ values }) => (
+        <Form>
+          Values: {JSON.stringify(values)}
+          <SelectFieldFormik<Values> name="badCharacters" label="Bad Characters" isMulti={true} isClearable={true} options={options} />
           <button type="submit">Submit</button>
         </Form>
       )}
