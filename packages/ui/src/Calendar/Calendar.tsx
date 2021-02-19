@@ -32,7 +32,9 @@ export type CalendarProps = {
  * [x] - Complete tests set for CalendarHeader
  * [x] - Complete tests set for CalendarInput
  * [x] - Complete tests set for CalendarTime
+ * [x] - Fix date selection on IE11
  * [] - Fix time selection on IE11
+ * [] - Fix 6 rows overflow
  * [] - Debounce the input when the value is incorrect
  *    - [] Resolve inline errors
  * [] - Revisit TimeField component and check code status

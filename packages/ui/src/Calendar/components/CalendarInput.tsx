@@ -6,27 +6,25 @@ import { TextField } from '../../TextField'
 
 import styles from '../Calendar.module.scss'
 
-export type CalendarInputInternalProps = CalendarInputExtraProps & InputHTMLAttributes<HTMLInputElement>
+export type CalendarInputInternalProps = {
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void
+} & CalendarInputExtraProps &
+  Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'>
 
-export const CalendarInputInternal: FC<CalendarInputInternalProps> = ({ className, value, onChange, label, ...props }) => {
-  // TODO: Runtime validation and push only if the date is correct
-  const onChangeWrapper = (e: ChangeEvent<HTMLInputElement>) => {}
-
-  return (
-    <TextField<'text'>
-      {...props}
-      data-test="calendar-input"
-      value={value?.toString()}
-      onChange={onChangeWrapper}
-      inputContainerClassName={cn(styles.calendarInputContainer, className)}
-      type="text"
-      name="calendar-input"
-      label={label}
-      inputTrailingIcon={Calendar}
-      inputTrailingIconLabel="Calendar Icon"
-    />
-  )
-}
+export const CalendarInputInternal: FC<CalendarInputInternalProps> = ({ className, value, onChange, label, ...props }) => (
+  <TextField<'text'>
+    {...props}
+    data-test="calendar-input"
+    value={value?.toString()}
+    onChange={onChange}
+    inputContainerClassName={cn(styles.calendarInputContainer, className)}
+    type="text"
+    name="calendar-input"
+    label={label}
+    inputTrailingIcon={Calendar}
+    inputTrailingIconLabel="Calendar Icon"
+  />
+)
 
 export type CalendarInputExtraProps = {
   label: string
