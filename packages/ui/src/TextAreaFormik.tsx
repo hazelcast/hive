@@ -2,9 +2,10 @@ import React, { ReactElement } from 'react'
 import { FieldValidator, useField } from 'formik'
 
 import { TextArea, TextAreaExtraProps } from './TextArea'
+import { ExtractKeysOfValueType } from './utils/types'
 
 export type TextAreaFormikProps<V extends object> = TextAreaExtraProps & {
-  name: keyof V
+  name: ExtractKeysOfValueType<V, string | undefined>
   validate?: FieldValidator
 }
 

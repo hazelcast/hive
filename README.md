@@ -37,7 +37,7 @@ npm ci
 
 It runs a regular `npm ci` and executes a `postinstall` hook. In that hook it runs:
 
-1. `lerna bootstrap`
+1. `lerna bootstrap --hoist`
    Installs dependencies for all packages.
 2. `link-parent-bin`
    Creates symlinks in `packages/*/node_modules/.bin` to all executables in `node_modules/.bin`.

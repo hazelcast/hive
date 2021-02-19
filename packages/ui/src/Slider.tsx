@@ -11,7 +11,7 @@ import styles from './Slider.module.scss'
 import { Label } from './Label'
 
 // This component accepts one of these values
-type Value = number | [number, number]
+export type SliderValue = number | [number, number]
 
 // Mark that shows hints on a track
 type SliderMark = {
@@ -25,7 +25,7 @@ type ChangeEventType = ChangeEvent<HTMLInputElement> | MouseEvent
 type SingleValueChangeFn = (val: number, e?: ChangeEventType) => void
 type MultiValueChangeFn = (val: [number, number], e?: ChangeEventType) => void
 
-export type SliderCoreProps<T> = {
+export type SliderCoreProps<T extends SliderValue> = {
   value: T
   onChange: T extends number ? SingleValueChangeFn : MultiValueChangeFn
   name: string
@@ -44,16 +44,16 @@ export type SliderExtraProps = {
   formatCurrentValue?: (val: number) => string
 }
 
-type SliderProps<T extends Value = number> = SliderExtraProps &
+type SliderProps<T extends SliderValue = number> = SliderExtraProps &
   SliderCoreProps<T> &
   Partial<Pick<HTMLInputElement, 'disabled'>> &
   DataTestProp
 
-function isRangeGuard(value: Value, onChange?: SingleValueChangeFn | MultiValueChangeFn): onChange is MultiValueChangeFn {
+function isRangeGuard(value: SliderValue, onChange?: SingleValueChangeFn | MultiValueChangeFn): onChange is MultiValueChangeFn {
   return Array.isArray(value)
 }
 
-function isSingleValueGuard(value: Value, onChange?: SingleValueChangeFn | MultiValueChangeFn): onChange is SingleValueChangeFn {
+function isSingleValueGuard(value: SliderValue, onChange?: SingleValueChangeFn | MultiValueChangeFn): onChange is SingleValueChangeFn {
   return !Array.isArray(value)
 }
 
@@ -94,7 +94,7 @@ export function getMarkMetadata(
  * You can optionally pass formatCurrentValue in order to modify the way how current value is displayed.
  * When providing a single value, it behaves
  */
-export function Slider<T extends Value = number>({
+export function Slider<T extends SliderValue = number>({
   value,
   onChange,
   name,

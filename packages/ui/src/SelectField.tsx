@@ -1,7 +1,7 @@
 import { DataTestProp } from '@hazelcast/helpers'
 import React, { FocusEvent, InputHTMLAttributes, ReactElement } from 'react'
 import cn from 'classnames'
-import ReactSelect, { ActionMeta, components, IndicatorProps, Props as ReactSelectProps, ValueType, MultiValueProps } from 'react-select'
+import ReactSelect, { ActionMeta, components, Props as ReactSelectProps, ValueType, MultiValueProps } from 'react-select'
 import { ChevronDown, X } from 'react-feather'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 import { useUID } from 'react-uid'
@@ -19,7 +19,7 @@ const DropdownIndicator = () => <Icon icon={ChevronDown} ariaHidden size="normal
 
 // innerProps set event handling
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const ClearIndicator = ({ innerProps }: IndicatorProps<SelectFieldOption<any>>) => {
+const ClearIndicator = ({ innerProps }: any) => {
   // Visually impaired people will use the keyboard (backspace) to remove the value. We do not want to confuse them by allowing to focus this button.
   return <IconButton {...innerProps} icon={X} ariaHidden kind="primary" size="normal" className={styles.clear} tabIndex={-1} />
 }
