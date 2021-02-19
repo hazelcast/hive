@@ -1,11 +1,12 @@
-import React, { FocusEvent, ChangeEvent, FC } from 'react'
+import React, { FocusEvent, ChangeEvent, FC, InputHTMLAttributes } from 'react'
 import cn from 'classnames'
 import { useUID } from 'react-uid'
 
 import { DataTestProp } from '@hazelcast/helpers'
-import { Error } from './Error'
+import { Error, errorId } from './Error'
 
 import styles from './TimeField.module.scss'
+import { Label } from './Label'
 
 export type TimeFieldCoreProps = {
   name: string
@@ -15,21 +16,37 @@ export type TimeFieldCoreProps = {
   error?: string
 }
 
+type TimeFieldLabelProps =
+  | {
+      ariaLabel?: never
+      label: string
+      labelClassName?: string
+    }
+  | {
+      ariaLabel: string
+      label?: never
+      labelClassName?: never
+    }
+
 export type TimeFieldExtraProps = {
   inputClassName?: string
   errorClassName?: string
   seconds?: boolean
-} & Partial<Pick<HTMLInputElement, 'className' | 'disabled' | 'required'>>
+} & Pick<InputHTMLAttributes<HTMLInputElement>, 'id' | 'className' | 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'>
 
-export type TypeFieldProps = TimeFieldCoreProps & TimeFieldExtraProps & DataTestProp
+export type TypeFieldProps = TimeFieldCoreProps & TimeFieldExtraProps & TimeFieldLabelProps & DataTestProp
 
 export const TimeField: FC<TypeFieldProps> = ({
   'data-test': dataTest,
+  ariaLabel,
   className,
   disabled,
   error,
   errorClassName,
+  id: explicitId,
   inputClassName,
+  label,
+  labelClassName,
   name,
   onBlur,
   onChange,
@@ -38,24 +55,31 @@ export const TimeField: FC<TypeFieldProps> = ({
   value,
   ...props
 }) => {
-  const id = useUID()
+  // Use an auto generated id if it's not set explicitly
+  const autoId = useUID()
+  const id = explicitId ?? autoId
 
   return (
     <div data-test={dataTest} className={cn(styles.container, className)}>
+      {label && <Label id={id} label={label} className={labelClassName} />}
       <div className={styles.inputContainer}>
         <input
+          type="time"
+          step={seconds ? '1' : undefined}
           id={id}
           name={name}
-          onBlur={onBlur}
           className={cn(styles.input, inputClassName, {
             [styles.disabled]: disabled,
             [styles.error]: error,
           })}
-          type="time"
-          step={seconds ? '1' : undefined}
           onChange={onChange}
+          onBlur={onBlur}
           value={value}
           required={required}
+          disabled={disabled}
+          aria-label={ariaLabel}
+          aria-required={required}
+          aria-errormessage={error && errorId(id)}
           {...props}
         />
         <div className={styles.borderOverlay} />
