@@ -23,26 +23,6 @@ export type CalendarProps = {
   onDateChange: ReactDatePickerProps['onChange']
 } & Omit<ReactDatePickerProps, 'value' | 'onChange'>
 
-/*
- * TODO:
- * [x] - Complete stories set for Calendar (at least add open)
- * [x] - Complete stories set for CalendarRange (at least add open)
- * [x] - Complete tests set for Calendar
- * [x] - Complete tests set for CalendarRange
- * [x] - Complete tests set for CalendarHeader
- * [x] - Complete tests set for CalendarInput
- * [x] - Complete tests set for CalendarTime
- * [x] - Fix date selection on IE11
- * [x] - Fix time selection on IE11
- * [] - Fix 6 rows overflow
- * [x] - Debounce the input when the value is incorrect
- *    - [x] Resolve inline errors
- * [x] - Revisit TimeField component and check code status
- * [x] - Revisit TimeField component and check stories
- * [x] - Revisit TimeField component and check tests status
- * [x] - Revisit and clean up styles
- * [x] - Resolve leftover TODOs
- */
 export const Calendar: FC<CalendarProps> = ({
   calendarClassName,
   className,
