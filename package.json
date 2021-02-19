@@ -7,19 +7,14 @@
     "@storybook/preset-scss": "^1.0.2",
     "@storybook/react": "^6.1.0-alpha.20",
     "@storybook/theming": "^6.0.27",
-    "@types/enzyme": "^3.10.7",
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/jest": "^26.0.14",
-    "@types/react": "^16.9.51",
-    "@types/react-dom": "^16.9.8",
     "@types/react-select": "^3.0.26",
-    "@types/react-table": "^7.0.25",
     "@typescript-eslint/eslint-plugin": "^4.4.0",
     "@typescript-eslint/parser": "^4.4.0",
     "chromatic": "^5.2.0",
     "css-loader": "^4.3.0",
     "doctoc": "^1.4.0",
-    "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.5",
     "eslint": "^7.11.0",
     "eslint-config-prettier": "^6.12.0",
@@ -32,7 +27,6 @@
     "lerna": "^3.22.1",
     "link-parent-bin": "^1.0.2",
     "lint-staged": "^10.4.0",
-    "loki": "^0.25.1",
     "patch-package": "^6.2.2",
     "prettier": "^2.1.2",
     "regenerator-runtime": "^0.13.7",
@@ -48,7 +42,7 @@
     "link-parent-bin": "link-parent-bin",
     "patch-package": "patch-package",
     "compile": "lerna run compile",
-    "postinstall": "npm run patch-package && lerna bootstrap && npm run link-parent-bin && npm run compile",
+    "postinstall": "npm run patch-package && lerna bootstrap --hoist && npm run link-parent-bin && npm run compile",
     "test": "lerna run --parallel test",
     "test:visual": "lerna run --parallel test:visual",
     "lint": "lerna run --parallel lint",
@@ -58,10 +52,5 @@
     "start": "lerna run --scope @hazelcast/ui storybook",
     "prepack": "npm run compile",
     "publish-canary": "lerna publish --canary --preid next --dist-tag next --yes --no-verify-access --include-merged-tags"
-  },
-  "dependencies": {
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-table": "^7.6.2"
   }
 }
