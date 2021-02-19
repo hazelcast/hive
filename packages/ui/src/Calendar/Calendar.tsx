@@ -39,7 +39,7 @@ export type CalendarProps = {
  *    - [x] Resolve inline errors
  * [x] - Revisit TimeField component and check code status
  * [x] - Revisit TimeField component and check stories
- * [] - Revisit TimeField component and check tests status
+ * [x] - Revisit TimeField component and check tests status
  * [x] - Revisit and clean up styles
  * [] - Resolve leftover TODOs
  */

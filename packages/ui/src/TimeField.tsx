@@ -79,6 +79,8 @@ export const TimeField: FC<TypeFieldProps> = ({
             value={value}
             required={required}
             disabled={disabled}
+            // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute
+            aria-invalid={!!error}
             aria-label={ariaLabel}
             aria-required={required}
             aria-errormessage={error && errorId(id)}
