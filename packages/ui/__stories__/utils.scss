@@ -25,10 +25,6 @@
   @include c.typographyBodySmall;
 }
 
-.calendarWrapper {
-  height: 500px;
-}
-
 .toggles > *:not(:last-child) {
   margin-bottom: c.$grid * 3;
 }
@@ -36,4 +32,10 @@
 .calendarWrapper {
   width: 100%;
   height: 400px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }

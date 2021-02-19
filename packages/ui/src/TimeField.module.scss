@@ -3,82 +3,88 @@
 
 .container {
   display: inline-flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+
+  .label {
+    margin-bottom: c.$grid;
+  }
 
   .errorContainer {
     margin-top: c.$grid;
   }
 
-  .inputContainer {
-    position: relative;
+  .inputBlock {
     display: flex;
 
-    .borderOverlay {
-      position: absolute;
-      display: block;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      pointer-events: none;
-      z-index: c.$zIndex100;
-      border: c.$borderWidth solid c.$colorNeutral;
-      border-radius: c.$borderRadiusTimeField;
-      box-sizing: border-box;
-    }
+    .inputContainer {
+      position: relative;
 
-    input {
-      box-sizing: border-box;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: c.$grid * 5;
-      background-color: c.$colorNeutralWhite;
-      color: c.$colorTextSubdued;
-      padding: (c.$grid * 0.5) c.$grid c.$grid;
-      cursor: pointer;
-      border-radius: c.$borderRadiusTimeField;
-      border: none;
-
-      // TODO: Check other browsers
-      &::-webkit-calendar-picker-indicator {
-        display: none;
-        background: none;
+      .borderOverlay {
+        position: absolute;
+        display: block;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        pointer-events: none;
+        z-index: c.$zIndex100;
+        border: c.$borderWidth solid c.$colorNeutral;
+        border-radius: c.$borderRadiusTimeField;
+        box-sizing: border-box;
       }
-    }
 
-    input.error {
-      & ~ .borderOverlay {
-        border-color: c.$colorError;
+      input {
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: c.$grid * 5;
+        background-color: c.$colorNeutralWhite;
+        color: c.$colorTextSubdued;
+        padding: (c.$grid * 0.5) c.$grid c.$grid;
+        cursor: pointer;
+        border-radius: c.$borderRadiusTimeField;
+        border: none;
+
+        // TODO: Check other browsers
+        &::-webkit-calendar-picker-indicator {
+          display: none;
+          background: none;
+        }
       }
-    }
 
-    input:hover,
-    input.hover {
-      & ~ .borderOverlay {
-        border-color: c.$colorPrimary;
+      input.error {
+        & ~ .borderOverlay {
+          border-color: c.$colorError;
+        }
       }
-    }
 
-    input:focus,
-    input.focus {
-      // Do not remove outline for high-contrast modes
-      // https://stackoverflow.com/a/52616313
-      outline: transparent solid c.$outlineWidth;
-
-      & ~ .borderOverlay {
-        @include h.outlineFormField;
+      input:hover,
+      input.hover {
+        & ~ .borderOverlay {
+          border-color: c.$colorPrimary;
+        }
       }
-    }
 
-    input.disabled {
-      cursor: not-allowed;
-      color: c.$colorTextSecondary;
-      background-color: c.$colorNeutral;
+      input:focus,
+      input.focus {
+        // Do not remove outline for high-contrast modes
+        // https://stackoverflow.com/a/52616313
+        outline: transparent solid c.$outlineWidth;
 
-      & ~ .borderOverlay {
-        border-color: c.$colorNeutralLight;
+        & ~ .borderOverlay {
+          @include h.outlineFormField;
+        }
+      }
+
+      input.disabled {
+        cursor: not-allowed;
+        color: c.$colorTextSecondary;
+        background-color: c.$colorNeutral;
+
+        & ~ .borderOverlay {
+          border-color: c.$colorNeutralLight;
+        }
       }
     }
   }

@@ -32,9 +32,10 @@ export type TimeFieldExtraProps = {
   inputClassName?: string
   errorClassName?: string
   seconds?: boolean
-} & Pick<InputHTMLAttributes<HTMLInputElement>, 'id' | 'className' | 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'>
+} & TimeFieldLabelProps &
+  Pick<InputHTMLAttributes<HTMLInputElement>, 'id' | 'className' | 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'>
 
-export type TypeFieldProps = TimeFieldCoreProps & TimeFieldExtraProps & TimeFieldLabelProps & DataTestProp
+export type TypeFieldProps = TimeFieldCoreProps & TimeFieldExtraProps & DataTestProp
 
 export const TimeField: FC<TypeFieldProps> = ({
   'data-test': dataTest,
@@ -61,28 +62,30 @@ export const TimeField: FC<TypeFieldProps> = ({
 
   return (
     <div data-test={dataTest} className={cn(styles.container, className)}>
-      {label && <Label id={id} label={label} className={labelClassName} />}
-      <div className={styles.inputContainer}>
-        <input
-          type="time"
-          step={seconds ? '1' : undefined}
-          id={id}
-          name={name}
-          className={cn(styles.input, inputClassName, {
-            [styles.disabled]: disabled,
-            [styles.error]: error,
-          })}
-          onChange={onChange}
-          onBlur={onBlur}
-          value={value}
-          required={required}
-          disabled={disabled}
-          aria-label={ariaLabel}
-          aria-required={required}
-          aria-errormessage={error && errorId(id)}
-          {...props}
-        />
-        <div className={styles.borderOverlay} />
+      {label && <Label id={id} label={label} className={cn(styles.label, labelClassName)} />}
+      <div className={styles.inputBlock}>
+        <div className={styles.inputContainer}>
+          <input
+            type="time"
+            step={seconds ? '1' : undefined}
+            id={id}
+            name={name}
+            className={cn(styles.input, inputClassName, {
+              [styles.disabled]: disabled,
+              [styles.error]: error,
+            })}
+            onChange={onChange}
+            onBlur={onBlur}
+            value={value}
+            required={required}
+            disabled={disabled}
+            aria-label={ariaLabel}
+            aria-required={required}
+            aria-errormessage={error && errorId(id)}
+            {...props}
+          />
+          <div className={styles.borderOverlay} />
+        </div>
       </div>
       <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
     </div>

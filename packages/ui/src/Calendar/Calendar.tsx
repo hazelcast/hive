@@ -37,8 +37,8 @@ export type CalendarProps = {
  * [] - Fix 6 rows overflow
  * [x] - Debounce the input when the value is incorrect
  *    - [x] Resolve inline errors
- * [] - Revisit TimeField component and check code status
- * [] - Revisit TimeField component and check stories
+ * [x] - Revisit TimeField component and check code status
+ * [x] - Revisit TimeField component and check stories
  * [] - Revisit TimeField component and check tests status
  * [x] - Revisit and clean up styles
  * [] - Resolve leftover TODOs

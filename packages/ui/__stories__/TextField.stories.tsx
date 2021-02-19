@@ -7,8 +7,6 @@ import cn from 'classnames'
 import { TextField } from '../src/TextField'
 import { TextFieldFormik } from '../src/TextFieldFormik'
 
-import styleConsts from '../styles/constants/export.module.scss'
-
 import styles from '../src/TextField.module.scss'
 
 export default {
@@ -281,7 +279,6 @@ export const WithTrailingIconDisabled = () => (
     onChange={(e) => logger.log('change', e.target.value)}
     inputTrailingIcon={Calendar}
     inputTrailingIconLabel="Calendar icon"
-    inputTrailingIconColor={styleConsts.colorInfoDark}
     disabled
   />
 )
