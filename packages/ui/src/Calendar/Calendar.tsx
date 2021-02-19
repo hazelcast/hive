@@ -41,7 +41,7 @@ export type CalendarProps = {
  * [x] - Revisit TimeField component and check stories
  * [x] - Revisit TimeField component and check tests status
  * [x] - Revisit and clean up styles
- * [] - Resolve leftover TODOs
+ * [x] - Resolve leftover TODOs
  */
 export const Calendar: FC<CalendarProps> = ({
   calendarClassName,

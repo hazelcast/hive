@@ -6,7 +6,6 @@ import { CalendarInputInternal } from '../../../src/Calendar/components/Calendar
 
 const label = 'InputLabel'
 
-// TODO: Add change handler test
 describe('CalendarInput', () => {
   it('Renders', async () => {
     const value = '2021-02-08'
@@ -21,6 +20,7 @@ describe('CalendarInput', () => {
       label,
       inputTrailingIcon: Calendar,
       inputTrailingIconLabel: 'Calendar Icon',
+      onChange,
     })
   })
 })

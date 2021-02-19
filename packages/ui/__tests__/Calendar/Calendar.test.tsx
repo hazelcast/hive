@@ -9,7 +9,6 @@ import styleConsts from '../styles/constants/export.module.scss'
 
 // Equivalent to `2021-02-08T09:00:00.000Z`
 const timestamp = 1612774800000
-// TODO: Check potential failures in different timezones
 const date = new Date(timestamp)
 const inputLabel = 'Calendar Input'
 

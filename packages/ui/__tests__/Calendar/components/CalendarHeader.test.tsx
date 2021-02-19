@@ -6,7 +6,6 @@ import { act } from 'react-dom/test-utils'
 
 // Equivalent to `2021-02-08T09:00:00.000Z`
 const timestamp = 1612774800000
-// TODO: Check potential failures in different timezones
 const date = new Date(timestamp)
 
 const calendarHeaderIntrinsicProps: Omit<CalendarHeaderProps, 'date' | 'increaseMonth' | 'decreaseMonth'> = {
