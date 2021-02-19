@@ -1,10 +1,7 @@
 import React, { FC, ChangeEvent, InputHTMLAttributes, forwardRef } from 'react'
-import cn from 'classnames'
 import { Calendar } from 'react-feather'
 
 import { TextField } from '../../TextField'
-
-import styles from '../Calendar.module.scss'
 
 export type CalendarInputInternalProps = {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
@@ -17,7 +14,7 @@ export const CalendarInputInternal: FC<CalendarInputInternalProps> = ({ classNam
     data-test="calendar-input"
     value={value?.toString()}
     onChange={onChange}
-    inputContainerClassName={cn(styles.calendarInputContainer, className)}
+    inputContainerClassName={className}
     type="text"
     name="calendar-input"
     label={label}

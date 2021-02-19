@@ -33,7 +33,15 @@ export const Calendar: FC<CalendarProps> = ({
   showTimeInput,
   ...props
 }) => (
-  <div className={cn(styles.container, containerClassName)}>
+  <div
+    className={cn(
+      styles.container,
+      {
+        [styles.time]: showTimeInput,
+      },
+      containerClassName,
+    )}
+  >
     <DatePicker
       {...props}
       calendarClassName={cn(styles.calendar, calendarClassName)}

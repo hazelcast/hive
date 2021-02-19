@@ -1,9 +1,9 @@
 @use '../../styles/constants' as c;
 @use '../../styles/helpers' as h;
 
-$inputWidth: 300px;
-// Note: Designed height is 277px, however our icons are 24x24, not 21x21
-$inputHeight: 283px;
+$inputMaxWidth: 300px;
+$inputMinWidth: 118px;
+$inputMinWidthWithTime: 183px;
 $inputPadding: c.$grid * 3;
 
 /*
@@ -125,11 +125,9 @@ $inputPadding: c.$grid * 3;
     }
 
     :global .react-datepicker-time__input-container {
-      height: 100%;
       margin: 0 c.$grid 0 c.$grid * 5;
 
       :global .react-datepicker-time__input {
-        height: 100%;
         margin: 0;
 
         input {
@@ -144,7 +142,12 @@ $inputPadding: c.$grid * 3;
  * Rest of styles
  */
 .container {
-  max-width: $inputWidth;
+  max-width: $inputMaxWidth;
+  min-width: $inputMinWidth;
+
+  &.time {
+    min-width: $inputMinWidthWithTime;
+  }
 
   .calendar {
     display: flex;
@@ -152,7 +155,6 @@ $inputPadding: c.$grid * 3;
     border: c.$borderWidth solid c.$colorNeutralLight;
     background-color: c.$colorNeutralLighter;
     padding: $inputPadding;
-    height: $inputHeight;
     box-sizing: border-box;
 
     .headerContainer {

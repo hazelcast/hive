@@ -14,20 +14,22 @@
  * and would cause overflow in case of option 1.
  * Therefore only option 2 is left.
  */
-$calendarTimeHeight: 217px;
+$calendarTimeHeight: 227px;
 // Note: Add padding in order to preserve button's outline
 $outlinePreservingPadding: c.$grid * 1.25;
+// Note: Button width is 98px with border-box applied
+$buttonWidth: calc(98px - 2 * #{$outlinePreservingPadding});
 
 .container {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
 
   .header {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-left: c.$grid * 1.5;
     margin-bottom: c.$grid * 2;
   }
 
@@ -37,6 +39,8 @@ $outlinePreservingPadding: c.$grid * 1.25;
     overflow-y: scroll;
     padding: $outlinePreservingPadding;
     height: $calendarTimeHeight;
+    width: $buttonWidth;
+    box-sizing: border-box;
 
     > .timePoint {
       color: c.$colorTextSubdued;
