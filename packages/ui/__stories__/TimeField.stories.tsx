@@ -37,7 +37,7 @@ export const Error = () => (
     value="10:00"
     onBlur={() => logger.log('blur')}
     onChange={(e) => logger.log('change', e.target.value)}
-    error="Dark side"
+    error="Error"
   />
 )
 
