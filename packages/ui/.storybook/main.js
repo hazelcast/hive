@@ -13,7 +13,7 @@ module.exports = {
         },
       },
     },
-    'storybook-addon-designs',
+    //'storybook-addon-designs',
     '@storybook/addon-docs',
   ],
   webpackFinal: async (config) => {

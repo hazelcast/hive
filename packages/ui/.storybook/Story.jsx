@@ -6,7 +6,7 @@ import {
   Canvas,
   Story as StoryOriginal,
 } from '@storybook/addon-docs/blocks'
-import { Design } from 'storybook-addon-designs/blocks'
+// import { Design } from 'storybook-addon-designs/blocks'
 
 const designStyleOpen = {
   visibility: 'visible',
@@ -26,6 +26,8 @@ export const Story = ({
   withToolbar = false,
   parameters = {},
 }) => {
+  return <StoryOriginal id={id} />
+
   let description
   const { docs } = parameters
   if (expanded && docs) {

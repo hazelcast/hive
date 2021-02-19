@@ -1,5 +1,5 @@
 import React from 'react'
-import { withDesign } from 'storybook-addon-designs'
+// import { withDesign } from 'storybook-addon-designs'
 
 import { CustomDocsPage } from './CustomDocsPage'
 import { customTheme } from './theme'
@@ -12,7 +12,7 @@ export const decorators = [
       <Story />
     </div>
   ),
-  withDesign,
+  // withDesign,
 ]
 
 export const parameters = {

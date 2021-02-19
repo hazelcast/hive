@@ -1,9 +1,8 @@
-import React, { ChangeEvent, FC, useCallback } from 'react'
+import React, { ChangeEvent, FC, useCallback, useEffect, useState } from 'react'
 import { format, parse } from 'date-fns'
 
 import { Button } from '../../Button'
 import { timePoints } from '../helpers/consts'
-import { getSafeTimeString } from '../helpers/time'
 import { TimeField } from '../../TimeField'
 
 import styles from './CalendarTime.module.scss'
@@ -20,9 +19,43 @@ export type CalendarTimeInternalProps = {
 }
 
 export const CalendarTimeInternal: FC<CalendarTimeInternalProps> = ({ date, value, onChange }) => {
+  const [time, setTime] = useState(value)
+  const [timeInputError, setTimeInputError] = useState<string | undefined>()
+
+  /*
+   * Note:
+   * We cannot override how react-datepicker handles time values.
+   * It always expects format of "xx:xx" to parse the hours and minutes from. (See Source 2. link below)
+   *
+   * This is not an issue for majority of browsers, however as for IE11, where <input type="time" />
+   * fall back to <input type="text" />, this becomes an issue.
+   *
+   * Furthermore, the package even does not handle potential thrown error by date-fns' parse.
+   * Even the live demos do crash on an input like "10:10q" (See source 1. link below).
+   *
+   * For this reasons we need to provide our own wrapper around the functionality to achieve 2 things:
+   * - Provide IE11 with a proper fallback
+   * - Prevent the invalid input value crash
+   * - Provide the user with an input error in case the value is invalid
+   *
+   * Source(1): https://reactdatepicker.com/#example-custom-time-input
+   * Source(2): https://github.com/Hacker0x01/react-datepicker/blob/master/src/inputTime.jsx#L32
+   */
+  useEffect(() => {
+    setTime(value)
+  }, [value])
+
   const handleTimeInputChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      onChange(getSafeTimeString(e.target.value, date))
+    ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
+      setTime(value)
+      const parsedDate = parse(value, DATE_FORMAT_NO_MERIDIEM, date)
+
+      if (!isNaN(parsedDate.valueOf())) {
+        setTimeInputError(undefined)
+        onChange(value)
+      } else {
+        setTimeInputError('Invalid time')
+      }
     },
     [onChange, date],
   )
@@ -33,7 +66,7 @@ export const CalendarTimeInternal: FC<CalendarTimeInternalProps> = ({ date, valu
       const parsedDate = parse(dp, DATE_FORMAT, date)
       // Note: Output time, that we feed back to 'react-datetime' is in 'DATE_FORMAT_NO_MERIDIEM' format
       const timeStringWithoutAm = format(parsedDate, DATE_FORMAT_NO_MERIDIEM)
-      onChange(getSafeTimeString(timeStringWithoutAm, parsedDate))
+      onChange(timeStringWithoutAm)
     },
     [onChange, date],
   )
@@ -41,7 +74,14 @@ export const CalendarTimeInternal: FC<CalendarTimeInternalProps> = ({ date, valu
   return (
     <div data-test="calendar-time" className={styles.container}>
       <div data-test="calendar-time-header" className={styles.header}>
-        <TimeField aria-label="Time Input" className={styles.input} name="time" value={value} onChange={handleTimeInputChange} />
+        <TimeField
+          aria-label="Time Input"
+          error={timeInputError}
+          className={styles.input}
+          name="time"
+          value={time.toString()}
+          onChange={handleTimeInputChange}
+        />
       </div>
       <div data-test="calendar-time-timePoints" className={styles.timePoints}>
         {timePoints.map((tP) => (
