@@ -184,6 +184,31 @@ export const SelectField = <V,>({
     }
   }, [menuPortalTarget])
 
+  const props: ReactSelectProps<SelectFieldOption<V>> = {
+    inputId: id,
+    className: 'hz-select-field',
+    classNamePrefix: 'hz-select-field',
+    // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute
+    'aria-errormessage': error && errorId(id),
+    'aria-invalid': !!error,
+    'aria-required': required,
+    isClearable: isClearable ?? false,
+    isDisabled: disabled,
+    isSearchable: isSearchable,
+    isMulti: isMulti,
+    name: name,
+    value: value,
+    onChange: onChange as (value: ValueType<SelectFieldOption<V>>, action: ActionMeta<SelectFieldOption<V>>) => void,
+    menuPortalTarget: getMenuContainer(menuPortalTarget),
+    components: {
+      DropdownIndicator,
+      ClearIndicator,
+      Input,
+      MultiValue,
+    },
+    ...rest,
+  }
+
   return (
     <div
       data-test={dataTest}
@@ -204,58 +229,7 @@ export const SelectField = <V,>({
     >
       <Label id={id} label={label} className={labelClassName} />
       <div className={styles.selectBlock}>
-        {isCreatable ? (
-          <ReactSelectCreatable<SelectFieldOption<V>>
-            inputId={id}
-            className="hz-select-field"
-            classNamePrefix="hz-select-field"
-            // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute
-            aria-errormessage={error && errorId(id)}
-            aria-invalid={!!error}
-            aria-required={required}
-            isClearable={isClearable ?? false}
-            isDisabled={disabled}
-            isSearchable={isSearchable}
-            isMulti={isMulti}
-            name={name}
-            value={value}
-            onChange={onChange as (value: ValueType<SelectFieldOption<V>>, action: ActionMeta<SelectFieldOption<V>>) => void}
-            menuPortalTarget={getMenuContainer(menuPortalTarget)}
-            components={{
-              DropdownIndicator,
-              ClearIndicator,
-              Input,
-              MultiValue,
-            }}
-            {...rest}
-          />
-        ) : (
-          <ReactSelect<SelectFieldOption<V>>
-            inputId={id}
-            className="hz-select-field"
-            classNamePrefix="hz-select-field"
-            // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute
-            aria-errormessage={error && errorId(id)}
-            aria-invalid={!!error}
-            aria-required={required}
-            isClearable={isClearable ?? false}
-            isDisabled={disabled}
-            isSearchable={isSearchable}
-            isMulti={isMulti}
-            name={name}
-            value={value}
-            onChange={onChange as (value: ValueType<SelectFieldOption<V>>, action: ActionMeta<SelectFieldOption<V>>) => void}
-            menuPortalTarget={getMenuContainer(menuPortalTarget)}
-            components={{
-              DropdownIndicator,
-              ClearIndicator,
-              Input,
-              MultiValue,
-            }}
-            {...rest}
-          />
-        )}
-
+        {isCreatable ? <ReactSelectCreatable<SelectFieldOption<V>> {...props} /> : <ReactSelect<SelectFieldOption<V>> {...props} />}
         {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} />}
       </div>
       <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
