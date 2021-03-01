@@ -1,12 +1,12 @@
 import React from 'react'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { getFixedTimezoneDate, mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import { CalendarHeader, CalendarHeaderProps } from '../../../src/Calendar/components/CalendarHeader'
 import { ChevronLeft, ChevronRight } from 'react-feather'
 import { act } from 'react-dom/test-utils'
 
 // Equivalent to `2021-02-08T09:00:00.000Z`
 const timestamp = 1612774800000
-const date = new Date(timestamp)
+const date = getFixedTimezoneDate(timestamp)
 
 const calendarHeaderIntrinsicProps: Omit<CalendarHeaderProps, 'date' | 'increaseMonth' | 'decreaseMonth'> = {
   changeYear: jest.fn(),

@@ -1,4 +1,4 @@
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { getFixedTimezoneDate, mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import React from 'react'
 import { act } from 'react-dom/test-utils'
 import { CalendarTimeInternal } from '../../../src/Calendar/components/CalendarTime'
@@ -8,7 +8,7 @@ import { Button } from '../../../src'
 
 // Equivalent to `2021-02-08T09:00:00.000Z`
 const timestamp = 1612774800000
-const date = new Date(timestamp)
+const date = getFixedTimezoneDate(timestamp)
 const value = '09:00:00 AM'
 
 describe('CalendarTime', () => {

@@ -1,4 +1,4 @@
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { mountAndCheckA11Y, getFixedTimezoneDate } from '@hazelcast/test-helpers'
 import React from 'react'
 import ReactDatePicker from 'react-datepicker'
 import { act } from 'react-dom/test-utils'
@@ -9,7 +9,7 @@ import styleConsts from '../styles/constants/export.module.scss'
 
 // Equivalent to `2021-02-08T09:00:00.000Z`
 const timestamp = 1612774800000
-const date = new Date(timestamp)
+const date = getFixedTimezoneDate(timestamp)
 const inputLabel = 'Calendar Input'
 
 describe('Calendar', () => {
@@ -138,7 +138,7 @@ describe('Calendar', () => {
 
     // Date Input
     expect(wrapper.findDataTest('calendar-input').at(0).props()).toMatchObject({
-      value: '2021-02-08 10:00 AM',
+      value: '2021-02-08 12:00 PM',
       type: 'text',
       name: 'calendar-input',
       label: 'Calendar Input',

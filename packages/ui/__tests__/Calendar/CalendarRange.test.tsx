@@ -1,11 +1,11 @@
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { getFixedTimezoneDate, mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import React from 'react'
 import { ArrowRight } from 'react-feather'
 import { CalendarRange } from '../../src/Calendar/CalendarRange'
 
 // Equivalent to `2021-02-08T09:00:00.000Z`
 const timestamp = 1612774800000
-const date = new Date(timestamp)
+const date = getFixedTimezoneDate(timestamp)
 
 describe('CalendarRange', () => {
   it('Renders', async () => {
