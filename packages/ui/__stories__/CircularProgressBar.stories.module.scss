@@ -1,0 +1,13 @@
+@use '../styles/constants' as c;
+
+.container {
+  position: relative;
+
+  .info {
+    position: absolute;
+    top: c.$grid * 29.5;
+    left: c.$grid * 19;
+
+    @include c.typographyBodySmall;
+  }
+}
