@@ -17,19 +17,21 @@ const label = 'Character'
 const nameMulti = 'Characters'
 const labelMulti = 'Characters'
 const options: SelectFieldOption<string>[] = [
-  { value: 'Darth Vader', label: 'Darth Vader' },
-  { value: 'Luke Skywalker', label: 'Luke Skywalker' },
-  { value: 'Obi-Wan Kenobi', label: 'Obi-Wan Kenobi' },
-  { value: 'Yoda', label: 'Yoda' },
-  { value: 'Han Solo', label: 'Han Solo' },
-  { value: 'Boba Fett', label: 'Boba Fett' },
-  { value: 'Jar Jar Binks', label: 'Jar Jar Binks' },
+  { value: 'darth_vader', label: 'Darth Vader' },
+  { value: 'luke_skywalker', label: 'Luke Skywalker' },
+  { value: 'obi', label: 'Obi-Wan Kenobi' },
+  { value: 'yoda', label: 'Yoda' },
+  { value: 'han_solo', label: 'Han Solo' },
+  { value: 'boba_fett', label: 'Boba Fett' },
+  { value: 'jar_jar_binks', label: 'Jar Jar Binks' },
 ]
-const value = options[1]
+const values = options.map(({ value }) => value)
+
+const value = values[0]
 const badGuyValues = [
-  options[0], // darthie boy
-  options[5], // boba fett
-  options[6], // jj binks - he sucks so much he counts as evil.
+  values[0], // darthie boy
+  values[5], // boba fett
+  values[6], // jj binks - he sucks so much he counts as evil.
 ]
 
 export const Default = () => {
@@ -45,17 +47,26 @@ Default.parameters = {
   },
 }
 
-export const NotSelected = () => (
-  <SelectField
-    name="name"
-    value={null}
-    isClearable
-    label="Character"
-    options={options}
-    onBlur={() => logger.log('blur')}
-    onChange={(val) => logger.log('change', val)}
-  />
-)
+export const NotSelected = () => {
+  const [value, setValue] = useState<string>('')
+  return (
+    <div>
+      value: {value}
+      <SelectField<string>
+        name="name"
+        value={value}
+        isClearable
+        label="Character"
+        options={options}
+        onBlur={() => logger.log('blur')}
+        onChange={(val) => {
+          setValue(val)
+          logger.log('change', val)
+        }}
+      />
+    </div>
+  )
+}
 
 export const Error = () => (
   <SelectField
@@ -149,7 +160,7 @@ export const WithHelperText = () => (
 )
 
 export const Clearable = () => {
-  const [currentValue, setValue] = useState<SelectFieldOption | null>(value)
+  const [currentValue, setValue] = useState<string | null>(value)
   return (
     <SelectField
       name="name"
@@ -309,17 +320,20 @@ export const NonSearchableOpen = () => {
 }
 
 export const MultipleSelections = () => {
-  const [currentValue, setValue] = useState([options[1], options[2]])
+  const [currentValue, setValue] = useState([values[1], values[2]])
   return (
-    <SelectField
-      name={nameMulti}
-      value={currentValue}
-      isMulti={true}
-      label={labelMulti}
-      options={options}
-      onBlur={() => logger.log('blur')}
-      onChange={setValue}
-    />
+    <div>
+      Values: {JSON.stringify(currentValue)}
+      <SelectField<string>
+        name={nameMulti}
+        value={currentValue}
+        isMulti={true}
+        label={labelMulti}
+        options={options}
+        onBlur={() => logger.log('blur')}
+        onChange={setValue}
+      />
+    </div>
   )
 }
 
@@ -331,10 +345,10 @@ MultipleSelections.parameters = {
 }
 
 export const MultipleSelectionsMultipleRows = () => {
-  const [currentValue, setValue] = useState([...options])
+  const [currentValue, setValue] = useState<string[]>([...values])
   return (
     <div style={{ maxWidth: '400px' }}>
-      <SelectField
+      <SelectField<string>
         name={nameMulti}
         value={currentValue}
         isMulti={true}
@@ -348,10 +362,10 @@ export const MultipleSelectionsMultipleRows = () => {
 }
 
 export const MultipleSelectionsClearable = () => {
-  const [currentValue, setValue] = useState<SelectFieldOption[] | null>([...options])
+  const [currentValue, setValue] = useState<string[] | null>([...values])
   return (
     <div style={{ maxWidth: '400px' }}>
-      <SelectField
+      <SelectField<string>
         name={nameMulti}
         value={currentValue}
         isMulti={true}
@@ -366,11 +380,11 @@ export const MultipleSelectionsClearable = () => {
 }
 
 export const MultipleSelectionsAndOpen = () => {
-  const [currentValue, setValue] = useState([options[1], options[2]])
+  const [currentValue, setValue] = useState([options[1].value, options[2].value])
   const ref = useRef<HTMLDivElement>(null)
   return (
     <div ref={ref} style={{ height: 350 }}>
-      <SelectField
+      <SelectField<string>
         name="nameMulti"
         value={currentValue}
         isMulti={true}
@@ -386,8 +400,8 @@ export const MultipleSelectionsAndOpen = () => {
 }
 
 export const EmptySelectFields = () => {
-  const [currentValue, setValue] = useState<SelectFieldOption | null>(null)
-  const [currentValues, setValues] = useState<SelectFieldOption[] | null>([])
+  const [currentValue, setValue] = useState<string | null>(null)
+  const [currentValues, setValues] = useState<string[] | null>([])
   return (
     <>
       <SelectField
@@ -403,7 +417,7 @@ export const EmptySelectFields = () => {
 
       <br />
 
-      <SelectField
+      <SelectField<string>
         name={nameMulti}
         value={currentValues}
         isMulti={true}
@@ -419,7 +433,7 @@ export const EmptySelectFields = () => {
 
 export const SelectFieldWrappedInFormik = () => {
   type Values = {
-    character: SelectFieldOption<string>
+    character: string
   }
 
   const validateCharacter = ({ value }: SelectFieldOption<string>) => (value == 'Yoda' ? 'No one can be Yoda' : undefined)
@@ -451,7 +465,7 @@ export const SelectFieldWrappedInFormik = () => {
 
 export const SelectFieldClearableWrappedInFormik = () => {
   type Values = {
-    character: SelectFieldOption<string> | null
+    character: string | null
   }
 
   const validateCharacter = (option: SelectFieldOption<string> | null) => (option == null ? 'Pick an option' : undefined)
@@ -483,7 +497,7 @@ export const SelectFieldClearableWrappedInFormik = () => {
 
 export const SelectFieldMultiSelectionWrappedInFormik = () => {
   type Values = {
-    badCharacters: SelectFieldOption<string>[]
+    badCharacters: string[]
   }
 
   const TestForm = () => (

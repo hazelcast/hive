@@ -40,7 +40,7 @@ export const SelectFieldFormik = <V extends object, OV = string>({
   isMulti,
   ...props
 }: SelectFieldFormikProps<V, OV>): ReactElement => {
-  type ValueType = typeof isMulti extends true ? SelectFieldOption<OV>[] : SelectFieldOption<OV>
+  type ValueType = typeof isMulti extends true ? OV[] : OV
   type SelectedOption = typeof isClearable extends true ? ValueType | null : ValueType
 
   const [field, meta, { setValue, setTouched }] = useField<SelectedOption>({

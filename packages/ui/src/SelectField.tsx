@@ -1,7 +1,7 @@
 import { DataTestProp } from '@hazelcast/helpers'
 import React, { FocusEvent, InputHTMLAttributes, ReactElement } from 'react'
 import cn from 'classnames'
-import ReactSelect, { ActionMeta, components, Props as ReactSelectProps, ValueType, MultiValueProps } from 'react-select'
+import ReactSelect, { ActionMeta, components, MultiValueProps, Props as ReactSelectProps, ValueType } from 'react-select'
 import { ChevronDown, X } from 'react-feather'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 import { useUID } from 'react-uid'
@@ -105,26 +105,26 @@ export type SelectFieldCoreDynamicProps<V> =
   | {
       isClearable: true
       isMulti?: false
-      value: SelectFieldOption<V> | null
-      onChange: (newValue: SelectFieldOption<V> | null) => void
+      value: V | null
+      onChange: (newValue: V | null) => void
     }
   | {
       isClearable?: false
       isMulti?: false
-      value: SelectFieldOption<V>
-      onChange: (newValue: SelectFieldOption<V>) => void
+      value: V
+      onChange: (newValue: V) => void
     }
   | {
       isClearable: true
       isMulti: true
-      value: SelectFieldOption<V>[] | null
-      onChange: (newValue: SelectFieldOption<V>[] | null) => void
+      value: V[] | null
+      onChange: (newValue: V[] | null) => void
     }
   | {
       isClearable?: false
       isMulti: true
-      value: SelectFieldOption<V>[]
-      onChange: (newValue: SelectFieldOption<V>[]) => void
+      value: V[]
+      onChange: (newValue: V[]) => void
     }
 
 export type SelectFieldExtraProps<V> = {
@@ -169,6 +169,7 @@ export const SelectField = <V,>({
   onChange,
   helperText,
   menuPortalTarget = 'body',
+  options,
   ...rest
 }: SelectProps<V>): ReactElement<SelectProps<V>> => {
   const id = useUID()
@@ -180,6 +181,27 @@ export const SelectField = <V,>({
       menuContainer.className = `${menuContainer.className} ${styles.menuContainer}`
     }
   }, [menuPortalTarget])
+
+  const onChangeMultipleFn = React.useCallback(
+    (values: SelectFieldOption<V>[]) => {
+      const x = values.map(({ value }) => value) ?? []
+      // onChange(x)
+      onChange('asda' as V)
+    },
+    [onChange],
+  )
+  const onChangeFn = React.useCallback(({ value }: SelectFieldOption<V>) => onChange(value), [onChange])
+
+  let selectedOption: SelectFieldOption<V> | SelectFieldOption<V>[] | undefined = undefined
+  if (isMulti) {
+    selectedOption =
+      (value as V[])?.map((val) => ({
+        value: val,
+        label: options.find(({ value }) => value === val)?.label ?? '',
+      })) ?? null
+  } else {
+    selectedOption = options.find((option) => option.value === value)
+  }
 
   return (
     <div
@@ -203,6 +225,7 @@ export const SelectField = <V,>({
       <div className={styles.selectBlock}>
         <ReactSelect<SelectFieldOption<V>>
           inputId={id}
+          options={options}
           className="hz-select-field"
           classNamePrefix="hz-select-field"
           // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute
@@ -214,8 +237,12 @@ export const SelectField = <V,>({
           isSearchable={isSearchable}
           isMulti={isMulti}
           name={name}
-          value={value}
-          onChange={onChange as (value: ValueType<SelectFieldOption<V>>, action: ActionMeta<SelectFieldOption<V>>) => void}
+          value={selectedOption}
+          onChange={
+            isMulti
+              ? (onChangeMultipleFn as (value: ValueType<SelectFieldOption<V>[]>, action: ActionMeta<SelectFieldOption<V>>) => void)
+              : (onChangeFn as (value: ValueType<SelectFieldOption<V>>, action: ActionMeta<SelectFieldOption<V>>) => void)
+          }
           menuPortalTarget={getMenuContainer(menuPortalTarget)}
           components={{
             DropdownIndicator,
