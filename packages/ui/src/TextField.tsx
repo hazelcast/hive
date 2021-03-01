@@ -1,5 +1,5 @@
 // https://zeroheight.com/11d0e6dac/p/316944-text-field
-import React, { ChangeEvent, ReactElement, InputHTMLAttributes, FocusEvent } from 'react'
+import React, { ChangeEvent, FocusEvent, InputHTMLAttributes, KeyboardEvent, ReactElement } from 'react'
 import cn from 'classnames'
 import { DataTestProp } from '@hazelcast/helpers'
 import { Icon as IconType } from 'react-feather'
@@ -43,6 +43,7 @@ export type TextFieldExtraProps<T extends TextFieldTypes> = {
   errorClassName?: string
   inputContainerChild?: ReactElement
   inputIcon?: IconType
+  onKeyPress?: (e: KeyboardEvent<HTMLInputElement>) => void
   type?: T
 } & DataTestProp &
   Pick<InputHTMLAttributes<HTMLInputElement>, 'id' | 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'> &
@@ -86,6 +87,7 @@ export const TextField = <T extends TextFieldTypes>({
   name,
   onBlur,
   onChange,
+  onKeyPress,
   placeholder,
   required,
   type,
@@ -120,6 +122,7 @@ export const TextField = <T extends TextFieldTypes>({
             name={name}
             onChange={onChange}
             onBlur={onBlur}
+            onKeyPress={onKeyPress}
             // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute
             aria-invalid={!!error}
             aria-required={required}
