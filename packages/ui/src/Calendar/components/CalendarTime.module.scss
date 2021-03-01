@@ -18,7 +18,9 @@ $calendarTimeHeight: 227px;
 // Note: Add padding in order to preserve button's outline
 $outlinePreservingPadding: c.$grid * 1.25;
 // Note: Button width is 98px with border-box applied
+/* doiuse-disable calc */
 $buttonWidth: calc(98px - 2 * #{$outlinePreservingPadding});
+/* doiuse-enable calc */
 
 .container {
   display: flex;
