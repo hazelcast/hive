@@ -73,6 +73,10 @@ $inputPadding: c.$grid * 3;
         line-height: c.$grid * 8 !important;
         margin: 0;
 
+        // Do not remove outline for high-contrast modes
+        // https://stackoverflow.com/a/52616313
+        outline: transparent solid c.$outlineWidth;
+
         @include c.typographyBodySmall;
 
         &--today {
@@ -90,14 +94,8 @@ $inputPadding: c.$grid * 3;
           background-color: c.$colorPrimaryLight;
           color: c.$colorNeutralWhite;
           // Note: Disable default browser outline, force our only on :focus
-          outline: none;
 
           @include c.typographyBodySmall('bold');
-        }
-
-        &--keyboard-selected {
-          // Note: Disable default browser outline, force our only on :focus
-          outline: none;
         }
 
         &--disabled {
