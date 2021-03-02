@@ -7,8 +7,7 @@
 @mixin outlineFormField {
   border-color: c.$colorAccessibilityOutline;
   // Border is also colored with the a11y color. We need to make the total visible outline width c.$outlineWidth, including the border
-  box-shadow: inset 0 0 0 (c.$outlineWidth - c.$borderWidth)
-    c.$colorAccessibilityOutline;
+  box-shadow: inset 0 0 0 (c.$outlineWidth - c.$borderWidth) c.$colorAccessibilityOutline;
 
   // Do not remove outline for high-contrast modes
   // https://stackoverflow.com/a/52616313

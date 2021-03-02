@@ -1,0 +1,91 @@
+@use '../styles/constants' as c;
+@use '../styles/helpers' as h;
+
+.container {
+  display: inline-flex;
+  flex-direction: column;
+
+  .label {
+    margin-bottom: c.$grid;
+  }
+
+  .errorContainer {
+    margin-top: c.$grid;
+  }
+
+  .inputBlock {
+    display: flex;
+
+    .inputContainer {
+      position: relative;
+
+      .borderOverlay {
+        position: absolute;
+        display: block;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        pointer-events: none;
+        z-index: c.$zIndex100;
+        border: c.$borderWidth solid c.$colorNeutral;
+        border-radius: c.$borderRadiusTimeField;
+        box-sizing: border-box;
+      }
+
+      input {
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: c.$grid * 5;
+        background-color: c.$colorNeutralWhite;
+        color: c.$colorTextSubdued;
+        padding: (c.$grid * 0.5) c.$grid c.$grid;
+        cursor: pointer;
+        border-radius: c.$borderRadiusTimeField;
+        border: none;
+
+        // TODO: Check other browsers
+        &::-webkit-calendar-picker-indicator {
+          display: none;
+          background: none;
+        }
+      }
+
+      input.error {
+        & ~ .borderOverlay {
+          border-color: c.$colorError;
+        }
+      }
+
+      input:hover,
+      input.hover {
+        & ~ .borderOverlay {
+          border-color: c.$colorPrimary;
+        }
+      }
+
+      input:focus,
+      input.focus {
+        // Do not remove outline for high-contrast modes
+        // https://stackoverflow.com/a/52616313
+        outline: transparent solid c.$outlineWidth;
+
+        & ~ .borderOverlay {
+          @include h.outlineFormField;
+        }
+      }
+
+      input.disabled {
+        cursor: not-allowed;
+        color: c.$colorTextSecondary;
+        background-color: c.$colorNeutral;
+
+        & ~ .borderOverlay {
+          border-color: c.$colorNeutralLight;
+        }
+      }
+    }
+  }
+}
