@@ -250,7 +250,7 @@ describe('SelectField', () => {
       <SelectField
         name={selectName}
         label={selectLabel}
-        value={selectValue}
+        value="selectValue0"
         onChange={onChange}
         options={selectOptions}
         isClearable
@@ -275,7 +275,6 @@ describe('SelectField', () => {
       isSearchable: true,
       options: selectOptions,
       value: selectValue,
-      onChange,
     })
 
     expect(wrapper.find(Error).props()).toEqual({
