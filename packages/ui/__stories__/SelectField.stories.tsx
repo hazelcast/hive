@@ -27,7 +27,7 @@ const options: SelectFieldOption<string>[] = [
 ]
 const values = options.map(({ value }) => value)
 
-const value = values[0]
+const value = values[1]
 const badGuyValues = [
   values[0], // darthie boy
   values[5], // boba fett
