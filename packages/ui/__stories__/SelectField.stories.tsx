@@ -547,3 +547,37 @@ export const SelectFieldMultiSelectionWrappedInFormik = () => {
 
   return <TestForm />
 }
+
+export const Creatable = () => {
+  const [currentValue, setValue] = useState<SelectFieldOption | null>(null)
+  const [currentValues, setValues] = useState<SelectFieldOption[] | null>([])
+  return (
+    <>
+      <SelectField
+        isCreatable
+        name={name}
+        value={currentValue}
+        isMulti={false}
+        isClearable
+        label={label}
+        options={options}
+        onBlur={() => logger.log('blur')}
+        onChange={setValue}
+      />
+
+      <br />
+
+      <SelectField
+        isCreatable
+        name={nameMulti}
+        value={currentValues}
+        isMulti={true}
+        isClearable
+        label={labelMulti}
+        options={options}
+        onBlur={() => logger.log('blur')}
+        onChange={setValues}
+      />
+    </>
+  )
+}

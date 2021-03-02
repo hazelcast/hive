@@ -2,6 +2,7 @@ import React from 'react'
 import { useUID } from 'react-uid'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import ReactSelect from 'react-select'
+import ReactSelectCreatable from 'react-select/creatable'
 import { X } from 'react-feather'
 
 import { SelectField, SelectFieldOption } from '../src/SelectField'
@@ -240,5 +241,49 @@ describe('SelectField', () => {
       className: styles.errorContainer,
       inputId: selectId,
     })
+  })
+
+  it('Renders creatable select correct props', async () => {
+    const onChange = jest.fn()
+
+    const wrapper = await mountAndCheckA11Y(
+      <SelectField
+        name={selectName}
+        label={selectLabel}
+        value={selectValue}
+        onChange={onChange}
+        options={selectOptions}
+        isClearable
+        isCreatable
+      />,
+    )
+
+    expect(wrapper.find(Label).props()).toEqual({
+      id: selectId,
+      label: selectLabel,
+    })
+
+    expect(wrapper.find(ReactSelectCreatable).props()).toMatchObject({
+      inputId: selectId,
+      name: selectName,
+      'aria-invalid': false,
+      'aria-required': undefined,
+      'aria-errormessage': undefined,
+      isDisabled: undefined,
+      isClearable: true,
+      isMulti: false,
+      isSearchable: true,
+      options: selectOptions,
+      value: selectValue,
+      onChange,
+    })
+
+    expect(wrapper.find(Error).props()).toEqual({
+      error: undefined,
+      className: styles.errorContainer,
+      inputId: selectId,
+    })
+
+    expect(wrapper.find(IconButton).prop('icon')).toBe(X)
   })
 })

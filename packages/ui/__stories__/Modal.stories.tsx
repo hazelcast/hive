@@ -4,7 +4,9 @@ import { useUID } from 'react-uid'
 import { CloudLightning } from 'react-feather'
 
 import { Modal, ModalProps } from '../src/Modal'
+import { Button } from '../src'
 
+import styles from '../src/Modal.module.scss'
 import utilsStyles from './utils.scss'
 
 export default {
@@ -160,3 +162,29 @@ export const WithLongTitle = () => (
     {Content}
   </ModalWithPortalFactory>
 )
+
+export const WithHiddenModalActions = () => {
+  const Content = (
+    <div>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis tortor sed nibh elementum congue. Phasellus leo mi, pellentesque
+        in consequat sed, semper id felis. Quisque sed eros tristique, suscipit libero eu, varius ex. Mauris luctus sem et lorem tincidunt,
+        id pellentesque eros pretium.
+      </p>
+      <div className={styles.footer}>
+        <Button kind="primary" onClick={onClick}>
+          Action
+        </Button>
+        <Button kind="secondary" onClick={onClose}>
+          Cancel
+        </Button>
+      </div>
+    </div>
+  )
+
+  return (
+    <ModalWithPortalFactory title={title} isOpen onClose={onClose} hideActions>
+      {Content}
+    </ModalWithPortalFactory>
+  )
+}

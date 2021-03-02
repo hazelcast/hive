@@ -283,6 +283,43 @@ describe('Modal', () => {
     })
   })
 
+  it('Hides footer with Actions', () => {
+    const onClose = jest.fn()
+    const onClick = jest.fn()
+
+    const wrapper = mount(
+      <Modal
+        isOpen
+        title={modalTitle}
+        actions={[
+          {
+            children,
+            onClick,
+          },
+        ]}
+        onClose={onClose}
+        hideActions
+      >
+        <ModalContent />
+      </Modal>,
+    )
+
+    expect(wrapper.find(ReactModal).props()).toMatchObject({
+      ariaHideApp: true,
+      preventScroll: false,
+      role: 'dialog',
+      shouldCloseOnEsc: true,
+      shouldCloseOnOverlayClick: true,
+      shouldFocusAfterRender: false,
+      shouldReturnFocusAfterClose: true,
+      contentLabel: modalTitle,
+      isOpen: true,
+      onRequestClose: onClose,
+    })
+
+    expect(wrapper.findDataTest('modal-footer').exists()).toBe(false)
+  })
+
   it('When "autoFocus" is passed to an action, the action is focused. This disables autoFocus on Cancel button.', () => {
     const onClose = jest.fn()
     const onClick = jest.fn()
