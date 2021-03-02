@@ -8,13 +8,12 @@ export default {
   component: Calendar,
 }
 
-// Equivalent to `2021-02-08T09:00:00.000Z`
-const timestamp = 1612774800000
+const dateDefault = new Date(2020, 11, 20)
 const onDateChange = (d: Date) => console.log(d)
 const inputLabel = 'Calendar Input'
 
 export const Default = () => {
-  const [date, setDate] = useState<Date>(new Date(timestamp))
+  const [date, setDate] = useState<Date>(dateDefault)
 
   const onDateChange = useCallback(
     (d: Date) => {
@@ -39,18 +38,18 @@ Default.parameters = {
 
 export const Open = () => (
   <div className={utilsStyles.calendarWrapper}>
-    <Calendar date={new Date(timestamp)} onDateChange={onDateChange} inputLabel={inputLabel} open />
+    <Calendar date={dateDefault} onDateChange={onDateChange} inputLabel={inputLabel} open />
   </div>
 )
 
 export const Disabled = () => (
   <div className={utilsStyles.calendarWrapper}>
-    <Calendar disabled date={new Date(timestamp)} onDateChange={onDateChange} inputLabel={inputLabel} />
+    <Calendar disabled date={dateDefault} onDateChange={onDateChange} inputLabel={inputLabel} />
   </div>
 )
 
 export const WithTime = () => {
-  const [date, setDate] = useState<Date>(new Date(timestamp))
+  const [date, setDate] = useState<Date>(dateDefault)
 
   const onDateChange = useCallback(
     (d: Date) => {

@@ -321,7 +321,7 @@ export function Slider<T extends SliderValue = number>({
                         marginLeft: `${left * 100}%`,
                       }
                     : {
-                        width: `${max * left}%`,
+                        width: `${left * 100}%`,
                       }
                 }
               />

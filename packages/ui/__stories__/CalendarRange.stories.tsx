@@ -8,14 +8,12 @@ export default {
   component: CalendarRange,
 }
 
-// Equivalent to `2021-02-08T09:00:00.000Z`
-const timestamp = 1612774800000
-const date = new Date(timestamp)
+const date = new Date(2020, 11, 20)
 const onDateChange = (d: Date) => console.log(d)
 
 export const Default = () => {
-  const [startDate, setStartDate] = useState<Date>(new Date())
-  const [endDate, setEndDate] = useState<Date>(new Date())
+  const [startDate, setStartDate] = useState<Date>(date)
+  const [endDate, setEndDate] = useState<Date>(date)
 
   const onStartDateChange = useCallback(
     (d: Date) => {
@@ -51,8 +49,8 @@ export const EndOpen = () => (
 )
 
 export const WithTimeInputs = () => {
-  const [startDate, setStartDate] = useState<Date>(new Date())
-  const [endDate, setEndDate] = useState<Date>(new Date())
+  const [startDate, setStartDate] = useState<Date>(date)
+  const [endDate, setEndDate] = useState<Date>(date)
 
   const onStartDateChange = useCallback(
     (d: Date) => {
