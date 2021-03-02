@@ -549,11 +549,15 @@ export const SelectFieldMultiSelectionWrappedInFormik = () => {
 }
 
 export const Creatable = () => {
-  const [currentValue, setValue] = useState<SelectFieldOption | null>(null)
-  const [currentValues, setValues] = useState<SelectFieldOption[] | null>([])
+  const [currentValue, setValue] = useState<string | null>(null)
+  const [currentValues, setValues] = useState<string[] | null>([])
   return (
     <>
-      <SelectField
+      {JSON.stringify({
+        currentValue,
+        currentValues,
+      })}
+      <SelectField<string>
         isCreatable
         name={name}
         value={currentValue}
@@ -567,7 +571,7 @@ export const Creatable = () => {
 
       <br />
 
-      <SelectField
+      <SelectField<string>
         isCreatable
         name={nameMulti}
         value={currentValues}

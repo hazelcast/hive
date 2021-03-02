@@ -128,6 +128,23 @@ export type SelectFieldCoreDynamicProps<V> =
       onChange: (newValue: V[]) => void
     }
 
+// Since the user input is string, let's allow creatable only for string
+type SelectFieldCreatableProps<V> = V extends string
+  ? {
+      isCreatable?: boolean
+    }
+  : {
+      isCreatable?: false
+    }
+
+function isMultipleModeGuard<V>(value: V | V[], isMultiple: boolean): value is V[] {
+  return isMultiple
+}
+
+function isCreatableGuard(value: unknown, isCreatable: boolean): value is string | string[] {
+  return isCreatable
+}
+
 export type SelectFieldExtraProps<V> = {
   isCreatable?: boolean
   options: SelectFieldOption<V>[]
@@ -141,7 +158,10 @@ export type SelectFieldExtraProps<V> = {
   Pick<InputHTMLAttributes<HTMLElement>, 'autoFocus' | 'disabled' | 'required' | 'placeholder'> &
   Pick<ReactSelectProps, 'isSearchable' | 'menuIsOpen' | 'menuPlacement' | 'noOptionsMessage' | 'inputValue'>
 
-export type SelectProps<V> = SelectFieldCoreStaticProps & SelectFieldCoreDynamicProps<V> & SelectFieldExtraProps<V>
+export type SelectProps<V> = SelectFieldCoreStaticProps &
+  SelectFieldCoreDynamicProps<V> &
+  SelectFieldExtraProps<V> &
+  SelectFieldCreatableProps<V>
 
 const getMenuContainer = (menuPortalTarget: 'body' | 'self' | HTMLElement | null): HTMLElement | null | undefined => {
   if (menuPortalTarget == 'body') {
@@ -199,22 +219,41 @@ export const SelectField = <V,>({
     [onChange],
   )
 
-  const selectedOption: SelectFieldOption<V> | SelectFieldOption<V>[] | undefined = useMemo(() => {
-    if (isMulti) {
+  const onCreateOption = React.useCallback(
+    (newValue) => {
+      if (isCreatableGuard(value, isCreatable)) {
+        ;(onChange as (newValue: string[] | null) => void)([...value, newValue])
+      } else {
+        ;(onChange as (newValue: string | null) => void)(newValue)
+      }
+    },
+    [onChange, value],
+  )
+
+  const selectedOption = useMemo(() => {
+    if (isMultipleModeGuard(value, isMulti)) {
       // if it's multi value, let's transform a value array to an array containing SelectFieldOptions
-      const valueArray = value as V[] | null
       return (
-        valueArray?.map((val) => ({
+        value?.map((val) => ({
           value: val,
           // we need to find instead of value: object mapping so that we can support objects as values
-          label: (options.find(({ value }) => value === val) as SelectFieldOption<V>).label,
+          label: (options.find(({ value }) => value === val) as SelectFieldOption<V>)?.label ?? val,
         })) ?? []
       )
     } else {
+      if (value === null) {
+        return null
+      }
+
       // if it's single value, let's pick a SelectFieldOption from the available options based on a value
-      return options.find((option) => option.value === value)
+      return (
+        options.find((option) => option.value === value) ?? {
+          value,
+          label: value,
+        }
+      )
     }
-  }, [options, isMulti, value])
+  }, [options, isMulti, value]) as SelectFieldOption<V> | SelectFieldOption<V>[] | undefined
 
   const props: ReactSelectProps<SelectFieldOption<V>> = {
     inputId: id,
@@ -265,7 +304,11 @@ export const SelectField = <V,>({
     >
       <Label id={id} label={label} className={labelClassName} />
       <div className={styles.selectBlock}>
-        {isCreatable ? <ReactSelectCreatable<SelectFieldOption<V>> {...props} /> : <ReactSelect<SelectFieldOption<V>> {...props} />}
+        {isCreatableGuard(value, isCreatable) ? (
+          <ReactSelectCreatable<SelectFieldOption<V>> {...props} onCreateOption={onCreateOption} />
+        ) : (
+          <ReactSelect<SelectFieldOption<V>> {...props} />
+        )}
         {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} />}
       </div>
       <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
