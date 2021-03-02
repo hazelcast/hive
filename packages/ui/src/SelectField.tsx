@@ -174,6 +174,43 @@ const getMenuContainer = (menuPortalTarget: 'body' | 'self' | HTMLElement | null
   return menuPortalTarget
 }
 
+type GetSelectedOptionFromValueProps<V> = {
+  value: V | V[] | null
+  options: SelectFieldOption<V>[]
+  isMulti: boolean
+}
+
+/**
+ * Transforms the value passed to our Select component so that it's in a format as underlying react-select expects
+ * @param value - single value or an array of values
+ * @param options - an array of objects describing all possible options with their labels
+ * @param isMulti - boolean indicating whether we're in a multiple mode or not
+ */
+export function getSelectedOptionFromValue<V>({ value, options, isMulti }: GetSelectedOptionFromValueProps<V>) {
+  if (isMultipleModeGuard(value, isMulti)) {
+    // if it's multi value, let's transform a value array to an array containing SelectFieldOptions
+    return (
+      value?.map((val) => ({
+        value: val,
+        // we need to find instead of value: object mapping so that we can support objects as values
+        label: (options.find(({ value }) => value === val) as SelectFieldOption<V>)?.label ?? val,
+      })) ?? []
+    )
+  } else {
+    if (value === null) {
+      return null
+    }
+
+    // if it's single value, let's pick a SelectFieldOption from the available options based on a value
+    return (
+      options.find((option) => option.value === value) ?? {
+        value,
+        label: value,
+      }
+    )
+  }
+}
+
 export const SelectField = <V,>({
   'data-test': dataTest,
   labelClassName,
@@ -231,28 +268,7 @@ export const SelectField = <V,>({
   )
 
   const selectedOption = useMemo(() => {
-    if (isMultipleModeGuard(value, isMulti)) {
-      // if it's multi value, let's transform a value array to an array containing SelectFieldOptions
-      return (
-        value?.map((val) => ({
-          value: val,
-          // we need to find instead of value: object mapping so that we can support objects as values
-          label: (options.find(({ value }) => value === val) as SelectFieldOption<V>)?.label ?? val,
-        })) ?? []
-      )
-    } else {
-      if (value === null) {
-        return null
-      }
-
-      // if it's single value, let's pick a SelectFieldOption from the available options based on a value
-      return (
-        options.find((option) => option.value === value) ?? {
-          value,
-          label: value,
-        }
-      )
-    }
+    return getSelectedOptionFromValue<V>({ options, value, isMulti })
   }, [options, isMulti, value]) as SelectFieldOption<V> | SelectFieldOption<V>[] | undefined
 
   const props: ReactSelectProps<SelectFieldOption<V>> = {

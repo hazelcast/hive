@@ -5,7 +5,7 @@ import ReactSelect from 'react-select'
 import ReactSelectCreatable from 'react-select/creatable'
 import { X } from 'react-feather'
 
-import { SelectField, SelectFieldOption } from '../src/SelectField'
+import { getSelectedOptionFromValue, SelectField, SelectFieldOption } from '../src/SelectField'
 import { Label } from '../src/Label'
 import { Error, errorId } from '../src/Error'
 import { IconButton } from '../src/IconButton'
@@ -284,5 +284,110 @@ describe('SelectField', () => {
     })
 
     expect(wrapper.find(IconButton).prop('icon')).toBe(X)
+  })
+})
+
+describe('SelectField - getSelectedOptionFromValue', () => {
+  const colors = [
+    {
+      value: 'blue',
+      label: 'Blue',
+    },
+    {
+      value: 'green',
+      label: 'Green',
+    },
+    {
+      value: 'red',
+      label: 'Red',
+    },
+  ]
+
+  it("single mode: transforms value to react-field's value object", () => {
+    expect(
+      getSelectedOptionFromValue({
+        value: 'blue',
+        options: colors,
+        isMulti: false,
+      }),
+    ).toEqual({
+      value: 'blue',
+      label: 'Blue',
+    })
+  })
+
+  it("single mode: transforms `null` to react-field's value object", () => {
+    expect(
+      getSelectedOptionFromValue({
+        value: null,
+        options: colors,
+        isMulti: false,
+      }),
+    ).toEqual(null)
+  })
+
+  it("single mode/creatable: - value that is not in options is transformed into valid react-field's value object", () => {
+    expect(
+      getSelectedOptionFromValue({
+        value: 'hello world',
+        options: colors,
+        isMulti: false,
+      }),
+    ).toEqual({
+      value: 'hello world',
+      label: 'hello world',
+    })
+  })
+
+  it("multiple mode: transforms a value to react-field's value object", () => {
+    expect(
+      getSelectedOptionFromValue({
+        value: ['blue'],
+        options: colors,
+        isMulti: true,
+      }),
+    ).toEqual([
+      {
+        value: 'blue',
+        label: 'Blue',
+      },
+    ])
+  })
+
+  it("multiple mode: transforms `null` to react-field's value object", () => {
+    expect(
+      getSelectedOptionFromValue({
+        value: null,
+        options: colors,
+        isMulti: true,
+      }),
+    ).toEqual([])
+  })
+
+  it("multiple mode/creatable: - value that is not in options is transformed into valid react-field's value object", () => {
+    expect(
+      getSelectedOptionFromValue({
+        value: ['black', 'red', 'blue', 'gray'],
+        options: colors,
+        isMulti: true,
+      }),
+    ).toEqual([
+      {
+        value: 'black',
+        label: 'black',
+      },
+      {
+        value: 'red',
+        label: 'Red',
+      },
+      {
+        value: 'blue',
+        label: 'Blue',
+      },
+      {
+        value: 'gray',
+        label: 'gray',
+      },
+    ])
   })
 })
