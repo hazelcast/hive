@@ -35,7 +35,7 @@ describe('SelectField', () => {
     const onChange = jest.fn()
 
     const wrapper = await mountAndCheckA11Y(
-      <SelectField name={selectName} label={selectLabel} options={selectOptions} value={selectValue} onChange={onChange} />,
+      <SelectField name={selectName} label={selectLabel} options={selectOptions} value="selectValue0" onChange={onChange} />,
     )
 
     expect(wrapper.find(Label).props()).toEqual({
@@ -55,7 +55,6 @@ describe('SelectField', () => {
       isSearchable: true,
       options: selectOptions,
       value: selectValue,
-      onChange,
     })
 
     expect(wrapper.find(Error).props()).toEqual({
@@ -74,7 +73,7 @@ describe('SelectField', () => {
         name={selectName}
         label={selectLabel}
         options={selectOptions}
-        value={selectValue}
+        value="selectValue0"
         onChange={onChange}
         error={selectError}
       />,
@@ -97,7 +96,6 @@ describe('SelectField', () => {
       isSearchable: true,
       options: selectOptions,
       value: selectValue,
-      onChange,
     })
 
     expect(wrapper.find(Error).props()).toEqual({
@@ -111,7 +109,7 @@ describe('SelectField', () => {
     const onChange = jest.fn()
 
     const wrapper = await mountAndCheckA11Y(
-      <SelectField name={selectName} label={selectLabel} options={selectOptions} value={selectValue} onChange={onChange} required />,
+      <SelectField name={selectName} label={selectLabel} options={selectOptions} value="selectValue0" onChange={onChange} required />,
     )
 
     expect(wrapper.find(Label).props()).toEqual({
@@ -131,7 +129,6 @@ describe('SelectField', () => {
       isSearchable: true,
       options: selectOptions,
       value: selectValue,
-      onChange,
     })
 
     expect(wrapper.find(Error).props()).toEqual({
@@ -145,7 +142,7 @@ describe('SelectField', () => {
     const onChange = jest.fn()
 
     const wrapper = await mountAndCheckA11Y(
-      <SelectField name={selectName} label={selectLabel} value={selectValue} onChange={onChange} options={selectOptions} disabled />,
+      <SelectField name={selectName} label={selectLabel} value="selectValue0" onChange={onChange} options={selectOptions} disabled />,
     )
 
     expect(wrapper.find(Label).props()).toEqual({
@@ -165,7 +162,6 @@ describe('SelectField', () => {
       isSearchable: true,
       options: selectOptions,
       value: selectValue,
-      onChange,
     })
 
     expect(wrapper.find(Error).props()).toEqual({
@@ -179,7 +175,7 @@ describe('SelectField', () => {
     const onChange = jest.fn()
 
     const wrapper = await mountAndCheckA11Y(
-      <SelectField name={selectName} label={selectLabel} value={selectValue} onChange={onChange} options={selectOptions} isClearable />,
+      <SelectField name={selectName} label={selectLabel} value="selectValue0" onChange={onChange} options={selectOptions} isClearable />,
     )
 
     expect(wrapper.find(Label).props()).toEqual({
@@ -199,7 +195,6 @@ describe('SelectField', () => {
       isSearchable: true,
       options: selectOptions,
       value: selectValue,
-      onChange,
     })
 
     expect(wrapper.find(Error).props()).toEqual({
@@ -214,7 +209,7 @@ describe('SelectField', () => {
   it('Renders multiple selections with correct props', async () => {
     const onChange = jest.fn()
 
-    const value = [selectOptions[0], selectOptions[1]]
+    const value = [selectOptions[0].value, selectOptions[1].value]
     const wrapper = await mountAndCheckA11Y(
       <SelectField name={selectName} label={selectLabel} isMulti={true} options={selectOptions} value={value} onChange={onChange} />,
     )
@@ -237,8 +232,7 @@ describe('SelectField', () => {
       isMulti: true,
       isSearchable: true,
       options: selectOptions,
-      value,
-      onChange,
+      value: [selectOptions[0], selectOptions[1]],
     })
 
     expect(wrapper.find(Error).props()).toEqual({

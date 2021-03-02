@@ -1,5 +1,5 @@
 import { DataTestProp } from '@hazelcast/helpers'
-import React, { FocusEvent, InputHTMLAttributes, ReactElement } from 'react'
+import React, { FocusEvent, InputHTMLAttributes, ReactElement, useMemo } from 'react'
 import cn from 'classnames'
 import ReactSelect, { ActionMeta, components, MultiValueProps, Props as ReactSelectProps, ValueType } from 'react-select'
 import { ChevronDown, X } from 'react-feather'
@@ -183,25 +183,35 @@ export const SelectField = <V,>({
   }, [menuPortalTarget])
 
   const onChangeMultipleFn = React.useCallback(
-    (values: SelectFieldOption<V>[]) => {
-      const x = values.map(({ value }) => value) ?? []
-      // onChange(x)
-      onChange('asda' as V)
+    (values: SelectFieldOption<V>[] | null) => {
+      ;(onChange as (newValue: V[] | null) => void)(values === null ? null : values.map(({ value }) => value))
     },
     [onChange],
   )
-  const onChangeFn = React.useCallback(({ value }: SelectFieldOption<V>) => onChange(value), [onChange])
 
-  let selectedOption: SelectFieldOption<V> | SelectFieldOption<V>[] | undefined = undefined
-  if (isMulti) {
-    selectedOption =
-      (value as V[])?.map((val) => ({
-        value: val,
-        label: options.find(({ value }) => value === val)?.label ?? '',
-      })) ?? null
-  } else {
-    selectedOption = options.find((option) => option.value === value)
-  }
+  const onChangeFn = React.useCallback(
+    (option: SelectFieldOption<V | null>) => {
+      ;(onChange as (newValue: V | null) => void)(option === null ? null : option.value)
+    },
+    [onChange],
+  )
+
+  const selectedOption: SelectFieldOption<V> | SelectFieldOption<V>[] | undefined = useMemo(() => {
+    if (isMulti) {
+      // if it's multi value, let's transform a value array to an array containing SelectFieldOptions
+      const valueArray = value as V[] | null
+      return (
+        valueArray?.map((val) => ({
+          value: val,
+          // we need to find instead of value: object mapping so that we can support objects as values
+          label: (options.find(({ value }) => value === val) as SelectFieldOption<V>).label,
+        })) ?? []
+      )
+    } else {
+      // if it's single value, let's pick a SelectFieldOption from the available options based on a value
+      return options.find((option) => option.value === value)
+    }
+  }, [options, isMulti, value])
 
   return (
     <div
@@ -239,9 +249,10 @@ export const SelectField = <V,>({
           name={name}
           value={selectedOption}
           onChange={
-            isMulti
-              ? (onChangeMultipleFn as (value: ValueType<SelectFieldOption<V>[]>, action: ActionMeta<SelectFieldOption<V>>) => void)
-              : (onChangeFn as (value: ValueType<SelectFieldOption<V>>, action: ActionMeta<SelectFieldOption<V>>) => void)
+            (isMulti ? onChangeMultipleFn : onChangeFn) as (
+              value: ValueType<SelectFieldOption<V>>,
+              action: ActionMeta<SelectFieldOption<V>>,
+            ) => void
           }
           menuPortalTarget={getMenuContainer(menuPortalTarget)}
           components={{

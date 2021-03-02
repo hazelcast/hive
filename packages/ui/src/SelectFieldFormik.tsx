@@ -1,35 +1,35 @@
 import React, { ReactElement, useMemo } from 'react'
 import { useField } from 'formik'
 
-import { SelectField, SelectFieldCoreDynamicProps, SelectFieldExtraProps, SelectFieldOption } from './SelectField'
+import { SelectField, SelectFieldCoreDynamicProps, SelectFieldExtraProps } from './SelectField'
 import { FieldValidatorGeneric, formikTouchAndUpdate, getFieldError } from './utils/formik'
 import { ExtractKeysOfValueType } from './utils/types'
 
 export type SelectFieldFormikProps<V extends object, OV = string> = SelectFieldExtraProps<OV> &
   (
     | {
-        name: ExtractKeysOfValueType<V, SelectFieldOption<OV> | null>
+        name: ExtractKeysOfValueType<V, OV | null>
         isClearable: true
         isMulti?: false
-        validate?: FieldValidatorGeneric<SelectFieldOption<OV> | null>
+        validate?: FieldValidatorGeneric<OV | null>
       }
     | {
-        name: ExtractKeysOfValueType<V, SelectFieldOption<OV>>
+        name: ExtractKeysOfValueType<V, OV>
         isClearable?: false
         isMulti?: false
-        validate?: FieldValidatorGeneric<SelectFieldOption<OV>>
+        validate?: FieldValidatorGeneric<OV>
       }
     | {
-        name: ExtractKeysOfValueType<V, SelectFieldOption<OV>[] | null>
+        name: ExtractKeysOfValueType<V, OV[] | null>
         isClearable: true
         isMulti?: true
-        validate?: FieldValidatorGeneric<SelectFieldOption<OV>[] | null>
+        validate?: FieldValidatorGeneric<OV[] | null>
       }
     | {
-        name: ExtractKeysOfValueType<V, SelectFieldOption<OV>[]>
+        name: ExtractKeysOfValueType<V, OV[]>
         isClearable?: false
         isMulti?: true
-        validate?: FieldValidatorGeneric<SelectFieldOption<OV>[]>
+        validate?: FieldValidatorGeneric<OV[]>
       }
   )
 
