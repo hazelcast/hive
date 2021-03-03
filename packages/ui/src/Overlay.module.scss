@@ -17,16 +17,16 @@
   padding: c.$grid * 5;
   box-sizing: border-box;
   pointer-events: all;
-  // animation: fadeIn 500ms;
+  animation: fadeIn 500ms;
 
-  // @keyframes fadeIn {
-  //   from {
-  //     opacity: 0;
-  //   }
-  //   to {
-  //     opacity: 1;
-  //   }
-  // }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 
   // Since Overlay is full screen, we don't have to show an outline
   &:focus {
