@@ -34,8 +34,6 @@ export const customTheme = create({
   inputBorderRadius: 3,
 
   brandTitle: 'Hazelcast Hive',
-  brandUrl:
-    'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=1586%3A0',
-  brandImage:
-    'https://hazelcast.com/wp-content/themes/hazelcast/assets/images/hazelcast-logo.svg',
+  brandUrl: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=1586%3A0',
+  brandImage: 'https://hazelcast.com/wp-content/themes/hazelcast/assets/images/hazelcast-logo.svg',
 })

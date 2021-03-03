@@ -84,12 +84,13 @@ $lineHeightBodySmall: normal !default;
 
   @include typographyBodyWeight($weight);
 }
-@mixin typographyBodySmall {
+@mixin typographyBodySmall($weight: 'regular') {
   font-family: $fontFamilyText;
-  font-weight: $fontWeightTextRegular;
   font-size: $fontSizeBodySmall;
   letter-spacing: $letterSpacingBodySmall;
   line-height: $lineHeightBodySmall;
+
+  @include typographyBodyWeight($weight);
 }
 
 @mixin typographyGlobal($override: false) {

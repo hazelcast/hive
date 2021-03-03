@@ -12,6 +12,18 @@ import { Help, helpTooltipId } from './Help'
 
 import styles from './TextField.module.scss'
 
+type TextFieldTrailingIcon =
+  | {
+      inputTrailingIcon: IconType
+      inputTrailingIconLabel: string
+      inputTrailingIconClassName?: string
+    }
+  | {
+      inputTrailingIcon?: never
+      inputTrailingIconLabel?: never
+      inputTrailingIconClassName?: never
+    }
+
 export type TextFieldTypes = 'email' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'url' | undefined
 
 type TextFieldCoreProps<T extends TextFieldTypes> = {
@@ -34,7 +46,8 @@ export type TextFieldExtraProps<T extends TextFieldTypes> = {
   onKeyPress?: (e: KeyboardEvent<HTMLInputElement>) => void
   type?: T
 } & DataTestProp &
-  Pick<InputHTMLAttributes<HTMLInputElement>, 'id' | 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'>
+  Pick<InputHTMLAttributes<HTMLInputElement>, 'id' | 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'> &
+  TextFieldTrailingIcon
 
 type TextFieldProps<T extends TextFieldTypes> = TextFieldCoreProps<T> & TextFieldExtraProps<T>
 
@@ -56,27 +69,29 @@ type TextFieldProps<T extends TextFieldTypes> = TextFieldCoreProps<T> & TextFiel
  * Use a text input when the expected user input is a single line of text.
  */
 export const TextField = <T extends TextFieldTypes>({
+  'data-test': dataTest,
+  className,
+  disabled,
+  error,
+  errorClassName,
+  helperText,
   id: explicitId,
-  name,
-  value,
+  inputClassName,
+  inputContainerChild,
+  inputContainerClassName,
+  inputIcon,
+  inputTrailingIcon,
+  inputTrailingIconLabel,
   label,
+  labelClassName,
+  name,
   onBlur,
   onChange,
   onKeyPress,
-  required,
-  helperText,
-  error,
-  'data-test': dataTest,
-  type,
-  className,
-  labelClassName,
-  inputContainerClassName,
-  inputClassName,
-  errorClassName,
-  disabled,
   placeholder,
-  inputContainerChild,
-  inputIcon,
+  required,
+  type,
+  value,
   ...htmlAttrs
 }: TextFieldProps<T>) => {
   // Use an auto generated id if it's not set explicitly
@@ -115,7 +130,9 @@ export const TextField = <T extends TextFieldTypes>({
             aria-errormessage={error && errorId(id)}
             disabled={disabled}
             placeholder={placeholder}
-            className={inputClassName}
+            className={cn(inputClassName, {
+              [styles.trailingIcon]: inputTrailingIcon,
+            })}
             {...htmlAttrs}
           />
           <div className={styles.borderOverlay} />
@@ -129,6 +146,14 @@ export const TextField = <T extends TextFieldTypes>({
             />
           )}
           {inputContainerChild}
+          {inputTrailingIcon && inputTrailingIconLabel && (
+            <Icon
+              icon={inputTrailingIcon}
+              ariaLabel={inputTrailingIconLabel}
+              containerClassName={styles.inputIconContainer}
+              className={styles.inputIconTrailing}
+            />
+          )}
         </div>
         {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} />}
       </div>
