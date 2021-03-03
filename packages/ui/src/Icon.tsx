@@ -1,4 +1,4 @@
-import React, { FC, forwardRef, SVGProps } from 'react'
+import React, { forwardRef, SVGProps } from 'react'
 import { Icon as FeatherIconType } from 'react-feather'
 import { Icon as SimpleIconType } from '@icons-pack/react-simple-icons'
 import cn from 'classnames'
