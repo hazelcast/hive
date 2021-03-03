@@ -1,4 +1,4 @@
-import React, { FC, SVGProps } from 'react'
+import React, { FC, forwardRef, SVGProps } from 'react'
 import { Icon as FeatherIconType } from 'react-feather'
 import { Icon as SimpleIconType } from '@icons-pack/react-simple-icons'
 import cn from 'classnames'
@@ -35,41 +35,37 @@ export type IconProps = {
   bold?: boolean
 } & IconAriaProps
 
-export const Icon: FC<IconProps> = ({
-  color,
-  icon: IconElement,
-  ariaLabel,
-  ariaLabelledBy,
-  ariaHidden,
-  className,
-  containerClassName,
-  size = 'normal',
-  bold = false,
-}) => {
-  const iconStroke = bold ? styleConsts.iconStrokeWidthBold : styleConsts.iconStrokeWidth
+export const Icon = forwardRef<HTMLDivElement, IconProps>(
+  (
+    { color, icon: IconElement, ariaLabel, ariaLabelledBy, ariaHidden, className, containerClassName, size = 'normal', bold = false },
+    ref,
+  ) => {
+    const iconStroke = bold ? styleConsts.iconStrokeWidthBold : styleConsts.iconStrokeWidth
 
-  const props: SVGProps<SVGElement> = {
-    'aria-label': ariaLabel,
-    'aria-labelledby': ariaLabelledBy,
-    'aria-hidden': ariaHidden,
-    color,
-    width: '1em',
-    height: '1em',
-    className: cn(
-      {
-        [styles.small]: size === 'small',
-        [styles.normal]: size === 'normal',
-        [styles.large]: size === 'large',
-        [styles.xlarge]: size === 'xlarge',
-      },
-      className,
-    ),
-    strokeWidth: iconStroke,
-  }
+    const props: SVGProps<SVGElement> = {
+      'aria-label': ariaLabel,
+      'aria-labelledby': ariaLabelledBy,
+      'aria-hidden': ariaHidden,
+      color,
+      width: '1em',
+      height: '1em',
+      className: cn(
+        {
+          [styles.small]: size === 'small',
+          [styles.normal]: size === 'normal',
+          [styles.large]: size === 'large',
+          [styles.xlarge]: size === 'xlarge',
+        },
+        className,
+      ),
+      strokeWidth: iconStroke,
+    }
 
-  return (
-    <div className={cn(styles.iconContainer, containerClassName)}>
-      <IconElement role="img" {...props} />
-    </div>
-  )
-}
+    return (
+      <div className={cn(styles.iconContainer, containerClassName)} ref={ref}>
+        <IconElement role="img" {...props} />
+      </div>
+    )
+  },
+)
+Icon.displayName = 'Icon'
