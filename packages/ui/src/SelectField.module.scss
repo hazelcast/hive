@@ -8,6 +8,7 @@ $select: ':global .hz-select-field__control';
 
 .container {
   .label {
+    display: block;
     margin-bottom: c.$grid;
   }
 

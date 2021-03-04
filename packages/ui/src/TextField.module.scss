@@ -12,6 +12,7 @@ $marginLeftWithIcon: c.$grid * 5;
   position: relative;
 
   .label {
+    display: block;
     margin-bottom: c.$grid;
   }
 
