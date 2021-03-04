@@ -2,13 +2,11 @@ import React, { FC, ReactElement } from 'react'
 import { HelpCircle } from 'react-feather'
 import cn from 'classnames'
 
-import { Icon } from './Icon'
+import { Icon, IconSize } from './Icon'
 import { Tooltip, TooltipProps } from './Tooltip'
 
 import styleConsts from '../styles/constants/export.module.scss'
-
 import styles from './Help.module.scss'
-import { IconSize } from '../lib'
 
 export const helpTooltipId = (inputId: string): string => `${inputId}-help`
 
