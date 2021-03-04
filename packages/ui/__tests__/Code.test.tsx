@@ -15,14 +15,11 @@ for (let i = 1; i <= 100; i++) {
 
 describe('Code', () => {
   it('Renders the default Code', async () => {
-    const wrapper = await mountAndCheckA11Y(
-      <Code language="javascript">
-        {SAMPLE_CODE}
-      </Code>
-    )
+    const wrapper = await mountAndCheckA11Y(<Code language="jsx">{SAMPLE_CODE}</Code>)
 
-    expect(wrapper.find('input').props()).toMatchObject({
-      xxx: 555
+    expect(wrapper.exists('pre')).toBeTruthy()
+    expect(wrapper.find(Code).props()).toMatchObject({
+      language: 'jsx',
     })
   })
 })
