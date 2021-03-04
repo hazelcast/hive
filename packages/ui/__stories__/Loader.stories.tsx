@@ -21,6 +21,12 @@ export const InheritSmall = () => (
   </InheritWrapper>
 )
 
+export const InheritLarge = () => (
+  <InheritWrapper>
+    <Loader size="large" />
+  </InheritWrapper>
+)
+
 export const InheritXLarge = () => (
   <InheritWrapper>
     <Loader size="xlarge" />
@@ -30,6 +36,7 @@ export const InheritXLarge = () => (
 export const PrimaryNormal = () => <Loader kind="primary" />
 
 export const PrimarySmall = () => <Loader size="small" kind="primary" />
+export const PrimaryLarge = () => <Loader size="large" kind="primary" />
 
 export const PrimaryXLarge = () => <Loader size="xlarge" kind="primary" />
 
@@ -44,6 +51,12 @@ export const ContrastNormal = () => (
 export const ContrastSmall = () => (
   <ContrastWrapper>
     <Loader size="small" kind="contrast" />
+  </ContrastWrapper>
+)
+
+export const ContrastLarge = () => (
+  <ContrastWrapper>
+    <Loader size="large" kind="contrast" />
   </ContrastWrapper>
 )
 
