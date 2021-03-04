@@ -20,20 +20,13 @@ export type SelectFieldFormikProps<V extends object, OV = string> = SelectFieldE
         validate?: FieldValidatorGeneric<OV>
       }
     | {
-        name: ExtractKeysOfValueType<V, OV[] | null>
-        isClearable: true
-        isMulti?: true
-        validate?: FieldValidatorGeneric<OV[] | null>
-      }
-    | {
         name: ExtractKeysOfValueType<V, OV[]>
-        isClearable?: false
-        isMulti?: true
+        isMulti: true
         validate?: FieldValidatorGeneric<OV[]>
       }
   )
 
-export const SelectFieldFormik = <V extends object, OV = string>({
+export const SelectFieldFormik = <V extends object, OV extends string | number = string>({
   name,
   validate,
   isClearable,

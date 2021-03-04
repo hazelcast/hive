@@ -288,26 +288,26 @@ describe('SelectField', () => {
 })
 
 describe('SelectField - getSelectedOptionFromValue', () => {
-  const colors = [
-    {
+  const colors = {
+    blue: {
       value: 'blue',
       label: 'Blue',
     },
-    {
+    green: {
       value: 'green',
       label: 'Green',
     },
-    {
+    red: {
       value: 'red',
       label: 'Red',
     },
-  ]
+  }
 
   it("single mode: transforms value to react-field's value object", () => {
     expect(
       getSelectedOptionFromValue({
         value: 'blue',
-        options: colors,
+        optionsMap: colors,
         isMulti: false,
       }),
     ).toEqual({
@@ -320,7 +320,7 @@ describe('SelectField - getSelectedOptionFromValue', () => {
     expect(
       getSelectedOptionFromValue({
         value: null,
-        options: colors,
+        optionsMap: colors,
         isMulti: false,
       }),
     ).toEqual(null)
@@ -330,7 +330,7 @@ describe('SelectField - getSelectedOptionFromValue', () => {
     expect(
       getSelectedOptionFromValue({
         value: 'hello world',
-        options: colors,
+        optionsMap: colors,
         isMulti: false,
       }),
     ).toEqual({
@@ -343,7 +343,7 @@ describe('SelectField - getSelectedOptionFromValue', () => {
     expect(
       getSelectedOptionFromValue({
         value: ['blue'],
-        options: colors,
+        optionsMap: colors,
         isMulti: true,
       }),
     ).toEqual([
@@ -354,21 +354,11 @@ describe('SelectField - getSelectedOptionFromValue', () => {
     ])
   })
 
-  it("multiple mode: transforms `null` to react-field's value object", () => {
-    expect(
-      getSelectedOptionFromValue({
-        value: null,
-        options: colors,
-        isMulti: true,
-      }),
-    ).toEqual([])
-  })
-
   it("multiple mode/creatable: - value that is not in options is transformed into valid react-field's value object", () => {
     expect(
       getSelectedOptionFromValue({
         value: ['black', 'red', 'blue', 'gray'],
-        options: colors,
+        optionsMap: colors,
         isMulti: true,
       }),
     ).toEqual([

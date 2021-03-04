@@ -35,7 +35,7 @@ const badGuyValues = [
 ]
 
 export const Default = () => {
-  const [currentValue, setValue] = useState<string | null>(value)
+  const [currentValue, setValue] = useState<string>(value)
   return (
     <SelectField name={name} value={currentValue} label={label} options={options} onBlur={() => logger.log('blur')} onChange={setValue} />
   )
@@ -46,33 +46,6 @@ Default.parameters = {
     type: 'figma',
     url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=479%3A273',
   },
-}
-
-export const ObjectAsValue = () => {
-  type Person = { name: string; surname: string }
-  const person = { name: 'John', surname: 'Smith' }
-  const person2 = { name: 'Peter', surname: 'Smith' }
-
-  const people: SelectFieldOption<Person>[] = [
-    { value: person, label: 'John Smith' },
-    { value: person2, label: 'Peter Smith' },
-  ]
-
-  const [currentValue, setValue] = useState<Person | null>(person)
-  return (
-    <div>
-      Value: {JSON.stringify(currentValue)}
-      <SelectField
-        name={name}
-        value={currentValue}
-        label={label}
-        options={people}
-        onBlur={() => logger.log('blur')}
-        onChange={setValue}
-        isClearable
-      />
-    </div>
-  )
 }
 
 export const NotSelected = () => {
@@ -190,7 +163,7 @@ export const WithHelperText = () => (
 export const Clearable = () => {
   const [currentValue, setValue] = useState<string | null>(value)
   return (
-    <SelectField
+    <SelectField<string>
       name="name"
       value={currentValue}
       isClearable
@@ -216,11 +189,11 @@ export const ClearableDisabled = () => (
 )
 
 export const Open = () => {
-  const [currentValue, setValue] = useState<string | null>(value)
+  const [currentValue, setValue] = useState<string>(value)
   const ref = useRef<HTMLDivElement>(null)
   return (
     <div ref={ref} style={{ height: 350 }}>
-      <SelectField
+      <SelectField<string>
         name="name"
         value={currentValue}
         label="Character"
@@ -348,7 +321,7 @@ export const NonSearchableOpen = () => {
 }
 
 export const MultipleSelections = () => {
-  const [currentValue, setValue] = useState<string[]>([values[1], values[2]])
+  const [currentValue, setValue] = useState<string[]>([])
   return (
     <div>
       Values: {JSON.stringify(currentValue)}
@@ -390,7 +363,7 @@ export const MultipleSelectionsMultipleRows = () => {
 }
 
 export const MultipleSelectionsClearable = () => {
-  const [currentValue, setValue] = useState<string[] | null>([...values])
+  const [currentValue, setValue] = useState<string[]>([...values])
   return (
     <div style={{ maxWidth: '400px' }}>
       <SelectField<string>
@@ -429,10 +402,10 @@ export const MultipleSelectionsAndOpen = () => {
 
 export const EmptySelectFields = () => {
   const [currentValue, setValue] = useState<string | null>(null)
-  const [currentValues, setValues] = useState<string[] | null>([])
+  const [currentValues, setValues] = useState<string[]>([])
   return (
     <>
-      <SelectField
+      <SelectField<string>
         name={name}
         value={currentValue}
         isMulti={false}
@@ -550,7 +523,7 @@ export const SelectFieldMultiSelectionWrappedInFormik = () => {
 
 export const Creatable = () => {
   const [currentValue, setValue] = useState<string | null>(null)
-  const [currentValues, setValues] = useState<string[] | null>([])
+  const [currentValues, setValues] = useState<string[]>([])
   return (
     <>
       {JSON.stringify({
