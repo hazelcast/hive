@@ -298,7 +298,7 @@ export const SelectField = <V extends string | number = string>({
         className,
       )}
     >
-      <Label id={id} label={label} className={labelClassName} />
+      <Label id={id} label={label} className={cn(styles.label, labelClassName)} />
       <div className={styles.selectBlock}>
         {isCreatable ? <ReactSelectCreatable<SelectFieldOption<V>> {...props} /> : <ReactSelect<SelectFieldOption<V>> {...props} />}
         {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} />}

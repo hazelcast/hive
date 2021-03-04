@@ -7,6 +7,11 @@ $menuMargin: c.$grid * 3;
 $select: ':global .hz-select-field__control';
 
 .container {
+  .label {
+    display: block;
+    margin-bottom: c.$grid;
+  }
+
   .errorContainer {
     margin-top: c.$grid;
   }
@@ -50,7 +55,6 @@ $select: ':global .hz-select-field__control';
   }
 
   #{$select} {
-    margin-top: c.$grid;
     cursor: pointer;
     color: c.$colorText;
     min-height: c.$inputHeight;

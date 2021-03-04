@@ -19,6 +19,7 @@ type IconButtonCommonProps = {
   iconColor?: string
   kind?: IconButtonKind
   size?: IconProps['size']
+  padding?: 'normal'
 } & IconAriaProps &
   Pick<ButtonHTMLAttributes<HTMLAnchorElement | HTMLButtonElement>, 'onClick' | 'onMouseDown' | 'className' | 'tabIndex'>
 
@@ -75,6 +76,7 @@ export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
       target,
       type = 'button',
       loading,
+      padding,
       ...rest
     },
     ref,
@@ -97,6 +99,7 @@ export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
               {
                 [styles.primary]: kind === 'primary',
                 [styles.transparent]: kind === 'transparent',
+                [styles.paddingNormal]: padding === 'normal',
               },
               className,
             )}
