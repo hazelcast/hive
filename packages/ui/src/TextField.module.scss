@@ -11,6 +11,10 @@ $marginLeftWithIcon: c.$grid * 5;
   box-sizing: border-box;
   position: relative;
 
+  .label {
+    margin-bottom: c.$grid;
+  }
+
   .inputBlock {
     display: flex;
     flex-direction: row;
@@ -27,7 +31,6 @@ $marginLeftWithIcon: c.$grid * 5;
   }
 
   .inputContainer {
-    margin-top: c.$grid;
     position: relative;
     flex: 1 1 auto;
     display: flex;
@@ -153,7 +156,6 @@ $marginLeftWithIcon: c.$grid * 5;
   }
 
   // .hasError styles split in two groups to always color the icon with the error color but the change the color of the border
-  /* stylelint-disable-next-line no-duplicate-selectors */
   &.hasError input {
     ~ .inputIconContainer > .inputIcon {
       color: c.$colorError;

@@ -73,7 +73,7 @@ export const TextArea: FC<TextAreaProps> = ({
         className,
       )}
     >
-      <Label id={id} label={label} className={labelClassName} />
+      <Label id={id} label={label} className={cn(styles.label, labelClassName)} />
       <div className={styles.textAreaContainer}>
         <div className={styles.textAreaWrapper}>
           <textarea
