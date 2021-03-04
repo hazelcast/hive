@@ -112,14 +112,6 @@ export const Pagination: FC<PaginationProps> = ({
     () => pageSizeOptions.map((opt) => ({ value: opt, label: opt.toString() })),
     [pageSizeOptions],
   )
-  const rowsPerPageValue: SelectFieldOption<number> = useMemo(() => ({ value: pageSize, label: pageSize.toString() }), [pageSize])
-
-  const onPageSizeChange = useCallback(
-    (option: SelectFieldOption<number>) => {
-      setPageSize(option.value)
-    },
-    [setPageSize],
-  )
 
   const submitPageJump = useCallback(
     ({ page }: PageJumpFormValues) => {
@@ -130,17 +122,17 @@ export const Pagination: FC<PaginationProps> = ({
 
   const RowsPerPage = useDeepCompareMemo(
     () => (
-      <SelectField
+      <SelectField<number>
         className={styles.rowsPerPage}
         labelClassName={styles.label}
         name="rowsPerPage"
-        value={rowsPerPageValue}
+        value={pageSize}
         label="Rows per page"
         options={rowsPerPageOptions}
-        onChange={onPageSizeChange}
+        onChange={setPageSize}
       />
     ),
-    [onPageSizeChange, rowsPerPageOptions, rowsPerPageValue],
+    [rowsPerPageOptions, pageSize],
   )
 
   const PageJump = useMemo(() => {
