@@ -157,6 +157,7 @@ $marginLeftWithIcon: c.$grid * 5;
   }
 
   // .hasError styles split in two groups to always color the icon with the error color but the change the color of the border
+  /* stylelint-disable-next-line no-duplicate-selectors */
   &.hasError input {
     ~ .inputIconContainer > .inputIcon {
       color: c.$colorError;
