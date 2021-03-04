@@ -112,7 +112,7 @@ export const TextField = <T extends TextFieldTypes>({
         className,
       )}
     >
-      <Label id={id} label={label} className={labelClassName} />
+      <Label id={id} label={label} className={cn(styles.label, labelClassName)} />
       <div className={styles.inputBlock}>
         <div className={cn(styles.inputContainer, inputContainerClassName)}>
           <input
