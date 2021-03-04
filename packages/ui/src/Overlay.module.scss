@@ -1,0 +1,73 @@
+@use '../styles/constants' as c;
+@use '../styles/helpers' as h;
+
+.portal {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: c.$zIndex1000;
+  pointer-events: none;
+}
+
+.modal {
+  background: transparentize(c.$colorOverlayBackground, 0.1);
+  width: 100vw;
+  height: 100vh;
+  z-index: c.$zIndex1000;
+  padding: c.$grid * 5;
+  box-sizing: border-box;
+  pointer-events: all;
+  animation: fadeIn 500ms;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  // Since Overlay is full screen, we don't have to show an outline
+  &:focus {
+    outline: transparent;
+  }
+
+  .wrapper {
+    width: 100%;
+    max-width: c.$overlayContentMaxWidth;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: c.$grid * 5;
+    padding-right: c.$grid * 5;
+    box-sizing: border-box;
+
+    .header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: c.$grid * 15;
+
+      .close {
+        position: absolute;
+        right: c.$grid * 5;
+        top: c.$grid * 5;
+        padding: 0;
+
+        .closeIcon {
+          width: c.$grid * 9;
+          height: c.$grid * 9;
+          color: c.$colorText;
+        }
+      }
+
+      .icon {
+        margin-right: c.$grid * 2.5;
+      }
+
+      .title {
+        margin: 0;
+      }
+    }
+  }
+}
