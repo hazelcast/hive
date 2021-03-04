@@ -12,6 +12,7 @@ export type CardProps = {
   headingContent?: ReactNode
   separator?: boolean
   children: ReactChild
+  className?: string
 } & DataTestProp
 
 /**
@@ -21,8 +22,16 @@ export type CardProps = {
  * ### General Info
  * - Card can be rendered with an optional separator and/or icon.
  */
-export const Card: FC<CardProps> = ({ headingIcon, title, headingContent, separator = false, 'data-test': dataTest, children }) => (
-  <div data-test={dataTest ?? 'card-wrapper'} className={cn(styles.wrapper, { [styles.noTitle]: !title })}>
+export const Card: FC<CardProps> = ({
+  headingIcon,
+  title,
+  headingContent,
+  separator = false,
+  'data-test': dataTest,
+  children,
+  className,
+}) => (
+  <div data-test={dataTest ?? 'card-wrapper'} className={cn(styles.wrapper, { [styles.noTitle]: !title }, className)}>
     {title && (
       <div data-test="card-heading" className={styles.heading}>
         {headingIcon && <Icon data-test="card-heading-icon" icon={headingIcon} className={styles.icon} ariaHidden />}
