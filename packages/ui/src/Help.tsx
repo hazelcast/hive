@@ -8,6 +8,7 @@ import { Tooltip, TooltipProps } from './Tooltip'
 import styleConsts from '../styles/constants/export.module.scss'
 
 import styles from './Help.module.scss'
+import { IconSize } from '../lib'
 
 export const helpTooltipId = (inputId: string): string => `${inputId}-help`
 
@@ -17,9 +18,10 @@ export interface HelpProps {
   placement?: TooltipProps['placement']
   className?: string
   popperRef?: TooltipProps['popperRef']
+  size?: IconSize
 }
 
-export const Help: FC<HelpProps> = ({ helperText, placement = 'top', parentId, className, popperRef }) => {
+export const Help: FC<HelpProps> = ({ helperText, placement = 'top', parentId, className, popperRef, size = 'small' }) => {
   const tooltipId = helpTooltipId(parentId)
 
   return (
@@ -32,7 +34,7 @@ export const Help: FC<HelpProps> = ({ helperText, placement = 'top', parentId, c
             color={styleConsts.colorPrimary}
             icon={HelpCircle}
             className={styles.icon}
-            size="small"
+            size={size}
           />
         </div>
       )}
