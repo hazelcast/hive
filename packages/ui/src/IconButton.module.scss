@@ -11,6 +11,13 @@
   padding: 0;
   box-sizing: border-box;
 
+  &.paddingNormal {
+    // With icon size "normal" matches text input
+    /* doiuse-disable calc */
+    padding: calc(#{c.$grid * 2} - #{c.$borderWidth});
+    /* doiuse-enable calc */
+  }
+
   .body {
     display: inline-flex;
     vertical-align: middle;
