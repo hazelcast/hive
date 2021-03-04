@@ -11,6 +11,11 @@
   padding: 0;
   box-sizing: border-box;
 
+  &.paddingNormal {
+    // With icon size "normal" matches text input
+    padding: calc(#{c.$grid * 2} - #{c.$borderWidth});
+  }
+
   .body {
     display: inline-flex;
     vertical-align: middle;
