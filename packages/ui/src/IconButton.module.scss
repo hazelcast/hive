@@ -2,7 +2,7 @@
 @use '../styles/helpers' as h;
 
 .iconButton {
-  display: inline-block;
+  display: inline-flex;
   cursor: pointer;
   border: c.$borderWidth solid transparent;
   background-color: transparent;

@@ -22,9 +22,18 @@ describe('TextField', () => {
   it('Renders the default with correct props', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
+    const onKeyPress = jest.fn()
 
     const wrapper = await mountAndCheckA11Y(
-      <TextField name="name" value="Yoda" placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
+      <TextField
+        name="name"
+        value="Yoda"
+        placeholder="Enter the name"
+        label="Wisest jedi"
+        onBlur={onBlur}
+        onChange={onChange}
+        onKeyPress={onKeyPress}
+      />,
     )
 
     expect(wrapper.find(Label).props()).toEqual({
@@ -39,10 +48,12 @@ describe('TextField', () => {
       name: 'name',
       onChange,
       onBlur,
+      onKeyPress,
       'aria-invalid': false,
       'aria-required': undefined,
       'aria-describedby': undefined,
       'aria-errormessage': undefined,
+      className: '',
       disabled: undefined,
       placeholder: 'Enter the name',
     })
@@ -126,6 +137,7 @@ describe('TextField', () => {
       'aria-required': undefined,
       'aria-describedby': helpTooltipId('republic'),
       'aria-errormessage': undefined,
+      className: '',
       disabled: undefined,
       placeholder: 'Enter the name',
     })
@@ -175,6 +187,7 @@ describe('TextField', () => {
       'aria-required': undefined,
       'aria-describedby': undefined,
       'aria-errormessage': errorId('republic'),
+      className: '',
       disabled: undefined,
       placeholder: 'Enter the name',
     })
@@ -212,6 +225,7 @@ describe('TextField', () => {
       'aria-required': true,
       'aria-describedby': undefined,
       'aria-errormessage': undefined,
+      className: '',
       disabled: undefined,
       placeholder: 'Enter the name',
     })
@@ -249,6 +263,7 @@ describe('TextField', () => {
       'aria-required': undefined,
       'aria-describedby': undefined,
       'aria-errormessage': undefined,
+      className: '',
       disabled: true,
       placeholder: 'Enter the name',
     })

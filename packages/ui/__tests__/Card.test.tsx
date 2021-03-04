@@ -1,61 +1,84 @@
 import React from 'react'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
-
-import { Card, CardProps, Icon, IconProps } from '../src'
 import { Database } from 'react-feather'
+import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { DataTestProp } from '@hazelcast/helpers'
+
+import { Card, IconButton, IconButtonProps, IconProps } from '../src'
+
+import styles from '../src/Card.module.scss'
 
 describe('Card', () => {
-  const cardTitle = 'Card title'
+  const cardHeadingIcon = Database
+  const cardHeadingTitle = 'Card title'
+  const cardHeadingContent = <IconButton kind="primary" ariaLabel="Check out the Database" icon={Database} component="a" href="#" />
   const cardContent = 'Card content'
 
-  const cardLayoutTestData: CardProps[] = [
-    {
-      title: cardTitle,
-    },
-    {
-      title: cardTitle,
+  it('renders title and content', async () => {
+    const wrapper = await mountAndCheckA11Y(<Card title={cardHeadingTitle}>{cardContent}</Card>)
+
+    const card = wrapper.findDataTest('card-wrapper')
+    const title = card.findDataTest('card-heading').findDataTest('card-heading-title')
+    const content = card.findDataTest('card-content')
+
+    expect(title.props()).toEqual({
+      'data-test': 'card-heading-title',
+      className: styles.title,
+      children: cardHeadingTitle,
+    })
+
+    expect(content.props()).toEqual({
+      'data-test': 'card-content',
+      className: styles.content,
+      children: cardContent,
+    })
+  })
+
+  it('renders heading with icon, title and additiona content, also renders separator and card content', async () => {
+    const wrapper = await mountAndCheckA11Y(
+      <Card headingIcon={cardHeadingIcon} title={cardHeadingTitle} headingContent={cardHeadingContent} separator>
+        {cardContent}
+      </Card>,
+    )
+
+    const card = wrapper.findDataTest('card-wrapper')
+    const heading = card.findDataTest('card-heading')
+    const headingIcon = heading.findDataTest('card-heading-icon')
+    const headingTitle = heading.findDataTest('card-heading-title')
+    const headingContent = heading.childAt(2)
+    const separator = card.findDataTest('card-separator')
+    const content = card.findDataTest('card-content')
+
+    expect(headingIcon.props()).toEqual<IconProps & DataTestProp>({
+      'data-test': 'card-heading-icon',
+      className: styles.icon,
+      ariaHidden: true,
+      icon: cardHeadingIcon,
+    })
+
+    expect(headingTitle.props()).toEqual({
+      'data-test': 'card-heading-title',
+      className: `${styles.title} ${styles.space}`,
+      children: cardHeadingTitle,
+    })
+
+    expect(separator.props()).toEqual({
+      'data-test': 'card-separator',
+      className: styles.separator,
+    })
+
+    expect(headingContent.type()).toEqual(IconButton)
+    expect(headingContent.props()).toEqual<IconButtonProps>({
+      kind: 'primary',
+      ariaLabel: 'Check out the Database',
       icon: Database,
-    },
-    {
-      title: cardTitle,
-      icon: Database,
-      separator: true,
-    },
-    {
-      title: cardTitle,
-      icon: Database,
-      separator: false,
-    },
-  ]
+      component: 'a',
+      href: '#',
+    })
 
-  it.each(cardLayoutTestData)('Renders correct layout for specific component configurations.', async (props) => {
-    const wrapper = await mountAndCheckA11Y(<Card {...props}>{cardContent}</Card>)
-
-    const icon = wrapper.find(Icon)
-    const title = wrapper.findDataTest('card-heading')
-    const separator = wrapper.findDataTest('card-separator')
-
-    expect(title.text()).toEqual(props.title)
-    expect(title.getDOMNode().tagName).toEqual('H3')
-
-    if (props.icon) {
-      expect(wrapper.find(Icon).props()).toEqual<IconProps>({
-        icon: props.icon,
-        className: 'icon',
-        ariaHidden: true,
-      })
-    } else {
-      expect(icon.exists()).toBeFalsy()
-    }
-
-    if (props.separator) {
-      expect(separator.length).toEqual(1)
-    } else {
-      expect(separator.exists()).toBeFalsy()
-    }
-
-    expect(wrapper.findDataTest('card-wrapper').length).toEqual(1)
-    expect(wrapper.findDataTest('card-content').length).toEqual(1)
-    expect(wrapper.findDataTest('card-content').text()).toEqual(cardContent)
+    expect(content.props()).toEqual({
+      'data-test': 'card-content',
+      className: styles.content,
+      children: cardContent,
+    })
   })
 })

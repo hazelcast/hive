@@ -14,6 +14,8 @@ export const axeDefaultOptions: AxeOptions = {
     },
     // We are using chrome-off for SelectField
     'autocomplete-valid': { enabled: false },
+    // TODO: Fix later
+    'aria-tooltip-name': { enabled: false },
   },
 }
 

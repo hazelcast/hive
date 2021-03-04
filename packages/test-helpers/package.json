@@ -36,6 +36,18 @@
   },
   "peerDependencies": {
     "@types/enzyme": "^3.10.7",
-    "enzyme": "^3.11.0"
+    "enzyme": "^3.11.0",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0"
+  },
+  "devDependencies": {
+    "@types/enzyme": "^3.10.8",
+    "@types/enzyme-adapter-react-16": "^1.0.6",
+    "@types/react": "^16.14.4",
+    "@types/react-dom": "^16.9.11",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.5",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0"
   }
 }

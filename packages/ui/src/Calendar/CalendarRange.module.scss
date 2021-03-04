@@ -1,0 +1,12 @@
+@use '../../styles/constants' as c;
+
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+
+  .arrowRight {
+    margin: 0 c.$grid * 2 c.$grid * 2;
+    color: c.$colorNeutralLight;
+  }
+}

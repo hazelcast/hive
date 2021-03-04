@@ -129,6 +129,11 @@ export const SliderWithMarks = () => {
   )
 }
 
+export const SliderWithMaxOver100 = () => {
+  const [value, onChange] = useState<number>(0)
+  return <Slider name="name" label="Slider's label" value={value} onChange={onChange} min={0} max={360} helperText="Helper text" />
+}
+
 export const RangeSliderWithMarks = () => {
   const [value, onChange] = useState<[number, number]>([3, 9])
   return (

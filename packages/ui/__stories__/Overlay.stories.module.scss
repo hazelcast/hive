@@ -1,0 +1,7 @@
+@use '../styles/constants' as c;
+
+.tablist {
+  display: flex;
+  justify-content: center;
+  margin-bottom: c.$grid * 10;
+}

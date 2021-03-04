@@ -1,5 +1,5 @@
 // https://zeroheight.com/11d0e6dac/p/316944-text-field
-import React, { ChangeEvent, ReactElement, InputHTMLAttributes, FocusEvent } from 'react'
+import React, { ChangeEvent, FocusEvent, InputHTMLAttributes, KeyboardEvent, ReactElement } from 'react'
 import cn from 'classnames'
 import { DataTestProp } from '@hazelcast/helpers'
 import { Icon as IconType } from 'react-feather'
@@ -11,6 +11,18 @@ import { Error, errorId } from './Error'
 import { Help, helpTooltipId } from './Help'
 
 import styles from './TextField.module.scss'
+
+type TextFieldTrailingIcon =
+  | {
+      inputTrailingIcon: IconType
+      inputTrailingIconLabel: string
+      inputTrailingIconClassName?: string
+    }
+  | {
+      inputTrailingIcon?: never
+      inputTrailingIconLabel?: never
+      inputTrailingIconClassName?: never
+    }
 
 export type TextFieldTypes = 'email' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'url' | undefined
 
@@ -25,14 +37,17 @@ export type TextFieldExtraProps<T extends TextFieldTypes> = {
   label: string
   helperText?: string | ReactElement
   className?: string
+  labelClassName?: string
   inputContainerClassName?: string
   inputClassName?: string
   errorClassName?: string
   inputContainerChild?: ReactElement
   inputIcon?: IconType
+  onKeyPress?: (e: KeyboardEvent<HTMLInputElement>) => void
   type?: T
 } & DataTestProp &
-  Pick<InputHTMLAttributes<HTMLInputElement>, 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'>
+  Pick<InputHTMLAttributes<HTMLInputElement>, 'id' | 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'> &
+  TextFieldTrailingIcon
 
 type TextFieldProps<T extends TextFieldTypes> = TextFieldCoreProps<T> & TextFieldExtraProps<T>
 
@@ -54,27 +69,34 @@ type TextFieldProps<T extends TextFieldTypes> = TextFieldCoreProps<T> & TextFiel
  * Use a text input when the expected user input is a single line of text.
  */
 export const TextField = <T extends TextFieldTypes>({
-  name,
-  value,
+  'data-test': dataTest,
+  className,
+  disabled,
+  error,
+  errorClassName,
+  helperText,
+  id: explicitId,
+  inputClassName,
+  inputContainerChild,
+  inputContainerClassName,
+  inputIcon,
+  inputTrailingIcon,
+  inputTrailingIconLabel,
   label,
+  labelClassName,
+  name,
   onBlur,
   onChange,
-  required,
-  helperText,
-  error,
-  'data-test': dataTest,
-  type,
-  className,
-  inputContainerClassName,
-  inputClassName,
-  errorClassName,
-  disabled,
+  onKeyPress,
   placeholder,
-  inputContainerChild,
-  inputIcon,
+  required,
+  type,
+  value,
   ...htmlAttrs
 }: TextFieldProps<T>) => {
-  const id = useUID()
+  // Use an auto generated id if it's not set explicitly
+  const autoId = useUID()
+  const id = explicitId ?? autoId
 
   return (
     <div
@@ -90,7 +112,7 @@ export const TextField = <T extends TextFieldTypes>({
         className,
       )}
     >
-      <Label id={id} label={label} />
+      <Label id={id} label={label} className={labelClassName} />
       <div className={styles.inputBlock}>
         <div className={cn(styles.inputContainer, inputContainerClassName)}>
           <input
@@ -100,6 +122,7 @@ export const TextField = <T extends TextFieldTypes>({
             name={name}
             onChange={onChange}
             onBlur={onBlur}
+            onKeyPress={onKeyPress}
             // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute
             aria-invalid={!!error}
             aria-required={required}
@@ -107,12 +130,30 @@ export const TextField = <T extends TextFieldTypes>({
             aria-errormessage={error && errorId(id)}
             disabled={disabled}
             placeholder={placeholder}
-            className={inputClassName}
+            className={cn(inputClassName, {
+              [styles.trailingIcon]: inputTrailingIcon,
+            })}
             {...htmlAttrs}
           />
           <div className={styles.borderOverlay} />
-          {inputIcon && <Icon icon={inputIcon} ariaLabel={label} className={styles.inputIcon} size="small" />}
+          {inputIcon && (
+            <Icon
+              icon={inputIcon}
+              ariaLabel={label}
+              containerClassName={styles.inputIconContainer}
+              className={styles.inputIcon}
+              size="small"
+            />
+          )}
           {inputContainerChild}
+          {inputTrailingIcon && inputTrailingIconLabel && (
+            <Icon
+              icon={inputTrailingIcon}
+              ariaLabel={inputTrailingIconLabel}
+              containerClassName={styles.inputIconContainer}
+              className={styles.inputIconTrailing}
+            />
+          )}
         </div>
         {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} />}
       </div>

@@ -12,7 +12,6 @@ $marginLeftWithIcon: c.$grid * 5;
   position: relative;
 
   .inputBlock {
-    margin-top: c.$grid;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -28,6 +27,7 @@ $marginLeftWithIcon: c.$grid * 5;
   }
 
   .inputContainer {
+    margin-top: c.$grid;
     position: relative;
     flex: 1 1 auto;
     display: flex;
@@ -36,6 +36,24 @@ $marginLeftWithIcon: c.$grid * 5;
     height: c.$inputHeight;
     background-color: c.$colorNeutralLighter;
     border-radius: c.$borderRadius;
+  }
+
+  .inputIcon,
+  .inputIconTrailing {
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    // c.$grid * 9 / 2 is half of the padding. We need to shift it to the left just a bit to account for the border width
+    transform: translate(-50%, -50%) translateX(c.$outlineWidth);
+  }
+
+  .inputIcon {
+    left: ($marginLeftWithIcon + $inputHorizontalPadding) / 2;
+  }
+
+  .inputIconTrailing {
+    right: -(c.$grid);
+    color: c.$colorPrimary;
   }
 
   // Here we go. Another border hack. Why?
@@ -61,14 +79,6 @@ $marginLeftWithIcon: c.$grid * 5;
     box-sizing: border-box;
   }
 
-  .inputIcon {
-    position: absolute;
-    top: 50%;
-    // c.$grid * 9 / 2 is half of the padding. We need to shift it to the left just a bit to account for the border width
-    transform: translate(-50%, -50%) translateX(c.$outlineWidth);
-    left: ($marginLeftWithIcon + $inputHorizontalPadding) / 2;
-  }
-
   input {
     display: block;
     flex: 1 1 auto;
@@ -82,9 +92,14 @@ $marginLeftWithIcon: c.$grid * 5;
     letter-spacing: inherit;
     color: inherit;
     height: 100%;
+    width: 100%;
 
     &::placeholder {
       color: c.$colorTextSecondary;
+    }
+
+    &.trailingIcon {
+      padding-right: c.$grid * 8;
     }
   }
 
@@ -112,7 +127,7 @@ $marginLeftWithIcon: c.$grid * 5;
     & ~ .borderOverlay {
       border-color: c.$colorPrimary;
     }
-    & ~ .inputIcon {
+    & ~ .inputIconContainer > .inputIcon {
       color: c.$colorPrimary;
     }
   }
@@ -132,7 +147,7 @@ $marginLeftWithIcon: c.$grid * 5;
     & ~ .borderOverlay {
       @include h.outlineFormField;
     }
-    & ~ .inputIcon {
+    & ~ .inputIconContainer > .inputIcon {
       color: c.$colorPrimary;
     }
   }
@@ -140,7 +155,7 @@ $marginLeftWithIcon: c.$grid * 5;
   // .hasError styles split in two groups to always color the icon with the error color but the change the color of the border
   /* stylelint-disable-next-line no-duplicate-selectors */
   &.hasError input {
-    & ~ .inputIcon {
+    ~ .inputIconContainer > .inputIcon {
       color: c.$colorError;
     }
   }
@@ -153,10 +168,13 @@ $marginLeftWithIcon: c.$grid * 5;
     }
 
     input {
-      ~ .borderOverlay {
+      & ~ .borderOverlay {
         border-color: c.$colorNeutralLight;
       }
-      ~ .inputIcon {
+      & ~ .inputIconContainer > .inputIcon {
+        color: c.$colorTextSecondary;
+      }
+      & ~ .inputIconContainer > .inputIconTrailing {
         color: c.$colorTextSecondary;
       }
     }

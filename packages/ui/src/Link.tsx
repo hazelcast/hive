@@ -17,10 +17,12 @@ type IconProps =
   | {
       icon: FeatherIcon
       ariaLabel: string
+      iconClassName?: string
     }
   | {
       icon?: never
       ariaLabel?: never
+      iconClassName?: never
     }
 
 export type LinkTarget = '_self' | '_blank' | '_parent' | '_top'
@@ -85,6 +87,7 @@ export const Link: FC<LinkProps> = ({
   bold = false,
   icon,
   ariaLabel,
+  iconClassName,
   href,
   rel = 'noopener',
   target = '_self',
@@ -113,7 +116,7 @@ export const Link: FC<LinkProps> = ({
       onClick={onClick}
     >
       {children}
-      {icon && ariaLabel && <Icon bold={bold} icon={icon} ariaLabel={ariaLabel} size={size} />}
+      {icon && ariaLabel && <Icon bold={bold} icon={icon} ariaLabel={ariaLabel} size={size} className={iconClassName} />}
     </Component>
   )
 }

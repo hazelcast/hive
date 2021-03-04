@@ -12,7 +12,6 @@ $select: ':global .hz-select-field__control';
   }
 
   .selectBlock {
-    margin-top: c.$grid;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -51,9 +50,10 @@ $select: ':global .hz-select-field__control';
   }
 
   #{$select} {
+    margin-top: c.$grid;
     cursor: pointer;
     color: c.$colorText;
-    height: c.$inputHeight;
+    min-height: c.$inputHeight;
     padding-left: c.$grid * 3;
     padding-right: c.$grid * 2;
     box-sizing: border-box;
@@ -95,6 +95,64 @@ $select: ':global .hz-select-field__control';
   }
 }
 
+// when .isMulti is true, we have some tweaks overall
+.multiContainer {
+  :global .hz-select-field__value-container {
+    padding: c.$grid 0;
+  }
+
+  :global .hz-select-field__value-container--has-value {
+    margin-left: -1.5 * c.$grid; // padding is narrower in .multiContainer (when it has any values selected)
+  }
+
+  :global .hz-select-field__indicators {
+    align-items: flex-start;
+    margin-top: c.$grid * 1.6;
+  }
+
+  .multiValue {
+    background-color: c.$colorNeutralWhite !important;
+    border: c.$borderWidth solid c.$colorNeutralLight;
+    border-radius: c.$borderRadius;
+    height: c.$grid * 5.5; // makes 22px; design is 21px.
+    overflow: hidden;
+  }
+
+  // Styles for MultiValue chips - focused state.
+  // We inject `.multiValueIsFocused` from js (it does not have an actual :focused state).
+  .multiValueIsFocused {
+    @include h.outlineFormField;
+
+    // override our outlineFormField inset shadow, for fixing
+    // the glitch case on an hovered remove button.
+    box-shadow: 0 0 0 (c.$outlineWidth - c.$borderWidth) c.$colorAccessibilityOutline;
+
+    :global .hz-select-field__multi-value__label {
+      // turn off the bogus shadow of the label
+      box-shadow: none;
+    }
+  }
+
+  .multiValueLabel {
+    @include c.typographyBodySmall;
+    @include h.overflowEllipsis;
+
+    color: c.$colorText;
+    padding: 0 c.$grid;
+  }
+
+  .multiValueRemove {
+    display: flex;
+    align-items: center;
+    color: c.$colorPrimary;
+
+    &:hover {
+      background-color: c.$colorNeutral;
+      border-color: c.$colorNeutralLight;
+    }
+  }
+}
+
 .menuContainer {
   :global .hz-select-field__menu {
     margin-top: $menuMargin;
@@ -127,6 +185,7 @@ $select: ':global .hz-select-field__control';
         @include h.outlineSimple;
 
         color: c.$colorText;
+        background-color: c.$colorNeutral;
       }
 
       &:global.hz-select-field__option--is-selected {

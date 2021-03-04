@@ -13,6 +13,8 @@ $borderRadiusToast: 37px !default;
 
 $borderRadiusBadge: 37px !default;
 
+$borderRadiusTimeField: 3px !default;
+
 // It does not make sense to express separator width in REMs since we do not need it to scale with the base font size
 $separatorWidth: 1px !default;
 
@@ -26,6 +28,7 @@ $iconStrokeWidthBold: 3px !default;
 
 $iconSizeSmall: $grid * 4 !default;
 $iconSizeNormal: $grid * 6 !default;
+$iconSizeLarge: $grid * 10 !default;
 $iconSizeXLarge: $grid * 12 !default;
 
 $tooltipArrowSize: 6px !default;
@@ -43,6 +46,9 @@ $cardShadowBlur: 4px !default;
 
 $selectMenuShadowSize: 1px !default;
 $selectMenuShadowBlur: 4px !default;
+
+//Overlay
+$overlayContentMaxWidth: 1000px;
 
 // Modal
 $modalWidth: 75%;
@@ -65,4 +71,13 @@ $sliderThumbShadowSize: 1px;
 $sliderThumbShadowBlur: $grid;
 $sliderFillBorderSize: 1px;
 
+$emptyStateMaxWidth: 960px !important;
+$emptyStateButtonMinWidthNormal: 120px !default;
+$emptyStateButtonMinWidthLarge: 140px !default;
+
 $borderRadiusNotification: 3px;
+
+// Table column widths
+$tableColumnMinWidth: 30;
+$tableColumnWidth: 150;
+$tableColumnMaxWidth: 200;

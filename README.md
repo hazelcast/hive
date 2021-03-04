@@ -22,7 +22,7 @@
   - [Run unit tests](#run-unit-tests)
   - [Run visual regression tests](#run-visual-regression-tests)
   - [Approve the updated for visual regression test screenshots](#approve-the-updated-for-visual-regression-test-screenshots)
-  - [Generate new screenshots for the new components](#generate-new-screenshots-for-the-new-components)
+  - [Generate new screenshots for the new/updated components](#generate-new-screenshots-for-the-newupdated-components)
   - [Run all checks at once](#run-all-checks-at-once)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -37,7 +37,7 @@ npm ci
 
 It runs a regular `npm ci` and executes a `postinstall` hook. In that hook it runs:
 
-1. `lerna bootstrap`
+1. `lerna bootstrap --hoist`
    Installs dependencies for all packages.
 2. `link-parent-bin`
    Creates symlinks in `packages/*/node_modules/.bin` to all executables in `node_modules/.bin`.

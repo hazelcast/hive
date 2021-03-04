@@ -18,6 +18,8 @@ export type ModalActionProps = ButtonProps<ButtonTypeButtonProps>
 
 export type ModalProps = {
   actions?: ModalActionProps[]
+  // Useful when dealing with e.g. forms in the Modal
+  hideActions?: boolean
   // Note: Turns of default autoFocus biding to Cancel/Action buttons. Set to "false" when a content element should be auto focused.
   autoFocus?: boolean
   children?: ReactNode
@@ -48,6 +50,7 @@ export type ModalProps = {
 export const Modal: FC<ModalProps> = ({
   'data-test': dataTest,
   actions,
+  hideActions = false,
   autoFocus = true,
   children,
   className,
@@ -96,16 +99,18 @@ export const Modal: FC<ModalProps> = ({
         <div data-test="modal-content" className={cn(styles.content, contentClassName)}>
           {children}
         </div>
-        <div data-test="modal-footer" className={cn(styles.footer, footerClassName)}>
-          {actions?.map(({ children, ...actionPropsRest }, key) => (
-            <Button key={key} data-test="modal-button-action" {...actionPropsRest}>
-              {children}
+        {!hideActions && (
+          <div data-test="modal-footer" className={cn(styles.footer, footerClassName)}>
+            {actions?.map(({ children, ...actionPropsRest }, key) => (
+              <Button key={key} data-test="modal-button-action" {...actionPropsRest}>
+                {children}
+              </Button>
+            ))}
+            <Button autoFocus={shouldAutoFocusCancelButton} data-test="modal-button-cancel" kind="secondary" onClick={onClose}>
+              Cancel
             </Button>
-          ))}
-          <Button autoFocus={shouldAutoFocusCancelButton} data-test="modal-button-cancel" kind="secondary" onClick={onClose}>
-            Cancel
-          </Button>
-        </div>
+          </div>
+        )}
       </div>
     </ReactModal>
   )
