@@ -11,6 +11,11 @@ $marginLeftWithIcon: c.$grid * 5;
   box-sizing: border-box;
   position: relative;
 
+  .label {
+    display: block;
+    margin-bottom: c.$grid;
+  }
+
   .inputBlock {
     display: flex;
     flex-direction: row;
@@ -27,7 +32,6 @@ $marginLeftWithIcon: c.$grid * 5;
   }
 
   .inputContainer {
-    margin-top: c.$grid;
     position: relative;
     flex: 1 1 auto;
     display: flex;

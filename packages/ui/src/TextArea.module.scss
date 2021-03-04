@@ -25,6 +25,7 @@
   box-sizing: border-box;
 
   .label {
+    display: block;
     margin-bottom: c.$grid;
   }
 
@@ -38,7 +39,6 @@
   }
 
   .textAreaContainer {
-    margin-top: c.$grid;
     display: flex;
     flex-direction: row;
     align-items: flex-start;

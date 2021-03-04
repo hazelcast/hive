@@ -42,6 +42,7 @@ describe('SelectField', () => {
     expect(wrapper.find(Label).props()).toEqual({
       id: selectId,
       label: selectLabel,
+      className: styles.label,
     })
 
     expect(wrapper.find(ReactSelect).props()).toMatchObject({
@@ -84,6 +85,7 @@ describe('SelectField', () => {
     expect(wrapper.find(Label).props()).toEqual({
       id: selectId,
       label: selectLabel,
+      className: styles.label,
     })
 
     expect(wrapper.find(ReactSelect).props()).toMatchObject({
@@ -118,6 +120,7 @@ describe('SelectField', () => {
     expect(wrapper.find(Label).props()).toEqual({
       id: selectId,
       label: selectLabel,
+      className: styles.label,
     })
 
     expect(wrapper.find(ReactSelect).props()).toMatchObject({
@@ -152,6 +155,7 @@ describe('SelectField', () => {
     expect(wrapper.find(Label).props()).toEqual({
       id: selectId,
       label: selectLabel,
+      className: styles.label,
     })
 
     expect(wrapper.find(ReactSelect).props()).toMatchObject({
@@ -186,6 +190,7 @@ describe('SelectField', () => {
     expect(wrapper.find(Label).props()).toEqual({
       id: selectId,
       label: selectLabel,
+      className: styles.label,
     })
 
     expect(wrapper.find(ReactSelect).props()).toMatchObject({
@@ -225,6 +230,7 @@ describe('SelectField', () => {
     expect(wrapper.find(Label).props()).toEqual({
       id: selectId,
       label: selectLabel,
+      className: styles.label,
     })
 
     expect(wrapper.find(ReactSelect).props()).toMatchObject({
@@ -267,6 +273,7 @@ describe('SelectField', () => {
     expect(wrapper.find(Label).props()).toEqual({
       id: selectId,
       label: selectLabel,
+      className: styles.label,
     })
 
     expect(wrapper.find(ReactSelectCreatable).props()).toMatchObject({
