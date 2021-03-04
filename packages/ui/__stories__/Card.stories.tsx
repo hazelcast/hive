@@ -68,3 +68,5 @@ export const WithHeadingContent = () => (
     {cardContent}
   </Card>
 )
+
+export const WithoutTitle = () => <Card>{cardContent}</Card>
