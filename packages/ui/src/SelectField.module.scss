@@ -158,6 +158,10 @@ $select: ':global .hz-select-field__control';
 }
 
 .menuContainer {
+  :global .hz-select-field__menu-portal {
+    z-index: c.$zIndex2000;
+  }
+
   :global .hz-select-field__menu {
     margin-top: $menuMargin;
     margin-bottom: $menuMargin;
