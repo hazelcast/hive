@@ -5,7 +5,7 @@ import ReactSelect from 'react-select'
 import ReactSelectCreatable from 'react-select/creatable'
 import { X } from 'react-feather'
 
-import { SelectField, SelectFieldOption } from '../src/SelectField'
+import { getSelectedOptionFromValue, SelectField, SelectFieldOption } from '../src/SelectField'
 import { Label } from '../src/Label'
 import { Error, errorId } from '../src/Error'
 import { IconButton } from '../src/IconButton'
@@ -36,7 +36,7 @@ describe('SelectField', () => {
     const onChange = jest.fn()
 
     const wrapper = await mountAndCheckA11Y(
-      <SelectField name={selectName} label={selectLabel} options={selectOptions} value={selectValue} onChange={onChange} />,
+      <SelectField name={selectName} label={selectLabel} options={selectOptions} value="selectValue0" onChange={onChange} />,
     )
 
     expect(wrapper.find(Label).props()).toEqual({
@@ -57,7 +57,6 @@ describe('SelectField', () => {
       isSearchable: true,
       options: selectOptions,
       value: selectValue,
-      onChange,
     })
 
     expect(wrapper.find(Error).props()).toEqual({
@@ -76,7 +75,7 @@ describe('SelectField', () => {
         name={selectName}
         label={selectLabel}
         options={selectOptions}
-        value={selectValue}
+        value="selectValue0"
         onChange={onChange}
         error={selectError}
       />,
@@ -100,7 +99,6 @@ describe('SelectField', () => {
       isSearchable: true,
       options: selectOptions,
       value: selectValue,
-      onChange,
     })
 
     expect(wrapper.find(Error).props()).toEqual({
@@ -114,7 +112,7 @@ describe('SelectField', () => {
     const onChange = jest.fn()
 
     const wrapper = await mountAndCheckA11Y(
-      <SelectField name={selectName} label={selectLabel} options={selectOptions} value={selectValue} onChange={onChange} required />,
+      <SelectField name={selectName} label={selectLabel} options={selectOptions} value="selectValue0" onChange={onChange} required />,
     )
 
     expect(wrapper.find(Label).props()).toEqual({
@@ -135,7 +133,6 @@ describe('SelectField', () => {
       isSearchable: true,
       options: selectOptions,
       value: selectValue,
-      onChange,
     })
 
     expect(wrapper.find(Error).props()).toEqual({
@@ -149,7 +146,7 @@ describe('SelectField', () => {
     const onChange = jest.fn()
 
     const wrapper = await mountAndCheckA11Y(
-      <SelectField name={selectName} label={selectLabel} value={selectValue} onChange={onChange} options={selectOptions} disabled />,
+      <SelectField name={selectName} label={selectLabel} value="selectValue0" onChange={onChange} options={selectOptions} disabled />,
     )
 
     expect(wrapper.find(Label).props()).toEqual({
@@ -170,7 +167,6 @@ describe('SelectField', () => {
       isSearchable: true,
       options: selectOptions,
       value: selectValue,
-      onChange,
     })
 
     expect(wrapper.find(Error).props()).toEqual({
@@ -184,7 +180,7 @@ describe('SelectField', () => {
     const onChange = jest.fn()
 
     const wrapper = await mountAndCheckA11Y(
-      <SelectField name={selectName} label={selectLabel} value={selectValue} onChange={onChange} options={selectOptions} isClearable />,
+      <SelectField name={selectName} label={selectLabel} value="selectValue0" onChange={onChange} options={selectOptions} isClearable />,
     )
 
     expect(wrapper.find(Label).props()).toEqual({
@@ -205,7 +201,6 @@ describe('SelectField', () => {
       isSearchable: true,
       options: selectOptions,
       value: selectValue,
-      onChange,
     })
 
     expect(wrapper.find(Error).props()).toEqual({
@@ -220,7 +215,7 @@ describe('SelectField', () => {
   it('Renders multiple selections with correct props', async () => {
     const onChange = jest.fn()
 
-    const value = [selectOptions[0], selectOptions[1]]
+    const value = [selectOptions[0].value, selectOptions[1].value]
     const wrapper = await mountAndCheckA11Y(
       <SelectField name={selectName} label={selectLabel} isMulti={true} options={selectOptions} value={value} onChange={onChange} />,
     )
@@ -244,8 +239,7 @@ describe('SelectField', () => {
       isMulti: true,
       isSearchable: true,
       options: selectOptions,
-      value,
-      onChange,
+      value: [selectOptions[0], selectOptions[1]],
     })
 
     expect(wrapper.find(Error).props()).toEqual({
@@ -262,7 +256,7 @@ describe('SelectField', () => {
       <SelectField
         name={selectName}
         label={selectLabel}
-        value={selectValue}
+        value="selectValue0"
         onChange={onChange}
         options={selectOptions}
         isClearable
@@ -288,7 +282,6 @@ describe('SelectField', () => {
       isSearchable: true,
       options: selectOptions,
       value: selectValue,
-      onChange,
     })
 
     expect(wrapper.find(Error).props()).toEqual({
@@ -298,5 +291,100 @@ describe('SelectField', () => {
     })
 
     expect(wrapper.find(IconButton).prop('icon')).toBe(X)
+  })
+})
+
+describe('SelectField - getSelectedOptionFromValue', () => {
+  const colors = {
+    blue: {
+      value: 'blue',
+      label: 'Blue',
+    },
+    green: {
+      value: 'green',
+      label: 'Green',
+    },
+    red: {
+      value: 'red',
+      label: 'Red',
+    },
+  }
+
+  it("single mode: transforms value to react-field's value object", () => {
+    expect(
+      getSelectedOptionFromValue({
+        value: 'blue',
+        optionsMap: colors,
+        isMulti: false,
+      }),
+    ).toEqual({
+      value: 'blue',
+      label: 'Blue',
+    })
+  })
+
+  it("single mode: transforms `null` to react-field's value object", () => {
+    expect(
+      getSelectedOptionFromValue({
+        value: null,
+        optionsMap: colors,
+        isMulti: false,
+      }),
+    ).toEqual(null)
+  })
+
+  it("single mode/creatable: - value that is not in options is transformed into valid react-field's value object", () => {
+    expect(
+      getSelectedOptionFromValue({
+        value: 'hello world',
+        optionsMap: colors,
+        isMulti: false,
+      }),
+    ).toEqual({
+      value: 'hello world',
+      label: 'hello world',
+    })
+  })
+
+  it("multiple mode: transforms a value to react-field's value object", () => {
+    expect(
+      getSelectedOptionFromValue({
+        value: ['blue'],
+        optionsMap: colors,
+        isMulti: true,
+      }),
+    ).toEqual([
+      {
+        value: 'blue',
+        label: 'Blue',
+      },
+    ])
+  })
+
+  it("multiple mode/creatable: - value that is not in options is transformed into valid react-field's value object", () => {
+    expect(
+      getSelectedOptionFromValue({
+        value: ['black', 'red', 'blue', 'gray'],
+        optionsMap: colors,
+        isMulti: true,
+      }),
+    ).toEqual([
+      {
+        value: 'black',
+        label: 'black',
+      },
+      {
+        value: 'red',
+        label: 'Red',
+      },
+      {
+        value: 'blue',
+        label: 'Blue',
+      },
+      {
+        value: 'gray',
+        label: 'gray',
+      },
+    ])
   })
 })

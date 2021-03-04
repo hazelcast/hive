@@ -140,7 +140,7 @@ describe('Pagination', () => {
       className: styles.rowsPerPage,
       labelClassName: styles.label,
       name: 'rowsPerPage',
-      value: { value: pageSize, label: pageSize.toString() },
+      value: pageSize,
       label: 'Rows per page',
       options: pageSizeOptions.map((opt) => ({ value: opt, label: opt.toString() })),
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -538,7 +538,7 @@ describe('Pagination', () => {
       className: styles.rowsPerPage,
       labelClassName: styles.label,
       name: 'rowsPerPage',
-      value: { value: pageSize, label: pageSize.toString() },
+      value: pageSize,
       label: 'Rows per page',
       options: pageSizeOptions.map((opt) => ({ value: opt, label: opt.toString() })),
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
