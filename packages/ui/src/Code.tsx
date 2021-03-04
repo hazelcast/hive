@@ -22,6 +22,7 @@ import scala from 'react-syntax-highlighter/dist/esm/languages/prism/scala'
 import vs from 'react-syntax-highlighter/dist/esm/styles/prism/vs'
 import darcula from 'react-syntax-highlighter/dist/esm/styles/prism/darcula'
 
+// Register these builtin languages we'd use frequently
 SyntaxHighlighter.registerLanguage('jsx', jsx)
 SyntaxHighlighter.registerLanguage('cpp', cpp)
 SyntaxHighlighter.registerLanguage('csharp', csharp)
@@ -31,17 +32,17 @@ SyntaxHighlighter.registerLanguage('kotlin', kotlin)
 SyntaxHighlighter.registerLanguage('python', python)
 SyntaxHighlighter.registerLanguage('scala', scala)
 
-// export SyntaxHighlighter for allowing user to register other languages
+// Export SyntaxHighlighter for allowing user to register other languages
 export { SyntaxHighlighter }
 
 type BUILTIN_LANGUAGES = 'jsx' | 'cpp' | 'csharp' | 'java' | 'kotlin' | 'go' | 'python' | 'scala'
 
-// allow passing any custom language name.
+// Allow passing any custom language name.
 export type Language = BUILTIN_LANGUAGES | string
 
 type BUILTIN_THEMES = 'light' | 'dark'
 
-// allow passing any custom theme.
+// Allow passing any custom theme.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Theme = BUILTIN_THEMES | any
 
@@ -71,6 +72,8 @@ export type CodeProps = {
   * We're using the light version of the Prism backend.
 
   * Only a select number of languages declared above are supported to keep it light.
+
+  * Using other languages is possible with .language and .theme props. See storybook for an example.
 */
 export const Code: FC<CodeProps> = ({ language, theme = 'light', showLineNumbers, wrapLongLines, children, className }) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
