@@ -15,6 +15,10 @@ $opacityMin: 0.2;
     width: c.$iconSizeNormal;
     height: c.$iconSizeNormal;
   }
+  &.large {
+    width: c.$iconSizeLarge;
+    height: c.$iconSizeLarge;
+  }
   &.xlarge {
     width: c.$iconSizeXLarge;
     height: c.$iconSizeXLarge;

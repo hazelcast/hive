@@ -23,6 +23,7 @@ export const Loader: FC<LoaderProps> = ({ className, size = 'normal', kind = 'in
       {
         [styles.small]: size === 'small',
         [styles.normal]: size === 'normal',
+        [styles.large]: size === 'large',
         [styles.xlarge]: size === 'xlarge',
         [styles.primary]: kind === 'primary',
         [styles.contrast]: kind === 'contrast',
