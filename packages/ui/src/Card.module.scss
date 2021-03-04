@@ -38,4 +38,10 @@
 
     margin-top: c.$grid * 4;
   }
+
+  &.noTitle {
+    .content {
+      margin-top: 0;
+    }
+  }
 }
