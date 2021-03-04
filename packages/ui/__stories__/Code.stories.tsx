@@ -1,5 +1,9 @@
 import React from 'react'
-import { Code } from '../src'
+import { Code, SyntaxHighlighter } from '../src'
+import pascal from 'react-syntax-highlighter/dist/esm/languages/prism/pascal'
+import twilight from 'react-syntax-highlighter/dist/esm/styles/prism/twilight'
+
+SyntaxHighlighter.registerLanguage('pascal', pascal)
 
 export default {
   title: 'Components/Code',
@@ -33,6 +37,42 @@ export const WrapLongLines = () => {
     <Code wrapLongLines>
       Hazelcast IMDG clients and programming language APIs allow you to extend the benefits of operational in-memory computing to
       applications in these languages. These clients and APIs (except Scala) are open source and supported by Hazelcast.
+    </Code>
+  )
+}
+
+const PASCAL_SAMPLE = ` // do not forget to register your language (eg. SyntaxHighlighter.registerLanguage('pascal', pascal))
+program ObjectPascalExample;
+type
+  THelloWorld = object
+      procedure Put;
+  end;
+
+procedure THelloWorld.Put;
+begin
+  WriteLn('Hello, World!');
+end;
+
+var
+  HelloWorld: THelloWorld; { allocated on the stack and can be used without explicit allocation. }
+begin
+  HelloWorld.Put;
+end.`
+
+export const NonBuiltinLanguage = () => {
+  return (
+    <Code language={"pascal"}>
+      {PASCAL_SAMPLE}
+    </Code>
+  )
+}
+
+export const NonBuiltinTheme = () => {
+  return (
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    <Code language={"pascal"} theme={twilight}>
+      {PASCAL_SAMPLE}
     </Code>
   )
 }

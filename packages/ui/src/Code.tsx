@@ -31,9 +31,19 @@ SyntaxHighlighter.registerLanguage('kotlin', kotlin)
 SyntaxHighlighter.registerLanguage('python', python)
 SyntaxHighlighter.registerLanguage('scala', scala)
 
-export type Language = 'jsx' | 'cpp' | 'csharp' | 'java' | 'kotlin' | 'go' | 'python' | 'scala'
+// export SyntaxHighlighter for allowing user to register other languages
+export { SyntaxHighlighter }
 
-export type Theme = 'light' | 'dark'
+type BUILTIN_LANGUAGES = 'jsx' | 'cpp' | 'csharp' | 'java' | 'kotlin' | 'go' | 'python' | 'scala'
+
+// allow passing any custom language name.
+export type Language = BUILTIN_LANGUAGES | string
+
+type BUILTIN_THEMES = 'light' | 'dark'
+
+// allow passing any custom theme.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type Theme = BUILTIN_THEMES | any
 
 type ThemeToStyleMapping = { [key in Theme]: unknown }
 
@@ -63,7 +73,8 @@ export type CodeProps = {
   * Only a select number of languages declared above are supported to keep it light.
 */
 export const Code: FC<CodeProps> = ({ language, theme = 'light', showLineNumbers, wrapLongLines, children, className }) => {
-  const style: unknown = THEME_TO_STYLE_MAPPING[theme]
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  const style: unknown = THEME_TO_STYLE_MAPPING[theme] || theme
   return (
     <div className={cn(styles.container, className)}>
       <SyntaxHighlighter
