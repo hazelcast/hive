@@ -51,6 +51,7 @@
     "@types/react-table": "^7.0.28",
     "classnames": "^2.2.6",
     "date-fns": "^2.16.1",
+    "dequal": "^2.0.2",
     "formik": "^2.2.0",
     "rc-tooltip": "^4.2.3",
     "react-datepicker": "^3.4.1",

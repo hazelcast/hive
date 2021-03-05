@@ -1,10 +1,10 @@
 import { useRef } from 'react'
-import deepEqual from 'dequal'
+import { dequal } from 'dequal'
 
 export const useDeepEqual = <T>(value: T, defaultValue: T) => {
   const ref = useRef(defaultValue)
 
-  if (!deepEqual(ref.current, value)) {
+  if (!dequal(ref.current, value)) {
     ref.current = value
   }
 
