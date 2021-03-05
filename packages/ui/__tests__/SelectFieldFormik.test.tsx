@@ -32,7 +32,7 @@ describe('SelectFieldFormik', () => {
         onSubmit={onSubmit}
       >
         <Form>
-          <SelectFieldFormik<Values, string | null> name="name" options={options} label="test" isClearable />
+          <SelectFieldFormik<Values, string> name="name" options={options} label="test" isClearable />
         </Form>
       </Formik>
     )
