@@ -1,7 +1,7 @@
 import { DataTestProp } from '@hazelcast/helpers'
-import React, { FocusEvent, InputHTMLAttributes, ReactElement } from 'react'
+import React, { FocusEvent, InputHTMLAttributes, ReactElement, useMemo } from 'react'
 import cn from 'classnames'
-import ReactSelect, { ActionMeta, components, Props as ReactSelectProps, ValueType, MultiValueProps } from 'react-select'
+import ReactSelect, { ActionMeta, components, MultiValueProps, Props as ReactSelectProps, ValueType } from 'react-select'
 import ReactSelectCreatable from 'react-select/creatable'
 import { ChevronDown, X } from 'react-feather'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
@@ -91,7 +91,7 @@ const MultiValueRemove = (props: any) => {
   )
 }
 
-export type SelectFieldOption<V = string> = {
+export type SelectFieldOption<V> = {
   label: string
   value: V
 }
@@ -106,30 +106,37 @@ export type SelectFieldCoreDynamicProps<V> =
   | {
       isClearable: true
       isMulti?: false
-      value: SelectFieldOption<V> | null
-      onChange: (newValue: SelectFieldOption<V> | null) => void
+      value: V | null
+      onChange: (newValue: V | null) => void
     }
   | {
       isClearable?: false
       isMulti?: false
-      value: SelectFieldOption<V>
-      onChange: (newValue: SelectFieldOption<V>) => void
+      value: V
+      onChange: (newValue: V) => void
     }
   | {
-      isClearable: true
       isMulti: true
-      value: SelectFieldOption<V>[] | null
-      onChange: (newValue: SelectFieldOption<V>[] | null) => void
+      value: V[]
+      onChange: (newValue: V[]) => void
     }
-  | {
-      isClearable?: false
-      isMulti: true
-      value: SelectFieldOption<V>[]
-      onChange: (newValue: SelectFieldOption<V>[]) => void
+
+// Since the user input is string, let's allow creatable only for string
+type SelectFieldCreatableProps<V> = V extends string
+  ? {
+      isCreatable?: boolean
     }
+  : {
+      isCreatable?: false
+    }
+
+function isMultipleModeGuard<V>(value: V | V[] | null, isMultiple: boolean): value is V[] {
+  return isMultiple
+}
 
 export type SelectFieldExtraProps<V> = {
   isCreatable?: boolean
+  isClearable?: boolean
   options: SelectFieldOption<V>[]
   label: string
   helperText?: string | ReactElement
@@ -141,7 +148,10 @@ export type SelectFieldExtraProps<V> = {
   Pick<InputHTMLAttributes<HTMLElement>, 'autoFocus' | 'disabled' | 'required' | 'placeholder'> &
   Pick<ReactSelectProps, 'isSearchable' | 'menuIsOpen' | 'menuPlacement' | 'noOptionsMessage' | 'inputValue'>
 
-export type SelectProps<V> = SelectFieldCoreStaticProps & SelectFieldCoreDynamicProps<V> & SelectFieldExtraProps<V>
+export type SelectProps<V> = SelectFieldCoreStaticProps &
+  SelectFieldCoreDynamicProps<V> &
+  SelectFieldExtraProps<V> &
+  SelectFieldCreatableProps<V>
 
 const getMenuContainer = (menuPortalTarget: 'body' | 'self' | HTMLElement | null): HTMLElement | null | undefined => {
   if (menuPortalTarget == 'body') {
@@ -154,7 +164,35 @@ const getMenuContainer = (menuPortalTarget: 'body' | 'self' | HTMLElement | null
   return menuPortalTarget
 }
 
-export const SelectField = <V,>({
+type GetSelectedOptionFromValueProps<V> = {
+  value: V | V[] | null
+  optionsMap: { [key: string]: SelectFieldOption<V> }
+  isMulti: boolean
+}
+
+/**
+ * Transforms the value passed to our Select component so that it's in a format as underlying react-select expects
+ * @param value - single value or an array of values
+ * @param optionsMap - an object where option values are mapped to react-select expected objects
+ * @param isMulti - boolean indicating whether we're in a multiple mode or not
+ */
+export function getSelectedOptionFromValue<V extends string | number>({
+  value,
+  optionsMap,
+  isMulti,
+}: GetSelectedOptionFromValueProps<V>): SelectFieldOption<V> | SelectFieldOption<V>[] | null {
+  if (isMultipleModeGuard(value, isMulti)) {
+    // if it's multi value, let's transform a value array to an array containing SelectFieldOptions
+    return value.map((val) => optionsMap[val] ?? { value: val, label: val })
+  } else {
+    if (value === null) {
+      return null
+    }
+    return optionsMap[value] ?? { value: value, label: value }
+  }
+}
+
+export const SelectField = <V extends string | number = string>({
   'data-test': dataTest,
   labelClassName,
   className,
@@ -172,6 +210,7 @@ export const SelectField = <V,>({
   onChange,
   helperText,
   menuPortalTarget = 'body',
+  options,
   ...rest
 }: SelectProps<V>): ReactElement<SelectProps<V>> => {
   const id = useUID()
@@ -183,6 +222,34 @@ export const SelectField = <V,>({
       menuContainer.className = `${menuContainer.className} ${styles.menuContainer}`
     }
   }, [menuPortalTarget])
+
+  const optionsMap = React.useMemo(
+    () =>
+      options.reduce((acc, option) => {
+        acc[`${option.value}`] = option
+        return acc
+      }, {} as { [key: string]: SelectFieldOption<V> }),
+    [options],
+  )
+
+  const onChangeMultipleFn = React.useCallback(
+    (values: SelectFieldOption<V>[]) => {
+      ;(onChange as (newValue: V[]) => void)(values.map(({ value }) => value))
+    },
+    [onChange],
+  )
+
+  const onChangeFn = React.useCallback(
+    (option: SelectFieldOption<V> | null) => {
+      ;(onChange as (newValue: V | null) => void)(option === null ? null : option.value)
+    },
+    [onChange],
+  )
+
+  const selectedOption = useMemo(
+    () => getSelectedOptionFromValue<V>({ optionsMap, value, isMulti }),
+    [optionsMap, isMulti, value],
+  )
 
   const props: ReactSelectProps<SelectFieldOption<V>> = {
     inputId: id,
@@ -197,8 +264,12 @@ export const SelectField = <V,>({
     isSearchable: isSearchable,
     isMulti: isMulti,
     name: name,
-    value: value,
-    onChange: onChange as (value: ValueType<SelectFieldOption<V>>, action: ActionMeta<SelectFieldOption<V>>) => void,
+    value: selectedOption,
+    options,
+    onChange: (isMulti ? onChangeMultipleFn : onChangeFn) as (
+      value: ValueType<SelectFieldOption<V>>,
+      action: ActionMeta<SelectFieldOption<V>>,
+    ) => void,
     menuPortalTarget: getMenuContainer(menuPortalTarget),
     components: {
       DropdownIndicator,

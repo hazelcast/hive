@@ -16,7 +16,7 @@ const options: SelectFieldOption<string>[] = [
 describe('SelectFieldFormik', () => {
   it('can be used in a form', async () => {
     type Values = {
-      name: SelectFieldOption<string> | null
+      name: string | null
     }
 
     const onSubmit = jest.fn()
@@ -32,7 +32,7 @@ describe('SelectFieldFormik', () => {
         onSubmit={onSubmit}
       >
         <Form>
-          <SelectFieldFormik<Values> name="name" options={options} label="test" isClearable />
+          <SelectFieldFormik<Values, string> name="name" options={options} label="test" isClearable />
         </Form>
       </Formik>
     )
@@ -52,7 +52,7 @@ describe('SelectFieldFormik', () => {
     wrapper.update()
 
     expect(formikBag.current?.values).toEqual({
-      name: options[1],
+      name: options[1].value,
     })
 
     // We need the `async` call here to wait for processing of the asynchronous 'change'
@@ -63,13 +63,13 @@ describe('SelectFieldFormik', () => {
     wrapper.update()
 
     expect(formikBag.current?.values).toEqual({
-      name: options[0],
+      name: options[0].value,
     })
   })
 
   it('the error is displayed', async () => {
     type Values = {
-      name: SelectFieldOption<string> | null
+      name: string | null
     }
 
     const validate = jest.fn().mockImplementation(() => 'error')
