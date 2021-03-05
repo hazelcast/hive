@@ -25,4 +25,7 @@
   overflow: hidden;
   border: 0;
   white-space: nowrap;
+  // Without explicit top and left it causes rendering a scrollbar
+  top: 1px;
+  left: 1px;
 }
