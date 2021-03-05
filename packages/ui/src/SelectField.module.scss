@@ -170,6 +170,7 @@ $select: ':global .hz-select-field__control';
     background-color: c.$colorNeutralLighter;
     overflow: hidden;
     box-shadow: 0 c.$selectMenuShadowSize c.$selectMenuShadowBlur 0 c.$colorShadow;
+    z-index: c.$zIndex1000;
 
     @include c.typographyBodySmall;
 
