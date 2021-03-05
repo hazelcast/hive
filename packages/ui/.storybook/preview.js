@@ -5,6 +5,7 @@ import { CustomDocsPage } from './CustomDocsPage'
 import { customTheme } from './theme'
 
 import './preview.scss'
+import 'react-datepicker/dist/react-datepicker.css'
 
 export const decorators = [
   (Story) => (
