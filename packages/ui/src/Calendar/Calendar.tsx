@@ -8,9 +8,6 @@ import { CalendarTime } from './components/CalendarTime'
 
 import styles from './Calendar.module.scss'
 
-// Note: We build on top of these default styles in Calendar.module.scss
-import 'react-datepicker/dist/react-datepicker.css'
-
 const DATE_FORMAT = 'yyyy-MM-dd'
 const DATE_FORMAT_WITH_TIME = 'yyyy-MM-dd hh:mm a'
 

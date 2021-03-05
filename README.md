@@ -9,6 +9,7 @@
 - [Installation](#installation)
   - [Under the hood](#under-the-hood)
 - [Usage](#usage)
+- [Global CSS](#global-css)
 - [SSR](#ssr)
   - [Stable IDs](#stable-ids)
 - [Project structure](#project-structure)
@@ -51,6 +52,18 @@ Be aware, that we compile our TypeScript code to the modern `ES2018` JavaScript.
 Moreover, we do not do anything about styles (`scss` in our case). We just import them as modules. Please, configure webpack or any other bundler to handle them.
 
 The latest version of the design system is accessible at https://master--5f80b6aa3ceb290022dfea61.chromatic.com/.
+
+## Global CSS
+
+This library is used from Next.js projects.
+Individual projects should transpile @hazelcast/ui.
+However, Next.js still [forbids](https://github.com/vercel/next.js/blob/master/errors/css-global.md) to import files with .css / .scss extension unless they're in \_app.tsx
+
+So please make sure to import the following global styles in your projects if you need them.
+
+```typescript
+import 'react-datepicker/dist/react-datepicker.css'
+```
 
 ## SSR
 
