@@ -71,9 +71,9 @@ export type CodeProps = {
 
   * We're using the light version of the Prism backend.
 
-  * Only a select number of languages declared above are supported to keep it light.
+  * Only a select number of languages declared above are supported to keep it light (The languages with official Hazelcast clients).
 
-  * Using other languages is possible with .language and .theme props. See storybook for an example.
+  * Using other languages and themes is possible with .language and .theme props. See storybook for an example.
 */
 export const Code: FC<CodeProps> = ({ language, theme = 'light', showLineNumbers, wrapLongLines, children, className }) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
