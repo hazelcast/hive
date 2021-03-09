@@ -1,0 +1,36 @@
+@use '../styles/constants' as c;
+
+$addIconSpacing: c.$grid;
+
+.inputRow {
+  display: flex;
+  margin-bottom: c.$grid * 3;
+  align-items: flex-end;
+
+  .addIcon {
+    display: block;
+    margin-left: c.$grid * 3;
+    border-radius: c.$inputHeight;
+    border: c.$borderWidth solid c.$colorPrimary;
+    color: c.$colorPrimary;
+    height: c.$inputHeight - $addIconSpacing;
+    width: c.$inputHeight - $addIconSpacing;
+    margin-bottom: $addIconSpacing / 2;
+  }
+}
+
+ul.list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    padding: c.$grid c.$grid * 3;
+    margin: c.$grid * 3 0;
+    border: c.$borderWidth solid c.$colorNeutralLight;
+    border-radius: c.$borderRadius;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
