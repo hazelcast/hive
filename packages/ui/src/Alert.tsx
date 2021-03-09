@@ -90,7 +90,7 @@ export const Alert: FC<AlertProps> = ({ type, title, content, actions, className
       </div>
       <div data-test="alert-body" className={styles.body}>
         <div data-test="alert-content">{content}</div>
-        {actions?.length && (
+        {actions?.length ? (
           <div data-test="alert-actions" className={styles.actions}>
             {actions.map((action, aI) => {
               if (isAlertActionButton(action)) {
@@ -137,7 +137,7 @@ export const Alert: FC<AlertProps> = ({ type, title, content, actions, className
               )
             })}
           </div>
-        )}
+        ) : null}
       </div>
     </div>
   )
