@@ -15,6 +15,8 @@ $fontSizeH3: 1.25rem !default;
 $fontSizeButton: 1.125rem !default;
 $fontSizeBodyNormal: 1rem !default;
 $fontSizeBodySmall: 0.875rem !default;
+$fontSizeBodySmaller: 0.75rem !default;
+$fontSizeBodyTiny: 0.625rem !default;
 
 $letterSpacingH1: 0.25px !default;
 $letterSpacingH2: 0 !default;
@@ -22,6 +24,8 @@ $letterSpacingH3: 0.15px !default;
 $letterSpacingButton: 1.25px !default;
 $letterSpacingBodyNormal: 0.5px !default;
 $letterSpacingBodySmall: 0.25px !default;
+$letterSpacingBodySmaller: normal !default;
+$letterSpacingBodyTiny: normal !default;
 
 $lineHeightH1: normal !default;
 $lineHeightH2: normal !default;
@@ -29,6 +33,8 @@ $lineHeightH3: normal !default;
 $lineHeightButton: normal !default;
 $lineHeightBodyNormal: 1.4 !default;
 $lineHeightBodySmall: normal !default;
+$lineHeightBodySmaller: normal !default;
+$lineHeightBodyTiny: normal !default;
 
 @function override($override: false) {
   @if ($override) {
@@ -89,6 +95,22 @@ $lineHeightBodySmall: normal !default;
   font-size: $fontSizeBodySmall;
   letter-spacing: $letterSpacingBodySmall;
   line-height: $lineHeightBodySmall;
+
+  @include typographyBodyWeight($weight);
+}
+@mixin typographyBodySmaller($weight: 'regular') {
+  font-family: $fontFamilyText;
+  font-size: $fontSizeBodySmaller;
+  letter-spacing: $letterSpacingBodySmaller;
+  line-height: $lineHeightBodySmaller;
+
+  @include typographyBodyWeight($weight);
+}
+@mixin typographyBodyTiny($weight: 'regular') {
+  font-family: $fontFamilyText;
+  font-size: $fontSizeBodyTiny;
+  letter-spacing: $letterSpacingBodyTiny;
+  line-height: $lineHeightBodyTiny;
 
   @include typographyBodyWeight($weight);
 }
