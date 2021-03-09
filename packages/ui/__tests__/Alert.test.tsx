@@ -136,6 +136,12 @@ describe('Alert', () => {
       })
   })
 
+  it('Renders only text content with an empty array passed as "actions" property', async () => {
+    const wrapper = await mountAndCheckA11Y(<Alert type="success" title={title} content={content} closeToast={noOp} actions={[]} />)
+    const textContent = wrapper.findDataTest('alert-body').text()
+    expect(textContent).toBe(content)
+  })
+
   it('Alert.closeToast called after simulating Escape key', async () => {
     const closeToast = jest.fn()
 
