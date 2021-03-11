@@ -1,4 +1,4 @@
-import React, { FC, ReactChild, ReactNode } from 'react'
+import React, { FC, ReactNode } from 'react'
 import cn from 'classnames'
 import { DataTestProp } from '@hazelcast/helpers'
 
@@ -11,7 +11,7 @@ export type CardProps = {
   title?: string
   headingContent?: ReactNode
   separator?: boolean
-  children: ReactChild
+  children: ReactNode
   className?: string
 } & DataTestProp
 
