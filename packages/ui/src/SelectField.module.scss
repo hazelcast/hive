@@ -122,10 +122,6 @@ $select: ':global .hz-select-field__control';
     overflow: hidden;
   }
 
-  :global .hz-select-field__multi-value--is-disabled {
-    background-color: c.$colorNeutral;
-  }
-
   // Styles for MultiValue chips - focused state.
   // We inject `.multiValueIsFocused` from js (it does not have an actual :focused state).
   .multiValueIsFocused {
@@ -157,6 +153,15 @@ $select: ':global .hz-select-field__control';
     &:hover {
       background-color: c.$colorNeutral;
       border-color: c.$colorNeutralLight;
+    }
+  }
+
+  &.disabled {
+    :global .hz-select-field__multi-value--is-disabled {
+      background-color: c.$colorNeutral;
+    }
+    .multiValueRemove {
+      color: c.$colorNeutralLight;
     }
   }
 }
