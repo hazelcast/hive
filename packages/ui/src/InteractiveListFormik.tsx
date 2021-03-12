@@ -1,8 +1,7 @@
-import React, { ReactElement } from 'react'
-import { FieldValidator, useField } from 'formik'
-import { useMemo } from 'react'
+import React, { ReactElement, useCallback } from 'react'
+import { FieldArray, FieldValidator, useField } from 'formik'
 
-import { formikTouchAndUpdate, getFieldError } from './utils/formik'
+import { getFieldError } from './utils/formik'
 import { ExtractKeysOfValueType } from './utils/types'
 import InteractiveList, { InteractiveListExtraProps } from './InteractiveList'
 
@@ -12,12 +11,35 @@ export type InteractiveListFormikProps<V extends object> = InteractiveListExtraP
 }
 
 export const InteractiveListFormik = <V extends object>({ name, validate, ...props }: InteractiveListFormikProps<V>): ReactElement => {
-  const [field, meta, { setValue, setTouched }] = useField<string[]>({
+  const [field, meta, { setTouched, setError }] = useField<string[]>({
     name,
     validate,
   })
 
-  const onChange = useMemo(() => formikTouchAndUpdate(setValue, setTouched), [setValue, setTouched])
+  const onError = useCallback(
+    (value) => {
+      setTouched(value, false)
+      setError(value)
+    },
+    [setTouched, setError],
+  )
 
-  return <InteractiveList {...props} name={name} value={field.value} onChange={onChange} error={getFieldError(meta)} />
+  return (
+    <FieldArray
+      name={name}
+      render={(arrayHelpers) => {
+        return (
+          <InteractiveList<V>
+            {...props}
+            name={name}
+            value={field.value}
+            arrayHelpers={arrayHelpers}
+            onError={onError}
+            validate={validate}
+            error={getFieldError(meta)}
+          />
+        )
+      }}
+    />
+  )
 }

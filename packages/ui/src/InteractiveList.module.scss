@@ -5,7 +5,6 @@ $addIconSpacing: c.$grid;
 .inputRow {
   display: flex;
   margin-bottom: c.$grid * 3;
-  align-items: flex-end;
 
   .addIcon {
     display: block;
@@ -15,7 +14,8 @@ $addIconSpacing: c.$grid;
     color: c.$colorPrimary;
     height: c.$inputHeight - $addIconSpacing;
     width: c.$inputHeight - $addIconSpacing;
-    margin-bottom: $addIconSpacing / 2;
+    // label (1rem * 1.4 line-height) + margin-bottom of a label
+    margin-top: c.$grid * 7;
   }
 }
 
