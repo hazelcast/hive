@@ -1,6 +1,10 @@
 @use '../styles/constants' as c;
 @use '../styles/helpers' as h;
 
+.overlayed {
+  overflow: hidden;
+}
+
 .portal {
   width: 100vw;
   height: 100vh;
