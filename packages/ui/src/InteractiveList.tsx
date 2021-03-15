@@ -63,6 +63,10 @@ export const InteractiveListItem = ({ arrayHelpers, content, error, idx }: Inter
   )
 }
 
+/**
+ * This component is meant to be used only from InteractiveListFormik
+ * @private
+ */
 const InteractiveList = ({
   label,
   inputControlRef,
