@@ -18,6 +18,7 @@ export type OverlayProps = {
   contentClassName?: string
   icon?: IconProps['icon']
   onClose: ReactModalProps['onRequestClose']
+  contentWidth?: 'fullscreen' | 'normal'
   title: string
 } & DataTestProp &
   Exclude<ReactModalProps, 'onRequestClose' | 'shouldFocusAfterRender' | 'shouldReturnFocusAfterClose'>
@@ -40,6 +41,7 @@ export const Overlay: FC<OverlayProps> = ({
   icon,
   onClose,
   title,
+  contentWidth = 'normal',
   ...rest
 }) => (
   <ReactModal
@@ -54,7 +56,10 @@ export const Overlay: FC<OverlayProps> = ({
     shouldReturnFocusAfterClose
     {...rest}
   >
-    <div data-test="overlay-wrapper" className={styles.wrapper}>
+    <div
+      data-test="overlay-wrapper"
+      className={cn(styles.wrapper, { [styles.normal]: contentWidth === 'normal', [styles.fullscreen]: contentWidth === 'fullscreen' })}
+    >
       <div data-test="overlay-header" className={cn(styles.header, headerClassName)}>
         {icon && <Icon data-test="overlay-header-icon" className={styles.icon} size="normal" icon={icon} ariaHidden />}
         <h1 data-test="overlay-header-title" className={styles.title}>

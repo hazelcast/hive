@@ -90,3 +90,27 @@ export const Open = () => (
     </Overlay>
   </AppElement>
 )
+
+export const OpenFullscreen = () => (
+  <AppElement>
+    <Overlay icon={Settings} title={title} isOpen onClose={onClose} parentSelector={parentSelector} contentWidth="fullscreen">
+      {Content}
+    </Overlay>
+  </AppElement>
+)
+
+export const OpenFullscreenFullheight = () => (
+  <AppElement>
+    <Overlay icon={Settings} title={title} isOpen onClose={onClose} parentSelector={parentSelector} contentWidth="fullscreen">
+      <div style={{ height: '100%', background: 'red' }}>{Content}</div>
+    </Overlay>
+  </AppElement>
+)
+
+export const OpenFullscreenLongContent = () => (
+  <AppElement>
+    <Overlay icon={Settings} title={title} isOpen onClose={onClose} parentSelector={parentSelector} contentWidth="fullscreen">
+      <div style={{ height: '3000px', background: 'red' }}></div>
+    </Overlay>
+  </AppElement>
+)

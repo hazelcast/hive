@@ -3,6 +3,7 @@ import { mount } from 'enzyme'
 import ReactModal, { Props as ReactModalProps } from 'react-modal'
 import { Settings, X } from 'react-feather'
 import { act } from 'react-dom/test-utils'
+import cn from 'classnames'
 
 import { Icon, IconProps, Link, LinkProps, Overlay } from '../src'
 
@@ -50,7 +51,7 @@ describe('Overlay', () => {
     })
     expect(overlayWrapper.props()).toEqual({
       'data-test': 'overlay-wrapper',
-      className: styles.wrapper,
+      className: cn(styles.wrapper, styles.normal),
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       children: expect.anything(),
     })
@@ -90,6 +91,24 @@ describe('Overlay', () => {
       'data-test': 'overlay-content',
       className: styles.content,
       children: content,
+    })
+  })
+
+  it('Renders fullscreen wrapper', () => {
+    const wrapper = mount(
+      <Overlay isOpen onClose={onClose} title={title} icon={icon} contentWidth="fullscreen">
+        {content}
+      </Overlay>,
+    )
+
+    const reactModal = wrapper.find(ReactModal)
+    const overlayWrapper = reactModal.findDataTest('overlay-wrapper')
+
+    expect(overlayWrapper.props()).toEqual({
+      'data-test': 'overlay-wrapper',
+      className: cn(styles.wrapper, styles.fullscreen),
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      children: expect.anything(),
     })
   })
 
