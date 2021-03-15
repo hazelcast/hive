@@ -1,20 +1,18 @@
-import React, { ReactElement, Ref, useCallback } from 'react'
+import React, { ReactElement, useCallback } from 'react'
 import { FieldArray, FieldValidator, useField } from 'formik'
 
 import { getFieldError } from './utils/formik'
 import { ExtractKeysOfValueType } from './utils/types'
-import InteractiveList, { InteractiveListExtraProps, InteractiveListInputRef } from './InteractiveList'
+import InteractiveList, { InteractiveListExtraProps } from './InteractiveList'
 
 export type InteractiveListFormikProps<V extends object> = InteractiveListExtraProps & {
   name: ExtractKeysOfValueType<V, string[]>
   validate?: FieldValidator
-  inputRef?: Ref<InteractiveListInputRef>
 }
 
 export const InteractiveListFormik = <V extends object>({
   name,
   validate,
-  inputRef,
   children,
   ...props
 }: InteractiveListFormikProps<V>): ReactElement => {
@@ -37,7 +35,6 @@ export const InteractiveListFormik = <V extends object>({
       render={(arrayHelpers) => {
         return (
           <InteractiveList
-            ref={inputRef}
             {...props}
             name={name}
             value={field.value}

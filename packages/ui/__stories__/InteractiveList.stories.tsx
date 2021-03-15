@@ -59,7 +59,7 @@ export const WithCustomAddButton = () => {
       {({ values }) => (
         <Form>
           <div>Values: {JSON.stringify(values)}</div>
-          <InteractiveListFormik<Values> name="ipAddresses" label="Name" inputIcon={List} inputRef={inputRef}>
+          <InteractiveListFormik<Values> name="ipAddresses" label="Name" inputIcon={List} inputControlRef={inputRef}>
             <Button onClick={() => inputRef.current?.setValue('127.0.0.1')}>Add Custom IP</Button>
           </InteractiveListFormik>
           <button type="submit">Submit</button>

@@ -1,4 +1,4 @@
-import React, { FocusEvent, forwardRef, useCallback, useImperativeHandle, useMemo, useState } from 'react'
+import React, { FocusEvent, Ref, useCallback, useImperativeHandle, useMemo, useState } from 'react'
 import { TextField, TextFieldExtraProps } from './TextField'
 import { IconButton } from './IconButton'
 import { Plus, X } from 'react-feather'
@@ -9,6 +9,7 @@ import { Error, errorId } from './Error'
 
 export type InteractiveListExtraProps = {
   children?: React.ReactNode | React.ReactNode[]
+  inputControlRef?: Ref<InteractiveListInputRef>
 } & Pick<TextFieldExtraProps<'text'>, 'label' | 'helperText' | 'inputIcon' | 'type' | 'placeholder'>
 
 export type InteractiveListCoreProps = {
@@ -62,90 +63,101 @@ const InteractiveListItem = ({ arrayHelpers, content, error, idx }: InteractiveL
   )
 }
 
-const InteractiveList = forwardRef<InteractiveListInputRef, InteractiveListProps>(
-  ({ label, children, error, name, value, helperText, inputIcon, onError, type, validate, arrayHelpers }, ref) => {
-    const id = useUID()
-    const [inputValue, setValue] = useState<string>('')
+const InteractiveList = ({
+  label,
+  inputControlRef,
+  children,
+  error,
+  name,
+  value,
+  helperText,
+  inputIcon,
+  onError,
+  type,
+  validate,
+  arrayHelpers,
+}: InteractiveListProps) => {
+  const id = useUID()
+  const [inputValue, setValue] = useState<string>('')
 
-    const normalizedValue = useMemo(() => inputValue.trim(), [inputValue])
+  const normalizedValue = useMemo(() => inputValue.trim(), [inputValue])
 
-    useImperativeHandle(ref, () => ({
-      setValue: (value: string) => {
-        setValue(value)
-      },
-    }))
+  useImperativeHandle(inputControlRef, () => ({
+    setValue: (value: string) => {
+      setValue(value)
+    },
+  }))
 
-    const addValueCallback = useCallback(async () => {
-      if (normalizedValue.length === 0) {
-        onError('You need to provide a non empty value')
-      } else if (value.includes(normalizedValue)) {
-        onError('You need to provide a unique value')
-      } else {
-        if (validate) {
-          const error = await validate(normalizedValue)
-          if (error) {
-            onError(error)
-          } else {
-            arrayHelpers.push(normalizedValue)
-            setValue('')
-          }
+  const addValueCallback = useCallback(async () => {
+    if (normalizedValue.length === 0) {
+      onError('You need to provide a non empty value')
+    } else if (value.includes(normalizedValue)) {
+      onError('You need to provide a unique value')
+    } else {
+      if (validate) {
+        const error = await validate(normalizedValue)
+        if (error) {
+          onError(error)
         } else {
           arrayHelpers.push(normalizedValue)
           setValue('')
         }
+      } else {
+        arrayHelpers.push(normalizedValue)
+        setValue('')
       }
-    }, [value, normalizedValue, onError, validate, arrayHelpers])
+    }
+  }, [value, normalizedValue, onError, validate, arrayHelpers])
 
-    return (
-      <>
-        <div className={styles.inputRow}>
-          <TextField
-            id={id}
-            type={type}
-            helperText={helperText}
-            inputIcon={inputIcon}
-            error={typeof error === 'string' ? error : undefined}
-            label={label}
-            name={name}
-            value={inputValue}
-            onChange={({ target: { value } }) => {
-              setValue(value)
-            }}
-            onKeyPress={async (e) => {
-              if (e.key === 'Enter') {
-                e.preventDefault()
-                await addValueCallback()
-              }
-            }}
-          />
-          <IconButton
-            kind="transparent"
-            ariaLabel="Add Icon"
-            icon={Plus}
-            className={styles.addIcon}
-            size="normal"
-            onClick={async () => {
+  return (
+    <>
+      <div className={styles.inputRow}>
+        <TextField
+          id={id}
+          type={type}
+          helperText={helperText}
+          inputIcon={inputIcon}
+          error={typeof error === 'string' ? error : undefined}
+          label={label}
+          name={name}
+          value={inputValue}
+          onChange={({ target: { value } }) => {
+            setValue(value)
+          }}
+          onKeyPress={async (e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault()
               await addValueCallback()
-            }}
-          />
-        </div>
-        {children}
-        <ul className={styles.list}>
-          {value.map((str, idx) => (
-            <li key={idx}>
-              <InteractiveListItem
-                arrayHelpers={arrayHelpers}
-                idx={idx}
-                content={str}
-                error={typeof error === 'object' && error[idx] ? error[idx] : undefined}
-              />
-            </li>
-          ))}
-        </ul>
-      </>
-    )
-  },
-)
+            }
+          }}
+        />
+        <IconButton
+          kind="transparent"
+          ariaLabel="Add Icon"
+          icon={Plus}
+          className={styles.addIcon}
+          size="normal"
+          onClick={async () => {
+            await addValueCallback()
+          }}
+        />
+      </div>
+      {children}
+      <ul className={styles.list}>
+        {value.map((str, idx) => (
+          <li key={idx}>
+            <InteractiveListItem
+              arrayHelpers={arrayHelpers}
+              idx={idx}
+              content={str}
+              error={typeof error === 'object' && error[idx] ? error[idx] : undefined}
+            />
+          </li>
+        ))}
+      </ul>
+    </>
+  )
+}
 
 InteractiveList.displayName = 'InteractiveList'
 
