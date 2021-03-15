@@ -33,7 +33,7 @@ export type InteractiveListItemProps = {
   idx: number
 }
 
-const InteractiveListItem = ({ arrayHelpers, content, error, idx }: InteractiveListItemProps) => {
+export const InteractiveListItem = ({ arrayHelpers, content, error, idx }: InteractiveListItemProps) => {
   const id = useUID()
   const errorProps = error
     ? {
@@ -132,6 +132,7 @@ const InteractiveList = ({
           }}
         />
         <IconButton
+          data-test="interactive-list-add-button"
           kind="transparent"
           ariaLabel="Add Icon"
           icon={Plus}

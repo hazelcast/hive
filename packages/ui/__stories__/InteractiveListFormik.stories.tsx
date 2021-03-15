@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
-import { Button } from '../src/Button'
-import InteractiveList, { InteractiveListInputRef } from '../src/InteractiveList'
+import { Button } from '../src'
+import { InteractiveListInputRef } from '../src/InteractiveList'
 import { Form, Formik } from 'formik'
 import { logger } from '@hazelcast/services'
 import { InteractiveListFormik } from '../src/InteractiveListFormik'
@@ -8,8 +8,8 @@ import { List } from 'react-feather'
 import * as Yup from 'yup'
 
 export default {
-  title: 'Components/InteractiveList',
-  component: InteractiveList,
+  title: 'Components/InteractiveListFormik',
+  component: InteractiveListFormik,
 }
 
 export const Default = () => {
@@ -30,7 +30,7 @@ export const Default = () => {
       {({ values }) => (
         <Form>
           Values: {JSON.stringify(values)}
-          <InteractiveListFormik<Values> name="ipAddresses" label="Name" inputIcon={List} />
+          <InteractiveListFormik<Values> name="ipAddresses" label="IP Addresses" inputIcon={List} />
           <button type="submit">Submit</button>
         </Form>
       )}
@@ -77,7 +77,9 @@ export const DefaultWithYupValidation = () => {
   }
 
   const schema = Yup.object().shape({
-    ipAddresses: Yup.array().of(Yup.string().min(3, 'Needs to be at least ${min} character long')).min(1, 'Need at least 1 IP Address'),
+    ipAddresses: Yup.array()
+      .of(Yup.string().min(3, 'Needs to be at least ${min} character long'))
+      .min(1, 'Need at least ${min} IP Address'),
   })
 
   const validateIPAddress = (value: string) => {
