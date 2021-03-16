@@ -9,6 +9,7 @@ import { Icon, IconProps } from './Icon'
 import { Link } from './Link'
 
 import styles from './Overlay.module.scss'
+import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 
 export type OverlayActionProps = ButtonProps<ButtonTypeButtonProps>
 export type OverlayProps = {
@@ -18,6 +19,7 @@ export type OverlayProps = {
   contentClassName?: string
   icon?: IconProps['icon']
   onClose: ReactModalProps['onRequestClose']
+  contentWidth?: 'fullscreen' | 'normal'
   title: string
 } & DataTestProp &
   Exclude<ReactModalProps, 'onRequestClose' | 'shouldFocusAfterRender' | 'shouldReturnFocusAfterClose'>
@@ -40,42 +42,58 @@ export const Overlay: FC<OverlayProps> = ({
   icon,
   onClose,
   title,
+  contentWidth = 'normal',
+  isOpen,
   ...rest
-}) => (
-  <ReactModal
-    data-test={dataTest}
-    portalClassName={styles.portal}
-    className={cn(styles.modal, className)}
-    contentLabel={title}
-    onRequestClose={onClose}
-    shouldCloseOnOverlayClick={false}
-    shouldCloseOnEsc
-    shouldFocusAfterRender
-    shouldReturnFocusAfterClose
-    {...rest}
-  >
-    <div data-test="overlay-wrapper" className={styles.wrapper}>
-      <div data-test="overlay-header" className={cn(styles.header, headerClassName)}>
-        {icon && <Icon data-test="overlay-header-icon" className={styles.icon} size="normal" icon={icon} ariaHidden />}
-        <h1 data-test="overlay-header-title" className={styles.title}>
-          {title}
-        </h1>
-        <Link
-          data-test="overlay-header-cancel-button"
-          className={styles.close}
-          component="button"
-          onClick={onClose}
-          size="small"
-          iconClassName={styles.closeIcon}
-          icon={X}
-          ariaLabel="Cancel"
-        >
-          Cancel
-        </Link>
+}) => {
+  useIsomorphicLayoutEffect(() => {
+    if (isOpen) {
+      document.body.classList.add(styles.overlayed)
+    } else {
+      document.body.classList.remove(styles.overlayed)
+    }
+  }, [isOpen])
+
+  return (
+    <ReactModal
+      data-test={dataTest}
+      portalClassName={styles.portal}
+      className={cn(styles.modal, className)}
+      contentLabel={title}
+      onRequestClose={onClose}
+      shouldCloseOnOverlayClick={false}
+      shouldCloseOnEsc
+      shouldFocusAfterRender
+      shouldReturnFocusAfterClose
+      isOpen={isOpen}
+      {...rest}
+    >
+      <div
+        data-test="overlay-wrapper"
+        className={cn(styles.wrapper, { [styles.normal]: contentWidth === 'normal', [styles.fullscreen]: contentWidth === 'fullscreen' })}
+      >
+        <div data-test="overlay-header" className={cn(styles.header, headerClassName)}>
+          {icon && <Icon data-test="overlay-header-icon" className={styles.icon} size="normal" icon={icon} ariaHidden />}
+          <h1 data-test="overlay-header-title" className={styles.title}>
+            {title}
+          </h1>
+          <Link
+            data-test="overlay-header-cancel-button"
+            className={styles.close}
+            component="button"
+            onClick={onClose}
+            size="small"
+            iconClassName={styles.closeIcon}
+            icon={X}
+            ariaLabel="Cancel"
+          >
+            Cancel
+          </Link>
+        </div>
+        <div data-test="overlay-content" className={cn(styles.content, contentClassName)}>
+          {children}
+        </div>
       </div>
-      <div data-test="overlay-content" className={cn(styles.content, contentClassName)}>
-        {children}
-      </div>
-    </div>
-  </ReactModal>
-)
+    </ReactModal>
+  )
+}
