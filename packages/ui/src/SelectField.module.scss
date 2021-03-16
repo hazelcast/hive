@@ -115,7 +115,7 @@ $select: ':global .hz-select-field__control';
   }
 
   .multiValue {
-    background-color: c.$colorNeutralWhite !important;
+    background-color: c.$colorNeutralWhite;
     border: c.$borderWidth solid c.$colorNeutralLight;
     border-radius: c.$borderRadius;
     height: c.$grid * 5.5; // makes 22px; design is 21px.
@@ -153,6 +153,15 @@ $select: ':global .hz-select-field__control';
     &:hover {
       background-color: c.$colorNeutral;
       border-color: c.$colorNeutralLight;
+    }
+  }
+
+  &.disabled {
+    :global .hz-select-field__multi-value--is-disabled {
+      background-color: c.$colorNeutral;
+    }
+    .multiValueRemove {
+      color: c.$colorTextSecondary;
     }
   }
 }
