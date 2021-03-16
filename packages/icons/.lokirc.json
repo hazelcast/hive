@@ -1,0 +1,11 @@
+{
+  "configurations": {
+    "chrome.minimal": {
+      "target": "chrome.docker",
+      "width": 1280,
+      "height": 720,
+      "deviceScaleFactor": 1,
+      "mobile": false
+    }
+  }
+}

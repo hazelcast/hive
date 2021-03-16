@@ -38,7 +38,7 @@
     "test:visual": "lerna run --parallel test:visual",
     "lint": "lerna run --parallel lint",
     "verify-all": "npm run lint && npm run test && npm run build-storybook && npm run test:visual",
-    "build-storybook": "lerna run --scope @hazelcast/ui build-storybook",
+    "build-storybook": "lerna run --parallel build-storybook",
     "publish-storybook": "lerna run --scope @hazelcast/ui publish-storybook",
     "start": "lerna run --scope @hazelcast/ui storybook",
     "prepack": "npm run compile",

@@ -1,0 +1,54 @@
+{
+  "name": "@hazelcast/icons",
+  "version": "0.1.0-alpha.0",
+  "description": "Hazelcast icons",
+  "author": "",
+  "homepage": "https://github.com/hazelcast/frontend-shared#readme",
+  "license": "Apache-2.0",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hazelcast/frontend-shared.git"
+  },
+  "scripts": {
+    "compile": "shx rm -f *.tsbuildinfo && shx rm -rf lib && shx mkdir lib && shx cp -r src/* lib && shx rm -r lib/*.{tsx,ts} && shx rm -r lib/**/*.{tsx,ts} && tsc -p tsconfig.build.json",
+    "test": "jest",
+    "lint": "eslint --ext .ts,.tsx .",
+    "lint:fix": "npm run lint -- --fix",
+    "start": "npm run storybook",
+    "storybook": "start-storybook -p 6007",
+    "build-storybook": "build-storybook",
+    "test:visual": "loki --verboseRenderer --requireReference --reactUri file:./storybook-static --chromeFlags='--headless --disable-gpu --hide-scrollbars --no-sandbox --allow-file-access-from-files'",
+    "test:visual:approve": "loki approve",
+    "generate-screenshots": "loki update --reactUri file:./storybook-static --chromeFlags='--headless --disable-gpu --hide-scrollbars --no-sandbox --allow-file-access-from-files'"
+  },
+  "bugs": {
+    "url": "https://github.com/hazelcast/frontend-shared/issues"
+  },
+  "peerDependencies": {
+    "@types/react": "16",
+    "@types/react-dom": "16",
+    "react": "16",
+    "react-dom": "16"
+  },
+  "devDependencies": {
+    "@storybook/addons": "^6.1.21",
+    "@storybook/react": "^6.1.21",
+    "@storybook/theming": "^6.1.21",
+    "@types/react": "16",
+    "@types/react-dom": "16",
+    "loki": "^0.28.1",
+    "react": "16",
+    "react-dom": "16"
+  }
+}
