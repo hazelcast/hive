@@ -3,7 +3,8 @@ import { Database } from 'react-feather'
 
 import { Card, IconButton } from '../src'
 
-import styles from './utils.scss'
+import utilityStyles from './utils.scss'
+import styles from './Card.stories.module.scss'
 
 const cardContent =
   'Hogshead topsail draft careen mizzen fluke gaff cog aye Buccaneer. To go on account topgallant Jolly Roger maroon overhaul ho landlubber or just lubber prow pillage clap of thunder. Holystone jack black jack sloop bowsprit Sea Legs matey aft fluke brigantine.'
@@ -56,7 +57,7 @@ export const WithIconAndSeparator = () => (
 
 export const WithSmallText = () => (
   <Card title="Card title">
-    <div className={styles.typographyBodySmall}>{cardContent}</div>
+    <div className={utilityStyles.typographyBodySmall}>{cardContent}</div>
   </Card>
 )
 
@@ -65,6 +66,12 @@ export const WithHeadingContent = () => (
     title="Card title"
     headingContent={<IconButton kind="primary" ariaLabel="Check out the Database" icon={Database} component="a" href="#" />}
   >
+    {cardContent}
+  </Card>
+)
+
+export const WithCustomStyling = () => (
+  <Card title="Card title" headingIcon={Database} iconClassName={styles.customIconClass} titleClassName={styles.customTitleClass}>
     {cardContent}
   </Card>
 )
