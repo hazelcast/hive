@@ -13,6 +13,8 @@ export type CardProps = {
   separator?: boolean
   children: ReactNode
   className?: string
+  iconClassName?: string
+  titleClassName?: string
 } & DataTestProp
 
 /**
@@ -30,12 +32,14 @@ export const Card: FC<CardProps> = ({
   'data-test': dataTest,
   children,
   className,
+  iconClassName,
+  titleClassName,
 }) => (
   <div data-test={dataTest ?? 'card-wrapper'} className={cn(styles.wrapper, { [styles.noTitle]: !title }, className)}>
     {title && (
       <div data-test="card-heading" className={styles.heading}>
-        {headingIcon && <Icon data-test="card-heading-icon" icon={headingIcon} className={styles.icon} ariaHidden />}
-        <h3 data-test="card-heading-title" className={cn(styles.title, { [styles.space]: !!headingContent })}>
+        {headingIcon && <Icon data-test="card-heading-icon" icon={headingIcon} className={cn(styles.icon, iconClassName)} ariaHidden />}
+        <h3 data-test="card-heading-title" className={cn(styles.title, titleClassName, { [styles.space]: !!headingContent })}>
           {title}
         </h3>
         {headingContent}
