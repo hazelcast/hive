@@ -22,9 +22,6 @@
   },
   "scripts": {
     "compile": "tsc -p tsconfig.build.json",
-    "test": "jest",
-    "lint": "eslint --ext .ts,.tsx .",
-    "lint:fix": "npm run lint -- --fix",
     "start": "npm run storybook",
     "storybook": "start-storybook -p 6007",
     "build-storybook": "build-storybook",
