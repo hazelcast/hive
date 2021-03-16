@@ -400,6 +400,24 @@ export const MultipleSelectionsAndOpen = () => {
   )
 }
 
+export const MultipleSelectionsDisabled = () => {
+  const [currentValue, setValue] = useState<string[]>([...values])
+  return (
+    <div style={{ maxWidth: '400px' }}>
+      <SelectField<string>
+        disabled={true}
+        name={nameMulti}
+        value={currentValue}
+        isMulti={true}
+        label={labelMulti}
+        options={options}
+        onBlur={() => logger.log('blur')}
+        onChange={setValue}
+      />
+    </div>
+  )
+}
+
 export const EmptySelectFields = () => {
   const [currentValue, setValue] = useState<string | null>(null)
   const [currentValues, setValues] = useState<string[]>([])
