@@ -21,7 +21,7 @@
     "url": "git+https://github.com/hazelcast/frontend-shared.git"
   },
   "scripts": {
-    "compile": "shx rm -f *.tsbuildinfo && shx rm -rf lib && shx mkdir lib && shx cp -r src/* lib && shx rm -r lib/*.{tsx,ts} && shx rm -r lib/**/*.{tsx,ts} && tsc -p tsconfig.build.json",
+    "compile": "tsc -p tsconfig.build.json",
     "test": "jest",
     "lint": "eslint --ext .ts,.tsx .",
     "lint:fix": "npm run lint -- --fix",
