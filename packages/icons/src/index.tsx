@@ -1,7 +1,6 @@
 export * from './Cluster'
 export * from './PlusCircle'
 export * from './Streaming'
-export * from './MessageCircle'
 export * from './Folder'
 export * from './Compute'
 export * from './types'
