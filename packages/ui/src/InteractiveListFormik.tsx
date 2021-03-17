@@ -1,5 +1,5 @@
 import React, { ReactElement, useCallback } from 'react'
-import { FieldArray, FieldValidator, useField } from 'formik'
+import { FieldArray, FieldValidator, useField, useFormikContext } from 'formik'
 
 import { getFieldError } from './utils/formik'
 import { ExtractKeysOfValueType } from './utils/types'
@@ -28,14 +28,17 @@ export const InteractiveListFormik = <V extends object>({
   children,
   ...props
 }: InteractiveListFormikProps<V>): ReactElement => {
+  const { validateForm } = useFormikContext<V>()
   const [field, meta, { setTouched, setError }] = useField<string[]>({
     name,
     validate,
   })
 
   const onError = useCallback(
-    (value) => {
-      setTouched(value, false)
+    (value: string | string[]) => {
+      setTouched(true, false)
+      // @ts-expect-error Formik expects the string[], while documentation says
+      // it can be string | string[] which also makes more sense
       setError(value)
     },
     [setTouched, setError],
@@ -46,7 +49,7 @@ export const InteractiveListFormik = <V extends object>({
       name={name}
       render={(arrayHelpers) => {
         return (
-          <InteractiveList
+          <InteractiveList<V>
             {...props}
             name={name}
             value={field.value}
@@ -54,6 +57,7 @@ export const InteractiveListFormik = <V extends object>({
             onError={onError}
             validate={validate}
             error={getFieldError(meta)}
+            validateForm={validateForm}
           >
             {children}
           </InteractiveList>

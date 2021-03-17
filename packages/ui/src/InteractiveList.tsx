@@ -1,28 +1,30 @@
-import React, { FocusEvent, Ref, useCallback, useImperativeHandle, useMemo, useState } from 'react'
+import React, { FocusEvent, Ref, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react'
 import { TextField, TextFieldExtraProps } from './TextField'
 import { IconButton } from './IconButton'
 import { Plus, X } from 'react-feather'
 import styles from './InteractiveList.module.scss'
 import { useUID } from 'react-uid'
-import { FieldArrayRenderProps, FieldValidator } from 'formik'
+import { FieldArrayRenderProps, FieldValidator, FormikHelpers } from 'formik'
 import { Error, errorId } from './Error'
+import { ExtractKeysOfValueType } from './utils/types'
 
 export type InteractiveListExtraProps = {
   children?: React.ReactNode | React.ReactNode[]
   inputControlRef?: Ref<InteractiveListInputRef>
 } & Pick<TextFieldExtraProps<'text'>, 'label' | 'helperText' | 'inputIcon' | 'type' | 'placeholder'>
 
-export type InteractiveListCoreProps = {
-  name: string
+export type InteractiveListCoreProps<V> = {
+  name: ExtractKeysOfValueType<V, string[]>
   value: string[]
   onBlur?: (e: FocusEvent<HTMLTextAreaElement>) => void
   error?: string
   validate?: FieldValidator
   arrayHelpers: FieldArrayRenderProps
   onError: (str: string) => void
+  validateForm: FormikHelpers<V>['validateForm']
 } & InteractiveListExtraProps
 
-export type InteractiveListProps = InteractiveListExtraProps & InteractiveListCoreProps
+export type InteractiveListProps<V> = InteractiveListExtraProps & InteractiveListCoreProps<V>
 
 export type InteractiveListInputRef = { setValue: (value: string) => void }
 
@@ -67,7 +69,7 @@ export const InteractiveListItem = ({ arrayHelpers, content, error, idx }: Inter
  * This component is meant to be used only from InteractiveListFormik
  * @private
  */
-const InteractiveList = ({
+const InteractiveList = <V,>({
   label,
   inputControlRef,
   children,
@@ -80,9 +82,12 @@ const InteractiveList = ({
   type,
   validate,
   arrayHelpers,
-}: InteractiveListProps) => {
+  validateForm,
+}: InteractiveListProps<V>) => {
   const id = useUID()
   const [inputValue, setValue] = useState<string>('')
+  // We want to revalidate on change only after un-successful insert
+  const [touched, setTouched] = useState(false)
 
   const normalizedValue = useMemo(() => inputValue.trim(), [inputValue])
 
@@ -92,26 +97,59 @@ const InteractiveList = ({
     },
   }))
 
-  const addValueCallback = useCallback(async () => {
-    if (normalizedValue.length === 0) {
-      onError('You need to provide a non empty value')
-    } else if (value.includes(normalizedValue)) {
-      onError('You need to provide a unique value')
-    } else {
-      if (validate) {
-        const error = await validate(normalizedValue)
-        if (error) {
-          onError(error)
-        } else {
-          arrayHelpers.push(normalizedValue)
-          setValue('')
+  useEffect(() => {
+    if (touched) {
+      void getValidationError().then((validateError) => {
+        if (validateError) {
+          onError(validateError)
         }
-      } else {
-        arrayHelpers.push(normalizedValue)
-        setValue('')
+      })
+    }
+  }, [touched, inputValue])
+
+  const getValidationError = async () => {
+    let validateError: string | undefined = undefined
+
+    if (normalizedValue.length === 0) {
+      validateError = 'You need to provide a non empty value'
+    }
+
+    if (validateError === undefined && value.includes(normalizedValue)) {
+      validateError = 'You need to provide a unique value'
+    }
+
+    if (validateError === undefined && validate) {
+      // let's check validate error
+      const error = await validate(normalizedValue)
+      if (error) {
+        validateError = error
       }
     }
-  }, [value, normalizedValue, onError, validate, arrayHelpers])
+
+    if (validateError === undefined) {
+      // If we passed with previous checks, let's check against Formik's validation error
+      // We do that by checking future state with validateForm
+      const formikErrors = await validateForm({
+        [name]: [...value, normalizedValue],
+      })
+      const fieldErrors = formikErrors[name] as string[] | string | undefined
+      validateError = typeof fieldErrors === 'string' ? fieldErrors : fieldErrors?.find((x) => !!x)
+    }
+
+    return validateError
+  }
+
+  const addValueCallback = async () => {
+    const validateError = await getValidationError()
+    if (validateError) {
+      onError(validateError)
+      setTouched(true)
+    } else {
+      arrayHelpers.push(normalizedValue)
+      setTouched(false)
+      setValue('')
+    }
+  }
 
   return (
     <>
