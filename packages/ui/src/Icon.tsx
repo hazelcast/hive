@@ -1,6 +1,4 @@
-import React, { forwardRef, SVGProps } from 'react'
-import { Icon as FeatherIconType } from 'react-feather'
-import { Icon as SimpleIconType } from '@icons-pack/react-simple-icons'
+import React, { FC, forwardRef, SVGAttributes, SVGProps } from 'react'
 import cn from 'classnames'
 
 import styleConsts from '../styles/constants/export.module.scss'
@@ -26,9 +24,16 @@ export type IconAriaProps =
       ariaHidden: boolean
     }
 
+export type IconType = FC<
+  SVGAttributes<SVGElement> & {
+    color?: string
+    size?: string | number
+  }
+>
+
 export type IconProps = {
   color?: string
-  icon: FeatherIconType | SimpleIconType
+  icon: IconType
   size?: IconSize
   className?: string
   containerClassName?: string
