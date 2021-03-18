@@ -1,11 +1,12 @@
 import { DataTestProp } from '@hazelcast/helpers'
-import React, { FC, FocusEvent, ChangeEvent, ReactElement, InputHTMLAttributes, useCallback, useMemo } from 'react'
+import React, { FC, FocusEvent, ChangeEvent, InputHTMLAttributes, useCallback, useMemo } from 'react'
 import { Plus, Minus } from 'react-feather'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 import cn from 'classnames'
 
 import { TextField } from './TextField'
 import { IconButton, IconButtonDisabledProps, IconButtonNotDisabledProps } from './IconButton'
+import { HelpProps } from './Help'
 
 import styles from './NumberField.module.scss'
 
@@ -26,7 +27,7 @@ export type NumberFieldExtraProps = {
   defaultValue?: number
   numberType?: 'int' | 'float'
   label: string
-  helperText?: string | ReactElement
+  helperText?: HelpProps['helperText']
   className?: string
   labelClassName?: string
   inputClassName?: string
