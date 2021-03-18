@@ -17,9 +17,9 @@ export type InteractiveListCoreProps<V> = {
   value: string[]
   onBlur?: (e: FocusEvent<HTMLTextAreaElement>) => void
   error?: string
-  onValueAdd: () => Promise<string | undefined>
   inputValue: string
   setInputValue: (val: string) => void
+  onAddItem: () => Promise<string | undefined>
   onRemoveItem: (idx: number) => boolean
 } & InteractiveListExtraProps
 
@@ -77,9 +77,9 @@ const InteractiveList = <V,>({
   helperText,
   inputIcon,
   type,
-  onValueAdd,
   inputValue,
   setInputValue,
+  onAddItem,
   onRemoveItem,
 }: InteractiveListProps<V>) => {
   const id = useUID()
@@ -102,7 +102,7 @@ const InteractiveList = <V,>({
           onKeyPress={async (e) => {
             if (e.key === 'Enter') {
               e.preventDefault()
-              await onValueAdd()
+              await onAddItem()
             }
           }}
         />
@@ -113,7 +113,7 @@ const InteractiveList = <V,>({
           icon={Plus}
           className={styles.addIcon}
           size="normal"
-          onClick={onValueAdd}
+          onClick={onAddItem}
         />
       </div>
       {children}

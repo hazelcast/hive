@@ -110,7 +110,7 @@ export const InteractiveListFormik = <V extends object>({
             inputValue={inputValue}
             setInputValue={setInputValue}
             error={getFieldError(meta)}
-            onValueAdd={async () => {
+            onAddItem={async () => {
               const validationError = await getValidationError()
               if (validationError) {
                 onError(validationError)
