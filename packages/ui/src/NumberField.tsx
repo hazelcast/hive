@@ -6,9 +6,9 @@ import cn from 'classnames'
 
 import { TextField } from './TextField'
 import { IconButton, IconButtonDisabledProps, IconButtonNotDisabledProps } from './IconButton'
+import { HelpProps } from './Help'
 
 import styles from './NumberField.module.scss'
-import { HelpProps } from './Help'
 
 type NumberFieldCoreProps = {
   name: string
