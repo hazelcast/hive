@@ -8,7 +8,7 @@ import { useUID } from 'react-uid'
 import { Icon } from './Icon'
 import { Label } from './Label'
 import { Error, errorId } from './Error'
-import { Help, helpTooltipId } from './Help'
+import { Help, HelpProps, helpTooltipId } from './Help'
 
 import styles from './TextField.module.scss'
 
@@ -35,7 +35,7 @@ type TextFieldCoreProps<T extends TextFieldTypes> = {
 }
 export type TextFieldExtraProps<T extends TextFieldTypes> = {
   label: string
-  helperText?: string | ReactElement
+  helperText?: HelpProps['helperText']
   className?: string
   labelClassName?: string
   inputContainerClassName?: string

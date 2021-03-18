@@ -9,7 +9,7 @@ import { useUID } from 'react-uid'
 
 import { Error, errorId } from './Error'
 import { Label } from './Label'
-import { Help } from './Help'
+import { Help, HelpProps } from './Help'
 import { Icon } from './Icon'
 import { IconButton } from './IconButton'
 import { canUseDOM } from './utils/ssr'
@@ -139,7 +139,7 @@ export type SelectFieldExtraProps<V> = {
   isClearable?: boolean
   options: SelectFieldOption<V>[]
   label: string
-  helperText?: string | ReactElement
+  helperText?: HelpProps['helperText']
   className?: string
   labelClassName?: string
   errorClassName?: string

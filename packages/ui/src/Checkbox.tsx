@@ -5,7 +5,7 @@ import { useUID } from 'react-uid'
 import classNames from 'classnames'
 
 import { Error, errorId } from './Error'
-import { Help, helpTooltipId } from './Help'
+import { Help, HelpProps, helpTooltipId } from './Help'
 
 import styles from './Checkbox.module.scss'
 
@@ -20,7 +20,7 @@ type CheckboxCoreProps = {
 
 export type CheckboxExtraProps = {
   label: React.ReactNode
-  helperText?: string
+  helperText?: HelpProps['helperText']
   indeterminate?: boolean
   disabled?: boolean
   required?: boolean
