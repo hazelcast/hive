@@ -3,7 +3,6 @@ import React, {
   FC,
   FocusEvent,
   ChangeEvent,
-  ReactElement,
   InputHTMLAttributes,
   useMemo,
   useState,
@@ -16,6 +15,7 @@ import { Eye, EyeOff, Lock } from 'react-feather'
 
 import { TextField } from './TextField'
 import { IconButton, IconButtonDisabledProps, IconButtonNotDisabledProps } from './IconButton'
+import { HelpProps } from './Help'
 
 import styles from './PasswordField.module.scss'
 
@@ -30,7 +30,7 @@ export type PasswordFieldExtraProps = {
   showIconLabel?: string
   hideIconLabel?: string
   label: string
-  helperText?: string | ReactElement
+  helperText?: HelpProps['helperText']
   labelClassName?: string
   className?: string
   inputClassName?: string

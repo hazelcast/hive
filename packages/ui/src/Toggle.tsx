@@ -4,7 +4,7 @@ import { useUID } from 'react-uid'
 import { DataTestProp } from '@hazelcast/helpers'
 
 import { Error, errorId } from './Error'
-import { Help, helpTooltipId } from './Help'
+import { Help, HelpProps, helpTooltipId } from './Help'
 
 import styles from './Toggle.module.scss'
 
@@ -19,7 +19,7 @@ type ToggleCoreProps = {
 
 export type ToggleExtraProps = {
   label: string | React.ReactNode
-  helperText?: string
+  helperText?: HelpProps['helperText']
   disabled?: boolean
   className?: string
   classNameLabel?: string

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, FocusEvent, ReactElement, useRef } from 'react'
+import React, { ChangeEvent, FC, FocusEvent, useRef } from 'react'
 import cn from 'classnames'
 import useResizeAware from 'react-resize-aware'
 import { DataTestProp } from '@hazelcast/helpers'
@@ -6,7 +6,7 @@ import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 import { useUID } from 'react-uid'
 
 import { Error, errorId } from './Error'
-import { Help } from './Help'
+import { Help, HelpProps } from './Help'
 import { Label } from './Label'
 import { PopperRef } from './Tooltip'
 
@@ -26,7 +26,7 @@ export type TextAreaExtraProps = {
   textareaClassName?: string
   errorClassName?: string
   resizable?: boolean
-  helperText?: string | ReactElement
+  helperText?: HelpProps['helperText']
 } & Partial<Pick<HTMLTextAreaElement, 'className' | 'disabled' | 'placeholder' | 'required' | 'rows'>>
 
 export type TextAreaProps = TextAreaCoreProps & TextAreaExtraProps & DataTestProp
