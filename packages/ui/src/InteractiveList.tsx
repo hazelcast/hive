@@ -1,10 +1,9 @@
-import React, { FocusEvent, Ref, useEffect, useImperativeHandle, useMemo, useState } from 'react'
+import React, { FocusEvent, Ref } from 'react'
 import { TextField, TextFieldExtraProps } from './TextField'
 import { IconButton } from './IconButton'
 import { Plus, X } from 'react-feather'
 import styles from './InteractiveList.module.scss'
 import { useUID } from 'react-uid'
-import { FieldArrayRenderProps, FieldValidator, FormikHelpers } from 'formik'
 import { Error, errorId } from './Error'
 import { ExtractKeysOfValueType } from './utils/types'
 
@@ -18,10 +17,10 @@ export type InteractiveListCoreProps<V> = {
   value: string[]
   onBlur?: (e: FocusEvent<HTMLTextAreaElement>) => void
   error?: string
-  validate?: FieldValidator
-  arrayHelpers: FieldArrayRenderProps
-  onError: (str: string) => void
-  validateForm: FormikHelpers<V>['validateForm']
+  onValueAdd: () => Promise<string | undefined>
+  inputValue: string
+  setInputValue: (val: string) => void
+  onRemoveItem: (idx: number) => boolean
 } & InteractiveListExtraProps
 
 export type InteractiveListProps<V> = InteractiveListExtraProps & InteractiveListCoreProps<V>
@@ -29,13 +28,13 @@ export type InteractiveListProps<V> = InteractiveListExtraProps & InteractiveLis
 export type InteractiveListInputRef = { setValue: (value: string) => void }
 
 export type InteractiveListItemProps = {
-  arrayHelpers: FieldArrayRenderProps
   content: string
   error?: string
   idx: number
+  onRemoveItem: (idx: number) => boolean
 }
 
-export const InteractiveListItem = ({ arrayHelpers, content, error, idx }: InteractiveListItemProps) => {
+export const InteractiveListItem = ({ onRemoveItem, content, error, idx }: InteractiveListItemProps) => {
   const id = useUID()
   const errorProps = error
     ? {
@@ -56,7 +55,7 @@ export const InteractiveListItem = ({ arrayHelpers, content, error, idx }: Inter
           icon={X}
           size="small"
           onClick={() => {
-            arrayHelpers.remove(idx)
+            onRemoveItem(idx)
           }}
         />
       </div>
@@ -71,85 +70,19 @@ export const InteractiveListItem = ({ arrayHelpers, content, error, idx }: Inter
  */
 const InteractiveList = <V,>({
   label,
-  inputControlRef,
   children,
   error,
   name,
   value,
   helperText,
   inputIcon,
-  onError,
   type,
-  validate,
-  arrayHelpers,
-  validateForm,
+  onValueAdd,
+  inputValue,
+  setInputValue,
+  onRemoveItem,
 }: InteractiveListProps<V>) => {
   const id = useUID()
-  const [inputValue, setValue] = useState<string>('')
-  // We want to revalidate on change only after un-successful insert
-  const [touched, setTouched] = useState(false)
-
-  const normalizedValue = useMemo(() => inputValue.trim(), [inputValue])
-
-  useImperativeHandle(inputControlRef, () => ({
-    setValue: (value: string) => {
-      setValue(value)
-    },
-  }))
-
-  useEffect(() => {
-    if (touched) {
-      void getValidationError().then((validateError) => {
-        if (validateError) {
-          onError(validateError)
-        }
-      })
-    }
-  }, [touched, inputValue])
-
-  const getValidationError = async () => {
-    let validateError: string | undefined = undefined
-
-    if (normalizedValue.length === 0) {
-      validateError = 'You need to provide a non empty value'
-    }
-
-    if (validateError === undefined && value.includes(normalizedValue)) {
-      validateError = 'You need to provide a unique value'
-    }
-
-    if (validateError === undefined && validate) {
-      // let's check validate error
-      const error = await validate(normalizedValue)
-      if (error) {
-        validateError = error
-      }
-    }
-
-    if (validateError === undefined) {
-      // If we passed with previous checks, let's check against Formik's validation error
-      // We do that by checking future state with validateForm
-      const formikErrors = await validateForm({
-        [name]: [...value, normalizedValue],
-      })
-      const fieldErrors = formikErrors[name] as string[] | string | undefined
-      validateError = typeof fieldErrors === 'string' ? fieldErrors : fieldErrors?.find((x) => !!x)
-    }
-
-    return validateError
-  }
-
-  const addValueCallback = async () => {
-    const validateError = await getValidationError()
-    if (validateError) {
-      onError(validateError)
-      setTouched(true)
-    } else {
-      arrayHelpers.push(normalizedValue)
-      setTouched(false)
-      setValue('')
-    }
-  }
 
   return (
     <>
@@ -164,12 +97,12 @@ const InteractiveList = <V,>({
           name={name}
           value={inputValue}
           onChange={({ target: { value } }) => {
-            setValue(value)
+            setInputValue(value)
           }}
           onKeyPress={async (e) => {
             if (e.key === 'Enter') {
               e.preventDefault()
-              await addValueCallback()
+              await onValueAdd()
             }
           }}
         />
@@ -180,9 +113,7 @@ const InteractiveList = <V,>({
           icon={Plus}
           className={styles.addIcon}
           size="normal"
-          onClick={async () => {
-            await addValueCallback()
-          }}
+          onClick={onValueAdd}
         />
       </div>
       {children}
@@ -190,7 +121,7 @@ const InteractiveList = <V,>({
         {value.map((str, idx) => (
           <li key={idx}>
             <InteractiveListItem
-              arrayHelpers={arrayHelpers}
+              onRemoveItem={onRemoveItem}
               idx={idx}
               content={str}
               error={typeof error === 'object' && error[idx] ? error[idx] : undefined}
@@ -201,7 +132,5 @@ const InteractiveList = <V,>({
     </>
   )
 }
-
-InteractiveList.displayName = 'InteractiveList'
 
 export default InteractiveList
