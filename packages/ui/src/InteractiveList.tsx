@@ -118,7 +118,7 @@ const InteractiveList = <V,>({
       {children}
       <ul className={styles.list}>
         {value.map((str, idx) => (
-          <li key={idx}>
+          <li key={str}>
             <InteractiveListItem
               onRemoveItem={onRemoveItem}
               idx={idx}
