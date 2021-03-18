@@ -94,7 +94,8 @@
     "stylelint": "^13.7.2",
     "stylelint-config-prettier": "^8.0.2",
     "stylelint-config-standard": "^20.0.0",
-    "stylelint-scss": "^3.18.0"
+    "stylelint-scss": "^3.18.0",
+    "yup": "^0.32.9"
   },
   "peerDependencies": {
     "react": "^16.14.0",
