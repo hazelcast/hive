@@ -1,4 +1,4 @@
-import React, { FocusEvent, Ref } from 'react'
+import React, { FocusEvent } from 'react'
 import { TextField, TextFieldExtraProps } from './TextField'
 import { IconButton } from './IconButton'
 import { Plus, X } from 'react-feather'
@@ -9,7 +9,6 @@ import { ExtractKeysOfValueType } from './utils/types'
 
 export type InteractiveListExtraProps = {
   children?: React.ReactNode | React.ReactNode[]
-  inputControlRef?: Ref<InteractiveListInputRef>
 } & Pick<TextFieldExtraProps<'text'>, 'label' | 'helperText' | 'inputIcon' | 'type' | 'placeholder'>
 
 export type InteractiveListCoreProps<V> = {
