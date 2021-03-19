@@ -3,7 +3,8 @@ import { useUID } from 'react-uid'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import ReactSelect from 'react-select'
 import ReactSelectCreatable from 'react-select/creatable'
-import { X } from 'react-feather'
+import { Aperture, X } from 'react-feather'
+import cn from 'classnames'
 
 import { getSelectedOptionFromValue, SelectField, SelectFieldOption } from '../src/SelectField'
 import { Label } from '../src/Label'
@@ -58,7 +59,7 @@ describe('SelectField', () => {
       options: selectOptions,
       value: selectValue,
     })
-
+    expect(wrapper.findDataTest('select-field-icons-left').exists()).toBe(false)
     expect(wrapper.find(Error).props()).toEqual({
       error: undefined,
       className: styles.errorContainer,
@@ -167,6 +168,60 @@ describe('SelectField', () => {
       isSearchable: true,
       options: selectOptions,
       value: selectValue,
+    })
+
+    expect(wrapper.find(Error).props()).toEqual({
+      error: undefined,
+      className: styles.errorContainer,
+      inputId: selectId,
+    })
+  })
+
+  it('Renders left icon', async () => {
+    const onChange = jest.fn()
+    const iconLeft = Aperture
+    const iconLeftAriaLabel = 'Aperture'
+
+    const wrapper = await mountAndCheckA11Y(
+      <SelectField
+        name={selectName}
+        label={selectLabel}
+        value="selectValue0"
+        onChange={onChange}
+        options={selectOptions}
+        iconLeft={iconLeft}
+        iconLeftAriaLabel={iconLeftAriaLabel}
+      />,
+    )
+
+    expect(wrapper.find(Label).props()).toEqual({
+      id: selectId,
+      label: selectLabel,
+      className: styles.label,
+    })
+
+    expect(wrapper.find(ReactSelect).props()).toMatchObject({
+      inputId: selectId,
+      name: selectName,
+      'aria-invalid': false,
+      'aria-required': undefined,
+      'aria-errormessage': undefined,
+      isClearable: false,
+      isDisabled: undefined,
+      isMulti: false,
+      isSearchable: true,
+      options: selectOptions,
+      value: selectValue,
+    })
+
+    expect(wrapper.findDataTest('select-field-icon-left').props()).toStrictEqual({
+      containerClassName: cn(styles.iconLeftContainer),
+      icon: iconLeft,
+      ariaLabel: iconLeftAriaLabel,
+      'data-test': 'select-field-icon-left',
+      className: cn(styles.iconLeft),
+      size: undefined,
+      color: undefined,
     })
 
     expect(wrapper.find(Error).props()).toEqual({
