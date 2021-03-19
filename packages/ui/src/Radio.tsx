@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { DataTestProp } from '@hazelcast/helpers'
 import { useUID } from 'react-uid'
 
-import { Help, helpTooltipId } from './Help'
+import { Help, HelpProps, helpTooltipId } from './Help'
 import { RadioGroupContext } from './RadioGroupContext'
 
 import styles from './Radio.module.scss'
@@ -16,7 +16,7 @@ type RadioCoreProps = {
 
 export type RadioExtraProps = {
   label: string
-  helperText?: string
+  helperText?: HelpProps['helperText']
   disabled?: boolean
   required?: boolean
   className?: string
