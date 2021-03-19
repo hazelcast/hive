@@ -61,6 +61,8 @@ export type ButtonDisabledProps = {
   disabledTooltipPlacement?: TooltipProps['placement']
 }
 
+export type ButtonOutlineType = 'outline' | 'inset'
+
 // Common props for all button "kinds"
 export type ButtonCommonProps = {
   kind?: ButtonKind
@@ -68,6 +70,7 @@ export type ButtonCommonProps = {
   capitalize?: boolean
   bodyClassName?: string
   outlineClassName?: string
+  outline?: ButtonOutlineType
 } & Pick<HTMLAttributes<HTMLAnchorElement | HTMLButtonElement>, 'className' | 'onClick' | 'tabIndex'>
 
 export type ButtonTypeAnchorProps = {
@@ -120,6 +123,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
       className,
       bodyClassName,
       outlineClassName,
+      outline = 'outline',
       children,
       capitalize = true,
       // Disabled tooltip
@@ -177,7 +181,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
             type={Component === 'button' ? type : undefined}
             {...rest}
           >
-            <span className={cn(styles.outline, outlineClassName)} />
+            <span data-test="button-outline" className={cn(styles.outline, { [styles.inset]: outline === 'inset' }, outlineClassName)} />
             <span className={cn(styles.body, bodyClassName)} ref={mergeRefs([ref, tooltipRef])}>
               {loading && <Loader className={styles.iconLeft} />}
               {iconLeft && iconLeftAriaLabel && !loading && (
