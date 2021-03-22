@@ -3,7 +3,7 @@ import { X } from 'react-feather'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import cn from 'classnames'
 
-import { Loader, TruncatedText, Tooltip, Button, ButtonKind } from '../src'
+import { Loader, TruncatedText, Tooltip, Button, ButtonKind, Icon } from '../src'
 
 import styles from '../src/Button.module.scss'
 
@@ -29,6 +29,37 @@ describe('Button', () => {
     const wrapper = await mountAndCheckA11Y(<Button>{labelRaw}</Button>)
 
     expect(wrapper.find(Button).text()).toBe(label)
+  })
+
+  it('Renders Button', async () => {
+    const label = 'label'
+
+    const wrapper = await mountAndCheckA11Y(<Button>{label}</Button>)
+
+    expect(wrapper.find(Button).props()).toStrictEqual({ children: label })
+    expect(wrapper.find(Tooltip).at(0).props()).toStrictEqual({
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      children: expect.anything(),
+      content: undefined,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      id: expect.anything(),
+      placement: undefined,
+      visible: undefined,
+    })
+    expect(wrapper.find('button').props()).toMatchObject({
+      type: 'button',
+      className: cn(styles.button, styles.primary),
+      'aria-describedby': undefined,
+      disabled: undefined,
+      rel: undefined,
+      target: undefined,
+    })
+    expect(wrapper.findDataTest('button-outline').prop('className')).toBe(styles.outline)
+    expect(wrapper.find(TruncatedText).props()).toStrictEqual({
+      text: label.toLocaleUpperCase(),
+      tooltipVisible: undefined,
+    })
+    expect(wrapper.find(Icon)).toHaveLength(0)
   })
 
   it('Renders Button with original label when capitalize=false', async () => {
@@ -182,6 +213,12 @@ describe('Button', () => {
     expect(wrapper.find(TruncatedText).props()).toMatchObject({
       tooltipVisible: undefined,
     })
+  })
+
+  it('Renders a button with an inset outline', async () => {
+    const wrapper = await mountAndCheckA11Y(<Button outline="inset">{label}</Button>)
+
+    expect(wrapper.findDataTest('button-outline').prop('className')).toBe(cn(styles.outline, styles.inset))
   })
 
   it('Renders button with a link semantics', async () => {

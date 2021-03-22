@@ -519,6 +519,12 @@ export const NotCapitalized = () => (
   </Button>
 )
 
+export const OutlineInset = () => (
+  <Button kind="primary" outline="inset" className={styles.focus}>
+    Inset outline
+  </Button>
+)
+
 export const LinkSemanticsPrimary = () => (
   <Button kind="primary" component="a" href="#">
     Primary
