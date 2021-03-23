@@ -10,7 +10,7 @@ import { useUID } from 'react-uid'
 import { Error, errorId } from './Error'
 import { Label } from './Label'
 import { Help, HelpProps } from './Help'
-import { Icon } from './Icon'
+import { Icon, IconProps } from './Icon'
 import { IconButton } from './IconButton'
 import { canUseDOM } from './utils/ssr'
 
@@ -134,6 +134,21 @@ function isMultipleModeGuard<V>(value: V | V[] | null, isMultiple: boolean): val
   return isMultiple
 }
 
+// Left icon is always present with proper aria-label attribute
+export type SelectFieldIconLeftProps =
+  | {
+      iconLeft: IconProps['icon']
+      iconLeftAriaLabel: string
+      iconLeftClassName?: string
+      iconLeftContainerClassName?: string
+    }
+  | {
+      iconLeft?: never
+      iconLeftAriaLabel?: never
+      iconLeftClassName?: never
+      iconLeftContainerClassName?: never
+    }
+
 export type SelectFieldExtraProps<V> = {
   isCreatable?: boolean
   isClearable?: boolean
@@ -146,7 +161,8 @@ export type SelectFieldExtraProps<V> = {
   menuPortalTarget?: 'body' | 'self' | HTMLElement | null
 } & DataTestProp &
   Pick<InputHTMLAttributes<HTMLElement>, 'autoFocus' | 'disabled' | 'required' | 'placeholder'> &
-  Pick<ReactSelectProps, 'isSearchable' | 'menuIsOpen' | 'menuPlacement' | 'noOptionsMessage' | 'inputValue'>
+  Pick<ReactSelectProps, 'isSearchable' | 'menuIsOpen' | 'menuPlacement' | 'noOptionsMessage' | 'inputValue'> &
+  SelectFieldIconLeftProps
 
 export type SelectProps<V> = SelectFieldCoreStaticProps &
   SelectFieldCoreDynamicProps<V> &
@@ -194,26 +210,28 @@ export function getSelectedOptionFromValue<V extends string | number>({
 
 export const SelectField = <V extends string | number = string>({
   'data-test': dataTest,
-  labelClassName,
   className,
+  disabled,
   error,
   errorClassName,
-  isMulti = false,
+  helperText,
   isClearable,
-  disabled,
-  isSearchable = true,
   isCreatable = false,
+  isMulti = false,
+  isSearchable = true,
   label,
+  labelClassName,
+  menuPortalTarget = 'body',
   name,
+  onChange,
+  options,
   required,
   value,
-  onChange,
-  helperText,
-  menuPortalTarget = 'body',
-  options,
-  ...rest
+  ...iconAndRest
 }: SelectProps<V>): ReactElement<SelectProps<V>> => {
   const id = useUID()
+
+  const { iconLeft, iconLeftAriaLabel, iconLeftClassName, iconLeftContainerClassName, ...rest } = iconAndRest
 
   useIsomorphicLayoutEffect(() => {
     const menuContainer = getMenuContainer(menuPortalTarget)
@@ -300,6 +318,15 @@ export const SelectField = <V extends string | number = string>({
     >
       <Label id={id} label={label} className={cn(styles.label, labelClassName)} />
       <div className={styles.selectBlock}>
+        {iconLeft && iconLeftAriaLabel && (
+          <Icon
+            containerClassName={cn(styles.iconLeftContainer, iconLeftContainerClassName)}
+            icon={iconLeft}
+            ariaLabel={iconLeftAriaLabel}
+            data-test="select-field-icon-left"
+            className={cn(styles.iconLeft, iconLeftClassName)}
+          />
+        )}
         {isCreatable ? <ReactSelectCreatable<SelectFieldOption<V>> {...props} /> : <ReactSelect<SelectFieldOption<V>> {...props} />}
         {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} />}
       </div>

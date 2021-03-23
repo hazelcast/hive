@@ -6,6 +6,7 @@ import { SelectField, SelectFieldOption } from '../src/SelectField'
 import { SelectFieldFormik } from '../src/SelectFieldFormik'
 
 import styles from '../src/SelectField.module.scss'
+import { Aperture } from 'react-feather'
 
 export default {
   title: 'Components/SelectField',
@@ -157,6 +158,19 @@ export const WithHelperText = () => (
     onBlur={() => logger.log('blur')}
     onChange={(val: unknown) => logger.log('change', val)}
     helperText="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+  />
+)
+
+export const WithIconLeft = () => (
+  <SelectField
+    name="name"
+    value={value}
+    label="Character"
+    options={options}
+    onBlur={() => logger.log('blur')}
+    onChange={(val: unknown) => logger.log('change', val)}
+    iconLeft={Aperture}
+    iconLeftAriaLabel="Aperture"
   />
 )
 

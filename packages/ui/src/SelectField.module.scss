@@ -16,12 +16,6 @@ $select: ':global .hz-select-field__control';
     margin-top: c.$grid;
   }
 
-  .selectBlock {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-
   .helperText {
     margin-left: c.$grid * 1.5;
     display: block;
@@ -96,6 +90,33 @@ $select: ':global .hz-select-field__control';
   &.focus #{$select},
   #{$select}.hz-select-field__control--is-focused {
     @include h.outlineFormField;
+  }
+
+  .selectBlock {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+
+    .iconLeftContainer {
+      .iconLeft {
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        z-index: c.$zIndex100;
+        padding: 0 c.$grid * 2 0 c.$grid * 3;
+      }
+
+      & + :global(.hz-select-field) {
+        #{$select} {
+          padding-left: c.$grid * 10;
+        }
+      }
+    }
   }
 }
 
