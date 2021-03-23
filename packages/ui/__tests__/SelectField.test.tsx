@@ -220,8 +220,6 @@ describe('SelectField', () => {
       ariaLabel: iconLeftAriaLabel,
       'data-test': 'select-field-icon-left',
       className: cn(styles.iconLeft),
-      size: undefined,
-      color: undefined,
     })
 
     expect(wrapper.find(Error).props()).toEqual({

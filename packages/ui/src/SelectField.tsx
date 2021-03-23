@@ -135,20 +135,16 @@ function isMultipleModeGuard<V>(value: V | V[] | null, isMultiple: boolean): val
 }
 
 // Left icon is always present with proper aria-label attribute
-export type SelectFieldIconLeft =
+export type SelectFieldIconLeftProps =
   | {
       iconLeft: IconProps['icon']
       iconLeftAriaLabel: string
-      iconLeftSize?: IconProps['size']
-      iconLeftColor?: IconProps['color']
       iconLeftClassName?: string
       iconLeftContainerClassName?: string
     }
   | {
       iconLeft?: never
       iconLeftAriaLabel?: never
-      iconLeftSize?: never
-      iconLeftColor?: never
       iconLeftClassName?: never
       iconLeftContainerClassName?: never
     }
@@ -166,7 +162,7 @@ export type SelectFieldExtraProps<V> = {
 } & DataTestProp &
   Pick<InputHTMLAttributes<HTMLElement>, 'autoFocus' | 'disabled' | 'required' | 'placeholder'> &
   Pick<ReactSelectProps, 'isSearchable' | 'menuIsOpen' | 'menuPlacement' | 'noOptionsMessage' | 'inputValue'> &
-  SelectFieldIconLeft
+  SelectFieldIconLeftProps
 
 export type SelectProps<V> = SelectFieldCoreStaticProps &
   SelectFieldCoreDynamicProps<V> &
@@ -235,7 +231,7 @@ export const SelectField = <V extends string | number = string>({
 }: SelectProps<V>): ReactElement<SelectProps<V>> => {
   const id = useUID()
 
-  const { iconLeft, iconLeftAriaLabel, iconLeftClassName, iconLeftContainerClassName, iconLeftColor, iconLeftSize, ...rest } = iconAndRest
+  const { iconLeft, iconLeftAriaLabel, iconLeftClassName, iconLeftContainerClassName, ...rest } = iconAndRest
 
   useIsomorphicLayoutEffect(() => {
     const menuContainer = getMenuContainer(menuPortalTarget)
@@ -329,8 +325,6 @@ export const SelectField = <V extends string | number = string>({
             ariaLabel={iconLeftAriaLabel}
             data-test="select-field-icon-left"
             className={cn(styles.iconLeft, iconLeftClassName)}
-            size={iconLeftSize}
-            color={iconLeftColor}
           />
         )}
         {isCreatable ? <ReactSelectCreatable<SelectFieldOption<V>> {...props} /> : <ReactSelect<SelectFieldOption<V>> {...props} />}
