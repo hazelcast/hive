@@ -17,6 +17,7 @@ const calendarHeaderIntrinsicProps: Omit<CalendarHeaderProps, 'date' | 'increase
   increaseYear: jest.fn(),
   prevYearButtonDisabled: false,
   nextYearButtonDisabled: false,
+  customHeaderCount: 0,
 }
 
 describe('CalendarHeader', () => {
