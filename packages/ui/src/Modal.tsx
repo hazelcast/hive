@@ -24,6 +24,7 @@ export type ModalProps = {
   autoFocus?: boolean
   children?: ReactNode
   closable?: boolean
+  showCloseButton?: boolean
   bodyClassName?: string
   headerClassName?: string
   contentClassName?: string
@@ -55,6 +56,7 @@ export const Modal: FC<ModalProps> = ({
   children,
   className,
   closable = true,
+  showCloseButton = true,
   bodyClassName,
   headerClassName,
   contentClassName,
@@ -89,8 +91,8 @@ export const Modal: FC<ModalProps> = ({
           <h3 data-test="modal-header-title" className={styles.title}>
             {title}
           </h3>
-          {closable && (
-            // Note: Dialog use-case. "Not closable" modal can only be closed via "Cancel" button.
+          {closable && showCloseButton && (
+            // Note: Mostly a Dialog use-case. We want it to be closable but we don't want to show an X button in the corner.
             <div className={styles.close}>
               <IconButton data-test="modal-button-close" kind="transparent" ariaLabel="Close icon" icon={X} onClick={onClose} />
             </div>
