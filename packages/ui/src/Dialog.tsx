@@ -28,7 +28,7 @@ export type DialogProps = {
   affirmation?: string
   consequences: ReactNode
 } & DialogActionProps &
-  Pick<ModalProps, 'isOpen' | 'onClose' | 'parentSelector' | 'portalClassName'>
+  Pick<ModalProps, 'isOpen' | 'onClose' | 'closable' | 'parentSelector' | 'portalClassName'>
 
 /**
  * ### Purpose
@@ -79,7 +79,7 @@ export const Dialog: FC<DialogProps> = ({
       footerClassName={styles.dialogFooter}
       actions={actions}
       title={affirmation}
-      closable={false}
+      showCloseButton={false}
       {...rest}
     >
       {consequences}
