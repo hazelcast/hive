@@ -54,6 +54,7 @@
     "dequal": "^2.0.2",
     "formik": "^2.2.0",
     "rc-tooltip": "^4.2.3",
+    "react-datepicker": "^3.4.1",
     "react-feather": "^2.0.8",
     "react-merge-refs": "^1.1.0",
     "react-modal": "^3.12.1",
@@ -88,7 +89,6 @@
     "postcss-reporter": "^7.0.1",
     "postcss-scss": "^3.0.2",
     "react": "^16.14.0",
-    "react-datepicker": "^3.4.1",
     "react-dom": "^16.14.0",
     "storybook-addon-designs": "^5.4.2",
     "stylelint": "^13.7.2",
@@ -99,7 +99,6 @@
   },
   "peerDependencies": {
     "react": "^16.14.0",
-    "react-datepicker": "^3.4.1",
     "react-dom": "^16.14.0"
   }
 }

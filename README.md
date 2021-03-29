@@ -62,8 +62,16 @@ However, Next.js still [forbids](https://github.com/vercel/next.js/blob/master/e
 So please make sure to import the following global styles in your projects if you need them.
 
 ```typescript
-import 'react-datepicker/dist/react-datepicker.css'
+import '@hazelcast/ui/styles/datepicker.scss'
 ```
+
+or
+
+```typescript
+import '@hazelcast/ui/styles/datepicker.module.scss'
+```
+
+if you need a CSS modules version
 
 ## SSR
 
