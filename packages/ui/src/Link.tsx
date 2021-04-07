@@ -1,4 +1,4 @@
-import React, { AnchorHTMLAttributes, FC, MouseEventHandler, ReactNode } from 'react'
+import React, { AnchorHTMLAttributes, MouseEventHandler, ReactNode } from 'react'
 import { Icon as FeatherIcon } from 'react-feather'
 import cn from 'classnames'
 import { Icon } from './Icon'
@@ -80,43 +80,54 @@ export type LinkProps = IconProps & {
  * - Link can be used as a stand-alone component with right chevron icon.
  * - You can change underlying semantics with a component property. Typescript will guard you on providing other properties related to the component type.
  */
-export const Link: FC<LinkProps> = ({
-  component: Component = 'a',
-  kind = 'primary',
-  size = 'normal',
-  bold = false,
-  icon,
-  ariaLabel,
-  iconClassName,
-  href,
-  rel = 'noopener',
-  target = '_self',
-  onClick,
-  className,
-  children,
-}) => {
+export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(
+  {
+    component = 'a',
+    kind = 'primary',
+    size = 'normal',
+    bold = false,
+    icon,
+    ariaLabel,
+    iconClassName,
+    href,
+    rel = 'noopener',
+    target = '_self',
+    onClick,
+    className,
+    children,
+  },
+  ref,
+) {
   const relFinal = Array.isArray(rel) ? rel.join(' ') : rel
 
-  return (
-    <Component
-      className={cn(
-        styles[size],
-        {
-          // kind
-          [styles.primary]: kind === 'primary',
-          [styles.secondary]: kind === 'secondary',
-          // bold
-          [styles.bold]: bold,
-        },
-        className,
-      )}
-      href={href}
-      rel={Component === 'a' ? relFinal : undefined}
-      target={Component === 'a' ? target : undefined}
-      onClick={onClick}
-    >
+  const commonProps = {
+    className: cn(
+      styles[size],
+      {
+        // kind
+        [styles.primary]: kind === 'primary',
+        [styles.secondary]: kind === 'secondary',
+        // bold
+        [styles.bold]: bold,
+      },
+      className,
+    ),
+    href: href,
+    onClick: onClick,
+  }
+
+  const commonChildren = (
+    <>
       {children}
       {icon && ariaLabel && <Icon bold={bold} icon={icon} ariaLabel={ariaLabel} size={size} className={iconClassName} />}
-    </Component>
+    </>
   )
-}
+
+  return component === 'a' ? (
+    <a {...commonProps} rel={relFinal} target={target} ref={ref}>
+      {commonChildren}
+    </a>
+  ) : (
+    <button {...commonProps}>{commonChildren}</button>
+  )
+})
