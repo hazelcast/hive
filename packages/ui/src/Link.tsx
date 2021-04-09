@@ -117,20 +117,18 @@ export const Link = forwardRef<HTMLAnchorElement | HTMLButtonElement, LinkProps>
       onClick: onClick,
     }
 
-    const commonChildren = (
-      <>
-        {children}
-        {icon && ariaLabel && <Icon bold={bold} icon={icon} ariaLabel={ariaLabel} size={size} className={iconClassName} />}
-      </>
-    )
+    const iconComponent =
+      icon && ariaLabel ? <Icon bold={bold} icon={icon} ariaLabel={ariaLabel} size={size} className={iconClassName} /> : undefined
 
     return component === 'a' ? (
       <a {...commonProps} rel={relFinal} target={target} ref={ref as MutableRefObject<HTMLAnchorElement>}>
-        {commonChildren}
+        {children}
+        {iconComponent}
       </a>
     ) : (
       <button {...commonProps} ref={ref as MutableRefObject<HTMLButtonElement>}>
-        {commonChildren}
+        {children}
+        {iconComponent}
       </button>
     )
   },
