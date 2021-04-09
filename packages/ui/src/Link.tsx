@@ -1,4 +1,4 @@
-import React, { AnchorHTMLAttributes, MouseEventHandler, ReactNode } from 'react'
+import React, { AnchorHTMLAttributes, forwardRef, MouseEventHandler, MutableRefObject, ReactNode } from 'react'
 import { Icon as FeatherIcon } from 'react-feather'
 import cn from 'classnames'
 import { Icon } from './Icon'
@@ -80,54 +80,59 @@ export type LinkProps = IconProps & {
  * - Link can be used as a stand-alone component with right chevron icon.
  * - You can change underlying semantics with a component property. Typescript will guard you on providing other properties related to the component type.
  */
-export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(
-  {
-    component = 'a',
-    kind = 'primary',
-    size = 'normal',
-    bold = false,
-    icon,
-    ariaLabel,
-    iconClassName,
-    href,
-    rel = 'noopener',
-    target = '_self',
-    onClick,
-    className,
-    children,
-  },
-  ref,
-) {
-  const relFinal = Array.isArray(rel) ? rel.join(' ') : rel
-
-  const commonProps = {
-    className: cn(
-      styles[size],
-      {
-        // kind
-        [styles.primary]: kind === 'primary',
-        [styles.secondary]: kind === 'secondary',
-        // bold
-        [styles.bold]: bold,
-      },
+export const Link = forwardRef<HTMLAnchorElement | HTMLButtonElement, LinkProps>(
+  (
+    {
+      component = 'a',
+      kind = 'primary',
+      size = 'normal',
+      bold = false,
+      icon,
+      ariaLabel,
+      iconClassName,
+      href,
+      rel = 'noopener',
+      target = '_self',
+      onClick,
       className,
-    ),
-    href: href,
-    onClick: onClick,
-  }
+      children,
+    },
+    ref,
+  ) => {
+    const relFinal = Array.isArray(rel) ? rel.join(' ') : rel
 
-  const commonChildren = (
-    <>
-      {children}
-      {icon && ariaLabel && <Icon bold={bold} icon={icon} ariaLabel={ariaLabel} size={size} className={iconClassName} />}
-    </>
-  )
+    const commonProps = {
+      className: cn(
+        styles[size],
+        {
+          // kind
+          [styles.primary]: kind === 'primary',
+          [styles.secondary]: kind === 'secondary',
+          // bold
+          [styles.bold]: bold,
+        },
+        className,
+      ),
+      href: href,
+      onClick: onClick,
+    }
 
-  return component === 'a' ? (
-    <a {...commonProps} rel={relFinal} target={target} ref={ref}>
-      {commonChildren}
-    </a>
-  ) : (
-    <button {...commonProps}>{commonChildren}</button>
-  )
-})
+    const commonChildren = (
+      <>
+        {children}
+        {icon && ariaLabel && <Icon bold={bold} icon={icon} ariaLabel={ariaLabel} size={size} className={iconClassName} />}
+      </>
+    )
+
+    return component === 'a' ? (
+      <a {...commonProps} rel={relFinal} target={target} ref={ref as MutableRefObject<HTMLAnchorElement>}>
+        {commonChildren}
+      </a>
+    ) : (
+      <button {...commonProps} ref={ref as MutableRefObject<HTMLButtonElement>}>
+        {commonChildren}
+      </button>
+    )
+  },
+)
+Link.displayName = 'Link'
