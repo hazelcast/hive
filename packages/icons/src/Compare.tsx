@@ -13,7 +13,7 @@ export const Compare: FC<CompareIconProps> = ({
   height = 29,
   ...rest
 }) => (
-  <svg width={width} height={height} viewBox="0 0 28 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg width={width} height={height} viewBox="0 0 28 29" fill="none" xmlns="http://www.w3.org/2000/svg" {...rest}>
     <path d="M4.16675 10H15.8334" stroke={arrowRightColor} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
     <path
       d="M10 4.16663L15.8333 9.99996L10 15.8333"

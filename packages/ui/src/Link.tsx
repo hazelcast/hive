@@ -1,4 +1,4 @@
-import React, { AnchorHTMLAttributes, FC, MouseEventHandler, ReactNode } from 'react'
+import React, { AnchorHTMLAttributes, forwardRef, MouseEventHandler, MutableRefObject, ReactNode } from 'react'
 import { Icon as FeatherIcon } from 'react-feather'
 import cn from 'classnames'
 import { Icon } from './Icon'
@@ -80,26 +80,29 @@ export type LinkProps = IconProps & {
  * - Link can be used as a stand-alone component with right chevron icon.
  * - You can change underlying semantics with a component property. Typescript will guard you on providing other properties related to the component type.
  */
-export const Link: FC<LinkProps> = ({
-  component: Component = 'a',
-  kind = 'primary',
-  size = 'normal',
-  bold = false,
-  icon,
-  ariaLabel,
-  iconClassName,
-  href,
-  rel = 'noopener',
-  target = '_self',
-  onClick,
-  className,
-  children,
-}) => {
-  const relFinal = Array.isArray(rel) ? rel.join(' ') : rel
+export const Link = forwardRef<HTMLAnchorElement | HTMLButtonElement, LinkProps>(
+  (
+    {
+      component = 'a',
+      kind = 'primary',
+      size = 'normal',
+      bold = false,
+      icon,
+      ariaLabel,
+      iconClassName,
+      href,
+      rel = 'noopener',
+      target = '_self',
+      onClick,
+      className,
+      children,
+    },
+    ref,
+  ) => {
+    const relFinal = Array.isArray(rel) ? rel.join(' ') : rel
 
-  return (
-    <Component
-      className={cn(
+    const commonProps = {
+      className: cn(
         styles[size],
         {
           // kind
@@ -109,14 +112,25 @@ export const Link: FC<LinkProps> = ({
           [styles.bold]: bold,
         },
         className,
-      )}
-      href={href}
-      rel={Component === 'a' ? relFinal : undefined}
-      target={Component === 'a' ? target : undefined}
-      onClick={onClick}
-    >
-      {children}
-      {icon && ariaLabel && <Icon bold={bold} icon={icon} ariaLabel={ariaLabel} size={size} className={iconClassName} />}
-    </Component>
-  )
-}
+      ),
+      href: href,
+      onClick: onClick,
+    }
+
+    const iconComponent =
+      icon && ariaLabel ? <Icon bold={bold} icon={icon} ariaLabel={ariaLabel} size={size} className={iconClassName} /> : undefined
+
+    return component === 'a' ? (
+      <a {...commonProps} rel={relFinal} target={target} ref={ref as MutableRefObject<HTMLAnchorElement>}>
+        {children}
+        {iconComponent}
+      </a>
+    ) : (
+      <button {...commonProps} ref={ref as MutableRefObject<HTMLButtonElement>}>
+        {children}
+        {iconComponent}
+      </button>
+    )
+  },
+)
+Link.displayName = 'Link'
