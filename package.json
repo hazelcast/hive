@@ -43,5 +43,10 @@
     "start": "lerna run --scope @hazelcast/ui storybook",
     "prepack": "npm run compile",
     "publish-canary": "lerna publish --canary --preid next --dist-tag next --yes --no-verify-access --include-merged-tags"
+  },
+  "dependencies": {
+    "@codemirror/basic-setup": "^0.18.0",
+    "@codemirror/legacy-modes": "^0.18.0",
+    "@codemirror/stream-parser": "^0.18.1"
   }
 }
