@@ -1,5 +1,5 @@
 import React from 'react'
-import { Code } from '../src'
+import { Code } from '../src/Code'
 
 // manually import a language
 import { javascript } from '@codemirror/legacy-modes/mode/javascript'

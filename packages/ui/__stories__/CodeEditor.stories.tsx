@@ -1,5 +1,5 @@
 import React from 'react'
-import { CodeEditor } from '../src'
+import { CodeEditor } from '../src/CodeEditor'
 
 // manually import a language
 import { javascript } from '@codemirror/legacy-modes/mode/javascript'
