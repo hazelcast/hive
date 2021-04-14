@@ -1,8 +1,8 @@
-import React, { ReactElement, useMemo } from 'react'
-import { useField } from 'formik'
+import React, { ReactElement } from 'react'
+import { useField, useFormikContext } from 'formik'
 
 import { NumberField, NumberFieldExtraProps } from './NumberField'
-import { FieldValidatorGeneric, formikTouchAndUpdate, getFieldError } from './utils/formik'
+import { FieldValidatorGeneric, getFieldError } from './utils/formik'
 import { ExtractKeysOfValueType } from './utils/types'
 
 export type NumberFieldFormikProps<V extends object> = NumberFieldExtraProps & {
@@ -11,23 +11,33 @@ export type NumberFieldFormikProps<V extends object> = NumberFieldExtraProps & {
 }
 
 export const NumberFieldFormik = <V extends object>({ name, validate, ...props }: NumberFieldFormikProps<V>): ReactElement => {
-  const [field, meta, { setValue, setTouched }] = useField<number | undefined>({
+  const [field, meta, { setTouched }] = useField<number | undefined>({
     name,
     validate,
   })
 
-  const onChange = useMemo(() => formikTouchAndUpdate(setValue, setTouched), [setValue, setTouched])
-  // handle the case when the user removes the value all together
-  const newValue = field.value === undefined ? meta.initialValue : field.value
+  const formik = useFormikContext<V>()
 
-  return (
-    <NumberField
-      {...props}
-      name={name}
-      value={newValue}
-      onChange={() => onChange(newValue)}
-      onBlur={field.onBlur}
-      error={getFieldError(meta)}
-    />
-  )
+  const onChange = (value: number | undefined) => {
+    // https://github.com/formium/formik/issues/2332
+    setTouched(true, false)
+    // Override default behavior by forcing undefined to be set on the state
+    if (value === undefined) {
+      const newValues = {
+        ...formik.values,
+        [name]: undefined,
+      }
+      formik.setValues({
+        ...newValues,
+      })
+      void formik.validateForm({
+        ...newValues,
+      })
+    } else {
+      // Use default behavior for normal values
+      formik.setFieldValue(name, value, true)
+    }
+  }
+
+  return <NumberField {...props} name={name} value={field.value} onChange={onChange} onBlur={field.onBlur} error={getFieldError(meta)} />
 }
