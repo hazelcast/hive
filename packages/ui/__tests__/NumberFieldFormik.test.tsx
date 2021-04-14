@@ -122,5 +122,19 @@ describe('NumberFieldFormik', () => {
     })
 
     expect(wrapper.update().find(NumberField).prop('error')).toBe('Client side validation')
+
+    // the error should remain if the user clears the input (undefined is set as the value in this case)
+    // and submits the form. Handles the issue https://github.com/formium/formik/issues/2332
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      simulateChange(wrapper.find('input'), '')
+    })
+
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      wrapper.find('form').simulate('submit')
+    })
+
+    expect(wrapper.update().find(NumberField).prop('error')).toBe('Client side validation')
   })
 })
