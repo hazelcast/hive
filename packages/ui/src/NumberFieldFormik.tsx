@@ -17,6 +17,17 @@ export const NumberFieldFormik = <V extends object>({ name, validate, ...props }
   })
 
   const onChange = useMemo(() => formikTouchAndUpdate(setValue, setTouched), [setValue, setTouched])
+  // handle the case when the user removes the value all together
+  const newValue = field.value === undefined ? meta.initialValue : field.value
 
-  return <NumberField {...props} name={name} value={field.value} onChange={onChange} onBlur={field.onBlur} error={getFieldError(meta)} />
+  return (
+    <NumberField
+      {...props}
+      name={name}
+      value={newValue}
+      onChange={() => onChange(newValue)}
+      onBlur={field.onBlur}
+      error={getFieldError(meta)}
+    />
+  )
 }
