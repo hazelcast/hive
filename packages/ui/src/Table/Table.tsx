@@ -12,6 +12,7 @@ import {
   useResizeColumns,
   ColumnInterfaceBasedOnValue,
   useFlexLayout,
+  Column as ColumnType,
 } from 'react-table'
 
 import { Pagination, PaginationProps } from '../Pagination'
@@ -164,7 +165,9 @@ type CustomTableProps<D extends object> = {
 } & CustomTableRowClickProps<D> &
   DataTestProp
 
-type TableProps<D extends object> = TableOptions<D> & ExtendedPaginationProps & ControlledPaginationProps & CustomTableProps<D>
+export type TableProps<D extends object> = TableOptions<D> & ExtendedPaginationProps & ControlledPaginationProps & CustomTableProps<D>
+
+export type { ColumnType, RowType, CellType }
 
 const column = {
   // When using the useFlexLayout:

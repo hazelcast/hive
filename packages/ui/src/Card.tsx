@@ -15,6 +15,8 @@ export type CardProps = {
   className?: string
   iconClassName?: string
   titleClassName?: string
+  contentClassName?: string
+  headerClassName?: string
 } & DataTestProp
 
 /**
@@ -34,10 +36,12 @@ export const Card: FC<CardProps> = ({
   className,
   iconClassName,
   titleClassName,
+  contentClassName,
+  headerClassName,
 }) => (
   <div data-test={dataTest ?? 'card-wrapper'} className={cn(styles.wrapper, { [styles.noTitle]: !title }, className)}>
     {title && (
-      <div data-test="card-heading" className={styles.heading}>
+      <div data-test="card-heading" className={cn(styles.heading, headerClassName)}>
         {headingIcon && <Icon data-test="card-heading-icon" icon={headingIcon} className={cn(styles.icon, iconClassName)} ariaHidden />}
         <h3 data-test="card-heading-title" className={cn(styles.title, titleClassName, { [styles.space]: !!headingContent })}>
           {title}
@@ -48,7 +52,7 @@ export const Card: FC<CardProps> = ({
 
     {separator && <div data-test="card-separator" className={styles.separator} />}
 
-    <div data-test="card-content" className={styles.content}>
+    <div data-test="card-content" className={cn(styles.content, contentClassName)}>
       {children}
     </div>
   </div>
