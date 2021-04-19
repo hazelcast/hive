@@ -1,4 +1,4 @@
-import React, { FC, useCallback, KeyboardEvent } from 'react'
+import React, { FC, useCallback, KeyboardEvent, AnchorHTMLAttributes } from 'react'
 import cn from 'classnames'
 
 import styles from './Row.module.scss'
@@ -7,7 +7,7 @@ import { keyIsOneOf } from '../utils/keyboard'
 
 type RowBase = Omit<TableHeaderGroupProps, 'key'> & { ariaRowIndex?: number }
 export type RowProps = RowBase & { onClick?: () => void }
-export type LinkRowProps = RowBase & { href: string }
+export type LinkRowProps = RowBase & { href: string; AnchorComponent?: FC<AnchorHTMLAttributes<HTMLAnchorElement>> }
 export type HeaderRowProps = RowBase
 
 export const Row: FC<RowProps> = ({ children, className, style, role, ariaRowIndex, onClick }) => {
@@ -48,11 +48,14 @@ export const Row: FC<RowProps> = ({ children, className, style, role, ariaRowInd
   )
 }
 
-export const LinkRow: FC<LinkRowProps> = ({ children, className, style, role, ariaRowIndex, href }) => (
+// eslint-disable-next-line jsx-a11y/anchor-has-content
+const DefaultAnchor: FC<AnchorHTMLAttributes<HTMLAnchorElement>> = (props) => <a {...props} />
+
+export const LinkRow: FC<LinkRowProps> = ({ children, className, style, role, ariaRowIndex, href, AnchorComponent = DefaultAnchor }) => (
   <div data-test="table-cell-row" className={cn(styles.linkRow, className)} role={role} aria-rowindex={ariaRowIndex}>
-    <a className={styles.link} style={style} href={href}>
+    <AnchorComponent className={styles.link} style={style} href={href}>
       {children}
-    </a>
+    </AnchorComponent>
   </div>
 )
 

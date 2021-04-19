@@ -1,5 +1,5 @@
 import { DataTestProp } from '@hazelcast/helpers'
-import React, { ReactElement, useEffect } from 'react'
+import React, { AnchorHTMLAttributes, FC, ReactElement, useEffect } from 'react'
 import cn from 'classnames'
 import {
   useTable,
@@ -151,12 +151,14 @@ type CustomTableRowClickProps<D extends object> =
       // An example can be found in `ClickableRowsWithNameLink` story in Table.stories.tsx
       onRowClick?: (rowInfo: RowType<D>) => void
       getHref?: never
+      AnchorComponent?: never
     }
   | {
       // Alternative to onRowClick is a getHref function.
       // Provide a function which returns URL that will be used as href attribute for underlying <a> element.
       getHref?: (rowInfo: RowType<D>) => string
       onRowClick?: never
+      AnchorComponent?: FC<AnchorHTMLAttributes<HTMLAnchorElement>>
     }
 
 type CustomTableProps<D extends object> = {
@@ -204,6 +206,7 @@ export const Table = <D extends object>({
   paginationOptions,
   onRowClick,
   getHref,
+  AnchorComponent,
   getCustomCellProps,
 }: TableProps<D>): ReactElement => {
   const {
@@ -317,7 +320,13 @@ export const Table = <D extends object>({
                 )
               })
               return getHref ? (
-                <LinkRow key={rowKey} {...restRowProps} ariaRowIndex={row.index + 1 + cellIndexOffset} href={getHref(row)}>
+                <LinkRow
+                  key={rowKey}
+                  AnchorComponent={AnchorComponent}
+                  {...restRowProps}
+                  ariaRowIndex={row.index + 1 + cellIndexOffset}
+                  href={getHref(row)}
+                >
                   {cells}
                 </LinkRow>
               ) : (
