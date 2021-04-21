@@ -30,7 +30,7 @@ export const Default = () => {
           lineNumbers: showLineNumbers,
           lineWrapping,
         }}
-        initialValue={SAMPLE_CODE}
+        value={value}
         onChange={(val: string) => {
           setValue(val)
         }}

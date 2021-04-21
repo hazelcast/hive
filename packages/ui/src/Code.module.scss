@@ -1,6 +1,0 @@
-@use '../styles/constants' as c;
-@use '../styles/helpers' as h;
-
-.container {
-  box-shadow: 0 c.$cardShadowSize c.$cardShadowBlur 0 c.$colorShadow;
-}
