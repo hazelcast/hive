@@ -1,5 +1,5 @@
 import React from 'react'
-import { CodeEditor } from '../src/CodeEditor'
+import { CodeEditor, Checkbox } from '../src/'
 
 // manually import a language
 import { javascript } from '@codemirror/legacy-modes/mode/javascript'
@@ -19,17 +19,43 @@ for (let i = 1; i <= 100; i++) {
 
 export const Default = () => {
   const [value, setValue] = React.useState<string>(SAMPLE_CODE)
+  const [showLineNumbers, setShowLineNumbers] = React.useState<boolean>(false)
+  const [lineWrapping, setLineWrapping] = React.useState<boolean>(false)
 
   return (
     <div>
       <CodeEditor
-        options={{ language: javascript }}
+        options={{
+          language: javascript,
+          lineNumbers: showLineNumbers,
+          lineWrapping,
+        }}
         initialValue={SAMPLE_CODE}
         onChange={(val: string) => {
           setValue(val)
         }}
       />
-      <span>Character count: {value.length}</span>
+      <hr />
+      <div>Character count: {value.length}</div>
+      <hr />
+      <div>
+        <Checkbox
+          name="showLineNumbers"
+          checked={showLineNumbers}
+          label="Show line numbers"
+          onChange={(e) => {
+            setShowLineNumbers(e.target.checked)
+          }}
+        />
+        <Checkbox
+          name="showLineNumbers"
+          checked={lineWrapping}
+          label="Wrap long lines"
+          onChange={(e) => {
+            setLineWrapping(e.target.checked)
+          }}
+        />
+      </div>
     </div>
   )
 }

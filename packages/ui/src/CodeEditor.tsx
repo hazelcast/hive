@@ -6,12 +6,24 @@
 
 import React, { FC } from 'react'
 import cn from 'classnames'
-
-import { basicSetup, EditorState } from '@codemirror/basic-setup'
-import { EditorView, ViewUpdate } from '@codemirror/view'
+import { EditorView, ViewUpdate, highlightSpecialChars, drawSelection, highlightActiveLine, keymap } from '@codemirror/view'
+import { EditorState } from '@codemirror/state'
+import { history, historyKeymap } from '@codemirror/history'
+import { foldGutter, foldKeymap } from '@codemirror/fold'
+import { indentOnInput } from '@codemirror/language'
 import { lineNumbers } from '@codemirror/gutter'
+import { defaultKeymap } from '@codemirror/commands'
+import { bracketMatching } from '@codemirror/matchbrackets'
+import { closeBrackets, closeBracketsKeymap } from '@codemirror/closebrackets'
+import { highlightSelectionMatches, searchKeymap } from '@codemirror/search'
+import { autocompletion, completionKeymap } from '@codemirror/autocomplete'
+import { commentKeymap } from '@codemirror/comment'
+import { rectangularSelection } from '@codemirror/rectangular-selection'
+import { defaultHighlightStyle } from '@codemirror/highlight'
+import { lintKeymap } from '@codemirror/lint'
 import { StreamLanguage } from '@codemirror/stream-parser'
 
+import { useDeepCompareMemo } from './hooks/useDeepCompareMemo'
 import { CodeOptions } from './Code'
 import styles from './CodeEditor.module.scss'
 
@@ -32,40 +44,73 @@ export const CodeEditor: FC<CodeEditorProps> = ({ initialValue, className, optio
   const rootRef = React.useRef<HTMLDivElement>(null)
   const cm = React.useRef<EditorView | null>(null)
 
-  console.log(111, initialValue)
+  const optionsMemoized = useDeepCompareMemo(() => options, [options])
+
+  console.log(111, options)
   React.useEffect(() => {
-    if (!cm.current) {
-      const opts: CodeOptions = { ...DEFAULT_OPTIONS, ...options }
+    console.log(222, cm)
 
-      const updateListenerExtension = () =>
-        EditorView.updateListener.of((v: ViewUpdate) => {
-          if (!v.docChanged) return
-          console.log(555, v)
+    if (!rootRef.current) return
 
-          const val = v.state.doc.toString()
-          if (onChange) onChange(val)
-        })
+    const opts: CodeOptions = { ...DEFAULT_OPTIONS, ...options }
 
-      const baseExtensions = [basicSetup, updateListenerExtension()]
-      const extensions = [
-        ...baseExtensions,
-        ...(opts.language ? [StreamLanguage.define(opts.language)] : []),
-        ...(opts.lineWrapping ? [EditorView.lineWrapping] : []),
-        ...(opts.lineNumbers ? [lineNumbers()] : []),
-      ]
+    const updateListenerExtension = () =>
+      EditorView.updateListener.of((v: ViewUpdate) => {
+        if (!v.docChanged) return
+        //console.log(555, v)
 
-      cm.current = new EditorView({
-        state: EditorState.create({
-          doc: initialValue || '',
-          extensions,
-        }),
-        parent: rootRef.current as HTMLDivElement,
+        const val = v.state.doc.toString()
+        if (onChange) onChange(val)
       })
-    }
+
+    const basicSetup = [
+      highlightSpecialChars(),
+      history(),
+      drawSelection(),
+      EditorState.allowMultipleSelections.of(true),
+      indentOnInput(),
+      defaultHighlightStyle.fallback,
+      bracketMatching(),
+      closeBrackets(),
+      autocompletion(),
+      rectangularSelection(),
+      highlightActiveLine(),
+      highlightSelectionMatches(),
+      keymap.of([
+        ...closeBracketsKeymap,
+        ...defaultKeymap,
+        ...searchKeymap,
+        ...historyKeymap,
+        ...foldKeymap,
+        ...commentKeymap,
+        ...completionKeymap,
+        ...lintKeymap,
+      ]),
+    ]
+
+    const baseExtensions = [basicSetup, updateListenerExtension()]
+    const extensions = [
+      ...baseExtensions,
+      ...(opts.language ? [StreamLanguage.define(opts.language)] : []),
+      ...(opts.lineWrapping ? [EditorView.lineWrapping] : []),
+      ...(opts.lineNumbers ? [foldGutter(), lineNumbers()] : []),
+    ]
+
+    console.log('recreating...', extensions)
+    cm.current = new EditorView({
+      state: EditorState.create({
+        doc: initialValue || '',
+        extensions,
+      }),
+      parent: rootRef.current as HTMLDivElement,
+    })
+
     return () => {
+      // console.log(999)
+      cm.current?.destroy()
       cm.current = null
     }
-  }, [cm, initialValue])
+  }, [cm, initialValue, optionsMemoized])
 
   React.useMemo(() => {
     if (!cm.current) return
