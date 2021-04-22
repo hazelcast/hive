@@ -43,7 +43,7 @@ export const Default = () => {
         onChange={(val: string) => {
           setValue(val)
         }}
-        ref={ref}
+        innerRef={ref}
       />
       <hr />
       <div>Character count: {value.length}</div>

@@ -34,11 +34,11 @@
   For further customizations, one can use .customExtensions prop to extend the editor with
   any CM6 extension possible. (see Code component for an example.)
 
-  For getting a handle to the actual CM6 instance one may use the .ref prop which refers
+  For getting a handle to the actual CM6 instance one may use the .innerRef prop which refers
   to the EditorView instance created behind the scenes. (See the story of this component)
 */
 
-import React, { FC, useEffect, useRef, useImperativeHandle, forwardRef, MutableRefObject } from 'react'
+import React, { FC, useEffect, useRef, useImperativeHandle, MutableRefObject } from 'react'
 import cn from 'classnames'
 import { EditorView, ViewUpdate, highlightSpecialChars, drawSelection, highlightActiveLine, keymap } from '@codemirror/view'
 import { EditorState, Extension } from '@codemirror/state'
@@ -82,7 +82,7 @@ export type CodeEditorProps = {
   options?: CodeOptions
   onChange?: (val: string) => void
   customExtensions?: Extension[]
-  innerRef: MutableRefObject<EditorViewRef | null>
+  innerRef?: MutableRefObject<EditorViewRef | null>
 }
 
 const DEFAULT_OPTIONS: CodeOptions = {
@@ -91,7 +91,7 @@ const DEFAULT_OPTIONS: CodeOptions = {
   lineNumbers: true,
 }
 
-export const CodeEditorInternal: FC<CodeEditorProps> = ({ value, className, options = {}, onChange, customExtensions, innerRef }) => {
+export const CodeEditor: FC<CodeEditorProps> = ({ value, className, options = {}, onChange, customExtensions, innerRef }) => {
   const parentRef = useRef<HTMLDivElement>(null)
   const cm = useRef<EditorView | null>(null)
 
@@ -176,10 +176,3 @@ export const CodeEditorInternal: FC<CodeEditorProps> = ({ value, className, opti
     </div>
   )
 }
-
-export const CodeEditor = forwardRef<EditorViewRef, CodeEditorProps>((props, ref) => {
-  // vscode shows typescript error below (innerRef), this might be typescript version related?
-  return <CodeEditorInternal {...props} innerRef={ref} />
-})
-
-CodeEditor.displayName = 'CodeEditor'
