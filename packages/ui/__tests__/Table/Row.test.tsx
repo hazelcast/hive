@@ -88,7 +88,7 @@ describe('Row', () => {
       const wrapper = await mountAndCheckA11Y(<LinkRow {...cellProps} />)
 
       expect(wrapper.findDataTest(rowDataTest).props()).toEqual(expectedOuterDivProps)
-      expect(wrapper.findDataTest(rowDataTest).children('a').props()).toEqual(expectedInnerAnchorProps)
+      expect(wrapper.findDataTest(rowDataTest).find('a').props()).toEqual(expectedInnerAnchorProps)
     },
   )
 })

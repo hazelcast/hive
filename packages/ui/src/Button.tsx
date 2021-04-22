@@ -71,7 +71,7 @@ export type ButtonCommonProps = {
   bodyClassName?: string
   outlineClassName?: string
   outline?: ButtonOutlineType
-} & Pick<HTMLAttributes<HTMLAnchorElement | HTMLButtonElement>, 'className' | 'onClick' | 'tabIndex'>
+} & Pick<HTMLAttributes<HTMLAnchorElement | HTMLButtonElement>, 'className' | 'onClick' | 'tabIndex' | 'style'>
 
 export type ButtonTypeAnchorProps = {
   component: 'a'
