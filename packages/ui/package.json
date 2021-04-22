@@ -75,7 +75,7 @@
     "@storybook/addons": "6.1.21",
     "@storybook/preset-scss": "^1.0.2",
     "@storybook/react": "6.1.21",
-    "@storybook/theming": "6.0.27",
+    "@storybook/theming": "6.1.21",
     "@types/classnames": "^2.2.10",
     "@types/enzyme": "^3.10.8",
     "@types/enzyme-adapter-react-16": "^1.0.6",
