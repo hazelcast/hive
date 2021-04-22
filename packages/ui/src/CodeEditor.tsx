@@ -34,11 +34,11 @@
   For further customizations, one can use .customExtensions prop to extend the editor with
   any CM6 extension possible. (see Code component for an example.)
 
-  For getting a handle to the actual CM6 instance one may use the .innerRef prop which refers
-  to the EditorView instance created behind the scenes.
+  For getting a handle to the actual CM6 instance one may use the .ref prop which refers
+  to the EditorView instance created behind the scenes. (See the story of this component)
 */
 
-import React, { FC, useEffect, useRef } from 'react'
+import React, { FC, useEffect, useRef, useImperativeHandle, forwardRef } from 'react'
 import cn from 'classnames'
 import { EditorView, ViewUpdate, highlightSpecialChars, drawSelection, highlightActiveLine, keymap } from '@codemirror/view'
 import { EditorState, Extension } from '@codemirror/state'
@@ -78,7 +78,6 @@ export type CodeEditorProps = {
   options?: CodeOptions
   onChange?: (val: string) => void
   customExtensions?: Extension[]
-  innerRef?: React.Ref<EditorView>
 }
 
 const DEFAULT_OPTIONS: CodeOptions = {
@@ -87,15 +86,20 @@ const DEFAULT_OPTIONS: CodeOptions = {
   lineNumbers: true,
 }
 
-export const CodeEditor: FC<CodeEditorProps> = ({ value, className, options = {}, onChange, customExtensions, innerRef }) => {
-  const rootRef = useRef<HTMLDivElement>(null)
+export const CodeEditorInternal: FC<CodeEditorProps> = ({ value, className, options = {}, onChange, customExtensions }, ref) => {
+  const parentRef = useRef<HTMLDivElement>(null)
   const cm = useRef<EditorView | null>(null)
 
   const optionsMemoized = useDeepCompareMemo(() => options, [options])
 
+  // use this handle to access the cm element (which is a `view`)
+  useImperativeHandle(ref, () => ({
+    view: () => cm.current,
+  }))
+
   useEffect(
     function initCodeMirror() {
-      if (!rootRef.current) return
+      if (!parentRef.current) return
 
       const opts: CodeOptions = { ...DEFAULT_OPTIONS, ...optionsMemoized }
 
@@ -147,12 +151,8 @@ export const CodeEditor: FC<CodeEditorProps> = ({ value, className, options = {}
           doc: value || '',
           extensions,
         }),
-        parent: rootRef.current,
+        parent: parentRef.current,
       })
-
-      if (innerRef) {
-        innerRef.current = cm.current
-      }
 
       return () => {
         // destroy cm. (mind you; this component will be recreated whenever options is modified.)
@@ -167,7 +167,14 @@ export const CodeEditor: FC<CodeEditorProps> = ({ value, className, options = {}
 
   return (
     <div className={cn(styles.container, className)}>
-      <div ref={rootRef}></div>
+      <div ref={parentRef}></div>
     </div>
   )
 }
+
+// xxx
+// export const CodeEditor: FC<CodeEditorProps> = forwardRef((props, ref) => {
+//   return <CodeEditorInternal {...props} ref={ref} />
+// })
+
+export const CodeEditor: FC<CodeEditorProps> = forwardRef(CodeEditorInternal)

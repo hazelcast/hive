@@ -1,5 +1,6 @@
 import React from 'react'
-import { CodeEditor, Checkbox } from '../src/'
+import { Checkbox } from '../src/'
+import { CodeEditor, EditorView } from '../src/CodeEditor'
 
 // manually import a language
 import { javascript } from '@codemirror/legacy-modes/mode/javascript'
@@ -19,8 +20,16 @@ for (let i = 1; i <= 100; i++) {
 
 export const Default = () => {
   const [value, setValue] = React.useState<string>(SAMPLE_CODE)
-  const [showLineNumbers, setShowLineNumbers] = React.useState<boolean>(false)
+  const [showLineNumbers, setShowLineNumbers] = React.useState<boolean>(true)
   const [lineWrapping, setLineWrapping] = React.useState<boolean>(false)
+  const ref = React.useRef(null)
+
+  function handleDirectAccess() {
+    // Insert text at the start of the document
+    ref.current?.view().dispatch({
+      changes: { from: 0, insert: '#!/usr/bin/env node\n' },
+    })
+  }
 
   return (
     <div>
@@ -34,6 +43,7 @@ export const Default = () => {
         onChange={(val: string) => {
           setValue(val)
         }}
+        ref={ref}
       />
       <hr />
       <div>Character count: {value.length}</div>
@@ -47,6 +57,7 @@ export const Default = () => {
             setShowLineNumbers(e.target.checked)
           }}
         />
+        <hr />
         <Checkbox
           name="showLineNumbers"
           checked={lineWrapping}
@@ -55,6 +66,8 @@ export const Default = () => {
             setLineWrapping(e.target.checked)
           }}
         />
+        <hr />
+        <button onClick={handleDirectAccess}>Direct access to CodeMirror instance</button>
       </div>
     </div>
   )
