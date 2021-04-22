@@ -1,6 +1,6 @@
 import React from 'react'
 import { Checkbox } from '../src/'
-import { CodeEditor, EditorView } from '../src/CodeEditor'
+import { CodeEditor, EditorViewRef } from '../src/CodeEditor'
 
 // manually import a language
 import { javascript } from '@codemirror/legacy-modes/mode/javascript'
@@ -22,7 +22,7 @@ export const Default = () => {
   const [value, setValue] = React.useState<string>(SAMPLE_CODE)
   const [showLineNumbers, setShowLineNumbers] = React.useState<boolean>(true)
   const [lineWrapping, setLineWrapping] = React.useState<boolean>(false)
-  const ref = React.useRef(null)
+  const ref = React.useRef<EditorViewRef>(null)
 
   function handleDirectAccess() {
     // Insert text at the start of the document

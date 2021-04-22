@@ -38,7 +38,7 @@
   to the EditorView instance created behind the scenes. (See the story of this component)
 */
 
-import React, { FC, useEffect, useRef, useImperativeHandle, forwardRef } from 'react'
+import React, { FC, useEffect, useRef, useImperativeHandle, forwardRef, MutableRefObject } from 'react'
 import cn from 'classnames'
 import { EditorView, ViewUpdate, highlightSpecialChars, drawSelection, highlightActiveLine, keymap } from '@codemirror/view'
 import { EditorState, Extension } from '@codemirror/state'
@@ -72,12 +72,17 @@ export type CodeOptions = {
   lineNumbers?: boolean
 }
 
+export interface EditorViewRef {
+  view(): EditorView
+}
+
 export type CodeEditorProps = {
   value?: string
   className?: string
   options?: CodeOptions
   onChange?: (val: string) => void
   customExtensions?: Extension[]
+  innerRef: MutableRefObject<EditorViewRef | null>
 }
 
 const DEFAULT_OPTIONS: CodeOptions = {
@@ -86,15 +91,15 @@ const DEFAULT_OPTIONS: CodeOptions = {
   lineNumbers: true,
 }
 
-export const CodeEditorInternal: FC<CodeEditorProps> = ({ value, className, options = {}, onChange, customExtensions }, ref) => {
+export const CodeEditorInternal: FC<CodeEditorProps> = ({ value, className, options = {}, onChange, customExtensions, innerRef }) => {
   const parentRef = useRef<HTMLDivElement>(null)
   const cm = useRef<EditorView | null>(null)
 
   const optionsMemoized = useDeepCompareMemo(() => options, [options])
 
   // use this handle to access the cm element (which is a `view`)
-  useImperativeHandle(ref, () => ({
-    view: () => cm.current,
+  useImperativeHandle(innerRef, () => ({
+    view: () => cm.current!,
   }))
 
   useEffect(
@@ -172,9 +177,9 @@ export const CodeEditorInternal: FC<CodeEditorProps> = ({ value, className, opti
   )
 }
 
-// xxx
-// export const CodeEditor: FC<CodeEditorProps> = forwardRef((props, ref) => {
-//   return <CodeEditorInternal {...props} ref={ref} />
-// })
+export const CodeEditor = forwardRef<EditorViewRef, CodeEditorProps>((props, ref) => {
+  // vscode shows typescript error below (innerRef), this might be typescript version related?
+  return <CodeEditorInternal {...props} innerRef={ref} />
+})
 
-export const CodeEditor: FC<CodeEditorProps> = forwardRef(CodeEditorInternal)
+CodeEditor.displayName = 'CodeEditor'
