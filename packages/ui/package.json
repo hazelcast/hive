@@ -43,9 +43,10 @@
     "url": "https://github.com/hazelcast/frontend-shared/issues"
   },
   "dependencies": {
-    "@codemirror/basic-setup": "^0.18.0",
-    "@codemirror/legacy-modes": "^0.18.0",
-    "@codemirror/stream-parser": "^0.18.2",
+    "@codemirror/view": "0.18.8",
+    "@codemirror/basic-setup": "0.18.0",
+    "@codemirror/legacy-modes": "0.18.0",
+    "@codemirror/stream-parser": "0.18.2",
     "@hazelcast/helpers": "^0.1.0-alpha.0",
     "@hazelcast/services": "^0.1.0-alpha.0",
     "@icons-pack/react-simple-icons": "^3.13.0",

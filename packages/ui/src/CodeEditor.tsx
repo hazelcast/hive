@@ -20,7 +20,7 @@
 
   We are using this legacy language pack for ease of use.
 
-  So using a language is one import and one property assignment. see the `Code.stories.tsx`.
+  So using a language is one import and one property assignment. See the `CodeEditor.stories.tsx`.
 
   for more see https://github.com/codemirror/legacy-modes
 
