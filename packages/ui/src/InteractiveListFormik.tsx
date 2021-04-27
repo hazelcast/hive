@@ -97,6 +97,7 @@ export const InteractiveListFormik = <V extends object>({
         }
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputTouched, inputValue])
 
   return (

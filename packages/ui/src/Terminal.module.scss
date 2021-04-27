@@ -47,7 +47,6 @@
       // Do not remove outline for high-contrast modes
       // https://stackoverflow.com/a/52616313
       outline: transparent solid c.$outlineWidth;
-
       border-bottom-color: c.$colorAccessibilityOutline;
     }
 
