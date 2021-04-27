@@ -12,7 +12,7 @@
 
   ## About language support
 
-  There is a combined package of backported languages from CM5. We are using this  language pack for ease
+  There is a combined package of backported languages from CM5. We are using this language pack for ease
   of use (no need to add anything to your dependencies) and also there're not many CM6 languages as of
   writing this.
 
