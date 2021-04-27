@@ -24,6 +24,7 @@ export type TerminalProps = {
   initialExecutionHistory?: ExecutionHistoryState[]
   initialCommand?: string
   initialLoading?: boolean
+  autoFocusInitial?: boolean
 } & DataTestProp
 
 export interface ExecutionHistoryState {
@@ -44,6 +45,7 @@ export const Terminal: FC<TerminalProps> = memo(
     initialExecutionHistory = [],
     initialCommand = '',
     initialLoading = false,
+    autoFocusInitial = true,
   }) => {
     const [inputVal, setInputVal] = useState(initialCommand)
 
@@ -172,7 +174,7 @@ export const Terminal: FC<TerminalProps> = memo(
               onKeyUp={onKeyUp}
               aria-describedby={executing ? loadingTextId : undefined}
               disabled={executing}
-              autoFocus
+              autoFocus={autoFocusInitial}
               ref={inputRef}
               className={cn(inputClassName, { [styles.blank]: !inputVal })}
             />

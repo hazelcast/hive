@@ -15,7 +15,7 @@ const onExecute = async () => {
   return ['testRes']
 }
 
-export const Default = () => <Terminal onExecute={onExecute} />
+export const Default = () => <Terminal onExecute={onExecute} autoFocusInitial={false} />
 
 export const WithHistory = () => (
   <Terminal
@@ -37,18 +37,20 @@ export const WithHistory = () => (
   />
 )
 
-export const WithInitialCommand = () => <Terminal onExecute={onExecute} initialCommand="blow up death star" />
+export const WithInitialCommand = () => <Terminal onExecute={onExecute} initialCommand="blow up death star" autoFocusInitial={false} />
 
 export const WithInitialCommandHover = () => (
-  <Terminal onExecute={onExecute} initialCommand="blow up death star" inputClassName={styles.hover} />
+  <Terminal onExecute={onExecute} initialCommand="blow up death star" inputClassName={styles.hover} autoFocusInitial={false} />
 )
 
 export const WithInitialCommandFocus = () => (
-  <Terminal onExecute={onExecute} initialCommand="blow up death star" inputClassName={styles.focus} />
+  <Terminal onExecute={onExecute} initialCommand="blow up death star" inputClassName={styles.focus} autoFocusInitial={false} />
 )
 
 export const WithWelcomeMessage = () => (
-  <Terminal onExecute={onExecute} welcomeMessage="Hello Luke!!!" initialCommand="blow up death star" />
+  <Terminal onExecute={onExecute} welcomeMessage="Hello Luke!!!" initialCommand="blow up death star" autoFocusInitial={false} />
 )
 
-export const WithInitialCommandLoading = () => <Terminal onExecute={onExecute} initialCommand="blow up death star" initialLoading />
+export const WithInitialCommandLoading = () => (
+  <Terminal onExecute={onExecute} initialCommand="blow up death star" initialLoading autoFocusInitial={false} />
+)
