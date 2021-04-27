@@ -119,7 +119,7 @@ export const Terminal: FC<TerminalProps> = memo(
       setInputVal(nextHistoryItem?.command ?? '')
     }
 
-    const onKeyPress: KeyboardEventHandler = (e) => {
+    const onKeyUp: KeyboardEventHandler = (e) => {
       switch (e.key) {
         case 'Enter': {
           void execute()
@@ -146,16 +146,16 @@ export const Terminal: FC<TerminalProps> = memo(
         <div className={styles.history} role="alert">
           {executionHistory.map((historyItem, i) => (
             <Fragment key={i}>
-              <p className={styles.input}>
+              <div className={styles.input}>
                 <Icon icon={TerminalIcon} ariaHidden className={styles.terminalIcon} />
-                <input type="text" value={historyItem.command} readOnly tabIndex={-1} />
-              </p>
+                <input aria-label="Historical command" type="text" value={historyItem.command} readOnly tabIndex={-1} />
+              </div>
               {historyItem.res && (
-                <p className={styles.commandRes}>
+                <div className={styles.commandRes}>
                   {historyItem.res.map((resString, i) => (
                     <p key={i}>{resString}</p>
                   ))}
-                </p>
+                </div>
               )}
               {historyItem.error && <p className={styles.commandError}>{historyItem.error}</p>}
             </Fragment>
@@ -166,9 +166,10 @@ export const Terminal: FC<TerminalProps> = memo(
             <Icon icon={TerminalIcon} ariaHidden className={styles.terminalIcon} />
             <input
               type="text"
+              aria-label="Command"
               value={inputVal}
               onChange={(e) => setInputVal(e.target.value)}
-              onKeyPress={onKeyPress}
+              onKeyUp={onKeyUp}
               aria-describedby={executing ? loadingTextId : undefined}
               disabled={executing}
               autoFocus
