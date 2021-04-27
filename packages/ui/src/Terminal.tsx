@@ -148,7 +148,7 @@ export const Terminal: FC<TerminalProps> = memo(
             <Fragment key={i}>
               <p className={styles.input}>
                 <Icon icon={TerminalIcon} ariaHidden className={styles.terminalIcon} />
-                <input type="text" value={historyItem.command} readOnly tabIndex={-1} className={styles.readonly} />
+                <input type="text" value={historyItem.command} readOnly tabIndex={-1} />
               </p>
               {historyItem.res && (
                 <p className={styles.commandRes}>
@@ -173,7 +173,7 @@ export const Terminal: FC<TerminalProps> = memo(
               disabled={executing}
               autoFocus
               ref={inputRef}
-              className={inputClassName}
+              className={cn(inputClassName, { [styles.blank]: !inputVal })}
             />
           </div>
           {executing && (

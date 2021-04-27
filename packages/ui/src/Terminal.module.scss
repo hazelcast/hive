@@ -21,7 +21,7 @@
     flex: 1 1 auto;
     min-width: 0;
     border: none;
-    border-bottom: c.$outlineWidth solid transparent;
+    border-bottom: c.$outlineWidth solid c.$colorNeutral;
     padding: 0;
     // Align input bottom line with the icon
     margin-bottom: c.$grid;
@@ -32,6 +32,10 @@
     font-size: inherit;
     line-height: inherit;
     letter-spacing: inherit;
+
+    &.blank {
+      border-bottom-color: transparent;
+    }
 
     &:hover,
     &.hover {
@@ -53,7 +57,7 @@
       border-bottom-color: c.$colorNeutral;
     }
 
-    &.readonly {
+    &:read-only {
       border-bottom-color: c.$colorNeutral;
     }
   }
