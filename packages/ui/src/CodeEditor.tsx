@@ -12,17 +12,16 @@
 
   ## About language support
 
-  In CM6 all of the languages are defined in small, self defined packages.
-  ie. import { javascript } from '@codemirror/lang-javascript'
+  There is a combined package of backported languages from CM5. We are using this  language pack for ease
+  of use (no need to add anything to your dependencies) and also there're not many CM6 languages as of
+  writing this.
 
-  But it also supports a legacy mode for which there is a combined package of
-  lots of languages (coming from CM5 - which was hugely popular for a decade).
-
-  We are using this legacy language pack for ease of use.
+  import { javascript } from '@codemirror/legacy-modes/mode/javascript'
+  import { python } from '@codemirror/legacy-modes/mode/python'
 
   So using a language is one import and one property assignment. See the `CodeEditor.stories.tsx`.
 
-  for more see https://github.com/codemirror/legacy-modes
+  For more see https://github.com/codemirror/legacy-modes
 
   ## About styling/themes
 
@@ -73,7 +72,7 @@ export type CodeOptions = {
 }
 
 export interface EditorViewRef {
-  view(): EditorView
+  view(): EditorView | null
 }
 
 export type CodeEditorProps = {
@@ -92,14 +91,13 @@ const DEFAULT_OPTIONS: CodeOptions = {
 }
 
 export const CodeEditor: FC<CodeEditorProps> = ({ value, className, options = {}, onChange, customExtensions, innerRef }) => {
-  const parentRef = useRef<HTMLDivElement>(null)
+  const parentRef = useRef<HTMLDivElement | null>(null)
   const cm = useRef<EditorView | null>(null)
-
   const optionsMemoized = useDeepCompareMemo(() => options, [options])
 
   // use this handle to access the cm element (which is a `view`)
   useImperativeHandle(innerRef, () => ({
-    view: () => cm.current!,
+    view: () => cm.current,
   }))
 
   useEffect(
@@ -156,11 +154,13 @@ export const CodeEditor: FC<CodeEditorProps> = ({ value, className, options = {}
           doc: value || '',
           extensions,
         }),
-        parent: parentRef.current,
+        // parent: parentRef.current,
       })
 
+      parentRef.current.appendChild(cm.current.dom)
+
       return () => {
-        // destroy cm. (mind you; this component will be recreated whenever options is modified.)
+        // destroy cm. (mind you; this component will be recreated whenever options are modified.)
         cm.current?.destroy()
         cm.current = null
       }
