@@ -154,10 +154,8 @@ export const CodeEditor: FC<CodeEditorProps> = ({ value, className, options = {}
           doc: value || '',
           extensions,
         }),
-        // parent: parentRef.current,
+        parent: parentRef.current,
       })
-
-      parentRef.current.appendChild(cm.current.dom)
 
       return () => {
         // destroy cm. (mind you; this component will be recreated whenever options are modified.)
