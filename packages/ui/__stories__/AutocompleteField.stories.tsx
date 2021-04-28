@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { logger } from '@hazelcast/services'
+import { Check } from 'react-feather'
 
 import { AutocompleteField, AutocompleteFieldOption } from '../src/AutocompleteField'
 
@@ -48,28 +49,59 @@ Default.parameters = {
     url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=479%3A273',
   },
 }
-//
-// export const NotSelected = () => {
-//   const [value, setValue] = useState<string | null>(null)
-//   return (
-//     <div>
-//       Value: {value}
-//       <AutocompleteField
-//         name="name"
-//         value={value}
-//         isClearable
-//         label="Character"
-//         options={options}
-//         onBlur={() => logger.log('blur')}
-//         onChange={(val: string | null) => {
-//           setValue(val)
-//           logger.log('change', val)
-//         }}
-//       />
-//     </div>
-//   )
-// }
-//
+
+export const NotSelected = () => {
+  const [value, setValue] = useState<string | null>(null)
+  return (
+    <div>
+      Value: {value}
+      <AutocompleteField
+        name="name"
+        value={value}
+        isClearable
+        label="Character"
+        options={options}
+        onBlur={() => logger.log('blur')}
+        onChange={(val: string | null) => {
+          setValue(val)
+          logger.log('change', val)
+        }}
+      />
+    </div>
+  )
+}
+
+export const CustomOptions = () => {
+  const [value, setValue] = useState<string | null>(null)
+  const renderOption = (option: AutocompleteFieldOption, isSelected: boolean) => {
+    console.log(option, isSelected)
+    return (
+      <div>
+        {isSelected && <Check color={'green'} />}
+        {option.label}
+      </div>
+    )
+  }
+  return (
+    <div>
+      Value: {value}
+      <AutocompleteField
+        name="name"
+        value={value}
+        isClearable
+        label="Character"
+        options={options}
+        onBlur={() => logger.log('blur')}
+        onChange={(val: string | null) => {
+          setValue(val)
+          logger.log('change', val)
+        }}
+        renderOption={renderOption}
+      />
+    </div>
+  )
+}
+
 // export const Error = () => (
 //   <AutocompleteField
 //     name="name"

@@ -21,15 +21,6 @@ $select: ':global .hz-autocomplete-field__control';
     display: block;
   }
 
-  .chevron {
-    transition: 0;
-    color: c.$colorPrimary;
-    margin-left: $selectHorizontalPadding;
-  }
-  :global .hz-autocomplete-field__control--menu-is-open :local .chevron {
-    transform: rotate(180deg);
-  }
-
   .clear {
     margin-left: $selectHorizontalPadding;
   }
@@ -67,11 +58,6 @@ $select: ':global .hz-autocomplete-field__control';
       background-color: c.$colorNeutral;
       border-color: c.$colorNeutralLight;
     }
-
-    .chevron {
-      transition: 0;
-      color: c.$colorTextSecondary;
-    }
   }
 
   &.hasError {
@@ -97,93 +83,6 @@ $select: ':global .hz-autocomplete-field__control';
     flex-direction: row;
     align-items: center;
     position: relative;
-
-    .iconLeftContainer {
-      .iconLeft {
-        position: absolute;
-        left: 0;
-        top: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-        z-index: c.$zIndex100;
-        padding: 0 c.$grid * 2 0 c.$grid * 3;
-      }
-
-      & + :global(.hz-autocomplete-field) {
-        #{$select} {
-          padding-left: c.$grid * 10;
-        }
-      }
-    }
-  }
-}
-
-// when .isMulti is true, we have some tweaks overall
-.multiContainer {
-  :global .hz-autocomplete-field__value-container {
-    padding: c.$grid 0;
-  }
-
-  :global .hz-autocomplete-field__value-container--has-value {
-    margin-left: -1.5 * c.$grid; // padding is narrower in .multiContainer (when it has any values selected)
-  }
-
-  :global .hz-autocomplete-field__indicators {
-    align-items: flex-start;
-    margin-top: c.$grid * 1.6;
-  }
-
-  .multiValue {
-    background-color: c.$colorNeutralWhite;
-    border: c.$borderWidth solid c.$colorNeutralLight;
-    border-radius: c.$borderRadius;
-    height: c.$grid * 5.5; // makes 22px; design is 21px.
-    overflow: hidden;
-  }
-
-  // Styles for MultiValue chips - focused state.
-  // We inject `.multiValueIsFocused` from js (it does not have an actual :focused state).
-  .multiValueIsFocused {
-    @include h.outlineFormField;
-
-    // override our outlineFormField inset shadow, for fixing
-    // the glitch case on an hovered remove button.
-    box-shadow: 0 0 0 (c.$outlineWidth - c.$borderWidth) c.$colorAccessibilityOutline;
-
-    :global .hz-autocomplete-field__multi-value__label {
-      // turn off the bogus shadow of the label
-      box-shadow: none;
-    }
-  }
-
-  .multiValueLabel {
-    @include c.typographyBodySmall;
-    @include h.overflowEllipsis;
-
-    color: c.$colorText;
-    padding: 0 c.$grid;
-  }
-
-  .multiValueRemove {
-    display: flex;
-    align-items: center;
-    color: c.$colorPrimary;
-
-    &:hover {
-      background-color: c.$colorNeutral;
-      border-color: c.$colorNeutralLight;
-    }
-  }
-
-  &.disabled {
-    :global .hz-autocomplete-field__multi-value--is-disabled {
-      background-color: c.$colorNeutral;
-    }
-    .multiValueRemove {
-      color: c.$colorTextSecondary;
-    }
   }
 }
 
