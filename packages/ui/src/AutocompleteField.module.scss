@@ -35,6 +35,10 @@ $select: ':global .hz-autocomplete-field__control';
     padding: 0;
   }
 
+  :global .hz-autocomplete-field__single-value {
+    color: c.$colorText;
+  }
+
   :global .hz-autocomplete-field__indicator-separator {
     display: none;
   }
@@ -48,8 +52,16 @@ $select: ':global .hz-autocomplete-field__control';
     box-sizing: border-box;
     border: c.$borderWidth solid c.$colorNeutralLight;
     border-radius: c.$borderRadius;
-    background-color: c.$colorNeutralLighter;
+    background-color: c.$colorNeutralWhite;
     transition: none;
+
+    &.hz-autocomplete-field__control--menu-is-open {
+      border-radius: c.$borderRadius c.$borderRadius 0 0;
+    }
+
+    .hz-autocomplete-field__dropdown-indicator {
+      color: c.$colorNeutralLight;
+    }
   }
 
   &.disabled {
@@ -92,11 +104,11 @@ $select: ':global .hz-autocomplete-field__control';
   }
 
   :global .hz-autocomplete-field__menu {
-    margin-top: $menuMargin;
+    margin-top: 0;
     margin-bottom: $menuMargin;
     border: c.$borderWidth solid c.$colorNeutralLight;
-    border-radius: c.$borderRadius;
-    background-color: c.$colorNeutralLighter;
+    border-radius: 0 0 c.$borderRadius c.$borderRadius;
+    background-color: c.$colorNeutralWhite;
     overflow: hidden;
     box-shadow: 0 c.$selectMenuShadowSize c.$selectMenuShadowBlur 0 c.$colorShadow;
     z-index: c.$zIndex1000;
@@ -110,8 +122,8 @@ $select: ':global .hz-autocomplete-field__control';
 
     :global .hz-autocomplete-field__option,
     :global .hz-autocomplete-field__menu-notice {
-      height: c.$inputHeight;
-      line-height: c.$inputHeight;
+      height: c.$grid * 8;
+      line-height: c.$grid * 8;
       padding: 0 $selectHorizontalPadding;
       background-color: transparent;
       // Do not remove outline for high-contrast modes
@@ -121,13 +133,10 @@ $select: ':global .hz-autocomplete-field__control';
 
       &:global.hz-autocomplete-field__option--is-focused {
         @include h.outlineSimple;
-
-        color: c.$colorText;
-        background-color: c.$colorNeutral;
       }
 
       &:global.hz-autocomplete-field__option--is-selected {
-        color: c.$colorPrimary;
+        color: c.$colorTextSecondary;
       }
     }
   }

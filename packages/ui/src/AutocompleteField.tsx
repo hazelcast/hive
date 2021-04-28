@@ -31,7 +31,7 @@ export type AutocompleteFieldProps = {
   onBlur?: (e: FocusEvent<HTMLElement>) => void
   required?: boolean
   helperText?: HelpProps['helperText']
-  renderOption?: (option: AutocompleteFieldOption, isSelected: boolean) => ReactNode
+  renderOption?: (highlightedLabelText: ReactNode, option: AutocompleteFieldOption, isSelected: boolean) => ReactNode
   name: string
   options: AutocompleteFieldOption[]
   value: string | null
@@ -68,7 +68,7 @@ const Input = (innerProps: React.ComponentProps<typeof components.Input>) => {
 const DropdownIndicator = (props: React.ComponentProps<typeof components.DropdownIndicator>) => {
   return (
     <components.DropdownIndicator {...props}>
-      <Search />
+      <Search size={20} />
     </components.DropdownIndicator>
   )
 }
@@ -89,12 +89,23 @@ const ClearIndicator = ({ innerProps }: React.ComponentProps<typeof components.C
 //   )
 // }
 
-const Option = ({ children, ...rest }: React.ComponentProps<typeof components.Option>) => (
-  <components.Option {...rest}>
-    {/* eslint-disable-next-line @typescript-eslint/no-unsafe-call */}
-    {rest.selectProps.renderOption ? rest.selectProps.renderOption(rest.data, rest.isSelected) : children}
-  </components.Option>
-)
+const Option = ({ children, ...rest }: React.ComponentProps<typeof components.Option>) => {
+  const inputValue: string = rest.selectProps.inputValue as string
+  const labelText: string = (rest.data as AutocompleteFieldOption).label
+  let optionText: ReactNode = labelText
+  if (inputValue && children) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-assignment
+    optionText = labelText
+      .split(inputValue)
+      .flatMap<ReactNode>((val: string, i: number) => (i !== 0 ? [<mark key={inputValue + `${i}`}>{inputValue}</mark>, val] : val))
+  }
+  return (
+    <components.Option {...rest}>
+      {/* eslint-disable-next-line @typescript-eslint/no-unsafe-call */}
+      {rest.selectProps.renderOption ? rest.selectProps.renderOption(optionText, rest.data, rest.isSelected) : optionText}
+    </components.Option>
+  )
+}
 
 export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
   'data-test': dataTest,
