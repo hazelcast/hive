@@ -204,6 +204,7 @@ export function getSelectedOptionFromValue<V extends string | number>({
     if (value === null) {
       return null
     }
+    console.log(optionsMap, optionsMap[value] ?? { value: value, label: value })
     return optionsMap[value] ?? { value: value, label: value }
   }
 }
@@ -268,6 +269,8 @@ export const SelectField = <V extends string | number = string>({
     () => getSelectedOptionFromValue<V>({ optionsMap, value, isMulti }),
     [optionsMap, isMulti, value],
   )
+
+  console.log(selectedOption)
 
   const props: ReactSelectProps<SelectFieldOption<V>> = {
     inputId: id,
