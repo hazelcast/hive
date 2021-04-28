@@ -1,11 +1,13 @@
 import React from 'react'
 import { mount } from 'enzyme'
+// import { act } from 'react-dom/test-utils'
+// import { simulateChange } from '@hazelcast/test-helpers'
 
 import { CodeEditor } from '../src/CodeEditor'
 
 const CODE = 'Hello World'
 
-describe('Code', () => {
+describe('CodeEditor', () => {
   it('Renders the default CodeEditor correctly', () => {
     const wrapper = mount(<CodeEditor value={CODE} />)
 
@@ -23,5 +25,17 @@ describe('Code', () => {
 
     // .html works as expected; does not need .render
     expect(wrapper.html()).toContain(CODE)
+  })
+
+  it('Changing .value prop works', () => {
+    const onChange = jest.fn()
+
+    const wrapper = mount(<CodeEditor value={CODE} onChange={onChange} />)
+
+    expect(onChange).toBeCalledTimes(0)
+
+    wrapper.setProps({ value: 'Use the source, Luke.' })
+
+    expect(wrapper.html()).toContain('Use the source, Luke.')
   })
 })

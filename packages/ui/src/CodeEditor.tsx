@@ -75,11 +75,13 @@ export interface EditorViewRef {
   view(): EditorView | null
 }
 
+type OnChangeCallback = (val: string) => void
+
 export type CodeEditorProps = {
   value?: string
   className?: string
   options?: CodeOptions
-  onChange?: (val: string) => void
+  onChange?: OnChangeCallback
   customExtensions?: Extension[]
   innerRef?: MutableRefObject<EditorViewRef | null>
 }
@@ -95,13 +97,16 @@ export const CodeEditor: FC<CodeEditorProps> = ({ value, className, options = {}
   const cm = useRef<EditorView | null>(null)
   const optionsMemoized = useDeepCompareMemo(() => options, [options])
 
+  // use onChange via a Ref so we avoid unnecessary calls if the caller does not use useCallback on onChange
+  const onChangeRef = useRef<OnChangeCallback | undefined>(onChange)
+
   // use this handle to access the cm element (which is a `view`)
   useImperativeHandle(innerRef, () => ({
     view: () => cm.current,
   }))
 
   useEffect(
-    function initCodeMirror() {
+    () => {
       if (!parentRef.current) return
 
       const opts: CodeOptions = { ...DEFAULT_OPTIONS, ...optionsMemoized }
@@ -111,7 +116,9 @@ export const CodeEditor: FC<CodeEditorProps> = ({ value, className, options = {}
           if (!v.docChanged) return
 
           const val = v.state.doc.toString()
-          if (onChange) onChange(val)
+
+          const cb = onChangeRef.current
+          if (cb) cb(val)
         })
 
       // configure/enable very common features
@@ -163,10 +170,21 @@ export const CodeEditor: FC<CodeEditorProps> = ({ value, className, options = {}
         cm.current = null
       }
     },
-    // value and onChange should not be a dependencies, just disable the warnings:
+    // value should not be a dependency (it is handled below), just disable the warnings:
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [cm, optionsMemoized, customExtensions],
+    [cm, optionsMemoized, customExtensions, onChangeRef],
   )
+
+  useEffect(() => {
+    if (!cm.current) return
+
+    // avoid recursive calls between .value and onChange listener/
+    if (value === cm.current.state.doc.toString()) return
+
+    cm.current.dispatch({
+      changes: { from: 0, to: cm.current.state.doc.length, insert: value },
+    })
+  }, [value])
 
   return (
     <div className={cn(styles.container, className)}>

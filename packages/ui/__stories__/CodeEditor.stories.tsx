@@ -26,7 +26,7 @@ export const Default = () => {
 
   function handleDirectAccess() {
     // Insert text at the start of the document
-    ref.current?.view().dispatch({
+    ref.current?.view()?.dispatch({
       changes: { from: 0, insert: '#!/usr/bin/env node\n' },
     })
   }
