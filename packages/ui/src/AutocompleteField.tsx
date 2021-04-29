@@ -66,6 +66,16 @@ const Input = (innerProps: React.ComponentProps<typeof components.Input>) => {
   return <components.Input {...props} />
 }
 
+const Menu = (props: React.ComponentProps<typeof components.Menu>) => {
+  if (!props.selectProps.inputValue || props.selectProps.inputValue.length === 0) return null
+
+  return (
+    <>
+      <components.Menu {...props} />
+    </>
+  )
+}
+
 const DropdownIndicator = (props: React.ComponentProps<typeof components.DropdownIndicator>) => {
   return (
     <components.DropdownIndicator {...props}>
@@ -83,21 +93,16 @@ const ClearIndicator = ({ innerProps }: React.ComponentProps<typeof components.C
 export const highlightOptionText = (labelText: string, inputValue: string | undefined): ReactNode => {
   const customSeparator = '<%>'
   const query = inputValue || ''
-  console.log(
-    labelText
-      .replace(new RegExp(query, 'ig'), `${customSeparator}$&${customSeparator}`)
-      .split(customSeparator)
-      .filter((val) => val),
-  )
   return (
     labelText
-      // .replace(' ', '&#32;') // to not lose spaces
       .replace(new RegExp(query, 'ig'), `${customSeparator}$&${customSeparator}`)
       .split(customSeparator)
       .filter((val) => val)
       .map((val: string, i: number) => (
         <span
-          className={cn({ 'hz-autocomplete-field__matched-option-text': val.toLowerCase() === query.toLowerCase() })}
+          className={cn({
+            'hz-autocomplete-field__matched-option-text': val.toLowerCase() === query.toLowerCase()
+          })}
           key={val + `${i}`}
         >
           {val}
@@ -202,6 +207,7 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
       ClearIndicator,
       Option,
       Input,
+      Menu,
     },
     ...rest,
   }
