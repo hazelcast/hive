@@ -152,6 +152,7 @@ export type SelectFieldExtraProps<V> = {
   label: string
   helperText?: HelpProps['helperText']
   className?: string
+  placeholder?: string
   labelClassName?: string
   errorClassName?: string
   menuPortalTarget?: 'body' | 'self' | HTMLElement | null
@@ -221,6 +222,7 @@ export const SelectField = <V extends string | number = string>({
   name,
   onChange,
   options,
+  placeholder,
   required,
   value,
   ...iconAndRest
@@ -284,6 +286,7 @@ export const SelectField = <V extends string | number = string>({
       value: ValueType<SelectFieldOption<V>>,
       action: ActionMeta<SelectFieldOption<V>>,
     ) => void,
+    placeholder,
     menuPortalTarget: getMenuContainer(menuPortalTarget),
     components: {
       DropdownIndicator,

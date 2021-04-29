@@ -221,6 +221,27 @@ export const Open = () => {
   )
 }
 
+export const WithCustomPlaceholder = () => {
+  const [value, setValue] = useState<string | null>(null)
+  return (
+    <div>
+      <SelectField
+        name="name"
+        value={value}
+        isClearable
+        label="Character"
+        options={options}
+        onBlur={() => logger.log('blur')}
+        onChange={(val: string | null) => {
+          setValue(val)
+          logger.log('change', val)
+        }}
+        placeholder="Select the best character..."
+      />
+    </div>
+  )
+}
+
 export const OpenWithFocusedOption = () => {
   const ref = useRef<HTMLDivElement>(null)
 

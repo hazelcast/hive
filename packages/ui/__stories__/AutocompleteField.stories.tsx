@@ -62,6 +62,26 @@ export const NotSelected = () => {
   )
 }
 
+export const WithCustomPlaceholder = () => {
+  const [value, setValue] = useState<string | null>(null)
+  return (
+    <div>
+      <AutocompleteField
+        name="name"
+        value={value}
+        label="Character"
+        options={options}
+        onBlur={() => logger.log('blur')}
+        onChange={(val: string | null) => {
+          setValue(val)
+          logger.log('change', val)
+        }}
+        placeholder="Search the best character..."
+      />
+    </div>
+  )
+}
+
 export const Error = () => (
   <AutocompleteField
     name="name"

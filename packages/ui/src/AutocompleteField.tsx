@@ -35,6 +35,7 @@ export type AutocompleteFieldProps = {
   name: string
   options: AutocompleteFieldOption[]
   value?: string | null
+  placeholder?: string
 }
 
 type GetSelectedOptionFromValueProps = {
@@ -136,6 +137,7 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
   options,
   required,
   value,
+  placeholder = 'Search...',
   ...rest
 }) => {
   const id = useUID()
@@ -191,6 +193,7 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
     isMulti: false,
     name: name,
     value: selectedOption,
+    placeholder,
     options,
     onChange: onChangeFn as (value: ValueType<AutocompleteFieldOption>, action: ActionMeta<AutocompleteFieldOption>) => void,
     menuPortalTarget: getMenuContainer(menuPortalTarget),
