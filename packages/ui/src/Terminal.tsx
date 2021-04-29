@@ -73,7 +73,7 @@ export const Terminal: FC<TerminalProps> = memo(
     const inputRef = useRef<HTMLInputElement>(null)
 
     const execute = async () => {
-      const commandTokens = inputVal.split(' ').filter((token) => !token)
+      const commandTokens = inputVal.split(' ').filter((token) => !!token)
 
       let timer!: NodeJS.Timeout
 
