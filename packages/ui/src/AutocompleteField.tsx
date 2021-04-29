@@ -43,7 +43,7 @@ type GetSelectedOptionFromValueProps = {
 }
 
 /**
- * Transforms the value passed to the AUtocomplete component so that it's in a format as underlying react-select expects
+ * Transforms the value passed to the Autocomplete component so that it's in a format as underlying react-select expects
  * @param value - single value or an array of values
  * @param optionsMap - an object where option values are mapped to react-select expected objects
  */
@@ -79,26 +79,32 @@ const ClearIndicator = ({ innerProps }: React.ComponentProps<typeof components.C
   return <IconButton {...innerProps} icon={X} ariaHidden kind="primary" size="normal" className={styles.clear} tabIndex={-1} />
 }
 
-// const Menu = (props: React.ComponentProps<typeof components.Menu>) => {
-//   if (!props.selectProps.inputValue || props.selectProps.inputValue.length === 0) return null
-//
-//   return (
-//     <>
-//       <components.Menu {...props} />
-//     </>
-//   )
-// }
+export const highlightOptionText = (labelText: string, inputValue: string | undefined): ReactNode => {
+  const customSeparator = '<%>'
+  const query = inputValue || ''
+  return labelText
+    .replace(new RegExp(query, 'ig'), `${customSeparator}$&${customSeparator}`)
+    .split(customSeparator)
+    .filter((val) => val)
+    .map((val: string, i: number) =>
+      val.toLowerCase() === query.toLowerCase() ? (
+        <span className="hz-autocomplete-field__matched-option-text" key={val + `${i}`}>
+          {val}
+        </span>
+      ) : (
+        val
+      ),
+    )
+}
 
 const Option = ({ children, ...rest }: React.ComponentProps<typeof components.Option>) => {
   const inputValue: string = rest.selectProps.inputValue as string
   const labelText: string = (rest.data as AutocompleteFieldOption).label
   let optionText: ReactNode = labelText
   if (inputValue && children) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-assignment
-    optionText = labelText
-      .split(inputValue)
-      .flatMap<ReactNode>((val: string, i: number) => (i !== 0 ? [<mark key={inputValue + `${i}`}>{inputValue}</mark>, val] : val))
+    optionText = highlightOptionText(labelText, inputValue)
   }
+  console.log(labelText, inputValue)
   return (
     <components.Option {...rest}>
       {/* eslint-disable-next-line @typescript-eslint/no-unsafe-call */}
@@ -186,7 +192,6 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
       ClearIndicator,
       Option,
       Input,
-      // Menu,
     },
     ...rest,
   }

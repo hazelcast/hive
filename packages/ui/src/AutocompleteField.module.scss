@@ -103,6 +103,11 @@ $select: ':global .hz-autocomplete-field__control';
     z-index: c.$zIndex2000;
   }
 
+  :global .hz-autocomplete-field__matched-option-text {
+    font-weight: bolder;
+    color: c.$colorText;
+  }
+
   :global .hz-autocomplete-field__menu {
     margin-top: 0;
     margin-bottom: $menuMargin;
@@ -137,6 +142,7 @@ $select: ':global .hz-autocomplete-field__control';
 
       &:global.hz-autocomplete-field__option--is-selected {
         color: c.$colorTextSecondary;
+        text-decoration: underline;
       }
     }
   }

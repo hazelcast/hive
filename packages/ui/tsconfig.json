@@ -1,8 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "composite": true,
-    "lib": ["es2019", "dom"]
+    "composite": true
   },
   "include": ["./**/*.ts", "./**/*.tsx"]
 }
