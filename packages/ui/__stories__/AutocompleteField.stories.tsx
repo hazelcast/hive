@@ -1,9 +1,11 @@
 import React, { ReactNode, useState } from 'react'
 import { logger } from '@hazelcast/services'
 import { Check } from 'react-feather'
+import { Formik, Form } from 'formik'
 
 import { AutocompleteField, AutocompleteFieldOption } from '../src/AutocompleteField'
 import styles from '../src/AutocompleteField.module.scss'
+import { AutocompleteFieldFormik } from '../src/AutocompleteFieldFormik'
 
 export default {
   title: 'Components/AutocompleteField',
@@ -211,129 +213,66 @@ export const CustomOptions = () => {
   )
 }
 
-// export const AutocompleteFieldWrappedInFormik = () => {
-//   type Values = {
-//     character: string
-//   }
-//
-//   const validateCharacter = (value: string) => (value == 'yoda' ? 'No one can be Yoda' : undefined)
-//
-//   const TestForm = () => (
-//     <Formik<Values>
-//       initialValues={{
-//         character: value,
-//       }}
-//       initialErrors={{
-//         // Bug in Formik types. TODO: Raise a PR
-//         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
-//         character: 'Server Error: Invalid character' as any,
-//       }}
-//       onSubmit={(values) => logger.log('submit', values)}
-//     >
-//       {({ values }) => (
-//         <Form>
-//           Values: {JSON.stringify(values)}
-//           <AutocompleteFieldFormik<Values> name="character" label="Character" options={options} validate={validateCharacter} />
-//           <button type="submit">Submit</button>
-//         </Form>
-//       )}
-//     </Formik>
-//   )
-//
-//   return <TestForm />
-// }
-//
-// export const AutocompleteFieldClearableWrappedInFormik = () => {
-//   type Values = {
-//     character: string | null
-//   }
-//
-//   const validateCharacter = (option: string | null) => (option == null ? 'Pick an option' : undefined)
-//
-//   const TestForm = () => (
-//     <Formik<Values>
-//       initialValues={{
-//         character: null,
-//       }}
-//       initialErrors={{
-//         // Bug in Formik types. TODO: Raise a PR
-//         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
-//         character: 'Server Error: Invalid character' as any,
-//       }}
-//       onSubmit={(values) => logger.log('submit', values)}
-//     >
-//       {({ values }) => (
-//         <Form>
-//           Values: {JSON.stringify(values)}
-//           <AutocompleteFieldFormik<Values> name="character" label="Character" options={options} validate={validateCharacter} isClearable />
-//           <button type="submit">Submit</button>
-//         </Form>
-//       )}
-//     </Formik>
-//   )
-//
-//   return <TestForm />
-// }
-//
-// export const AutocompleteFieldMultiSelectionWrappedInFormik = () => {
-//   type Values = {
-//     badCharacters: string[]
-//   }
-//
-//   const TestForm = () => (
-//     <Formik<Values>
-//       initialValues={{
-//         badCharacters: badGuyValues,
-//       }}
-//       onSubmit={(values) => logger.log('submit', values)}
-//     >
-//       {({ values }) => (
-//         <Form>
-//           Values: {JSON.stringify(values)}
-//           <AutocompleteFieldFormik<Values> name="badCharacters" label="Bad Characters" isMulti={true} isClearable={true} options={options} />
-//           <button type="submit">Submit</button>
-//         </Form>
-//       )}
-//     </Formik>
-//   )
-//
-//   return <TestForm />
-// }
-//
-// export const Creatable = () => {
-//   const [currentValue, setValue] = useState<string | null>(null)
-//   const [currentValues, setValues] = useState<string[]>([])
-//   return (
-//     <>
-//       {JSON.stringify({
-//         currentValue,
-//         currentValues,
-//       })}
-//       <AutocompleteField<string>
-//         isCreatable
-//         name={name}
-//         value={currentValue}
-//         isMulti={false}
-//         isClearable
-//         label={label}
-//         options={options}
-//         onBlur={() => logger.log('blur')}
-//         onChange={setValue}
-//       />
-//
-//       <br />
-//
-//       <AutocompleteField<string>
-//         isCreatable
-//         name={nameMulti}
-//         value={currentValues}
-//         isMulti={true}
-//         isClearable
-//         label={labelMulti}
-//         options={options}
-//         onBlur={() => logger.log('blur')}
-//         onChange={setValues}
-//       />
-//     </>
-//   )
-// }
+export const AutocompleteFieldWrappedInFormik = () => {
+  type Values = {
+    character: string
+  }
+
+  const validateCharacter = (value: string | null) => (value == 'yoda' ? 'No one can be Yoda' : undefined)
+
+  const TestForm = () => (
+    <Formik<Values>
+      initialValues={{
+        character: value,
+      }}
+      initialErrors={{
+        // Bug in Formik types. TODO: Raise a PR
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
+        character: 'Server Error: Invalid character' as any,
+      }}
+      onSubmit={(values) => logger.log('submit', values)}
+    >
+      {({ values }) => (
+        <Form>
+          Values: {JSON.stringify(values)}
+          <AutocompleteFieldFormik name="character" label="Character" options={options} validate={validateCharacter} />
+          <button type="submit">Submit</button>
+        </Form>
+      )}
+    </Formik>
+  )
+
+  return <TestForm />
+}
+
+export const AutocompleteFieldClearableWrappedInFormik = () => {
+  type Values = {
+    character: string | null
+  }
+
+  const validateCharacter = (option: string | null) => (option == null ? 'Pick an option' : undefined)
+
+  const TestForm = () => (
+    <Formik<Values>
+      initialValues={{
+        character: null,
+      }}
+      initialErrors={{
+        // Bug in Formik types. TODO: Raise a PR
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
+        character: 'Server Error: Invalid character' as any,
+      }}
+      onSubmit={(values) => logger.log('submit', values)}
+    >
+      {({ values }) => (
+        <Form>
+          Values: {JSON.stringify(values)}
+          <AutocompleteFieldFormik name="character" label="Character" options={options} validate={validateCharacter} isClearable />
+          <button type="submit">Submit</button>
+        </Form>
+      )}
+    </Formik>
+  )
+
+  return <TestForm />
+}

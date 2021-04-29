@@ -34,11 +34,11 @@ export type AutocompleteFieldProps = {
   renderOption?: (highlightedLabelText: ReactNode, option: AutocompleteFieldOption, isSelected: boolean) => ReactNode
   name: string
   options: AutocompleteFieldOption[]
-  value: string | null
+  value?: string | null
 }
 
 type GetSelectedOptionFromValueProps = {
-  value: string | null
+  value?: string | null
   optionsMap: { [key: string]: AutocompleteFieldOption }
 }
 
