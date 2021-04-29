@@ -135,6 +135,7 @@ $select: ':global .hz-autocomplete-field__control';
       // https://stackoverflow.com/a/52616313
       outline: c.$outlineWidth solid transparent;
       text-align: left;
+      white-space: pre;
 
       &:global.hz-autocomplete-field__option--is-focused {
         @include h.outlineSimple;

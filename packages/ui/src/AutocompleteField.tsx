@@ -82,19 +82,27 @@ const ClearIndicator = ({ innerProps }: React.ComponentProps<typeof components.C
 export const highlightOptionText = (labelText: string, inputValue: string | undefined): ReactNode => {
   const customSeparator = '<%>'
   const query = inputValue || ''
-  return labelText
-    .replace(new RegExp(query, 'ig'), `${customSeparator}$&${customSeparator}`)
-    .split(customSeparator)
-    .filter((val) => val)
-    .map((val: string, i: number) =>
-      val.toLowerCase() === query.toLowerCase() ? (
-        <span className="hz-autocomplete-field__matched-option-text" key={val + `${i}`}>
+  console.log(
+    labelText
+      .replace(new RegExp(query, 'ig'), `${customSeparator}$&${customSeparator}`)
+      .split(customSeparator)
+      .filter((val) => val),
+  )
+  return (
+    labelText
+      // .replace(' ', '&#32;') // to not lose spaces
+      .replace(new RegExp(query, 'ig'), `${customSeparator}$&${customSeparator}`)
+      .split(customSeparator)
+      .filter((val) => val)
+      .map((val: string, i: number) => (
+        <span
+          className={cn({ 'hz-autocomplete-field__matched-option-text': val.toLowerCase() === query.toLowerCase() })}
+          key={val + `${i}`}
+        >
           {val}
         </span>
-      ) : (
-        val
-      ),
-    )
+      ))
+  )
 }
 
 const Option = ({ children, ...rest }: React.ComponentProps<typeof components.Option>) => {
@@ -104,7 +112,6 @@ const Option = ({ children, ...rest }: React.ComponentProps<typeof components.Op
   if (inputValue && children) {
     optionText = highlightOptionText(labelText, inputValue)
   }
-  console.log(labelText, inputValue)
   return (
     <components.Option {...rest}>
       {/* eslint-disable-next-line @typescript-eslint/no-unsafe-call */}
