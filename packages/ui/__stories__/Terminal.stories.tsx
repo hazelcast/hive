@@ -28,16 +28,22 @@ export const WithHistory = () => (
       {
         command: 'testError',
         error: 'testErrorRes',
+        prompt: 'darth@empire',
       },
       {
         command: 'test2',
         res: ['testRes2-1', 'testRes2-2', 'testRes2-3'],
+        prompt: 'luke@republic',
       },
     ]}
   />
 )
 
 export const WithInitialCommand = () => <Terminal onExecute={onExecute} initialCommand="blow up death star" autoFocusInitial={false} />
+
+export const WithPrompt = () => (
+  <Terminal onExecute={onExecute} prompt="luke@republic:" initialCommand="blow up death star" autoFocusInitial={false} />
+)
 
 export const WithInitialCommandHover = () => (
   <Terminal onExecute={onExecute} initialCommand="blow up death star" inputClassName={styles.hover} autoFocusInitial={false} />
