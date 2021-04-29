@@ -26,11 +26,6 @@ const options: AutocompleteFieldOption[] = [
 const values = options.map(({ value }) => value)
 
 const value = values[1]
-// const badGuyValues = [
-//   values[0], // darthie boy
-//   values[5], // boba fett
-//   values[6], // jj binks - he sucks so much he counts as evil.
-// ]
 
 export const Default = () => {
   const [currentValue, setValue] = useState<string>(value)

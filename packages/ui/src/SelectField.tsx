@@ -265,8 +265,6 @@ export const SelectField = <V extends string | number = string>({
     [optionsMap, isMulti, value],
   )
 
-  console.log(selectedOption)
-
   const props: ReactSelectProps<SelectFieldOption<V>> = {
     inputId: id,
     className: 'hz-select-field',

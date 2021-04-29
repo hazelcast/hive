@@ -11,10 +11,7 @@ export default {
   component: Button,
 }
 
-export const Primary = () => {
-  void fetch('http://localhost:3000/api/plans').then((res) => console.log(res))
-  return <Button kind="primary">Primary</Button>
-}
+export const Primary = () => <Button kind="primary">Primary</Button>
 
 Primary.parameters = {
   design: {
