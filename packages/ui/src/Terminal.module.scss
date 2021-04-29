@@ -66,14 +66,12 @@
   @include c.typographyBodySmall('bold');
 
   margin: 0;
-  margin-left: c.$grid * 9;
   margin-bottom: c.$grid * 5;
 }
 
 .commandRes {
   color: c.$colorSuccessDark;
   margin: 0;
-  margin-left: c.$grid * 9;
   margin-bottom: c.$grid * 3;
 
   > p {
@@ -85,13 +83,11 @@
 .commandError {
   color: c.$colorErrorDark;
   margin: 0;
-  margin-left: c.$grid * 9;
   margin-bottom: c.$grid * 3;
 }
 
 .loading {
   margin: 0;
-  margin-left: c.$grid * 9;
   margin-bottom: c.$grid * 3;
   position: relative;
 }
@@ -102,4 +98,10 @@
 
 .terminalIcon {
   margin-right: c.$grid * 3;
+}
+
+.prompt {
+  @include c.typographyBodySmall('bold');
+
+  margin-right: c.$grid;
 }
