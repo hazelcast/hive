@@ -21,6 +21,7 @@ export type TerminalProps = {
   className?: string
   inputClassName?: string
   welcomeMessage?: string
+  prompt?: string
   initialExecutionHistory?: ExecutionHistoryState[]
   initialCommand?: string
   initialLoading?: boolean
@@ -28,6 +29,7 @@ export type TerminalProps = {
 } & DataTestProp
 
 export interface ExecutionHistoryState {
+  prompt?: string
   command: string
   res?: string[]
   error?: string
@@ -42,6 +44,7 @@ export const Terminal: FC<TerminalProps> = memo(
     className,
     inputClassName,
     welcomeMessage,
+    prompt,
     initialExecutionHistory = [],
     initialCommand = '',
     initialLoading = false,
@@ -87,11 +90,11 @@ export const Terminal: FC<TerminalProps> = memo(
           }),
         ])
 
-        addExecutionHistoryItem({ command: inputVal, res })
+        addExecutionHistoryItem({ command: inputVal, res, prompt })
       } catch (err) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const errorTyped: Error = err
-        addExecutionHistoryItem({ command: inputVal, error: errorTyped.message })
+        addExecutionHistoryItem({ command: inputVal, error: errorTyped.message, prompt })
       } finally {
         setExecuting(false)
         clearTimeout(timer)
@@ -110,7 +113,7 @@ export const Terminal: FC<TerminalProps> = memo(
         nextHistoryPointer = executionHistoryPointer ? executionHistoryPointer + 1 : 0
       }
 
-      const nextHistoryItem = nextHistoryPointer ? executionHistory[nextHistoryPointer] : undefined
+      const nextHistoryItem = nextHistoryPointer !== undefined ? executionHistory[nextHistoryPointer] : undefined
 
       if (!nextHistoryItem) {
         nextHistoryPointer = undefined
@@ -149,6 +152,7 @@ export const Terminal: FC<TerminalProps> = memo(
           {executionHistory.map((historyItem, i) => (
             <Fragment key={i}>
               <div className={styles.input}>
+                {historyItem.prompt ? <span className={styles.prompt}>{historyItem.prompt}</span> : null}
                 <Icon icon={TerminalIcon} ariaHidden className={styles.terminalIcon} />
                 <input aria-label="Historical command" type="text" value={historyItem.command} readOnly tabIndex={-1} />
               </div>
@@ -165,6 +169,7 @@ export const Terminal: FC<TerminalProps> = memo(
         </div>
         <div className={styles.currentCommand}>
           <div className={styles.input}>
+            {prompt ? <span className={styles.prompt}>{prompt}</span> : null}
             <Icon icon={TerminalIcon} ariaHidden className={styles.terminalIcon} />
             <input
               type="text"
