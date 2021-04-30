@@ -108,9 +108,9 @@ export const Terminal: FC<TerminalProps> = memo(
       let nextHistoryPointer: number | undefined
 
       if (direction === 'back') {
-        nextHistoryPointer = executionHistoryPointer ? executionHistoryPointer - 1 : executionHistory.length - 1
+        nextHistoryPointer = executionHistoryPointer !== undefined ? executionHistoryPointer - 1 : executionHistory.length - 1
       } else {
-        nextHistoryPointer = executionHistoryPointer ? executionHistoryPointer + 1 : 0
+        nextHistoryPointer = executionHistoryPointer !== undefined ? executionHistoryPointer + 1 : 0
       }
 
       const nextHistoryItem = nextHistoryPointer !== undefined ? executionHistory[nextHistoryPointer] : undefined
