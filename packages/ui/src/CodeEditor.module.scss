@@ -1,0 +1,17 @@
+@use '../styles/constants' as c;
+@use '../styles/helpers' as h;
+
+.container {
+  box-shadow: 0 c.$cardShadowSize c.$cardShadowBlur 0 c.$colorShadow;
+  :global .cm-wrap {
+    // bogus padding to avoid overlapping with our outlineFormField mixin.
+    padding: 1px;
+  }
+  :global .cm-wrap.cm-focused {
+    // inherited outline just looks weird, override it
+    outline: none;
+
+    // use our own outline
+    @include h.outlineFormField;
+  }
+}
