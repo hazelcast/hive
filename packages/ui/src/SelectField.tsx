@@ -16,20 +16,27 @@ import { canUseDOM } from './utils/ssr'
 
 import styles from './SelectField.module.scss'
 
+export type SelectFieldOption<V> = {
+  label: string
+  value: V
+}
+
 const DropdownIndicator = () => <Icon icon={ChevronDown} ariaHidden size="normal" className={styles.chevron} />
 
 // innerProps set event handling
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const ClearIndicator = ({ innerProps }: any) => {
+const ClearIndicator = ({ innerProps }: React.ComponentProps<typeof components.ClearIndicator>) => {
   // Visually impaired people will use the keyboard (backspace) to remove the value. We do not want to confuse them by allowing to focus this button.
   return <IconButton {...innerProps} icon={X} ariaHidden kind="primary" size="normal" className={styles.clear} tabIndex={-1} />
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const Input = (props: any) => {
+const Input = (innerProps: React.ComponentProps<typeof components.Input>) => {
   // autoComplete='off' is hard-coded inside SelectField, but doesn't work in Chrome.
   // Having an invalid value hard-coded disabled it in all browsers.
-  return <components.Input {...props} autoComplete="chrome-off" />
+  const props = {
+    ...innerProps,
+    autoComplete: 'chrome-off',
+  }
+  return <components.Input {...props} />
 }
 
 // This component is implemented because we want to style things with the css (as opposed to the react-select
@@ -48,20 +55,14 @@ const MultiValue = (props: MultiValueProps<any>) => {
 }
 
 // Self styled version of the MultiValue/Label
-//
-// refactor: newer react-select packages have better typings for this.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const MultiValueLabel = (props: any) => {
+const MultiValueLabel = (props: React.ComponentProps<typeof components.MultiValueLabel>) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,  @typescript-eslint/no-unsafe-assignment
   const children = props.children
   return <div className={cn(styles.multiValueLabel)}> {children} </div>
 }
 
 // Self styled version of the MultiValue/Remove button
-//
-// refactor: newer react-select packages have better typings for this.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const MultiValueRemove = (props: any) => {
+const MultiValueRemove = (props: React.ComponentProps<typeof components.MultiValueRemove>) => {
   // We have to pass down the onClick
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,  @typescript-eslint/no-unsafe-assignment
   const onClick: React.MouseEventHandler = props.innerProps.onClick
@@ -89,11 +90,6 @@ const MultiValueRemove = (props: any) => {
       <Icon icon={X} size="small" ariaHidden />
     </div>
   )
-}
-
-export type SelectFieldOption<V> = {
-  label: string
-  value: V
 }
 
 export type SelectFieldCoreStaticProps = {
@@ -156,6 +152,7 @@ export type SelectFieldExtraProps<V> = {
   label: string
   helperText?: HelpProps['helperText']
   className?: string
+  placeholder?: string
   labelClassName?: string
   errorClassName?: string
   menuPortalTarget?: 'body' | 'self' | HTMLElement | null
@@ -225,6 +222,7 @@ export const SelectField = <V extends string | number = string>({
   name,
   onChange,
   options,
+  placeholder,
   required,
   value,
   ...iconAndRest
@@ -288,6 +286,7 @@ export const SelectField = <V extends string | number = string>({
       value: ValueType<SelectFieldOption<V>>,
       action: ActionMeta<SelectFieldOption<V>>,
     ) => void,
+    placeholder,
     menuPortalTarget: getMenuContainer(menuPortalTarget),
     components: {
       DropdownIndicator,
