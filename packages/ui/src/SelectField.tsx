@@ -1,7 +1,15 @@
 import { DataTestProp } from '@hazelcast/helpers'
 import React, { FocusEvent, InputHTMLAttributes, ReactElement, useMemo } from 'react'
 import cn from 'classnames'
-import ReactSelect, { ActionMeta, components, MultiValueProps, Props as ReactSelectProps, ValueType } from 'react-select'
+import ReactSelect, {
+  ActionMeta,
+  components,
+  MultiValueProps,
+  GroupedOptionsType,
+  Props as ReactSelectProps,
+  ValueType,
+  OptionsType,
+} from 'react-select'
 import ReactSelectCreatable from 'react-select/creatable'
 import { ChevronDown, X } from 'react-feather'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
@@ -15,6 +23,7 @@ import { IconButton } from './IconButton'
 import { canUseDOM } from './utils/ssr'
 
 import styles from './SelectField.module.scss'
+import { GroupType } from 'react-select/src/types'
 
 export type SelectFieldOption<V> = {
   label: string
@@ -92,6 +101,10 @@ const MultiValueRemove = (props: React.ComponentProps<typeof components.MultiVal
   )
 }
 
+interface SelectFieldOptionsMap<V> {
+  [key: string]: SelectFieldOption<V>
+}
+
 export type SelectFieldCoreStaticProps = {
   name: string
   onBlur?: (e: FocusEvent<HTMLElement>) => void
@@ -126,6 +139,14 @@ type SelectFieldCreatableProps<V> = V extends string
       isCreatable?: false
     }
 
+function isSimpleOption<V>(option: GroupType<SelectFieldOption<V>> | SelectFieldOption<V>): option is SelectFieldOption<V> {
+  return !!(option as SelectFieldOption<V>).value
+}
+
+function isOptionsGroup<V>(option: GroupType<SelectFieldOption<V>> | SelectFieldOption<V>): option is GroupType<SelectFieldOption<V>> {
+  return !!(option as GroupType<SelectFieldOption<V>>).options
+}
+
 function isMultipleModeGuard<V>(value: V | V[] | null, isMultiple: boolean): value is V[] {
   return isMultiple
 }
@@ -148,7 +169,7 @@ export type SelectFieldIconLeftProps =
 export type SelectFieldExtraProps<V> = {
   isCreatable?: boolean
   isClearable?: boolean
-  options: SelectFieldOption<V>[]
+  options: GroupedOptionsType<SelectFieldOption<V>> | OptionsType<SelectFieldOption<V>>
   label: string
   helperText?: HelpProps['helperText']
   className?: string
@@ -179,7 +200,7 @@ const getMenuContainer = (menuPortalTarget: 'body' | 'self' | HTMLElement | null
 
 type GetSelectedOptionFromValueProps<V> = {
   value: V | V[] | null
-  optionsMap: { [key: string]: SelectFieldOption<V> }
+  optionsMap: SelectFieldOptionsMap<V>
   isMulti: boolean
 }
 
@@ -239,12 +260,28 @@ export const SelectField = <V extends string | number = string>({
     }
   }, [menuPortalTarget])
 
-  const optionsMap = React.useMemo(
+  const optionsMap = React.useMemo<SelectFieldOptionsMap<V>>(
     () =>
-      options.reduce((acc, option) => {
-        acc[`${option.value}`] = option
-        return acc
-      }, {} as { [key: string]: SelectFieldOption<V> }),
+      // need this type assertion because of the TS issue https://github.com/microsoft/TypeScript/issues/7294
+      (options as Array<GroupType<SelectFieldOption<V>> | SelectFieldOption<V>>).reduce(
+        (
+          acc: SelectFieldOptionsMap<V>,
+          optionOrGroup: GroupType<SelectFieldOption<V>> | SelectFieldOption<V>,
+        ): SelectFieldOptionsMap<V> => {
+          // if it's a simple non-group option
+          if (isSimpleOption(optionOrGroup)) {
+            acc[optionOrGroup.value] = optionOrGroup
+            // else it's a group option
+          } else if (isOptionsGroup(optionOrGroup)) {
+            optionOrGroup.options.reduce((innerAcc: SelectFieldOptionsMap<V>, option: SelectFieldOption<V>) => {
+              innerAcc[option.value] = option
+              return innerAcc
+            }, acc)
+          }
+          return acc
+        },
+        {} as SelectFieldOptionsMap<V>,
+      ),
     [options],
   )
 

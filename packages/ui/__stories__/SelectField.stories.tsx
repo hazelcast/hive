@@ -7,6 +7,7 @@ import { SelectFieldFormik } from '../src/SelectFieldFormik'
 
 import styles from '../src/SelectField.module.scss'
 import { Aperture } from 'react-feather'
+import { GroupedOptionsType } from 'react-select'
 
 export default {
   title: 'Components/SelectField',
@@ -609,5 +610,45 @@ export const Creatable = () => {
         onChange={setValues}
       />
     </>
+  )
+}
+
+export const GroupedOptions = () => {
+  const [value, setValue] = useState<string | null>(null)
+  const groupedOptions: GroupedOptionsType<SelectFieldOption<string>> = [
+    {
+      label: 'Dark Side',
+      options: [
+        { value: 'darth_vader', label: 'Darth Vader' },
+        { value: 'boba_fett', label: 'Boba Fett' },
+        { value: 'jar_jar_binks', label: 'Jar Jar Binks' },
+      ],
+    },
+    {
+      label: 'Light Side',
+      options: [
+        { value: 'luke_skywalker', label: 'Luke Skywalker' },
+        { value: 'obi', label: 'Obi-Wan Kenobi' },
+        { value: 'yoda', label: 'Yoda' },
+        { value: 'han_solo', label: 'Han Solo' },
+      ],
+    },
+  ]
+  return (
+    <div>
+      Value: {value}
+      <SelectField
+        name="name"
+        value={value}
+        isClearable
+        label="Character"
+        options={groupedOptions}
+        onBlur={() => logger.log('blur')}
+        onChange={(val: string | null) => {
+          setValue(val)
+          logger.log('change', val)
+        }}
+      />
+    </div>
   )
 }
