@@ -31,7 +31,7 @@
     "publish-storybook": "chromatic --storybook-build-dir storybook-static --project-token $CHROMATIC_PROJECT_TOKEN --exit-zero-on-changes",
     "test:visual": "loki --verboseRenderer --requireReference --reactUri file:./storybook-static --chromeFlags='--headless --disable-gpu --hide-scrollbars --no-sandbox --allow-file-access-from-files'",
     "test:visual:approve": "loki approve",
-    "generate-screenshots": "loki update --reactUri file:./storybook-static --chromeFlags='--headless --disable-gpu --hide-scrollbars --no-sandbox --allow-file-access-from-files'",
+    "generate-screenshots": "npm run build-storybook && loki update --reactUri file:./storybook-static --chromeFlags='--headless --disable-gpu --hide-scrollbars --no-sandbox --allow-file-access-from-files'",
     "lint": "npm run lint:ts && npm run lint:css",
     "lint:fix": "npm run lint:ts:fix && npm run lint:css:fix",
     "lint:ts": "eslint --ext .ts,.tsx .",
