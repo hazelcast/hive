@@ -6,10 +6,24 @@ import { keyIsOneOf } from '../utils/keyboard'
 
 import styles from './Tab.module.scss'
 
-export type TabProps = {
+type AnchorTabProps = {
+  component: 'a'
+  href: string
+}
+
+type ButtonTabProps = {
+  component?: 'button'
+  href?: never
+}
+
+type TabTypeProps = AnchorTabProps | ButtonTabProps
+
+export type TabCommonProps = {
   label: string
   value: number
 }
+
+export type TabProps<T = TabTypeProps> = TabCommonProps & T
 
 /**
  * ### Purpose
@@ -22,7 +36,7 @@ export type TabProps = {
  * More info - https://www.w3.org/TR/wai-aria-practices/#kbd_selection_follows_focus
  *
  */
-export const Tab: FC<TabProps> = ({ label, value }) => {
+export const Tab: FC<TabProps> = ({ component: Component = 'button', label, value, href }) => {
   const { onChange, value: activeValue, idPrefix, fullWidth } = useTabContext()
   const selected = value === activeValue
 
@@ -33,7 +47,7 @@ export const Tab: FC<TabProps> = ({ label, value }) => {
   // Since we're not automatically following focus we have
   // to handle keyboard selection with Enter and Space ourselves.
   const onKeyPress = useCallback(
-    (event: KeyboardEvent<HTMLButtonElement>) => {
+    (event: KeyboardEvent<HTMLButtonElement | HTMLAnchorElement>) => {
       event.preventDefault()
 
       if (keyIsOneOf(event, 'Enter', 'Space')) {
@@ -44,7 +58,7 @@ export const Tab: FC<TabProps> = ({ label, value }) => {
   )
 
   return (
-    <button
+    <Component
       className={cn(styles.tab, { [styles.selected]: selected, [styles.fullWidth]: fullWidth })}
       role="tab"
       id={getTabId(idPrefix, value.toString())}
@@ -53,8 +67,9 @@ export const Tab: FC<TabProps> = ({ label, value }) => {
       tabIndex={selected ? 0 : -1}
       onKeyPress={onKeyPress}
       onClick={handleClick}
+      href={href}
     >
       {label}
-    </button>
+    </Component>
   )
 }

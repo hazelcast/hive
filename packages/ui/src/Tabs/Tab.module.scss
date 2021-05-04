@@ -14,8 +14,11 @@
   border: none;
   border-bottom: 1px solid;
   border-color: c.$colorNeutralLight;
+  color: c.$colorText;
   background-color: transparent;
   cursor: pointer;
+  // for <a> element
+  text-decoration: none;
 
   @include c.typographyH3;
 
