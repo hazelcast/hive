@@ -53,7 +53,7 @@ export const Tab: FC<TabProps> = ({ component: Component = 'button', label, valu
 
       onChange(value)
     },
-    [value, onChange, onClick],
+    [value, selected, onChange, onClick],
   )
 
   // Since we're not automatically following focus we have
