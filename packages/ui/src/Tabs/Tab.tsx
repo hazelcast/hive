@@ -1,4 +1,4 @@
-import React, { FC, useCallback, KeyboardEvent } from 'react'
+import React, { FC, useCallback, MouseEvent, KeyboardEvent } from 'react'
 import cn from 'classnames'
 
 import { useTabContext, getTabId, getPanelId } from './TabContext'
@@ -6,12 +6,12 @@ import { keyIsOneOf } from '../utils/keyboard'
 
 import styles from './Tab.module.scss'
 
-type AnchorTabProps = {
+export type AnchorTabProps = {
   component: 'a'
   href: string
 }
 
-type ButtonTabProps = {
+export type ButtonTabProps = {
   component?: 'button'
   href?: never
 }
@@ -21,6 +21,7 @@ type TabTypeProps = AnchorTabProps | ButtonTabProps
 export type TabCommonProps = {
   label: string
   value: number
+  onClick?: (event: MouseEvent<HTMLButtonElement | HTMLAnchorElement> | KeyboardEvent<HTMLButtonElement | HTMLAnchorElement>) => void
 }
 
 export type TabProps<T = TabTypeProps> = TabCommonProps & T
@@ -36,13 +37,24 @@ export type TabProps<T = TabTypeProps> = TabCommonProps & T
  * More info - https://www.w3.org/TR/wai-aria-practices/#kbd_selection_follows_focus
  *
  */
-export const Tab: FC<TabProps> = ({ component: Component = 'button', label, value, href }) => {
+export const Tab: FC<TabProps> = ({ component: Component = 'button', label, value, href, onClick }) => {
   const { onChange, value: activeValue, idPrefix, fullWidth } = useTabContext()
   const selected = value === activeValue
 
-  const handleClick = useCallback(() => {
-    onChange(value)
-  }, [value, onChange])
+  const handleClick = useCallback(
+    (event: MouseEvent<HTMLButtonElement | HTMLAnchorElement> | KeyboardEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+      if (selected) {
+        return
+      }
+
+      if (onClick) {
+        onClick(event)
+      }
+
+      onChange(value)
+    },
+    [value, onChange, onClick],
+  )
 
   // Since we're not automatically following focus we have
   // to handle keyboard selection with Enter and Space ourselves.
@@ -51,7 +63,7 @@ export const Tab: FC<TabProps> = ({ component: Component = 'button', label, valu
       event.preventDefault()
 
       if (keyIsOneOf(event, 'Enter', 'Space')) {
-        handleClick()
+        handleClick(event)
       }
     },
     [handleClick],
