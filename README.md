@@ -169,9 +169,10 @@ Now, if the test suite failed, we need to go to `packages/ui/.loki` and manually
 
 ### Generate new screenshots for the new/updated components
 
+Go to `packages/ui` and run command for screenshot generation. The command builds storybook and updates screenshots.
+
 ```
 cd packages/ui
-npm run build-storybook # if you don't run this new stories won't get picked up
 npm run generate-screenshots
 ```
 
