@@ -25,7 +25,7 @@ export type ToggleExtraProps = {
   classNameLabel?: string
 }
 
-type ToggleProps = ToggleCoreProps & ToggleExtraProps & DataTestProp
+export type ToggleProps = ToggleCoreProps & ToggleExtraProps & DataTestProp
 
 export const Toggle: FC<ToggleProps> = ({
   name,

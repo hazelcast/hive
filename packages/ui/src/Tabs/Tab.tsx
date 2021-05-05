@@ -1,4 +1,4 @@
-import React, { FC, useCallback, KeyboardEvent } from 'react'
+import React, { FC, useCallback, MouseEvent, KeyboardEvent } from 'react'
 import cn from 'classnames'
 
 import { useTabContext, getTabId, getPanelId } from './TabContext'
@@ -6,10 +6,25 @@ import { keyIsOneOf } from '../utils/keyboard'
 
 import styles from './Tab.module.scss'
 
-export type TabProps = {
+export type AnchorTabProps = {
+  component: 'a'
+  href: string
+}
+
+export type ButtonTabProps = {
+  component?: 'button'
+  href?: never
+}
+
+type TabTypeProps = AnchorTabProps | ButtonTabProps
+
+export type TabCommonProps = {
   label: string
   value: number
+  onClick?: (event: MouseEvent<HTMLButtonElement | HTMLAnchorElement> | KeyboardEvent<HTMLButtonElement | HTMLAnchorElement>) => void
 }
+
+export type TabProps<T = TabTypeProps> = TabCommonProps & T
 
 /**
  * ### Purpose
@@ -22,29 +37,40 @@ export type TabProps = {
  * More info - https://www.w3.org/TR/wai-aria-practices/#kbd_selection_follows_focus
  *
  */
-export const Tab: FC<TabProps> = ({ label, value }) => {
+export const Tab: FC<TabProps> = ({ component: Component = 'button', label, value, href, onClick }) => {
   const { onChange, value: activeValue, idPrefix, fullWidth } = useTabContext()
   const selected = value === activeValue
 
-  const handleClick = useCallback(() => {
-    onChange(value)
-  }, [value, onChange])
+  const handleClick = useCallback(
+    (event: MouseEvent<HTMLButtonElement | HTMLAnchorElement> | KeyboardEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+      if (selected) {
+        return
+      }
+
+      if (onClick) {
+        onClick(event)
+      }
+
+      onChange(value)
+    },
+    [value, selected, onChange, onClick],
+  )
 
   // Since we're not automatically following focus we have
   // to handle keyboard selection with Enter and Space ourselves.
   const onKeyPress = useCallback(
-    (event: KeyboardEvent<HTMLButtonElement>) => {
+    (event: KeyboardEvent<HTMLButtonElement | HTMLAnchorElement>) => {
       event.preventDefault()
 
       if (keyIsOneOf(event, 'Enter', 'Space')) {
-        handleClick()
+        handleClick(event)
       }
     },
     [handleClick],
   )
 
   return (
-    <button
+    <Component
       className={cn(styles.tab, { [styles.selected]: selected, [styles.fullWidth]: fullWidth })}
       role="tab"
       id={getTabId(idPrefix, value.toString())}
@@ -53,8 +79,9 @@ export const Tab: FC<TabProps> = ({ label, value }) => {
       tabIndex={selected ? 0 : -1}
       onKeyPress={onKeyPress}
       onClick={handleClick}
+      href={href}
     >
       {label}
-    </button>
+    </Component>
   )
 }
