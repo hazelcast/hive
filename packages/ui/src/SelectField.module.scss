@@ -245,6 +245,7 @@ $select: ':global .hz-select-field__control';
     background-color: c.$colorNeutralWhite;
     color: c.$colorTextSecondary;
     font-size: c.$fontSizeBodySmaller;
+    font-weight: c.$fontWeightTextBold;
     text-transform: inherit;
   }
 }

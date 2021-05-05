@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from 'react'
+import React, { ReactNode, useLayoutEffect, useRef, useState } from 'react'
 import { logger } from '@hazelcast/services'
 import { Form, Formik } from 'formik'
 
@@ -647,6 +647,49 @@ export const GroupedOptions = () => {
         onChange={(val: string | null) => {
           setValue(val)
           logger.log('change', val)
+        }}
+        formatGroupLabel={({ label }) => {
+          return (
+            <p
+              style={{
+                textAlign: 'center',
+                padding: 0,
+                margin: 0,
+              }}
+            >
+              {label}
+            </p>
+          )
+        }}
+        formatOptionLabel={({ label }) => {
+          const names: Array<string | ReactNode> = label.split(' ')
+          names[names.length - 1] = (
+            <b key={label} style={{ color: 'black' }}>
+              {' '}
+              {names[names.length - 1]}
+            </b>
+          )
+          return (
+            <p
+              style={{
+                textAlign: 'center',
+                padding: 0,
+                margin: 0,
+                color: '#707482',
+              }}
+            >
+              {names}
+            </p>
+          )
+        }}
+        styles={{
+          option: (base) => {
+            return {
+              ...base,
+              padding: 0,
+              border: '1px solid #DBDBDB',
+            }
+          },
         }}
       />
     </div>

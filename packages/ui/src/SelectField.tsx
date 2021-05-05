@@ -13,15 +13,15 @@ import ReactSelect, {
 import ReactSelectCreatable from 'react-select/creatable'
 import { ChevronDown, X } from 'react-feather'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
-import { useUID } from 'react-uid'
 
+import { useUID } from 'react-uid'
 import { Error, errorId } from './Error'
 import { Label } from './Label'
 import { Help, HelpProps } from './Help'
 import { Icon, IconProps } from './Icon'
 import { IconButton } from './IconButton'
-import { canUseDOM } from './utils/ssr'
 
+import { canUseDOM } from './utils/ssr'
 import styles from './SelectField.module.scss'
 import { GroupType } from 'react-select/src/types'
 
@@ -177,6 +177,9 @@ export type SelectFieldExtraProps<V> = {
   labelClassName?: string
   errorClassName?: string
   menuPortalTarget?: 'body' | 'self' | HTMLElement | null
+  formatGroupLabel?: ReactSelectProps<SelectFieldOption<V>>['formatGroupLabel']
+  formatOptionLabel?: ReactSelectProps<SelectFieldOption<V>>['formatOptionLabel']
+  styles?: ReactSelectProps<SelectFieldOption<V>>['styles']
 } & DataTestProp &
   Pick<InputHTMLAttributes<HTMLElement>, 'autoFocus' | 'disabled' | 'required' | 'placeholder'> &
   Pick<ReactSelectProps, 'isSearchable' | 'menuIsOpen' | 'menuPlacement' | 'noOptionsMessage' | 'inputValue'> &
@@ -246,6 +249,8 @@ export const SelectField = <V extends string | number = string>({
   placeholder,
   required,
   value,
+  formatGroupLabel,
+  formatOptionLabel,
   ...iconAndRest
 }: SelectProps<V>): ReactElement<SelectProps<V>> => {
   const id = useUID()
@@ -331,6 +336,8 @@ export const SelectField = <V extends string | number = string>({
       Input,
       MultiValue,
     },
+    formatGroupLabel,
+    formatOptionLabel,
     ...rest,
   }
 
