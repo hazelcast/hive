@@ -79,7 +79,7 @@ export const Tab: FC<TabProps> = ({ component: Component = 'button', label, valu
       tabIndex={selected ? 0 : -1}
       onKeyPress={onKeyPress}
       onClick={handleClick}
-      href={href}
+      href={selected ? undefined : href}
     >
       {label}
     </Component>
