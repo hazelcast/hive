@@ -695,3 +695,29 @@ export const GroupedOptions = () => {
     </div>
   )
 }
+
+export const CustomMenuFooter = () => {
+  const [currentValue, setValue] = useState<string>(value)
+  return (
+    <SelectField
+      name={name}
+      value={currentValue}
+      label={label}
+      options={options}
+      onBlur={() => logger.log('blur')}
+      onChange={setValue}
+      renderMenuFooter={() => (
+        <div
+          style={{
+            lineHeight: '2rem',
+            textAlign: 'center',
+            backgroundColor: '#2160c0',
+            color: 'white',
+          }}
+        >
+          Custom Footer
+        </div>
+      )}
+    />
+  )
+}

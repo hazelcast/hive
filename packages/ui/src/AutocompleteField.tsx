@@ -17,6 +17,10 @@ export type AutocompleteFieldOption = {
   value: string
 }
 
+type RenderOptionFunction = (highlightedLabelText: ReactNode, option: AutocompleteFieldOption, isSelected: boolean) => ReactNode
+
+const isRenderOptionFunction = (fn: object): fn is RenderOptionFunction => typeof fn === 'function'
+
 export type AutocompleteFieldProps = {
   'data-test'?: string
   className?: string
@@ -31,7 +35,7 @@ export type AutocompleteFieldProps = {
   onBlur?: (e: FocusEvent<HTMLElement>) => void
   required?: boolean
   helperText?: HelpProps['helperText']
-  renderOption?: (highlightedLabelText: ReactNode, option: AutocompleteFieldOption, isSelected: boolean) => ReactNode
+  renderOption?: RenderOptionFunction
   name: string
   options: AutocompleteFieldOption[]
   value?: string | null
@@ -56,7 +60,7 @@ export function getSelectedOptionFromValue({ value, optionsMap }: GetSelectedOpt
   return option
 }
 
-const Input = (innerProps: React.ComponentProps<typeof components.Input>) => {
+const Input: typeof components.Input = (innerProps) => {
   // autoComplete='off' is hard-coded inside SelectField, but doesn't work in Chrome.
   // Having an invalid value hard-coded disabled it in all browsers.
   const props = {
@@ -66,7 +70,7 @@ const Input = (innerProps: React.ComponentProps<typeof components.Input>) => {
   return <components.Input {...props} />
 }
 
-const Menu = (props: React.ComponentProps<typeof components.Menu>) => {
+const Menu: typeof components.Menu = (props) => {
   if (!props.selectProps.inputValue || props.selectProps.inputValue.length === 0) return null
 
   return (
@@ -76,7 +80,7 @@ const Menu = (props: React.ComponentProps<typeof components.Menu>) => {
   )
 }
 
-const DropdownIndicator = (props: React.ComponentProps<typeof components.DropdownIndicator>) => {
+const DropdownIndicator: typeof components.DropdownIndicator = (props) => {
   return (
     <components.DropdownIndicator {...props}>
       <Search size={20} />
@@ -85,7 +89,7 @@ const DropdownIndicator = (props: React.ComponentProps<typeof components.Dropdow
 }
 
 // innerProps set event handling
-const ClearIndicator = ({ innerProps }: React.ComponentProps<typeof components.ClearIndicator>) => {
+const ClearIndicator: typeof components.ClearIndicator = ({ innerProps }) => {
   // Visually impaired people will use the keyboard (backspace) to remove the value. We do not want to confuse them by allowing to focus this button.
   return <IconButton {...innerProps} icon={X} ariaHidden kind="primary" size="normal" className={styles.clear} tabIndex={-1} />
 }
@@ -93,35 +97,33 @@ const ClearIndicator = ({ innerProps }: React.ComponentProps<typeof components.C
 export const highlightOptionText = (labelText: string, inputValue: string | undefined): ReactNode => {
   const customSeparator = '<%>'
   const query = inputValue || ''
-  return (
-    labelText
-      .replace(new RegExp(query, 'ig'), `${customSeparator}$&${customSeparator}`)
-      .split(customSeparator)
-      .filter((val) => val)
-      .map((val: string, i: number) => (
-        <span
-          className={cn({
-            'hz-autocomplete-field__matched-option-text': val.toLowerCase() === query.toLowerCase()
-          })}
-          key={val + `${i}`}
-        >
-          {val}
-        </span>
-      ))
-  )
+  return labelText
+    .replace(new RegExp(query, 'ig'), `${customSeparator}$&${customSeparator}`)
+    .split(customSeparator)
+    .filter((val) => val)
+    .map((val: string, i: number) => (
+      <span
+        className={cn({
+          'hz-autocomplete-field__matched-option-text': val.toLowerCase() === query.toLowerCase(),
+        })}
+        key={val + `${i}`}
+      >
+        {val}
+      </span>
+    ))
 }
 
-const Option = ({ children, ...rest }: React.ComponentProps<typeof components.Option>) => {
+const Option: typeof components.Option = ({ children, ...rest }) => {
   const inputValue: string = rest.selectProps.inputValue as string
   const labelText: string = (rest.data as AutocompleteFieldOption).label
+  const { renderOption } = rest.selectProps
   let optionText: ReactNode = labelText
   if (inputValue && children) {
     optionText = highlightOptionText(labelText, inputValue)
   }
   return (
     <components.Option {...rest}>
-      {/* eslint-disable-next-line @typescript-eslint/no-unsafe-call */}
-      {rest.selectProps.renderOption ? rest.selectProps.renderOption(optionText, rest.data, rest.isSelected) : optionText}
+      {isRenderOptionFunction(renderOption) ? renderOption(optionText, rest.data, rest.isSelected) : optionText}
     </components.Option>
   )
 }
