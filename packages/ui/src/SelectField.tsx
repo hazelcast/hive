@@ -1,35 +1,40 @@
 import { DataTestProp } from '@hazelcast/helpers'
-import React, { FocusEvent, InputHTMLAttributes, ReactElement, useMemo } from 'react'
+import React, { FocusEvent, InputHTMLAttributes, ReactElement, ReactNode, useMemo } from 'react'
 import cn from 'classnames'
-import ReactSelect, { ActionMeta, components, MultiValueProps, Props as ReactSelectProps, ValueType } from 'react-select'
+import ReactSelect, { ActionMeta, components, GroupedOptionsType, Props as ReactSelectProps, ValueType, OptionsType } from 'react-select'
 import ReactSelectCreatable from 'react-select/creatable'
 import { ChevronDown, X } from 'react-feather'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
-import { useUID } from 'react-uid'
 
+import { useUID } from 'react-uid'
 import { Error, errorId } from './Error'
 import { Label } from './Label'
 import { Help, HelpProps } from './Help'
 import { Icon, IconProps } from './Icon'
 import { IconButton } from './IconButton'
-import { canUseDOM } from './utils/ssr'
 
+import { canUseDOM } from './utils/ssr'
 import styles from './SelectField.module.scss'
+import { GroupType } from 'react-select/src/types'
 
 export type SelectFieldOption<V> = {
   label: string
   value: V
 }
 
+type RenderMenuFooterFunction = () => ReactNode
+
+const isRenderMenuFooterFunction = (fn: object): fn is RenderMenuFooterFunction => typeof fn === 'function'
+
 const DropdownIndicator = () => <Icon icon={ChevronDown} ariaHidden size="normal" className={styles.chevron} />
 
 // innerProps set event handling
-const ClearIndicator = ({ innerProps }: React.ComponentProps<typeof components.ClearIndicator>) => {
+const ClearIndicator: typeof components.ClearIndicator = ({ innerProps }) => {
   // Visually impaired people will use the keyboard (backspace) to remove the value. We do not want to confuse them by allowing to focus this button.
   return <IconButton {...innerProps} icon={X} ariaHidden kind="primary" size="normal" className={styles.clear} tabIndex={-1} />
 }
 
-const Input = (innerProps: React.ComponentProps<typeof components.Input>) => {
+const Input: typeof components.Input = (innerProps) => {
   // autoComplete='off' is hard-coded inside SelectField, but doesn't work in Chrome.
   // Having an invalid value hard-coded disabled it in all browsers.
   const props = {
@@ -43,8 +48,7 @@ const Input = (innerProps: React.ComponentProps<typeof components.Input>) => {
 // recommended way of styling things via js).
 //
 // We simply inject `.multiValueIsFocused`.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const MultiValue = (props: MultiValueProps<any>) => {
+const MultiValue: typeof components.MultiValue = (props) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   props.components.Remove = MultiValueRemove
 
@@ -55,14 +59,14 @@ const MultiValue = (props: MultiValueProps<any>) => {
 }
 
 // Self styled version of the MultiValue/Label
-const MultiValueLabel = (props: React.ComponentProps<typeof components.MultiValueLabel>) => {
+const MultiValueLabel: typeof components.MultiValueLabel = (props) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,  @typescript-eslint/no-unsafe-assignment
   const children = props.children
   return <div className={cn(styles.multiValueLabel)}> {children} </div>
 }
 
 // Self styled version of the MultiValue/Remove button
-const MultiValueRemove = (props: React.ComponentProps<typeof components.MultiValueRemove>) => {
+const MultiValueRemove: typeof components.MultiValueRemove = (props) => {
   // We have to pass down the onClick
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,  @typescript-eslint/no-unsafe-assignment
   const onClick: React.MouseEventHandler = props.innerProps.onClick
@@ -90,6 +94,20 @@ const MultiValueRemove = (props: React.ComponentProps<typeof components.MultiVal
       <Icon icon={X} size="small" ariaHidden />
     </div>
   )
+}
+
+const MenuList: typeof components.MenuList = (props) => {
+  const { renderMenuFooter } = props.selectProps
+  return (
+    <>
+      <components.MenuList {...props}>{props.children}</components.MenuList>
+      {isRenderMenuFooterFunction(renderMenuFooter) && renderMenuFooter()}
+    </>
+  )
+}
+
+interface SelectFieldOptionsMap<V> {
+  [key: string]: SelectFieldOption<V>
 }
 
 export type SelectFieldCoreStaticProps = {
@@ -126,6 +144,14 @@ type SelectFieldCreatableProps<V> = V extends string
       isCreatable?: false
     }
 
+function isSimpleOption<V>(option: GroupType<SelectFieldOption<V>> | SelectFieldOption<V>): option is SelectFieldOption<V> {
+  return !!(option as SelectFieldOption<V>).value
+}
+
+function isOptionsGroup<V>(option: GroupType<SelectFieldOption<V>> | SelectFieldOption<V>): option is GroupType<SelectFieldOption<V>> {
+  return !!(option as GroupType<SelectFieldOption<V>>).options
+}
+
 function isMultipleModeGuard<V>(value: V | V[] | null, isMultiple: boolean): value is V[] {
   return isMultiple
 }
@@ -148,7 +174,7 @@ export type SelectFieldIconLeftProps =
 export type SelectFieldExtraProps<V> = {
   isCreatable?: boolean
   isClearable?: boolean
-  options: SelectFieldOption<V>[]
+  options: GroupedOptionsType<SelectFieldOption<V>> | OptionsType<SelectFieldOption<V>>
   label: string
   helperText?: HelpProps['helperText']
   className?: string
@@ -156,6 +182,10 @@ export type SelectFieldExtraProps<V> = {
   labelClassName?: string
   errorClassName?: string
   menuPortalTarget?: 'body' | 'self' | HTMLElement | null
+  formatGroupLabel?: ReactSelectProps<SelectFieldOption<V>>['formatGroupLabel']
+  formatOptionLabel?: ReactSelectProps<SelectFieldOption<V>>['formatOptionLabel']
+  renderMenuFooter?: RenderMenuFooterFunction
+  styles?: ReactSelectProps<SelectFieldOption<V>>['styles']
 } & DataTestProp &
   Pick<InputHTMLAttributes<HTMLElement>, 'autoFocus' | 'disabled' | 'required' | 'placeholder'> &
   Pick<ReactSelectProps, 'isSearchable' | 'menuIsOpen' | 'menuPlacement' | 'noOptionsMessage' | 'inputValue'> &
@@ -179,7 +209,7 @@ const getMenuContainer = (menuPortalTarget: 'body' | 'self' | HTMLElement | null
 
 type GetSelectedOptionFromValueProps<V> = {
   value: V | V[] | null
-  optionsMap: { [key: string]: SelectFieldOption<V> }
+  optionsMap: SelectFieldOptionsMap<V>
   isMulti: boolean
 }
 
@@ -225,6 +255,9 @@ export const SelectField = <V extends string | number = string>({
   placeholder,
   required,
   value,
+  formatGroupLabel,
+  formatOptionLabel,
+  renderMenuFooter,
   ...iconAndRest
 }: SelectProps<V>): ReactElement<SelectProps<V>> => {
   const id = useUID()
@@ -239,12 +272,28 @@ export const SelectField = <V extends string | number = string>({
     }
   }, [menuPortalTarget])
 
-  const optionsMap = React.useMemo(
+  const optionsMap = React.useMemo<SelectFieldOptionsMap<V>>(
     () =>
-      options.reduce((acc, option) => {
-        acc[`${option.value}`] = option
-        return acc
-      }, {} as { [key: string]: SelectFieldOption<V> }),
+      // need this type assertion because of the TS issue https://github.com/microsoft/TypeScript/issues/7294
+      (options as Array<GroupType<SelectFieldOption<V>> | SelectFieldOption<V>>).reduce(
+        (
+          acc: SelectFieldOptionsMap<V>,
+          optionOrGroup: GroupType<SelectFieldOption<V>> | SelectFieldOption<V>,
+        ): SelectFieldOptionsMap<V> => {
+          // if it's a simple non-group option
+          if (isSimpleOption(optionOrGroup)) {
+            acc[optionOrGroup.value] = optionOrGroup
+            // else it's a group option
+          } else if (isOptionsGroup(optionOrGroup)) {
+            optionOrGroup.options.reduce((innerAcc: SelectFieldOptionsMap<V>, option: SelectFieldOption<V>) => {
+              innerAcc[option.value] = option
+              return innerAcc
+            }, acc)
+          }
+          return acc
+        },
+        {} as SelectFieldOptionsMap<V>,
+      ),
     [options],
   )
 
@@ -291,9 +340,13 @@ export const SelectField = <V extends string | number = string>({
     components: {
       DropdownIndicator,
       ClearIndicator,
-      Input,
       MultiValue,
+      MenuList,
+      Input,
     },
+    formatGroupLabel,
+    formatOptionLabel,
+    renderMenuFooter,
     ...rest,
   }
 

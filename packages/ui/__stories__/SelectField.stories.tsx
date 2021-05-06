@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from 'react'
+import React, { ReactNode, useLayoutEffect, useRef, useState } from 'react'
 import { logger } from '@hazelcast/services'
 import { Form, Formik } from 'formik'
 
@@ -7,6 +7,7 @@ import { SelectFieldFormik } from '../src/SelectFieldFormik'
 
 import styles from '../src/SelectField.module.scss'
 import { Aperture } from 'react-feather'
+import { GroupedOptionsType } from 'react-select'
 
 export default {
   title: 'Components/SelectField',
@@ -609,5 +610,114 @@ export const Creatable = () => {
         onChange={setValues}
       />
     </>
+  )
+}
+
+export const GroupedOptions = () => {
+  const [value, setValue] = useState<string | null>(null)
+  const groupedOptions: GroupedOptionsType<SelectFieldOption<string>> = [
+    {
+      label: 'Dark Side',
+      options: [
+        { value: 'darth_vader', label: 'Darth Vader' },
+        { value: 'boba_fett', label: 'Boba Fett' },
+        { value: 'jar_jar_binks', label: 'Jar Jar Binks' },
+      ],
+    },
+    {
+      label: 'Light Side',
+      options: [
+        { value: 'luke_skywalker', label: 'Luke Skywalker' },
+        { value: 'obi', label: 'Obi-Wan Kenobi' },
+        { value: 'yoda', label: 'Yoda' },
+        { value: 'han_solo', label: 'Han Solo' },
+      ],
+    },
+  ]
+  return (
+    <div>
+      Value: {value}
+      <SelectField
+        name="name"
+        value={value}
+        isClearable
+        label="Character"
+        options={groupedOptions}
+        onBlur={() => logger.log('blur')}
+        onChange={(val: string | null) => {
+          setValue(val)
+          logger.log('change', val)
+        }}
+        formatGroupLabel={({ label }) => {
+          return (
+            <p
+              style={{
+                textAlign: 'center',
+                padding: 0,
+                margin: 0,
+              }}
+            >
+              {label}
+            </p>
+          )
+        }}
+        formatOptionLabel={({ label }) => {
+          const names: Array<string | ReactNode> = label.split(' ')
+          names[names.length - 1] = (
+            <b key={label} style={{ color: 'black' }}>
+              {' '}
+              {names[names.length - 1]}
+            </b>
+          )
+          return (
+            <p
+              style={{
+                textAlign: 'center',
+                padding: 0,
+                margin: 0,
+                color: '#707482',
+              }}
+            >
+              {names}
+            </p>
+          )
+        }}
+        styles={{
+          option: (base) => {
+            return {
+              ...base,
+              padding: 0,
+              border: '1px solid #DBDBDB',
+            }
+          },
+        }}
+      />
+    </div>
+  )
+}
+
+export const CustomMenuFooter = () => {
+  const [currentValue, setValue] = useState<string>(value)
+  return (
+    <SelectField
+      name={name}
+      value={currentValue}
+      label={label}
+      options={options}
+      onBlur={() => logger.log('blur')}
+      onChange={setValue}
+      renderMenuFooter={() => (
+        <div
+          style={{
+            lineHeight: '2rem',
+            textAlign: 'center',
+            backgroundColor: '#2160c0',
+            color: 'white',
+          }}
+        >
+          Custom Footer
+        </div>
+      )}
+    />
   )
 }
