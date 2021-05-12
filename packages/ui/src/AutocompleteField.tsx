@@ -1,4 +1,4 @@
-import React, { FocusEvent, ReactNode, useMemo } from 'react'
+import React, { FocusEvent, ReactNode, useMemo, useState } from 'react'
 import ReactSelect, { ActionMeta, components, ValueType } from 'react-select'
 import { useUID } from 'react-uid'
 import cn from 'classnames'
@@ -8,7 +8,7 @@ import styles from './AutocompleteField.module.scss'
 import { Label } from './Label'
 import { Error, errorId } from './Error'
 import { Help, HelpProps } from './Help'
-import { Props as ReactSelectProps } from 'react-select/src/Select'
+import { FormatOptionLabelMeta, Props as ReactSelectProps } from 'react-select/src/Select'
 import { canUseDOM } from './utils/ssr'
 import { IconButton } from './IconButton'
 
@@ -17,9 +17,11 @@ export type AutocompleteFieldOption = {
   value: string
 }
 
-type RenderOptionFunction = (highlightedLabelText: ReactNode, option: AutocompleteFieldOption, isSelected: boolean) => ReactNode
-
-const isRenderOptionFunction = (fn: object): fn is RenderOptionFunction => typeof fn === 'function'
+export type RenderOptionFunction = (
+  highlightedLabelText: ReactNode,
+  option: AutocompleteFieldOption,
+  labelMeta: FormatOptionLabelMeta<AutocompleteFieldOption>,
+) => ReactNode
 
 export type AutocompleteFieldProps = {
   'data-test'?: string
@@ -32,6 +34,7 @@ export type AutocompleteFieldProps = {
   labelClassName?: string
   menuPortalTarget?: 'body' | 'self' | HTMLElement | null
   onChange?: (newValue: string) => void
+  onInputChange?: (newInputValue: string) => void
   onBlur?: (e: FocusEvent<HTMLElement>) => void
   required?: boolean
   helperText?: HelpProps['helperText']
@@ -70,16 +73,6 @@ const Input: typeof components.Input = (innerProps) => {
   return <components.Input {...props} />
 }
 
-const Menu: typeof components.Menu = (props) => {
-  if (!props.selectProps.inputValue || props.selectProps.inputValue.length === 0) return null
-
-  return (
-    <>
-      <components.Menu {...props} />
-    </>
-  )
-}
-
 const DropdownIndicator: typeof components.DropdownIndicator = (props) => {
   return (
     <components.DropdownIndicator {...props}>
@@ -113,21 +106,6 @@ export const highlightOptionText = (labelText: string, inputValue: string | unde
     ))
 }
 
-const Option: typeof components.Option = ({ children, ...rest }) => {
-  const inputValue: string = rest.selectProps.inputValue as string
-  const labelText: string = (rest.data as AutocompleteFieldOption).label
-  const { renderOption } = rest.selectProps
-  let optionText: ReactNode = labelText
-  if (inputValue && children) {
-    optionText = highlightOptionText(labelText, inputValue)
-  }
-  return (
-    <components.Option {...rest}>
-      {isRenderOptionFunction(renderOption) ? renderOption(optionText, rest.data, rest.isSelected) : optionText}
-    </components.Option>
-  )
-}
-
 export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
   'data-test': dataTest,
   className,
@@ -141,13 +119,16 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
   menuPortalTarget = 'body',
   name,
   onChange,
+  onInputChange,
   options,
   required,
   value,
   placeholder = 'Search...',
+  renderOption,
   ...rest
 }) => {
   const id = useUID()
+  const [isMenuOpen, setMenuOpen] = useState<boolean>(false)
 
   useIsomorphicLayoutEffect(() => {
     const menuContainer = getMenuContainer(menuPortalTarget)
@@ -173,6 +154,29 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
       ;(onChange as (newValue: string | null) => void)(option === null ? null : option.value)
     },
     [onChange],
+  )
+
+  const onInputChangeFn = React.useCallback(
+    (value) => {
+      // keep menu closed if no value
+      setMenuOpen(!!value)
+      if (onInputChange) {
+        onInputChange(value)
+      }
+    },
+    [onInputChange],
+  )
+
+  const formatOptionLabelFn = React.useCallback(
+    (option: AutocompleteFieldOption, labelMeta: FormatOptionLabelMeta<AutocompleteFieldOption>) => {
+      const { inputValue } = labelMeta
+      let optionText: ReactNode = option.label
+      if (inputValue) {
+        optionText = highlightOptionText(option.label, inputValue)
+      }
+      return renderOption ? renderOption(optionText, option, labelMeta) : optionText
+    },
+    [renderOption],
   )
 
   const getMenuContainer = (menuPortalTarget: 'body' | 'self' | HTMLElement | null): HTMLElement | null | undefined => {
@@ -207,9 +211,7 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
     components: {
       DropdownIndicator,
       ClearIndicator,
-      Option,
       Input,
-      Menu,
     },
     ...rest,
   }
@@ -233,7 +235,12 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
     >
       <Label id={id} label={label} className={cn(styles.label, labelClassName)} />
       <div className={styles.selectBlock}>
-        <ReactSelect<AutocompleteFieldOption> {...props} />
+        <ReactSelect<AutocompleteFieldOption>
+          menuIsOpen={isMenuOpen}
+          onInputChange={onInputChangeFn}
+          formatOptionLabel={formatOptionLabelFn}
+          {...props}
+        />
         {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} />}
       </div>
       <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
