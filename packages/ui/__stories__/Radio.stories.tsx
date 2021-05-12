@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { logger } from '@hazelcast/services'
+import { Check } from 'react-feather'
 
 import { RadioGroup } from '../src/RadioGroup'
 import { formDecorator } from './decorators'
@@ -79,6 +80,41 @@ export const RadioDisabledPartially = () => {
     <RadioGroup name="jedi" onChange={({ target: { value } }) => setValue(value)}>
       <Radio value="test2" label="Test 2" disabled checked={value === 'test2'} />
       <Radio value="test" label="Test" checked={value === 'test'} />
+    </RadioGroup>
+  )
+}
+export const RadioCustomCheckmark = () => {
+  const [value, setValue] = useState<string>('test')
+  const renderCheckmark = (isChecked: boolean) =>
+    isChecked ? (
+      <Check
+        size={16}
+        color="green"
+        style={{
+          order: -1,
+        }}
+      />
+    ) : (
+      <div
+        style={{
+          width: '16px',
+          order: -1,
+        }}
+      />
+    )
+  return (
+    <RadioGroup name="jedi" onChange={({ target: { value } }) => setValue(value)}>
+      <Radio
+        renderCheckmark={() => renderCheckmark(value === 'test2')}
+        value="test2"
+        label={
+          <span>
+            <b>Bold</b> Test 2
+          </span>
+        }
+        checked={value === 'test2'}
+      />
+      <Radio renderCheckmark={() => renderCheckmark(value === 'test')} value="test" label="Test" checked={value === 'test'} />
     </RadioGroup>
   )
 }
