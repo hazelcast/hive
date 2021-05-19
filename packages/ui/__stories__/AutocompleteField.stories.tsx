@@ -1,9 +1,9 @@
-import React, { ReactNode, useState } from 'react'
+import React, { useState } from 'react'
 import { logger } from '@hazelcast/services'
 import { Check } from 'react-feather'
 import { Formik, Form } from 'formik'
 
-import { AutocompleteField, AutocompleteFieldOption } from '../src/AutocompleteField'
+import { AutocompleteField, AutocompleteFieldOption, RenderOptionFunction } from '../src/AutocompleteField'
 import styles from '../src/AutocompleteField.module.scss'
 import { AutocompleteFieldFormik } from '../src/AutocompleteFieldFormik'
 
@@ -185,17 +185,17 @@ export const ClearableDisabled = () => (
 
 export const CustomOptions = () => {
   const [value, setValue] = useState<string | null>(null)
-  const renderOption = (highlightedLabelText: ReactNode, option: AutocompleteFieldOption, isSelected: boolean) => {
+  const renderOption: RenderOptionFunction = (highlightedLabelText, option, meta) => {
     return (
       <div
         style={{
           position: 'relative',
           display: 'flex',
           alignItems: 'center',
-          paddingLeft: '24px',
+          paddingLeft: meta.context === 'menu' ? '24px' : 0,
         }}
       >
-        {isSelected && (
+        {option.value === value && meta.context === 'menu' && (
           <Check
             size={16}
             color="green"

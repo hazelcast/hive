@@ -25,8 +25,9 @@
 
   // default visible checkmark
   .checkmark {
-    width: c.$iconSizeSmall;
-    height: c.$iconSizeSmall;
+    // using min-{size} because the circle can be broken in a flex wrapper
+    min-width: c.$iconSizeSmall;
+    min-height: c.$iconSizeSmall;
     border: c.$borderWidth solid c.$colorNeutralLight;
     border-radius: 50%;
     // because of ~ and + selectors used below, we need to keep the current order in DOM and

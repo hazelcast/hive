@@ -1,4 +1,4 @@
-import React, { FC, FocusEvent, useContext } from 'react'
+import React, { FC, FocusEvent, ReactNode, useContext } from 'react'
 import classNames from 'classnames'
 import { DataTestProp } from '@hazelcast/helpers'
 import { useUID } from 'react-uid'
@@ -15,11 +15,12 @@ type RadioCoreProps = {
 }
 
 export type RadioExtraProps = {
-  label: string
+  label: ReactNode
   helperText?: HelpProps['helperText']
   disabled?: boolean
   required?: boolean
   className?: string
+  renderCheckmark?: () => ReactNode
 }
 
 export type RadioProps = RadioCoreProps & RadioExtraProps & DataTestProp
@@ -41,6 +42,7 @@ export const Radio: FC<RadioProps> = ({
   disabled = false,
   checked,
   'data-test': dataTest,
+  renderCheckmark,
 }) => {
   const id = useUID()
   const { name, onChange, errorId } = useContext(RadioGroupContext)
@@ -84,7 +86,7 @@ export const Radio: FC<RadioProps> = ({
         aria-describedby={helperText && helpTooltipId(id)}
         {...errorProps}
       />
-      <span className={styles.checkmark} />
+      {renderCheckmark ? renderCheckmark() : <span className={styles.checkmark} />}
       {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} />}
     </label>
   )
