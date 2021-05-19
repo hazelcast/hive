@@ -61,6 +61,12 @@ $select: ':global .hz-select-field__control';
     transition: none;
   }
 
+  &.small {
+    #{$select} {
+      min-height: c.$inputHeightSmall;
+    }
+  }
+
   &.disabled {
     #{$select} {
       color: c.$colorTextSecondary;

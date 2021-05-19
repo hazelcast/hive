@@ -50,7 +50,23 @@ Default.parameters = {
   },
 }
 
-export const NotSelected = () => {
+export const Small = () => {
+  const [currentValue, setValue] = useState<string>(value)
+  return (
+    <SelectField
+      name={name}
+      value={currentValue}
+      label={label}
+      options={options}
+      onBlur={() => logger.log('blur')}
+      onChange={setValue}
+      size="small"
+      menuIsOpen
+    />
+  )
+}
+
+export const Clear = () => {
   const [value, setValue] = useState<string | null>(null)
   return (
     <div>
@@ -393,6 +409,7 @@ export const MultipleSelectionsMultipleRows = () => {
         options={options}
         onBlur={() => logger.log('blur')}
         onChange={setValue}
+        size="small"
       />
     </div>
   )

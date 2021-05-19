@@ -122,17 +122,20 @@ export type SelectFieldCoreDynamicProps<V> =
       isMulti?: false
       value: V | null
       onChange: (newValue: V | null) => void
+      size?: 'normal' | 'small'
     }
   | {
       isClearable?: false
       isMulti?: false
       value: V
       onChange: (newValue: V) => void
+      size?: 'normal' | 'small'
     }
   | {
       isMulti: true
       value: V[]
       onChange: (newValue: V[]) => void
+      size?: never
     }
 
 // Since the user input is string, let's allow creatable only for string
@@ -238,6 +241,7 @@ export function getSelectedOptionFromValue<V extends string | number>({
 export const SelectField = <V extends string | number = string>({
   'data-test': dataTest,
   className,
+  size = 'normal',
   disabled,
   error,
   errorClassName,
@@ -360,6 +364,7 @@ export const SelectField = <V extends string | number = string>({
           [styles.hasError]: error,
           [styles.empty]: !value,
           [styles.multiContainer]: isMulti,
+          [styles.small]: size === 'small',
         },
         // Menu container is either this select itself or any other element
         // We can always add this class to the select itself because even if the menu container is any parent it won't break it
