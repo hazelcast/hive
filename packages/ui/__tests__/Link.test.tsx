@@ -42,7 +42,7 @@ describe('Link', () => {
     expect(anchor.find(Icon).props()).toEqual({
       icon: ChevronRight,
       ariaLabel: 'Chevron right',
-      size: 'normal',
+      size: 'medium',
       bold: false,
     })
   })
@@ -129,7 +129,7 @@ describe('Link', () => {
       icon: ChevronRight,
       ariaLabel: 'Chevron right',
       bold: true,
-      size: 'normal',
+      size: 'medium',
     })
   })
 

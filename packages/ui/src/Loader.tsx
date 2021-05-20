@@ -12,7 +12,7 @@ export type LoaderProps = {
   children?: never
 } & Pick<SVGAttributes<SVGElement>, 'aria-hidden'>
 
-export const Loader: FC<LoaderProps> = ({ className, size = 'normal', kind = 'inherit', ...props }) => (
+export const Loader: FC<LoaderProps> = ({ className, size = 'medium', kind = 'inherit', ...props }) => (
   // https://github.com/feathericons/feather/blob/a718a7e9c39447202f703783336e8ba1c8e32405/icons/loader.svg#L1
   // We cannot use it directly as it has `line` elements not in a sequential order
   // And we need the sequential order to easily calculate animation delay
@@ -22,7 +22,7 @@ export const Loader: FC<LoaderProps> = ({ className, size = 'normal', kind = 'in
       styles.loader,
       {
         [styles.small]: size === 'small',
-        [styles.normal]: size === 'normal',
+        [styles.medium]: size === 'medium',
         [styles.large]: size === 'large',
         [styles.xlarge]: size === 'xlarge',
         [styles.primary]: kind === 'primary',

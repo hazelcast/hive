@@ -73,7 +73,7 @@ export const Overlay: FC<OverlayProps> = ({
         className={cn(styles.wrapper, { [styles.normal]: contentWidth === 'normal', [styles.fullscreen]: contentWidth === 'fullscreen' })}
       >
         <div data-test="overlay-header" className={cn(styles.header, headerClassName)}>
-          {icon && <Icon data-test="overlay-header-icon" className={styles.icon} size="normal" icon={icon} ariaHidden />}
+          {icon && <Icon data-test="overlay-header-icon" className={styles.icon} size="medium" icon={icon} ariaHidden />}
           <h1 data-test="overlay-header-title" className={styles.title}>
             {title}
           </h1>

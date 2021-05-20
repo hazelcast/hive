@@ -12,7 +12,7 @@ describe('Badge', () => {
   it('Renders Badge with all necessary components', async () => {
     const wrapper = await mountAndCheckA11Y(<Badge type="neutral" size="normal" content={badgeContent} />)
 
-    expect(wrapper.findDataTest('badge-icon').prop('size')).toBe('normal')
+    expect(wrapper.findDataTest('badge-icon').prop('size')).toBe('medium')
     expect(wrapper.findDataTest('badge-content').text()).toBe(badgeContent)
   })
 
@@ -66,7 +66,7 @@ describe('Badge', () => {
     expect(wrapper.findDataTest('badge-icon').props()).toMatchObject({
       ariaLabel,
       icon,
-      size: 'normal',
+      size: 'medium',
     })
   })
 

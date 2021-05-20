@@ -18,6 +18,6 @@ export const TextWithHelp = () => (
 )
 
 export const HelpSmall = () => <Help parentId="test" helperText={helpText} />
-export const HelpNormal = () => <Help parentId="test" helperText={helpText} size="normal" />
+export const HelpMedium = () => <Help parentId="test" helperText={helpText} size="medium" />
 export const HelpLarge = () => <Help parentId="test" helperText={helpText} size="large" />
 export const HelpXLarge = () => <Help parentId="test" helperText={helpText} size="xlarge" />

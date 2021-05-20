@@ -26,12 +26,12 @@ type RenderMenuFooterFunction = () => ReactNode
 
 const isRenderMenuFooterFunction = (fn: object): fn is RenderMenuFooterFunction => typeof fn === 'function'
 
-const DropdownIndicator = () => <Icon icon={ChevronDown} ariaHidden size="normal" className={styles.chevron} />
+const DropdownIndicator = () => <Icon icon={ChevronDown} ariaHidden size="medium" className={styles.chevron} />
 
 // innerProps set event handling
 const ClearIndicator: typeof components.ClearIndicator = ({ innerProps }) => {
   // Visually impaired people will use the keyboard (backspace) to remove the value. We do not want to confuse them by allowing to focus this button.
-  return <IconButton {...innerProps} icon={X} ariaHidden kind="primary" size="normal" className={styles.clear} tabIndex={-1} />
+  return <IconButton {...innerProps} icon={X} ariaHidden kind="primary" size="medium" className={styles.clear} tabIndex={-1} />
 }
 
 const Input: typeof components.Input = (innerProps) => {

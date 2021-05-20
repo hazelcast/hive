@@ -67,7 +67,13 @@ export const Badge: FC<BadgeProps> = ({ type, content, size = 'normal', classNam
         className,
       )}
     >
-      <Icon data-test="badge-icon" ariaLabel={ariaLabel} icon={icon} className={styles.icon} size={size} />
+      <Icon
+        data-test="badge-icon"
+        ariaLabel={ariaLabel}
+        icon={icon}
+        className={styles.icon}
+        size={size === 'normal' ? 'medium' : 'small'}
+      />
       <div data-test="badge-content" className={styles.content}>
         {content}
       </div>
