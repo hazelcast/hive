@@ -4,7 +4,7 @@ import cn from 'classnames'
 import styleConsts from '../styles/constants/export.module.scss'
 import styles from './Icon.module.scss'
 
-export type IconSize = 'small' | 'normal' | 'large' | 'xlarge'
+export type IconSize = 'small' | 'smallMedium' | 'medium' | 'large' | 'xlarge'
 
 // Makes it required to set either "aria-label", "aria-labelledby" or "aria-hidden" attribute.
 export type IconAriaProps =
@@ -42,7 +42,7 @@ export type IconProps = {
 
 export const Icon = forwardRef<HTMLDivElement, IconProps>(
   (
-    { color, icon: IconElement, ariaLabel, ariaLabelledBy, ariaHidden, className, containerClassName, size = 'normal', bold = false },
+    { color, icon: IconElement, ariaLabel, ariaLabelledBy, ariaHidden, className, containerClassName, size = 'medium', bold = false },
     ref,
   ) => {
     const iconStroke = bold ? styleConsts.iconStrokeWidthBold : styleConsts.iconStrokeWidth
@@ -57,7 +57,8 @@ export const Icon = forwardRef<HTMLDivElement, IconProps>(
       className: cn(
         {
           [styles.small]: size === 'small',
-          [styles.normal]: size === 'normal',
+          [styles.smallMedium]: size === 'smallMedium',
+          [styles.medium]: size === 'medium',
           [styles.large]: size === 'large',
           [styles.xlarge]: size === 'xlarge',
         },

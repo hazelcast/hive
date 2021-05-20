@@ -65,7 +65,7 @@ describe('Overlay', () => {
     expect(headerIcon.props()).toEqual<IconProps & DataTestProp>({
       'data-test': 'overlay-header-icon',
       className: styles.icon,
-      size: 'normal',
+      size: 'medium',
       icon,
       ariaHidden: true,
     })

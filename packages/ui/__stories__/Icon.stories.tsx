@@ -1,38 +1,64 @@
 import React from 'react'
-import { Clipboard } from 'react-feather'
+import { Clipboard, FolderPlus } from 'react-feather'
 import { Google } from '@icons-pack/react-simple-icons'
+import { Meta, Story } from '@storybook/react'
 
-import { Icon } from '../src'
+import { Icon, IconProps } from '../src'
 
 import styleConsts from '../styles/constants/export.module.scss'
 
 export default {
   title: 'Components/Icon',
   component: Icon,
+  args: {
+    icon: Clipboard,
+    ariaLabel: 'Icon Story',
+  },
+} as Meta<IconProps>
+
+const Template: Story<IconProps> = (args) => <Icon {...args} />
+
+export const Small = Template.bind({})
+Small.args = {
+  size: 'small',
 }
 
-export const FeatherIconNormal = () => <Icon icon={Clipboard} ariaLabel="Icon copy to clipboard" />
+export const SmallMedium = Template.bind({})
+SmallMedium.args = {
+  size: 'smallMedium',
+}
 
-export const FeatherIconBold = () => <Icon icon={Clipboard} ariaLabel="Icon copy to clipboard" bold />
+export const Medium = Template.bind({})
+Medium.args = {
+  size: 'medium',
+}
 
-export const FeatherIconNormalCustomColour = () => (
-  <Icon icon={Clipboard} ariaLabel="Icon copy to clipboard" color={styleConsts.colorSuccess} />
-)
+export const Large = Template.bind({})
+Large.args = {
+  size: 'large',
+}
 
-export const FeatherIconSmall = () => <Icon icon={Clipboard} ariaLabel="Icon copy to clipboard" size="small" />
+export const ExtraLarge = Template.bind({})
+ExtraLarge.args = {
+  size: 'xlarge',
+}
 
-export const FeatherIconSmallCustomColour = () => (
-  <Icon icon={Clipboard} ariaLabel="Icon copy to clipboard" size="small" color={styleConsts.colorSuccess} />
-)
+export const Bold = Template.bind({})
+Bold.args = {
+  bold: true,
+}
 
-export const SimpleIconNormal = () => <Icon icon={Google} ariaLabel="Icon copy to clipboard" />
+export const CustomColor = Template.bind({})
+CustomColor.args = {
+  color: styleConsts.colorSuccess,
+}
 
-export const SimpleIconBold = () => <Icon icon={Google} ariaLabel="Icon copy to clipboard" bold />
+export const FeatherIcon = Template.bind({})
+FeatherIcon.args = {
+  icon: FolderPlus,
+}
 
-export const SimpleIconNormalCustomColour = () => <Icon icon={Google} ariaLabel="Icon copy to clipboard" color={styleConsts.colorSuccess} />
-
-export const SimpleIconSmall = () => <Icon icon={Google} ariaLabel="Icon copy to clipboard" size="small" />
-
-export const SimpleIconSmallCustomColour = () => (
-  <Icon icon={Google} ariaLabel="Icon copy to clipboard" size="small" color={styleConsts.colorSuccess} />
-)
+export const SimpleIcon = Template.bind({})
+SimpleIcon.args = {
+  icon: Google,
+}

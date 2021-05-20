@@ -118,7 +118,9 @@ export const Link = forwardRef<HTMLAnchorElement | HTMLButtonElement, LinkProps>
     }
 
     const iconComponent =
-      icon && ariaLabel ? <Icon bold={bold} icon={icon} ariaLabel={ariaLabel} size={size} className={iconClassName} /> : undefined
+      icon && ariaLabel ? (
+        <Icon bold={bold} icon={icon} ariaLabel={ariaLabel} size={size === 'normal' ? 'medium' : 'small'} className={iconClassName} />
+      ) : undefined
 
     return component === 'a' ? (
       <a {...commonProps} rel={relFinal} target={target} ref={ref as MutableRefObject<HTMLAnchorElement>}>

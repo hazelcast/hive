@@ -111,7 +111,7 @@ const InteractiveList = <V,>({
           ariaLabel="Add Icon"
           icon={Plus}
           className={styles.addIcon}
-          size="normal"
+          size="medium"
           onClick={onAddItem}
         />
       </div>
