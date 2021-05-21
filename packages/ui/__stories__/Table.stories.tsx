@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { logger } from '@hazelcast/services'
 
-import { FetchDataProps, Table } from '../src/Table/Table'
+import { PaginationChangeProps, Table } from '../src/Table/Table'
 import { Toggle } from '../src/Toggle'
 import { getColumns, Person } from '../__tests__/Table/utils'
 import { bigDataSet, smallDataSet } from '../__tests__/Table/consts'
@@ -125,7 +125,7 @@ export const ControlledPagination = () => {
   const fetchIdRef = useRef<number>(0)
 
   // This will get called when the table needs new data.
-  const fetchData = useCallback(({ pageSize, pageIndex }: FetchDataProps) => {
+  const onPaginationChange = useCallback(({ pageSize, pageIndex }: PaginationChangeProps) => {
     // Give this fetch an ID
     const fetchId = ++fetchIdRef.current
 
@@ -149,7 +149,7 @@ export const ControlledPagination = () => {
     <Table
       columns={columns}
       data={data}
-      fetchData={fetchData}
+      onPaginationChange={onPaginationChange}
       loading={loading}
       manualPagination
       pageCount={pageCount}

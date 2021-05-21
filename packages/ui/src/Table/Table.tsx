@@ -134,15 +134,15 @@ type ExtendedPaginationProps = {
   hidePagination?: boolean
 }
 
-export type FetchDataProps = {
-  pageIndex: number
+export type PaginationChangeProps = {
   pageSize: number
+  pageIndex: number
 }
 
 // When using manual pagination always provide `fetchData` function and our own pageCount
 export type ControlledPaginationProps = {
   manualPagination?: boolean
-  fetchData?: (fetchDataProps: FetchDataProps) => void
+  onPaginationChange?: (paginationChangeProps: PaginationChangeProps) => void
 }
 
 type CustomTableRowClickProps<D extends object> =
@@ -164,6 +164,7 @@ type CustomTableRowClickProps<D extends object> =
 type CustomTableProps<D extends object> = {
   // Custom props getter for Cell
   getCustomCellProps?: (cellInfo: CellType<D>) => CellProps
+  onRenderedContentChange?: (newPage: RowType<D>[]) => void
 } & CustomTableRowClickProps<D> &
   DataTestProp
 
@@ -196,8 +197,10 @@ export const Table = <D extends object>({
   data,
   defaultColumn = column,
   disableSortBy,
-  fetchData,
+  onPaginationChange,
   manualPagination,
+  onRenderedContentChange,
+  autoResetPage = false,
   // TODO: ask Pawel to provide design for loading and empty state!
   // loading,
   hidePagination = false,
@@ -238,6 +241,7 @@ export const Table = <D extends object>({
       manualPagination: manualPagination,
       // This means we'll also have to provide our own pageCount
       pageCount: controlledPageCount,
+      autoResetPage,
       defaultColumn,
     },
     useSortBy,
@@ -249,14 +253,26 @@ export const Table = <D extends object>({
   // Debounce our `fetchData` call for 200ms.
   // We can use non-null assertion here since we're checking existence of `fetchData` in the `useEffect` below
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const onFetchDataDebounced = useAsyncDebounce<({ pageIndex, pageSize }: FetchDataProps) => void>(fetchData!, 200)
+  const onPaginationChangeDebounced = useAsyncDebounce<(paginationChangeProps: PaginationChangeProps) => void>(onPaginationChange!, 200)
 
   // Listen for changes in pagination and use the state to fetch new data. This is a recommended way to fetch new data: https://react-table.tanstack.com/docs/faq#how-can-i-use-the-table-state-to-fetch-new-data
   useEffect(() => {
-    if (fetchData) {
-      onFetchDataDebounced({ pageIndex, pageSize })
+    if (onPaginationChange) {
+      onPaginationChangeDebounced({ pageIndex, pageSize })
     }
-  }, [fetchData, onFetchDataDebounced, pageIndex, pageSize])
+  }, [onPaginationChange, onPaginationChangeDebounced, pageIndex, pageSize])
+
+  // Debounce our `fetchData` call for 200ms.
+  // We can use non-null assertion here since we're checking existence of `fetchData` in the `useEffect` below
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const onRenderedContentChangeDebounced = useAsyncDebounce<(newPage: RowType<D>[]) => void>(onRenderedContentChange!, 200)
+
+  // Listen for changes in pagination and use the state to fetch new data. This is a recommended way to fetch new data: https://react-table.tanstack.com/docs/faq#how-can-i-use-the-table-state-to-fetch-new-data
+  useEffect(() => {
+    if (onRenderedContentChangeDebounced) {
+      onRenderedContentChangeDebounced(page)
+    }
+  }, [onRenderedContentChange, onRenderedContentChangeDebounced, page])
 
   // If at least one of the columns has footer then we display the footer row
   const hasFooter = columns.some((col) => !!col.Footer)
