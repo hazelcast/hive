@@ -269,7 +269,7 @@ export const Table = <D extends object>({
 
   // Listen for changes in pagination and use the state to fetch new data. This is a recommended way to fetch new data: https://react-table.tanstack.com/docs/faq#how-can-i-use-the-table-state-to-fetch-new-data
   useEffect(() => {
-    if (onRenderedContentChangeDebounced) {
+    if (onRenderedContentChange) {
       onRenderedContentChangeDebounced(page)
     }
   }, [onRenderedContentChange, onRenderedContentChangeDebounced, page])
