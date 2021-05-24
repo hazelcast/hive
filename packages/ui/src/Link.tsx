@@ -1,4 +1,4 @@
-import React, { AnchorHTMLAttributes, forwardRef, MouseEventHandler, MutableRefObject, ReactNode } from 'react'
+import React, { AnchorHTMLAttributes, ButtonHTMLAttributes, forwardRef, MouseEventHandler, MutableRefObject, ReactNode } from 'react'
 import { Icon as FeatherIcon } from 'react-feather'
 import cn from 'classnames'
 import { Icon } from './Icon'
@@ -59,12 +59,14 @@ export type LinkProps = IconProps & {
         href?: never
         target?: never
         rel?: never
+        type?: ButtonHTMLAttributes<HTMLButtonElement>['type']
       }
     | {
         component?: 'a'
         href: string
         target?: LinkTarget
         rel?: LinkRel | LinkRel[]
+        type?: never
       }
   )
 
@@ -93,6 +95,7 @@ export const Link = forwardRef<HTMLAnchorElement | HTMLButtonElement, LinkProps>
       href,
       rel = 'noopener',
       target = '_self',
+      type,
       onClick,
       className,
       children,
@@ -115,6 +118,7 @@ export const Link = forwardRef<HTMLAnchorElement | HTMLButtonElement, LinkProps>
       ),
       href: href,
       onClick: onClick,
+      type: type,
     }
 
     const iconComponent =

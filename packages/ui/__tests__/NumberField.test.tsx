@@ -38,7 +38,7 @@ describe('NumberField', () => {
       type: 'number',
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       inputContainerChild: expect.anything(),
-      inputContainerClassName: styles.inputContainer,
+      inputContainerClassName: `${styles.inputContainer} ${styles.buttons}`,
       inputClassName: 'amidala',
       className: 'padme',
     })

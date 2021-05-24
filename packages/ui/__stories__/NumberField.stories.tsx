@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { logger } from '@hazelcast/services'
+import { Meta, Story } from '@storybook/react'
 import { Form, Formik } from 'formik'
+import { logger } from '@hazelcast/services'
 
-import { NumberField } from '../src/NumberField'
+import { NumberField, NumberFieldProps } from '../src/NumberField'
 import { NumberFieldFormik } from '../src/NumberFieldFormik'
 
 import styles from '../src/TextField.module.scss'
@@ -15,64 +16,75 @@ const eventHandlers = {
 export default {
   title: 'Components/NumberField',
   component: NumberField,
-}
-export const Default = () => {
-  const [value, setValue] = useState<number | undefined>(42)
-  return <NumberField name="name" value={value} placeholder="Enter the name" label="Wisest jedi" {...eventHandlers} onChange={setValue} />
-}
+  parameters: {
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=479%3A273',
+    },
+  },
+  args: {
+    name: 'number',
+    placeholder: 'Enter the number',
+    label: 'Favorite number',
+    value: 42,
+    onBlur: eventHandlers.onBlur,
+  },
+} as Meta<NumberFieldProps>
 
-export const Error = () => (
-  <NumberField name="name" value={42} placeholder="Enter the name" label="Wisest jedi" error="Dark side" {...eventHandlers} />
-)
-
-export const Hovered = () => (
-  <NumberField name="name" value={42} placeholder="Enter the name" label="Wisest jedi" inputClassName={styles.hover} {...eventHandlers} />
-)
-
-export const Focused = () => (
-  <NumberField name="name" value={42} placeholder="Enter the name" label="Wisest jedi" inputClassName={styles.focus} {...eventHandlers} />
-)
-
-export const FocusedWithError = () => (
-  <NumberField
-    name="name"
-    value={42}
-    placeholder="Enter the name"
-    label="Wisest jedi"
-    inputClassName={styles.focus}
-    error="Dark side"
-    {...eventHandlers}
-  />
-)
-
-export const Disabled = () => (
-  <NumberField name="name" value={42} placeholder="Enter the name" label="Wisest jedi" disabled {...eventHandlers} />
-)
-
-export const DisabledDecrement = () => {
-  return <NumberField name="name" value={42} placeholder="Enter the name" label="Wisest jedi" min={42} {...eventHandlers} />
+const Template: Story<NumberFieldProps> = ({ value: initValue, ...args }) => {
+  const [value, setValue] = useState<number | undefined>(initValue)
+  return <NumberField {...args} value={value} onChange={setValue} />
 }
 
-export const DisabledIncrement = () => {
-  return <NumberField name="name" value={42} placeholder="Enter the name" label="Wisest jedi" max={42} {...eventHandlers} />
+export const Default = Template.bind({})
+Default.args = {
+  value: undefined,
 }
 
-export const Empty = () => {
-  return <NumberField name="name" placeholder="Enter the name" label="Wisest jedi" max={42} {...eventHandlers} />
+export const Hovered = Template.bind({})
+Hovered.args = {
+  inputClassName: styles.hover,
 }
 
-export const WithHelperText = () => (
-  <NumberField
-    name="name"
-    value={42}
-    label="Wisest jedi"
-    placeholder="Enter the name"
-    helperText="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-    {...eventHandlers}
-  />
-)
+export const Focused = Template.bind({})
+Focused.args = {
+  inputClassName: styles.focus,
+}
 
-export const NumberFieldWrappedInFormik = () => {
+export const WithError = Template.bind({})
+WithError.args = {
+  error: 'Dark side',
+}
+
+export const FocusedWithError = Template.bind({})
+FocusedWithError.args = {
+  ...Focused.args,
+  ...WithError.args,
+}
+
+export const Disabled = Template.bind({})
+Disabled.args = {
+  disabled: true,
+}
+
+export const WithMinAndMax = Template.bind({})
+WithMinAndMax.args = {
+  value: 42,
+  min: 42,
+  max: 44,
+}
+
+export const WithHelperText = Template.bind({})
+WithHelperText.args = {
+  helperText: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+}
+
+export const WithoutIncAndDecButtons = Template.bind({})
+WithoutIncAndDecButtons.args = {
+  showIconButtons: false,
+}
+
+export const WrappedInFormik = () => {
   type Values = {
     ram: number
   }
@@ -92,7 +104,7 @@ export const NumberFieldWrappedInFormik = () => {
       {({ values }) => (
         <Form>
           Values: {JSON.stringify(values)}
-          <NumberFieldFormik<Values> name="ram" label="Name" validate={validateRAM} />
+          <NumberFieldFormik<Values> name="ram" label="Name" validate={validateRAM} min={0} max={64} />
           <button type="submit">Submit</button>
         </Form>
       )}

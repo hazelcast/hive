@@ -176,6 +176,7 @@ export type SelectFieldExtraProps<V> = {
   isClearable?: boolean
   options: GroupedOptionsType<SelectFieldOption<V>> | OptionsType<SelectFieldOption<V>>
   label: string
+  showAriaLabel?: boolean
   helperText?: HelpProps['helperText']
   className?: string
   placeholder?: string
@@ -248,6 +249,7 @@ export const SelectField = <V extends string | number = string>({
   isSearchable = true,
   label,
   labelClassName,
+  showAriaLabel = false,
   menuPortalTarget = 'body',
   name,
   onChange,
@@ -320,6 +322,7 @@ export const SelectField = <V extends string | number = string>({
     inputId: id,
     className: 'hz-select-field',
     classNamePrefix: 'hz-select-field',
+    'aria-label': showAriaLabel ? label : undefined,
     // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute
     'aria-errormessage': error && errorId(id),
     'aria-invalid': !!error,
@@ -368,7 +371,7 @@ export const SelectField = <V extends string | number = string>({
         className,
       )}
     >
-      <Label id={id} label={label} className={cn(styles.label, labelClassName)} />
+      {!showAriaLabel && <Label id={id} label={label} className={cn(styles.label, labelClassName)} />}
       <div className={styles.selectBlock}>
         {iconLeft && iconLeftAriaLabel && (
           <Icon

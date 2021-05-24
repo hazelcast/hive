@@ -7,10 +7,6 @@ $inputMargin: c.$iconSizeSmall + $buttonMargin * 2;
   position: relative;
 
   > input {
-    padding-left: 0;
-    padding-right: 0;
-    margin-left: $inputMargin;
-    margin-right: $inputMargin;
     /* doiuse-disable css-appearance */
     -moz-appearance: textfield;
     &::-webkit-inner-spin-button,
@@ -21,16 +17,23 @@ $inputMargin: c.$iconSizeSmall + $buttonMargin * 2;
     /* doiuse-enable css-appearance */
   }
 
-  .decrement {
-    position: absolute;
-    left: $buttonMargin;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-  .increment {
-    position: absolute;
-    right: $buttonMargin;
-    top: 50%;
-    transform: translateY(-50%);
+  &.buttons {
+    > input {
+      padding-left: $inputMargin;
+      padding-right: $inputMargin;
+    }
+
+    .decrement {
+      position: absolute;
+      left: $buttonMargin;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .increment {
+      position: absolute;
+      right: $buttonMargin;
+      top: 50%;
+      transform: translateY(-50%);
+    }
   }
 }
