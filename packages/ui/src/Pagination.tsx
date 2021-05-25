@@ -12,6 +12,7 @@ import { IconButton } from './IconButton'
 import { useDimensions } from './hooks/useDimensions'
 
 import styles from './Pagination.module.scss'
+import { Link } from './Link'
 
 export type GetShownItemsRangeParams = {
   currentPage: number
@@ -113,6 +114,22 @@ export const Pagination: FC<PaginationProps> = ({
     [pageSizeOptions],
   )
 
+  const RowsPerPageSelect = useDeepCompareMemo(
+    () => (
+      <SelectField<number>
+        className={styles.rowsPerPage}
+        label="Rows"
+        labelClassName={styles.label}
+        name="rowsPerPage"
+        value={pageSize}
+        options={rowsPerPageOptions}
+        onChange={setPageSize}
+        isSearchable={false}
+      />
+    ),
+    [rowsPerPageOptions, pageSize],
+  )
+
   const submitPageJump = useCallback(
     ({ page }: PageJumpFormValues) => {
       goToPage(page)
@@ -120,22 +137,7 @@ export const Pagination: FC<PaginationProps> = ({
     [goToPage],
   )
 
-  const RowsPerPage = useDeepCompareMemo(
-    () => (
-      <SelectField<number>
-        className={styles.rowsPerPage}
-        labelClassName={styles.label}
-        name="rowsPerPage"
-        value={pageSize}
-        label="Rows per page"
-        options={rowsPerPageOptions}
-        onChange={setPageSize}
-      />
-    ),
-    [rowsPerPageOptions, pageSize],
-  )
-
-  const PageJump = useMemo(() => {
+  const PageJumpForm = useMemo(() => {
     if (pageCount > 1) {
       return (
         <Formik<PageJumpFormValues>
@@ -145,16 +147,19 @@ export const Pagination: FC<PaginationProps> = ({
           enableReinitialize
           onSubmit={submitPageJump}
         >
-          <Form>
+          <Form className={styles.pageJumpForm}>
             <NumberFieldFormik<PageJumpFormValues>
-              className={styles.pageJump}
-              labelClassName={styles.label}
+              showIconButtons={false}
               inputContainerClassName={styles.inputContainer}
               name="page"
-              label="Go to"
+              label="Go to page"
+              showAriaLabel
               min={1}
               max={pageCount}
             />
+            <Link component="button" type="submit">
+              Go
+            </Link>
           </Form>
         </Formik>
       )
@@ -223,7 +228,14 @@ export const Pagination: FC<PaginationProps> = ({
 
   return (
     <div ref={containerWidthRef} className={styles.container}>
-      {!displaySmall && RowsPerPage}
+      {displaySmall && moreOptions ? (
+        <>
+          {PageJumpForm}
+          {RowsPerPageSelect}
+        </>
+      ) : (
+        PageButtons
+      )}
 
       {!displaySmall && (
         <span
@@ -231,17 +243,8 @@ export const Pagination: FC<PaginationProps> = ({
           className={styles.shownItems}
         >{`${firstItemShown} – ${lastItemShown} of ${numberOfItems}`}</span>
       )}
-
-      {displaySmall && moreOptions ? (
-        <>
-          {RowsPerPage}
-          {PageJump}
-        </>
-      ) : (
-        PageButtons
-      )}
-
-      {!displaySmall && PageJump}
+      {!displaySmall && PageJumpForm}
+      {!displaySmall && RowsPerPageSelect}
 
       {displaySmall && (
         // TODO: button should display an overlay with more options

@@ -35,6 +35,7 @@ type TextFieldCoreProps<T extends TextFieldTypes> = {
 }
 export type TextFieldExtraProps<T extends TextFieldTypes> = {
   label: string
+  showAriaLabel?: boolean
   helperText?: HelpProps['helperText']
   className?: string
   labelClassName?: string
@@ -84,13 +85,14 @@ export const TextField = <T extends TextFieldTypes>({
   inputTrailingIconLabel,
   label,
   labelClassName,
+  showAriaLabel = false,
   name,
   onBlur,
   onChange,
   onKeyPress,
   placeholder,
   required,
-  type,
+  type = 'text',
   value,
   ...htmlAttrs
 }: TextFieldProps<T>) => {
@@ -107,22 +109,23 @@ export const TextField = <T extends TextFieldTypes>({
           [styles.disabled]: disabled,
           [styles.hasError]: error,
           [styles.withIcon]: inputIcon,
-          [styles.empty]: !value,
+          [styles.empty]: value === undefined,
         },
         className,
       )}
     >
-      <Label id={id} label={label} className={cn(styles.label, labelClassName)} />
+      {!showAriaLabel && <Label id={id} label={label} className={cn(styles.label, labelClassName)} />}
       <div className={styles.inputBlock}>
         <div className={cn(styles.inputContainer, inputContainerClassName)}>
           <input
-            type={type ?? 'text'}
+            type={type}
             id={id}
             value={value ?? ''}
             name={name}
             onChange={onChange}
             onBlur={onBlur}
             onKeyPress={onKeyPress}
+            aria-label={showAriaLabel ? label : undefined}
             // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute
             aria-invalid={!!error}
             aria-required={required}

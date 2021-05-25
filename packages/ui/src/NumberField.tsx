@@ -26,7 +26,9 @@ export type NumberFieldExtraProps = {
   max?: number
   defaultValue?: number
   numberType?: 'int' | 'float'
+  showIconButtons?: boolean
   label: string
+  showAriaLabel?: boolean
   helperText?: HelpProps['helperText']
   className?: string
   labelClassName?: string
@@ -35,7 +37,8 @@ export type NumberFieldExtraProps = {
   errorClassName?: string
 } & DataTestProp &
   Pick<InputHTMLAttributes<HTMLInputElement>, 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'>
-type NumberFieldProps = NumberFieldCoreProps & NumberFieldExtraProps
+
+export type NumberFieldProps = NumberFieldCoreProps & NumberFieldExtraProps
 
 export const NumberField: FC<NumberFieldProps> = ({
   incrementIconAriaLabel = 'Increment',
@@ -45,6 +48,7 @@ export const NumberField: FC<NumberFieldProps> = ({
   max,
   value,
   numberType = 'int',
+  showIconButtons = true,
   inputClassName,
   inputContainerClassName,
   onChange,
@@ -80,6 +84,10 @@ export const NumberField: FC<NumberFieldProps> = ({
   }, [value, onChange, step, max])
 
   const overlay = useMemo(() => {
+    if (!showIconButtons) {
+      return undefined
+    }
+
     let decrementDisabledProps: IconButtonDisabledProps | IconButtonNotDisabledProps = {}
     if (value === undefined) {
       decrementDisabledProps = {
@@ -146,7 +154,7 @@ export const NumberField: FC<NumberFieldProps> = ({
         />
       </>
     )
-  }, [onIncrement, onDecrement, decrementIconAriaLabel, incrementIconAriaLabel, value, disabled, min, max])
+  }, [showIconButtons, onIncrement, onDecrement, decrementIconAriaLabel, incrementIconAriaLabel, value, disabled, min, max])
 
   const onChangeWrapped = useCallback(
     ({ target: { value: newValue } }: ChangeEvent<HTMLInputElement>) => {
@@ -174,7 +182,7 @@ export const NumberField: FC<NumberFieldProps> = ({
       onChange={onChangeWrapped}
       type="number"
       inputContainerChild={overlay}
-      inputContainerClassName={cn(styles.inputContainer, inputContainerClassName)}
+      inputContainerClassName={cn(styles.inputContainer, { [styles.buttons]: showIconButtons }, inputContainerClassName)}
       inputClassName={inputClassName}
       disabled={disabled}
     />

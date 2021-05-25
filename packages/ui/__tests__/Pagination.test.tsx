@@ -141,7 +141,8 @@ describe('Pagination', () => {
       labelClassName: styles.label,
       name: 'rowsPerPage',
       value: pageSize,
-      label: 'Rows per page',
+      isSearchable: false,
+      label: 'Rows',
       options: pageSizeOptions.map((opt) => ({ value: opt, label: opt.toString() })),
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       onChange: expect.anything(),
@@ -200,11 +201,11 @@ describe('Pagination', () => {
       children: expect.anything(),
     })
     expect(formik.find(NumberFieldFormik).props()).toEqual<NumberFieldFormikProps<PageJumpFormValues>>({
-      className: styles.pageJump,
       inputContainerClassName: styles.inputContainer,
-      labelClassName: styles.label,
       name: 'page',
-      label: 'Go to',
+      label: 'Go to page',
+      showAriaLabel: true,
+      showIconButtons: false,
       min: 1,
       max: pageCount,
     })
@@ -539,7 +540,8 @@ describe('Pagination', () => {
       labelClassName: styles.label,
       name: 'rowsPerPage',
       value: pageSize,
-      label: 'Rows per page',
+      isSearchable: false,
+      label: 'Rows',
       options: pageSizeOptions.map((opt) => ({ value: opt, label: opt.toString() })),
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       onChange: expect.anything(),
@@ -557,18 +559,18 @@ describe('Pagination', () => {
       children: expect.anything(),
     })
     expect(formik.find(NumberFieldFormik).props()).toEqual<NumberFieldFormikProps<PageJumpFormValues>>({
-      className: styles.pageJump,
       inputContainerClassName: styles.inputContainer,
-      labelClassName: styles.label,
       name: 'page',
-      label: 'Go to',
+      label: 'Go to page',
+      showAriaLabel: true,
+      showIconButtons: false,
       min: 1,
       max: pageCount,
     })
 
     // Back to pagination buttons
     act(() => {
-      wrapper.find(IconButton).at(2).simulate('click')
+      wrapper.find(IconButton).simulate('click')
     })
     wrapper.update()
 
