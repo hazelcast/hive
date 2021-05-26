@@ -1,13 +1,14 @@
-# frontend-shared
+# Hazelcast Hive
 
-[Lerna](https://lerna.js.org/) monorepo with shared frontend libraries for a variety of Hazelcast product offerings.  
-**Design system URL**: https://master--5f80b6aa3ceb290022dfea61.chromatic.com/
+![](./hive.png)
+
+Design system built with A11Y in mind. Developed as a [Lerna](https://lerna.js.org/) monorepo with shared frontend libraries for a variety of Hazelcast product offerings.  
+**Design system is available live at URL**: https://master--5f80b6aa3ceb290022dfea61.chromatic.com/
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 - [Installation](#installation)
-  - [Under the hood](#under-the-hood)
 - [Usage](#usage)
 - [Global CSS](#global-css)
 - [SSR](#ssr)
@@ -15,6 +16,9 @@
 - [Project structure](#project-structure)
   - [Automated visual regression testing](#automated-visual-regression-testing)
 - [How-to](#how-to)
+  - [Setup](#setup)
+    - [Under the hood](#under-the-hood)
+  - [Deploy](#deploy)
   - [Add a new shared dependency](#add-a-new-shared-dependency)
   - [Add a new local dependency (for one package only)](#add-a-new-local-dependency-for-one-package-only)
   - [Make changes to several packages and test it](#make-changes-to-several-packages-and-test-it)
@@ -30,21 +34,10 @@
 
 ## Installation
 
-```
-npm ci
-```
-
-### Under the hood
-
-It runs a regular `npm ci` and executes a `postinstall` hook. In that hook it runs:
-
-1. `lerna bootstrap --hoist`
-   Installs dependencies for all packages.
-2. `link-parent-bin`
-   Creates symlinks in `packages/*/node_modules/.bin` to all executables in `node_modules/.bin`.
-   We store shared dependencies at the root level. This command allows us to run executables from these modules in our child packages.
-3. `lerna run compile`
-   Our child packages are written in TypeScript. To import them from `node_modules` in other packages they must be compiled to JavaScript first.
+1. `npm i @hazelcast/ui` (`npm i @hazelcast/ui@next` - canary version) - set of Hive UI components
+2. `npm i @hazelcast/services` (`npm i @hazelcast/services@next` - canary version) - Hive services
+3. `npm i @hazelcast/helpers` (`npm i @hazelcast/helpers@next` - canary version) - Hiver helpers
+4. `npm i -D @hazelcast/test-helpers` (`npm i -D @hazelcast/test-helpers@next` - canary version) - Hive test helpers
 
 ## Usage
 
@@ -93,6 +86,28 @@ We use [`react-uid`](https://github.com/thearnica/react-uid) to generate stable 
 Uses stories from [Storybook](https://storybook.js.org/) as test cases. In other words, any story is going to result in a set of screenshots. Moreover, any story is required to have an associated set of screenshots. Based on [Loki](https://loki.js.org/), which uses headless Chrome to render the screenshots in Docker.
 
 ## How-to
+
+### Setup
+
+```
+npm ci
+```
+
+#### Under the hood
+
+It runs a regular `npm ci` and executes a `postinstall` hook. In that hook it runs:
+
+1. `lerna bootstrap --hoist`
+   Installs dependencies for all packages.
+2. `link-parent-bin`
+   Creates symlinks in `packages/*/node_modules/.bin` to all executables in `node_modules/.bin`.
+   We store shared dependencies at the root level. This command allows us to run executables from these modules in our child packages.
+3. `lerna run compile`
+   Our child packages are written in TypeScript. To import them from `node_modules` in other packages they must be compiled to JavaScript first.
+
+### Deploy
+
+Every commit to `master` is automatically deployed new canary version of the package (`@hazelcast/xxx@next`) by [Hazelcast Jenkins](http://jenkins.hazelcast.com/view/Frontend%20Shared/job/frontend-shared-master/).
 
 ### Add a new shared dependency
 
