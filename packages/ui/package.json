@@ -49,6 +49,7 @@
     "@codemirror/view": "0.18.8",
     "@hazelcast/helpers": "^0.1.0-alpha.0",
     "@hazelcast/services": "^0.1.0-alpha.0",
+    "@headlessui/react": "^1.2.0",
     "@icons-pack/react-simple-icons": "^3.13.0",
     "@popperjs/core": "^2.5.3",
     "@types/react-select": "3.0.26",

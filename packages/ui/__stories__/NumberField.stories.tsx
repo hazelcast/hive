@@ -10,7 +10,6 @@ import styles from '../src/TextField.module.scss'
 
 const eventHandlers = {
   onBlur: () => logger.log('blur'),
-  onChange: (newValue?: number) => logger.log('change', newValue),
 }
 
 export default {
