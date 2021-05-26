@@ -34,10 +34,10 @@ Design system built with A11Y in mind. Developed as a [Lerna](https://lerna.js.o
 
 ## Installation
 
-1. `npm i @hazelcast/ui` - set of Hive UI components
-2. `npm i @hazelcast/services` - Hive services
-3. `npm i @hazelcast/helpers` - Hiver helpers
-4. `npm i -D @hazelcast/test-helpers` - Hive test helpers
+1. `npm i @hazelcast/ui` (`npm i @hazelcast/ui@next` - canary version) - set of Hive UI components
+2. `npm i @hazelcast/services` (`npm i @hazelcast/services@next` - canary version) - Hive services
+3. `npm i @hazelcast/helpers` (`npm i @hazelcast/helpers@next` - canary version) - Hiver helpers
+4. `npm i -D @hazelcast/test-helpers` (`npm i -D @hazelcast/test-helpers@next` - canary version) - Hive test helpers
 
 ## Usage
 
