@@ -1,0 +1,65 @@
+@use '../styles/constants' as c;
+@use '../styles/helpers/' as h;
+
+.group {
+  display: flex;
+
+  .groupLabel {
+    @include h.visuallyHidden;
+  }
+
+  .option {
+    position: relative;
+    box-sizing: border-box;
+    height: c.$inputHeight;
+    min-width: c.$grid * 37.5;
+    border: 1px solid c.$colorNeutralLight;
+    border-bottom-width: 6px;
+    background-color: c.$colorNeutralLighter;
+    color: c.$colorTextSecondary;
+    cursor: pointer;
+
+    &.checked {
+      color: c.$colorText;
+      border-bottom-color: c.$colorSuccessLight;
+    }
+
+    &:first-of-type {
+      border-top-left-radius: c.$borderRadius;
+      border-bottom-left-radius: c.$borderRadius;
+    }
+
+    &:last-of-type {
+      border-top-right-radius: c.$borderRadius;
+      border-bottom-right-radius: c.$borderRadius;
+    }
+
+    // Border collapse
+    &:not(:first-of-type) {
+      margin-left: -1px;
+    }
+
+    &:hover {
+      color: c.$colorText;
+    }
+
+    &:focus {
+      // Do not remove outline for high-contrast modes
+      // https://stackoverflow.com/a/52616313
+      outline: c.$outlineWidth solid transparent;
+      color: c.$colorText;
+
+      @include h.outlineSimple;
+    }
+
+    .label {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      cursor: pointer;
+
+      @include c.typographyBodyNormal('bold');
+    }
+  }
+}
