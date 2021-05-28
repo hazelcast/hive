@@ -1,5 +1,8 @@
-@use '../styles/constants' as c;
+.button {
+  margin-right: 10px;
+}
 
-.long {
-  width: c.$buttonMaxWidth;
+.block {
+  display: block;
+  margin-bottom: 10px;
 }

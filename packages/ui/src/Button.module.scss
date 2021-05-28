@@ -38,6 +38,17 @@
     }
   }
 
+  &.small {
+    height: c.$grid * 7.5;
+    border-radius: c.$borderRadiusButtonSmall;
+
+    @include c.typographyButton('small');
+
+    .outline {
+      border-radius: c.$borderRadiusButtonSmall;
+    }
+  }
+
   &:focus,
   &.focus {
     // Do not remove outline for high-contrast modes
@@ -111,6 +122,13 @@
       width: calc(100% + #{c.$grid} * 3);
       height: calc(100% + #{c.$grid} * 3);
       /* doiuse-enable calc */
+
+      &.inset {
+        /* doiuse-disable calc */
+        width: calc(100% + #{c.$grid});
+        height: calc(100% + #{c.$grid});
+        /* doiuse-enable calc */
+      }
     }
 
     &:hover,

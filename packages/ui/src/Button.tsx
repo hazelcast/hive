@@ -13,6 +13,8 @@ import { Loader } from './Loader'
 
 export type ButtonKind = 'primary' | 'secondary' | 'danger' | 'transparent'
 
+export type ButtonSize = 'medium' | 'small'
+
 // Left icon is always present with proper aria-label attribute
 export type ButtonAccessibleIconLeftProps =
   | {
@@ -66,6 +68,7 @@ export type ButtonOutlineType = 'outline' | 'inset'
 // Common props for all button "kinds"
 export type ButtonCommonProps = {
   kind?: ButtonKind
+  size?: ButtonSize
   children: string
   capitalize?: boolean
   bodyClassName?: string
@@ -119,6 +122,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
   (
     {
       kind = 'primary',
+      size = 'medium',
       component: Component = 'button',
       className,
       bodyClassName,
@@ -167,6 +171,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
             className={cn(
               styles.button,
               {
+                [styles.small]: size === 'small',
                 [styles.primary]: kind === 'primary',
                 [styles.secondary]: kind === 'secondary',
                 [styles.danger]: kind === 'danger',
@@ -183,7 +188,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
           >
             <span data-test="button-outline" className={cn(styles.outline, { [styles.inset]: outline === 'inset' }, outlineClassName)} />
             <span className={cn(styles.body, bodyClassName)} ref={mergeRefs([ref, tooltipRef])}>
-              {loading && <Loader className={styles.iconLeft} />}
+              {loading && <Loader className={styles.iconLeft} size={size === 'small' ? 'small' : 'medium'} />}
               {iconLeft && iconLeftAriaLabel && !loading && (
                 <Icon
                   icon={iconLeft}
