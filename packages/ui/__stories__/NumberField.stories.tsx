@@ -7,10 +7,7 @@ import { NumberField, NumberFieldProps } from '../src/NumberField'
 import { NumberFieldFormik } from '../src/NumberFieldFormik'
 
 import styles from '../src/TextField.module.scss'
-
-const eventHandlers = {
-  onBlur: () => logger.log('blur'),
-}
+import storyStyles from './TextField.stories.module.scss'
 
 export default {
   title: 'Components/NumberField',
@@ -26,13 +23,19 @@ export default {
     placeholder: 'Enter the number',
     label: 'Favorite number',
     value: 42,
-    onBlur: eventHandlers.onBlur,
+    onBlur: () => logger.log('blur'),
+    className: storyStyles.field,
   },
 } as Meta<NumberFieldProps>
 
 const Template: Story<NumberFieldProps> = ({ value: initValue, ...args }) => {
   const [value, setValue] = useState<number | undefined>(initValue)
-  return <NumberField {...args} value={value} onChange={setValue} />
+  return (
+    <>
+      <NumberField {...args} value={value} onChange={setValue} />
+      <NumberField {...args} value={value} onChange={setValue} size="small" />
+    </>
+  )
 }
 
 export const Default = Template.bind({})

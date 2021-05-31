@@ -26,7 +26,7 @@ export default {
     placeholder: 'Enter the name',
     label: 'Wises jedi',
     onBlur: () => logger.log('blur'),
-    className: storyStyles.textfield,
+    className: storyStyles.field,
   },
 } as Meta<TextFieldProps<TextFieldTypes>>
 

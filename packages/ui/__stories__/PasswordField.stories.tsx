@@ -2,10 +2,12 @@ import React, { ChangeEvent, useLayoutEffect, useRef, useState } from 'react'
 import { logger } from '@hazelcast/services'
 import { Form, Formik } from 'formik'
 
-import { PasswordField, VisibleRef } from '../src'
-import { PasswordFieldFormik } from '../src'
+import { PasswordField, PasswordFieldProps, VisibleRef } from '../src/PasswordField'
+import { PasswordFieldFormik } from '../src/PasswordFieldFormik'
 
 import styles from '../src/TextField.module.scss'
+import storyStyles from './TextField.stories.module.scss'
+import { Meta, Story } from '@storybook/react'
 
 const eventHandlers = {
   onBlur: () => logger.log('blur'),
@@ -15,118 +17,81 @@ const eventHandlers = {
 export default {
   title: 'Components/PasswordField',
   component: PasswordField,
-}
-export const Default = () => {
-  const [value, setValue] = useState('password')
-  return (
-    <PasswordField
-      name="name"
-      value={value}
-      placeholder="Enter the name"
-      label="Wisest jedi"
-      {...eventHandlers}
-      onChange={({ target: { value } }) => setValue(value)}
-    />
-  )
-}
-Default.parameters = {
-  design: {
-    type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=479%3A273',
+  parameters: {
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE-Hazelcast-Design-System?node-id=510%3A3',
+    },
   },
-}
+  args: {
+    name: 'password',
+    placeholder: 'Enter the password',
+    label: 'Password',
+    value: 'password',
+    onBlur: () => logger.log('blur'),
+    className: storyStyles.field,
+  },
+} as Meta<PasswordFieldProps>
 
-export const Error = () => (
-  <PasswordField name="name" value="password" placeholder="Enter the name" label="Wisest jedi" error="Dark side" {...eventHandlers} />
-)
-
-export const Hovered = () => (
-  <PasswordField
-    name="name"
-    value="password"
-    placeholder="Enter the name"
-    label="Wisest jedi"
-    inputClassName={styles.hover}
-    {...eventHandlers}
-  />
-)
-
-export const Focused = () => (
-  <PasswordField
-    name="name"
-    value="password"
-    placeholder="Enter the name"
-    label="Wisest jedi"
-    inputClassName={styles.focus}
-    {...eventHandlers}
-  />
-)
-
-export const FocusedWithError = () => (
-  <PasswordField
-    name="name"
-    value="password"
-    placeholder="Enter the name"
-    label="Wisest jedi"
-    inputClassName={styles.focus}
-    error="Dark side"
-    {...eventHandlers}
-  />
-)
-
-export const Disabled = () => (
-  <PasswordField name="name" value="password" placeholder="Enter the name" label="Wisest jedi" disabled {...eventHandlers} />
-)
-
-export const Empty = () => <PasswordField name="name" placeholder="Enter the name" label="Wisest jedi" {...eventHandlers} />
-
-export const Autofill = () => (
-  <PasswordField
-    name="name"
-    value="password"
-    placeholder="Enter the name"
-    label="Wisest jedi"
-    className={styles.mockAutofill}
-    {...eventHandlers}
-  />
-)
-
-export const Visible = () => {
-  const visibleRef = useRef<VisibleRef>(null)
-
-  useLayoutEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    visibleRef.current!.setVisible(true)
-  }, [])
-
+const Template: Story<PasswordFieldProps> = ({ value: initValue, ...args }) => {
+  const [value, setValue] = useState<string | undefined>(initValue)
   return (
-    <PasswordField
-      name="name"
-      value="password"
-      placeholder="Enter the name"
-      label="Wisest jedi"
-      visibleRef={visibleRef}
-      {...eventHandlers}
-    />
+    <>
+      <PasswordField {...args} value={value} onChange={(e) => setValue(e.target.value)} />
+      <PasswordField {...args} value={value} onChange={(e) => setValue(e.target.value)} size="small" />
+    </>
   )
 }
 
-export const WithHelperText = () => (
-  <PasswordField
-    name="name"
-    value="password"
-    label="Wisest jedi"
-    placeholder="Enter the name"
-    helperText="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-    {...eventHandlers}
-  />
-)
+export const Default = Template.bind({})
 
-export const WithIcon = () => (
-  <PasswordField name="name" value="password" label="Wisest jedi" placeholder="Enter the name" withIcon {...eventHandlers} />
-)
+export const WithError = Template.bind({})
+WithError.args = {
+  error: 'Dark side',
+}
 
-export const PasswordWrappedInFormik = () => {
+export const Hovered = Template.bind({})
+Hovered.args = {
+  inputClassName: styles.hover,
+}
+
+export const Focused = Template.bind({})
+Focused.args = {
+  inputClassName: styles.focus,
+}
+
+export const FocusedWithError = Template.bind({})
+FocusedWithError.args = {
+  ...Focused.args,
+  ...WithError.args,
+}
+
+export const Disabled = Template.bind({})
+Disabled.args = {
+  disabled: true,
+}
+
+export const WithAutofill = Template.bind({})
+WithAutofill.args = {
+  className: styles.mockAutofill,
+}
+
+export const WithHelperText = Template.bind({})
+WithHelperText.args = {
+  helperText: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+}
+
+export const WithLockIcon = Template.bind({})
+WithLockIcon.args = {
+  withIcon: true,
+}
+
+export const InitiallyVisible = Template.bind({})
+InitiallyVisible.args = {
+  initiallyVisible: true,
+}
+
+export const WrappedInFormik = () => {
   const validatePasswordLength = (value: string | undefined) => (!value || value.length < 4 ? 'Password is too short' : undefined)
 
   type Values = {

@@ -1,19 +1,8 @@
 import { DataTestProp } from '@hazelcast/helpers'
-import React, {
-  FC,
-  FocusEvent,
-  ChangeEvent,
-  InputHTMLAttributes,
-  useMemo,
-  useState,
-  useImperativeHandle,
-  Dispatch,
-  SetStateAction,
-  Ref,
-} from 'react'
+import React, { FC, FocusEvent, ChangeEvent, InputHTMLAttributes, useMemo, useState } from 'react'
 import { Eye, EyeOff, Lock } from 'react-feather'
 
-import { TextField } from './TextField'
+import { TextField, TextFieldSize } from './TextField'
 import { IconButton, IconButtonDisabledProps, IconButtonNotDisabledProps } from './IconButton'
 import { HelpProps } from './Help'
 
@@ -31,20 +20,16 @@ export type PasswordFieldExtraProps = {
   hideIconLabel?: string
   label: string
   helperText?: HelpProps['helperText']
+  size?: TextFieldSize
   labelClassName?: string
   className?: string
   inputClassName?: string
   errorClassName?: string
   withIcon?: boolean
-  visibleRef?: Ref<VisibleRef>
+  initiallyVisible?: boolean
 } & DataTestProp &
   Pick<InputHTMLAttributes<HTMLInputElement>, 'id' | 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'>
-type PasswordFieldProps = PasswordFieldCoreProps & PasswordFieldExtraProps
-
-export type VisibleRef = {
-  visible: boolean
-  setVisible: Dispatch<SetStateAction<boolean>>
-}
+export type PasswordFieldProps = PasswordFieldCoreProps & PasswordFieldExtraProps
 
 export const PasswordField: FC<PasswordFieldProps> = ({
   showIconLabel = 'Show password',
@@ -52,10 +37,10 @@ export const PasswordField: FC<PasswordFieldProps> = ({
   inputClassName,
   withIcon,
   disabled,
-  visibleRef,
+  initiallyVisible = false,
   ...props
 }) => {
-  const [visible, setVisible] = useState(false)
+  const [visible, setVisible] = useState(initiallyVisible)
 
   const overlay = useMemo(() => {
     let disabledProps: IconButtonDisabledProps | IconButtonNotDisabledProps = {}
@@ -82,15 +67,6 @@ export const PasswordField: FC<PasswordFieldProps> = ({
       />
     )
   }, [visible, hideIconLabel, showIconLabel, disabled])
-
-  useImperativeHandle(
-    visibleRef,
-    () => ({
-      visible,
-      setVisible,
-    }),
-    [visible, setVisible],
-  )
 
   return (
     <TextField

@@ -12,7 +12,7 @@ import { Help, HelpProps, helpTooltipId } from './Help'
 
 import styles from './TextField.module.scss'
 
-export type ButtonSize = 'medium' | 'small'
+export type TextFieldSize = 'medium' | 'small'
 
 type TextFieldTrailingIcon =
   | {
@@ -37,7 +37,7 @@ export type TextFieldExtraProps<T extends TextFieldTypes> = {
   label: string
   showAriaLabel?: boolean
   helperText?: HelpProps['helperText']
-  size?: ButtonSize
+  size?: TextFieldSize
   className?: string
   labelClassName?: string
   inputContainerClassName?: string

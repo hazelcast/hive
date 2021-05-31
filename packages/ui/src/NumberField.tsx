@@ -4,7 +4,7 @@ import { Plus, Minus } from 'react-feather'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 import cn from 'classnames'
 
-import { TextField } from './TextField'
+import { TextField, TextFieldSize } from './TextField'
 import { IconButton, IconButtonDisabledProps, IconButtonNotDisabledProps } from './IconButton'
 import { HelpProps } from './Help'
 
@@ -30,6 +30,7 @@ export type NumberFieldExtraProps = {
   label: string
   showAriaLabel?: boolean
   helperText?: HelpProps['helperText']
+  size?: TextFieldSize
   className?: string
   labelClassName?: string
   inputClassName?: string
