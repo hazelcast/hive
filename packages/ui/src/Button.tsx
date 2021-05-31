@@ -188,7 +188,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
           >
             <span data-test="button-outline" className={cn(styles.outline, { [styles.inset]: outline === 'inset' }, outlineClassName)} />
             <span className={cn(styles.body, bodyClassName)} ref={mergeRefs([ref, tooltipRef])}>
-              {loading && <Loader className={styles.iconLeft} size={size === 'small' ? 'small' : 'medium'} />}
+              {loading && <Loader className={styles.iconLeft} size={size} />}
               {iconLeft && iconLeftAriaLabel && !loading && (
                 <Icon
                   icon={iconLeft}

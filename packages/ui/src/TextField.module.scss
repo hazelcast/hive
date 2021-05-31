@@ -111,6 +111,10 @@ $marginLeftWithIcon: c.$grid * 5;
     .inputContainer {
       height: c.$inputHeightSmall;
     }
+
+    .inputIconTrailing {
+      right: 0;
+    }
   }
 
   &.mockAutofill {

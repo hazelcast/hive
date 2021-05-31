@@ -156,6 +156,7 @@ export const TextField = <T extends TextFieldTypes>({
               ariaLabel={inputTrailingIconLabel}
               containerClassName={styles.inputIconContainer}
               className={styles.inputIconTrailing}
+              size={size}
             />
           )}
         </div>
