@@ -107,6 +107,12 @@ $marginLeftWithIcon: c.$grid * 5;
     }
   }
 
+  &.small {
+    .inputContainer {
+      height: c.$inputHeightSmall;
+    }
+  }
+
   &.mockAutofill {
     input {
       @include h.mockChromeAutofill;

@@ -9,7 +9,7 @@
   border: none;
   padding: 0;
   border-radius: c.$borderRadius;
-  height: c.$grid * 10;
+  height: c.$inputHeight;
   max-width: c.$buttonMaxWidth;
   // for <a> element
   text-decoration: none;
@@ -39,7 +39,7 @@
   }
 
   &.small {
-    height: c.$grid * 7.5;
+    height: c.$inputHeightSmall;
     border-radius: c.$borderRadiusButtonSmall;
 
     @include c.typographyButton('small');
