@@ -9,11 +9,14 @@ export type SegmentedControlOption = {
   label: string
 }
 
+export type SegmentedControlSize = 'medium' | 'small'
+
 export type SegmentedControlProps = {
   value: string
   onChange: (value: string) => void
   label: string
   options: SegmentedControlOption[]
+  size?: SegmentedControlSize
   className?: string
   optionClassName?: string
   labelClassName?: string
@@ -24,11 +27,12 @@ export const SegmentedControl: FC<SegmentedControlProps> = ({
   value,
   onChange,
   options,
+  size = 'medium',
   className,
   optionClassName,
   labelClassName,
 }) => (
-  <RadioGroup className={cn(styles.group, className)} value={value} onChange={onChange}>
+  <RadioGroup className={cn(styles.group, { [styles.small]: size === 'small' }, className)} value={value} onChange={onChange}>
     <RadioGroup.Label className={styles.groupLabel}>{label}</RadioGroup.Label>
     {options.map((option) => (
       <RadioGroup.Option
