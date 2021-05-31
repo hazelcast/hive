@@ -1,6 +1,9 @@
 import React from 'react'
+import { Form, Formik } from 'formik'
+import { logger } from '@hazelcast/services'
 import { Checkbox } from '../src/'
 import { CodeEditor, EditorViewRef } from '../src/CodeEditor'
+import { CodeEditorFormik } from '../src/CodeEditorFormik'
 
 // manually import a language
 import { javascript } from '@codemirror/legacy-modes/mode/javascript'
@@ -71,4 +74,30 @@ export const Default = () => {
       </div>
     </div>
   )
+}
+
+export const CodeEditorWrappedInFormik = () => {
+  type Values = {
+    source: boolean
+  }
+  const validate = (value: boolean) => (value.length < 5 ? 'min. 5 chars please!' : undefined)
+
+  const TestForm = () => (
+    <Formik<Values>
+      initialValues={{
+        source: false,
+      }}
+      onSubmit={(values) => logger.log('submit', values)}
+    >
+      {({ values }) => (
+        <Form>
+          Values: {JSON.stringify(values)}
+          <CodeEditorFormik<Values> name="source" validate={validate} label="Turbo Mode" />
+          <button type="submit">Submit</button>
+        </Form>
+      )}
+    </Formik>
+  )
+
+  return <TestForm />
 }

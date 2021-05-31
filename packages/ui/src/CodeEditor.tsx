@@ -37,9 +37,17 @@
   to the EditorView instance created behind the scenes. (See the story of this component)
 */
 
-import React, { FC, useEffect, useRef, useImperativeHandle, MutableRefObject } from 'react'
+import React, { FC, useEffect, useRef, useImperativeHandle, MutableRefObject, FocusEvent } from 'react'
 import cn from 'classnames'
-import { EditorView, ViewUpdate, highlightSpecialChars, drawSelection, highlightActiveLine, keymap } from '@codemirror/view'
+import {
+  EditorView,
+  ViewUpdate,
+  highlightSpecialChars,
+  drawSelection,
+  highlightActiveLine,
+  keymap,
+  DOMEventHandlers,
+} from '@codemirror/view'
 import { EditorState, Extension } from '@codemirror/state'
 import { history, historyKeymap } from '@codemirror/history'
 import { foldGutter, foldKeymap } from '@codemirror/fold'
@@ -57,6 +65,7 @@ import { lintKeymap } from '@codemirror/lint'
 import { StreamLanguage } from '@codemirror/stream-parser'
 
 import { useDeepCompareMemo } from './hooks/useDeepCompareMemo'
+import { Error, errorId } from './Error'
 import styles from './CodeEditor.module.scss'
 
 // Export these very common CodeMirror types for ease of use
@@ -64,6 +73,7 @@ export { EditorView, EditorState }
 
 // Common options for the component.
 // More advanced configuration of the underlying component should be done directly via a handle.
+// Note that changing these options will recreate the CodeMirror DOM object.
 export type CodeOptions = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   language?: any
@@ -80,10 +90,14 @@ type OnChangeCallback = (val: string) => void
 export type CodeEditorProps = {
   value?: string
   className?: string
+  name: string
   options?: CodeOptions
   onChange?: OnChangeCallback
+  onBlur?: (e: FocusEvent) => void
   customExtensions?: Extension[]
   innerRef?: MutableRefObject<EditorViewRef | null>
+  error?: string
+  errorClassName?: string
 }
 
 const DEFAULT_OPTIONS: CodeOptions = {
@@ -92,7 +106,18 @@ const DEFAULT_OPTIONS: CodeOptions = {
   lineNumbers: true,
 }
 
-export const CodeEditor: FC<CodeEditorProps> = ({ value, className, options = {}, onChange, customExtensions, innerRef }) => {
+export const CodeEditor: FC<CodeEditorProps> = ({
+  name,
+  value,
+  className,
+  options = {},
+  onChange,
+  onBlur,
+  customExtensions,
+  innerRef,
+  error,
+  errorClassName,
+}) => {
   const parentRef = useRef<HTMLDivElement | null>(null)
   const cm = useRef<EditorView | null>(null)
   const optionsMemoized = useDeepCompareMemo(() => options, [options])
@@ -120,6 +145,14 @@ export const CodeEditor: FC<CodeEditorProps> = ({ value, className, options = {}
           const cb = onChangeRef.current
           if (cb) cb(val)
         })
+
+      const domEventsExtension = () => {
+        const eventHandlers: DOMEventHandlers<any> = {
+          blur: (event) => onBlur && onBlur(event as any),
+        }
+
+        return EditorView.domEventHandlers(eventHandlers)
+      }
 
       // configure/enable very common features
       const basicExtensions = [
@@ -154,6 +187,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({ value, className, options = {}
         ...(opts.lineWrapping ? [EditorView.lineWrapping] : []),
         ...(opts.lineNumbers ? [foldGutter(), lineNumbers()] : []),
         updateListenerExtension(),
+        domEventsExtension(),
       ]
 
       cm.current = new EditorView({
@@ -163,6 +197,9 @@ export const CodeEditor: FC<CodeEditorProps> = ({ value, className, options = {}
         }),
         parent: parentRef.current,
       })
+
+      // set the .id attr. of the dom element (formik demands this)
+      cm.current.contentDOM.id = name
 
       return () => {
         // destroy cm. (mind you; this component will be recreated whenever options are modified.)
@@ -187,8 +224,9 @@ export const CodeEditor: FC<CodeEditorProps> = ({ value, className, options = {}
   }, [value])
 
   return (
-    <div className={cn(styles.container, className)}>
-      <div ref={parentRef}></div>
-    </div>
+    <>
+      <div className={cn(styles.container, className)} id={name} ref={parentRef}></div>
+      <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={name} />
+    </>
   )
 }
