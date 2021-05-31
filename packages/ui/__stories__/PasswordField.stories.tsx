@@ -1,18 +1,13 @@
-import React, { ChangeEvent, useLayoutEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
+import { Meta, Story } from '@storybook/react'
 import { logger } from '@hazelcast/services'
 import { Form, Formik } from 'formik'
 
-import { PasswordField, PasswordFieldProps, VisibleRef } from '../src/PasswordField'
+import { PasswordField, PasswordFieldProps } from '../src/PasswordField'
 import { PasswordFieldFormik } from '../src/PasswordFieldFormik'
 
 import styles from '../src/TextField.module.scss'
 import storyStyles from './TextField.stories.module.scss'
-import { Meta, Story } from '@storybook/react'
-
-const eventHandlers = {
-  onBlur: () => logger.log('blur'),
-  onChange: (e: ChangeEvent<HTMLInputElement>) => logger.log('change', e.target.value),
-}
 
 export default {
   title: 'Components/PasswordField',

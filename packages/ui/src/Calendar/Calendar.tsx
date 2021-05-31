@@ -13,11 +13,15 @@ const DATE_FORMAT_WITH_TIME = 'yyyy-MM-dd hh:mm a'
 
 const CalendarPopperContainer: FC = ({ children }) => <div data-test="date-picker-popper-container">{children}</div>
 
+export type CalendarSize = 'medium' | 'small'
+
 export type CalendarProps = {
   containerClassName?: string
   date: ReactDatePickerProps['selected']
   inputLabel: string
+  inputClassName?: string
   onDateChange: ReactDatePickerProps['onChange']
+  size?: CalendarSize
 } & Omit<ReactDatePickerProps, 'value' | 'onChange'>
 
 export const Calendar: FC<CalendarProps> = ({
@@ -26,8 +30,10 @@ export const Calendar: FC<CalendarProps> = ({
   containerClassName,
   date,
   inputLabel,
+  inputClassName,
   onDateChange,
   showTimeInput,
+  size = 'medium',
   ...props
 }) => (
   <div
@@ -42,12 +48,12 @@ export const Calendar: FC<CalendarProps> = ({
     <DatePicker
       {...props}
       calendarClassName={cn(styles.calendar, calendarClassName)}
-      className={cn(styles.input, className)}
+      className={className}
       /*
        * Note: The library instantiates the component using React.cloneElement
        * Source: https://github.com/Hacker0x01/react-datepicker/blob/master/src/index.jsx#L926
        */
-      customInput={<CalendarInput label={inputLabel} />}
+      customInput={<CalendarInput label={inputLabel} textFieldSize={size} className={inputClassName} />}
       customTimeInput={<CalendarTime />}
       dateFormat={showTimeInput ? DATE_FORMAT_WITH_TIME : DATE_FORMAT}
       onChange={onDateChange}

@@ -1,80 +1,58 @@
-import React, { useCallback, useState } from 'react'
-import { CalendarRange } from '../src/Calendar/CalendarRange'
+import { Meta, Story } from '@storybook/react'
+import React, { useState } from 'react'
+import cn from 'classnames'
+
+import { CalendarRange, CalendarRangeProps } from '../src/Calendar/CalendarRange'
 
 import utilsStyles from './utils.scss'
+import storyStyles from './Calendar.stories.module.scss'
 
 export default {
   title: 'Components/CalendarRange',
   component: CalendarRange,
-}
-
-const date = new Date(2020, 11, 20)
-const onDateChange = (d: Date) => console.log(d)
-
-export const Default = () => {
-  const [startDate, setStartDate] = useState<Date>(date)
-  const [endDate, setEndDate] = useState<Date>(date)
-
-  const onStartDateChange = useCallback(
-    (d: Date) => {
-      setStartDate(d)
+  parameters: {
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE-Hazelcast-Design-System?node-id=9858%3A347',
     },
-    [setStartDate],
-  )
+  },
+  args: {
+    startDate: new Date(2020, 11, 20),
+    endDate: new Date(2020, 11, 21),
+    inputLabel: 'Choose Date',
+  },
+} as Meta<CalendarRangeProps>
 
-  const onEndDateChange = useCallback(
-    (d: Date) => {
-      setEndDate(d)
-    },
-    [setEndDate],
-  )
-
+const Template: Story<CalendarRangeProps> = ({ startDate: initialStartDate, endDate: initialEndDate, ...args }) => {
+  const [startDate, setStartDate] = useState<Date | null | undefined>(initialStartDate)
+  const [endDate, setEndDate] = useState<Date | null | undefined>(initialEndDate)
   return (
-    <div className={utilsStyles.calendarWrapper}>
-      <CalendarRange startDate={startDate} onStartDateChange={onStartDateChange} endDate={endDate} onEndDateChange={onEndDateChange} />
-    </div>
-  )
-}
-
-export const StartOpen = () => (
-  <div className={utilsStyles.calendarWrapper}>
-    <CalendarRange startDate={date} onStartDateChange={onDateChange} endDate={date} onEndDateChange={onDateChange} startOpen />
-  </div>
-)
-
-export const EndOpen = () => (
-  <div className={utilsStyles.calendarWrapper}>
-    <CalendarRange startDate={date} onStartDateChange={onDateChange} endDate={date} onEndDateChange={onDateChange} endOpen />
-  </div>
-)
-
-export const WithTimeInputs = () => {
-  const [startDate, setStartDate] = useState<Date>(date)
-  const [endDate, setEndDate] = useState<Date>(date)
-
-  const onStartDateChange = useCallback(
-    (d: Date) => {
-      setStartDate(d)
-    },
-    [setStartDate],
-  )
-
-  const onEndDateChange = useCallback(
-    (d: Date) => {
-      setEndDate(d)
-    },
-    [setEndDate],
-  )
-
-  return (
-    <div className={utilsStyles.calendarWrapper}>
+    <div className={cn(storyStyles.container, utilsStyles.row)}>
       <CalendarRange
+        {...args}
         startDate={startDate}
-        onStartDateChange={onStartDateChange}
         endDate={endDate}
-        onEndDateChange={onEndDateChange}
-        showTimeInput
+        onStartDateChange={(d: Date) => setStartDate(d)}
+        onEndDateChange={(d: Date) => setEndDate(d)}
       />
     </div>
   )
+}
+
+export const Default = Template.bind({})
+
+export const Open = Template.bind({})
+Open.args = {
+  startOpen: true,
+  endOpen: true,
+}
+
+export const WithTime = Template.bind({})
+WithTime.args = {
+  showTimeInput: true,
+}
+
+export const Small = Template.bind({})
+Small.args = {
+  size: 'small',
 }
