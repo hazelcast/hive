@@ -9,7 +9,7 @@
   border: none;
   padding: 0;
   border-radius: c.$borderRadius;
-  height: c.$grid * 10;
+  height: c.$inputHeight;
   max-width: c.$buttonMaxWidth;
   // for <a> element
   text-decoration: none;
@@ -35,6 +35,17 @@
     &.inset {
       width: 100%;
       height: 100%;
+    }
+  }
+
+  &.small {
+    height: c.$inputHeightSmall;
+    border-radius: c.$borderRadiusButtonSmall;
+
+    @include c.typographyButton('small');
+
+    .outline {
+      border-radius: c.$borderRadiusButtonSmall;
     }
   }
 
@@ -111,6 +122,13 @@
       width: calc(100% + #{c.$grid} * 3);
       height: calc(100% + #{c.$grid} * 3);
       /* doiuse-enable calc */
+
+      &.inset {
+        /* doiuse-disable calc */
+        width: calc(100% + #{c.$grid});
+        height: calc(100% + #{c.$grid});
+        /* doiuse-enable calc */
+      }
     }
 
     &:hover,

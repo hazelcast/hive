@@ -12,16 +12,16 @@ import { Help, HelpProps, helpTooltipId } from './Help'
 
 import styles from './TextField.module.scss'
 
+export type TextFieldSize = 'medium' | 'small'
+
 type TextFieldTrailingIcon =
   | {
       inputTrailingIcon: IconType
       inputTrailingIconLabel: string
-      inputTrailingIconClassName?: string
     }
   | {
       inputTrailingIcon?: never
       inputTrailingIconLabel?: never
-      inputTrailingIconClassName?: never
     }
 
 export type TextFieldTypes = 'email' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'url' | undefined
@@ -37,6 +37,7 @@ export type TextFieldExtraProps<T extends TextFieldTypes> = {
   label: string
   showAriaLabel?: boolean
   helperText?: HelpProps['helperText']
+  size?: TextFieldSize
   className?: string
   labelClassName?: string
   inputContainerClassName?: string
@@ -50,7 +51,7 @@ export type TextFieldExtraProps<T extends TextFieldTypes> = {
   Pick<InputHTMLAttributes<HTMLInputElement>, 'id' | 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'> &
   TextFieldTrailingIcon
 
-type TextFieldProps<T extends TextFieldTypes> = TextFieldCoreProps<T> & TextFieldExtraProps<T>
+export type TextFieldProps<T extends TextFieldTypes> = TextFieldCoreProps<T> & TextFieldExtraProps<T>
 
 /**
  * ### Purpose
@@ -58,13 +59,11 @@ type TextFieldProps<T extends TextFieldTypes> = TextFieldCoreProps<T> & TextFiel
  * Text fields accept several types of data and can impose various restrictions to ensure you get what you need from users. And help and error guidance to ensure they know what to enter.
  *
  * ### General Info
- * - Text Field is available in 3 variations: Small (height of 24 px), Normal (height of 32 px) and Large (height of 40 px). The use depends mainly on the space in UI.
+ * - Text Field is available in 2 variations: `small` (height of 30 px) and `medium` (height of 40 px). The use depends mainly on the space in UI.
  * - All of the variations can be either with the label, or without label.
  * - Standard label alignment is left-aligned with the field underneath.
- * - For the placeholder text, use sentence case and left-align.
  * - Mostly all of the fields are required. If some of them are not, use text "Optional" behind the label.
- * - If there is helper needed for the label, use Help icon behind the label. After clicking on the Help icon, tooltip will be shown.
- * - If needed, you can use icon on the right side inside the Text Input (e.g. Eye icon to show / hide password).
+ * - If needed, you can use icon on the left side or on the right side inside the Text Input (e.g. Eye icon to show / hide password).
  *
  * ### Usage
  * Use a text input when the expected user input is a single line of text.
@@ -87,6 +86,7 @@ export const TextField = <T extends TextFieldTypes>({
   labelClassName,
   showAriaLabel = false,
   name,
+  size = 'medium',
   onBlur,
   onChange,
   onKeyPress,
@@ -106,6 +106,7 @@ export const TextField = <T extends TextFieldTypes>({
       className={cn(
         styles.container,
         {
+          [styles.small]: size === 'small',
           [styles.disabled]: disabled,
           [styles.hasError]: error,
           [styles.withIcon]: inputIcon,
@@ -155,6 +156,7 @@ export const TextField = <T extends TextFieldTypes>({
               ariaLabel={inputTrailingIconLabel}
               containerClassName={styles.inputIconContainer}
               className={styles.inputIconTrailing}
+              size={size}
             />
           )}
         </div>

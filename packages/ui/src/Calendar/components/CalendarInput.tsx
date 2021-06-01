@@ -2,15 +2,17 @@ import React, { FC, ChangeEvent, InputHTMLAttributes, forwardRef } from 'react'
 import { Calendar } from 'react-feather'
 
 import { TextField } from '../../TextField'
+import { CalendarSize } from '../Calendar'
 
 export type CalendarInputInternalProps = {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
 } & CalendarInputExtraProps &
   Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'>
 
-export const CalendarInputInternal: FC<CalendarInputInternalProps> = ({ className, value, onChange, label, ...props }) => (
+export const CalendarInputInternal: FC<CalendarInputInternalProps> = ({ className, value, onChange, label, textFieldSize, ...props }) => (
   <TextField<'text'>
     {...props}
+    size={textFieldSize}
     data-test="calendar-input"
     value={value?.toString()}
     onChange={onChange}
@@ -25,6 +27,8 @@ export const CalendarInputInternal: FC<CalendarInputInternalProps> = ({ classNam
 
 export type CalendarInputExtraProps = {
   label: string
+  textFieldSize?: CalendarSize
+  className?: string
 }
 
 /*

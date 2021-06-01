@@ -22,6 +22,7 @@ export const Loader: FC<LoaderProps> = ({ className, size = 'medium', kind = 'in
       styles.loader,
       {
         [styles.small]: size === 'small',
+        [styles.smallMedium]: size === 'smallMedium',
         [styles.medium]: size === 'medium',
         [styles.large]: size === 'large',
         [styles.xlarge]: size === 'xlarge',
