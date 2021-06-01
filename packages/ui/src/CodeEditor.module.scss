@@ -16,6 +16,7 @@
 
     // use our own outline
     @include h.outlineFormField;
+
     border: c.$borderWidth solid c.$colorAccessibilityOutline;
   }
   :global .cm-scroller {

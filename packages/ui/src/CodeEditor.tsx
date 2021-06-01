@@ -39,6 +39,7 @@
 
 import React, { FC, useEffect, useRef, useImperativeHandle, MutableRefObject, FocusEvent } from 'react'
 import cn from 'classnames'
+import { useUID } from 'react-uid'
 import {
   EditorView,
   ViewUpdate,
@@ -65,7 +66,7 @@ import { lintKeymap } from '@codemirror/lint'
 import { StreamLanguage } from '@codemirror/stream-parser'
 
 import { useDeepCompareMemo } from './hooks/useDeepCompareMemo'
-import { Error, errorId } from './Error'
+import { Error } from './Error'
 import styles from './CodeEditor.module.scss'
 
 // Export these very common CodeMirror types for ease of use
@@ -120,6 +121,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({
   error,
   errorClassName,
 }) => {
+  const id = useUID()
   const parentRef = useRef<HTMLDivElement | null>(null)
   const cm = useRef<EditorView | null>(null)
   const optionsMemoized = useDeepCompareMemo(() => options, [options])
@@ -149,7 +151,8 @@ export const CodeEditor: FC<CodeEditorProps> = ({
         })
 
       const domEventsExtension = () => {
-        const eventHandlers: DOMEventHandlers<any> = {
+        const eventHandlers: DOMEventHandlers<unknown> = {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           blur: (event) => onBlur && onBlur(event as any),
         }
 
@@ -182,9 +185,11 @@ export const CodeEditor: FC<CodeEditorProps> = ({
         ]),
       ]
 
-      const sizeExtension = () => {
+      const fixedHeightExtension = () => {
+        if (!opts.rows) return []
+
         const LINE_HEIGHT = 22
-        const h = LINE_HEIGHT * opts.rows! + 4
+        const h = LINE_HEIGHT * opts.rows + 4
         return EditorView.theme({
           '&': { height: `${h}px` },
           '.cm-scroller': { overflow: 'auto' },
@@ -197,7 +202,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({
         ...(opts.language ? [StreamLanguage.define(opts.language)] : []),
         ...(opts.lineWrapping ? [EditorView.lineWrapping] : []),
         ...(opts.lineNumbers ? [foldGutter(), lineNumbers()] : []),
-        ...(opts.rows ? [sizeExtension()] : []),
+        ...(opts.rows ? [fixedHeightExtension()] : []),
         updateListenerExtension(),
         domEventsExtension(),
       ]
@@ -238,7 +243,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({
   return (
     <>
       <div className={cn(styles.container, className)} id={name} ref={parentRef}></div>
-      <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={name!} />
+      <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
     </>
   )
 }
