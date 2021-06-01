@@ -1,9 +1,7 @@
 import React from 'react'
 import { Form, Formik } from 'formik'
 import { logger } from '@hazelcast/services'
-import { Checkbox } from '../src/'
-import { CodeEditor, EditorViewRef } from '../src/CodeEditor'
-import { CodeEditorFormik } from '../src/CodeEditorFormik'
+import { Checkbox, CodeEditor, EditorViewRef, CodeEditorFormik } from '../src/'
 
 // manually import a language
 import { javascript } from '@codemirror/legacy-modes/mode/javascript'
@@ -25,6 +23,7 @@ export const Default = () => {
   const [value, setValue] = React.useState<string>(SAMPLE_CODE)
   const [showLineNumbers, setShowLineNumbers] = React.useState<boolean>(true)
   const [lineWrapping, setLineWrapping] = React.useState<boolean>(false)
+  const [rows, setRows] = React.useState(5)
   const ref = React.useRef<EditorViewRef>(null)
 
   function handleDirectAccess() {
@@ -41,6 +40,7 @@ export const Default = () => {
           language: javascript,
           lineNumbers: showLineNumbers,
           lineWrapping,
+          rows
         }}
         value={value}
         onChange={(val: string) => {
@@ -70,6 +70,11 @@ export const Default = () => {
           }}
         />
         <hr />
+        <div>
+          <button onClick={() => setRows(rows - 1)}>-1 rows</button>
+          <button onClick={() => setRows(rows + 1)}>+1 rows</button>
+        </div>
+        <hr />
         <button onClick={handleDirectAccess}>Direct access to CodeMirror instance</button>
       </div>
     </div>
@@ -78,21 +83,21 @@ export const Default = () => {
 
 export const CodeEditorWrappedInFormik = () => {
   type Values = {
-    source: boolean
+    source: string
   }
-  const validate = (value: boolean) => (value.length < 5 ? 'min. 5 chars please!' : undefined)
+  const validate = (value: string) => (value.length < 5 ? 'min. 5 chars please!' : undefined)
 
   const TestForm = () => (
     <Formik<Values>
       initialValues={{
-        source: false,
+        source: 'min. 5 chars please',
       }}
       onSubmit={(values) => logger.log('submit', values)}
     >
       {({ values }) => (
         <Form>
           Values: {JSON.stringify(values)}
-          <CodeEditorFormik<Values> name="source" validate={validate} label="Turbo Mode" />
+          <CodeEditorFormik<Values> name="source" validate={validate} />
           <button type="submit">Submit</button>
         </Form>
       )}

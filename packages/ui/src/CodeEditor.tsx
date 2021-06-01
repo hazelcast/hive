@@ -79,6 +79,7 @@ export type CodeOptions = {
   language?: any
   lineWrapping?: boolean
   lineNumbers?: boolean
+  rows?: number
 }
 
 export interface EditorViewRef {
@@ -90,7 +91,7 @@ type OnChangeCallback = (val: string) => void
 export type CodeEditorProps = {
   value?: string
   className?: string
-  name: string
+  name?: string
   options?: CodeOptions
   onChange?: OnChangeCallback
   onBlur?: (e: FocusEvent) => void
@@ -104,6 +105,7 @@ const DEFAULT_OPTIONS: CodeOptions = {
   language: null,
   lineWrapping: false,
   lineNumbers: true,
+  rows: 5,
 }
 
 export const CodeEditor: FC<CodeEditorProps> = ({
@@ -180,12 +182,22 @@ export const CodeEditor: FC<CodeEditorProps> = ({
         ]),
       ]
 
+      const sizeExtension = () => {
+        const LINE_HEIGHT = 22
+        const h = LINE_HEIGHT * opts.rows! + 4
+        return EditorView.theme({
+          '&': { height: `${h}px` },
+          '.cm-scroller': { overflow: 'auto' },
+        })
+      }
+
       const extensions = [
         ...basicExtensions,
         ...(customExtensions ?? []),
         ...(opts.language ? [StreamLanguage.define(opts.language)] : []),
         ...(opts.lineWrapping ? [EditorView.lineWrapping] : []),
         ...(opts.lineNumbers ? [foldGutter(), lineNumbers()] : []),
+        ...(opts.rows ? [sizeExtension()] : []),
         updateListenerExtension(),
         domEventsExtension(),
       ]
@@ -199,7 +211,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({
       })
 
       // set the .id attr. of the dom element (formik demands this)
-      cm.current.contentDOM.id = name
+      if (name) cm.current.contentDOM.id = name
 
       return () => {
         // destroy cm. (mind you; this component will be recreated whenever options are modified.)
@@ -226,7 +238,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({
   return (
     <>
       <div className={cn(styles.container, className)} id={name} ref={parentRef}></div>
-      <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={name} />
+      <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={name!} />
     </>
   )
 }
