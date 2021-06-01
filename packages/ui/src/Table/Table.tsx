@@ -1,5 +1,5 @@
 import { DataTestProp } from '@hazelcast/helpers'
-import React, { AnchorHTMLAttributes, FC, ReactElement, useEffect } from 'react'
+import React, { AnchorHTMLAttributes, FC, ReactElement, ReactNode, useEffect } from 'react'
 import cn from 'classnames'
 import {
   useTable,
@@ -23,6 +23,7 @@ import { HeaderRow, LinkRow, Row } from './Row'
 
 import styles from './Table.module.scss'
 import styleConsts from '../../styles/constants/export.module.scss'
+import { Loader } from '../Loader'
 
 // Why do we need it: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react-table
 
@@ -162,6 +163,8 @@ type CustomTableRowClickProps<D extends object> =
     }
 
 type CustomTableProps<D extends object> = {
+  loading?: boolean
+  noDataTitle?: string | ReactNode
   // Custom props getter for Cell
   getCustomCellProps?: (cellInfo: CellType<D>) => CellProps
   onRenderedContentChange?: (newPage: RowType<D>[]) => void
@@ -211,6 +214,8 @@ export const Table = <D extends object>({
   getHref,
   AnchorComponent,
   getCustomCellProps,
+  loading,
+  noDataTitle = 'No data available in table',
 }: TableProps<D>): ReactElement => {
   const {
     getTableProps,
@@ -275,7 +280,7 @@ export const Table = <D extends object>({
   }, [onRenderedContentChange, onRenderedContentChangeDebounced, page])
 
   // If at least one of the columns has footer then we display the footer row
-  const hasFooter = columns.some((col) => !!col.Footer)
+  const hasFooter = !loading && data.length > 0 && columns.some((col) => !!col.Footer)
 
   // Header row has always aria-rowindex = 1.
   const headerIndex = 1
@@ -321,47 +326,64 @@ export const Table = <D extends object>({
             })}
           </div>
           <div data-test="table-cell-row-group" role="rowgroup">
-            {page.map((row) => {
-              prepareRow(row)
-              const { key: rowKey, ...restRowProps } = row.getRowProps()
-              const cells = row.cells.map((cell, i) => {
-                const { key: cellKey, ...restCellProps } = cell.getCellProps()
-                const customCellProps = getCustomCellProps ? getCustomCellProps(cell) : {}
-                // We don't want to use cell.column.Cell as that is a ColumnInstance which already has a cell renderer
-                const column = columns[i] as ColumnInterfaceBasedOnValue<D>
-                return (
-                  <Cell key={cellKey} align={cell.column.align} {...restCellProps} {...customCellProps}>
-                    <EnhancedCellRenderer cell={cell} hasCellRenderer={!!column.Cell} columnResizing={columnResizing} />
-                  </Cell>
-                )
-              })
-              return getHref ? (
-                <LinkRow
-                  key={rowKey}
-                  AnchorComponent={AnchorComponent}
-                  {...restRowProps}
-                  ariaRowIndex={row.index + 1 + cellIndexOffset}
-                  href={getHref(row)}
-                >
-                  {cells}
-                </LinkRow>
-              ) : (
-                <Row
-                  key={rowKey}
-                  {...restRowProps}
-                  ariaRowIndex={row.index + 1 + cellIndexOffset}
-                  onClick={
-                    onRowClick
-                      ? () => {
-                          onRowClick(row)
-                        }
-                      : undefined
-                  }
-                >
-                  {cells}
-                </Row>
-              )
-            })}
+            {loading ? (
+              <Row role="row">
+                <Cell role="cell" align="center" colSpan={columns.length} data-test="table-loader-cell">
+                  <Loader />
+                </Cell>
+              </Row>
+            ) : (
+              <>
+                {page.map((row) => {
+                  prepareRow(row)
+                  const { key: rowKey, ...restRowProps } = row.getRowProps()
+                  const cells = row.cells.map((cell, i) => {
+                    const { key: cellKey, ...restCellProps } = cell.getCellProps()
+                    const customCellProps = getCustomCellProps ? getCustomCellProps(cell) : {}
+                    // We don't want to use cell.column.Cell as that is a ColumnInstance which already has a cell renderer
+                    const column = columns[i] as ColumnInterfaceBasedOnValue<D>
+                    return (
+                      <Cell key={cellKey} align={cell.column.align} {...restCellProps} {...customCellProps}>
+                        <EnhancedCellRenderer cell={cell} hasCellRenderer={!!column.Cell} columnResizing={columnResizing} />
+                      </Cell>
+                    )
+                  })
+                  return getHref ? (
+                    <LinkRow
+                      key={rowKey}
+                      AnchorComponent={AnchorComponent}
+                      {...restRowProps}
+                      ariaRowIndex={row.index + 1 + cellIndexOffset}
+                      href={getHref(row)}
+                    >
+                      {cells}
+                    </LinkRow>
+                  ) : (
+                    <Row
+                      key={rowKey}
+                      {...restRowProps}
+                      ariaRowIndex={row.index + 1 + cellIndexOffset}
+                      onClick={
+                        onRowClick
+                          ? () => {
+                              onRowClick(row)
+                            }
+                          : undefined
+                      }
+                    >
+                      {cells}
+                    </Row>
+                  )
+                })}
+                {data.length === 0 && (
+                  <Row role="row">
+                    <Cell role="cell" align="center" colSpan={columns.length} data-test="table-noData-cell">
+                      {noDataTitle}
+                    </Cell>
+                  </Row>
+                )}
+              </>
+            )}
           </div>
           {hasFooter && (
             <div data-test="table-footer-row-group" role="rowgroup">

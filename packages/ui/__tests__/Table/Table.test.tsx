@@ -165,6 +165,9 @@ describe('Table', () => {
       pageSizeOptions: [5, 10, 20],
       numberOfItems: smallDataSet.length,
     })
+
+    expect(wrapper.findDataTest('table-noData-cell').exists()).toBe(false)
+    expect(wrapper.findDataTest('table-loader-cell').exists()).toBe(false)
   })
 
   it('renders table footer with correct props', async () => {
@@ -307,5 +310,37 @@ describe('Table', () => {
         isLastHeader,
       })
     })
+  })
+
+  it('renders table without data', async () => {
+    const columns = getColumns({ withFooter: true })
+
+    const wrapper = await mountAndCheckA11Y(<Table data-test="table-test" columns={columns} data={[]} hidePagination />)
+
+    expect(wrapper.findDataTest('table').exists()).toBe(true)
+    expect(wrapper.findDataTest('table-footer-row-group').exists()).toBe(false)
+    expect(wrapper.findDataTest('table-noData-cell').exists()).toBe(true)
+  })
+
+  it('renders table with loader when data exists', async () => {
+    const columns = getColumns({ withFooter: true })
+
+    const wrapper = await mountAndCheckA11Y(<Table loading data-test="table-test" columns={columns} data={smallDataSet} hidePagination />)
+
+    expect(wrapper.findDataTest('table').exists()).toBe(true)
+    expect(wrapper.findDataTest('table-footer-row-group').exists()).toBe(false)
+    expect(wrapper.findDataTest('table-noData-cell').exists()).toBe(false)
+    expect(wrapper.findDataTest('table-loader-cell').exists()).toBe(true)
+  })
+
+  it('renders table with loader when data not exists', async () => {
+    const columns = getColumns({ withFooter: true })
+
+    const wrapper = await mountAndCheckA11Y(<Table loading data-test="table-test" columns={columns} data={[]} hidePagination />)
+
+    expect(wrapper.findDataTest('table').exists()).toBe(true)
+    expect(wrapper.findDataTest('table-footer-row-group').exists()).toBe(false)
+    expect(wrapper.findDataTest('table-noData-cell').exists()).toBe(false)
+    expect(wrapper.findDataTest('table-loader-cell').exists()).toBe(true)
   })
 })
