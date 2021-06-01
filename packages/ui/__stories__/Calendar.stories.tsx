@@ -1,66 +1,58 @@
-import React, { useCallback, useState } from 'react'
-import { Calendar } from '../src/Calendar/Calendar'
+import React, { useState } from 'react'
+import { Meta, Story } from '@storybook/react'
+import cn from 'classnames'
+
+import { Calendar, CalendarProps } from '../src/Calendar/Calendar'
 
 import utilsStyles from './utils.scss'
+import storyStyles from './Calendar.stories.module.scss'
 
 export default {
   title: 'Components/Calendar',
   component: Calendar,
-}
-
-const dateDefault = new Date(2020, 11, 20)
-const onDateChange = (d: Date) => console.log(d)
-const inputLabel = 'Calendar Input'
-
-export const Default = () => {
-  const [date, setDate] = useState<Date>(dateDefault)
-
-  const onDateChange = useCallback(
-    (d: Date) => {
-      setDate(d)
+  parameters: {
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE-Hazelcast-Design-System?node-id=9858%3A347',
     },
-    [setDate],
-  )
-
-  return (
-    <div className={utilsStyles.calendarWrapper}>
-      <Calendar date={date} onDateChange={onDateChange} inputLabel={inputLabel} />
-    </div>
-  )
-}
-
-Default.parameters = {
-  design: {
-    type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=479%3A273',
   },
-}
+  args: {
+    date: new Date(2020, 11, 20),
+    inputLabel: 'Choose Date',
+    containerClassName: storyStyles.field,
+  },
+} as Meta<CalendarProps>
 
-export const Open = () => (
-  <div className={utilsStyles.calendarWrapper}>
-    <Calendar date={dateDefault} onDateChange={onDateChange} inputLabel={inputLabel} open />
-  </div>
-)
-
-export const Disabled = () => (
-  <div className={utilsStyles.calendarWrapper}>
-    <Calendar disabled date={dateDefault} onDateChange={onDateChange} inputLabel={inputLabel} />
-  </div>
-)
-
-export const WithTime = () => {
-  const [date, setDate] = useState<Date>(dateDefault)
-
-  const onDateChange = useCallback(
-    (d: Date) => {
-      setDate(d)
-    },
-    [setDate],
-  )
-
+const Template: Story<CalendarProps> = ({ date: initialDate, ...args }) => {
+  const [date, setDate] = useState<Date | null | undefined>(initialDate)
   return (
-    <div className={utilsStyles.calendarWrapper}>
-      <Calendar date={date} onDateChange={onDateChange} inputLabel={inputLabel} showTimeInput />
+    <div className={cn(storyStyles.container, utilsStyles.row)}>
+      <Calendar {...args} date={date} onDateChange={(d: Date) => setDate(d)} />
+      <Calendar {...args} date={date} onDateChange={(d: Date) => setDate(d)} size={'small'} />
     </div>
   )
+}
+
+export const Default = Template.bind({})
+
+export const Open = Template.bind({})
+Open.args = {
+  open: true,
+}
+
+export const Disabled = Template.bind({})
+Disabled.args = {
+  disabled: true,
+}
+
+export const WithTime = Template.bind({})
+WithTime.args = {
+  showTimeInput: true,
+}
+
+export const OpenWithTime = Template.bind({})
+OpenWithTime.args = {
+  ...Open.args,
+  ...WithTime.args,
+  containerClassName: storyStyles.openWithTime,
 }

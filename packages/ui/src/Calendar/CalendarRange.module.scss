@@ -6,7 +6,11 @@
   align-items: flex-end;
 
   .arrowRight {
-    margin: 0 c.$grid * 2 c.$grid * 2;
     color: c.$colorNeutralLight;
+    margin: 0 c.$grid * 2 c.$grid * 2;
+
+    &.small {
+      margin-bottom: c.$grid * 0.75;
+    }
   }
 }

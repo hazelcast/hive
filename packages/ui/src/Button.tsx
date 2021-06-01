@@ -13,6 +13,8 @@ import { Loader } from './Loader'
 
 export type ButtonKind = 'primary' | 'secondary' | 'danger' | 'transparent'
 
+export type ButtonSize = 'medium' | 'small'
+
 // Left icon is always present with proper aria-label attribute
 export type ButtonAccessibleIconLeftProps =
   | {
@@ -66,6 +68,7 @@ export type ButtonOutlineType = 'outline' | 'inset'
 // Common props for all button "kinds"
 export type ButtonCommonProps = {
   kind?: ButtonKind
+  size?: ButtonSize
   children: string
   capitalize?: boolean
   bodyClassName?: string
@@ -102,7 +105,7 @@ export type ButtonProps<T = ButtonTypeProps> = ButtonCommonProps & ButtonAccessi
  *
  * ### General Info
  * - Use 4 types of Button: Primary, Secondary, Danger and Transparent
- * - All buttons have unified height of 40px
+ * - There are two sizes: `small` with height of `30px` and `medium` with height of `40px`
  * - Button can stand only with the label, icon on the left side, icon on the right side, icon on both left and right side, or only icon (depends on the type of the button).
  * - You can use an icon with the label to draw more attention.
  * - Button label is always in upper-case
@@ -119,6 +122,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
   (
     {
       kind = 'primary',
+      size = 'medium',
       component: Component = 'button',
       className,
       bodyClassName,
@@ -167,6 +171,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
             className={cn(
               styles.button,
               {
+                [styles.small]: size === 'small',
                 [styles.primary]: kind === 'primary',
                 [styles.secondary]: kind === 'secondary',
                 [styles.danger]: kind === 'danger',
@@ -183,7 +188,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
           >
             <span data-test="button-outline" className={cn(styles.outline, { [styles.inset]: outline === 'inset' }, outlineClassName)} />
             <span className={cn(styles.body, bodyClassName)} ref={mergeRefs([ref, tooltipRef])}>
-              {loading && <Loader className={styles.iconLeft} />}
+              {loading && <Loader className={styles.iconLeft} size={size} />}
               {iconLeft && iconLeftAriaLabel && !loading && (
                 <Icon
                   icon={iconLeft}

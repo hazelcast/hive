@@ -13,6 +13,7 @@ $fontSizeH1: 2rem !default;
 $fontSizeH2: 1.625rem !default;
 $fontSizeH3: 1.25rem !default;
 $fontSizeButton: 1.125rem !default;
+$fontSizeButtonSmall: 0.875rem !default;
 $fontSizeBodyNormal: 1rem !default;
 $fontSizeBodySmall: 0.875rem !default;
 $fontSizeBodySmaller: 0.75rem !default;
@@ -22,6 +23,7 @@ $letterSpacingH1: 0.25px !default;
 $letterSpacingH2: 0 !default;
 $letterSpacingH3: 0.15px !default;
 $letterSpacingButton: 1.25px !default;
+$letterSpacingButtonSmall: 0.25px !default;
 $letterSpacingBodyNormal: 0.5px !default;
 $letterSpacingBodySmall: 0.25px !default;
 $letterSpacingBodySmaller: normal !default;
@@ -64,12 +66,20 @@ $lineHeightBodyTiny: normal !default;
   letter-spacing: $letterSpacingH3 #{override($override)};
   line-height: $lineHeightH3 #{override($override)};
 }
-@mixin typographyButton {
+@mixin typographyButton($size: 'medium') {
   font-family: $fontFamilyText;
-  font-weight: $fontWeightTextRegular;
-  font-size: $fontSizeButton;
-  letter-spacing: $letterSpacingButton;
   line-height: $lineHeightButton;
+
+  @if $size == 'medium' {
+    font-weight: $fontWeightTextRegular;
+    font-size: $fontSizeButton;
+    letter-spacing: $letterSpacingButton;
+  }
+  @if $size == 'small' {
+    font-weight: $fontWeightTextRegular;
+    font-size: $fontSizeButtonSmall;
+    letter-spacing: $letterSpacingButtonSmall;
+  }
 }
 @mixin typographyBodyWeight($weight: 'regular') {
   @if $weight == 'regular' {

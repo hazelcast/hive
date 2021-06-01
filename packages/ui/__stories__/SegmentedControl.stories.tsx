@@ -19,7 +19,7 @@ export default {
   parameters: {
     design: {
       type: 'figma',
-      url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=33450%3A0',
+      url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE-Hazelcast-Design-System?node-id=33450%3A0',
     },
   },
   args: {
@@ -35,6 +35,11 @@ const Template: Story<Omit<SegmentedControlProps, 'onChange'>> = ({ value: initi
 }
 
 export const Default = Template.bind({})
+
+export const Small = Template.bind({})
+Small.args = {
+  size: 'small',
+}
 
 export const WrappedInFormik = () => {
   type Values = {

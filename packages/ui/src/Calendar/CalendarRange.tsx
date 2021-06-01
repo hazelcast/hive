@@ -1,6 +1,8 @@
 import React, { FC } from 'react'
 import { ReactDatePickerProps } from 'react-datepicker'
 import { ArrowRight } from 'react-feather'
+import cn from 'classnames'
+
 import { Icon } from '../Icon'
 import { Calendar, CalendarProps } from './Calendar'
 
@@ -15,6 +17,7 @@ export type CalendarRangeProps = {
   endInputLabel?: string
   endOpen?: boolean
   onEndDateChange: CalendarProps['onDateChange']
+  size?: CalendarProps['size']
 } & Pick<ReactDatePickerProps, 'showTimeInput'>
 
 export const CalendarRange: FC<CalendarRangeProps> = ({
@@ -27,6 +30,7 @@ export const CalendarRange: FC<CalendarRangeProps> = ({
   endOpen,
   onEndDateChange,
   showTimeInput,
+  size,
 }) => {
   return (
     <div className={styles.container}>
@@ -40,8 +44,14 @@ export const CalendarRange: FC<CalendarRangeProps> = ({
         inputLabel={startInputLabel}
         showTimeInput={showTimeInput}
         open={startOpen}
+        size={size}
       />
-      <Icon data-test="calendar-range-icon" className={styles.arrowRight} icon={ArrowRight} ariaLabel="Arrow Right" />
+      <Icon
+        data-test="calendar-range-icon"
+        className={cn(styles.arrowRight, { [styles.small]: size === 'small' })}
+        icon={ArrowRight}
+        ariaLabel="Arrow Right"
+      />
       <Calendar
         data-test="calendar-range-end"
         date={endDate}
@@ -53,6 +63,7 @@ export const CalendarRange: FC<CalendarRangeProps> = ({
         inputLabel={endInputLabel}
         showTimeInput={showTimeInput}
         open={endOpen}
+        size={size}
       />
     </div>
   )

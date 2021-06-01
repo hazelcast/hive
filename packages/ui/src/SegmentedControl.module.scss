@@ -19,6 +19,18 @@
     color: c.$colorTextSecondary;
     cursor: pointer;
 
+    .label {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      padding-left: c.$grid * 2;
+      padding-right: c.$grid * 2;
+      cursor: pointer;
+
+      @include c.typographyBodyNormal('bold');
+    }
+
     &.checked {
       color: c.$colorText;
       border-bottom-color: c.$colorSuccessLight;
@@ -51,15 +63,17 @@
 
       @include h.outlineSimple;
     }
+  }
 
-    .label {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-      cursor: pointer;
+  &.small {
+    .option {
+      min-width: c.$grid * 28.125;
+      height: c.$inputHeightSmall;
+      border-bottom-width: 4px;
 
-      @include c.typographyBodyNormal('bold');
+      .label {
+        @include c.typographyBodySmall('bold');
+      }
     }
   }
 }
