@@ -31,7 +31,9 @@
   max-width: c.$modalMaxWidth;
   max-height: c.$modalMaxHeight;
   z-index: c.$zIndex1000;
-  padding: c.$grid * 5;
+  padding: c.$grid * 5 0;
+  display: flex;
+  flex-direction: column;
 
   .close {
     position: absolute;
@@ -66,6 +68,12 @@
   }
 
   .body {
+    height: 100%;
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    padding: 0 c.$grid * 5;
+
     .header {
       display: flex;
       flex-direction: row;
@@ -78,6 +86,11 @@
       .title {
         margin: 0;
       }
+    }
+
+    .content {
+      flex: 1;
+      overflow: auto;
     }
 
     .footer {

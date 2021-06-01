@@ -188,3 +188,23 @@ export const WithHiddenModalActions = () => {
     </ModalWithPortalFactory>
   )
 }
+
+export const LongContent = () => (
+  <ModalWithPortalFactory title={title} isOpen onClose={onClose}>
+    {Content}
+    {Content}
+    {Content}
+    {Content}
+    {Content}
+    {Content}
+    {Content}
+    {Content}
+    {Content}
+    {Content}
+    {Content}
+    {Content}
+    {Content}
+    {Content}
+    {Content}
+  </ModalWithPortalFactory>
+)
