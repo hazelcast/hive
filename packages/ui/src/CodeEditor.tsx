@@ -189,7 +189,8 @@ export const CodeEditor: FC<CodeEditorProps> = ({
         if (!opts.rows) return []
 
         const LINE_HEIGHT = 22
-        const h = LINE_HEIGHT * opts.rows + 4
+        const EXTRA_PADDING = 4
+        const h = LINE_HEIGHT * opts.rows + EXTRA_PADDING
         return EditorView.theme({
           '&': { height: `${h}px` },
           '.cm-scroller': { overflow: 'auto' },
