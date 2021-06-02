@@ -251,6 +251,7 @@ export const SelectField = <V extends string | number = string>({
   labelClassName,
   showAriaLabel = false,
   menuPortalTarget = 'body',
+  menuPlacement = 'auto',
   name,
   onChange,
   options,
@@ -339,6 +340,7 @@ export const SelectField = <V extends string | number = string>({
       action: ActionMeta<SelectFieldOption<V>>,
     ) => void,
     placeholder,
+    menuPlacement,
     menuPortalTarget: getMenuContainer(menuPortalTarget),
     components: {
       DropdownIndicator,

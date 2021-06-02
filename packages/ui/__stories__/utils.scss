@@ -40,3 +40,27 @@
   flex-direction: row;
   align-items: flex-start;
 }
+
+.customTableFooter {
+  [role="cell"] {
+    font-style: italic;
+  }
+}
+
+.customTableContent {
+  [role="row"]:nth-child(odd) {
+    [role="cell"] {
+      background: #ccc;
+    }
+  }
+}
+
+.customTableHeader {
+  [role="columnheader"] {
+    background: lightblue;
+
+    span {
+      color: #000;
+    }
+  }
+}
