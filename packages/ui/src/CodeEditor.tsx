@@ -37,9 +37,18 @@
   to the EditorView instance created behind the scenes. (See the story of this component)
 */
 
-import React, { FC, useEffect, useRef, useImperativeHandle, MutableRefObject } from 'react'
+import React, { FC, useEffect, useRef, useImperativeHandle, MutableRefObject, FocusEvent } from 'react'
 import cn from 'classnames'
-import { EditorView, ViewUpdate, highlightSpecialChars, drawSelection, highlightActiveLine, keymap } from '@codemirror/view'
+import { useUID } from 'react-uid'
+import {
+  EditorView,
+  ViewUpdate,
+  highlightSpecialChars,
+  drawSelection,
+  highlightActiveLine,
+  keymap,
+  DOMEventHandlers,
+} from '@codemirror/view'
 import { EditorState, Extension } from '@codemirror/state'
 import { history, historyKeymap } from '@codemirror/history'
 import { foldGutter, foldKeymap } from '@codemirror/fold'
@@ -57,6 +66,7 @@ import { lintKeymap } from '@codemirror/lint'
 import { StreamLanguage } from '@codemirror/stream-parser'
 
 import { useDeepCompareMemo } from './hooks/useDeepCompareMemo'
+import { Error } from './Error'
 import styles from './CodeEditor.module.scss'
 
 // Export these very common CodeMirror types for ease of use
@@ -64,11 +74,13 @@ export { EditorView, EditorState }
 
 // Common options for the component.
 // More advanced configuration of the underlying component should be done directly via a handle.
+// Note that changing these options will recreate the CodeMirror DOM object.
 export type CodeOptions = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   language?: any
   lineWrapping?: boolean
   lineNumbers?: boolean
+  rows?: number
 }
 
 export interface EditorViewRef {
@@ -80,19 +92,36 @@ type OnChangeCallback = (val: string) => void
 export type CodeEditorProps = {
   value?: string
   className?: string
+  name?: string
   options?: CodeOptions
   onChange?: OnChangeCallback
+  onBlur?: (e: FocusEvent) => void
   customExtensions?: Extension[]
   innerRef?: MutableRefObject<EditorViewRef | null>
+  error?: string
+  errorClassName?: string
 }
 
 const DEFAULT_OPTIONS: CodeOptions = {
   language: null,
   lineWrapping: false,
   lineNumbers: true,
+  rows: 5,
 }
 
-export const CodeEditor: FC<CodeEditorProps> = ({ value, className, options = {}, onChange, customExtensions, innerRef }) => {
+export const CodeEditor: FC<CodeEditorProps> = ({
+  name,
+  value,
+  className,
+  options = {},
+  onChange,
+  onBlur,
+  customExtensions,
+  innerRef,
+  error,
+  errorClassName,
+}) => {
+  const id = useUID()
   const parentRef = useRef<HTMLDivElement | null>(null)
   const cm = useRef<EditorView | null>(null)
   const optionsMemoized = useDeepCompareMemo(() => options, [options])
@@ -121,6 +150,15 @@ export const CodeEditor: FC<CodeEditorProps> = ({ value, className, options = {}
           if (cb) cb(val)
         })
 
+      const domEventsExtension = () => {
+        const eventHandlers: DOMEventHandlers<unknown> = {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          blur: (event) => onBlur && onBlur(event as any),
+        }
+
+        return EditorView.domEventHandlers(eventHandlers)
+      }
+
       // configure/enable very common features
       const basicExtensions = [
         highlightSpecialChars(),
@@ -147,13 +185,27 @@ export const CodeEditor: FC<CodeEditorProps> = ({ value, className, options = {}
         ]),
       ]
 
+      const fixedHeightExtension = () => {
+        if (!opts.rows) return []
+
+        const LINE_HEIGHT = 22
+        const EXTRA_PADDING = 4
+        const h = LINE_HEIGHT * opts.rows + EXTRA_PADDING
+        return EditorView.theme({
+          '&': { height: `${h}px` },
+          '.cm-scroller': { overflow: 'auto' },
+        })
+      }
+
       const extensions = [
         ...basicExtensions,
         ...(customExtensions ?? []),
         ...(opts.language ? [StreamLanguage.define(opts.language)] : []),
         ...(opts.lineWrapping ? [EditorView.lineWrapping] : []),
         ...(opts.lineNumbers ? [foldGutter(), lineNumbers()] : []),
+        ...(opts.rows ? [fixedHeightExtension()] : []),
         updateListenerExtension(),
+        domEventsExtension(),
       ]
 
       cm.current = new EditorView({
@@ -163,6 +215,9 @@ export const CodeEditor: FC<CodeEditorProps> = ({ value, className, options = {}
         }),
         parent: parentRef.current,
       })
+
+      // set the .id attr. of the dom element (formik demands this)
+      if (name) cm.current.contentDOM.id = name
 
       return () => {
         // destroy cm. (mind you; this component will be recreated whenever options are modified.)
@@ -187,8 +242,9 @@ export const CodeEditor: FC<CodeEditorProps> = ({ value, className, options = {}
   }, [value])
 
   return (
-    <div className={cn(styles.container, className)}>
-      <div ref={parentRef}></div>
-    </div>
+    <>
+      <div className={cn(styles.container, className)} id={name} ref={parentRef}></div>
+      <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
+    </>
   )
 }
