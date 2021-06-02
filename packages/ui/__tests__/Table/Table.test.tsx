@@ -51,6 +51,7 @@ describe('Table', () => {
     expect(headerRowGroup.props()).toEqual({
       'data-test': 'table-header-row-group',
       role: 'rowgroup',
+      className: '',
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       children: expect.anything(),
     })
@@ -105,6 +106,7 @@ describe('Table', () => {
     expect(cellRowGroup.props()).toEqual({
       'data-test': 'table-cell-row-group',
       role: 'rowgroup',
+      className: '',
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       children: expect.anything(),
     })
@@ -181,6 +183,7 @@ describe('Table', () => {
     expect(footerRowGroup.props()).toEqual({
       'data-test': 'table-footer-row-group',
       role: 'rowgroup',
+      className: '',
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       children: expect.anything(),
     })

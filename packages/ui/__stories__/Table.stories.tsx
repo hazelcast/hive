@@ -165,3 +165,14 @@ export const ControlledPagination = () => {
 export const Empty = () => <Table columns={getColumns({ withFooter: true })} data={[]} disableSortBy />
 
 export const Loading = () => <Table loading columns={getColumns({ withFooter: true })} data={smallDataSet} disableSortBy />
+
+export const CustomStyle = () => (
+  <Table
+    contentClassName={styles.customTableContent}
+    headerClassName={styles.customTableHeader}
+    footerClassName={styles.customTableFooter}
+    columns={getColumns({ withFooter: true })}
+    data={smallDataSet}
+    disableSortBy
+  />
+)

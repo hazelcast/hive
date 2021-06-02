@@ -164,6 +164,11 @@ type CustomTableRowClickProps<D extends object> =
 
 type CustomTableProps<D extends object> = {
   loading?: boolean
+  className?: string
+  headerClassName?: string
+  paginationClassName?: string
+  footerClassName?: string
+  contentClassName?: string
   noDataTitle?: string | ReactNode
   // Custom props getter for Cell
   getCustomCellProps?: (cellInfo: CellType<D>) => CellProps
@@ -216,6 +221,11 @@ export const Table = <D extends object>({
   getCustomCellProps,
   loading,
   noDataTitle = 'No data available in table',
+  initialState = { pageIndex: 0, pageSize: defaultPageSize },
+  className = '',
+  headerClassName = '',
+  contentClassName = '',
+  footerClassName = '',
 }: TableProps<D>): ReactElement => {
   const {
     getTableProps,
@@ -241,7 +251,7 @@ export const Table = <D extends object>({
       // https://react-table.tanstack.com/docs/faq#how-do-i-stop-my-table-state-from-automatically-resetting-when-my-data-changes
       autoResetSortBy,
       // Pass our hoisted table state
-      initialState: { pageIndex: 0, pageSize: defaultPageSize },
+      initialState,
       // Tell the usePagination hook that we'll handle our own data fetching
       manualPagination: manualPagination,
       // This means we'll also have to provide our own pageCount
@@ -290,14 +300,14 @@ export const Table = <D extends object>({
   const rowCount = data.length + headerIndex + (hasFooter ? 1 : 0)
 
   return (
-    <div data-test={dataTest ?? 'table-wrapper'}>
+    <div data-test={dataTest ?? 'table-wrapper'} className={className}>
       <div
         className={cn(styles.container, {
           [styles.margin]: !hidePagination,
         })}
       >
         <div data-test="table" {...getTableProps()} className={styles.table} aria-rowcount={rowCount}>
-          <div data-test="table-header-row-group" role="rowgroup">
+          <div data-test="table-header-row-group" role="rowgroup" className={headerClassName}>
             {headerGroups.map((headerGroup) => {
               const { key: headerGroupKey, ...restHeaderGroupProps } = headerGroup.getHeaderGroupProps()
               return (
@@ -325,7 +335,7 @@ export const Table = <D extends object>({
               )
             })}
           </div>
-          <div data-test="table-cell-row-group" role="rowgroup">
+          <div data-test="table-cell-row-group" role="rowgroup" className={contentClassName}>
             {loading ? (
               <Row role="row">
                 <Cell role="cell" align="center" colSpan={columns.length} data-test="table-loader-cell">
@@ -386,7 +396,7 @@ export const Table = <D extends object>({
             )}
           </div>
           {hasFooter && (
-            <div data-test="table-footer-row-group" role="rowgroup">
+            <div data-test="table-footer-row-group" role="rowgroup" className={footerClassName}>
               {footerGroups.map((group) => {
                 const { key: footerGroupKey, ...restFooterGroupProps } = group.getFooterGroupProps()
                 return (
