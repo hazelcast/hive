@@ -7,6 +7,8 @@ import { getColumns, Person } from '../__tests__/Table/utils'
 import { bigDataSet, smallDataSet } from '../__tests__/Table/consts'
 
 import styles from './utils.scss'
+import { TextField } from '../src'
+import storyStyles from './TextField.stories.module.scss'
 
 export default {
   title: 'Components/Table',
@@ -176,3 +178,22 @@ export const CustomStyle = () => (
     disableSortBy
   />
 )
+
+export const WithGlobalSearch = () => {
+  const [searchValue, setSearchValue] = useState('')
+
+  return (
+    <>
+      <div>
+        <TextField
+          name="search"
+          value={searchValue}
+          label="Global Search"
+          className={storyStyles.field}
+          onChange={(e) => setSearchValue(e.target.value)}
+        />
+      </div>
+      <Table searchValue={searchValue} columns={getColumns({})} data={bigDataSet} disableSortBy />
+    </>
+  )
+}

@@ -13,6 +13,7 @@ import {
   ColumnInterfaceBasedOnValue,
   useFlexLayout,
   Column as ColumnType,
+  useGlobalFilter,
 } from 'react-table'
 
 import { Pagination, PaginationProps } from '../Pagination'
@@ -165,6 +166,7 @@ type CustomTableRowClickProps<D extends object> =
 type CustomTableProps<D extends object> = {
   loading?: boolean
   className?: string
+  searchValue?: string
   headerClassName?: string
   paginationClassName?: string
   footerClassName?: string
@@ -209,8 +211,6 @@ export const Table = <D extends object>({
   manualPagination,
   onRenderedContentChange,
   autoResetPage = false,
-  // TODO: ask Pawel to provide design for loading and empty state!
-  // loading,
   hidePagination = false,
   pageCount: controlledPageCount,
   defaultPageSize = 10,
@@ -226,6 +226,7 @@ export const Table = <D extends object>({
   headerClassName = '',
   contentClassName = '',
   footerClassName = '',
+  searchValue,
 }: TableProps<D>): ReactElement => {
   const {
     getTableProps,
@@ -242,6 +243,7 @@ export const Table = <D extends object>({
     setPageSize,
     // Get the state from the instance
     state: { pageIndex, pageSize, columnResizing },
+    setGlobalFilter,
   } = useTable<D>(
     {
       columns,
@@ -259,6 +261,7 @@ export const Table = <D extends object>({
       autoResetPage,
       defaultColumn,
     },
+    useGlobalFilter,
     useSortBy,
     usePagination,
     useFlexLayout,
@@ -288,6 +291,13 @@ export const Table = <D extends object>({
       onRenderedContentChangeDebounced(page)
     }
   }, [onRenderedContentChange, onRenderedContentChangeDebounced, page])
+
+  // Apply global filter when searchValue changes
+  useEffect(() => {
+    if (searchValue !== undefined) {
+      ;(setGlobalFilter as (value: string) => void)(searchValue)
+    }
+  }, [searchValue, setGlobalFilter])
 
   // If at least one of the columns has footer then we display the footer row
   const hasFooter = !loading && data.length > 0 && columns.some((col) => !!col.Footer)
