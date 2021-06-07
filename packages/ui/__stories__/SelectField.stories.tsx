@@ -721,3 +721,29 @@ export const CustomMenuFooter = () => {
     />
   )
 }
+
+export const MultilineOption = () => {
+  const [currentValue, setValue] = useState<string>(value)
+  return (
+    <SelectField
+      name={name}
+      value={currentValue}
+      label={label}
+      options={[
+        {
+          value: '10000',
+          label: `Very long option Very long option Very long option Very long option 
+          Very long option Very long option Very long option Very long option Very long option Very 
+          long option Very long option Very long option Very long option Very long option Very long option 
+          Very long option Very long option Very long option Very long option Very long option Very long option 
+          Very long option Very long option Very long option Very long option Very long option Very long option 
+          Very long option Very long option Very long option Very long option Very long option Very long option 
+          Very long option Very long option`,
+        },
+        ...options,
+      ]}
+      onBlur={() => logger.log('blur')}
+      onChange={setValue}
+    />
+  )
+}
