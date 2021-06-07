@@ -1,14 +1,9 @@
 {
-  "packages": [
-    "packages/*"
-  ],
+  "packages": ["packages/*"],
   "version": "1.0.3",
   "command": {
     "version": {
-      "allowBranch": [
-        "master",
-        "release/*"
-      ]
+      "allowBranch": ["master", "release/*"]
     }
   }
 }
