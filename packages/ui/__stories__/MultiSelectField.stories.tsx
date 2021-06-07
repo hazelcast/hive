@@ -1,15 +1,12 @@
 import React, { ReactNode, useState } from 'react'
 import { logger } from '@hazelcast/services'
 import { Meta, Story } from '@storybook/react'
-import { Aperture } from 'react-feather'
 import { GroupedOptionsType } from 'react-select'
 
-import { SelectField, SelectFieldProps } from '../src/Select/SelectField'
+import { MultiSelectField, MultiSelectProps } from '../src/Select/MultiSelectField'
 import { SelectFieldOption } from '../src/Select/helpers'
 
 import styles from '../src/Select/SelectField.module.scss'
-import { Form, Formik } from 'formik'
-import { SelectFieldFormik } from '../src/Select/SelectFieldFormik'
 
 const options: SelectFieldOption<string>[] = [
   { value: 'darth_vader', label: 'Darth Vader' },
@@ -21,36 +18,33 @@ const options: SelectFieldOption<string>[] = [
   { value: 'jar_jar_binks', label: 'Jar Jar Binks' },
 ]
 
-type Args = SelectFieldProps<string>
-
 export default {
-  title: 'Components/SelectField',
-  component: SelectField,
+  title: 'Components/MultiSelectField',
+  component: MultiSelectField,
   parameters: {
     design: {
       type: 'figma',
-      url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE-Hazelcast-Design-System?node-id=510%3A1',
+      url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE-Hazelcast-Design-System?node-id=23167%3A4292',
     },
   },
   args: {
-    name: 'character',
-    label: 'Pick Character',
-    placeholder: 'One character...',
+    name: 'characters',
+    label: 'Pick Characters',
+    placeholder: 'One or more characters...',
     noOptionsMessage: () => 'No characters :-(',
     options,
-    value: options[1].value,
+    value: [options[1].value],
     menuPlacement: 'bottom',
-    // menuPortalTarget: 'self',
     onBlur: () => logger.log('blur'),
   },
-} as Meta<Args>
+} as Meta<MultiSelectProps<string>>
 
-const Template: Story<Args> = ({ value: initialValue, ...args }) => {
-  const [value, setValue] = useState<string | null>(initialValue)
+const Template: Story<MultiSelectProps<string>> = ({ value: initialValue, ...args }) => {
+  const [value, setValue] = useState<string[]>(initialValue)
 
   return (
     <div style={{ height: 350 }}>
-      <SelectField {...args} value={value} onChange={setValue} />
+      <MultiSelectField<string> {...args} value={value} onChange={setValue} />
     </div>
   )
 }
@@ -59,7 +53,7 @@ export const Default = Template.bind({})
 
 export const Empty = Template.bind({})
 Empty.args = {
-  value: null,
+  value: [],
 }
 
 export const WithError = Template.bind({})
@@ -93,17 +87,6 @@ WithHelperText.args = {
   helperText: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
 }
 
-export const Clearable = Template.bind({})
-Clearable.args = {
-  isClearable: true,
-}
-
-export const WithIcon = Template.bind({})
-WithIcon.args = {
-  iconLeft: Aperture,
-  iconLeftAriaLabel: 'Aperture',
-}
-
 export const Open = Template.bind({})
 Open.args = {
   menuIsOpen: true,
@@ -126,11 +109,6 @@ OpenWithInputValueAndNoResults.args = {
 export const WithoutLabel = Template.bind({})
 WithoutLabel.args = {
   showAriaLabel: true,
-}
-
-export const Small = Template.bind({})
-Small.args = {
-  size: 'small',
 }
 
 export const WithCreatableOptions = Template.bind({})
@@ -160,7 +138,7 @@ const groupedOptions: GroupedOptionsType<SelectFieldOption<string>> = [
 export const WithGroupedOptions = Template.bind({})
 WithGroupedOptions.args = {
   options: groupedOptions,
-  value: groupedOptions[0].options[1].value,
+  value: [groupedOptions[0].options[1].value],
   // eslint-disable-next-line react/display-name
   formatGroupLabel: ({ label }) => (
     <p
@@ -221,41 +199,4 @@ WithCustomMenuFooter.args = {
       All Star Wars characters are entirely fictional
     </div>
   ),
-}
-
-export const SelectFieldWrappedInFormik = () => {
-  type Values = {
-    character: string
-  }
-
-  const validateCharacter = (value: string | null) => {
-    if (value === null) {
-      return undefined
-    }
-    return value !== 'yoda' ? 'Please, pick Yoda' : undefined
-  }
-
-  const TestForm = () => (
-    <Formik<Values>
-      initialValues={{
-        character: options[1].value,
-      }}
-      initialErrors={{
-        // Bug in Formik types. TODO: Raise a PR
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
-        character: 'Server Error: Invalid character' as any,
-      }}
-      onSubmit={(values) => logger.log('submit', values)}
-    >
-      {({ values }) => (
-        <Form>
-          Values: {JSON.stringify(values)}
-          <SelectFieldFormik<Values> name="character" label="Character" options={options} validate={validateCharacter} />
-          <button type="submit">Submit</button>
-        </Form>
-      )}
-    </Formik>
-  )
-
-  return <TestForm />
 }

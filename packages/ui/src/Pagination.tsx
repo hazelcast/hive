@@ -5,11 +5,11 @@ import { ChevronLeft, ChevronRight, Settings, ArrowLeft } from 'react-feather'
 import cn from 'classnames'
 
 import { usePagination } from './hooks/usePagination'
-import { SelectField, SelectFieldOption } from './SelectField'
 import { Button } from './Button'
 import { NumberFieldFormik } from './NumberFieldFormik'
 import { IconButton } from './IconButton'
 import { useDimensions } from './hooks/useDimensions'
+import { SelectField, SelectFieldOption } from './Select'
 
 import styles from './Pagination.module.scss'
 import { Link } from './Link'
@@ -114,6 +114,15 @@ export const Pagination: FC<PaginationProps> = ({
     [pageSizeOptions],
   )
 
+  const onChangeWrapped = useCallback(
+    (pageSize: number | null) => {
+      if (typeof pageSize === 'number') {
+        setPageSize(pageSize)
+      }
+    },
+    [setPageSize],
+  )
+
   const RowsPerPageSelect = useDeepCompareMemo(
     () => (
       <SelectField<number>
@@ -123,7 +132,7 @@ export const Pagination: FC<PaginationProps> = ({
         name="rowsPerPage"
         value={pageSize}
         options={rowsPerPageOptions}
-        onChange={setPageSize}
+        onChange={onChangeWrapped}
         isSearchable={false}
       />
     ),

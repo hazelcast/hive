@@ -13,7 +13,7 @@ import {
   PaginationProps,
   ShownItemsRange,
 } from '../src/Pagination'
-import { SelectField, SelectFieldOption, SelectProps } from '../src/SelectField'
+import { SelectField, SelectFieldOption, SelectFieldProps } from '../src/Select/index'
 import { IconButton, IconButtonProps } from '../src/IconButton'
 import { Button, ButtonProps } from '../src/Button'
 import { NumberFieldFormik, NumberFieldFormikProps } from '../src/NumberFieldFormik'
@@ -136,7 +136,7 @@ describe('Pagination', () => {
       />,
     )
 
-    expect(wrapper.find(SelectField).props()).toEqual<SelectProps<number>>({
+    expect(wrapper.find(SelectField).props()).toEqual<SelectFieldProps<number>>({
       className: styles.rowsPerPage,
       labelClassName: styles.label,
       name: 'rowsPerPage',
@@ -535,7 +535,7 @@ describe('Pagination', () => {
     expect(wrapper.findDataTest('pagination-buttons').exists()).toBe(false)
     expect(wrapper.findDataTest('pagination-range-of-shown-items').exists()).toBe(false)
 
-    expect(wrapper.find(SelectField).props()).toEqual<SelectProps<number>>({
+    expect(wrapper.find(SelectField).props()).toEqual<SelectFieldProps<number>>({
       className: styles.rowsPerPage,
       labelClassName: styles.label,
       name: 'rowsPerPage',
