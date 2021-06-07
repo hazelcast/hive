@@ -7,6 +7,8 @@ import { MultiSelectField, MultiSelectProps } from '../src/Select/MultiSelectFie
 import { SelectFieldOption } from '../src/Select/helpers'
 
 import styles from '../src/Select/SelectField.module.scss'
+import { Form, Formik } from 'formik'
+import { MultiSelectFieldFormik } from '../src/Select/MultiSelectFieldFormik'
 
 const options: SelectFieldOption<string>[] = [
   { value: 'darth_vader', label: 'Darth Vader' },
@@ -216,4 +218,36 @@ WithCustomMenuFooter.args = {
       All Star Wars characters are entirely fictional
     </div>
   ),
+}
+
+export const WrappedInFormik = () => {
+  type Values = {
+    characters: string[]
+  }
+
+  const validateCharacter = (values: string[]) => (values.length >= 3 ? undefined : 'Pick at least three (3) characters')
+
+  const TestForm = () => (
+    <Formik<Values>
+      initialValues={{
+        characters: [options[1].value],
+      }}
+      initialErrors={{
+        // Bug in Formik types. TODO: Raise a PR
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
+        characters: 'Server Error: Invalid character' as any,
+      }}
+      onSubmit={(values) => logger.log('submit', values)}
+    >
+      {({ values }) => (
+        <Form>
+          Values: {JSON.stringify(values)}
+          <MultiSelectFieldFormik<Values> name="characters" label="Character" options={options} validate={validateCharacter} />
+          <button type="submit">Submit</button>
+        </Form>
+      )}
+    </Formik>
+  )
+
+  return <TestForm />
 }
