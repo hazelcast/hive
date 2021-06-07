@@ -138,6 +138,23 @@ WithCreatableOptions.args = {
   isCreatable: true,
 }
 
+export const WithMultilineOptions = Template.bind({})
+WithMultilineOptions.args = {
+  options: [
+    {
+      value: '10000',
+      label: `Very long option Very long option Very long option Very long option 
+      Very long option Very long option Very long option Very long option Very long option Very 
+      long option Very long option Very long option Very long option Very long option Very long option 
+      Very long option Very long option Very long option Very long option Very long option Very long option 
+      Very long option Very long option Very long option Very long option Very long option Very long option 
+      Very long option Very long option Very long option Very long option Very long option Very long option 
+      Very long option Very long option`,
+    },
+    ...options,
+  ],
+}
+
 const groupedOptions: GroupedOptionsType<SelectFieldOption<string>> = [
   {
     label: 'Dark Side',

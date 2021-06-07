@@ -1,6 +1,6 @@
 {
   "name": "@hazelcast/services",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Hazelcast shared services",
   "author": "",
   "homepage": "https://github.com/hazelcast/frontend-shared#readme",
