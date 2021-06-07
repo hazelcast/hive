@@ -211,7 +211,7 @@ $select: ':global .hz-select-field__control';
 
     :global .hz-select-field__option,
     :global .hz-select-field__menu-notice {
-      height: c.$inputHeight;
+      min-height: c.$inputHeight;
       line-height: c.$inputHeight;
       padding: 0 $selectHorizontalPadding;
       background-color: transparent;
