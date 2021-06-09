@@ -157,6 +157,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
   ) => {
     const tooltipId = useUID()
     const relFinal = Array.isArray(rel) ? rel.join(' ') : rel
+    const loadingAnimationOnRight = loading && iconRight && iconRightAriaLabel && !(iconLeft && iconLeftAriaLabel)
 
     return (
       <Tooltip
@@ -188,7 +189,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
           >
             <span data-test="button-outline" className={cn(styles.outline, { [styles.inset]: outline === 'inset' }, outlineClassName)} />
             <span className={cn(styles.body, bodyClassName)} ref={mergeRefs([ref, tooltipRef])}>
-              {loading && <Loader className={styles.iconLeft} size={size} />}
+              {loading && !loadingAnimationOnRight && <Loader className={styles.iconLeft} size={size} />}
               {iconLeft && iconLeftAriaLabel && !loading && (
                 <Icon
                   icon={iconLeft}
@@ -209,7 +210,8 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
                 */
                 tooltipVisible={disabled && disabledTooltipVisible !== false ? false : undefined}
               />
-              {iconRight && iconRightAriaLabel && (
+              {loadingAnimationOnRight && <Loader className={styles.iconRight} size={size} />}
+              {!loadingAnimationOnRight && iconRight && iconRightAriaLabel && (
                 <Icon
                   icon={iconRight}
                   ariaLabel={iconRightAriaLabel}

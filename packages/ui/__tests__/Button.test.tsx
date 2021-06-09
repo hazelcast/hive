@@ -148,6 +148,20 @@ describe('Button', () => {
     })
   })
 
+  it('Renders loading animation on right side (only when the right icon is used)', async () => {
+    const wrapper = await mountAndCheckA11Y(
+      // div is required because `axe` cannot validate react fragments
+      <div>
+        <Button loading iconRight={X} iconRightAriaLabel="X Icon">{label}</Button>
+      </div>,
+    )
+
+    expect(wrapper.find(Loader).props()).toEqual({
+      className: styles.iconRight,
+      size: 'medium',
+    })
+  })
+
   it('Renders disabled button with a disabled tooltip', async () => {
     const disabledTooltip = 'Disabled tooltip'
 

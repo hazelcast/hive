@@ -88,9 +88,22 @@ WithLoader.args = {
   loading: true,
 }
 
+export const WithLoaderAndLeftIcon = Template.bind({})
+WithLoaderAndLeftIcon.args = {
+  ...WithLoader.args,
+  ...WithLeftIcon.args,
+}
+
 export const WithLoaderAndRightIcon = Template.bind({})
 WithLoaderAndRightIcon.args = {
   ...WithLoader.args,
+  ...WithRightIcon.args,
+}
+
+export const WithLoaderAndBothIcons = Template.bind({})
+WithLoaderAndBothIcons.args = {
+  ...WithLoader.args,
+  ...WithLeftIcon.args,
   ...WithRightIcon.args,
 }
 
