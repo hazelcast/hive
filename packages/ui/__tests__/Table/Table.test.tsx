@@ -323,6 +323,7 @@ describe('Table', () => {
     expect(wrapper.findDataTest('table').exists()).toBe(true)
     expect(wrapper.findDataTest('table-footer-row-group').exists()).toBe(false)
     expect(wrapper.findDataTest('table-noData-cell').exists()).toBe(true)
+    expect(wrapper.find(Pagination).exists()).toBeFalsy()
   })
 
   it('renders table with loader when data exists', async () => {
@@ -345,5 +346,14 @@ describe('Table', () => {
     expect(wrapper.findDataTest('table-footer-row-group').exists()).toBe(false)
     expect(wrapper.findDataTest('table-noData-cell').exists()).toBe(false)
     expect(wrapper.findDataTest('table-loader-cell').exists()).toBe(true)
+  })
+
+  it('renders table without header', async () => {
+    const columns = getColumns({ withFooter: true })
+
+    const wrapper = await mountAndCheckA11Y(<Table hideHeader data-test="table-test" columns={columns} data={[]} hidePagination />)
+
+    expect(wrapper.findDataTest('table').exists()).toBe(true)
+    expect(wrapper.findDataTest('table-header-row-group').exists()).toBe(false)
   })
 })

@@ -166,6 +166,7 @@ type CustomTableRowClickProps<D extends object> =
 type CustomTableProps<D extends object> = {
   loading?: boolean
   className?: string
+  hideHeader?: boolean
   searchValue?: string
   headerClassName?: string
   paginationClassName?: string
@@ -227,6 +228,7 @@ export const Table = <D extends object>({
   contentClassName = '',
   footerClassName = '',
   searchValue,
+  hideHeader,
 }: TableProps<D>): ReactElement => {
   const {
     getTableProps,
@@ -299,8 +301,10 @@ export const Table = <D extends object>({
     }
   }, [searchValue, setGlobalFilter])
 
+  const hasData = data.length > 0
+
   // If at least one of the columns has footer then we display the footer row
-  const hasFooter = !loading && data.length > 0 && columns.some((col) => !!col.Footer)
+  const hasFooter = !loading && hasData && columns.some((col) => !!col.Footer)
 
   // Header row has always aria-rowindex = 1.
   const headerIndex = 1
@@ -317,34 +321,36 @@ export const Table = <D extends object>({
         })}
       >
         <div data-test="table" {...getTableProps()} className={styles.table} aria-rowcount={rowCount}>
-          <div data-test="table-header-row-group" role="rowgroup" className={headerClassName}>
-            {headerGroups.map((headerGroup) => {
-              const { key: headerGroupKey, ...restHeaderGroupProps } = headerGroup.getHeaderGroupProps()
-              return (
-                <HeaderRow key={headerGroupKey} {...restHeaderGroupProps} ariaRowIndex={headerIndex}>
-                  {headerGroup.headers.map((column, i) => {
-                    const { key: columnKey, ...restHeaderProps } = column.getHeaderProps(column.getSortByToggleProps())
-                    return (
-                      <Header
-                        key={columnKey}
-                        align={column.align}
-                        canSort={column.canSort}
-                        isSorted={column.isSorted}
-                        isSortedDesc={column.isSortedDesc}
-                        isLastHeader={headerGroup.headers.length === i + 1}
-                        canResize={column.canResize}
-                        isResizing={column.isResizing}
-                        getResizerProps={column.getResizerProps}
-                        {...restHeaderProps}
-                      >
-                        <EnhancedHeaderFooterRenderer column={column} columnResizing={columnResizing} type="Header" />
-                      </Header>
-                    )
-                  })}
-                </HeaderRow>
-              )
-            })}
-          </div>
+          {!hideHeader && (
+            <div data-test="table-header-row-group" role="rowgroup" className={headerClassName}>
+              {headerGroups.map((headerGroup) => {
+                const { key: headerGroupKey, ...restHeaderGroupProps } = headerGroup.getHeaderGroupProps()
+                return (
+                  <HeaderRow key={headerGroupKey} {...restHeaderGroupProps} ariaRowIndex={headerIndex}>
+                    {headerGroup.headers.map((column, i) => {
+                      const { key: columnKey, ...restHeaderProps } = column.getHeaderProps(column.getSortByToggleProps())
+                      return (
+                        <Header
+                          key={columnKey}
+                          align={column.align}
+                          canSort={column.canSort}
+                          isSorted={column.isSorted}
+                          isSortedDesc={column.isSortedDesc}
+                          isLastHeader={headerGroup.headers.length === i + 1}
+                          canResize={column.canResize}
+                          isResizing={column.isResizing}
+                          getResizerProps={column.getResizerProps}
+                          {...restHeaderProps}
+                        >
+                          <EnhancedHeaderFooterRenderer column={column} columnResizing={columnResizing} type="Header" />
+                        </Header>
+                      )
+                    })}
+                  </HeaderRow>
+                )
+              })}
+            </div>
+          )}
           <div data-test="table-cell-row-group" role="rowgroup" className={contentClassName}>
             {loading ? (
               <Row role="row">
@@ -395,7 +401,7 @@ export const Table = <D extends object>({
                     </Row>
                   )
                 })}
-                {data.length === 0 && (
+                {!hasData && (
                   <Row role="row">
                     <Cell role="cell" align="center" colSpan={columns.length} data-test="table-noData-cell">
                       {noDataTitle}
@@ -429,7 +435,7 @@ export const Table = <D extends object>({
         </div>
       </div>
 
-      {!hidePagination && (
+      {!hidePagination && hasData && (
         <Pagination
           pageCount={pageCount}
           currentPage={pageIndex + 1}

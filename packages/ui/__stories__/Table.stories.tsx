@@ -17,12 +17,19 @@ export default {
 
 export const Default = () => {
   const [withFooter, setWithFooter] = useState(false)
+  const [withHeader, setWithHeader] = useState(true)
   const [sorting, setSorting] = useState(false)
   const [paginate, setPaginate] = useState(false)
 
   return (
     <>
-      <Table columns={getColumns({ withFooter })} data={bigDataSet} disableSortBy={!sorting} hidePagination={!paginate} />
+      <Table
+        data={bigDataSet}
+        hideHeader={!withHeader}
+        disableSortBy={!sorting}
+        hidePagination={!paginate}
+        columns={getColumns({ withFooter })}
+      />
 
       <hr />
       <div className={styles.toggles}>
@@ -32,6 +39,14 @@ export const Default = () => {
           label="Footer"
           onChange={(e) => {
             setWithFooter(e.target.checked)
+          }}
+        />
+        <Toggle
+          name="default"
+          checked={withHeader}
+          label="Header"
+          onChange={(e) => {
+            setWithHeader(e.target.checked)
           }}
         />
         <Toggle
