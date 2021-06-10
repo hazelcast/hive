@@ -49,7 +49,7 @@ const Template: Story<Pick<PaginationProps, 'displaySmallBreakpoint'>> = ({ disp
 
 export const Default = Template.bind({})
 
-export const Full = Template.bind({})
-Full.args = {
-  displaySmallBreakpoint: 5000,
+export const WithCustomSmallBreakpoint = Template.bind({})
+WithCustomSmallBreakpoint.args = {
+  displaySmallBreakpoint: 500,
 }

@@ -64,7 +64,6 @@ export type PaginationProps = {
   setPageSize: (pageSize: number) => void
   pageSizeOptions: number[]
   numberOfItems: number
-  small?: boolean
   displaySmallBreakpoint?: number
 }
 
@@ -90,15 +89,14 @@ export const Pagination: FC<PaginationProps> = ({
   setPageSize,
   pageSizeOptions,
   numberOfItems,
-  small,
   displaySmallBreakpoint = 1000,
 }) => {
   const containerWidthRef = useRef<HTMLDivElement>(null)
   const { width } = useDimensions(containerWidthRef)
   // 1000 pixels seems to be the magical breakpoint
-  const displaySmall = width < displaySmallBreakpoint
+  const displaySmall = width > displaySmallBreakpoint
 
-  const pages = usePagination({ pageCount, currentPage, small: small || displaySmall })
+  const pages = usePagination({ pageCount, currentPage, small: displaySmall })
   const { firstItemShown, lastItemShown } = useMemo(
     () =>
       getShownItemsRange({
@@ -123,7 +121,7 @@ export const Pagination: FC<PaginationProps> = ({
     [setPageSize],
   )
 
-  const RowsPerPageSelect = useDeepCompareMemo(
+  const RowsPerPageSelect = useMemo(
     () => (
       <SelectField<number>
         className={styles.rowsPerPage}
@@ -134,9 +132,10 @@ export const Pagination: FC<PaginationProps> = ({
         options={rowsPerPageOptions}
         onChange={onChangeWrapped}
         isSearchable={false}
+        size="small"
       />
     ),
-    [rowsPerPageOptions, pageSize],
+    [rowsPerPageOptions, pageSize, onChangeWrapped],
   )
 
   const submitPageJump = useCallback(
@@ -165,8 +164,9 @@ export const Pagination: FC<PaginationProps> = ({
               showAriaLabel
               min={1}
               max={pageCount}
+              size="small"
             />
-            <Link component="button" type="submit">
+            <Link size="small" component="button" type="submit">
               Go
             </Link>
           </Form>

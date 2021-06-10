@@ -20,7 +20,7 @@
   }
 
   .shownItems {
-    @include c.typographyBodyNormal;
+    @include c.typographyBodySmall;
 
     color: c.$colorTextSecondary;
   }
@@ -39,10 +39,11 @@
       background-color: c.$colorNeutralLighter;
       border: 1px solid;
       border-color: c.$colorNeutralLight;
+      height: c.$inputHeightSmall;
       @include c.typographyBodySmall;
 
       .body {
-        padding: 0 c.$grid * 3.5;
+        padding: 0 c.$grid * 2.5;
       }
 
       &:hover,
@@ -70,7 +71,7 @@
     background-color: c.$colorNeutralLighter;
     border: 1px solid;
     border-color: c.$colorNeutralLight;
-    height: c.$grid * 10;
+    height: c.$inputHeightSmall;
     padding: 0 c.$grid * 2;
 
     &:hover,
