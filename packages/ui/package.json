@@ -1,6 +1,6 @@
 {
   "name": "@hazelcast/ui",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Hazelcast design system components",
   "author": "",
   "homepage": "https://github.com/hazelcast/frontend-shared#readme",
@@ -47,8 +47,8 @@
     "@codemirror/legacy-modes": "0.18.0",
     "@codemirror/stream-parser": "0.18.2",
     "@codemirror/view": "0.18.8",
-    "@hazelcast/helpers": "^1.0.3",
-    "@hazelcast/services": "^1.0.3",
+    "@hazelcast/helpers": "^1.1.0",
+    "@hazelcast/services": "^1.1.0",
     "@headlessui/react": "^1.2.0",
     "@icons-pack/react-simple-icons": "^3.13.0",
     "@popperjs/core": "^2.5.3",
@@ -72,7 +72,7 @@
     "use-deep-compare": "^1.1.0"
   },
   "devDependencies": {
-    "@hazelcast/test-helpers": "^1.0.3",
+    "@hazelcast/test-helpers": "^1.1.0",
     "@storybook/addon-docs": "6.1.21",
     "@storybook/addons": "6.1.21",
     "@storybook/preset-scss": "^1.0.2",

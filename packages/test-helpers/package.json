@@ -1,6 +1,6 @@
 {
   "name": "@hazelcast/test-helpers",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Hazelcast shared test helpers",
   "author": "",
   "homepage": "https://github.com/hazelcast/frontend-shared#readme",
@@ -30,7 +30,7 @@
     "url": "https://github.com/hazelcast/frontend-shared/issues"
   },
   "dependencies": {
-    "@hazelcast/services": "^1.0.3",
+    "@hazelcast/services": "^1.1.0",
     "@types/jest-axe": "^3.5.0",
     "jest-axe": "^4.0.0"
   },
