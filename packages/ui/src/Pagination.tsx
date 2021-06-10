@@ -89,12 +89,12 @@ export const Pagination: FC<PaginationProps> = ({
   setPageSize,
   pageSizeOptions,
   numberOfItems,
-  displaySmallBreakpoint = 1000,
+  displaySmallBreakpoint = 820,
 }) => {
   const containerWidthRef = useRef<HTMLDivElement>(null)
   const { width } = useDimensions(containerWidthRef)
   // 1000 pixels seems to be the magical breakpoint
-  const displaySmall = width > displaySmallBreakpoint
+  const displaySmall = width < displaySmallBreakpoint
 
   const pages = usePagination({ pageCount, currentPage, small: displaySmall })
   const { firstItemShown, lastItemShown } = useMemo(

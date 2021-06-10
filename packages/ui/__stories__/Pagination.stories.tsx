@@ -51,5 +51,5 @@ export const Default = Template.bind({})
 
 export const WithCustomSmallBreakpoint = Template.bind({})
 WithCustomSmallBreakpoint.args = {
-  displaySmallBreakpoint: 500,
+  displaySmallBreakpoint: 1000,
 }
