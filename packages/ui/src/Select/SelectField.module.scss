@@ -19,6 +19,10 @@ $selectGroupHeading: ':global .hz-select-field__group-heading';
   .label {
     display: block;
     margin-bottom: c.$grid;
+
+    &.small {
+      @include c.typographyBodySmall;
+    }
   }
 
   .errorContainer {
