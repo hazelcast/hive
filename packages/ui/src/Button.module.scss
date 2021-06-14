@@ -117,10 +117,10 @@
     border-color: c.$colorPrimary;
 
     .outline {
-      /* Note: We need to take border of 2*2px into account */
+      /* Note: We need to take border of 1px into account */
       /* doiuse-disable calc */
-      width: calc(100% + #{c.$grid} * 3);
-      height: calc(100% + #{c.$grid} * 3);
+      width: calc(100% + #{c.$grid} * 2.5);
+      height: calc(100% + #{c.$grid} * 2.5);
       /* doiuse-enable calc */
 
       &.inset {

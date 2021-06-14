@@ -144,6 +144,7 @@ describe('Pagination', () => {
       isSearchable: false,
       label: 'Rows',
       options: pageSizeOptions.map((opt) => ({ value: opt, label: opt.toString() })),
+      size: 'small',
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       onChange: expect.anything(),
     })
@@ -208,6 +209,7 @@ describe('Pagination', () => {
       showIconButtons: false,
       min: 1,
       max: pageCount,
+      size: 'small',
     })
   })
 
@@ -542,6 +544,7 @@ describe('Pagination', () => {
       value: pageSize,
       isSearchable: false,
       label: 'Rows',
+      size: 'small',
       options: pageSizeOptions.map((opt) => ({ value: opt, label: opt.toString() })),
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       onChange: expect.anything(),
@@ -566,6 +569,7 @@ describe('Pagination', () => {
       showIconButtons: false,
       min: 1,
       max: pageCount,
+      size: 'small',
     })
 
     // Back to pagination buttons

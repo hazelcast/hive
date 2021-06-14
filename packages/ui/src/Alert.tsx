@@ -101,13 +101,13 @@ export const Alert: FC<AlertProps> = ({ type, title, content, actions, className
                         iconLeft: icon,
                         iconLeftAriaLabel: ariaLabel,
                         iconLeftClassName: styles.actionButtonIcon,
-                        iconLeftSize: 'small',
                       }
                     : {}
 
                 return (
                   <Button
                     key={aI}
+                    size="small"
                     kind="transparent"
                     capitalize={false}
                     className={cn(styles.action, styles.actionButton)}

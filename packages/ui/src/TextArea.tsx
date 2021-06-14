@@ -12,6 +12,8 @@ import { PopperRef } from './Tooltip'
 
 import styles from './TextArea.module.scss'
 
+export type TextAreaSize = 'medium' | 'small'
+
 export type TextAreaCoreProps = {
   name: string
   value?: string
@@ -27,6 +29,7 @@ export type TextAreaExtraProps = {
   errorClassName?: string
   resizable?: boolean
   helperText?: HelpProps['helperText']
+  size?: TextAreaSize
 } & Partial<Pick<HTMLTextAreaElement, 'className' | 'disabled' | 'placeholder' | 'required' | 'rows'>>
 
 export type TextAreaProps = TextAreaCoreProps & TextAreaExtraProps & DataTestProp
@@ -47,6 +50,7 @@ export const TextArea: FC<TextAreaProps> = ({
   required,
   resizable = true,
   helperText,
+  size = 'medium',
   'data-test': dataTest,
   ...htmlAttrs
 }) => {
@@ -73,7 +77,7 @@ export const TextArea: FC<TextAreaProps> = ({
         className,
       )}
     >
-      <Label id={id} label={label} className={cn(styles.label, labelClassName)} />
+      <Label id={id} label={label} className={cn(styles.label, { [styles.small]: size === 'small' }, labelClassName)} />
       <div className={styles.textAreaContainer}>
         <div className={styles.textAreaWrapper}>
           <textarea

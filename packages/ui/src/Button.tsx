@@ -6,10 +6,10 @@ import { useUID } from 'react-uid'
 import { Icon, IconProps } from './Icon'
 import { TruncatedText } from './TruncatedText'
 import { Tooltip, TooltipProps } from './Tooltip'
-
-import styles from './Button.module.scss'
 import { LinkRel, LinkTarget } from './Link'
 import { Loader } from './Loader'
+
+import styles from './Button.module.scss'
 
 export type ButtonKind = 'primary' | 'secondary' | 'danger' | 'transparent'
 
@@ -20,14 +20,12 @@ export type ButtonAccessibleIconLeftProps =
   | {
       iconLeft: IconProps['icon']
       iconLeftAriaLabel: string
-      iconLeftSize?: IconProps['size']
       iconLeftColor?: IconProps['color']
       iconLeftClassName?: string
     }
   | {
       iconLeft?: never
       iconLeftAriaLabel?: never
-      iconLeftSize?: never
       iconLeftColor?: never
       iconLeftClassName?: never
     }
@@ -37,14 +35,12 @@ export type ButtonAccessibleIconRightProps =
   | {
       iconRight: IconProps['icon']
       iconRightAriaLabel: string
-      iconRightSize?: IconProps['size']
       iconRightColor?: IconProps['color']
       iconRightClassName?: string
     }
   | {
       iconRight?: never
       iconRightAriaLabel?: never
-      iconRightSize?: never
       iconRightColor?: never
       iconRightClassName?: never
     }
@@ -138,13 +134,11 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
       // Left icon
       iconLeft,
       iconLeftAriaLabel,
-      iconLeftSize,
       iconLeftColor,
       iconLeftClassName,
       // Right icon
       iconRight,
       iconRightAriaLabel,
-      iconRightSize,
       iconRightColor,
       iconRightClassName,
       rel = 'noopener',
@@ -196,7 +190,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
                   ariaLabel={iconLeftAriaLabel}
                   data-test="button-icon-left"
                   className={cn(styles.iconLeft, iconLeftClassName)}
-                  size={iconLeftSize}
+                  size={size}
                   color={iconLeftColor}
                 />
               )}
@@ -217,7 +211,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
                   ariaLabel={iconRightAriaLabel}
                   data-test="button-icon-right"
                   className={cn(styles.iconRight, iconRightClassName)}
-                  size={iconRightSize}
+                  size={size}
                   color={iconRightColor}
                 />
               )}

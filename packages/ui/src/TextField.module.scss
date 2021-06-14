@@ -14,6 +14,10 @@ $marginLeftWithIcon: c.$grid * 5;
   .label {
     display: block;
     margin-bottom: c.$grid;
+
+    &.small {
+      @include c.typographyBodySmall;
+    }
   }
 
   .inputBlock {

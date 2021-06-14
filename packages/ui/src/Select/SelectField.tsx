@@ -179,7 +179,7 @@ export const SelectField = <V extends string | number = string>({
         className,
       )}
     >
-      {!showAriaLabel && <Label id={id} label={label} className={cn(styles.label, labelClassName)} />}
+      {!showAriaLabel && <Label id={id} label={label} className={cn(styles.label, { [styles.small]: size === 'small' }, labelClassName)} />}
       <div className={styles.selectBlock}>
         {iconLeft && iconLeftAriaLabel && (
           <Icon

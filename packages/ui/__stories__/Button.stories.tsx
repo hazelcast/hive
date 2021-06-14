@@ -15,7 +15,7 @@ export default {
   component: Button,
   parameters: {
     type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=492%3A67',
+    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE-Hazelcast-Design-System?node-id=492%3A67',
   },
   args: {
     children: 'Button',
@@ -28,12 +28,20 @@ const Template: Story<Args> = ({ className, ...args }) => {
     className: cn(storyStyles.button, className),
   }
   return (
-    <>
-      <Button {...props} kind="primary" />
-      <Button {...props} kind="secondary" />
-      <Button {...props} kind="danger" />
-      <Button {...props} kind="transparent" />
-    </>
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <div>
+        <Button {...props} kind="primary" />
+        <Button {...props} kind="secondary" />
+        <Button {...props} kind="danger" />
+        <Button {...props} kind="transparent" />
+      </div>
+      <div style={{ marginTop: 20 }}>
+        <Button {...props} kind="primary" size="small" />
+        <Button {...props} kind="secondary" size="small" />
+        <Button {...props} kind="danger" size="small" />
+        <Button {...props} kind="transparent" size="small" />
+      </div>
+    </div>
   )
 }
 
@@ -58,11 +66,6 @@ export const Disabled = Template.bind({})
 Disabled.args = {
   disabled: true,
   disabledTooltip: 'This button is disabled',
-}
-
-export const Small = Template.bind({})
-Small.args = {
-  size: 'small',
 }
 
 export const WithLeftIcon = Template.bind({})

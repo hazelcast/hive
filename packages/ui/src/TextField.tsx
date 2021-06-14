@@ -115,7 +115,7 @@ export const TextField = <T extends TextFieldTypes>({
         className,
       )}
     >
-      {!showAriaLabel && <Label id={id} label={label} className={cn(styles.label, labelClassName)} />}
+      {!showAriaLabel && <Label id={id} label={label} className={cn(styles.label, { [styles.small]: size === 'small' }, labelClassName)} />}
       <div className={styles.inputBlock}>
         <div className={cn(styles.inputContainer, inputContainerClassName)}>
           <input
