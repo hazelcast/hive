@@ -13,7 +13,7 @@ $tooltipArrowSize2-3: c.$tooltipArrowSize / 3 * 2;
 
   position: relative;
   max-width: c.$tooltipMaxWidth;
-  padding: c.$grid * 5;
+  padding: c.$grid * 3;
   background: c.$colorNeutralLighter;
   border: c.$borderWidth solid c.$colorNeutralLight;
   border-radius: c.$borderRadius;
