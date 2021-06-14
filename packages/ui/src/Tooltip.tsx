@@ -1,7 +1,10 @@
 import React, { FC, ReactNode, useCallback, useEffect, useState, useImperativeHandle, MutableRefObject } from 'react'
+import ReactDOM from 'react-dom'
 import { Placement } from '@popperjs/core'
 import { usePopper } from 'react-popper'
 import cn from 'classnames'
+
+import { canUseDOM } from './utils/ssr'
 
 import styles from './Tooltip.module.scss'
 
@@ -108,6 +111,11 @@ export const Tooltip: FC<TooltipProps> = ({
   // Makes sure "visible" prop can override local "isShown" state
   const isTooltipVisible = visibilityOverride ?? isShown
 
+  // Make sure the DOM exists - we're using portals ahead!
+  if (!canUseDOM) {
+    return null
+  }
+
   return (
     <>
       {children(setReferenceElement)}
@@ -118,26 +126,31 @@ export const Tooltip: FC<TooltipProps> = ({
             {content}
           </span>
 
-          <span
-            ref={setPopperElement}
-            className={cn(styles.overlay, {
-              [styles.hidden]: !isTooltipVisible,
-            })}
-            style={popper.styles.popper}
-            data-test="tooltip-overlay"
-            aria-hidden
-            {...popper.attributes.popper}
-          >
-            {content}
-
-            <span
-              ref={setArrowElement}
-              className={styles.arrow}
-              style={popper.styles.arrow}
-              data-test="tooltip-arrow"
-              {...popper.attributes.arrow}
-            />
-          </span>
+          {/* Portaling is useful when we want to position a tooltip inside an `overflow: hidden` container */}
+          {ReactDOM.createPortal(
+            <>
+              <span
+                ref={setPopperElement}
+                className={cn(styles.overlay, {
+                  [styles.hidden]: !isTooltipVisible,
+                })}
+                style={popper.styles.popper}
+                data-test="tooltip-overlay"
+                aria-hidden
+                {...popper.attributes.popper}
+              >
+                {content}
+                <span
+                  ref={setArrowElement}
+                  className={styles.arrow}
+                  style={popper.styles.arrow}
+                  data-test="tooltip-arrow"
+                  {...popper.attributes.arrow}
+                />
+              </span>
+            </>,
+            document.body,
+          )}
         </>
       )}
     </>
