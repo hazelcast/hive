@@ -17,9 +17,9 @@ export type AutocompleteFieldOption = {
   value: string
 }
 
-export type RenderOptionFunction = (
+export type RenderOptionFunction<O> = (
   highlightedLabelText: ReactNode,
-  option: AutocompleteFieldOption,
+  option: O extends AutocompleteFieldOption ? O : never,
   labelMeta: FormatOptionLabelMeta<AutocompleteFieldOption>,
 ) => ReactNode
 
@@ -39,7 +39,7 @@ export type AutocompleteFieldProps = {
   onFocus?: (e: FocusEvent<HTMLElement>) => void
   required?: boolean
   helperText?: HelpProps['helperText']
-  renderOption?: RenderOptionFunction
+  renderOption?: RenderOptionFunction<AutocompleteFieldOption>
   name: string
   options: AutocompleteFieldOption[]
   value?: string | null
