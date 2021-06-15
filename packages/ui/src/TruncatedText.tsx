@@ -11,7 +11,7 @@ import styles from './TruncatedText.module.scss'
 interface TruncatedTextProps {
   text: ReactText | ((...arg: unknown[]) => string)
   // Pass a new value to trigger a force re-render
-  forceUpdateToken?: ReactText
+  forceUpdateToken?: ReactText | boolean
   className?: string
   tooltipVisible?: boolean
 }
@@ -33,7 +33,7 @@ export const TruncatedText: FC<TruncatedTextProps> = ({ text, forceUpdateToken, 
   }, [text, forceUpdateToken])
 
   return (
-    <Tooltip id={idTooltip} placement="top" content={tooltip} visible={tooltipVisible}>
+    <Tooltip id={idTooltip} placement="top" content={tooltip} visible={tooltipVisible} updateToken={forceUpdateToken}>
       {(ref) => (
         <div ref={mergeRefs([textRef, ref])} className={cn(styles.truncatedText, className)}>
           <span aria-labelledby={tooltip ? idTooltip : undefined}>{text}</span>

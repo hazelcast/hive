@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useCallback, useEffect, useState, useImperativeHandle, MutableRefObject } from 'react'
+import React, { FC, ReactNode, useCallback, useEffect, useState, useImperativeHandle, MutableRefObject, ReactText } from 'react'
 import ReactDOM from 'react-dom'
 import { Placement } from '@popperjs/core'
 import { usePopper } from 'react-popper'
@@ -7,6 +7,21 @@ import cn from 'classnames'
 import { canUseDOM } from './utils/ssr'
 
 import styles from './Tooltip.module.scss'
+
+export type TooltipContainer = 'body' | 'referenceElement' | HTMLElement
+
+const getTooltipPortalContainer = (tooltipContainer: TooltipContainer, referenceElement: HTMLElement | null): HTMLElement | null => {
+  if (tooltipContainer === 'body') {
+    // There is no document is SSR environment
+    return canUseDOM ? document.body : null
+  }
+
+  if (tooltipContainer === 'referenceElement') {
+    return referenceElement ?? null
+  }
+
+  return tooltipContainer
+}
 
 export type PopperRef = ReturnType<typeof usePopper>
 
@@ -19,6 +34,8 @@ export type TooltipProps = {
   visible?: boolean
   children: (ref: React.Dispatch<React.SetStateAction<HTMLElement | null>>) => ReactNode
   popperRef?: MutableRefObject<PopperRef | undefined>
+  updateToken?: ReactText | boolean
+  tooltipContainer?: TooltipContainer
 }
 
 /**
@@ -31,6 +48,8 @@ export type TooltipProps = {
  * - Offset (space between a target and tooltip elements) can be also configured via "offset" property.
  * - If "content" property is undefined, tooltip element will be removed from DOM entirely.
  * - It's required to set the "id" property which will be assigned to the tooltip. This id parameter can be then used as a value of "aria-labelledby" attribute.
+ * - Use `updateToken` prop to update the tooltip position.
+ * - Use `tooltipContainer` prop to change the tooltip portal container. Defaults to `body`.
  *
  * ### Usage
  * Wrap the target element with Tooltip component and use the "content" property to define what should be displayed inside the tooltip.
@@ -44,6 +63,8 @@ export const Tooltip: FC<TooltipProps> = ({
   visible: visibilityOverride,
   children,
   popperRef,
+  updateToken,
+  tooltipContainer = 'body',
 }) => {
   const [isShown, setShown] = useState<boolean>(false)
   const [hideTimeout, setHideTimeout] = useState<NodeJS.Timeout | null>(null)
@@ -108,13 +129,18 @@ export const Tooltip: FC<TooltipProps> = ({
     }
   }, [referenceElement, popperElement, onMouseLeave])
 
+  // Update the tooltip position
+  useEffect(() => {
+    if (popper && popper.update) {
+      void popper.update()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [updateToken])
+
   // Makes sure "visible" prop can override local "isShown" state
   const isTooltipVisible = visibilityOverride ?? isShown
 
-  // Make sure the DOM exists - we're using portals ahead!
-  if (!canUseDOM) {
-    return null
-  }
+  const tooltipPortalContainer = getTooltipPortalContainer(tooltipContainer, referenceElement)
 
   return (
     <>
@@ -125,32 +151,32 @@ export const Tooltip: FC<TooltipProps> = ({
           <span id={id} className={styles.tooltipSr} role="tooltip" data-test="tooltip-sr">
             {content}
           </span>
-
-          {/* Portaling is useful when we want to position a tooltip inside an `overflow: hidden` container */}
-          {ReactDOM.createPortal(
-            <>
-              <span
-                ref={setPopperElement}
-                className={cn(styles.overlay, {
-                  [styles.hidden]: !isTooltipVisible,
-                })}
-                style={popper.styles.popper}
-                data-test="tooltip-overlay"
-                aria-hidden
-                {...popper.attributes.popper}
-              >
-                {content}
+          {tooltipPortalContainer &&
+            ReactDOM.createPortal(
+              <>
                 <span
-                  ref={setArrowElement}
-                  className={styles.arrow}
-                  style={popper.styles.arrow}
-                  data-test="tooltip-arrow"
-                  {...popper.attributes.arrow}
-                />
-              </span>
-            </>,
-            document.body,
-          )}
+                  ref={setPopperElement}
+                  className={cn(styles.overlay, {
+                    [styles.hidden]: !isTooltipVisible,
+                  })}
+                  style={popper.styles.popper}
+                  data-test="tooltip-overlay"
+                  aria-hidden
+                  {...popper.attributes.popper}
+                >
+                  {content}
+                  <span
+                    ref={setArrowElement}
+                    className={styles.arrow}
+                    style={popper.styles.arrow}
+                    data-test="tooltip-arrow"
+                    {...popper.attributes.arrow}
+                  />
+                </span>
+              </>,
+              tooltipPortalContainer,
+              id,
+            )}
         </>
       )}
     </>
