@@ -1,5 +1,5 @@
 import { DataTestProp } from '@hazelcast/helpers'
-import React, { AnchorHTMLAttributes, FC, ReactElement, ReactNode, useEffect } from 'react'
+import React, { AnchorHTMLAttributes, FC, ReactElement, useEffect } from 'react'
 import cn from 'classnames'
 import {
   useTable,
@@ -25,6 +25,8 @@ import { HeaderRow, LinkRow, Row } from './Row'
 import styles from './Table.module.scss'
 import styleConsts from '../../styles/constants/export.module.scss'
 import { Loader } from '../Loader'
+import { EmptyState } from '../EmptyState'
+import { AlertTriangle } from 'react-feather'
 
 // Why do we need it: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react-table
 
@@ -172,7 +174,7 @@ type CustomTableProps<D extends object> = {
   paginationClassName?: string
   footerClassName?: string
   contentClassName?: string
-  noDataTitle?: string | ReactNode
+  noDataTitle?: string
   // Custom props getter for Cell
   getCustomCellProps?: (cellInfo: CellType<D>) => CellProps
   onRenderedContentChange?: (newPage: RowType<D>[]) => void
@@ -221,7 +223,7 @@ export const Table = <D extends object>({
   AnchorComponent,
   getCustomCellProps,
   loading,
-  noDataTitle = 'No data available in table',
+  noDataTitle = 'The table is empty',
   initialState = { pageIndex: 0, pageSize: defaultPageSize },
   className = '',
   headerClassName = '',
@@ -351,66 +353,63 @@ export const Table = <D extends object>({
               })}
             </div>
           )}
-          <div data-test="table-cell-row-group" role="rowgroup" className={contentClassName}>
-            {loading ? (
-              <Row role="row">
-                <Cell role="cell" align="center" colSpan={columns.length} data-test="table-loader-cell">
-                  <Loader />
-                </Cell>
-              </Row>
-            ) : (
-              <>
-                {page.map((row) => {
-                  prepareRow(row)
-                  const { key: rowKey, ...restRowProps } = row.getRowProps()
-                  const cells = row.cells.map((cell, i) => {
-                    const { key: cellKey, ...restCellProps } = cell.getCellProps()
-                    const customCellProps = getCustomCellProps ? getCustomCellProps(cell) : {}
-                    // We don't want to use cell.column.Cell as that is a ColumnInstance which already has a cell renderer
-                    const column = columns[i] as ColumnInterfaceBasedOnValue<D>
-                    return (
-                      <Cell key={cellKey} align={cell.column.align} {...restCellProps} {...customCellProps}>
-                        <EnhancedCellRenderer cell={cell} hasCellRenderer={!!column.Cell} columnResizing={columnResizing} />
-                      </Cell>
-                    )
-                  })
-                  return getHref ? (
-                    <LinkRow
-                      key={rowKey}
-                      AnchorComponent={AnchorComponent}
-                      {...restRowProps}
-                      ariaRowIndex={row.index + 1 + cellIndexOffset}
-                      href={getHref(row)}
-                    >
-                      {cells}
-                    </LinkRow>
-                  ) : (
-                    <Row
-                      key={rowKey}
-                      {...restRowProps}
-                      ariaRowIndex={row.index + 1 + cellIndexOffset}
-                      onClick={
-                        onRowClick
-                          ? () => {
-                              onRowClick(row)
-                            }
-                          : undefined
-                      }
-                    >
-                      {cells}
-                    </Row>
-                  )
-                })}
-                {!hasData && (
-                  <Row role="row">
-                    <Cell role="cell" align="center" colSpan={columns.length} data-test="table-noData-cell">
-                      {noDataTitle}
+          {loading ? (
+            <Row role="row">
+              <Cell role="cell" align="center" colSpan={columns.length} data-test="table-loader-cell">
+                <Loader />
+              </Cell>
+            </Row>
+          ) : hasData ? (
+            <div data-test="table-cell-row-group" role="rowgroup" className={contentClassName}>
+              {page.map((row) => {
+                prepareRow(row)
+                const { key: rowKey, ...restRowProps } = row.getRowProps()
+                const cells = row.cells.map((cell, i) => {
+                  const { key: cellKey, ...restCellProps } = cell.getCellProps()
+                  const customCellProps = getCustomCellProps ? getCustomCellProps(cell) : {}
+                  // We don't want to use cell.column.Cell as that is a ColumnInstance which already has a cell renderer
+                  const column = columns[i] as ColumnInterfaceBasedOnValue<D>
+                  return (
+                    <Cell key={cellKey} align={cell.column.align} {...restCellProps} {...customCellProps}>
+                      <EnhancedCellRenderer cell={cell} hasCellRenderer={!!column.Cell} columnResizing={columnResizing} />
                     </Cell>
+                  )
+                })
+                return getHref ? (
+                  <LinkRow
+                    key={rowKey}
+                    AnchorComponent={AnchorComponent}
+                    {...restRowProps}
+                    ariaRowIndex={row.index + 1 + cellIndexOffset}
+                    href={getHref(row)}
+                  >
+                    {cells}
+                  </LinkRow>
+                ) : (
+                  <Row
+                    key={rowKey}
+                    {...restRowProps}
+                    ariaRowIndex={row.index + 1 + cellIndexOffset}
+                    onClick={
+                      onRowClick
+                        ? () => {
+                            onRowClick(row)
+                          }
+                        : undefined
+                    }
+                  >
+                    {cells}
                   </Row>
-                )}
-              </>
-            )}
-          </div>
+                )
+              })}
+            </div>
+          ) : (
+            <div role="row">
+              <div role="cell">
+                <EmptyState className={styles.empty} title={noDataTitle} icon={AlertTriangle} iconLabel="Alert" />
+              </div>
+            </div>
+          )}
           {hasFooter && (
             <div data-test="table-footer-row-group" role="rowgroup" className={footerClassName}>
               {footerGroups.map((group) => {

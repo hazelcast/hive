@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useCallback, MouseEvent, KeyboardEvent } from 'react'
+import React, { FC, useMemo, useCallback, MouseEvent, KeyboardEvent, AriaAttributes } from 'react'
 import { ChevronDown, ChevronUp } from 'react-feather'
 import { TableHeaderProps, TableResizerProps } from 'react-table'
 import cn from 'classnames'
@@ -41,7 +41,7 @@ export const Header: FC<HeaderProps> = ({
   className,
   role,
 }) => {
-  let ariaSort: React.AriaAttributes['aria-sort']
+  let ariaSort: AriaAttributes['aria-sort']
   if (isSorted) {
     ariaSort = isSortedDesc ? 'descending' : 'ascending'
   }
@@ -55,7 +55,7 @@ export const Header: FC<HeaderProps> = ({
         })}
         icon={!isSorted ? ChevronUp : isSortedDesc ? ChevronDown : ChevronUp}
         ariaLabel={!isSorted ? 'Not Sorted' : isSortedDesc ? 'Descending' : 'Ascending'}
-        size="small"
+        size="smallMedium"
       />
     ),
     [align, isSorted, isSortedDesc],
@@ -70,6 +70,13 @@ export const Header: FC<HeaderProps> = ({
     },
     [onClick],
   )
+
+  const buttonRoleProps = {
+    tabIndex: onClick ? 0 : undefined,
+    role: onClick ? 'button' : undefined,
+    onKeyPress: onClick ? onKeyPress : undefined,
+    onClick,
+  }
 
   return (
     <div
@@ -88,10 +95,7 @@ export const Header: FC<HeaderProps> = ({
           [styles.alignRight]: align === 'right',
           [styles.alignCenter]: align === 'center',
         })}
-        tabIndex={onClick ? 0 : undefined}
-        role={onClick ? 'button' : undefined}
-        onKeyPress={onClick ? onKeyPress : undefined}
-        onClick={onClick}
+        {...buttonRoleProps}
       >
         {canSort && align === 'right' && Chevron}
         {children}

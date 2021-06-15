@@ -2,6 +2,7 @@ import React, { FC, ReactNode, useCallback, useEffect, useState, useImperativeHa
 import ReactDOM from 'react-dom'
 import { Placement } from '@popperjs/core'
 import { usePopper } from 'react-popper'
+import useEvent from 'react-use/lib/useEvent'
 import cn from 'classnames'
 
 import { canUseDOM } from './utils/ssr'
@@ -109,31 +110,15 @@ export const Tooltip: FC<TooltipProps> = ({
     setHideTimeout(setTimeout(() => setShown(false), hideTimeoutDuration))
   }, [hideTimeoutDuration])
 
+  useEvent('mouseenter', onMouseEnter, referenceElement)
+  useEvent('mouseleave', onMouseLeave, referenceElement)
+
+  useEvent('mouseenter', onMouseEnter, popperElement)
+  useEvent('mouseleave', onMouseLeave, popperElement)
+
+  // Update the tooltip's horizontal position (useful when resizing table columns)
   useEffect(() => {
-    referenceElement?.addEventListener('mouseenter', onMouseEnter)
-    popperElement?.addEventListener('mouseenter', onMouseEnter)
-
-    return () => {
-      referenceElement?.removeEventListener('mouseenter', onMouseEnter)
-      popperElement?.removeEventListener('mouseenter', onMouseEnter)
-    }
-  }, [referenceElement, popperElement, onMouseEnter])
-
-  useEffect(() => {
-    referenceElement?.addEventListener('mouseleave', onMouseLeave)
-    popperElement?.addEventListener('mouseleave', onMouseLeave)
-
-    return () => {
-      referenceElement?.removeEventListener('mouseleave', onMouseLeave)
-      popperElement?.removeEventListener('mouseleave', onMouseLeave)
-    }
-  }, [referenceElement, popperElement, onMouseLeave])
-
-  // Update the tooltip position
-  useEffect(() => {
-    if (popper && popper.update) {
-      void popper.update()
-    }
+    content ?? popper?.update?.()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updateToken])
 

@@ -106,7 +106,7 @@ describe('Header', () => {
       className: `${styles.sortingIcon} ${styles.left}`,
       icon: ChevronDown,
       ariaLabel: 'Descending',
-      size: 'small',
+      size: 'smallMedium',
     })
   })
 
@@ -121,7 +121,7 @@ describe('Header', () => {
       className: `${styles.sortingIcon} ${styles.left}`,
       icon: ChevronUp,
       ariaLabel: 'Ascending',
-      size: 'small',
+      size: 'smallMedium',
     })
   })
 

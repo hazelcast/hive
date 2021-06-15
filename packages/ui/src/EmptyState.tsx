@@ -49,6 +49,7 @@ export type EmptyStateProps = {
   description?: string
   icon: IconProps['icon']
   iconLabel: string
+  className?: string
 } & EmptyStateAction
 
 /**
@@ -69,6 +70,7 @@ export const EmptyState: FC<EmptyStateProps> = ({
   description,
   icon,
   iconLabel,
+  className,
   ...restWActionProps
 }) => {
   const { action, actionHref, actionOnClick, actionTarget, actionRel } = restWActionProps
@@ -78,19 +80,20 @@ export const EmptyState: FC<EmptyStateProps> = ({
   return (
     <div
       data-test="empty-state-container"
-      className={cn(styles.container, {
-        // Direction
-        [styles.horizontal]: direction === 'horizontal',
-        // Size
-        [styles.large]: size === 'large',
-      })}
+      className={cn(
+        styles.container,
+        {
+          [styles.horizontal]: direction === 'horizontal',
+          [styles.large]: size === 'large',
+        },
+        className,
+      )}
     >
       <Icon data-test="empty-state-icon" className={styles.icon} icon={icon} ariaLabel={iconLabel} size={iconSize} />
       <div className={styles.content}>
-        {/* Note: div used instead of h3 due to styling override */}
-        <h3 data-test="empty-state-title" className={styles.title}>
+        <div data-test="empty-state-title" className={styles.title}>
           {title}
-        </h3>
+        </div>
         {description && (
           <p data-test="empty-state-description" className={styles.description}>
             {description}
