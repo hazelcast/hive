@@ -344,7 +344,7 @@ export const Table = <D extends object>({
                           getResizerProps={column.getResizerProps}
                           {...restHeaderProps}
                         >
-                          <EnhancedHeaderFooterRenderer column={column} type="Header" />
+                          <EnhancedHeaderFooterRenderer column={column} columnResizing={columnResizing} type="Header" />
                         </Header>
                       )
                     })}
@@ -371,7 +371,7 @@ export const Table = <D extends object>({
                   const column = columns[i] as ColumnInterfaceBasedOnValue<D>
                   return (
                     <Cell key={cellKey} align={cell.column.align} {...restCellProps} {...customCellProps}>
-                      <EnhancedCellRenderer cell={cell} hasCellRenderer={!!column.Cell} />
+                      <EnhancedCellRenderer cell={cell} hasCellRenderer={!!column.Cell} columnResizing={columnResizing} />
                     </Cell>
                   )
                 })
@@ -422,7 +422,7 @@ export const Table = <D extends object>({
                       return (
                         // Footer props getters do not provide role attributes
                         <Cell key={footerKey} {...restFooterProps} align={column.align} role="cell">
-                          <EnhancedHeaderFooterRenderer column={column} type="Footer" />
+                          <EnhancedHeaderFooterRenderer column={column} columnResizing={columnResizing} type="Footer" />
                         </Cell>
                       )
                     })}

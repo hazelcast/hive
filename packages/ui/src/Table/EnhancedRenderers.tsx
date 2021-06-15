@@ -1,11 +1,11 @@
 import React, { ReactElement, ReactText } from 'react'
-import { Cell as CellType, HeaderGroup } from 'react-table'
+import { Cell as CellType, HeaderGroup, UseResizeColumnsState } from 'react-table'
 
 import { TruncatedText } from '../TruncatedText'
 
 /**
  * Few notes about text truncation:
- * We try to enhance cells with text truncation and a tooltip using TruncatedText.
+ * We try to enhance Header, Footer and Cell with text truncation and a tooltip using TruncatedText.
  * This is only possible for string and number values.
  * If we use a component as a custom renderer, we can't pass its value to TruncatedText
  * because its prop `text` only accepts string or number.
@@ -15,13 +15,14 @@ import { TruncatedText } from '../TruncatedText'
 
 export type EnhancedHeaderFooterRendererProps<D extends object> = {
   column: HeaderGroup<D>
+  columnResizing: UseResizeColumnsState<D>['columnResizing']
   type: 'Header' | 'Footer'
 }
 
-export const EnhancedHeaderFooterRenderer = <D extends object>({ column, type }: EnhancedHeaderFooterRendererProps<D>) => {
+export const EnhancedHeaderFooterRenderer = <D extends object>({ column, columnResizing, type }: EnhancedHeaderFooterRendererProps<D>) => {
   const value = column[type]
   if (typeof value === 'string') {
-    return <TruncatedText text={value} />
+    return <TruncatedText text={value} forceUpdateToken={columnResizing.isResizingColumn} />
   }
 
   return column.render(type) as ReactElement
@@ -30,12 +31,13 @@ export const EnhancedHeaderFooterRenderer = <D extends object>({ column, type }:
 export type EnhancedCellRendererProps<D extends object> = {
   cell: CellType<D, ReactText>
   hasCellRenderer: boolean
+  columnResizing: UseResizeColumnsState<D>['columnResizing']
 }
 
-export const EnhancedCellRenderer = <D extends object>({ cell, hasCellRenderer }: EnhancedCellRendererProps<D>) => {
+export const EnhancedCellRenderer = <D extends object>({ cell, hasCellRenderer, columnResizing }: EnhancedCellRendererProps<D>) => {
   if (hasCellRenderer) {
     return cell.render('Cell') as ReactElement
   }
 
-  return <TruncatedText text={cell.value} />
+  return <TruncatedText text={cell.value} forceUpdateToken={columnResizing.isResizingColumn} />
 }

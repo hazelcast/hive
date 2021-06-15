@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useCallback, useEffect, useState, useImperativeHandle, MutableRefObject, ReactText } from 'react'
+import React, { FC, ReactNode, useCallback, useState, useImperativeHandle, MutableRefObject, ReactText, useLayoutEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { Placement } from '@popperjs/core'
 import { usePopper } from 'react-popper'
@@ -31,6 +31,7 @@ export type TooltipProps = {
   id: string
   hideTimeoutDuration?: number
   offset?: number
+  padding?: number
   placement?: Placement
   visible?: boolean
   children: (ref: React.Dispatch<React.SetStateAction<HTMLElement | null>>) => ReactNode
@@ -60,6 +61,7 @@ export const Tooltip: FC<TooltipProps> = ({
   content,
   hideTimeoutDuration = 100,
   offset = 10,
+  padding = 10,
   placement = 'top',
   visible: visibilityOverride,
   children,
@@ -85,6 +87,7 @@ export const Tooltip: FC<TooltipProps> = ({
         name: 'arrow',
         options: {
           element: arrowElement,
+          padding,
         },
       },
       {
@@ -120,8 +123,8 @@ export const Tooltip: FC<TooltipProps> = ({
   const isTooltipVisible = visibilityOverride ?? isShown
 
   // Update the tooltip's position (useful when resizing table columns)
-  useEffect(() => {
-    if (content && isTooltipVisible) {
+  useLayoutEffect(() => {
+    if (content) {
       void popper?.update?.()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
