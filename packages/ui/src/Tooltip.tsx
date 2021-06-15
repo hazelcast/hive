@@ -116,14 +116,16 @@ export const Tooltip: FC<TooltipProps> = ({
   useEvent('mouseenter', onMouseEnter, popperElement)
   useEvent('mouseleave', onMouseLeave, popperElement)
 
-  // Update the tooltip's horizontal position (useful when resizing table columns)
-  useEffect(() => {
-    content ?? popper?.update?.()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [updateToken])
-
   // Makes sure "visible" prop can override local "isShown" state
   const isTooltipVisible = visibilityOverride ?? isShown
+
+  // Update the tooltip's position (useful when resizing table columns)
+  useEffect(() => {
+    if (content && isTooltipVisible) {
+      void popper?.update?.()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isTooltipVisible, updateToken])
 
   const tooltipPortalContainer = getTooltipPortalContainer(tooltipContainer, referenceElement)
 
@@ -160,7 +162,6 @@ export const Tooltip: FC<TooltipProps> = ({
                 </span>
               </>,
               tooltipPortalContainer,
-              id,
             )}
         </>
       )}
