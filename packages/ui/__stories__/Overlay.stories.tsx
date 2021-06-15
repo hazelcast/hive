@@ -91,6 +91,14 @@ export const Open = () => (
   </AppElement>
 )
 
+export const NotClosable = () => (
+  <AppElement>
+    <Overlay icon={Settings} title={title} isOpen onClose={onClose} parentSelector={parentSelector} closable={false}>
+      {Content}
+    </Overlay>
+  </AppElement>
+)
+
 export const OpenFullscreen = () => (
   <AppElement>
     <Overlay icon={Settings} title={title} isOpen onClose={onClose} parentSelector={parentSelector} contentWidth="fullscreen">
