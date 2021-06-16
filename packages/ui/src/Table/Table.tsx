@@ -20,7 +20,7 @@ import { Pagination, PaginationProps } from '../Pagination'
 import { Cell, CellProps } from './Cell'
 import { EnhancedCellRenderer, EnhancedHeaderFooterRenderer } from './EnhancedRenderers'
 import { Header } from './Header'
-import { HeaderRow, LinkRow, Row } from './Row'
+import { HeaderRow, LinkRow, Row, RowProps } from './Row'
 
 import styles from './Table.module.scss'
 import styleConsts from '../../styles/constants/export.module.scss'
@@ -175,6 +175,8 @@ type CustomTableProps<D extends object> = {
   footerClassName?: string
   contentClassName?: string
   noDataTitle?: string
+  // Custom props getter for Row
+  getCustomRowProps?: (rowInfo: RowType<D>) => RowProps
   // Custom props getter for Cell
   getCustomCellProps?: (cellInfo: CellType<D>) => CellProps
   onRenderedContentChange?: (newPage: RowType<D>[]) => void
@@ -221,6 +223,7 @@ export const Table = <D extends object>({
   onRowClick,
   getHref,
   AnchorComponent,
+  getCustomRowProps,
   getCustomCellProps,
   loading,
   noDataTitle = 'The table is empty',
@@ -363,14 +366,13 @@ export const Table = <D extends object>({
             <div data-test="table-cell-row-group" role="rowgroup" className={contentClassName}>
               {page.map((row) => {
                 prepareRow(row)
-                const { key: rowKey, ...restRowProps } = row.getRowProps()
+                const { key: rowKey, ...restRowProps } = row.getRowProps(getCustomRowProps?.(row))
                 const cells = row.cells.map((cell, i) => {
-                  const { key: cellKey, ...restCellProps } = cell.getCellProps()
-                  const customCellProps = getCustomCellProps ? getCustomCellProps(cell) : {}
+                  const { key: cellKey, ...restCellProps } = cell.getCellProps(getCustomCellProps?.(cell))
                   // We don't want to use cell.column.Cell as that is a ColumnInstance which already has a cell renderer
                   const column = columns[i] as ColumnInterfaceBasedOnValue<D>
                   return (
-                    <Cell key={cellKey} align={cell.column.align} {...restCellProps} {...customCellProps}>
+                    <Cell key={cellKey} align={cell.column.align} {...restCellProps}>
                       <EnhancedCellRenderer cell={cell} hasCellRenderer={!!column.Cell} columnResizing={columnResizing} />
                     </Cell>
                   )
