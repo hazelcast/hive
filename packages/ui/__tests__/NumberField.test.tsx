@@ -341,4 +341,42 @@ describe('NumberField', () => {
     expect(onChange).toBeCalledTimes(1)
     expect(onChange).toBeCalledWith(39)
   })
+
+  it('increment button should set min value when value is undefined', async () => {
+    const onBlur = jest.fn()
+    const onChange = jest.fn()
+
+    expect(onChange).toBeCalledTimes(0)
+
+    const wrapper = await mountAndCheckA11Y(
+      <NumberField name="name" min={39} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
+    )
+
+    const incrementButton = wrapper.findDataTest('number-field-increment').at(0)
+    expect(incrementButton.props().disabled).toBeFalsy()
+
+    act(() => {
+      incrementButton.simulate('click')
+    })
+
+    expect(onChange).toBeCalledWith(39)
+  })
+
+  it('increment button should be disabled when min and value are undefined', async () => {
+    const onBlur = jest.fn()
+    const onChange = jest.fn()
+
+    const wrapper = await mountAndCheckA11Y(
+      <NumberField name="name" placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
+    )
+
+    const incrementButton = wrapper.findDataTest('number-field-increment').at(0)
+    expect(incrementButton.props().disabled).toBeTruthy()
+
+    act(() => {
+      incrementButton.simulate('click')
+    })
+
+    expect(onChange).toBeCalledTimes(0)
+  })
 })
