@@ -10,7 +10,7 @@ type AnyProps = Record<string, any>
 
 describe('Row', () => {
   const rowDataTest = 'table-cell-row'
-  const rowData: [PropsWithChildren<RowProps>, AnyProps, AnyProps][] = [
+  const rowData: [PropsWithChildren<RowProps>, AnyProps][] = [
     [
       { children: 'Row' },
       {
@@ -21,10 +21,9 @@ describe('Row', () => {
         onClick: undefined,
         onKeyPress: undefined,
         'aria-rowindex': undefined,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        children: expect.anything(),
+        style: undefined,
+        children: 'Row',
       },
-      { style: undefined, children: 'Row' },
     ],
     [
       { ariaRowIndex: 1, onClick: jest.fn(), style: { width: 40 }, className: 'testClassName', role: '', children: 'Row' },
@@ -38,22 +37,17 @@ describe('Row', () => {
         onClick: expect.anything(),
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         onKeyPress: expect.anything(),
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        children: expect.anything(),
+        style: { width: 40 },
+        children: 'Row',
       },
-      { style: { width: 40 }, children: 'Row' },
     ],
   ]
 
-  it.each(rowData)(
-    'returns <div> with <div> child, both with correct props for given Row props',
-    async (cellProps, expectedOuterDivProps, expectedInnerDivProps) => {
-      const wrapper = await mountAndCheckA11Y(<Row {...cellProps} />)
+  it.each(rowData)('returns <div> with correct props for given Row props', async (cellProps, expectedDivProps) => {
+    const wrapper = await mountAndCheckA11Y(<Row {...cellProps} />)
 
-      expect(wrapper.findDataTest(rowDataTest).props()).toEqual(expectedOuterDivProps)
-      expect(wrapper.findDataTest(rowDataTest).children('div').props()).toEqual(expectedInnerDivProps)
-    },
-  )
+    expect(wrapper.findDataTest(rowDataTest).props()).toEqual(expectedDivProps)
+  })
 
   const linkRowData: [PropsWithChildren<LinkRowProps>, AnyProps, AnyProps][] = [
     [
