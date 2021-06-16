@@ -76,13 +76,20 @@ export const NumberField: FC<NumberFieldProps> = ({
   }, [value, onChange, step, min])
 
   const onIncrement = useCallback(() => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    let newValue = value! + step
+    let newValue: number
+
+    if (value === undefined && min !== undefined) {
+      newValue = min
+    } else {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      newValue = value! + step
+    }
+
     if (max !== undefined && newValue > max) {
       newValue = max
     }
     onChange(newValue)
-  }, [value, onChange, step, max])
+  }, [value, onChange, step, max, min])
 
   const overlay = useMemo(() => {
     if (!showIconButtons) {
@@ -110,12 +117,12 @@ export const NumberField: FC<NumberFieldProps> = ({
     }
 
     let incrementDisabledProps: IconButtonDisabledProps | IconButtonNotDisabledProps = {}
-    if (value === undefined) {
+    if (value === undefined && min === undefined) {
       incrementDisabledProps = {
         disabled: true,
         disabledTooltip: 'Please, fill in the initial value',
       }
-    } else if (max !== undefined && value >= max) {
+    } else if (max !== undefined && value !== undefined && value >= max) {
       incrementDisabledProps = {
         disabled: true,
         disabledTooltip: `Value must be less than ${max}`,

@@ -1,4 +1,4 @@
-import React, { FocusEvent, ReactNode, useMemo, useState } from 'react'
+import React, { CSSProperties, FocusEvent, ReactNode, useMemo, useState } from 'react'
 import ReactSelect, { ActionMeta, components, ValueType } from 'react-select'
 import { useUID } from 'react-uid'
 import cn from 'classnames'
@@ -17,9 +17,9 @@ export type AutocompleteFieldOption = {
   value: string
 }
 
-export type RenderOptionFunction = (
+export type RenderOptionFunction<O = AutocompleteFieldOption> = (
   highlightedLabelText: ReactNode,
-  option: AutocompleteFieldOption,
+  option: O extends AutocompleteFieldOption ? O : never,
   labelMeta: FormatOptionLabelMeta<AutocompleteFieldOption>,
 ) => ReactNode
 
@@ -36,6 +36,7 @@ export type AutocompleteFieldProps = {
   onChange?: (newValue: string) => void
   onInputChange?: (newInputValue: string) => void
   onBlur?: (e: FocusEvent<HTMLElement>) => void
+  onFocus?: (e: FocusEvent<HTMLElement>) => void
   required?: boolean
   helperText?: HelpProps['helperText']
   renderOption?: RenderOptionFunction
@@ -88,22 +89,24 @@ const ClearIndicator: typeof components.ClearIndicator = ({ innerProps }) => {
 }
 
 export const highlightOptionText = (labelText: string, inputValue: string | undefined): ReactNode => {
-  const customSeparator = '<%>'
+  const separator = '<%>'
   const query = inputValue || ''
-  return labelText
-    .replace(new RegExp(query, 'ig'), `${customSeparator}$&${customSeparator}`)
-    .split(customSeparator)
-    .filter((val) => val)
-    .map((val: string, i: number) => (
-      <span
-        className={cn({
-          'hz-autocomplete-field__matched-option-text': val.toLowerCase() === query.toLowerCase(),
-        })}
-        key={val + `${i}`}
-      >
-        {val}
-      </span>
-    ))
+  return query
+    ? labelText
+        .replace(new RegExp(query, 'ig'), `${separator}$&${separator}`)
+        .split(separator)
+        .filter((val) => val)
+        .map((val: string, i: number) => (
+          <span
+            className={cn({
+              'hz-autocomplete-field__matched-option-text': val.toLowerCase() === query.toLowerCase(),
+            })}
+            key={val + `${i}`}
+          >
+            {val}
+          </span>
+        ))
+    : labelText
 }
 
 export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
@@ -119,6 +122,8 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
   menuPortalTarget = 'body',
   name,
   onChange,
+  onFocus,
+  onBlur,
   onInputChange,
   options,
   required,
@@ -127,8 +132,10 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
   renderOption,
   ...rest
 }) => {
+  // when the user clicks on an input with the value, the value should disappear,
+  // but then it should appear after the user selects something or blurs the input
+  const [isValueHidden, setValueHidden] = useState(false)
   const id = useUID()
-  const [isMenuOpen, setMenuOpen] = useState<boolean>(false)
 
   useIsomorphicLayoutEffect(() => {
     const menuContainer = getMenuContainer(menuPortalTarget)
@@ -151,20 +158,30 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
 
   const onChangeFn = React.useCallback(
     (option: AutocompleteFieldOption | null) => {
+      setValueHidden(false)
       ;(onChange as (newValue: string | null) => void)(option === null ? null : option.value)
     },
     [onChange],
   )
 
-  const onInputChangeFn = React.useCallback(
-    (value) => {
-      // keep menu closed if no value
-      setMenuOpen(!!value)
-      if (onInputChange) {
-        onInputChange(value)
+  const onFocusFn = React.useCallback(
+    (e: FocusEvent<HTMLElement>) => {
+      if (onFocus) {
+        onFocus(e)
       }
+      setValueHidden(true)
     },
-    [onInputChange],
+    [onFocus],
+  )
+
+  const onBlurFn = React.useCallback(
+    (e: FocusEvent<HTMLElement>) => {
+      if (onBlur) {
+        onBlur(e)
+      }
+      setValueHidden(false)
+    },
+    [onBlur],
   )
 
   const formatOptionLabelFn = React.useCallback(
@@ -207,6 +224,8 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
     placeholder,
     options,
     onChange: onChangeFn as (value: ValueType<AutocompleteFieldOption>, action: ActionMeta<AutocompleteFieldOption>) => void,
+    onFocus: onFocusFn,
+    onBlur: onBlurFn,
     menuPortalTarget: getMenuContainer(menuPortalTarget),
     components: {
       DropdownIndicator,
@@ -236,9 +255,17 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
       <Label id={id} label={label} className={cn(styles.label, labelClassName)} />
       <div className={styles.selectBlock}>
         <ReactSelect<AutocompleteFieldOption>
-          menuIsOpen={isMenuOpen}
-          onInputChange={onInputChangeFn}
+          onInputChange={onInputChange}
           formatOptionLabel={formatOptionLabelFn}
+          openMenuOnClick={false}
+          styles={{
+            ...props.styles,
+            singleValue: (base: CSSProperties) => ({
+              ...base,
+              ...props.styles?.singleValue,
+              visibility: isValueHidden ? 'hidden' : 'visible',
+            }),
+          }}
           {...props}
         />
         {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} />}

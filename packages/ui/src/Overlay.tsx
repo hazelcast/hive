@@ -44,6 +44,7 @@ export const Overlay: FC<OverlayProps> = ({
   title,
   contentWidth = 'normal',
   isOpen,
+  closable = true,
   ...rest
 }) => {
   useIsomorphicLayoutEffect(() => {
@@ -62,7 +63,7 @@ export const Overlay: FC<OverlayProps> = ({
       contentLabel={title}
       onRequestClose={onClose}
       shouldCloseOnOverlayClick={false}
-      shouldCloseOnEsc
+      shouldCloseOnEsc={closable}
       shouldFocusAfterRender
       shouldReturnFocusAfterClose
       isOpen={isOpen}
@@ -77,18 +78,20 @@ export const Overlay: FC<OverlayProps> = ({
           <h1 data-test="overlay-header-title" className={styles.title}>
             {title}
           </h1>
-          <Link
-            data-test="overlay-header-cancel-button"
-            className={styles.close}
-            component="button"
-            onClick={onClose}
-            size="small"
-            iconClassName={styles.closeIcon}
-            icon={X}
-            ariaLabel="Cancel"
-          >
-            Cancel
-          </Link>
+          {closable && (
+            <Link
+              data-test="overlay-header-cancel-button"
+              className={styles.close}
+              component="button"
+              onClick={onClose}
+              size="small"
+              iconClassName={styles.closeIcon}
+              icon={X}
+              ariaLabel="Cancel"
+            >
+              Cancel
+            </Link>
+          )}
         </div>
         <div data-test="overlay-content" className={cn(styles.content, contentClassName)}>
           {children}
