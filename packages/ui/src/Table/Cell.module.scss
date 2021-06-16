@@ -9,6 +9,7 @@
   padding-right: c.$grid * 5;
   padding-left: c.$grid * 5;
   color: c.$colorText;
+  background-color: inherit;
 
   @include c.typographyBodySmall;
   @include h.overflowEllipsis;

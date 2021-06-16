@@ -319,10 +319,10 @@ export const Table = <D extends object>({
     <div data-test={dataTest ?? 'table-wrapper'} className={className}>
       <div
         className={cn(styles.container, {
-          [styles.margin]: !hidePagination,
+          [styles.spaceBottom]: !hidePagination,
         })}
       >
-        <div data-test="table" {...getTableProps()} className={styles.table} aria-rowcount={rowCount}>
+        <div data-test="table" {...getTableProps()} aria-rowcount={rowCount}>
           {!hideHeader && (
             <div data-test="table-header-row-group" role="rowgroup" className={headerClassName}>
               {headerGroups.map((headerGroup) => {

@@ -3,13 +3,13 @@
 
 .container {
   position: relative;
-  padding-left: c.$grid * 5;
-  padding-right: c.$grid * 5;
 
   .th {
     display: flex;
     align-items: center;
     height: c.$grid * 7.5;
+    padding-left: c.$grid * 5;
+    padding-right: c.$grid * 5;
     color: c.$colorText;
 
     @include c.typographyBodySmall('bold');
