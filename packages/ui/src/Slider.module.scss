@@ -75,7 +75,7 @@ ul.markDescriptions {
   height: $currentValueIndicatorHeight;
   position: relative;
   width: calc(100% - #{c.$sliderThumbBorderSize} - #{c.$sliderThumbShadowSize});
-  margin: 0 auto;
+  margin: 0 auto c.$grid * 2;
 
   > span {
     position: absolute;
@@ -90,6 +90,10 @@ ul.markDescriptions {
 .wrapper {
   display: flex;
 
+  & * {
+    box-sizing: border-box;
+  }
+
   .innerWrapper {
     flex: 1;
   }
@@ -99,9 +103,8 @@ ul.markDescriptions {
 
     position: relative;
     height: c.$slideTrackHeight;
-    padding-top: calc(#{c.$sliderThumbBorderSize} + #{c.$sliderThumbShadowSize});
-    padding-bottom: calc(#{c.$sliderThumbBorderSize} + #{c.$sliderThumbShadowSize});
     flex: 1;
+    margin-bottom: $thumbWidth;
 
     input[type='range'] {
       &::-webkit-slider-runnable-track,
@@ -226,8 +229,6 @@ ul.markDescriptions {
   .helperText {
     margin-left: c.$sliderThumbBorderSize;
     align-self: flex-end;
-    margin-bottom: $currentValueIndicatorHeight;
-    height: calc(#{c.$sliderThumbBorderSize} * 2 + #{c.$slideTrackHeight});
   }
 
   &.disabled {
