@@ -10,9 +10,9 @@ import { NumberFieldFormik } from './NumberFieldFormik'
 import { IconButton } from './IconButton'
 import { useDimensions } from './hooks/useDimensions'
 import { SelectField, SelectFieldOption } from './Select'
+import { Link } from './Link'
 
 import styles from './Pagination.module.scss'
-import { Link } from './Link'
 
 export type GetShownItemsRangeParams = {
   currentPage: number

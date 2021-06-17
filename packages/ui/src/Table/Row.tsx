@@ -31,6 +31,7 @@ export const Row: FC<RowProps> = ({ children, className, style, role, ariaRowInd
         },
         className,
       )}
+      style={style}
       aria-rowindex={ariaRowIndex}
       role={role}
       tabIndex={onClick ? 0 : undefined}
@@ -43,7 +44,7 @@ export const Row: FC<RowProps> = ({ children, className, style, role, ariaRowInd
           : undefined
       }
     >
-      <div style={style}>{children}</div>
+      {children}
     </div>
   )
 }

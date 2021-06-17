@@ -1,14 +1,14 @@
 @use '../../styles/constants' as c;
 
 .container {
-  display: flex;
+  display: block;
   overflow-x: auto;
 
-  &.margin {
-    margin-bottom: c.$grid * 3;
+  &.spaceBottom {
+    margin-bottom: c.$grid * 2;
   }
 
-  .table {
-    flex-grow: 1;
+  .empty {
+    margin-top: c.$grid * 8;
   }
 }

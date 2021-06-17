@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactText, useEffect, useState } from 'react'
+import React, { ReactElement, ReactText } from 'react'
 import { Cell as CellType, HeaderGroup, UseResizeColumnsState } from 'react-table'
 
 import { TruncatedText } from '../TruncatedText'
@@ -22,7 +22,7 @@ export type EnhancedHeaderFooterRendererProps<D extends object> = {
 export const EnhancedHeaderFooterRenderer = <D extends object>({ column, columnResizing, type }: EnhancedHeaderFooterRendererProps<D>) => {
   const value = column[type]
   if (typeof value === 'string') {
-    return <TruncatedTextRenderer id={column.id} text={value} columnResizing={columnResizing} />
+    return <TruncatedText text={value} forceUpdateToken={columnResizing.isResizingColumn} />
   }
 
   return column.render(type) as ReactElement
@@ -39,24 +39,5 @@ export const EnhancedCellRenderer = <D extends object>({ cell, hasCellRenderer, 
     return cell.render('Cell') as ReactElement
   }
 
-  return <TruncatedTextRenderer id={cell.column.id} text={cell.value} columnResizing={columnResizing} />
-}
-
-type TruncatedTextRendererProps<D extends object> = {
-  id: string
-  text: ReactText | ((...arg: unknown[]) => string)
-  columnResizing: UseResizeColumnsState<D>['columnResizing']
-}
-
-export const TruncatedTextRenderer = <D extends object>({ id, text, columnResizing }: TruncatedTextRendererProps<D>) => {
-  const [width, setWidth] = useState<number | undefined>()
-  useEffect(() => {
-    const currentColumnResized = columnResizing.isResizingColumn === id
-    if (currentColumnResized && !!columnResizing.columnWidths) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      setWidth(columnResizing.columnWidths[id])
-    }
-  }, [columnResizing.columnWidths, columnResizing.isResizingColumn, id])
-
-  return <TruncatedText text={text} forceUpdateToken={width} />
+  return <TruncatedText text={cell.value} forceUpdateToken={columnResizing.isResizingColumn} />
 }

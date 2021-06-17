@@ -15,8 +15,6 @@ import {
 import { Pagination, PaginationProps } from '../../src/Pagination'
 import { smallDataSet } from './consts'
 
-import styles from '../../Table.module.scss'
-
 const axeOptions = {
   ...axeDefaultOptions,
   rules: {
@@ -36,39 +34,28 @@ describe('Table', () => {
     const tableWrapper = wrapper.findDataTest('table-test')
 
     const table = tableWrapper.findDataTest('table')
-    expect(table.props()).toEqual({
+    expect(table.props()).toMatchObject({
       'data-test': 'table',
-      className: styles.table,
       'aria-rowcount': smallDataSet.length + 1,
       role: 'table',
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      style: expect.anything(),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      children: expect.anything(),
     })
 
     const headerRowGroup = table.findDataTest('table-header-row-group')
-    expect(headerRowGroup.props()).toEqual({
+    expect(headerRowGroup.props()).toMatchObject({
       'data-test': 'table-header-row-group',
       role: 'rowgroup',
       className: '',
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      children: expect.anything(),
     })
 
     const headerRow = headerRowGroup.find(HeaderRow)
-    expect(headerRow.props()).toEqual<PropsWithChildren<RowProps>>({
+    expect(headerRow.props()).toMatchObject<PropsWithChildren<RowProps>>({
       ariaRowIndex: 1,
       role: 'row',
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      style: expect.anything(),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      children: expect.anything(),
     })
 
     const headers = headerRowGroup.find(Header)
     headers.forEach((header, i) => {
-      expect(header.props()).toEqual<PropsWithChildren<HeaderProps>>({
+      expect(header.props()).toMatchObject<PropsWithChildren<HeaderProps>>({
         align: columns[i].align,
         canSort: false,
         isSorted: false,
@@ -81,15 +68,9 @@ describe('Table', () => {
         onClick: undefined,
         colSpan: 1,
         role: 'columnheader',
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        style: expect.anything(),
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        children: expect.anything(),
       })
 
-      expect(header.find(EnhancedHeaderFooterRenderer).props()).toEqual<EnhancedHeaderFooterRendererProps<Person>>({
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        column: expect.anything(),
+      expect(header.find(EnhancedHeaderFooterRenderer).props()).toMatchObject<EnhancedHeaderFooterRendererProps<Person>>({
         type: 'Header',
         // We ignore typescript error here since some props of `columnResizing` are in fact nullable as opposed
         // to those described in @types/react-table.
@@ -103,40 +84,28 @@ describe('Table', () => {
     })
 
     const cellRowGroup = table.findDataTest('table-cell-row-group')
-    expect(cellRowGroup.props()).toEqual({
+    expect(cellRowGroup.props()).toMatchObject({
       'data-test': 'table-cell-row-group',
       role: 'rowgroup',
       className: '',
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      children: expect.anything(),
     })
 
     const cellRows = cellRowGroup.find(Row)
     cellRows.forEach((cellRow, i) => {
-      expect(cellRow.props()).toEqual<PropsWithChildren<RowProps>>({
+      expect(cellRow.props()).toMatchObject<PropsWithChildren<RowProps>>({
         // 1 for header row, 1 because we're indexing from 0
         ariaRowIndex: i + 2,
         role: 'row',
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        style: expect.anything(),
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        children: expect.anything(),
       })
 
       const cells = cellRow.find(Cell)
       cells.forEach((cell, j) => {
-        expect(cell.props()).toEqual<PropsWithChildren<CellProps>>({
+        expect(cell.props()).toMatchObject<PropsWithChildren<CellProps>>({
           align: columns[j].align,
           role: 'cell',
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          style: expect.anything(),
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          children: expect.anything(),
         })
 
-        expect(cell.find(EnhancedCellRenderer).props()).toEqual<EnhancedCellRendererProps<Person>>({
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          cell: expect.anything(),
+        expect(cell.find(EnhancedCellRenderer).props()).toMatchObject<EnhancedCellRendererProps<Person>>({
           hasCellRenderer: false,
           // We ignore typescript error here since some props of `columnResizing` are in fact nullable as opposed
           // to those described in @types/react-table.
@@ -150,7 +119,7 @@ describe('Table', () => {
       })
     })
 
-    expect(tableWrapper.find(Pagination).props()).toEqual<PaginationProps>({
+    expect(tableWrapper.find(Pagination).props()).toMatchObject<PaginationProps>({
       pageCount: 1,
       currentPage: 1,
       canPreviousPage: false,
@@ -168,7 +137,7 @@ describe('Table', () => {
       numberOfItems: smallDataSet.length,
     })
 
-    expect(wrapper.findDataTest('table-noData-cell').exists()).toBe(false)
+    expect(wrapper.existsDataTest('table-no-data')).toBe(false)
     expect(wrapper.findDataTest('table-loader-cell').exists()).toBe(false)
   })
 
@@ -322,7 +291,7 @@ describe('Table', () => {
 
     expect(wrapper.findDataTest('table').exists()).toBe(true)
     expect(wrapper.findDataTest('table-footer-row-group').exists()).toBe(false)
-    expect(wrapper.findDataTest('table-noData-cell').exists()).toBe(true)
+    expect(wrapper.existsDataTest('table-no-data')).toBe(true)
     expect(wrapper.find(Pagination).exists()).toBeFalsy()
   })
 
@@ -333,7 +302,7 @@ describe('Table', () => {
 
     expect(wrapper.findDataTest('table').exists()).toBe(true)
     expect(wrapper.findDataTest('table-footer-row-group').exists()).toBe(false)
-    expect(wrapper.findDataTest('table-noData-cell').exists()).toBe(false)
+    expect(wrapper.existsDataTest('table-no-data')).toBe(false)
     expect(wrapper.findDataTest('table-loader-cell').exists()).toBe(true)
   })
 
@@ -344,7 +313,7 @@ describe('Table', () => {
 
     expect(wrapper.findDataTest('table').exists()).toBe(true)
     expect(wrapper.findDataTest('table-footer-row-group').exists()).toBe(false)
-    expect(wrapper.findDataTest('table-noData-cell').exists()).toBe(false)
+    expect(wrapper.existsDataTest('table-no-data')).toBe(false)
     expect(wrapper.findDataTest('table-loader-cell').exists()).toBe(true)
   })
 

@@ -2,19 +2,12 @@
 @use '../../styles/helpers' as h;
 
 @mixin rowBase {
-  border-bottom: c.$borderWidth solid c.$colorNeutralWhite;
-
-  > *:not(:last-child) {
-    border-right: c.$borderWidth solid c.$colorNeutralWhite;
-  }
+  background-color: c.$colorNeutralLighter;
+  margin-bottom: c.$grid * 1.25;
 }
 
 .row {
   @include rowBase;
-
-  &:hover {
-    background-color: c.$colorNeutralLighter;
-  }
 
   &.clickable {
     cursor: pointer;
@@ -41,6 +34,7 @@
 
   .link {
     text-decoration: none;
+    background-color: inherit;
 
     &:focus {
       @include h.outlineSimple;
@@ -58,5 +52,5 @@
 }
 
 .headerRow {
-  @include rowBase;
+  margin-bottom: c.$grid * 1.25;
 }

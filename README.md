@@ -29,6 +29,7 @@ Design system built with A11Y in mind. Developed as a [Lerna](https://lerna.js.o
   - [Approve the updated for visual regression test screenshots](#approve-the-updated-for-visual-regression-test-screenshots)
   - [Generate new screenshots for the new/updated components](#generate-new-screenshots-for-the-newupdated-components)
   - [Run all checks at once](#run-all-checks-at-once)
+- [Releasing a new version](#releasing-a-new-version)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -199,23 +200,25 @@ npm run verify-all
 
 If you PR passes this check locally, it is almost guaranteed to pass it on the CI.
 
-
-## How to release a new version
+## Releasing a new version
 
 Assuming you're on latest master and the build is alright (`npm run build` runs without errors).
 
 1. First we create a release branch for the next version locally (in this case v1.1.0):
+
 ```
 git checkout -b release/v1.1.0
 ```
 
 We push this new branch to Github:
+
 ```
 git push -u origin release/v1.1.0
 ```
 
 2. Then we run `lerna version`:
-This updates the package versions (in package.json, package-lock.json), creates a commit with necessary tags and pushes to Github automatically. 
+   This updates the package versions (in package.json, package-lock.json), creates a commit with necessary tags and pushes to Github automatically.
+
 ```
 npx lerna version 1.1.0
 ```
@@ -223,11 +226,13 @@ npx lerna version 1.1.0
 At this point you should create a pull request and merge the new version branch (v1.1.0) to master.
 
 3. Now that we have our latest version available on Github with the necessary tags and releases; as the final step we inform npm about our new release:
+
 ```
 npx lerna publish from-git
 ```
 
 Wait for a few seconds/minutes (depends on how busy npm is at the time), and you should see the latest version we just released in the list returned by:
+
 ```
 npm view @hazelcast/ui versions
 ```

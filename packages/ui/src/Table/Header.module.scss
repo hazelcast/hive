@@ -3,56 +3,47 @@
 
 .container {
   position: relative;
-  background-color: c.$colorNeutralLighter;
-
-  :last-child {
-    border-right: 0;
-  }
 
   .th {
     display: flex;
     align-items: center;
-    position: relative;
-    padding-top: c.$grid * 2.5;
-    padding-bottom: c.$grid * 2.5;
-    padding-left: c.$grid * 3;
-    padding-right: c.$grid * 3;
-    color: c.$colorTextSecondary;
-    @include c.typographyBodySmall;
+    height: c.$grid * 7.5;
+    padding-left: c.$grid * 5;
+    padding-right: c.$grid * 5;
+    color: c.$colorText;
+
+    @include c.typographyBodySmall('bold');
+    @include h.overflowEllipsis;
 
     .sortingIcon {
       flex-shrink: 0;
+      color: c.$colorPrimary;
 
       &.left {
-        margin-left: c.$grid * 2;
+        margin-left: c.$grid * 1.25;
       }
 
       &.right {
-        margin-right: c.$grid * 2;
-      }
-    }
-
-    &:focus {
-      // Do not remove outline for high-contrast modes
-      // https://stackoverflow.com/a/52616313
-      outline: c.$outlineWidth solid transparent;
-      @include h.outlineSimple;
-      // Put outline over resizer
-      z-index: 10;
-
-      .sortingIcon {
-        color: c.$colorPrimary;
-      }
-    }
-
-    &:hover {
-      .sortingIcon {
-        color: c.$colorPrimary;
+        margin-right: c.$grid * 1.25;
       }
     }
 
     &.sortable {
       cursor: pointer;
+
+      &:focus {
+        // Do not remove outline for high-contrast modes
+        // https://stackoverflow.com/a/52616313
+        outline: c.$outlineWidth solid transparent;
+        @include h.outlineSimple;
+        // Put outline over resizer
+        z-index: c.$zIndex1000;
+        background-color: c.$colorNeutralLighter;
+      }
+
+      &:hover {
+        background-color: c.$colorNeutralLighter;
+      }
     }
 
     &.alignLeft {
@@ -74,11 +65,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: c.$grid * 6;
+  width: c.$grid * 5;
   height: 100%;
   top: 0;
-  right: -(c.$grid * 3);
-  z-index: 1;
+  right: -(c.$grid * 2.5);
+  z-index: c.$zIndex100;
   cursor: col-resize;
   // Prevents from scrolling while dragging on touch devices
   /* doiuse-disable css-touch-action */
@@ -93,6 +84,6 @@
 
   .resizing,
   &:hover .separator {
-    background-color: c.$colorTextSecondary;
+    background-color: c.$colorPrimary;
   }
 }

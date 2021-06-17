@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, ReactChild } from 'react'
 import cn from 'classnames'
 import { ChevronRight } from 'react-feather'
 
@@ -7,6 +7,7 @@ import { Link } from './Link'
 import { Icon, IconProps } from './Icon'
 
 import styles from './EmptyState.module.scss'
+import { DataTestProp } from '@hazelcast/helpers'
 
 type EmptyStateSize = 'normal' | 'large'
 
@@ -45,11 +46,13 @@ type EmptyStateAction =
     }
 
 export type EmptyStateProps = {
-  title: string
-  description?: string
+  title: ReactChild
+  description?: ReactChild
   icon: IconProps['icon']
   iconLabel: string
-} & EmptyStateAction
+  className?: string
+} & EmptyStateAction &
+  DataTestProp
 
 /**
  * ### Purpose
@@ -63,12 +66,14 @@ export type EmptyStateProps = {
  * - Description helps to describe the semantics more thoroughly.
  */
 export const EmptyState: FC<EmptyStateProps> = ({
+  'data-test': dataTest,
   direction = 'vertical',
   size = 'normal',
   title,
   description,
   icon,
   iconLabel,
+  className,
   ...restWActionProps
 }) => {
   const { action, actionHref, actionOnClick, actionTarget, actionRel } = restWActionProps
@@ -77,20 +82,21 @@ export const EmptyState: FC<EmptyStateProps> = ({
 
   return (
     <div
-      data-test="empty-state-container"
-      className={cn(styles.container, {
-        // Direction
-        [styles.horizontal]: direction === 'horizontal',
-        // Size
-        [styles.large]: size === 'large',
-      })}
+      data-test={dataTest ?? 'empty-state-container'}
+      className={cn(
+        styles.container,
+        {
+          [styles.horizontal]: direction === 'horizontal',
+          [styles.large]: size === 'large',
+        },
+        className,
+      )}
     >
       <Icon data-test="empty-state-icon" className={styles.icon} icon={icon} ariaLabel={iconLabel} size={iconSize} />
       <div className={styles.content}>
-        {/* Note: div used instead of h3 due to styling override */}
-        <h3 data-test="empty-state-title" className={styles.title}>
+        <div data-test="empty-state-title" className={styles.title}>
           {title}
-        </h3>
+        </div>
         {description && (
           <p data-test="empty-state-description" className={styles.description}>
             {description}
