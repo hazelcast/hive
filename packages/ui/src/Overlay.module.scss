@@ -55,10 +55,21 @@
     }
 
     .header {
+      $iconSize: c.$grid * 9;
+
       display: flex;
       justify-content: center;
       align-items: center;
       margin-bottom: c.$grid * 15;
+      padding: 0 c.$grid * 21; // close button width
+
+      @media only screen and (max-width: 640px) {
+        padding: 0 $iconSize;
+
+        .closeText {
+          @include h.visuallyHidden;
+        }
+      }
 
       .close {
         position: absolute;
@@ -67,8 +78,8 @@
         padding: 0;
 
         .closeIcon {
-          width: c.$grid * 9;
-          height: c.$grid * 9;
+          width: $iconSize;
+          height: $iconSize;
           color: c.$colorText;
         }
       }
@@ -79,6 +90,7 @@
 
       .title {
         margin: 0;
+        word-break: break-word;
       }
     }
 

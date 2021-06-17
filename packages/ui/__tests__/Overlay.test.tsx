@@ -85,7 +85,8 @@ describe('Overlay', () => {
       iconClassName: styles.closeIcon,
       icon: X,
       ariaLabel: 'Cancel',
-      children: 'Cancel',
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      children: expect.anything(),
     })
     expect(overlayContent.props()).toEqual({
       'data-test': 'overlay-content',
