@@ -1,5 +1,5 @@
 import { DataTestProp } from '@hazelcast/helpers'
-import React, { AnchorHTMLAttributes, FC, ReactElement, useEffect } from 'react'
+import React, { AnchorHTMLAttributes, FC, ReactChild, ReactElement, useEffect } from 'react'
 import cn from 'classnames'
 import {
   useTable,
@@ -15,18 +15,18 @@ import {
   Column as ColumnType,
   useGlobalFilter,
 } from 'react-table'
+import { AlertTriangle } from 'react-feather'
 
 import { Pagination, PaginationProps } from '../Pagination'
 import { Cell, CellProps } from './Cell'
 import { EnhancedCellRenderer, EnhancedHeaderFooterRenderer } from './EnhancedRenderers'
 import { Header } from './Header'
 import { HeaderRow, LinkRow, Row, RowProps } from './Row'
+import { Loader } from '../Loader'
+import { EmptyState } from '../EmptyState'
 
 import styles from './Table.module.scss'
 import styleConsts from '../../styles/constants/export.module.scss'
-import { Loader } from '../Loader'
-import { EmptyState } from '../EmptyState'
-import { AlertTriangle } from 'react-feather'
 
 // Why do we need it: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react-table
 
@@ -174,7 +174,7 @@ type CustomTableProps<D extends object> = {
   paginationClassName?: string
   footerClassName?: string
   contentClassName?: string
-  noDataTitle?: string
+  noDataTitle?: ReactChild
   // Custom props getter for Row
   getCustomRowProps?: (rowInfo: RowType<D>) => RowProps
   // Custom props getter for Cell
@@ -408,7 +408,7 @@ export const Table = <D extends object>({
           ) : (
             <div role="row">
               <div role="cell">
-                <EmptyState className={styles.empty} title={noDataTitle} icon={AlertTriangle} iconLabel="Alert" />
+                <EmptyState data-test="table-no-data" className={styles.empty} title={noDataTitle} icon={AlertTriangle} iconLabel="Alert" />
               </div>
             </div>
           )}

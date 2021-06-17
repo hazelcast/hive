@@ -80,8 +80,8 @@ WithUncontrolledPagination.args = {
 export const WithControlledPagination = () => {
   const columns = useMemo(() => getColumns({}), [])
 
-  // We'll start our table without any data
-  const [data, setData] = useState<Person[]>([])
+  // We'll start our table with initial data
+  const [data, setData] = useState<Person[]>(bigDataSet.slice(0, 10))
   const [loading, setLoading] = useState<boolean>(false)
   const [pageCount, setPageCount] = useState<number>(0)
   const fetchIdRef = useRef<number>(0)
@@ -115,7 +115,7 @@ export const WithControlledPagination = () => {
       loading={loading}
       manualPagination
       pageCount={pageCount}
-      defaultPageSize={15}
+      defaultPageSize={10}
       disableSortBy
       paginationOptions={{
         pageSizeOptions: [5, 10, 15],

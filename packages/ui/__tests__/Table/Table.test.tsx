@@ -13,7 +13,6 @@ import {
   EnhancedHeaderFooterRendererProps,
 } from '../../src/Table/EnhancedRenderers'
 import { Pagination, PaginationProps } from '../../src/Pagination'
-import { EmptyState } from '../../src/EmptyState'
 import { smallDataSet } from './consts'
 
 const axeOptions = {
@@ -138,7 +137,7 @@ describe('Table', () => {
       numberOfItems: smallDataSet.length,
     })
 
-    expect(wrapper.find(EmptyState).exists()).toBe(false)
+    expect(wrapper.existsDataTest('table-no-data')).toBe(false)
     expect(wrapper.findDataTest('table-loader-cell').exists()).toBe(false)
   })
 
@@ -292,7 +291,7 @@ describe('Table', () => {
 
     expect(wrapper.findDataTest('table').exists()).toBe(true)
     expect(wrapper.findDataTest('table-footer-row-group').exists()).toBe(false)
-    expect(wrapper.find(EmptyState).exists()).toBe(true)
+    expect(wrapper.existsDataTest('table-no-data')).toBe(true)
     expect(wrapper.find(Pagination).exists()).toBeFalsy()
   })
 
@@ -303,7 +302,7 @@ describe('Table', () => {
 
     expect(wrapper.findDataTest('table').exists()).toBe(true)
     expect(wrapper.findDataTest('table-footer-row-group').exists()).toBe(false)
-    expect(wrapper.find(EmptyState).exists()).toBe(false)
+    expect(wrapper.existsDataTest('table-no-data')).toBe(false)
     expect(wrapper.findDataTest('table-loader-cell').exists()).toBe(true)
   })
 
@@ -314,7 +313,7 @@ describe('Table', () => {
 
     expect(wrapper.findDataTest('table').exists()).toBe(true)
     expect(wrapper.findDataTest('table-footer-row-group').exists()).toBe(false)
-    expect(wrapper.find(EmptyState).exists()).toBe(false)
+    expect(wrapper.existsDataTest('table-no-data')).toBe(false)
     expect(wrapper.findDataTest('table-loader-cell').exists()).toBe(true)
   })
 

@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, ReactChild } from 'react'
 import cn from 'classnames'
 import { ChevronRight } from 'react-feather'
 
@@ -7,6 +7,7 @@ import { Link } from './Link'
 import { Icon, IconProps } from './Icon'
 
 import styles from './EmptyState.module.scss'
+import { DataTestProp } from '@hazelcast/helpers'
 
 type EmptyStateSize = 'normal' | 'large'
 
@@ -45,12 +46,13 @@ type EmptyStateAction =
     }
 
 export type EmptyStateProps = {
-  title: string
-  description?: string
+  title: ReactChild
+  description?: ReactChild
   icon: IconProps['icon']
   iconLabel: string
   className?: string
-} & EmptyStateAction
+} & EmptyStateAction &
+  DataTestProp
 
 /**
  * ### Purpose
@@ -64,6 +66,7 @@ export type EmptyStateProps = {
  * - Description helps to describe the semantics more thoroughly.
  */
 export const EmptyState: FC<EmptyStateProps> = ({
+  'data-test': dataTest,
   direction = 'vertical',
   size = 'normal',
   title,
@@ -79,7 +82,7 @@ export const EmptyState: FC<EmptyStateProps> = ({
 
   return (
     <div
-      data-test="empty-state-container"
+      data-test={dataTest ?? 'empty-state-container'}
       className={cn(
         styles.container,
         {
