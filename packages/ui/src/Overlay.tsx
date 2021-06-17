@@ -89,7 +89,7 @@ export const Overlay: FC<OverlayProps> = ({
               icon={X}
               ariaLabel="Cancel"
             >
-              Cancel
+              <span className={styles.closeText}>Cancel</span>
             </Link>
           )}
         </div>
