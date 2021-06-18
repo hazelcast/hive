@@ -180,6 +180,7 @@ type CustomTableProps<D extends object> = {
   // Custom props getter for Cell
   getCustomCellProps?: (cellInfo: CellType<D>) => CellProps
   onRenderedContentChange?: (newPage: RowType<D>[]) => void
+  autoResetGlobalFilter?: boolean
 } & CustomTableRowClickProps<D> &
   DataTestProp
 
@@ -234,6 +235,7 @@ export const Table = <D extends object>({
   footerClassName = '',
   searchValue,
   hideHeader,
+  autoResetGlobalFilter = false,
 }: TableProps<D>): ReactElement => {
   const {
     getTableProps,
@@ -267,6 +269,7 @@ export const Table = <D extends object>({
       pageCount: controlledPageCount,
       autoResetPage,
       defaultColumn,
+      autoResetGlobalFilter,
     },
     useGlobalFilter,
     useSortBy,
