@@ -16,6 +16,7 @@
   of use (no need to add anything to your dependencies) and also there're not many CM6 languages as of
   writing this.
 
+  // add @codemirror/legacy-modes to your project's dependencies.
   import { javascript } from '@codemirror/legacy-modes/mode/javascript'
   import { python } from '@codemirror/legacy-modes/mode/python'
 
@@ -106,7 +107,6 @@ const DEFAULT_OPTIONS: CodeOptions = {
   language: null,
   lineWrapping: false,
   lineNumbers: true,
-  rows: 5,
 }
 
 export const CodeEditor: FC<CodeEditorProps> = ({
