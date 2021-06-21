@@ -6,3 +6,13 @@
   display: block;
   margin-bottom: 10px;
 }
+
+.row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  & button {
+    margin-bottom: 12px;
+  }
+}

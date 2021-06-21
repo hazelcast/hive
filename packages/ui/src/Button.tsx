@@ -13,6 +13,9 @@ import styles from './Button.module.scss'
 
 export type ButtonKind = 'primary' | 'secondary' | 'danger' | 'transparent'
 
+export type ButtonVariant = 'contained' | 'outlined' | 'text'
+export type ButtonColor = 'primary' | 'secondary'
+
 export type ButtonSize = 'medium' | 'small'
 
 // Left icon is always present with proper aria-label attribute
@@ -63,11 +66,16 @@ export type ButtonOutlineType = 'outline' | 'inset'
 
 // Common props for all button "kinds"
 export type ButtonCommonProps = {
+  /**
+   * @deprecated Use variant + color instead
+   */
   kind?: ButtonKind
   size?: ButtonSize
   children: string
+  color?: ButtonColor
   capitalize?: boolean
   bodyClassName?: string
+  variant?: ButtonVariant
   outlineClassName?: string
   outline?: ButtonOutlineType
 } & Pick<HTMLAttributes<HTMLAnchorElement | HTMLButtonElement>, 'className' | 'onClick' | 'tabIndex' | 'style'>
@@ -94,6 +102,34 @@ export type ButtonTypeProps = ButtonTypeAnchorProps | ButtonTypeButtonProps
 
 export type ButtonProps<T = ButtonTypeProps> = ButtonCommonProps & ButtonAccessibleIconLeftProps & ButtonAccessibleIconRightProps & T
 
+const capitalizeFirstCharacter = (str: string) => `${str[0].toUpperCase()}${str.slice(1)}`
+
+const resolveButtonKindStyles = (kind: ButtonKind): Record<string, true> => {
+  switch (kind) {
+    case 'secondary':
+      return {
+        [styles.colorPrimary]: true,
+        [styles.variantOutlined]: true,
+      }
+    case 'transparent':
+      return {
+        [styles.colorPrimary]: true,
+        [styles.variantText]: true,
+      }
+    case 'danger': {
+      return {
+        [styles.colorSecondary]: true,
+        [styles.variantContained]: true,
+      }
+    }
+    default:
+      return {
+        [styles.colorPrimary]: true,
+        [styles.variantContained]: true,
+      }
+  }
+}
+
 /**
  * ### Purpose
  * Make it clear what users should do to continue with their main flow by using buttons to highlight the main actions they can take.
@@ -117,7 +153,7 @@ export type ButtonProps<T = ButtonTypeProps> = ButtonCommonProps & ButtonAccessi
 export const Button = forwardRef<HTMLElement, ButtonProps>(
   (
     {
-      kind = 'primary',
+      kind,
       size = 'medium',
       component: Component = 'button',
       className,
@@ -145,6 +181,8 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
       target,
       type = 'button',
       loading,
+      variant = 'contained',
+      color = 'primary',
       ...rest
     },
     ref,
@@ -167,10 +205,12 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
               styles.button,
               {
                 [styles.small]: size === 'small',
-                [styles.primary]: kind === 'primary',
-                [styles.secondary]: kind === 'secondary',
-                [styles.danger]: kind === 'danger',
-                [styles.transparent]: kind === 'transparent',
+                ...(kind !== undefined
+                  ? resolveButtonKindStyles(kind)
+                  : {
+                      [styles[`color${capitalizeFirstCharacter(color)}`]]: true,
+                      [styles[`variant${capitalizeFirstCharacter(variant)}`]]: true,
+                    }),
               },
               className,
             )}
