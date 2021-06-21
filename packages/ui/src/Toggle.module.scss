@@ -1,5 +1,6 @@
 @use '../styles/constants' as c;
 @use '../styles/helpers' as h;
+@use 'sass:math';
 
 $h: c.$grid * 6;
 $w: c.$grid * 15;
@@ -12,7 +13,9 @@ $trackBgOff: c.$colorNeutral;
 $knobBgOn: c.$colorNeutralWhite;
 $knobBgOff: c.$colorNeutralLighter;
 $knobRadius: c.$grid * 5;
-$knobHorizontalOffset: c.$outlineWidth;
+/* stylelint-disable  length-zero-no-unit */
+$knobHorizontalOffset: math.max(c.$outlineWidth - c.$borderWidth, 0px);
+/* stylelint-enable */
 
 @keyframes switchOn {
   from {
@@ -125,7 +128,7 @@ $knobHorizontalOffset: c.$outlineWidth;
   input:checked + label .toggleTrack::before {
     background: $knobBgOn;
     /* doiuse-disable calc */
-    right: calc(#{$w - $knobRadius} - #{2 * $knobHorizontalOffset});
+    right: calc(#{$w} - #{c.$borderWidth * 2} - #{$knobRadius} - #{$knobHorizontalOffset});
     /* doiuse-enable calc */
   }
 
