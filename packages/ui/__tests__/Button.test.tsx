@@ -3,7 +3,7 @@ import { X } from 'react-feather'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import cn from 'classnames'
 
-import { Loader, TruncatedText, Tooltip, Button, ButtonKind, Icon } from '../src'
+import { Loader, TruncatedText, Tooltip, Button, ButtonKind, Icon, ButtonVariant } from '../src'
 
 import styles from '../src/Button.module.scss'
 
@@ -12,10 +12,24 @@ const ariaLabel = 'X Icon'
 
 describe('Button', () => {
   const buttonKindTestData: [ButtonKind, string][] = [
-    ['primary', styles.primary],
-    ['secondary', styles.secondary],
-    ['transparent', styles.transparent],
+    ['primary', `${styles.colorPrimary} ${styles.variantContained}`],
+    ['secondary', `${styles.colorPrimary} ${styles.variantOutlined}`],
+    ['transparent', `${styles.colorPrimary} ${styles.variantText}`],
   ]
+  const buttonVariantTestData: [ButtonVariant, string][] = [
+    ['contained', `${styles.colorPrimary} ${styles.variantContained}`],
+    ['outlined', `${styles.colorPrimary} ${styles.variantOutlined}`],
+    ['text', `${styles.colorPrimary} ${styles.variantText}`],
+  ]
+
+  it.each(buttonVariantTestData)(
+    'Renders Button with correct className which corresponds to button variant and default color',
+    async (variant, className) => {
+      const wrapper = await mountAndCheckA11Y(<Button variant={variant}>Label</Button>)
+
+      expect(wrapper.findDataTest('button').prop('className')).toBe(cn(styles.button, className))
+    },
+  )
 
   it.each(buttonKindTestData)('Renders Button with correct className which corresponds to button kind', async (kind, className) => {
     const wrapper = await mountAndCheckA11Y(<Button kind={kind}>Label</Button>)
@@ -48,7 +62,7 @@ describe('Button', () => {
     })
     expect(wrapper.find('button').props()).toMatchObject({
       type: 'button',
-      className: cn(styles.button, styles.primary),
+      className: cn(styles.button, styles.colorPrimary, styles.variantContained),
       'aria-describedby': undefined,
       disabled: undefined,
       rel: undefined,
@@ -152,7 +166,9 @@ describe('Button', () => {
     const wrapper = await mountAndCheckA11Y(
       // div is required because `axe` cannot validate react fragments
       <div>
-        <Button loading iconRight={X} iconRightAriaLabel="X Icon">{label}</Button>
+        <Button loading iconRight={X} iconRightAriaLabel="X Icon">
+          {label}
+        </Button>
       </div>,
     )
 

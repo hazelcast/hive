@@ -32,16 +32,18 @@ const Template: Story<Args> = ({ className, ...args }) => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <div>
-        <Button {...props} kind="primary" />
-        <Button {...props} kind="secondary" />
-        <Button {...props} kind="danger" />
-        <Button {...props} kind="transparent" />
+        <Button {...props} />
+        <Button {...props} variant="outlined" />
+        <Button {...props} color="secondary" />
+        <Button {...props} variant="outlined" color="secondary" />
+        <Button {...props} variant="text" />
       </div>
       <div style={{ marginTop: 20 }}>
-        <Button {...props} kind="primary" size="small" />
-        <Button {...props} kind="secondary" size="small" />
-        <Button {...props} kind="danger" size="small" />
-        <Button {...props} kind="transparent" size="small" />
+        <Button {...props} size="small" />
+        <Button {...props} variant="outlined" size="small" />
+        <Button {...props} color="secondary" size="small" />
+        <Button {...props} variant="outlined" color="secondary" size="small" />
+        <Button {...props} variant="text" size="small" />
       </div>
     </div>
   )
@@ -149,10 +151,11 @@ export const LinkSemantics = () => {
   }
   return (
     <>
-      <Button {...props} kind="primary" />
-      <Button {...props} kind="secondary" />
-      <Button {...props} kind="danger" />
-      <Button {...props} kind="transparent" />
+      <Button {...props} />
+      <Button {...props} variant="outlined" />
+      <Button {...props} color="secondary" />
+      <Button {...props} variant="outlined" color="secondary" />
+      <Button {...props} variant="text" />
     </>
   )
 }
