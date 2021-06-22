@@ -2,6 +2,7 @@ import React, { FC, ReactNode } from 'react'
 import ReactModal, { Props as ReactModalProps } from 'react-modal'
 import { X } from 'react-feather'
 import cn from 'classnames'
+import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 import { DataTestProp } from '@hazelcast/helpers'
 
 import { ButtonProps, ButtonTypeButtonProps } from './Button'
@@ -9,7 +10,6 @@ import { Icon, IconProps } from './Icon'
 import { Link } from './Link'
 
 import styles from './Overlay.module.scss'
-import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 
 export type OverlayActionProps = ButtonProps<ButtonTypeButtonProps>
 export type OverlayProps = {
@@ -20,7 +20,8 @@ export type OverlayProps = {
   icon?: IconProps['icon']
   onClose: ReactModalProps['onRequestClose']
   contentWidth?: 'fullscreen' | 'normal'
-  title: string
+  title?: string
+  headingContent?: ReactNode
 } & DataTestProp &
   Exclude<ReactModalProps, 'onRequestClose' | 'shouldFocusAfterRender' | 'shouldReturnFocusAfterClose'>
 
@@ -42,6 +43,7 @@ export const Overlay: FC<OverlayProps> = ({
   icon,
   onClose,
   title,
+  headingContent,
   contentWidth = 'normal',
   isOpen,
   closable = true,
@@ -75,9 +77,13 @@ export const Overlay: FC<OverlayProps> = ({
       >
         <div data-test="overlay-header" className={cn(styles.header, headerClassName)}>
           {icon && <Icon data-test="overlay-header-icon" className={styles.icon} size="medium" icon={icon} ariaHidden />}
-          <h1 data-test="overlay-header-title" className={styles.title}>
-            {title}
-          </h1>
+          {title && (
+            <h1 data-test="overlay-header-title" className={styles.title}>
+              {title}
+            </h1>
+          )}
+          {headingContent}
+
           {closable && (
             <Link
               data-test="overlay-header-cancel-button"

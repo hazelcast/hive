@@ -1,24 +1,11 @@
-import React, { FC, useState } from 'react'
-import { Settings } from 'react-feather'
+import React, { useState } from 'react'
+import { Meta, Story } from '@storybook/react'
 
-import { Button, Card, Tab, TabContextProvider, TabList, TabPanel, Overlay } from '../src'
+import { Button, Card, Tab, TabContextProvider, TabList, TabPanel, Overlay, OverlayProps } from '../src'
 
 import styles from './Overlay.stories.module.scss'
 
-export default {
-  title: 'Components/Overlay',
-  component: Overlay,
-  parameters: {
-    docs: {
-      inlineStories: false,
-      iframeHeight: 700,
-    },
-  },
-}
-
-const onClose = () => console.log('onClose')
-const title = 'Settings'
-const Content = (
+const content = (
   <TabContextProvider>
     <TabList ariaLabel="Settings Tabs" className={styles.tablist}>
       <Tab label="My Account" value={0} />
@@ -64,61 +51,62 @@ const Content = (
     </TabPanel>
   </TabContextProvider>
 )
-
 const appElementId = 'overlay-app-id'
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-const parentSelector = () => document.getElementById(appElementId)!
-const AppElement: FC = ({ children }) => <div id={appElementId}>{children}</div>
 
-export const Default = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(false)
+export default {
+  title: 'Components/Overlay',
+  component: Overlay,
+  parameters: {
+    docs: {
+      inlineStories: false,
+      iframeHeight: 700,
+    },
+  },
+  args: {
+    title: 'Settings',
+    children: content,
+    isOpen: true,
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    parentSelector: () => document.getElementById(appElementId)!,
+  },
+} as Meta<OverlayProps>
+
+const Template: Story<OverlayProps> = ({ isOpen: isOpenInitially, ...args }) => {
+  const [isOpen, setIsOpen] = useState<boolean>(isOpenInitially)
 
   return (
-    <AppElement>
-      <Overlay icon={Settings} title={title} isOpen={isOpen} onClose={() => setIsOpen(false)} parentSelector={parentSelector}>
-        {Content}
-      </Overlay>
+    <div id={appElementId}>
+      <Overlay {...args} isOpen={isOpen} onClose={() => setIsOpen(false)} />
       <Button onClick={() => setIsOpen(true)}>Open Overlay</Button>
-    </AppElement>
+    </div>
   )
 }
 
-export const Open = () => (
-  <AppElement>
-    <Overlay icon={Settings} title={title} isOpen onClose={onClose} parentSelector={parentSelector}>
-      {Content}
-    </Overlay>
-  </AppElement>
-)
+export const Default = Template.bind({})
 
-export const NotClosable = () => (
-  <AppElement>
-    <Overlay icon={Settings} title={title} isOpen onClose={onClose} parentSelector={parentSelector} closable={false}>
-      {Content}
-    </Overlay>
-  </AppElement>
-)
+export const WithoutTitle = Template.bind({})
+WithoutTitle.args = {
+  title: undefined,
+}
 
-export const OpenFullscreen = () => (
-  <AppElement>
-    <Overlay icon={Settings} title={title} isOpen onClose={onClose} parentSelector={parentSelector} contentWidth="fullscreen">
-      {Content}
-    </Overlay>
-  </AppElement>
-)
+export const NotClosable = Template.bind({})
+NotClosable.args = {
+  closable: false,
+}
 
-export const OpenFullscreenFullheight = () => (
-  <AppElement>
-    <Overlay icon={Settings} title={title} isOpen onClose={onClose} parentSelector={parentSelector} contentWidth="fullscreen">
-      <div style={{ height: '100%', background: 'red' }}>{Content}</div>
-    </Overlay>
-  </AppElement>
-)
+export const Fullscreen = Template.bind({})
+Fullscreen.args = {
+  contentWidth: 'fullscreen',
+}
 
-export const OpenFullscreenLongContent = () => (
-  <AppElement>
-    <Overlay icon={Settings} title={title} isOpen onClose={onClose} parentSelector={parentSelector} contentWidth="fullscreen">
-      <div style={{ height: '3000px', background: 'red' }}></div>
-    </Overlay>
-  </AppElement>
-)
+export const FullscreenWithFullHeightContent = Template.bind({})
+FullscreenWithFullHeightContent.args = {
+  ...Fullscreen.args,
+  children: <div style={{ height: '100%', background: '#87a7ee' }}>{content}</div>,
+}
+
+export const FullscreenWithLongContent = Template.bind({})
+FullscreenWithLongContent.args = {
+  ...Fullscreen.args,
+  children: <div style={{ height: '3500px', background: '#87a7ee' }}>{content}</div>,
+}
