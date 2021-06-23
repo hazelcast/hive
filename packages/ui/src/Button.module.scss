@@ -86,97 +86,120 @@
     box-sizing: border-box;
   }
 
-  // Kind === primary
-  &.primary {
-    color: c.$colorNeutralWhite;
-    background-color: c.$colorPrimary;
+  &.color {
+    &Primary {
+      color: c.$colorPrimary;
+      background-color: c.$colorPrimary;
+      border-color: c.$colorPrimary;
 
-    &:hover,
-    &.hover,
-    &:focus,
-    &.focus {
-      background-color: c.$colorPrimaryLight;
-    }
+      &:hover,
+      &.hover,
+      &:focus,
+      &.focus {
+        background-color: c.$colorPrimaryLight;
+        border-color: c.$colorPrimaryLight;
+        color: c.$colorPrimaryLight;
+      }
 
-    &:active,
-    &.active {
-      background-color: c.$colorPrimaryDark;
-    }
+      &:active,
+      &.active {
+        background-color: c.$colorPrimaryDark;
+        border-color: c.$colorPrimaryDark;
+        color: c.$colorPrimaryDark;
+      }
 
-    &:disabled {
-      color: c.$colorTextSecondary;
-      background-color: c.$colorNeutral;
-    }
-  }
+      &.variantContained {
+        color: c.$colorNeutralWhite;
+      }
 
-  // Kind === secondary
-  &.secondary {
-    color: c.$colorPrimary;
-    background-color: transparent;
-    border: c.$borderWidthButton solid;
-    border-color: c.$colorPrimary;
-
-    .outline {
-      /* Note: We need to take border of 1px into account */
-      /* doiuse-disable calc */
-      width: calc(100% + #{c.$grid} * 2.5);
-      height: calc(100% + #{c.$grid} * 2.5);
-      /* doiuse-enable calc */
-
-      &.inset {
-        /* doiuse-disable calc */
-        width: calc(100% + #{c.$grid});
-        height: calc(100% + #{c.$grid});
-        /* doiuse-enable calc */
+      &:disabled {
+        color: c.$colorTextSecondary;
+        background-color: c.$colorNeutral;
+        border-color: c.$colorNeutral;
       }
     }
 
-    &:hover,
-    &.hover,
-    &:focus,
-    &.focus {
-      color: c.$colorPrimaryLight;
-      border-color: c.$colorPrimaryLight;
-    }
+    &Secondary {
+      color: c.$colorError;
+      background-color: c.$colorError;
+      border-color: c.$colorError;
 
-    &:active,
-    &.active {
-      color: c.$colorPrimaryDark;
-      border-color: c.$colorPrimaryDark;
-    }
+      &:hover,
+      &.hover,
+      &:focus,
+      &.focus {
+        background-color: c.$colorErrorLight;
+        border-color: c.$colorErrorLight;
+        color: c.$colorErrorLight;
+      }
 
-    &:disabled {
-      color: c.$colorTextSecondary;
-      border-color: c.$colorNeutral;
-    }
-  }
+      &:active,
+      &.active {
+        background-color: c.$colorErrorDark;
+        border-color: c.$colorErrorDark;
+        color: c.$colorErrorDark;
+      }
 
-  // Kind === danger
-  &.danger {
-    color: c.$colorNeutralWhite;
-    background-color: c.$colorError;
+      &.variantContained {
+        color: c.$colorNeutralWhite;
+      }
 
-    &:hover,
-    &.hover,
-    &:focus,
-    &.focus {
-      background-color: c.$colorErrorLight;
-    }
-
-    &:active,
-    &.active {
-      background-color: c.$colorErrorDark;
-    }
-
-    &:disabled {
-      color: c.$colorTextSecondary;
-      background-color: c.$colorNeutral;
+      &:disabled {
+        color: c.$colorTextSecondary;
+        background-color: c.$colorNeutral;
+        border-color: c.$colorNeutral;
+      }
     }
   }
 
-  // Kind === transparent
-  &.transparent {
-    color: inherit;
-    background-color: transparent;
+  &.variant {
+    &Outlined {
+      background: none;
+      border-style: solid;
+      border-width: c.$borderWidth;
+
+      .outline {
+        /* Note: We need to take border of 1px into account */
+        /* doiuse-disable calc */
+        width: calc(100% + #{c.$grid} * 2.5);
+        height: calc(100% + #{c.$grid} * 2.5);
+        /* doiuse-enable calc */
+
+        &.inset {
+          /* doiuse-disable calc */
+          width: calc(100% + #{c.$grid});
+          height: calc(100% + #{c.$grid});
+          /* doiuse-enable calc */
+        }
+      }
+
+      &:hover,
+      &.hover,
+      &:active,
+      &.active,
+      &:focus,
+      &.focus,
+      &:disabled,
+      &.disabled {
+        background: none;
+      }
+    }
+
+    &Text {
+      color: inherit;
+      background: none;
+
+      &:hover,
+      &.hover,
+      &:active,
+      &.active,
+      &:focus,
+      &.focus,
+      &:disabled,
+      &.disabled {
+        color: inherit;
+        background: none;
+      }
+    }
   }
 }
