@@ -79,15 +79,24 @@ WithUncontrolledPagination.args = {
 
 export const WithControlledPagination = () => {
   const columns = useMemo(() => getColumns({}), [])
+  const defaultPageSize = 10
+  const pageSizeOptions = [5, 10, 15]
 
+  const [loading, setLoading] = useState<boolean>(false)
   // We'll start our table with initial data
   const [data, setData] = useState<Person[]>(bigDataSet.slice(0, 10))
-  const [loading, setLoading] = useState<boolean>(false)
-  const [pageCount, setPageCount] = useState<number>(0)
+  // Since we don't have real server here, we'll fake total page count.
+  const [pageCount, setPageCount] = useState<number>(Math.ceil(bigDataSet.length / defaultPageSize))
   const fetchIdRef = useRef<number>(0)
+  const firstUpdate = useRef(true)
 
   // This will get called when the table needs new data.
   const onPaginationChange = useCallback(({ pageSize, pageIndex }: PaginationChangeProps) => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false
+      return
+    }
+
     // Give this fetch an ID
     const fetchId = ++fetchIdRef.current
 
@@ -100,7 +109,6 @@ export const WithControlledPagination = () => {
         const startRow = pageSize * pageIndex
         const endRow = startRow + pageSize
         setData(bigDataSet.slice(startRow, endRow))
-        // Since we don't have real server here, we'll fake total page count.
         setPageCount(Math.ceil(bigDataSet.length / pageSize))
         setLoading(false)
       }
@@ -115,10 +123,10 @@ export const WithControlledPagination = () => {
       loading={loading}
       manualPagination
       pageCount={pageCount}
-      defaultPageSize={10}
+      defaultPageSize={defaultPageSize}
       disableSortBy
       paginationOptions={{
-        pageSizeOptions: [5, 10, 15],
+        pageSizeOptions,
       }}
     />
   )
