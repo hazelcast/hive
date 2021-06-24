@@ -60,6 +60,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      min-height: c.$grid * 10;
       margin-bottom: c.$grid * 15;
       padding: 0 c.$grid * 21; // close button width
 
