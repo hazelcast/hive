@@ -241,23 +241,28 @@ export function Slider<T extends SliderValue = number>({
           {/*
           Marks Descriptions
         */}
-          {!!marks?.length && (
-            <ul className={styles.markDescriptions} data-test="mark-descriptions">
-              {marks.map(({ label, value: markValue }) => {
-                const { left } = getMarkMetadata(markValue, min, max, [firstValue, secondValue], isRange)
-                return (
-                  <li
-                    key={markValue}
-                    style={{ left: `${left}%` }}
-                    data-test={`mark-description-${markValue}`}
-                    className={cn({ [styles.activeMarkDescription]: [firstValue, secondValue].includes(markValue) })}
-                  >
-                    {label}
-                  </li>
-                )
-              })}
-            </ul>
-          )}
+          <div className={styles.valueIndicators}>
+            {!markValues.has(firstValue) && (
+              <span
+                style={{
+                  left: `${left * 100}%`,
+                }}
+                data-test="slider-first-value-indicator"
+              >
+                {formatCurrentValue(firstValue)}
+              </span>
+            )}
+            {isRange && !markValues.has(secondValue) && (
+              <span
+                style={{
+                  left: `${secondValueLeft * 100}%`,
+                }}
+                data-test="slider-second-value-indicator"
+              >
+                {formatCurrentValue(secondValue)}
+              </span>
+            )}
+          </div>
           <div className={styles.inputWrapper} role="group" ref={wrapperRef}>
             {firstValue !== undefined && (
               <input
@@ -343,27 +348,22 @@ export function Slider<T extends SliderValue = number>({
                 </ul>
               )}
             </div>
-          </div>
-          <div className={styles.valueIndicators}>
-            {!markValues.has(firstValue) && (
-              <span
-                style={{
-                  left: `${left * 100}%`,
-                }}
-                data-test="slider-first-value-indicator"
-              >
-                {formatCurrentValue(firstValue)}
-              </span>
-            )}
-            {isRange && !markValues.has(secondValue) && (
-              <span
-                style={{
-                  left: `${secondValueLeft * 100}%`,
-                }}
-                data-test="slider-second-value-indicator"
-              >
-                {formatCurrentValue(secondValue)}
-              </span>
+            {!!marks?.length && (
+              <ul className={styles.markDescriptions} data-test="mark-descriptions">
+                {marks.map(({ label, value: markValue }) => {
+                  const { left } = getMarkMetadata(markValue, min, max, [firstValue, secondValue], isRange)
+                  return (
+                    <li
+                      key={markValue}
+                      style={{ left: `${left}%` }}
+                      data-test={`mark-description-${markValue}`}
+                      className={cn({ [styles.activeMarkDescription]: [firstValue, secondValue].includes(markValue) })}
+                    >
+                      {label}
+                    </li>
+                  )
+                })}
+              </ul>
             )}
           </div>
         </div>

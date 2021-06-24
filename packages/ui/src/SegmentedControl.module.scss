@@ -1,5 +1,5 @@
 @use '../styles/constants' as c;
-@use '../styles/helpers/' as h;
+@use '../styles/helpers' as h;
 
 .group {
   display: flex;
@@ -60,8 +60,10 @@
       // https://stackoverflow.com/a/52616313
       outline: c.$outlineWidth solid transparent;
       color: c.$colorText;
+      position: relative;
+      z-index: c.$zIndex200;
 
-      @include h.outlineSimple;
+      @include h.outlineAround;
     }
   }
 
