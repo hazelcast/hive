@@ -97,4 +97,46 @@ describe('MultiSelectFieldFormik', () => {
     // The error is displayed only when the input becomes dirty
     expect(wrapper.find(Error).prop('error')).toBe('error')
   })
+
+  it('Calls onChange callback', async () => {
+    type Values = {
+      names: string[]
+    }
+
+    const onSubmit = jest.fn()
+    const onChange = jest.fn()
+
+    const formikBag = createRef<FormikProps<Values>>()
+
+    const TestForm = () => (
+      <Formik<Values>
+        innerRef={formikBag}
+        initialValues={{
+          names: [],
+        }}
+        onSubmit={onSubmit}
+      >
+        <Form>
+          <MultiSelectFieldFormik<Values, string> name="names" options={options} label="test" onChange={onChange} />
+        </Form>
+      </Formik>
+    )
+
+    const wrapper = await mountAndCheckA11Y(<TestForm />)
+    const selectInstance = wrapper.find(Select).instance() as Select
+
+    expect(formikBag.current?.values).toEqual({
+      names: [],
+    })
+
+    // We need the `async` call here to wait for processing of the asynchronous 'change'
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      selectInstance.props.onChange?.([options[1]], { action: 'select-option' })
+    })
+    wrapper.update()
+
+    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toBeCalledWith([options[1].value])
+  })
 })

@@ -1,4 +1,4 @@
-import React, { ReactElement, useMemo } from 'react'
+import React, { ReactElement, useCallback, useMemo } from 'react'
 import { useField } from 'formik'
 
 import { AutocompleteField, AutocompleteFieldProps } from './AutocompleteField'
@@ -6,17 +6,26 @@ import { FieldValidatorGeneric, formikTouchAndUpdate, getFieldError } from './ut
 
 type AutocompleteFieldFormikProps = AutocompleteFieldProps & {
   validate?: FieldValidatorGeneric<string | null>
+  onChange?: (value: string | null) => void
 }
 
-export const AutocompleteFieldFormik = ({ name, validate, ...props }: AutocompleteFieldFormikProps): ReactElement => {
-  const [field, meta, { setValue, setTouched }] = useField<string | null>({
+export const AutocompleteFieldFormik = ({ name, validate, onChange, ...props }: AutocompleteFieldFormikProps): ReactElement => {
+  const [{ value, onBlur }, meta, { setValue, setTouched }] = useField<string | null>({
     name,
     validate,
   })
 
-  const onChange = useMemo(() => formikTouchAndUpdate<string | null>(setValue, setTouched), [setValue, setTouched])
+  const setFormikValue = useMemo(() => formikTouchAndUpdate<string | null>(setValue, setTouched), [setValue, setTouched])
+  const handleChange = useCallback(
+    (newValue: string) => {
+      if (onChange) {
+        onChange(newValue)
+      }
 
-  return (
-    <AutocompleteField {...props} value={field.value} onChange={onChange} name={name} onBlur={field.onBlur} error={getFieldError(meta)} />
+      setFormikValue(newValue)
+    },
+    [setFormikValue, onChange],
   )
+
+  return <AutocompleteField {...props} value={value} onChange={handleChange} name={name} onBlur={onBlur} error={getFieldError(meta)} />
 }
