@@ -36,13 +36,17 @@ const Template: Story<Args> = ({ className, ...args }) => {
         <Button {...props} variant="outlined" />
         <Button {...props} color="secondary" />
         <Button {...props} variant="outlined" color="secondary" />
+        <Button {...props} color="warning" />
+        <Button {...props} variant="outlined" color="warning" />
         <Button {...props} variant="text" />
       </div>
-      <div style={{ marginTop: 20 }}>
+      <div>
         <Button {...props} size="small" />
         <Button {...props} variant="outlined" size="small" />
         <Button {...props} color="secondary" size="small" />
         <Button {...props} variant="outlined" color="secondary" size="small" />
+        <Button {...props} color="warning" size="small" />
+        <Button {...props} variant="outlined" color="warning" size="small" />
         <Button {...props} variant="text" size="small" />
       </div>
     </div>
