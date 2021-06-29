@@ -1,4 +1,4 @@
-import React, { ReactElement, useMemo } from 'react'
+import React, { ReactElement, useCallback, useMemo } from 'react'
 import { useField } from 'formik'
 
 import { MultiSelectField, MultiSelectFieldExtraProps } from './MultiSelectField'
@@ -8,28 +8,31 @@ import { ExtractKeysOfValueType } from '../utils/types'
 export type MultiSelectFieldFormikProps<V extends object, OV = string> = MultiSelectFieldExtraProps<OV> & {
   name: ExtractKeysOfValueType<V, OV[]>
   validate?: FieldValidatorGeneric<OV[]>
+  onChange?: (value: OV[]) => void
 }
 
 export const MultiSelectFieldFormik = <V extends object, OV extends string | number = string>({
   name,
   validate,
+  onChange,
   ...props
 }: MultiSelectFieldFormikProps<V, OV>): ReactElement => {
-  const [field, meta, { setValue, setTouched }] = useField<OV[]>({
+  const [{ value, onBlur }, meta, { setValue, setTouched }] = useField<OV[]>({
     name,
     validate,
   })
 
-  const onChange = useMemo(() => formikTouchAndUpdate<OV[]>(setValue, setTouched), [setValue, setTouched])
+  const setFormikValue = useMemo(() => formikTouchAndUpdate<OV[]>(setValue, setTouched), [setValue, setTouched])
+  const handleChange = useCallback(
+    (newValue: OV[]) => {
+      if (onChange) {
+        onChange(newValue)
+      }
 
-  return (
-    <MultiSelectField<OV>
-      {...props}
-      name={name}
-      value={field.value}
-      onChange={onChange}
-      onBlur={field.onBlur}
-      error={getFieldError(meta)}
-    />
+      setFormikValue(newValue)
+    },
+    [setFormikValue, onChange],
   )
+
+  return <MultiSelectField<OV> {...props} name={name} value={value} onChange={handleChange} onBlur={onBlur} error={getFieldError(meta)} />
 }

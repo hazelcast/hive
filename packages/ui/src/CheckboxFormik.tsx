@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useCallback } from 'react'
 import { useField } from 'formik'
 
 import { Checkbox, CheckboxExtraProps } from './Checkbox'
@@ -8,15 +8,32 @@ import { ExtractKeysOfValueType } from './utils/types'
 export type CheckboxFieldFormikProps<V extends object> = CheckboxExtraProps & {
   name: ExtractKeysOfValueType<V, boolean>
   validate?: FieldValidatorGeneric<boolean>
+  onChange?: (value: boolean) => void
 }
 
-export const CheckboxFormik = <V extends object>({ name, validate, ...props }: CheckboxFieldFormikProps<V>): ReactElement => {
-  const [field, meta] = useField<boolean>({
+export const CheckboxFormik = <V extends object>({ name, validate, onChange, ...props }: CheckboxFieldFormikProps<V>): ReactElement => {
+  const [{ onBlur, onChange: onFormikChange, value }, meta] = useField<boolean>({
     name,
     validate,
   })
 
   return (
-    <Checkbox {...props} name={name} checked={field.value} onChange={field.onChange} onBlur={field.onBlur} error={getFieldError(meta)} />
+    <Checkbox
+      {...props}
+      name={name}
+      checked={value}
+      onChange={useCallback(
+        (e) => {
+          if (onChange) {
+            onChange(e.target.checked)
+          }
+
+          onFormikChange(e)
+        },
+        [onFormikChange, onChange],
+      )}
+      onBlur={onBlur}
+      error={getFieldError(meta)}
+    />
   )
 }

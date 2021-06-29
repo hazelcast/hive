@@ -141,4 +141,41 @@ describe('RadioGroupFormik', () => {
     expect(wrapper.find('div').contains('Server Error: Invalid name')).toBeFalsy()
     expect(wrapper.find('div').contains('Aragorn is stronger!')).toBeTruthy()
   })
+
+  it('Calls onChange callback', async () => {
+    type Values = {
+      tosApproved: boolean
+      name: string
+    }
+
+    const onSubmit = jest.fn()
+    const onChange = jest.fn()
+
+    const TestForm = () => (
+      <Formik<Values>
+        initialValues={{
+          tosApproved: false,
+          name: 'Yoda',
+        }}
+        onSubmit={onSubmit}
+      >
+        <Form>
+          <RadioGroupFieldFormik<Values> name="name" onChange={onChange}>
+            <RadioFieldFormik value="aragorn" helperText="The king" label={'Aragorn'} />
+            <RadioFieldFormik value="gandalf" helperText="The wizard" label={'Gandalf'} />
+          </RadioGroupFieldFormik>
+        </Form>
+      </Formik>
+    )
+
+    const wrapper = await mountAndCheckA11Y(<TestForm />)
+
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      wrapper.find("input[value='aragorn']").simulate('change')
+    })
+
+    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toBeCalledWith('aragorn')
+  })
 })

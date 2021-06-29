@@ -111,4 +111,41 @@ describe('PasswordFieldFormik', () => {
     // The error is displayed only when the input becomes dirty
     expect(wrapper.find(Error).prop('error')).toBe('Dark side 2')
   })
+
+  it('Calls onChange callback', async () => {
+    type Values = {
+      password: string
+    }
+
+    const onSubmit = jest.fn()
+    const onCnange = jest.fn()
+
+    const formikBag = createRef<FormikProps<Values>>()
+
+    const TestForm = () => (
+      <Formik<Values>
+        innerRef={formikBag}
+        initialValues={{
+          password: '',
+        }}
+        onSubmit={onSubmit}
+      >
+        <Form>
+          <PasswordFieldFormik<Values> name="password" label="test" onChange={onCnange} />
+        </Form>
+      </Formik>
+    )
+
+    const wrapper = await mountAndCheckA11Y(<TestForm />)
+
+    // We need the `async` call here to wait for processing of the asynchronous 'change'
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      simulateChange(wrapper.find('input'), 'yoda')
+    })
+    wrapper.update()
+
+    expect(onCnange).toBeCalledTimes(1)
+    expect(onCnange).toBeCalledWith('yoda')
+  })
 })
