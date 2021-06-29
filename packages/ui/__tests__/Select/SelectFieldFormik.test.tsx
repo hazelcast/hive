@@ -97,4 +97,32 @@ describe('SelectFieldFormik', () => {
     // The error is displayed only when the input becomes dirty
     expect(wrapper.find(Error).prop('error')).toBe('error')
   })
+
+  it('calls onChnage callback', async () => {
+    type Values = {
+      name: string | null
+    }
+    const onChange = jest.fn()
+
+    const TestForm = () => (
+      <Formik<Values> initialValues={{ name: null }} onSubmit={jest.fn()}>
+        <Form>
+          <SelectFieldFormik<Values> name="name" options={options} label="test" onChange={onChange} />
+        </Form>
+      </Formik>
+    )
+
+    const wrapper = await mountAndCheckA11Y(<TestForm />)
+    const selectInstance = wrapper.find(Select).instance() as Select
+
+    // We need the `async` call here to wait for processing of the asynchronous 'change'
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      selectInstance.props.onChange?.(options[1], { action: 'select-option' })
+    })
+    wrapper.update()
+
+    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toBeCalledWith(options[1].value)
+  })
 })

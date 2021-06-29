@@ -137,4 +137,38 @@ describe('NumberFieldFormik', () => {
 
     expect(wrapper.update().find(NumberField).prop('error')).toBe('Client side validation')
   })
+
+  it('Calls onChange callback', async () => {
+    type Values = {
+      name: number
+    }
+
+    const onSubmit = jest.fn()
+    const onChange = jest.fn()
+
+    const TestForm = () => (
+      <Formik<Values>
+        initialValues={{
+          name: 42,
+        }}
+        onSubmit={onSubmit}
+      >
+        <Form>
+          <NumberFieldFormik<Values> name="name" placeholder="Enter the name" label="test" onChange={onChange} />
+        </Form>
+      </Formik>
+    )
+
+    const wrapper = await mountAndCheckA11Y(<TestForm />)
+
+    // We need the `async` call here to wait for processing of the asynchronous 'change'
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      simulateChange(wrapper.find('input'), '56')
+    })
+    wrapper.update()
+
+    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toBeCalledWith(56)
+  })
 })

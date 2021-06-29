@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useCallback } from 'react'
 import { useField } from 'formik'
 
 import { TextField, TextFieldExtraProps, TextFieldTypes } from './TextField'
@@ -8,10 +8,11 @@ import { ExtractKeysOfValueType } from './utils/types'
 export type TextFieldFormikProps<V extends object> = TextFieldExtraProps<Exclude<TextFieldTypes, 'number' | 'password'>> & {
   name: ExtractKeysOfValueType<V, string | undefined>
   validate?: FieldValidatorGeneric<string | undefined>
+  onChange?: (value: string) => void
 }
 
-export const TextFieldFormik = <V extends object>({ type, name, validate, ...props }: TextFieldFormikProps<V>): ReactElement => {
-  const [field, meta] = useField<string | undefined>({
+export const TextFieldFormik = <V extends object>({ type, name, validate, onChange, ...props }: TextFieldFormikProps<V>): ReactElement => {
+  const [{ onBlur, value, onChange: onFormikChange }, meta] = useField<string | undefined>({
     name,
     validate,
   })
@@ -21,9 +22,18 @@ export const TextFieldFormik = <V extends object>({ type, name, validate, ...pro
       {...props}
       type={type}
       name={name}
-      value={field.value}
-      onChange={field.onChange}
-      onBlur={field.onBlur}
+      value={value}
+      onChange={useCallback(
+        (e) => {
+          if (onChange) {
+            onChange(e.target.value)
+          }
+
+          onFormikChange(e)
+        },
+        [onFormikChange, onChange],
+      )}
+      onBlur={onBlur}
       error={getFieldError(meta)}
     />
   )
