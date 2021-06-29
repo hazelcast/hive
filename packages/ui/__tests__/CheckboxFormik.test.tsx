@@ -79,4 +79,45 @@ describe('CheckboxFormik', () => {
 
     expect(wrapper.find('input').props()).toHaveProperty('checked', true)
   })
+
+  it('Calls onChange cllback', async () => {
+    type Values = {
+      tosApproved: boolean
+      name: string
+    }
+
+    const onSubmit = jest.fn()
+    const onChange = jest.fn()
+
+    const TestForm = () => (
+      <Formik<Values>
+        initialValues={{
+          tosApproved: false,
+          name: 'Yoda',
+        }}
+        onSubmit={onSubmit}
+      >
+        <Form>
+          <CheckboxFormik<Values> name="tosApproved" label="ToS" onChange={onChange} />
+        </Form>
+      </Formik>
+    )
+
+    const wrapper = await mountAndCheckA11Y(<TestForm />)
+
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      wrapper.find('input').simulate('change', {
+        target: {
+          name: 'tosApproved',
+          checked: true,
+        },
+      })
+    })
+
+    wrapper.update()
+
+    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toBeCalledWith(true)
+  })
 })
