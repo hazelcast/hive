@@ -1,6 +1,18 @@
 @use '../styles/constants' as c;
 @use '../styles/helpers' as h;
 
+@mixin buttonColor($color: c.$colorPrimary) {
+  color: $color;
+  background-color: $color;
+  border-color: $color;
+}
+
+@mixin disabledButtonColor {
+  color: c.$colorTextSecondary;
+  background-color: c.$colorNeutral;
+  border-color: c.$colorNeutral;
+}
+
 .button {
   display: inline-block;
   position: relative;
@@ -88,24 +100,18 @@
 
   &.color {
     &Primary {
-      color: c.$colorPrimary;
-      background-color: c.$colorPrimary;
-      border-color: c.$colorPrimary;
+      @include buttonColor(c.$colorPrimary);
 
       &:hover,
       &.hover,
       &:focus,
       &.focus {
-        background-color: c.$colorPrimaryLight;
-        border-color: c.$colorPrimaryLight;
-        color: c.$colorPrimaryLight;
+        @include buttonColor(c.$colorPrimaryLight);
       }
 
       &:active,
       &.active {
-        background-color: c.$colorPrimaryDark;
-        border-color: c.$colorPrimaryDark;
-        color: c.$colorPrimaryDark;
+        @include buttonColor(c.$colorPrimaryDark);
       }
 
       &.variantContained {
@@ -113,31 +119,23 @@
       }
 
       &:disabled {
-        color: c.$colorTextSecondary;
-        background-color: c.$colorNeutral;
-        border-color: c.$colorNeutral;
+        @include disabledButtonColor;
       }
     }
 
     &Secondary {
-      color: c.$colorError;
-      background-color: c.$colorError;
-      border-color: c.$colorError;
+      @include buttonColor(c.$colorError);
 
       &:hover,
       &.hover,
       &:focus,
       &.focus {
-        background-color: c.$colorErrorLight;
-        border-color: c.$colorErrorLight;
-        color: c.$colorErrorLight;
+        @include buttonColor(c.$colorErrorLight);
       }
 
       &:active,
       &.active {
-        background-color: c.$colorErrorDark;
-        border-color: c.$colorErrorDark;
-        color: c.$colorErrorDark;
+        @include buttonColor(c.$colorErrorDark);
       }
 
       &.variantContained {
@@ -145,9 +143,31 @@
       }
 
       &:disabled {
-        color: c.$colorTextSecondary;
-        background-color: c.$colorNeutral;
-        border-color: c.$colorNeutral;
+        @include disabledButtonColor;
+      }
+    }
+
+    &Warning {
+      @include buttonColor(c.$colorWarning);
+
+      &:hover,
+      &.hover,
+      &:focus,
+      &.focus {
+        @include buttonColor(c.$colorWarningLight);
+      }
+
+      &:active,
+      &.active {
+        @include buttonColor(c.$colorWarningDark);
+      }
+
+      &.variantContained {
+        color: c.$colorText;
+      }
+
+      &:disabled {
+        @include disabledButtonColor;
       }
     }
   }
