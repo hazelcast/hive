@@ -23,7 +23,7 @@
   },
   "scripts": {
     "compile": "shx rm -f *.tsbuildinfo && shx rm -rf lib && shx mkdir lib && shx cp -r src/* lib && shx rm -rf lib/*.{tsx,ts} && shx rm -rf lib/**/*.{tsx,ts} && tsc -p tsconfig.build.json",
-    "test": "jest --maxWorkers=4",
+    "test": "node --max_old_space_size=4096 ./node_modules/.bin/jest",
     "test:watch": "jest --watch",
     "start": "npm run storybook",
     "storybook": "start-storybook -p 6006",
