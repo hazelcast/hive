@@ -18,7 +18,7 @@ $tooltipArrowSize2-3: c.$tooltipArrowSize / 3 * 2;
   border: c.$borderWidth solid c.$colorNeutralLight;
   border-radius: c.$borderRadius;
   color: c.$colorText;
-  z-index: c.$zIndex200;
+  z-index: c.$zIndex2000;
 
   &.hidden {
     visibility: hidden;
@@ -74,7 +74,7 @@ $tooltipArrowSize2-3: c.$tooltipArrowSize / 3 * 2;
         border-top: c.$tooltipArrowSize solid transparent;
         border-bottom: c.$tooltipArrowSize solid transparent;
         top: 50%;
-        left: 0%;
+        left: 0;
         margin-top: -(c.$tooltipArrowSize);
       }
 
