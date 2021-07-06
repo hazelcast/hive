@@ -49,6 +49,7 @@ import {
   highlightActiveLine,
   keymap,
   DOMEventHandlers,
+  KeyBinding,
 } from '@codemirror/view'
 import { EditorState, Extension } from '@codemirror/state'
 import { history, historyKeymap } from '@codemirror/history'
@@ -71,7 +72,7 @@ import { Error } from './Error'
 import styles from './CodeEditor.module.scss'
 
 // Export these very common CodeMirror types for ease of use
-export { EditorView, EditorState }
+export { EditorView, EditorState, KeyBinding }
 
 // Common options for the component.
 // More advanced configuration of the underlying component should be done directly via a handle.
@@ -98,6 +99,7 @@ export type CodeEditorProps = {
   onChange?: OnChangeCallback
   onBlur?: (e: FocusEvent) => void
   customExtensions?: Extension[]
+  customKeymap?: KeyBinding[]
   innerRef?: MutableRefObject<EditorViewRef | null>
   error?: string
   errorClassName?: string
@@ -117,6 +119,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({
   onChange,
   onBlur,
   customExtensions,
+  customKeymap,
   innerRef,
   error,
   errorClassName,
@@ -182,6 +185,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({
           ...commentKeymap,
           ...completionKeymap,
           ...lintKeymap,
+          ...(customKeymap ?? []),
         ]),
       ]
 
