@@ -9,13 +9,31 @@ export type TextFieldFormikProps<V extends object> = TextFieldExtraProps<Exclude
   name: ExtractKeysOfValueType<V, string | undefined>
   validate?: FieldValidatorGeneric<string | undefined>
   onChange?: (value: string) => void
+  onBlur?: () => void
 }
 
-export const TextFieldFormik = <V extends object>({ type, name, validate, onChange, ...props }: TextFieldFormikProps<V>): ReactElement => {
-  const [{ onBlur, value, onChange: onFormikChange }, meta] = useField<string | undefined>({
+export const TextFieldFormik = <V extends object>({
+  type,
+  name,
+  validate,
+  onChange,
+  onBlur,
+  ...props
+}: TextFieldFormikProps<V>): ReactElement => {
+  const [{ onBlur: onFormikBlur, value, onChange: onFormikChange }, meta] = useField<string | undefined>({
     name,
     validate,
   })
+
+  const onBlurInner = React.useCallback(
+    (e: React.FocusEvent) => {
+      if (onBlur) {
+        onBlur()
+      }
+      onFormikBlur(e)
+    },
+    [onFormikBlur],
+  )
 
   return (
     <TextField
@@ -33,7 +51,7 @@ export const TextFieldFormik = <V extends object>({ type, name, validate, onChan
         },
         [onFormikChange, onChange],
       )}
-      onBlur={onBlur}
+      onBlur={onBlurInner}
       error={getFieldError(meta)}
     />
   )
