@@ -9,7 +9,7 @@ export type TextFieldFormikProps<V extends object> = TextFieldExtraProps<Exclude
   name: ExtractKeysOfValueType<V, string | undefined>
   validate?: FieldValidatorGeneric<string | undefined>
   onChange?: (value: string) => void
-  onBlur?: () => void
+  onBlur?: (e: React.FocusEvent) => void
 }
 
 export const TextFieldFormik = <V extends object>({
@@ -28,7 +28,7 @@ export const TextFieldFormik = <V extends object>({
   const onBlurInner = React.useCallback(
     (e: React.FocusEvent) => {
       if (onBlur) {
-        onBlur()
+        onBlur(e)
       }
       onFormikBlur(e)
     },
