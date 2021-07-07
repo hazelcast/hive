@@ -33,6 +33,16 @@ export const Default = () => {
     })
   }
 
+  const customKeymap = [
+    {
+      key: 'F9',
+      run() {
+        alert('hello from custom keymap')
+        return false
+      },
+    },
+  ]
+
   return (
     <div>
       <CodeEditor
@@ -40,13 +50,14 @@ export const Default = () => {
           language: javascript,
           lineNumbers: showLineNumbers,
           lineWrapping,
-          rows
+          rows,
         }}
         value={value}
         onChange={(val: string) => {
           setValue(val)
         }}
         innerRef={ref}
+        customKeymap={customKeymap}
       />
       <hr />
       <div>Character count: {value.length}</div>
