@@ -1,8 +1,10 @@
+@use "sass:math";
+
 @use '../styles/constants' as c;
 
 $itemsCnt: 8;
 $duration: c.$durationLoader;
-$delayStep: $duration / $itemsCnt;
+$delayStep: math.div($duration, $itemsCnt);
 $opacityMax: 1;
 $opacityMin: 0.2;
 

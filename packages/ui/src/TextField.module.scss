@@ -56,7 +56,7 @@ $marginLeftWithIcon: c.$grid * 5;
   }
 
   .inputIcon {
-    left: ($marginLeftWithIcon + $inputHorizontalPadding) / 2;
+    left: ($marginLeftWithIcon + $inputHorizontalPadding) * 0.5;
   }
 
   .inputIconTrailing {
