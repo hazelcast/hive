@@ -57,7 +57,7 @@ describe('Card', () => {
 
     expect(headingTitle.props()).toEqual({
       'data-test': 'card-heading-title',
-      className: `${styles.title} ${styles.space}`,
+      className: styles.title,
       children: cardHeadingTitle,
     })
 
