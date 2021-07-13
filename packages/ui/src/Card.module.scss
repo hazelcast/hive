@@ -18,7 +18,10 @@
 
     .title {
       margin: 0;
-      margin-right: c.$grid * 2.5;
+
+      &.space {
+        margin-right: c.$grid * 2.5;
+      }
     }
   }
 
