@@ -11,7 +11,6 @@
 
     display: flex;
     align-items: center;
-    margin-bottom: c.$grid * 4;
 
     .icon {
       margin-right: c.$grid * 2.5;
@@ -19,17 +18,14 @@
 
     .title {
       margin: 0;
-
-      &.space {
-        margin-right: c.$grid * 2.5;
-      }
+      margin-right: c.$grid * 2.5;
     }
   }
 
   .separator {
     width: 100%;
     height: 1px;
-    margin: c.$grid * 4 0;
+    margin-top: c.$grid * 4;
     background: c.$colorNeutral;
   }
 

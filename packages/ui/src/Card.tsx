@@ -43,7 +43,7 @@ export const Card: FC<CardProps> = ({
     {title && (
       <div data-test="card-heading" className={cn(styles.heading, headerClassName)}>
         {headingIcon && <Icon data-test="card-heading-icon" icon={headingIcon} className={cn(styles.icon, iconClassName)} ariaHidden />}
-        <h3 data-test="card-heading-title" className={cn(styles.title, titleClassName, { [styles.space]: !!headingContent })}>
+        <h3 data-test="card-heading-title" className={cn(styles.title, titleClassName)}>
           {title}
         </h3>
         {headingContent}
@@ -52,8 +52,10 @@ export const Card: FC<CardProps> = ({
 
     {separator && <div data-test="card-separator" className={styles.separator} />}
 
-    <div data-test="card-content" className={cn(styles.content, contentClassName)}>
-      {children}
-    </div>
+    {children && (
+      <div data-test="card-content" className={cn(styles.content, contentClassName)}>
+        {children}
+      </div>
+    )}
   </div>
 )
