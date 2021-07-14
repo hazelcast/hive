@@ -95,7 +95,7 @@ export const Link = forwardRef<HTMLAnchorElement | HTMLButtonElement, LinkProps>
       href,
       rel = 'noopener',
       target = '_self',
-      type,
+      type = 'button',
       onClick,
       className,
       children,
@@ -118,7 +118,6 @@ export const Link = forwardRef<HTMLAnchorElement | HTMLButtonElement, LinkProps>
       ),
       href: href,
       onClick: onClick,
-      type: type,
     }
 
     const iconComponent =
@@ -132,7 +131,7 @@ export const Link = forwardRef<HTMLAnchorElement | HTMLButtonElement, LinkProps>
         {iconComponent}
       </a>
     ) : (
-      <button {...commonProps} ref={ref as MutableRefObject<HTMLButtonElement>}>
+      <button {...commonProps} type={type} ref={ref as MutableRefObject<HTMLButtonElement>}>
         {children}
         {iconComponent}
       </button>
