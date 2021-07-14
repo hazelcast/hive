@@ -95,7 +95,7 @@ export const Link = forwardRef<HTMLAnchorElement | HTMLButtonElement, LinkProps>
       href,
       rel = 'noopener',
       target = '_self',
-      type,
+      type = 'button',
       onClick,
       className,
       children,
