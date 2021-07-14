@@ -208,3 +208,19 @@ export const LongContent = () => (
     {Content}
   </ModalWithPortalFactory>
 )
+
+export const SmallVariant = () => (
+  <ModalWithPortalFactory
+    title={title}
+    isOpen
+    onClose={onClose}
+    size="small"
+    actions={[
+      {
+        children: 'Submit',
+      },
+    ]}
+  >
+    {Content}
+  </ModalWithPortalFactory>
+)

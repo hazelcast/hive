@@ -1,7 +1,9 @@
 @use '../styles/constants' as c;
 
 .wrapper {
-  padding: c.$grid * 5;
+  $padding: c.$grid * 5;
+
+  padding: $padding;
   box-shadow: 0 c.$cardShadowSize c.$cardShadowBlur 0 c.$colorShadow;
   border-radius: c.$borderRadius;
   background: c.$colorNeutralWhite;
@@ -41,6 +43,15 @@
   &.noTitle {
     .content {
       margin-top: 0;
+    }
+  }
+
+  .caption {
+    display: flex;
+    margin: (-$padding) (-$padding) $padding (-$padding);
+
+    & > * {
+      flex: 1;
     }
   }
 }
