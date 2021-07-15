@@ -81,4 +81,10 @@ describe('Card', () => {
       children: cardContent,
     })
   })
+
+  it('renders caption', async () => {
+    const wrapper = await mountAndCheckA11Y(<Card caption={<span id="caption">Caption</span>}>{cardContent}</Card>)
+
+    expect(wrapper.find('#caption').exists()).toBeTruthy()
+  })
 })

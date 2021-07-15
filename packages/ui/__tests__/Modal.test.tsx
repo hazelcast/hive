@@ -61,7 +61,8 @@ describe('Modal', () => {
 
     expect(wrapper.findDataTest('modal-footer').children()).toHaveLength(2)
     expect(wrapper.findDataTest('modal-button-cancel').at(0).props()).toStrictEqual({
-      kind: 'secondary',
+      variant: 'outlined',
+      size: undefined,
       onClick: onClose,
       children: 'Cancel',
       'data-test': 'modal-button-cancel',
@@ -69,6 +70,7 @@ describe('Modal', () => {
     })
     expect(wrapper.findDataTest('modal-button-action').at(0).props()).toStrictEqual({
       onClick: onClick,
+      size: undefined,
       children: modalAction,
       'data-test': 'modal-button-action',
     })
@@ -225,7 +227,8 @@ describe('Modal', () => {
 
     expect(wrapper.findDataTest('modal-footer').children()).toHaveLength(1)
     expect(wrapper.findDataTest('modal-button-cancel').at(0).props()).toStrictEqual({
-      kind: 'secondary',
+      variant: 'outlined',
+      size: undefined,
       onClick: onClose,
       children: 'Cancel',
       'data-test': 'modal-button-cancel',
@@ -269,7 +272,8 @@ describe('Modal', () => {
 
     expect(wrapper.findDataTest('modal-footer').children()).toHaveLength(2)
     expect(wrapper.findDataTest('modal-button-cancel').at(0).props()).toStrictEqual({
-      kind: 'secondary',
+      variant: 'outlined',
+      size: undefined,
       onClick: onClose,
       children: 'Cancel',
       'data-test': 'modal-button-cancel',
@@ -278,6 +282,7 @@ describe('Modal', () => {
     expect(wrapper.findDataTest('modal-button-cancel').at(0).is(':focus')).toBe(true)
     expect(wrapper.findDataTest('modal-button-action').at(0).props()).toStrictEqual({
       onClick: onClick,
+      size: undefined,
       children: modalAction,
       'data-test': 'modal-button-action',
     })
@@ -356,7 +361,8 @@ describe('Modal', () => {
 
     expect(wrapper.findDataTest('modal-footer').children()).toHaveLength(2)
     expect(wrapper.findDataTest('modal-button-cancel').at(0).props()).toStrictEqual({
-      kind: 'secondary',
+      variant: 'outlined',
+      size: undefined,
       onClick: onClose,
       children: 'Cancel',
       'data-test': 'modal-button-cancel',
@@ -365,6 +371,7 @@ describe('Modal', () => {
     expect(wrapper.findDataTest('modal-button-cancel').at(0).is(':focus')).toBe(false)
     expect(wrapper.findDataTest('modal-button-action').at(0).props()).toStrictEqual({
       onClick: onClick,
+      size: undefined,
       children: modalAction,
       'data-test': 'modal-button-action',
       autoFocus: true,
@@ -409,7 +416,8 @@ describe('Modal', () => {
 
     expect(wrapper.findDataTest('modal-footer').children()).toHaveLength(2)
     expect(wrapper.findDataTest('modal-button-cancel').at(0).props()).toStrictEqual({
-      kind: 'secondary',
+      variant: 'outlined',
+      size: undefined,
       onClick: onClose,
       children: 'Cancel',
       'data-test': 'modal-button-cancel',
@@ -418,6 +426,7 @@ describe('Modal', () => {
     expect(wrapper.findDataTest('modal-button-cancel').at(0).is(':focus')).toBe(false)
     expect(wrapper.findDataTest('modal-button-action').at(0).props()).toStrictEqual({
       onClick: onClick,
+      size: undefined,
       children: modalAction,
       'data-test': 'modal-button-action',
     })

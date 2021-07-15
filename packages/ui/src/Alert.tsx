@@ -44,15 +44,25 @@ const isAlertActionButton = (action: AlertAction): action is AlertActionButton =
 
 export type AlertProps = {
   type: ToastType
-  title: string
-  content: ReactNode
+  title?: ReactNode
+  content?: ReactNode
   actions?: AlertAction[]
   className?: string
+  titleClassName?: string
   dismissableByEscKey?: boolean
   closeToast?: (e?: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void
 }
 
-export const Alert: FC<AlertProps> = ({ type, title, content, actions, className, dismissableByEscKey = true, closeToast }) => {
+export const Alert: FC<AlertProps> = ({
+  type,
+  title,
+  content,
+  actions,
+  className,
+  dismissableByEscKey = true,
+  closeToast,
+  titleClassName,
+}) => {
   const { icon, ariaLabel } = ToastIcon[type]
 
   const closeByEsc = useCallback(
@@ -81,63 +91,67 @@ export const Alert: FC<AlertProps> = ({ type, title, content, actions, className
         className,
       )}
     >
-      <div className={styles.header}>
-        <Icon data-test="alert-icon" ariaLabel={ariaLabel} icon={icon} className={styles.icon} />
-        <div data-test="alert-title" className={styles.title}>
-          {title}
+      <Icon data-test="alert-icon" ariaLabel={ariaLabel} icon={icon} className={styles.icon} />
+      <div className={styles.rightSide}>
+        <div className={styles.header}>
+          {title && (
+            <div data-test="alert-title" className={cn(styles.title, titleClassName)}>
+              {title}
+            </div>
+          )}
+          {!!closeToast && <IconButton data-test="alert-close" kind="transparent" ariaLabel="Close icon" icon={X} onClick={closeToast} />}
         </div>
-        {!!closeToast && <IconButton data-test="alert-close" kind="transparent" ariaLabel="Close icon" icon={X} onClick={closeToast} />}
-      </div>
-      <div data-test="alert-body" className={styles.body}>
-        <div data-test="alert-content">{content}</div>
-        {actions?.length ? (
-          <div data-test="alert-actions" className={styles.actions}>
-            {actions.map((action, aI) => {
-              if (isAlertActionButton(action)) {
-                const { text, icon, ariaLabel, onClick } = action
-                const iconLeftProps: ButtonAccessibleIconLeftProps =
-                  icon && ariaLabel
-                    ? {
-                        iconLeft: icon,
-                        iconLeftAriaLabel: ariaLabel,
-                        iconLeftClassName: styles.actionButtonIcon,
-                      }
-                    : {}
+        <div data-test="alert-body" className={styles.body}>
+          {content && <div data-test="alert-content">{content}</div>}
+          {actions?.length ? (
+            <div data-test="alert-actions" className={styles.actions}>
+              {actions.map((action, aI) => {
+                if (isAlertActionButton(action)) {
+                  const { text, icon, ariaLabel, onClick } = action
+                  const iconLeftProps: ButtonAccessibleIconLeftProps =
+                    icon && ariaLabel
+                      ? {
+                          iconLeft: icon,
+                          iconLeftAriaLabel: ariaLabel,
+                          iconLeftClassName: styles.actionButtonIcon,
+                        }
+                      : {}
+
+                  return (
+                    <Button
+                      key={aI}
+                      size="small"
+                      kind="transparent"
+                      capitalize={false}
+                      className={cn(styles.action, styles.actionButton)}
+                      bodyClassName={styles.actionButtonBody}
+                      onClick={onClick}
+                      {...iconLeftProps}
+                    >
+                      {text}
+                    </Button>
+                  )
+                }
+
+                const { text, href, ...props } = action
 
                 return (
-                  <Button
+                  <Link
                     key={aI}
+                    href={href}
+                    icon={ChevronRight}
+                    ariaLabel="Icon chevron right"
+                    className={styles.action}
                     size="small"
-                    kind="transparent"
-                    capitalize={false}
-                    className={cn(styles.action, styles.actionButton)}
-                    bodyClassName={styles.actionButtonBody}
-                    onClick={onClick}
-                    {...iconLeftProps}
+                    {...props}
                   >
                     {text}
-                  </Button>
+                  </Link>
                 )
-              }
-
-              const { text, href, ...props } = action
-
-              return (
-                <Link
-                  key={aI}
-                  href={href}
-                  icon={ChevronRight}
-                  ariaLabel="Icon chevron right"
-                  className={styles.action}
-                  size="small"
-                  {...props}
-                >
-                  {text}
-                </Link>
-              )
-            })}
-          </div>
-        ) : null}
+              })}
+            </div>
+          ) : null}
+        </div>
       </div>
     </div>
   )

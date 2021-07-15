@@ -5,6 +5,7 @@ import { Meta, Story } from '@storybook/react'
 import { Card, CardProps, IconButton } from '../src'
 
 import styles from './Card.stories.module.scss'
+import { Alert } from '../lib'
 
 export default {
   title: 'Components/Card',
@@ -76,4 +77,9 @@ WithCustomStyling.args = {
   ...WithIcon.args,
   iconClassName: styles.customIconClass,
   titleClassName: styles.customTitleClass,
+}
+
+export const WithCaption = Template.bind({})
+WithCaption.args = {
+  caption: <Alert type="info" content="Only content" />,
 }

@@ -16,6 +16,8 @@ export const setAppElement = (appElement: string | HTMLElement) => ReactModal.se
 
 export type ModalActionProps = ButtonProps<ButtonTypeButtonProps>
 
+export type ModalSize = 'small' | 'medium'
+
 export type ModalProps = {
   actions?: ModalActionProps[]
   // Useful when dealing with e.g. forms in the Modal
@@ -33,6 +35,7 @@ export type ModalProps = {
   iconAriaLabel?: IconProps['ariaLabel']
   onClose: ReactModalProps['onRequestClose']
   title: string
+  size?: ModalSize
 } & DataTestProp &
   Exclude<ReactModalProps, 'onRequestClose' | 'shouldFocusAfterRender' | 'shouldReturnFocusAfterClose'>
 
@@ -66,6 +69,7 @@ export const Modal: FC<ModalProps> = ({
   onClose,
   overlayClassName,
   title,
+  size,
   ...rest
 }) => {
   const shouldAutoFocusCancelButton = useMemo(() => autoFocus && !actions?.some((action) => action?.autoFocus), [autoFocus, actions])
@@ -104,11 +108,17 @@ export const Modal: FC<ModalProps> = ({
         {!hideActions && (
           <div data-test="modal-footer" className={cn(styles.footer, footerClassName)}>
             {actions?.map(({ children, ...actionPropsRest }, key) => (
-              <Button key={key} data-test="modal-button-action" {...actionPropsRest}>
+              <Button key={key} data-test="modal-button-action" size={size} {...actionPropsRest}>
                 {children}
               </Button>
             ))}
-            <Button autoFocus={shouldAutoFocusCancelButton} data-test="modal-button-cancel" kind="secondary" onClick={onClose}>
+            <Button
+              autoFocus={shouldAutoFocusCancelButton}
+              data-test="modal-button-cancel"
+              variant="outlined"
+              size={size}
+              onClick={onClose}
+            >
               Cancel
             </Button>
           </div>

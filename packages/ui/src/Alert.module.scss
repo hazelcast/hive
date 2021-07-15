@@ -3,19 +3,27 @@
 
 // TODO: potential max-height
 .alert {
-  display: inline-block;
+  display: inline-flex;
   border-radius: c.$borderRadius;
   padding: c.$grid * 2.5;
   width: c.$alertWidth;
+
+  .icon {
+    flex-shrink: 0;
+    margin-right: c.$grid * 2.5;
+  }
+
+  .rightSide {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 
   .header {
     display: flex;
     flex-direction: row;
     align-items: center;
-
-    .icon {
-      margin-right: c.$grid * 2.5;
-    }
 
     .title {
       flex: 1 0 auto;
@@ -91,7 +99,7 @@
   }
 
   .body {
-    padding: 0 c.$grid * 8.5;
+    padding-right: c.$grid * 8.5;
 
     @include c.typographyBodySmall;
 
