@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useMemo, useRef } from 'react'
+import React, { ChangeEvent, ReactNode, useCallback, useEffect, useMemo, useRef } from 'react'
 import { DataTestProp } from '@hazelcast/helpers'
 import useEvent from 'react-use/lib/useEvent'
 import cn from 'classnames'
@@ -9,6 +9,7 @@ import { Help } from './Help'
 
 import styles from './Slider.module.scss'
 import { Label } from './Label'
+import { logger } from '@hazelcast/services'
 
 // This component accepts one of these values
 export type SliderValue = number | [number, number]
@@ -16,7 +17,7 @@ export type SliderValue = number | [number, number]
 // Mark that shows hints on a track
 type SliderMark = {
   value: number
-  label: string
+  label: ReactNode
 }
 
 // Value can be changed either with a keyboard or by clicking a mouse on a track
@@ -41,7 +42,7 @@ export type SliderExtraProps = {
   helperText?: string
   marks?: Array<SliderMark>
   label: string
-  formatCurrentValue?: (val: number) => string
+  formatCurrentValue?: (val: number) => ReactNode
 }
 
 type SliderProps<T extends SliderValue = number> = SliderExtraProps &
@@ -55,6 +56,29 @@ function isRangeGuard(value: SliderValue, onChange?: SingleValueChangeFn | Multi
 
 function isSingleValueGuard(value: SliderValue, onChange?: SingleValueChangeFn | MultiValueChangeFn): onChange is SingleValueChangeFn {
   return !Array.isArray(value)
+}
+
+function triggerNativeInputChange(value: string, inputEl: HTMLInputElement) {
+  const inputPropertyDescriptor = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')
+  if (inputPropertyDescriptor) {
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    const nativeInputValueSetter = inputPropertyDescriptor.set
+    if (nativeInputValueSetter) {
+      nativeInputValueSetter.call(inputEl, value)
+      const event = new Event('input', { bubbles: true })
+      inputEl.dispatchEvent(event)
+    }
+  } else {
+    logger.warn('Could not find property descriptor for input elements')
+  }
+}
+
+function adjustMinMaxValue(value: number, inputEl: HTMLInputElement, min: number, max: number) {
+  if (value < min) {
+    triggerNativeInputChange(min.toString(), inputEl)
+  } else if (value > max) {
+    triggerNativeInputChange(max.toString(), inputEl)
+  }
 }
 
 /**
@@ -161,6 +185,15 @@ export function Slider<T extends SliderValue = number>({
     },
     [firstValue, secondValue, onChange, value],
   )
+
+  useEffect(() => {
+    if (firstRangeInputRef.current) {
+      adjustMinMaxValue(firstValue, firstRangeInputRef.current, min, max)
+    }
+    if (isRange && secondRangeInputRef.current) {
+      adjustMinMaxValue(secondValue, secondRangeInputRef.current, min, max)
+    }
+  }, [min, max, firstValue, secondValue, firstRangeInputRef, secondRangeInputRef])
 
   /**
    * The following code makes sure that the relevant thumb is moved to the position once
