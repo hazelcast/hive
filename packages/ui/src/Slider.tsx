@@ -42,7 +42,7 @@ export type SliderExtraProps = {
   helperText?: string
   marks?: Array<SliderMark>
   label: string
-  formatCurrentValue?: (val: number) => string
+  formatCurrentValue?: (val: number) => ReactNode
 }
 
 type SliderProps<T extends SliderValue = number> = SliderExtraProps &

@@ -206,7 +206,11 @@ export const SliderWithCustomCurrentValueFormatter = () => {
           { value: 70, label: '4GB' },
           { value: 100, label: '100GB' },
         ]}
-        formatCurrentValue={(x) => `${x} GB`}
+        formatCurrentValue={(x) => (
+          <p style={{ margin: 0 }}>
+            {`${x} GB`} <small>(2 nodes)</small>
+          </p>
+        )}
       />
     </div>
   )
