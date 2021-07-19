@@ -1,5 +1,5 @@
 import React, { ChangeEvent, ReactNode, useCallback, useEffect, useMemo, useRef } from 'react'
-import { DataTestProp } from '@hazelcast/helpers'
+import { DataTestProp, triggerNativeInputChange } from '@hazelcast/helpers'
 import useEvent from 'react-use/lib/useEvent'
 import cn from 'classnames'
 import { useUID } from 'react-uid'
@@ -9,7 +9,6 @@ import { Help } from './Help'
 
 import styles from './Slider.module.scss'
 import { Label } from './Label'
-import { logger } from '@hazelcast/services'
 
 // This component accepts one of these values
 export type SliderValue = number | [number, number]
@@ -56,21 +55,6 @@ function isRangeGuard(value: SliderValue, onChange?: SingleValueChangeFn | Multi
 
 function isSingleValueGuard(value: SliderValue, onChange?: SingleValueChangeFn | MultiValueChangeFn): onChange is SingleValueChangeFn {
   return !Array.isArray(value)
-}
-
-function triggerNativeInputChange(value: string, inputEl: HTMLInputElement) {
-  const inputPropertyDescriptor = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')
-  if (inputPropertyDescriptor) {
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    const nativeInputValueSetter = inputPropertyDescriptor.set
-    if (nativeInputValueSetter) {
-      nativeInputValueSetter.call(inputEl, value)
-      const event = new Event('input', { bubbles: true })
-      inputEl.dispatchEvent(event)
-    }
-  } else {
-    logger.warn('Could not find property descriptor for input elements')
-  }
 }
 
 function adjustMinMaxValue(value: number, inputEl: HTMLInputElement, min: number, max: number) {
