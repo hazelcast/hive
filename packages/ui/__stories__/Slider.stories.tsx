@@ -5,6 +5,7 @@ import cn from 'classnames'
 
 import { Slider } from '../src/Slider'
 import { SliderFormik } from '../src/SliderFormik'
+import { Button } from '../src/Button'
 
 import utilStyles from './utils.scss'
 import styles from '../src/Slider.module.scss'
@@ -70,10 +71,10 @@ export const DisabledHoveredFocusedSlider = () => {
       max={100}
       sliderClassName={cn(styles.focus, styles.hover)}
       marks={[
-        { value: 0, label: '0GB' },
-        { value: 30, label: '1GB' },
-        { value: 70, label: '4GB' },
-        { value: 100, label: '100GB' },
+        { value: 0, label: '0 GB' },
+        { value: 30, label: '1 GB' },
+        { value: 70, label: '4 GB' },
+        { value: 100, label: '100 GB' },
       ]}
     />
   )
@@ -126,6 +127,38 @@ export const SliderWithMarks = () => {
         { value: 100, label: '100GB' },
       ]}
     />
+  )
+}
+
+export const SliderWithDynamicMin = () => {
+  const firstMin = 0
+  const secondMin = 30
+  const [value, onChange] = useState<number>(0)
+  const [min, setMin] = useState(firstMin)
+
+  const swapMin = () => {
+    setMin((prev) => (prev === firstMin ? secondMin : firstMin))
+  }
+
+  return (
+    <>
+      <Button onClick={swapMin}>Swap Min</Button>
+      <Slider
+        name="name"
+        label="Slider's label"
+        value={value}
+        onChange={onChange}
+        min={min}
+        max={100}
+        helperText="Helper text"
+        marks={[
+          { value: 0, label: '0GB' },
+          { value: 30, label: '1GB' },
+          { value: 70, label: '4GB' },
+          { value: 100, label: '100GB' },
+        ]}
+      />
+    </>
   )
 }
 
