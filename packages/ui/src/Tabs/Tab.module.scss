@@ -24,6 +24,10 @@
 
   @include h.overflowEllipsis;
 
+  .icon {
+    margin-right: c.$grid * 2;
+  }
+
   &.selected {
     color: c.$colorPrimary;
     border-radius: none;
