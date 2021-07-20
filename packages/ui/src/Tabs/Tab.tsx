@@ -1,6 +1,7 @@
 import React, { FC, useCallback, MouseEvent, KeyboardEvent } from 'react'
 import cn from 'classnames'
 
+import { Icon, IconProps } from '../Icon'
 import { useTabContext, getTabId, getPanelId } from './TabContext'
 import { keyIsOneOf } from '../utils/keyboard'
 
@@ -18,13 +19,22 @@ export type ButtonTabProps = {
 
 type TabTypeProps = AnchorTabProps | ButtonTabProps
 
+type TabIconProps =
+  | {
+      icon: IconProps['icon']
+      iconAriaLabel: string
+    }
+  | {
+      icon?: never
+      iconAriaLabel?: never
+    }
 export type TabCommonProps = {
   label: string
   value: number
   onClick?: (event: MouseEvent<HTMLButtonElement | HTMLAnchorElement> | KeyboardEvent<HTMLButtonElement | HTMLAnchorElement>) => void
 }
 
-export type TabProps<T = TabTypeProps> = TabCommonProps & T
+export type TabProps<T = TabTypeProps> = TabCommonProps & T & TabIconProps
 
 /**
  * ### Purpose
@@ -37,7 +47,7 @@ export type TabProps<T = TabTypeProps> = TabCommonProps & T
  * More info - https://www.w3.org/TR/wai-aria-practices/#kbd_selection_follows_focus
  *
  */
-export const Tab: FC<TabProps> = ({ component: Component = 'button', label, value, href, onClick }) => {
+export const Tab: FC<TabProps> = ({ component: Component = 'button', label, value, href, onClick, icon, iconAriaLabel }) => {
   const { onChange, value: activeValue, idPrefix, fullWidth } = useTabContext()
   const selected = value === activeValue
 
@@ -81,6 +91,7 @@ export const Tab: FC<TabProps> = ({ component: Component = 'button', label, valu
       onClick={handleClick}
       href={selected ? undefined : href}
     >
+      {icon && iconAriaLabel && <Icon icon={icon} ariaLabel={iconAriaLabel} className={styles.icon} />}
       {label}
     </Component>
   )

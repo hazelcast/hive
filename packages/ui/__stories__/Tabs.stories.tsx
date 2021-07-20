@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Meta, Story } from '@storybook/react'
+import { Settings, Info, PenTool } from 'react-feather'
 
 import { TabContextProvider, TabContextProviderControlled } from '../src/Tabs/TabContext'
 import { TabList } from '../src/Tabs/TabList'
@@ -95,3 +96,22 @@ export const Controlled = () => {
     </>
   )
 }
+
+export const WithIcons = () => (
+  <TabContextProvider>
+    <TabList ariaLabel="Tabs Story">
+      <Tab label="Tab 1" value={0} icon={Info} iconAriaLabel="Info" />
+      <Tab label="Tab 2" value={1} icon={PenTool} iconAriaLabel="PenTool" />
+      <Tab label="Tab 3" value={2} icon={Settings} iconAriaLabel="Settings" />
+    </TabList>
+    <TabPanel value={0}>
+      <p>Panel 1</p>
+    </TabPanel>
+    <TabPanel value={1}>
+      <p>Panel 2</p>
+    </TabPanel>
+    <TabPanel value={2}>
+      <p>Panel 3</p>
+    </TabPanel>
+  </TabContextProvider>
+)

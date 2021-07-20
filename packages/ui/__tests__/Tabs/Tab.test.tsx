@@ -1,6 +1,7 @@
 import React, { ButtonHTMLAttributes } from 'react'
 import cn from 'classnames'
 import { useUID } from 'react-uid'
+import { Settings } from 'react-feather'
 import { act } from 'react-dom/test-utils'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 
@@ -47,7 +48,7 @@ describe('Tab', () => {
       'aria-controls': getPanelId(testId, '1'),
       'aria-selected': false,
       tabIndex: -1,
-      children: 'Tab 2',
+      children: [undefined, 'Tab 2'],
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       onClick: expect.anything(),
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -65,12 +66,25 @@ describe('Tab', () => {
       'aria-controls': getPanelId(testId, '0'),
       'aria-selected': true,
       tabIndex: 0,
-      children: 'Tab 1',
+      children: [undefined, 'Tab 1'],
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       onKeyPress: expect.anything(),
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       onClick: expect.anything(),
     })
+  })
+
+  it('renders icon with correct props', async () => {
+    const wrapper = await mountAndCheckA11Y(
+      <TabContextProvider>
+        <TabList ariaLabel={ariaLabel}>
+          <Tab data-test="tab1" label="Tab 1" value={0} icon={Settings} iconAriaLabel="Settings" />
+        </TabList>
+        <TabPanel value={0}>Panel 1</TabPanel>
+      </TabContextProvider>,
+    )
+
+    expect(wrapper.find(Settings).exists()).toBeTruthy()
   })
 
   it('fires onChange with correct parameter on click, Enter press and Space press', async () => {
