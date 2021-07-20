@@ -18,6 +18,10 @@ $inputPadding: c.$grid * 3;
     width: 100%;
   }
 
+  :global .react-datepicker-popper {
+    z-index: c.$zIndex200;
+  }
+
   :global .react-datepicker {
     :global .react-datepicker__header {
       margin: 0;

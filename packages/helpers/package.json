@@ -28,5 +28,8 @@
   },
   "bugs": {
     "url": "https://github.com/hazelcast/frontend-shared/issues"
+  },
+  "dependencies": {
+    "@hazelcast/services": "^1.1.1"
   }
 }
