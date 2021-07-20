@@ -31,7 +31,7 @@ export default {
   },
   args: {
     label: 'Star Wars Characters',
-    swCharactersOptions,
+    options: swCharactersOptions,
     value: swCharactersOptions[0].value,
   },
 } as Meta<Omit<SegmentedControlProps<SWCharacters>, 'onChange'>>
