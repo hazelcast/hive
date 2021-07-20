@@ -1,28 +1,28 @@
-import React, { FC } from 'react'
+import React from 'react'
 import cn from 'classnames'
 import { RadioGroup } from '@headlessui/react'
 
 import styles from './SegmentedControl.module.scss'
 
-export type SegmentedControlOption = {
-  value: string
+export type SegmentedControlOption<V> = {
+  value: V
   label: string
 }
 
 export type SegmentedControlSize = 'medium' | 'small'
 
-export type SegmentedControlProps = {
-  value: string
-  onChange: (value: string) => void
+export type SegmentedControlProps<V> = {
+  value: V
+  onChange: (value: V) => void
   label: string
-  options: SegmentedControlOption[]
+  options: SegmentedControlOption<V>[]
   size?: SegmentedControlSize
   className?: string
   optionClassName?: string
   labelClassName?: string
 }
 
-export const SegmentedControl: FC<SegmentedControlProps> = ({
+export const SegmentedControl = <V extends string = string>({
   label,
   value,
   onChange,
@@ -31,7 +31,7 @@ export const SegmentedControl: FC<SegmentedControlProps> = ({
   className,
   optionClassName,
   labelClassName,
-}) => (
+}: SegmentedControlProps<V>) => (
   <RadioGroup className={cn(styles.group, { [styles.small]: size === 'small' }, className)} value={value} onChange={onChange}>
     <RadioGroup.Label className={styles.groupLabel}>{label}</RadioGroup.Label>
     {options.map((option) => (

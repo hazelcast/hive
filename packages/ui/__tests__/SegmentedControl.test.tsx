@@ -4,20 +4,28 @@ import { RadioGroup } from '@headlessui/react'
 
 import { SegmentedControl, SegmentedControlOption } from '../src/SegmentedControl'
 
+const swCharacters = {
+  darth_vader: 'Darth Vader',
+  luke_skywalker: 'Luke Skywalker',
+  obi: 'Obi-Wan Kenobi',
+  yoda: 'Yoda',
+}
+
+type SWCharacters = keyof typeof swCharacters
+
+const swCharactersOptions: SegmentedControlOption<SWCharacters>[] = (Object.keys(swCharacters) as SWCharacters[]).map((key) => ({
+  value: key,
+  label: swCharacters[key],
+}))
+
 describe('SegmentedControl', () => {
   it('Renders content', async () => {
-    const options: SegmentedControlOption[] = [
-      { value: 'darth_vader', label: 'Darth Vader' },
-      { value: 'luke_skywalker', label: 'Luke Skywalker' },
-      { value: 'obi', label: 'Obi-Wan Kenobi' },
-      { value: 'yoda', label: 'Yoda' },
-    ]
-    const checked = options[0]
+    const checked = swCharactersOptions[0]
     const label = 'Star Wars Characters'
     const onChange = jest.fn()
 
     const wrapper = await mountAndCheckA11Y(
-      <SegmentedControl label={label} value={checked.value} onChange={onChange} options={options} />,
+      <SegmentedControl<SWCharacters> label={label} value={checked.value} onChange={onChange} options={swCharactersOptions} />,
       {
         axeOptions: {
           rules: {
@@ -40,7 +48,7 @@ describe('SegmentedControl', () => {
     expect(radioGroupLabel.text()).toBe(label)
 
     radioGroupOptions.forEach((option, i) => {
-      const { value, label } = options[i]
+      const { value, label } = swCharactersOptions[i]
       expect(option.prop('value')).toBe(value)
       expect(option.find(RadioGroup.Label).text()).toBe(label)
     })

@@ -6,12 +6,19 @@ import { Form, Formik } from 'formik'
 import { logger } from '@hazelcast/services'
 import { SegmentedControlFormik } from '../src/SegmentedControlFormik'
 
-const options: SegmentedControlOption[] = [
-  { value: 'darth_vader', label: 'Darth Vader' },
-  { value: 'luke_skywalker', label: 'Luke Skywalker' },
-  { value: 'obi', label: 'Obi-Wan Kenobi' },
-  { value: 'yoda', label: 'Yoda' },
-]
+const swCharacters = {
+  darth_vader: 'Darth Vader',
+  luke_skywalker: 'Luke Skywalker',
+  obi: 'Obi-Wan Kenobi',
+  yoda: 'Yoda',
+}
+
+type SWCharacters = keyof typeof swCharacters
+
+const swCharactersOptions: SegmentedControlOption<SWCharacters>[] = (Object.keys(swCharacters) as SWCharacters[]).map((key) => ({
+  value: key,
+  label: swCharacters[key],
+}))
 
 export default {
   title: 'Components/SegmentedControl',
@@ -24,14 +31,14 @@ export default {
   },
   args: {
     label: 'Star Wars Characters',
-    options,
-    value: options[0].value,
+    swCharactersOptions,
+    value: swCharactersOptions[0].value,
   },
-} as Meta<Omit<SegmentedControlProps, 'onChange'>>
+} as Meta<Omit<SegmentedControlProps<SWCharacters>, 'onChange'>>
 
-const Template: Story<Omit<SegmentedControlProps, 'onChange'>> = ({ value: initialValue, ...args }) => {
-  const [value, setValue] = useState<string>(initialValue)
-  return <SegmentedControl value={value} onChange={setValue} {...args} />
+const Template: Story<Omit<SegmentedControlProps<SWCharacters>, 'onChange'>> = ({ value: initialValue, ...args }) => {
+  const [value, setValue] = useState<SWCharacters>(initialValue)
+  return <SegmentedControl<SWCharacters> value={value} onChange={setValue} {...args} />
 }
 
 export const Default = Template.bind({})
@@ -56,7 +63,7 @@ export const WrappedInFormik = () => {
       {({ values }) => (
         <Form>
           Values: {JSON.stringify(values)}
-          <SegmentedControlFormik<Values> name="character" label="Name" options={options} />
+          <SegmentedControlFormik<Values> name="character" label="Name" options={swCharactersOptions} />
           <button type="submit">Submit</button>
         </Form>
       )}
