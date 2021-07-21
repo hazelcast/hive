@@ -7,12 +7,19 @@ import { SegmentedControlFormik } from '../src/SegmentedControlFormik'
 import { SegmentedControl, SegmentedControlOption } from '../src/SegmentedControl'
 import { RadioGroup } from '@headlessui/react'
 
-const options: SegmentedControlOption[] = [
-  { value: 'darth_vader', label: 'Darth Vader' },
-  { value: 'luke_skywalker', label: 'Luke Skywalker' },
-  { value: 'obi', label: 'Obi-Wan Kenobi' },
-  { value: 'yoda', label: 'Yoda' },
-]
+const swCharacters = {
+  darth_vader: 'Darth Vader',
+  luke_skywalker: 'Luke Skywalker',
+  obi: 'Obi-Wan Kenobi',
+  yoda: 'Yoda',
+}
+
+type SWCharacters = keyof typeof swCharacters
+
+const swCharactersOptions: SegmentedControlOption<SWCharacters>[] = (Object.keys(swCharacters) as SWCharacters[]).map((key) => ({
+  value: key,
+  label: swCharacters[key],
+}))
 
 describe('SegmentedControlFormik', () => {
   it('can be used in a form', async () => {
@@ -33,7 +40,7 @@ describe('SegmentedControlFormik', () => {
         onSubmit={onSubmit}
       >
         <Form>
-          <SegmentedControlFormik name="character" options={options} label="test" />
+          <SegmentedControlFormik name="character" options={swCharactersOptions} label="test" />
         </Form>
       </Formik>
     )

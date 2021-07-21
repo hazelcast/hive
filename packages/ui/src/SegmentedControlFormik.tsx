@@ -5,18 +5,22 @@ import { SegmentedControl, SegmentedControlProps } from './SegmentedControl'
 import { FieldValidatorGeneric, formikTouchAndUpdate } from './utils/formik'
 import { ExtractKeysOfValueType } from './utils/types'
 
-export type SegmentedControlFormikProps<V extends object> = Omit<SegmentedControlProps, 'value' | 'onChange'> & {
-  name: ExtractKeysOfValueType<V, string | undefined>
-  validate?: FieldValidatorGeneric<string | undefined>
+export type SegmentedControlFormikProps<V extends object, OV> = Omit<SegmentedControlProps<OV>, 'value' | 'onChange'> & {
+  name: ExtractKeysOfValueType<V, OV | undefined>
+  validate?: FieldValidatorGeneric<OV | undefined>
 }
 
-export const SegmentedControlFormik = <V extends object>({ name, validate, ...props }: SegmentedControlFormikProps<V>): ReactElement => {
-  const [{ value }, , { setValue, setTouched }] = useField<string>({
+export const SegmentedControlFormik = <V extends object, OV extends string = string>({
+  name,
+  validate,
+  ...props
+}: SegmentedControlFormikProps<V, OV>): ReactElement => {
+  const [{ value }, , { setValue, setTouched }] = useField<OV>({
     name,
     validate,
   })
 
-  const onChange = useMemo(() => formikTouchAndUpdate<string>(setValue, setTouched), [setValue, setTouched])
+  const onChange = useMemo(() => formikTouchAndUpdate<OV>(setValue, setTouched), [setValue, setTouched])
 
-  return <SegmentedControl {...props} value={value} onChange={onChange} />
+  return <SegmentedControl<OV> {...props} value={value} onChange={onChange} />
 }

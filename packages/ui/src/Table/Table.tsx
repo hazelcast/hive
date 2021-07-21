@@ -160,7 +160,7 @@ type CustomTableRowClickProps<D extends object> =
   | {
       // Alternative to onRowClick is a getHref function.
       // Provide a function which returns URL that will be used as href attribute for underlying <a> element.
-      getHref?: (rowInfo: RowType<D>) => string
+      getHref?: (rowInfo: RowType<D>) => string | undefined
       onRowClick?: never
       AnchorComponent?: FC<AnchorHTMLAttributes<HTMLAnchorElement>>
     }
@@ -380,17 +380,25 @@ export const Table = <D extends object>({
                     </Cell>
                   )
                 })
-                return getHref ? (
-                  <LinkRow
-                    key={rowKey}
-                    AnchorComponent={AnchorComponent}
-                    {...restRowProps}
-                    ariaRowIndex={row.index + 1 + cellIndexOffset}
-                    href={getHref(row)}
-                  >
-                    {cells}
-                  </LinkRow>
-                ) : (
+
+                if (getHref) {
+                  const href = getHref(row)
+                  if (href) {
+                    return (
+                      <LinkRow
+                        key={rowKey}
+                        AnchorComponent={AnchorComponent}
+                        {...restRowProps}
+                        ariaRowIndex={row.index + 1 + cellIndexOffset}
+                        href={href}
+                      >
+                        {cells}
+                      </LinkRow>
+                    )
+                  }
+                }
+
+                return (
                   <Row
                     key={rowKey}
                     {...restRowProps}
