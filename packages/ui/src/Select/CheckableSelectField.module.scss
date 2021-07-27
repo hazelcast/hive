@@ -1,0 +1,36 @@
+@use './styles/constants' as c;
+
+.wrapper {
+  :global .hz-select-field__multi-value {
+    display: none;
+  }
+}
+
+.options {
+  padding: c.$grid * 2.5
+}
+
+.option {
+  cursor: pointer;
+}
+
+.checkmark {
+  width: c.$iconSizeSmall;
+  height: c.$iconSizeSmall;
+  border: c.$borderWidth solid c.$colorNeutralLight;
+  border-radius: c.$grid;
+  color: c.$colorNeutralWhite;
+  margin-right: c.$grid * 2;
+
+  &.checked {
+    background-color: c.$colorSuccessLight;
+    border-color: c.$colorSuccessLight;
+  }
+}
+
+.bottom {
+  display: flex;
+  padding: c.$grid * 2.5;
+  justify-content: space-between;
+  border-top: 1px solid c.$colorNeutral;
+}
