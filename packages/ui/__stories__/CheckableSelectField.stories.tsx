@@ -1,12 +1,10 @@
-import React, { ReactNode, useState } from 'react'
+import React, { useState } from 'react'
 import { logger } from '@hazelcast/services'
 import { Meta, Story } from '@storybook/react'
-import { GroupedOptionsType } from 'react-select'
 
 import { CheckableSelectField, CheckableSelectProps } from '../src/Select/CheckableSelectField'
 import { SelectFieldOption } from '../src/Select/helpers'
 
-import styles from '../src/Select/SelectField.module.scss'
 import { Form, Formik } from 'formik'
 import { CheckableSelectFieldFormik } from '../src/Select/CheckableSelectFieldFormik'
 
@@ -36,8 +34,8 @@ export default {
     noOptionsMessage: () => 'No characters :-(',
     options,
     value: [options[1].value],
-    menuPlacement: 'bottom',
     onBlur: () => logger.log('blur'),
+    'data-test': 'test',
   },
 } as Meta<CheckableSelectProps<string>>
 
@@ -63,19 +61,8 @@ WithError.args = {
   error: 'Dark side',
 }
 
-export const Hovered = Template.bind({})
-Hovered.args = {
-  className: styles.hover,
-}
-
-export const Focused = Template.bind({})
-Focused.args = {
-  className: styles.focus,
-}
-
 export const FocusedWithError = Template.bind({})
 FocusedWithError.args = {
-  ...Focused.args,
   ...WithError.args,
 }
 
@@ -89,33 +76,9 @@ WithHelperText.args = {
   helperText: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
 }
 
-export const Open = Template.bind({})
-Open.args = {
-  menuIsOpen: true,
-}
-
-export const OpenWithInputValue = Template.bind({})
-OpenWithInputValue.args = {
-  ...Empty.args,
-  ...Open.args,
-  inputValue: 'obi',
-}
-
-export const OpenWithInputValueAndNoResults = Template.bind({})
-OpenWithInputValueAndNoResults.args = {
-  ...Empty.args,
-  ...Open.args,
-  inputValue: 'Not a Star Wars character',
-}
-
 export const WithoutLabel = Template.bind({})
 WithoutLabel.args = {
   showAriaLabel: true,
-}
-
-export const WithCreatableOptions = Template.bind({})
-WithCreatableOptions.args = {
-  isCreatable: true,
 }
 
 export const WithMultilineOptions = Template.bind({})
@@ -133,91 +96,6 @@ WithMultilineOptions.args = {
     },
     ...options,
   ],
-}
-
-const groupedOptions: GroupedOptionsType<SelectFieldOption<string>> = [
-  {
-    label: 'Dark Side',
-    options: [
-      { value: 'darth_vader', label: 'Darth Vader' },
-      { value: 'boba_fett', label: 'Boba Fett' },
-      { value: 'jar_jar_binks', label: 'Jar Jar Binks' },
-    ],
-  },
-  {
-    label: 'Light Side',
-    options: [
-      { value: 'luke_skywalker', label: 'Luke Skywalker' },
-      { value: 'obi', label: 'Obi-Wan Kenobi' },
-      { value: 'yoda', label: 'Yoda' },
-      { value: 'han_solo', label: 'Han Solo' },
-    ],
-  },
-]
-export const WithGroupedOptions = Template.bind({})
-WithGroupedOptions.args = {
-  options: groupedOptions,
-  value: [groupedOptions[0].options[1].value],
-  // eslint-disable-next-line react/display-name
-  formatGroupLabel: ({ label }) => (
-    <p
-      style={{
-        textAlign: 'center',
-        padding: 0,
-        margin: 0,
-      }}
-    >
-      {label}
-    </p>
-  ),
-  // eslint-disable-next-line react/display-name
-  formatOptionLabel: ({ label }) => {
-    const names: Array<string | ReactNode> = label.split(' ')
-    names[names.length - 1] = (
-      <b key={label} style={{ color: 'black' }}>
-        {' '}
-        {names[names.length - 1]}
-      </b>
-    )
-    return (
-      <p
-        style={{
-          textAlign: 'center',
-          padding: 0,
-          margin: 0,
-          color: '#707482',
-        }}
-      >
-        {names}
-      </p>
-    )
-  },
-  styles: {
-    option: (base) => {
-      return {
-        ...base,
-        padding: 0,
-        border: '1px solid #DBDBDB',
-      }
-    },
-  },
-}
-
-export const WithCustomMenuFooter = Template.bind({})
-WithCustomMenuFooter.args = {
-  // eslint-disable-next-line react/display-name
-  renderMenuFooter: () => (
-    <div
-      style={{
-        lineHeight: '2rem',
-        textAlign: 'center',
-        backgroundColor: '#2160c0',
-        color: 'white',
-      }}
-    >
-      All Star Wars characters are entirely fictional
-    </div>
-  ),
 }
 
 export const WrappedInFormik = () => {
@@ -242,7 +120,13 @@ export const WrappedInFormik = () => {
       {({ values }) => (
         <Form>
           Values: {JSON.stringify(values)}
-          <CheckableSelectFieldFormik<Values> name="characters" label="Character" options={options} validate={validateCharacter} />
+          <CheckableSelectFieldFormik<Values>
+            name="characters"
+            data-test="test"
+            label="Character"
+            options={options}
+            validate={validateCharacter}
+          />
           <button type="submit">Submit</button>
         </Form>
       )}

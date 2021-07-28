@@ -1,7 +1,7 @@
 import React, { ReactElement, useCallback, useMemo } from 'react'
 import { useField } from 'formik'
 
-import { CheckableSelectField, CheckableSelectFieldExtraProps } from './CheckableSelectField'
+import { CheckableSelectFieldExtraProps, CheckableSelectField } from './CheckableSelectField'
 import { FieldValidatorGeneric, formikTouchAndUpdate, getFieldError } from '../utils/formik'
 import { ExtractKeysOfValueType } from '../utils/types'
 

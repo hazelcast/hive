@@ -104,6 +104,7 @@ export type MultiSelectFieldExtraProps<V> = {
     | 'closeMenuOnSelect'
     | 'hideSelectedOptions'
     | 'isClearable'
+    | 'onInputChange'
   >
 
 export type MultiSelectProps<V> = MultiSelectFieldCoreStaticProps<V> & MultiSelectFieldExtraProps<V>

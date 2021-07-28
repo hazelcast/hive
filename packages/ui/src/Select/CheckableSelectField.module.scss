@@ -1,17 +1,62 @@
-@use './styles/constants' as c;
+@use '../../styles/constants' as c;
+@use '../../styles/helpers' as h;
 
-.wrapper {
-  :global .hz-select-field__multi-value {
-    display: none;
+.panel {
+  z-index: c.$zIndex200;
+}
+
+.opener {
+  input {
+    cursor: pointer;
   }
 }
 
+.dropdown {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: c.$grid * 5;
+  box-shadow: 0 c.$cardShadowSize c.$cardShadowBlur 0 c.$colorShadow;
+  border-radius: c.$borderRadius;
+  background: c.$colorNeutralWhite;
+}
+
 .options {
-  padding: c.$grid * 2.5
+  overflow: auto;
+  max-height: 300px;
+  flex-direction: column;
+}
+
+.search {
+  margin-bottom: c.$grid * 2;
 }
 
 .option {
-  cursor: pointer;
+  background: transparent;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  font-size: c.$fontSizeBodySmall;
+  color: c.$colorTextSecondary;
+  outline: c.$outlineWidth solid transparent;
+  margin-bottom: c.$grid * 2.5;
+
+  &:focus {
+    @include h.outlineFormField;
+  }
+
+}
+
+.optionChecked {
+  color: c.$colorText;
+}
+
+.bottom {
+  display: flex;
+  padding: c.$grid * 2.5 c.$grid * 2.5 0 c.$grid * 2.5;
+  margin: 0 (-(c.$grid * 5));
+  justify-content: space-between;
+  border-top: 1px solid c.$colorNeutral;
 }
 
 .checkmark {
@@ -19,18 +64,14 @@
   height: c.$iconSizeSmall;
   border: c.$borderWidth solid c.$colorNeutralLight;
   border-radius: c.$grid;
-  color: c.$colorNeutralWhite;
+  color: transparent;
   margin-right: c.$grid * 2;
+  background-color: transparent;
+  flex-shrink: 0;
 
   &.checked {
+    color: c.$colorNeutralWhite;
     background-color: c.$colorSuccessLight;
     border-color: c.$colorSuccessLight;
   }
-}
-
-.bottom {
-  display: flex;
-  padding: c.$grid * 2.5;
-  justify-content: space-between;
-  border-top: 1px solid c.$colorNeutral;
 }

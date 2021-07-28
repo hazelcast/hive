@@ -2,11 +2,11 @@ import React, { createRef } from 'react'
 import { Formik, Form, FormikProps } from 'formik'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import { act } from 'react-dom/test-utils'
-import Select from 'react-select'
 
-import { CheckableSelectFieldFormik } from '../../src/Select/CheckableSelectFieldFormik'
+//import { MultiSelectFieldFormik } from '../../src/Select/MultiSelectFieldFormik'
 import { SelectFieldOption } from '../../src/Select/helpers'
-import { Error } from '../../src/Error'
+import { CheckableSelectFieldFormik } from '../../src'
+// import { Error } from '../../src/Error'
 
 const options: SelectFieldOption<string>[] = [
   { value: 'selectValue0', label: 'selectValue0' },
@@ -32,38 +32,31 @@ describe('CheckableSelectFieldFormik', () => {
         onSubmit={onSubmit}
       >
         <Form>
-          <CheckableSelectFieldFormik<Values, string> name="names" options={options} label="test" />
+          <CheckableSelectFieldFormik<Values, string> name="names" options={options} label="test" data-test="test" />
         </Form>
       </Formik>
     )
 
     const wrapper = await mountAndCheckA11Y(<TestForm />)
-    const selectInstance = wrapper.find(Select).instance() as Select
 
     expect(formikBag.current?.values).toEqual({
       names: [],
     })
 
+    act(() => {
+      wrapper.findDataTest('test-opener').at(0).simulate('click')
+    })
+    wrapper.update()
+
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      selectInstance.props.onChange?.([options[1]], { action: 'select-option' })
+      wrapper.findDataTest('test-option').at(1).simulate('click')
     })
     wrapper.update()
 
     expect(formikBag.current?.values).toEqual({
       names: [options[1].value],
-    })
-
-    // We need the `async` call here to wait for processing of the asynchronous 'change'
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      selectInstance.props.onChange?.([options[1], options[0]], { action: 'select-option' })
-    })
-    wrapper.update()
-
-    expect(formikBag.current?.values).toEqual({
-      names: [options[1].value, options[0].value],
     })
   })
 
@@ -77,25 +70,29 @@ describe('CheckableSelectFieldFormik', () => {
     const TestForm = () => (
       <Formik<Values> initialValues={{ names: [] }} onSubmit={jest.fn()}>
         <Form>
-          <CheckableSelectFieldFormik<Values> name="names" options={options} label="test" validate={validate} />
+          <CheckableSelectFieldFormik<Values> data-test="test" name="names" options={options} label="test" validate={validate} />
         </Form>
       </Formik>
     )
 
     const wrapper = await mountAndCheckA11Y(<TestForm />)
-    const selectInstance = wrapper.find(Select).instance() as Select
 
-    expect(wrapper.find(Error).prop('error')).toBe(undefined)
+    expect(wrapper.findDataTest('test-opener').at(0).prop('error')).toBe(undefined)
+
+    act(() => {
+      wrapper.findDataTest('test-opener').at(0).simulate('click')
+    })
+    wrapper.update()
 
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      selectInstance.props.onChange?.([options[1]], { action: 'select-option' })
+      wrapper.findDataTest('test-option').at(1).simulate('click')
     })
     wrapper.update()
 
     // The error is displayed only when the input becomes dirty
-    expect(wrapper.find(Error).prop('error')).toBe('error')
+    expect(wrapper.findDataTest('test-opener').at(0).prop('error')).toBe('error')
   })
 
   it('Calls onChange callback', async () => {
@@ -117,22 +114,26 @@ describe('CheckableSelectFieldFormik', () => {
         onSubmit={onSubmit}
       >
         <Form>
-          <CheckableSelectFieldFormik<Values, string> name="names" options={options} label="test" onChange={onChange} />
+          <CheckableSelectFieldFormik<Values, string> data-test="test" name="names" options={options} label="test" onChange={onChange} />
         </Form>
       </Formik>
     )
 
     const wrapper = await mountAndCheckA11Y(<TestForm />)
-    const selectInstance = wrapper.find(Select).instance() as Select
 
     expect(formikBag.current?.values).toEqual({
       names: [],
     })
 
+    act(() => {
+      wrapper.findDataTest('test-opener').at(0).simulate('click')
+    })
+    wrapper.update()
+
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      selectInstance.props.onChange?.([options[1]], { action: 'select-option' })
+      wrapper.findDataTest('test-option').at(1).simulate('click')
     })
     wrapper.update()
 

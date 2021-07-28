@@ -1,13 +1,11 @@
 import React from 'react'
 import { useUID } from 'react-uid'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
-import ReactSelect, { OptionsType } from 'react-select'
-import ReactSelectCreatable from 'react-select/creatable'
 import { act } from 'react-dom/test-utils'
 
 import { CheckableSelectField } from '../../src/Select/CheckableSelectField'
 import { Label } from '../../src/Label'
-import { Error, errorId } from '../../src/Error'
+import { Error } from '../../src/Error'
 import { SelectFieldOption } from '../../src/Select/helpers'
 
 import styles from '../src/SelectField.module.scss'
@@ -20,7 +18,7 @@ const selectId = 'selectId'
 const selectName = 'selectName'
 const selectLabel = 'selectLabel'
 
-const options: OptionsType<SelectFieldOption<string>> = [
+const options: SelectFieldOption<string>[] = [
   { value: 'darth_vader', label: 'Darth Vader' },
   { value: 'luke_skywalker', label: 'Luke Skywalker' },
   { value: 'obi', label: 'Obi-Wan Kenobi' },
@@ -37,38 +35,7 @@ describe('CheckableSelectField', () => {
     useUIDMock.mockImplementation(() => selectId)
   })
 
-  it('Renders child components with correct props', async () => {
-    const wrapper = await mountAndCheckA11Y(
-      <CheckableSelectField name={selectName} label={selectLabel} options={options} value={selectedValues} onChange={jest.fn()} />,
-    )
-
-    expect(wrapper.find(Label).props()).toEqual({
-      id: selectId,
-      label: selectLabel,
-      className: styles.label,
-    })
-
-    expect(wrapper.find(ReactSelect).props()).toMatchObject({
-      inputId: selectId,
-      name: selectName,
-      isClearable: false,
-      isMulti: true,
-      options: options,
-      value: selectedOptions,
-      isSearchable: true,
-      'aria-invalid': false,
-      'aria-required': undefined,
-      'aria-errormessage': undefined,
-      isDisabled: undefined,
-    })
-    expect(wrapper.find(Error).props()).toEqual({
-      error: undefined,
-      className: styles.errorContainer,
-      inputId: selectId,
-    })
-  })
-
-  it('Renders Error with error message and ReactSelect with [aria-invalid]=true and `aria-errormessage` with correct id', async () => {
+  it('Renders Error with error message', async () => {
     const selectError = 'Dark side'
 
     const wrapper = await mountAndCheckA11Y(
@@ -79,6 +46,7 @@ describe('CheckableSelectField', () => {
         value={selectedValues}
         onChange={jest.fn()}
         error={selectError}
+        data-test="test"
       />,
     )
 
@@ -88,21 +56,20 @@ describe('CheckableSelectField', () => {
       className: styles.label,
     })
 
-    expect(wrapper.find(ReactSelect).props()).toMatchObject({
-      'aria-invalid': true,
-      'aria-errormessage': errorId(selectId),
-    })
-
-    expect(wrapper.find(Error).props()).toEqual({
-      error: selectError,
-      className: styles.errorContainer,
-      inputId: selectId,
-    })
+    expect(wrapper.find(Error).exists()).toBeTruthy()
   })
 
-  it('Renders ReactSelect with aria-required attribute', async () => {
+  it('Renders with isDisabled=true prop', async () => {
     const wrapper = await mountAndCheckA11Y(
-      <CheckableSelectField name={selectName} label={selectLabel} options={options} value={selectedValues} onChange={jest.fn()} required />,
+      <CheckableSelectField
+        name={selectName}
+        label={selectLabel}
+        onChange={jest.fn()}
+        data-test="test"
+        options={options}
+        value={selectedValues}
+        disabled
+      />,
     )
 
     expect(wrapper.find(Label).props()).toEqual({
@@ -111,31 +78,7 @@ describe('CheckableSelectField', () => {
       className: styles.label,
     })
 
-    expect(wrapper.find(ReactSelect).props()).toMatchObject({
-      'aria-required': true,
-    })
-
-    expect(wrapper.find(Error).props()).toEqual({
-      error: undefined,
-      className: styles.errorContainer,
-      inputId: selectId,
-    })
-  })
-
-  it('Renders ReactSelect with isDisabled=true prop', async () => {
-    const wrapper = await mountAndCheckA11Y(
-      <CheckableSelectField name={selectName} label={selectLabel} onChange={jest.fn()} options={options} value={selectedValues} disabled />,
-    )
-
-    expect(wrapper.find(Label).props()).toEqual({
-      id: selectId,
-      label: selectLabel,
-      className: styles.label,
-    })
-
-    expect(wrapper.find(ReactSelect).props()).toMatchObject({
-      isDisabled: true,
-    })
+    expect(wrapper.findDataTest('test-opener').at(0).prop('disabled')).toBeTruthy()
 
     expect(wrapper.find(Error).props()).toEqual({
       error: undefined,
@@ -152,54 +95,14 @@ describe('CheckableSelectField', () => {
         onChange={jest.fn()}
         options={options}
         value={selectedValues}
+        data-test="test"
         showAriaLabel
       />,
     )
 
     expect(wrapper.find(Label).exists()).toBe(false)
 
-    expect(wrapper.find(ReactSelect).exists()).toBe(true)
-
-    expect(wrapper.find(Error).props()).toEqual({
-      error: undefined,
-      className: styles.errorContainer,
-      inputId: selectId,
-    })
-  })
-
-  it('Renders ReactSelectCreatable with correct props', async () => {
-    const onChange = jest.fn()
-
-    const wrapper = await mountAndCheckA11Y(
-      <CheckableSelectField
-        name={selectName}
-        label={selectLabel}
-        value={selectedValues}
-        onChange={onChange}
-        options={options}
-        isCreatable
-      />,
-    )
-
-    expect(wrapper.find(Label).props()).toEqual({
-      id: selectId,
-      label: selectLabel,
-      className: styles.label,
-    })
-
-    expect(wrapper.find(ReactSelectCreatable).props()).toMatchObject({
-      isMulti: true,
-      isClearable: false,
-      isSearchable: true,
-      inputId: selectId,
-      name: selectName,
-      options: options,
-      value: selectedOptions,
-      'aria-invalid': false,
-      'aria-required': undefined,
-      'aria-errormessage': undefined,
-      isDisabled: undefined,
-    })
+    expect(wrapper.findDataTest('test-opener').exists()).toBe(true)
 
     expect(wrapper.find(Error).props()).toEqual({
       error: undefined,
@@ -212,19 +115,26 @@ describe('CheckableSelectField', () => {
     const onChange = jest.fn()
     const wrapper = await mountAndCheckA11Y(
       <CheckableSelectField
-        menuIsOpen
         name={selectName}
         label={selectLabel}
         options={options}
         value={selectedValues}
         onChange={onChange}
+        data-test="test"
       />,
     )
 
     expect(onChange).toBeCalledTimes(0)
 
+    // We need the `async` call here to wait for processing of the asynchronous 'change'
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      wrapper.findDataTest('test-opener').at(0).simulate('click')
+    })
+    wrapper.update()
+
     act(() => {
-      wrapper.findDataTest('checkable-select-select-all').simulate('click')
+      wrapper.findDataTest('test-select-all').simulate('click')
     })
     wrapper.update()
 
@@ -232,11 +142,59 @@ describe('CheckableSelectField', () => {
     expect(onChange).toBeCalledWith(options.map(({ value }) => value))
 
     act(() => {
-      wrapper.findDataTest('checkable-select-select-none').simulate('click')
+      wrapper.findDataTest('test-select-none').simulate('click')
     })
     wrapper.update()
 
     expect(onChange).toBeCalledTimes(2)
     expect(onChange).toBeCalledWith([])
+  })
+
+  it('Options are checkable', async () => {
+    const onChange = jest.fn()
+    const wrapper = await mountAndCheckA11Y(
+      <CheckableSelectField name={selectName} label={selectLabel} options={options} value={[]} onChange={onChange} data-test="test" />,
+    )
+
+    expect(onChange).toBeCalledTimes(0)
+
+    // We need the `async` call here to wait for processing of the asynchronous 'change'
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      wrapper.findDataTest('test-opener').at(0).simulate('click')
+    })
+    wrapper.update()
+
+    act(() => {
+      wrapper.findDataTest('test-option').at(0).simulate('click')
+    })
+    wrapper.update()
+
+    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toBeCalledWith([options[0].value])
+  })
+
+  it('Can not be opened when disabled', async () => {
+    const onChange = jest.fn()
+    const wrapper = await mountAndCheckA11Y(
+      <CheckableSelectField
+        disabled
+        name={selectName}
+        label={selectLabel}
+        options={options}
+        value={[]}
+        onChange={onChange}
+        data-test="test"
+      />,
+    )
+
+    expect(onChange).toBeCalledTimes(0)
+
+    act(() => {
+      wrapper.findDataTest('test-opener').at(0).simulate('click')
+    })
+    wrapper.update()
+
+    expect(wrapper.findDataTest('test-dropdown').exists()).toBeFalsy()
   })
 })
