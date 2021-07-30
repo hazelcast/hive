@@ -1,0 +1,200 @@
+import React from 'react'
+import { useUID } from 'react-uid'
+import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { act } from 'react-dom/test-utils'
+
+import { CheckableSelectField } from '../../src/Select/CheckableSelectField'
+import { Label } from '../../src/Label'
+import { Error } from '../../src/Error'
+import { SelectFieldOption } from '../../src/Select/helpers'
+
+import styles from '../src/SelectField.module.scss'
+
+jest.mock('react-uid')
+
+const useUIDMock = useUID as jest.Mock<ReturnType<typeof useUID>>
+
+const selectId = 'selectId'
+const selectName = 'selectName'
+const selectLabel = 'selectLabel'
+
+const options: SelectFieldOption<string>[] = [
+  { value: 'darth_vader', label: 'Darth Vader' },
+  { value: 'luke_skywalker', label: 'Luke Skywalker' },
+  { value: 'obi', label: 'Obi-Wan Kenobi' },
+  { value: 'yoda', label: 'Yoda' },
+  { value: 'han_solo', label: 'Han Solo' },
+  { value: 'boba_fett', label: 'Boba Fett' },
+  { value: 'jar_jar_binks', label: 'Jar Jar Binks' },
+]
+const selectedOptions = [options[1]]
+const selectedValues = selectedOptions.map(({ value }) => value)
+
+describe('CheckableSelectField', () => {
+  beforeEach(() => {
+    useUIDMock.mockImplementation(() => selectId)
+  })
+
+  it('Renders Error with error message', async () => {
+    const selectError = 'Dark side'
+
+    const wrapper = await mountAndCheckA11Y(
+      <CheckableSelectField
+        name={selectName}
+        label={selectLabel}
+        options={options}
+        value={selectedValues}
+        onChange={jest.fn()}
+        error={selectError}
+        data-test="test"
+      />,
+    )
+
+    expect(wrapper.find(Label).props()).toEqual({
+      id: selectId,
+      label: selectLabel,
+      className: styles.label,
+    })
+
+    expect(wrapper.find(Error).exists()).toBeTruthy()
+  })
+
+  it('Renders with isDisabled=true prop', async () => {
+    const wrapper = await mountAndCheckA11Y(
+      <CheckableSelectField
+        name={selectName}
+        label={selectLabel}
+        onChange={jest.fn()}
+        data-test="test"
+        options={options}
+        value={selectedValues}
+        disabled
+      />,
+    )
+
+    expect(wrapper.find(Label).props()).toEqual({
+      id: selectId,
+      label: selectLabel,
+      className: styles.label,
+    })
+
+    expect(wrapper.findDataTest('test-opener').at(0).prop('disabled')).toBeTruthy()
+
+    expect(wrapper.find(Error).props()).toEqual({
+      error: undefined,
+      className: styles.errorContainer,
+      inputId: selectId,
+    })
+  })
+
+  it('Hides Label', async () => {
+    const wrapper = await mountAndCheckA11Y(
+      <CheckableSelectField
+        name={selectName}
+        label={selectLabel}
+        onChange={jest.fn()}
+        options={options}
+        value={selectedValues}
+        data-test="test"
+        showAriaLabel
+      />,
+    )
+
+    expect(wrapper.find(Label).exists()).toBe(false)
+
+    expect(wrapper.findDataTest('test-opener').exists()).toBe(true)
+
+    expect(wrapper.find(Error).props()).toEqual({
+      error: undefined,
+      className: styles.errorContainer,
+      inputId: selectId,
+    })
+  })
+
+  it('Toggles value', async () => {
+    const onChange = jest.fn()
+    const wrapper = await mountAndCheckA11Y(
+      <CheckableSelectField
+        name={selectName}
+        label={selectLabel}
+        options={options}
+        value={selectedValues}
+        onChange={onChange}
+        data-test="test"
+      />,
+    )
+
+    expect(onChange).toBeCalledTimes(0)
+
+    // We need the `async` call here to wait for processing of the asynchronous 'change'
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      wrapper.findDataTest('test-opener').at(0).simulate('click')
+    })
+    wrapper.update()
+
+    act(() => {
+      wrapper.findDataTest('test-select-all').simulate('click')
+    })
+    wrapper.update()
+
+    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toBeCalledWith(options.map(({ value }) => value))
+
+    act(() => {
+      wrapper.findDataTest('test-select-none').simulate('click')
+    })
+    wrapper.update()
+
+    expect(onChange).toBeCalledTimes(2)
+    expect(onChange).toBeCalledWith([])
+  })
+
+  it('Options are checkable', async () => {
+    const onChange = jest.fn()
+    const wrapper = await mountAndCheckA11Y(
+      <CheckableSelectField name={selectName} label={selectLabel} options={options} value={[]} onChange={onChange} data-test="test" />,
+    )
+
+    expect(onChange).toBeCalledTimes(0)
+
+    // We need the `async` call here to wait for processing of the asynchronous 'change'
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      wrapper.findDataTest('test-opener').at(0).simulate('click')
+    })
+    wrapper.update()
+
+    act(() => {
+      wrapper.findDataTest('test-option').at(0).simulate('click')
+    })
+    wrapper.update()
+
+    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toBeCalledWith([options[0].value])
+  })
+
+  it('Can not be opened when disabled', async () => {
+    const onChange = jest.fn()
+    const wrapper = await mountAndCheckA11Y(
+      <CheckableSelectField
+        disabled
+        name={selectName}
+        label={selectLabel}
+        options={options}
+        value={[]}
+        onChange={onChange}
+        data-test="test"
+      />,
+    )
+
+    expect(onChange).toBeCalledTimes(0)
+
+    act(() => {
+      wrapper.findDataTest('test-opener').at(0).simulate('click')
+    })
+    wrapper.update()
+
+    expect(wrapper.findDataTest('test-dropdown').exists()).toBeFalsy()
+  })
+})

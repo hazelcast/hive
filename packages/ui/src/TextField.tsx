@@ -47,6 +47,7 @@ export type TextFieldExtraProps<T extends TextFieldTypes> = {
   inputIcon?: IconType
   onKeyPress?: (e: KeyboardEvent<HTMLInputElement>) => void
   type?: T
+  readOnly?: boolean
 } & DataTestProp &
   Pick<InputHTMLAttributes<HTMLInputElement>, 'id' | 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'> &
   TextFieldTrailingIcon
@@ -94,6 +95,7 @@ export const TextField = <T extends TextFieldTypes>({
   required,
   type = 'text',
   value,
+  readOnly,
   ...htmlAttrs
 }: TextFieldProps<T>) => {
   // Use an auto generated id if it's not set explicitly
@@ -125,6 +127,7 @@ export const TextField = <T extends TextFieldTypes>({
             name={name}
             onChange={onChange}
             onBlur={onBlur}
+            readOnly={readOnly}
             onKeyPress={onKeyPress}
             aria-label={showAriaLabel ? label : undefined}
             // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute

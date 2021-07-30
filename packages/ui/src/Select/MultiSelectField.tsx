@@ -6,6 +6,7 @@ import ReactSelect, {
   Props as ReactSelectProps,
   ValueType,
   OptionsType,
+  SelectComponentsConfig,
 } from 'react-select'
 import ReactSelectCreatable from 'react-select/creatable'
 import { useUID } from 'react-uid'
@@ -72,6 +73,7 @@ export type MultiSelectFieldCoreStaticProps<V> = {
   error?: string
   value: V[]
   onChange: (newValue: V[]) => void
+  components?: Partial<SelectComponentsConfig<SelectFieldOption<V>>>
 }
 
 export type MultiSelectFieldExtraProps<V> = {
@@ -92,7 +94,18 @@ export type MultiSelectFieldExtraProps<V> = {
   styles?: ReactSelectProps<SelectFieldOption<V>>['styles']
 } & DataTestProp &
   Pick<InputHTMLAttributes<HTMLElement>, 'autoFocus' | 'disabled' | 'required' | 'placeholder'> &
-  Pick<ReactSelectProps, 'isSearchable' | 'menuIsOpen' | 'menuPlacement' | 'noOptionsMessage' | 'inputValue'>
+  Pick<
+    ReactSelectProps,
+    | 'isSearchable'
+    | 'menuIsOpen'
+    | 'menuPlacement'
+    | 'noOptionsMessage'
+    | 'inputValue'
+    | 'closeMenuOnSelect'
+    | 'hideSelectedOptions'
+    | 'isClearable'
+    | 'onInputChange'
+  >
 
 export type MultiSelectProps<V> = MultiSelectFieldCoreStaticProps<V> & MultiSelectFieldExtraProps<V>
 
@@ -120,6 +133,7 @@ export const MultiSelectField = <V extends string | number = number>({
   formatGroupLabel,
   formatOptionLabel,
   renderMenuFooter,
+  components: customComponents,
   ...rest
 }: MultiSelectProps<V>): ReactElement<MultiSelectProps<V>> => {
   const id = useUID()
@@ -181,6 +195,7 @@ export const MultiSelectField = <V extends string | number = number>({
       MultiValueRemove,
       MultiValue,
       ...components,
+      ...customComponents,
     },
     formatGroupLabel,
     formatOptionLabel,
