@@ -6,8 +6,7 @@ import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 import { useUID } from 'react-uid'
 
 import { Error, errorId } from './Error'
-import { Help, HelpProps } from './Help'
-import { Label } from './Label'
+import { FieldHeader, FieldHeaderProps } from './FieldHeader'
 import { PopperRef } from './Tooltip'
 
 import styles from './TextArea.module.scss'
@@ -23,14 +22,12 @@ export type TextAreaCoreProps = {
 }
 
 export type TextAreaExtraProps = {
-  label: string
-  labelClassName?: string
   textareaClassName?: string
   errorClassName?: string
   resizable?: boolean
-  helperText?: HelpProps['helperText']
   size?: TextAreaSize
-} & Partial<Pick<HTMLTextAreaElement, 'className' | 'disabled' | 'placeholder' | 'required' | 'rows'>>
+} & Partial<Pick<HTMLTextAreaElement, 'className' | 'disabled' | 'placeholder' | 'required' | 'rows'>> &
+  Omit<FieldHeaderProps, 'id'>
 
 export type TextAreaProps = TextAreaCoreProps & TextAreaExtraProps & DataTestProp
 
@@ -77,7 +74,7 @@ export const TextArea: FC<TextAreaProps> = ({
         className,
       )}
     >
-      <Label id={id} label={label} className={cn(styles.label, { [styles.small]: size === 'small' }, labelClassName)} />
+      <FieldHeader data-test="textarea" label={label} id={id} helperText={helperText} labelClassName={labelClassName} size={size} />
       <div className={styles.textAreaContainer}>
         <div className={styles.textAreaWrapper}>
           <textarea
@@ -103,9 +100,6 @@ export const TextArea: FC<TextAreaProps> = ({
           <div className={styles.borderOverlay} />
           {helperText && resizeListener}
         </div>
-        {helperText && (
-          <Help data-test="textarea-helperText" parentId={id} helperText={helperText} className={styles.helperText} popperRef={popperRef} />
-        )}
       </div>
       <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
     </div>

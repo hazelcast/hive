@@ -4,9 +4,9 @@ import { useUID } from 'react-uid'
 
 import { DataTestProp } from '@hazelcast/helpers'
 import { Error, errorId } from './Error'
+import { FieldHeader, FieldHeaderProps } from './FieldHeader'
 
 import styles from './TimeField.module.scss'
-import { Label } from './Label'
 
 export type TimeFieldCoreProps = {
   name: string
@@ -16,30 +16,17 @@ export type TimeFieldCoreProps = {
   error?: string
 }
 
-type TimeFieldLabelProps =
-  | {
-      ariaLabel?: never
-      label: string
-      labelClassName?: string
-    }
-  | {
-      ariaLabel: string
-      label?: never
-      labelClassName?: never
-    }
-
 export type TimeFieldExtraProps = {
   inputClassName?: string
   errorClassName?: string
   seconds?: boolean
-} & TimeFieldLabelProps &
-  Pick<InputHTMLAttributes<HTMLInputElement>, 'id' | 'className' | 'autoFocus' | 'disabled' | 'required'>
+} & Pick<InputHTMLAttributes<HTMLInputElement>, 'id' | 'className' | 'autoFocus' | 'disabled' | 'required'> &
+  Omit<FieldHeaderProps, 'id'>
 
 export type TypeFieldProps = TimeFieldCoreProps & TimeFieldExtraProps & DataTestProp
 
 export const TimeField: FC<TypeFieldProps> = ({
   'data-test': dataTest,
-  ariaLabel,
   className,
   disabled,
   error,
@@ -54,6 +41,9 @@ export const TimeField: FC<TypeFieldProps> = ({
   required,
   seconds = false,
   value,
+  helperText,
+  size,
+  showAriaLabel,
   ...props
 }) => {
   // Use an auto generated id if it's not set explicitly
@@ -62,7 +52,15 @@ export const TimeField: FC<TypeFieldProps> = ({
 
   return (
     <div data-test={dataTest} className={cn(styles.container, className)}>
-      {label && <Label id={id} label={label} className={cn(styles.label, labelClassName)} />}
+      <FieldHeader
+        id={id}
+        size={size}
+        label={label}
+        helperText={helperText}
+        showAriaLabel={showAriaLabel}
+        labelClassName={labelClassName}
+      />
+
       <div className={styles.inputBlock}>
         <div className={styles.inputContainer}>
           <input
@@ -81,7 +79,7 @@ export const TimeField: FC<TypeFieldProps> = ({
             disabled={disabled}
             // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute
             aria-invalid={!!error}
-            aria-label={ariaLabel}
+            aria-label={showAriaLabel ? label : undefined}
             aria-required={required}
             aria-errormessage={error && errorId(id)}
             {...props}

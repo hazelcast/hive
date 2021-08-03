@@ -1,0 +1,20 @@
+@use '../styles/constants' as c;
+
+.root {
+  display: flex;
+  margin-bottom: c.$grid;
+}
+
+.label {
+  flex-shrink: 0;
+  white-space: pre-wrap;
+
+  &.small {
+    @include c.typographyBodySmall;
+  }
+}
+
+.helperText {
+  flex-shrink: 0;
+  margin-top: c.$grid;
+}

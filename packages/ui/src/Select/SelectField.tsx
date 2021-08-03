@@ -7,8 +7,7 @@ import cn from 'classnames'
 import { DataTestProp } from '@hazelcast/helpers'
 
 import { Error, errorId } from '../Error'
-import { Label } from '../Label'
-import { Help, HelpProps } from '../Help'
+import { FieldHeader, FieldHeaderProps } from '../FieldHeader'
 import { Icon, IconProps } from '../Icon'
 import { getMenuContainer, getOptionsMap, SelectFieldOption, SelectFieldOptionsMap } from './helpers'
 import { components, RenderMenuFooterFunction } from './Common'
@@ -42,15 +41,11 @@ type SelectFieldSize = 'small' | 'medium'
 
 export type SelectFieldExtraProps<V> = {
   options: GroupedOptionsType<SelectFieldOption<V>> | OptionsType<SelectFieldOption<V>>
-  label: string
-  showAriaLabel?: boolean
   size?: SelectFieldSize
   // Since the user input is string, let's allow creatable only for string
   isCreatable?: V extends string ? boolean : false
-  helperText?: HelpProps['helperText']
   className?: string
   placeholder?: string
-  labelClassName?: string
   errorClassName?: string
   menuPortalTarget?: 'body' | 'self' | HTMLElement | null
   formatGroupLabel?: ReactSelectProps<SelectFieldOption<V>>['formatGroupLabel']
@@ -60,7 +55,8 @@ export type SelectFieldExtraProps<V> = {
 } & DataTestProp &
   Pick<InputHTMLAttributes<HTMLElement>, 'autoFocus' | 'disabled' | 'required' | 'placeholder'> &
   Pick<ReactSelectProps, 'isSearchable' | 'isClearable' | 'menuIsOpen' | 'menuPlacement' | 'noOptionsMessage' | 'inputValue'> &
-  SelectFieldIconLeftProps
+  SelectFieldIconLeftProps &
+  Omit<FieldHeaderProps, 'id'>
 
 export type SelectFieldProps<V> = SelectFieldCoreStaticProps<V> & SelectFieldExtraProps<V>
 
@@ -179,7 +175,14 @@ export const SelectField = <V extends string | number = string>({
         className,
       )}
     >
-      {!showAriaLabel && <Label id={id} label={label} className={cn(styles.label, { [styles.small]: size === 'small' }, labelClassName)} />}
+      <FieldHeader
+        label={label}
+        id={id}
+        size={size}
+        helperText={helperText}
+        showAriaLabel={showAriaLabel}
+        labelClassName={labelClassName}
+      />
       <div className={styles.selectBlock}>
         {iconLeft && iconLeftAriaLabel && (
           <Icon
@@ -192,7 +195,6 @@ export const SelectField = <V extends string | number = string>({
           />
         )}
         {isCreatable ? <ReactSelectCreatable<SelectFieldOption<V>> {...props} /> : <ReactSelect<SelectFieldOption<V>> {...props} />}
-        {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} />}
       </div>
       <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
     </div>

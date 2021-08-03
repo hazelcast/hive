@@ -6,10 +6,12 @@ import styles from './InteractiveList.module.scss'
 import { useUID } from 'react-uid'
 import { Error, errorId } from './Error'
 import { ExtractKeysOfValueType } from './utils/types'
+import { FieldHeaderProps } from './FieldHeader'
 
 export type InteractiveListExtraProps = {
   children?: React.ReactNode | React.ReactNode[]
-} & Pick<TextFieldExtraProps<'text'>, 'label' | 'helperText' | 'inputIcon' | 'type' | 'placeholder'>
+} & Pick<TextFieldExtraProps<'text'>, 'inputIcon' | 'type' | 'placeholder'> &
+  Omit<FieldHeaderProps, 'id'>
 
 export type InteractiveListCoreProps<V> = {
   name: ExtractKeysOfValueType<V, string[]>
