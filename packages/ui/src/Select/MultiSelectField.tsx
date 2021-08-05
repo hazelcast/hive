@@ -16,11 +16,10 @@ import cn from 'classnames'
 import { DataTestProp } from '@hazelcast/helpers'
 
 import { Error, errorId } from '../Error'
-import { Label } from '../Label'
-import { Help, HelpProps } from '../Help'
 import { Icon } from '../Icon'
 import { SelectFieldOption, getMenuContainer, getOptionsMap, SelectFieldOptionsMap } from './helpers'
 import { components, RenderMenuFooterFunction } from './Common'
+import { FieldHeader, FieldHeaderProps } from '../FieldHeader'
 
 import styles from './SelectField.module.scss'
 import multiStyles from './MultiSelectField.module.scss'
@@ -78,14 +77,10 @@ export type MultiSelectFieldCoreStaticProps<V> = {
 
 export type MultiSelectFieldExtraProps<V> = {
   options: GroupedOptionsType<SelectFieldOption<V>> | OptionsType<SelectFieldOption<V>>
-  label: string
-  showAriaLabel?: boolean
   // Since the user input is string, let's allow creatable only for string
   isCreatable?: V extends string ? boolean : false
-  helperText?: HelpProps['helperText']
   className?: string
   placeholder?: string
-  labelClassName?: string
   errorClassName?: string
   menuPortalTarget?: 'body' | 'self' | HTMLElement | null
   formatGroupLabel?: ReactSelectProps<SelectFieldOption<V>>['formatGroupLabel']
@@ -105,7 +100,8 @@ export type MultiSelectFieldExtraProps<V> = {
     | 'hideSelectedOptions'
     | 'isClearable'
     | 'onInputChange'
-  >
+  > &
+  Omit<FieldHeaderProps, 'id'>
 
 export type MultiSelectProps<V> = MultiSelectFieldCoreStaticProps<V> & MultiSelectFieldExtraProps<V>
 
@@ -221,10 +217,16 @@ export const MultiSelectField = <V extends string | number = number>({
         className,
       )}
     >
-      {!showAriaLabel && <Label id={id} label={label} className={cn(styles.label, labelClassName)} />}
+      <FieldHeader
+        id={id}
+        label={label}
+        size={rest.size}
+        helperText={helperText}
+        showAriaLabel={showAriaLabel}
+        labelClassName={labelClassName}
+      />
       <div className={styles.selectBlock}>
         {isCreatable ? <ReactSelectCreatable<SelectFieldOption<V>> {...props} /> : <ReactSelect<SelectFieldOption<V>> {...props} />}
-        {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} />}
       </div>
       <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
     </div>

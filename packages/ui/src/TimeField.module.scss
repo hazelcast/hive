@@ -5,12 +5,14 @@
   display: inline-flex;
   flex-direction: column;
 
-  .label {
-    margin-bottom: c.$grid;
-  }
-
   .errorContainer {
     margin-top: c.$grid;
+  }
+
+  &.small {
+    input {
+      height: c.$inputHeightSmall;
+    }
   }
 
   .inputBlock {

@@ -21,7 +21,7 @@ export type IconAriaProps =
   | {
       ariaLabel?: never
       ariaLabelledBy?: never
-      ariaHidden: boolean
+      ariaHidden?: boolean
     }
 
 export type IconType = FC<

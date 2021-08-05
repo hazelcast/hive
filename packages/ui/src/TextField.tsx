@@ -6,9 +6,9 @@ import { Icon as IconType } from 'react-feather'
 import { useUID } from 'react-uid'
 
 import { Icon } from './Icon'
-import { Label } from './Label'
 import { Error, errorId } from './Error'
-import { Help, HelpProps, helpTooltipId } from './Help'
+import { FieldHeader, FieldHeaderProps } from './FieldHeader'
+import { helpTooltipId } from './Help'
 
 import styles from './TextField.module.scss'
 
@@ -34,12 +34,8 @@ type TextFieldCoreProps<T extends TextFieldTypes> = {
   error?: string
 }
 export type TextFieldExtraProps<T extends TextFieldTypes> = {
-  label: string
-  showAriaLabel?: boolean
-  helperText?: HelpProps['helperText']
   size?: TextFieldSize
   className?: string
-  labelClassName?: string
   inputContainerClassName?: string
   inputClassName?: string
   errorClassName?: string
@@ -50,7 +46,8 @@ export type TextFieldExtraProps<T extends TextFieldTypes> = {
   readOnly?: boolean
 } & DataTestProp &
   Pick<InputHTMLAttributes<HTMLInputElement>, 'id' | 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'> &
-  TextFieldTrailingIcon
+  TextFieldTrailingIcon &
+  Omit<FieldHeaderProps, 'id'>
 
 export type TextFieldProps<T extends TextFieldTypes> = TextFieldCoreProps<T> & TextFieldExtraProps<T>
 
@@ -117,7 +114,14 @@ export const TextField = <T extends TextFieldTypes>({
         className,
       )}
     >
-      {!showAriaLabel && <Label id={id} label={label} className={cn(styles.label, { [styles.small]: size === 'small' }, labelClassName)} />}
+      <FieldHeader
+        id={id}
+        size={size}
+        label={label}
+        helperText={helperText}
+        showAriaLabel={showAriaLabel}
+        labelClassName={labelClassName}
+      />
       <div className={styles.inputBlock}>
         <div className={cn(styles.inputContainer, inputContainerClassName)}>
           <input
@@ -163,7 +167,6 @@ export const TextField = <T extends TextFieldTypes>({
             />
           )}
         </div>
-        {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} />}
       </div>
       <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
     </div>

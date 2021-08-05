@@ -11,15 +11,6 @@ $marginLeftWithIcon: c.$grid * 5;
   box-sizing: border-box;
   position: relative;
 
-  .label {
-    display: block;
-    margin-bottom: c.$grid;
-
-    &.small {
-      @include c.typographyBodySmall;
-    }
-  }
-
   .inputBlock {
     display: flex;
     flex-direction: row;
@@ -28,11 +19,6 @@ $marginLeftWithIcon: c.$grid * 5;
 
   .errorContainer {
     margin-top: c.$grid;
-  }
-
-  .helperText {
-    margin-left: c.$grid * 1.5;
-    display: block;
   }
 
   .inputContainer {
