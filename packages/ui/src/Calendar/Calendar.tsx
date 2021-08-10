@@ -17,7 +17,7 @@ export type CalendarSize = 'medium' | 'small'
 
 export type CalendarProps = {
   containerClassName?: string
-  date: ReactDatePickerProps['selected']
+  date: Date | null
   inputLabel: string
   inputClassName?: string
   onDateChange: ReactDatePickerProps['onChange']
