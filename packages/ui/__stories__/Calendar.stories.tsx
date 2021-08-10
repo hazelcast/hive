@@ -24,7 +24,7 @@ export default {
 } as Meta<CalendarProps>
 
 const Template: Story<CalendarProps> = ({ date: initialDate, ...args }) => {
-  const [date, setDate] = useState<Date | null | undefined>(initialDate)
+  const [date, setDate] = useState<Date | null>(initialDate)
   return (
     <div className={cn(storyStyles.container, utilsStyles.row)}>
       <Calendar {...args} date={date} onDateChange={(d: Date) => setDate(d)} />
