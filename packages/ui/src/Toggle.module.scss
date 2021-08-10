@@ -20,7 +20,7 @@ $knobHorizontalOffset: math.max(c.$outlineWidth - c.$borderWidth, 0px);
 @keyframes switchOn {
   from {
     opacity: 0;
-    transform: translateY(-50%) translateX(-100%);
+    transform: translateY(-50%) translateX(100%);
   }
   to {
     opacity: 1;
@@ -30,7 +30,7 @@ $knobHorizontalOffset: math.max(c.$outlineWidth - c.$borderWidth, 0px);
 @keyframes switchOff {
   from {
     opacity: 0;
-    transform: translateY(-50%) translateX(100%);
+    transform: translateY(-50%) translateX(-100%);
   }
   to {
     opacity: 1;
@@ -120,16 +120,16 @@ $knobHorizontalOffset: math.max(c.$outlineWidth - c.$borderWidth, 0px);
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    right: $knobHorizontalOffset;
+    /* doiuse-disable calc */
+    right: calc(#{$w} - #{c.$borderWidth * 2} - #{$knobRadius} - #{$knobHorizontalOffset});
+    /* doiuse-enable calc */
     transition: right c.$transitionTimeMedium ease-in;
   }
 
   // knob ON state
   input:checked + label .toggleTrack::before {
     background: $knobBgOn;
-    /* doiuse-disable calc */
-    right: calc(#{$w} - #{c.$borderWidth * 2} - #{$knobRadius} - #{$knobHorizontalOffset});
-    /* doiuse-enable calc */
+    right: $knobHorizontalOffset;
   }
 
   .toggleTrackText {
@@ -141,16 +141,16 @@ $knobHorizontalOffset: math.max(c.$outlineWidth - c.$borderWidth, 0px);
   // the "OFF" text
   input:not(:checked) + label .toggleTrackText {
     animation: switchOff c.$transitionTimeMedium ease-in;
-    right: auto;
-    left: c.$grid * 1.5;
+    right: c.$grid * 2;
+    left: auto;
     color: c.$colorTextSecondary;
   }
 
   // the "ON" text
   input:checked + label .toggleTrackText {
     animation: switchOn c.$transitionTimeMedium ease-in;
-    right: c.$grid * 2;
-    left: auto;
+    right: auto;
+    left: c.$grid * 1.5;
     color: c.$colorNeutralWhite;
   }
 }
