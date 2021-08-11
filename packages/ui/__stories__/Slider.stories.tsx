@@ -216,6 +216,17 @@ export const SliderWithCustomCurrentValueFormatter = () => {
   )
 }
 
+export const SliderWithNoValueIndicators = () => {
+  const [value, onChange] = useState<number>(0)
+  return (
+    <div>
+      Hello
+      <Slider name="name" value={value} onChange={onChange} min={0} max={100} hideValueIndicators />
+      World
+    </div>
+  )
+}
+
 export const SliderInFormik = () => {
   type Values = {
     ram: number
