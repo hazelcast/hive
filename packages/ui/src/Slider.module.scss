@@ -76,7 +76,7 @@ ul.markDescriptions {
   height: $currentValueIndicatorHeight;
   position: relative;
   width: calc(100% - #{c.$sliderThumbBorderSize} - #{c.$sliderThumbShadowSize});
-  margin: 0 auto c.$grid * 2;
+  margin: 0 auto;
 
   > span {
     position: absolute;
@@ -105,7 +105,7 @@ ul.markDescriptions {
     position: relative;
     height: c.$slideTrackHeight;
     flex: 1;
-    margin-bottom: $thumbWidth;
+    margin: $thumbWidth 0;
 
     input[type='range'] {
       &::-webkit-slider-runnable-track,
