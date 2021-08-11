@@ -40,8 +40,7 @@ export type SliderExtraProps = {
   sliderClassName?: string
   helperText?: string
   marks?: Array<SliderMark>
-  label?: string
-  hideValueIndicators?: boolean
+  label: string
   formatCurrentValue?: (val: number) => ReactNode
 }
 
@@ -118,7 +117,6 @@ export function Slider<T extends SliderValue = number>({
   label,
   disabled,
   formatCurrentValue = (x) => x.toString(),
-  hideValueIndicators,
   'data-test': dataTest,
 }: SliderProps<T>) {
   /**
@@ -250,7 +248,7 @@ export function Slider<T extends SliderValue = number>({
 
   return (
     <div className={className} data-test={dataTest}>
-      {!!label && <Label id={id} label={label} />}
+      <Label id={id} label={label} />
       <div
         className={cn(styles.wrapper, {
           [styles.disabled]: disabled,
@@ -260,30 +258,28 @@ export function Slider<T extends SliderValue = number>({
           {/*
           Marks Descriptions
         */}
-          {!hideValueIndicators && (
-            <div className={styles.valueIndicators}>
-              {!markValues.has(firstValue) && (
-                <span
-                  style={{
-                    left: `${left * 100}%`,
-                  }}
-                  data-test="slider-first-value-indicator"
-                >
-                  {formatCurrentValue(firstValue)}
-                </span>
-              )}
-              {isRange && !markValues.has(secondValue) && (
-                <span
-                  style={{
-                    left: `${secondValueLeft * 100}%`,
-                  }}
-                  data-test="slider-second-value-indicator"
-                >
-                  {formatCurrentValue(secondValue)}
-                </span>
-              )}
-            </div>
-          )}
+          <div className={styles.valueIndicators}>
+            {!markValues.has(firstValue) && (
+              <span
+                style={{
+                  left: `${left * 100}%`,
+                }}
+                data-test="slider-first-value-indicator"
+              >
+                {formatCurrentValue(firstValue)}
+              </span>
+            )}
+            {isRange && !markValues.has(secondValue) && (
+              <span
+                style={{
+                  left: `${secondValueLeft * 100}%`,
+                }}
+                data-test="slider-second-value-indicator"
+              >
+                {formatCurrentValue(secondValue)}
+              </span>
+            )}
+          </div>
           <div className={styles.inputWrapper} role="group" ref={wrapperRef}>
             {firstValue !== undefined && (
               <input
