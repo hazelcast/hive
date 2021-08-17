@@ -10,14 +10,23 @@ $inputPadding: c.$grid * 3;
  * Rest of styles
  */
 .container {
-  /*
-  * Internal styles override for those that cannot be
-  * overridden using classNames composition
-  */
+  width: $inputMaxWidth;
+  min-width: $inputMinWidth;
+
   :global .react-datepicker-wrapper {
     width: 100%;
   }
 
+  &.time {
+    min-width: $inputMinWidthWithTime;
+  }
+}
+
+:global(.hz-date-picker-popper-container) {
+  /*
+* Internal styles override for those that cannot be
+* overridden using classNames composition
+*/
   :global .react-datepicker-popper {
     z-index: c.$zIndex200;
   }
@@ -142,13 +151,6 @@ $inputPadding: c.$grid * 3;
         }
       }
     }
-  }
-
-  width: $inputMaxWidth;
-  min-width: $inputMinWidth;
-
-  &.time {
-    min-width: $inputMinWidthWithTime;
   }
 
   .calendar {
