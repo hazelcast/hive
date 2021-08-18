@@ -197,4 +197,55 @@ describe('CheckableSelectField', () => {
 
     expect(wrapper.findDataTest('test-dropdown').exists()).toBeFalsy()
   })
+
+  it('"None selected" value when nothing is selected', async () => {
+    const onChange = jest.fn()
+    const wrapper = await mountAndCheckA11Y(
+      <CheckableSelectField
+        disabled
+        name={selectName}
+        label={selectLabel}
+        options={options}
+        value={[]}
+        onChange={onChange}
+        data-test="test"
+      />,
+    )
+
+    expect(wrapper.findDataTest('test-opener').at(0).prop('value')).toBe('None selected')
+  })
+
+  it('"2 selected" value when 2 items are selected', async () => {
+    const onChange = jest.fn()
+    const wrapper = await mountAndCheckA11Y(
+      <CheckableSelectField
+        disabled
+        name={selectName}
+        label={selectLabel}
+        options={options}
+        value={options.slice(0, 2).map(({ value }) => value)}
+        onChange={onChange}
+        data-test="test"
+      />,
+    )
+
+    expect(wrapper.findDataTest('test-opener').at(0).prop('value')).toBe('2 selected')
+  })
+
+  it('"All selected" value when 2 items are selected', async () => {
+    const onChange = jest.fn()
+    const wrapper = await mountAndCheckA11Y(
+      <CheckableSelectField
+        disabled
+        name={selectName}
+        label={selectLabel}
+        options={options}
+        value={options.map(({ value }) => value)}
+        onChange={onChange}
+        data-test="test"
+      />,
+    )
+
+    expect(wrapper.findDataTest('test-opener').at(0).prop('value')).toBe('All selected')
+  })
 })

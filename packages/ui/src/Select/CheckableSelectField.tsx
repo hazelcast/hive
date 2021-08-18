@@ -3,16 +3,16 @@ import { Check, ChevronDown, ChevronUp, Minus } from 'react-feather'
 import { useUID } from 'react-uid'
 import cls from 'classnames'
 import { Modifier, usePopper } from 'react-popper'
+import ReactDOM from 'react-dom'
 
 import { Popover } from '../Popover'
 import { Link } from '../Link'
 import { SelectFieldOption } from './helpers'
 import { TextField } from '../TextField'
 import { HelpProps } from '../Help'
+import { canUseDOM } from '../utils/ssr'
 
 import styles from './CheckableSelectField.module.scss'
-import ReactDOM from 'react-dom'
-import { canUseDOM } from '../utils/ssr'
 
 export type CheckableSelectFieldCoreStaticProps<V> = {
   name: string
@@ -20,6 +20,8 @@ export type CheckableSelectFieldCoreStaticProps<V> = {
   error?: string
   value: V[]
   onChange: (newValue: V[]) => void
+  allSelectedLabel?: string
+  noneSelectedLabel?: string
 }
 
 export type CheckableSelectFieldExtraProps<V> = {
@@ -38,13 +40,6 @@ export type CheckableSelectFieldExtraProps<V> = {
 }
 
 export type CheckableSelectProps<V> = CheckableSelectFieldCoreStaticProps<V> & CheckableSelectFieldExtraProps<V>
-
-export type CheckableSelectCoreProps<V> = {
-  value: V[]
-  className?: string
-  placeholder?: string
-  onChange: (newValue: V[]) => void
-}
 
 export interface CheckMarkProps {
   checked: boolean
@@ -73,6 +68,8 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
     name,
     required,
     'data-test': dataTest,
+    allSelectedLabel = 'All selected',
+    noneSelectedLabel = 'None selected',
   } = props
   const id = useUID()
   const [searchValue, setSearchValue] = useState('')
@@ -114,6 +111,16 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
     placement: 'bottom-start',
     modifiers,
   })
+  const getValueLabel = () => {
+    if (value.length === 0) {
+      return noneSelectedLabel
+    }
+    if (value.length === options.length) {
+      return allSelectedLabel
+    }
+
+    return `${value.length} selected`
+  }
 
   return (
     <Popover>
@@ -134,7 +141,7 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
             readOnly
             required={required}
             data-test={`${dataTest}-opener`}
-            value={`${value.length} selected`}
+            value={getValueLabel()}
             inputTrailingIconLabel={open ? 'Close' : 'Open'}
             inputTrailingIcon={open ? ChevronUp : ChevronDown}
           />

@@ -9,6 +9,7 @@ import { TextField } from '../src'
 
 import storyStyles from './TextField.stories.module.scss'
 import styles from './utils.scss'
+import { useTableCustomizableColumns } from '../src/hooks/useTableCustomizableColumns'
 
 export default {
   title: 'Components/Table',
@@ -201,4 +202,15 @@ WithCustomRowAndCellProps.args = {
     }
     return {}
   },
+}
+
+export const WithCustomizableColumns: Story<TableProps<Person>> = ({ columns, ...args }) => {
+  const { tableColumns, control } = useTableCustomizableColumns(columns)
+
+  return (
+    <div>
+      {control}
+      <Table columns={tableColumns} {...args} />
+    </div>
+  )
 }

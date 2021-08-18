@@ -1,5 +1,6 @@
 import { axeDefaultOptions, mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import React, { PropsWithChildren } from 'react'
+import { act } from 'react-dom/test-utils'
 
 import { getColumns, Person } from './utils'
 import { Table } from '../../src/Table/Table'
@@ -14,6 +15,7 @@ import {
 } from '../../src/Table/EnhancedRenderers'
 import { Pagination, PaginationProps } from '../../src/Pagination'
 import { smallDataSet } from './consts'
+import { useTableCustomizableColumns } from '../../src/hooks/useTableCustomizableColumns'
 
 const axeOptions = {
   ...axeDefaultOptions,
@@ -324,5 +326,56 @@ describe('Table', () => {
 
     expect(wrapper.findDataTest('table').exists()).toBe(true)
     expect(wrapper.findDataTest('table-header-row-group').exists()).toBe(false)
+  })
+
+  it('With customizable columns should render all columns by default', async () => {
+    const columns = getColumns({ withFooter: true })
+    const Wrapper = () => {
+      const { tableColumns, control } = useTableCustomizableColumns(columns)
+
+      return (
+        <div>
+          {control}
+          <Table data-test="table-test" columns={tableColumns} data={[]} hidePagination />
+        </div>
+      )
+    }
+
+    const wrapper = await mountAndCheckA11Y(<Wrapper />)
+
+    expect(wrapper.findDataTest('table-custom-columns').exists()).toBeTruthy()
+    expect(wrapper.findDataTest('table-test').at(0).prop('columns')).toEqual(columns)
+  })
+
+  it('With customizable columns should render without columns when all columns unselected', async () => {
+    const columns = getColumns({ withFooter: true })
+    const Wrapper = () => {
+      const { tableColumns, control } = useTableCustomizableColumns(columns)
+
+      return (
+        <div>
+          {control}
+          <Table data-test="table-test" columns={tableColumns} data={[]} hidePagination />
+        </div>
+      )
+    }
+
+    const wrapper = await mountAndCheckA11Y(<Wrapper />)
+
+    expect(wrapper.findDataTest('table-custom-columns').exists()).toBeTruthy()
+    expect(wrapper.findDataTest('table-test').at(0).prop('columns')).toEqual(columns)
+
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      wrapper.findDataTest('table-custom-columns-opener').at(0).simulate('click')
+    })
+    wrapper.update()
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      wrapper.findDataTest('table-custom-columns-select-none').at(0).simulate('click')
+    })
+    wrapper.update()
+
+    expect(wrapper.findDataTest('table-test').at(0).prop('columns')).toEqual([])
   })
 })
