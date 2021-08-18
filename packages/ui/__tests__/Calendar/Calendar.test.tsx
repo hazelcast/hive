@@ -37,8 +37,7 @@ describe('Calendar', () => {
     })
 
     const datePickerPopperContainer = wrapper.findDataTest('date-picker-popper-container')
-    expect(datePickerPopperContainer.exists()).toBeTruthy()
-    expect(datePickerPopperContainer.children()).toHaveLength(0)
+    expect(datePickerPopperContainer.exists()).toBeFalsy()
   })
 
   it('Renders disabled Calendar', async () => {
@@ -65,9 +64,7 @@ describe('Calendar', () => {
       disabled: true,
     })
 
-    expect(wrapper.findDataTest('date-picker-popper-container').exists()).toBeTruthy()
-
-    expect(wrapper.findDataTest('date-picker-popper-container').children()).toHaveLength(0)
+    expect(wrapper.findDataTest('date-picker-popper-container').exists()).toBeFalsy()
 
     act(() => {
       wrapper.findDataTest('calendar-input').find('input').simulate('click')

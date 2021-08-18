@@ -1,17 +1,27 @@
 import React, { FC } from 'react'
 import cn from 'classnames'
+import { createPortal } from 'react-dom'
 import DatePicker, { ReactDatePickerProps } from 'react-datepicker'
 
 import { CalendarInput } from './components/CalendarInput'
 import { CalendarHeader } from './components/CalendarHeader'
 import { CalendarTime } from './components/CalendarTime'
+import { canUseDOM } from '../utils/ssr'
 
 import styles from './Calendar.module.scss'
 
 const DATE_FORMAT = 'yyyy-MM-dd'
 const DATE_FORMAT_WITH_TIME = 'yyyy-MM-dd hh:mm a'
 
-const CalendarPopperContainer: FC = ({ children }) => <div data-test="date-picker-popper-container">{children}</div>
+const CalendarPopperContainer: FC = ({ children }) =>
+  canUseDOM && children
+    ? createPortal(
+        <div data-test="date-picker-popper-container" className="hz-date-picker-popper-container">
+          {children}
+        </div>,
+        document.body,
+      )
+    : null
 
 export type CalendarSize = 'medium' | 'small'
 
