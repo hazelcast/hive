@@ -309,6 +309,12 @@ export const Table = <D extends object>({
     }
   }, [searchValue, setGlobalFilter])
 
+  useEffect(() => {
+    if (pageCount < pageIndex + 1) {
+      gotoPage(pageCount - 1)
+    }
+  }, [pageIndex, pageCount, gotoPage])
+
   const hasData = data.length > 0
 
   // If at least one of the columns has footer then we display the footer row

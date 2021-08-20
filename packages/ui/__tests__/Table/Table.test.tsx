@@ -14,7 +14,8 @@ import {
   EnhancedHeaderFooterRendererProps,
 } from '../../src/Table/EnhancedRenderers'
 import { Pagination, PaginationProps } from '../../src/Pagination'
-import { smallDataSet } from './consts'
+import { Button } from '../../src/Button'
+import { bigDataSet, smallDataSet } from './consts'
 import { useTableCustomizableColumns } from '../../src/hooks/useTableCustomizableColumns'
 
 const axeOptions = {
@@ -377,5 +378,27 @@ describe('Table', () => {
     wrapper.update()
 
     expect(wrapper.findDataTest('table-test').at(0).prop('columns')).toEqual([])
+  })
+
+  it('Reset out of range pageIndex to last available page', async () => {
+    const columns = getColumns({ withFooter: true })
+
+    const wrapper = await mountAndCheckA11Y(<Table data-test="table-test" columns={columns} data={bigDataSet} />)
+
+    expect(wrapper.find(Pagination).prop('currentPage')).toBe(1)
+
+    act(() => {
+      wrapper.find(Pagination).find(Button).at(1).simulate('click')
+    })
+    wrapper.update()
+
+    expect(wrapper.find(Pagination).prop('currentPage')).toBe(2)
+
+    wrapper.setProps({
+      data: smallDataSet,
+    })
+    wrapper.update()
+
+    expect(wrapper.find(Pagination).prop('currentPage')).toBe(1)
   })
 })
