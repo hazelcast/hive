@@ -84,6 +84,7 @@ describe('CheckableSelectField', () => {
       error: undefined,
       className: styles.errorContainer,
       inputId: selectId,
+      truncated: true,
     })
   })
 
@@ -108,6 +109,7 @@ describe('CheckableSelectField', () => {
       error: undefined,
       className: styles.errorContainer,
       inputId: selectId,
+      truncated: true,
     })
   })
 

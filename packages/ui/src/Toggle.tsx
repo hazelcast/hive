@@ -27,24 +27,25 @@ export type ToggleExtraProps = {
 
 export type ToggleProps = ToggleCoreProps & ToggleExtraProps & DataTestProp
 
-export const Toggle: FC<ToggleProps> = ({
-  name,
-  value,
-  onChange,
-  onBlur,
-  error,
-  checked,
-  label,
-  helperText,
-  disabled,
-  className,
-  classNameLabel,
-  'data-test': dataTest,
-}) => {
+export const Toggle: FC<ToggleProps> = (props) => {
+  const {
+    name,
+    value,
+    onChange,
+    onBlur,
+    error,
+    checked,
+    label,
+    helperText,
+    disabled,
+    className,
+    classNameLabel,
+    'data-test': dataTest,
+  } = props
   const id = useUID()
 
   return (
-    <div className={cn(styles.wrapper, className)} data-test={dataTest}>
+    <div className={cn(styles.wrapper, className, { [styles.withError]: 'error' in props })} data-test={dataTest}>
       {/* hidden yet actual input */}
       <input
         type="checkbox"
@@ -80,7 +81,7 @@ export const Toggle: FC<ToggleProps> = ({
 
       {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} />}
 
-      <Error error={error} className={styles.errorContainer} inputId={id} />
+      <Error truncated error={error} className={styles.errorContainer} inputId={id} />
     </div>
   )
 }

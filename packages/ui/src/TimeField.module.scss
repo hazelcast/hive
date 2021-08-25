@@ -5,10 +5,6 @@
   display: inline-flex;
   flex-direction: column;
 
-  .errorContainer {
-    margin-top: c.$grid;
-  }
-
   &.small {
     input {
       height: c.$inputHeightSmall;
@@ -91,3 +87,5 @@
     }
   }
 }
+
+@include h.withError;

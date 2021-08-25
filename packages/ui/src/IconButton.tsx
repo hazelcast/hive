@@ -20,6 +20,7 @@ type IconButtonCommonProps = {
   kind?: IconButtonKind
   size?: IconProps['size']
   padding?: 'normal'
+  tooltip?: string
 } & IconAriaProps &
   Pick<ButtonHTMLAttributes<HTMLAnchorElement | HTMLButtonElement>, 'onClick' | 'onMouseDown' | 'className' | 'tabIndex' | 'style'>
 
@@ -77,6 +78,7 @@ export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
       type = 'button',
       loading,
       padding,
+      tooltip,
       ...rest
     },
     ref,
@@ -88,9 +90,9 @@ export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
     return (
       <Tooltip
         id={tooltipId}
-        content={disabled ? disabledTooltip : undefined}
+        content={disabled ? disabledTooltip : tooltip}
         placement={disabledTooltipPlacement}
-        visible={disabledTooltipVisible}
+        visible={disabled && disabledTooltipVisible}
       >
         {(tooltipRef) => (
           <Component

@@ -1,0 +1,17 @@
+@use '../constants' as c;
+
+@mixin withError {
+  .withError {
+    position: relative;
+    padding-bottom: c.$errorHeight;
+
+    .errorContainer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      overflow: hidden;
+      height: c.$errorHeight;
+      width: 100%;
+    }
+  }
+}

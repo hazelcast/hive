@@ -66,35 +66,36 @@ export type TextFieldProps<T extends TextFieldTypes> = TextFieldCoreProps<T> & T
  * ### Usage
  * Use a text input when the expected user input is a single line of text.
  */
-export const TextField = <T extends TextFieldTypes>({
-  'data-test': dataTest,
-  className,
-  disabled,
-  error,
-  errorClassName,
-  helperText,
-  id: explicitId,
-  inputClassName,
-  inputContainerChild,
-  inputContainerClassName,
-  inputIcon,
-  inputTrailingIcon,
-  inputTrailingIconLabel,
-  label,
-  labelClassName,
-  showAriaLabel = false,
-  name,
-  size = 'medium',
-  onBlur,
-  onChange,
-  onKeyPress,
-  placeholder,
-  required,
-  type = 'text',
-  value,
-  readOnly,
-  ...htmlAttrs
-}: TextFieldProps<T>) => {
+export const TextField = <T extends TextFieldTypes>(props: TextFieldProps<T>) => {
+  const {
+    'data-test': dataTest,
+    className,
+    disabled,
+    error,
+    errorClassName,
+    helperText,
+    id: explicitId,
+    inputClassName,
+    inputContainerChild,
+    inputContainerClassName,
+    inputIcon,
+    inputTrailingIcon,
+    inputTrailingIconLabel,
+    label,
+    labelClassName,
+    showAriaLabel = false,
+    name,
+    size = 'medium',
+    onBlur,
+    onChange,
+    onKeyPress,
+    placeholder,
+    required,
+    type = 'text',
+    value,
+    readOnly,
+    ...htmlAttrs
+  } = props
   // Use an auto generated id if it's not set explicitly
   const autoId = useUID()
   const id = explicitId ?? autoId
@@ -105,6 +106,7 @@ export const TextField = <T extends TextFieldTypes>({
       className={cn(
         styles.container,
         {
+          [styles.withError]: 'error' in props,
           [styles.small]: size === 'small',
           [styles.disabled]: disabled,
           [styles.hasError]: error,
@@ -168,7 +170,7 @@ export const TextField = <T extends TextFieldTypes>({
           )}
         </div>
       </div>
-      <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
+      <Error truncated error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
     </div>
   )
 }

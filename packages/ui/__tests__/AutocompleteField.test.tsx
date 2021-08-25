@@ -62,6 +62,7 @@ describe('AutocompleteField', () => {
       error: undefined,
       className: styles.errorContainer,
       inputId: selectId,
+      truncated: true,
     })
   })
 
@@ -104,6 +105,7 @@ describe('AutocompleteField', () => {
       error: selectError,
       className: styles.errorContainer,
       inputId: selectId,
+      truncated: true,
     })
   })
 
@@ -138,6 +140,7 @@ describe('AutocompleteField', () => {
       error: undefined,
       className: styles.errorContainer,
       inputId: selectId,
+      truncated: true,
     })
   })
 
@@ -172,6 +175,7 @@ describe('AutocompleteField', () => {
       error: undefined,
       className: styles.errorContainer,
       inputId: selectId,
+      truncated: true,
     })
   })
 
@@ -213,6 +217,7 @@ describe('AutocompleteField', () => {
       error: undefined,
       className: styles.errorContainer,
       inputId: selectId,
+      truncated: true,
     })
 
     expect(wrapper.find(IconButton).prop('icon')).toBe(X)

@@ -155,6 +155,4 @@ $knobHorizontalOffset: math.max(c.$outlineWidth - c.$borderWidth, 0px);
   }
 }
 
-.errorContainer {
-  margin-top: c.$grid;
-}
+@include h.withError;

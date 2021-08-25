@@ -1,18 +1,17 @@
 import React, { FC, useCallback, useMemo, useRef, useState } from 'react'
 import { useDeepCompareMemo } from './hooks/useDeepCompareMemo'
-import { Form, Formik } from 'formik'
 import { ChevronLeft, ChevronRight, Settings, ArrowLeft } from 'react-feather'
 import cn from 'classnames'
 
 import { usePagination } from './hooks/usePagination'
 import { Button } from './Button'
-import { NumberFieldFormik } from './NumberFieldFormik'
 import { IconButton } from './IconButton'
 import { useDimensions } from './hooks/useDimensions'
 import { SelectField, SelectFieldOption } from './Select'
 import { Link } from './Link'
 
 import styles from './Pagination.module.scss'
+import { NumberField } from './NumberField'
 
 export type GetShownItemsRangeParams = {
   currentPage: number
@@ -46,10 +45,6 @@ export const getShownItemsRange = ({ currentPage, pageSize, numberOfItems }: Get
     firstItemShown,
     lastItemShown,
   }
-}
-
-export type PageJumpFormValues = {
-  page: number
 }
 
 export type PaginationProps = {
@@ -91,6 +86,7 @@ export const Pagination: FC<PaginationProps> = ({
   numberOfItems,
   displaySmallBreakpoint = 820,
 }) => {
+  const [currentPageValue, setCurrentPageValue] = useState<number | undefined>(currentPage)
   const containerWidthRef = useRef<HTMLDivElement>(null)
   const { width } = useDimensions(containerWidthRef)
   // 1000 pixels seems to be the magical breakpoint
@@ -138,42 +134,33 @@ export const Pagination: FC<PaginationProps> = ({
     [rowsPerPageOptions, pageSize, onChangeWrapped],
   )
 
-  const submitPageJump = useCallback(
-    ({ page }: PageJumpFormValues) => {
-      goToPage(page)
-    },
-    [goToPage],
-  )
+  const submitPageJump = useCallback(() => {
+    goToPage(currentPageValue || 0)
+  }, [goToPage, currentPageValue])
 
   const PageJumpForm = useMemo(() => {
     if (pageCount > 1) {
       return (
-        <Formik<PageJumpFormValues>
-          initialValues={{
-            page: currentPage,
-          }}
-          enableReinitialize
-          onSubmit={submitPageJump}
-        >
-          <Form className={styles.pageJumpForm}>
-            <NumberFieldFormik<PageJumpFormValues>
-              showIconButtons={false}
-              inputContainerClassName={styles.inputContainer}
-              name="page"
-              label="Go to page"
-              showAriaLabel
-              min={1}
-              max={pageCount}
-              size="small"
-            />
-            <Link size="small" component="button" type="submit">
-              Go
-            </Link>
-          </Form>
-        </Formik>
+        <div className={styles.pageJumpForm}>
+          <NumberField
+            showIconButtons={false}
+            inputContainerClassName={styles.inputContainer}
+            name="page"
+            label="Go to page"
+            showAriaLabel
+            min={1}
+            max={pageCount}
+            size="small"
+            value={currentPageValue}
+            onChange={setCurrentPageValue}
+          />
+          <Link size="small" component="button" type="submit" onClick={submitPageJump}>
+            Go
+          </Link>
+        </div>
       )
     }
-  }, [currentPage, pageCount, submitPageJump])
+  }, [currentPageValue, pageCount, submitPageJump])
 
   const PageButtons = useDeepCompareMemo(() => {
     if (pageCount > 1) {

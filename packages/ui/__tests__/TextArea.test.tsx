@@ -67,6 +67,7 @@ describe('TextArea', () => {
       error: undefined,
       className: styles.errorContainer,
       inputId: inputId,
+      truncated: true,
     })
   })
 
@@ -162,6 +163,7 @@ describe('TextArea', () => {
       error,
       className: styles.errorContainer,
       inputId: inputId,
+      truncated: true,
     })
   })
 
@@ -206,6 +208,7 @@ describe('TextArea', () => {
       error: undefined,
       className: styles.errorContainer,
       inputId: inputId,
+      truncated: true,
     })
   })
 
@@ -250,6 +253,7 @@ describe('TextArea', () => {
       error: undefined,
       className: styles.errorContainer,
       inputId: inputId,
+      truncated: true,
     })
   })
 

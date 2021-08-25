@@ -25,10 +25,6 @@ $selectGroupHeading: ':global .hz-select-field__group-heading';
     }
   }
 
-  .errorContainer {
-    margin-top: c.$grid;
-  }
-
   .helperText {
     margin-left: c.$grid * 1.5;
     display: block;
@@ -191,3 +187,5 @@ $selectGroupHeading: ':global .hz-select-field__group-heading';
     text-transform: inherit;
   }
 }
+
+@include h.withError;

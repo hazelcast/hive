@@ -5,20 +5,14 @@ $inputHorizontalPadding: c.$grid * 3;
 $marginLeftWithIcon: c.$grid * 5;
 
 .container {
-  @include c.typographyBodySmall;
-
   color: c.$colorText;
   box-sizing: border-box;
-  position: relative;
+  @include c.typographyBodySmall;
 
   .inputBlock {
     display: flex;
     flex-direction: row;
     align-items: center;
-  }
-
-  .errorContainer {
-    margin-top: c.$grid;
   }
 
   .inputContainer {
@@ -184,3 +178,5 @@ $marginLeftWithIcon: c.$grid * 5;
     }
   }
 }
+
+@include h.withError;

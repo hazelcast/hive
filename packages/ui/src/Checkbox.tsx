@@ -40,22 +40,23 @@ type CheckboxProps = CheckboxCoreProps & CheckboxExtraProps & DataTestProp
  * - It's important to realise that we don't set checkbox value, but state (on/off). That is the main difference from other input types.
  * - They can have a special indeterminate state, that represents a '3rd' value, usually used in tree structures, etc.
  */
-export const Checkbox: FC<CheckboxProps> = ({
-  checked,
-  name,
-  onChange,
-  onBlur,
-  className,
-  classNameLabel,
-  value,
-  indeterminate = false,
-  label,
-  helperText,
-  error,
-  disabled = false,
-  required,
-  'data-test': dataTest,
-}) => {
+export const Checkbox: FC<CheckboxProps> = (props) => {
+  const {
+    checked,
+    name,
+    onChange,
+    onBlur,
+    className,
+    classNameLabel,
+    value,
+    indeterminate = false,
+    label,
+    helperText,
+    error,
+    disabled = false,
+    required,
+    'data-test': dataTest,
+  } = props
   const inputRef = useRef<HTMLInputElement>(null)
   const id = useUID()
 
@@ -65,7 +66,7 @@ export const Checkbox: FC<CheckboxProps> = ({
   }
 
   return (
-    <div className={className} data-test={dataTest}>
+    <div className={classNames(className, { [styles.withError]: 'error' in props })} data-test={dataTest}>
       {/* 
         We can only style forward elements based on input state (with ~ or +), has() is not supported yet.
         That's why we need to explicitly pass error/checked/disabled classes to the wrapper element.
@@ -104,7 +105,7 @@ export const Checkbox: FC<CheckboxProps> = ({
         {indeterminate ? <Minus className={styles.checkmark} /> : <Check className={styles.checkmark} />}
         {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} />}
       </label>
-      <Error error={error} className={styles.errorContainer} inputId={id} />
+      <Error truncated error={error} className={styles.errorContainer} inputId={id} />
     </div>
   )
 }

@@ -25,33 +25,34 @@ export type TimeFieldExtraProps = {
 
 export type TypeFieldProps = TimeFieldCoreProps & TimeFieldExtraProps & DataTestProp
 
-export const TimeField: FC<TypeFieldProps> = ({
-  'data-test': dataTest,
-  className,
-  disabled,
-  error,
-  errorClassName,
-  id: explicitId,
-  inputClassName,
-  label,
-  labelClassName,
-  name,
-  onBlur,
-  onChange,
-  required,
-  seconds = false,
-  value,
-  helperText,
-  size,
-  showAriaLabel,
-  ...props
-}) => {
+export const TimeField: FC<TypeFieldProps> = (props) => {
+  const {
+    'data-test': dataTest,
+    className,
+    disabled,
+    error,
+    errorClassName,
+    id: explicitId,
+    inputClassName,
+    label,
+    labelClassName,
+    name,
+    onBlur,
+    onChange,
+    required,
+    seconds = false,
+    value,
+    helperText,
+    size,
+    showAriaLabel,
+    ...rest
+  } = props
   // Use an auto generated id if it's not set explicitly
   const autoId = useUID()
   const id = explicitId ?? autoId
 
   return (
-    <div data-test={dataTest} className={cn(styles.container, className)}>
+    <div data-test={dataTest} className={cn(styles.container, className, { [styles.withError]: 'error' in props })}>
       <FieldHeader
         id={id}
         size={size}
@@ -82,12 +83,12 @@ export const TimeField: FC<TypeFieldProps> = ({
             aria-label={showAriaLabel ? label : undefined}
             aria-required={required}
             aria-errormessage={error && errorId(id)}
-            {...props}
+            {...rest}
           />
           <div className={styles.borderOverlay} />
         </div>
       </div>
-      <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
+      <Error truncated error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
     </div>
   )
 }
