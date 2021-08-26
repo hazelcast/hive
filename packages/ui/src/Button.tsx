@@ -78,6 +78,7 @@ export type ButtonCommonProps = {
   variant?: ButtonVariant
   outlineClassName?: string
   outline?: ButtonOutlineType
+  tooltip?: string
 } & Pick<HTMLAttributes<HTMLAnchorElement | HTMLButtonElement>, 'className' | 'onClick' | 'tabIndex' | 'style'>
 
 export type ButtonTypeAnchorProps = {
@@ -183,6 +184,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
       loading,
       variant = 'contained',
       color = 'primary',
+      tooltip,
       ...rest
     },
     ref,
@@ -194,8 +196,8 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
     return (
       <Tooltip
         id={tooltipId}
-        content={disabled ? disabledTooltip : undefined}
-        visible={disabledTooltipVisible}
+        content={disabled ? disabledTooltip : tooltip}
+        visible={disabled && disabledTooltipVisible}
         placement={disabledTooltipPlacement}
       >
         {(tooltipRef) => (

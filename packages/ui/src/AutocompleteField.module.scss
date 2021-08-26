@@ -12,10 +12,6 @@ $select: ':global .hz-autocomplete-field__control';
     margin-bottom: c.$grid;
   }
 
-  .errorContainer {
-    margin-top: c.$grid;
-  }
-
   .helperText {
     margin-left: c.$grid * 1.5;
     display: block;
@@ -148,3 +144,5 @@ $select: ':global .hz-autocomplete-field__control';
     }
   }
 }
+
+@include h.withError;

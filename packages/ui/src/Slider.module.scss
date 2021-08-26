@@ -88,6 +88,8 @@ ul.markDescriptions {
   }
 }
 
+@include h.withError;
+
 .wrapper {
   display: flex;
 
@@ -264,10 +266,6 @@ ul.markDescriptions {
       }
     }
   }
-}
-
-.errorContainer {
-  margin-top: c.$grid;
 }
 
 /* doiuse-enable calc */

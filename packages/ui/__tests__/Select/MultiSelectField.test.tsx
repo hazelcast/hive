@@ -66,6 +66,7 @@ describe('SelectField', () => {
       error: undefined,
       className: styles.errorContainer,
       inputId: selectId,
+      truncated: true,
     })
 
     expect(wrapper.find(IconButton).prop('icon')).toBe(X)
@@ -100,6 +101,7 @@ describe('SelectField', () => {
       error: selectError,
       className: styles.errorContainer,
       inputId: selectId,
+      truncated: true,
     })
   })
 
@@ -122,6 +124,7 @@ describe('SelectField', () => {
       error: undefined,
       className: styles.errorContainer,
       inputId: selectId,
+      truncated: true,
     })
   })
 
@@ -144,6 +147,7 @@ describe('SelectField', () => {
       error: undefined,
       className: styles.errorContainer,
       inputId: selectId,
+      truncated: true,
     })
   })
 
@@ -167,6 +171,7 @@ describe('SelectField', () => {
       error: undefined,
       className: styles.errorContainer,
       inputId: selectId,
+      truncated: true,
     })
   })
 
@@ -201,6 +206,7 @@ describe('SelectField', () => {
       error: undefined,
       className: styles.errorContainer,
       inputId: selectId,
+      truncated: true,
     })
   })
 })

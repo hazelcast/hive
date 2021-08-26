@@ -38,10 +38,6 @@
     margin: 2 * c.$grid 0 0 c.$grid;
   }
 
-  .errorContainer {
-    margin-top: c.$grid;
-  }
-
   .textAreaContainer {
     display: flex;
     flex-direction: row;
@@ -133,3 +129,5 @@
     @include h.outlineFormField;
   }
 }
+
+@include h.withError;

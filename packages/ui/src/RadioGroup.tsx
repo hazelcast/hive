@@ -29,23 +29,15 @@ export type RadioGroupProps = RadioGroupExtraProps & RadioGroupCoreProps
  * Forms require input from users. If you need information that can be represented as a choice of multiple values, use input with type 'radio'.
  * You can use RadioGroup in order to group radios buttons into logical cells and provide corresponding error if needed.
  */
-export const RadioGroup: FC<RadioGroupProps> = ({
-  radioGroupClassName,
-  error,
-  children,
-  className,
-  name,
-  onChange,
-  inline = false,
-  'data-test': dataTest,
-}) => {
+export const RadioGroup: FC<RadioGroupProps> = (props) => {
+  const { radioGroupClassName, error, children, className, name, onChange, inline = false, 'data-test': dataTest } = props
   const id = useUID()
   const errorIdString: string | undefined = error && errorId(id)
 
   const providerValue = useMemo(() => ({ name, errorId: errorIdString, onChange }), [name, errorIdString, onChange])
 
   return (
-    <div className={className} data-test={dataTest}>
+    <div className={classNames(className, { [styles.withError]: 'error' in props })} data-test={dataTest}>
       <div
         role="radiogroup"
         data-test="radio-group"
@@ -61,7 +53,7 @@ export const RadioGroup: FC<RadioGroupProps> = ({
       >
         <RadioGroupContext.Provider value={providerValue}>{children}</RadioGroupContext.Provider>
       </div>
-      <Error error={error} className={styles.errorContainer} inputId={id} />
+      <Error truncated error={error} className={styles.errorContainer} inputId={id} />
     </div>
   )
 }

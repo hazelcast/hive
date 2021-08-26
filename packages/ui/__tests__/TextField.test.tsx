@@ -63,6 +63,7 @@ describe('TextField', () => {
       error: undefined,
       className: styles.errorContainer,
       inputId: 'republic',
+      truncated: true,
     })
 
     expect(wrapper.find(Help).exists()).toBeFalsy()
@@ -148,6 +149,7 @@ describe('TextField', () => {
       error: undefined,
       className: styles.errorContainer,
       inputId: 'republic',
+      truncated: true,
     })
 
     expect(wrapper.find(Help).props()).toEqual({
@@ -199,6 +201,7 @@ describe('TextField', () => {
       error: 'Dark side',
       className: styles.errorContainer,
       inputId: 'republic',
+      truncated: true,
     })
 
     expect(wrapper.find(Help).exists()).toBeFalsy()
@@ -238,6 +241,7 @@ describe('TextField', () => {
       error: undefined,
       className: styles.errorContainer,
       inputId: 'republic',
+      truncated: true,
     })
 
     expect(wrapper.find(Help).exists()).toBeFalsy()
@@ -277,6 +281,7 @@ describe('TextField', () => {
       error: undefined,
       className: styles.errorContainer,
       inputId: 'republic',
+      truncated: true,
     })
 
     expect(wrapper.find(Help).exists()).toBeFalsy()

@@ -103,24 +103,25 @@ export function getMarkMetadata(
  * You can optionally pass formatCurrentValue in order to modify the way how current value is displayed.
  * When providing a single value, it behaves
  */
-export function Slider<T extends SliderValue = number>({
-  value,
-  onChange,
-  name,
-  step = 1,
-  min,
-  max,
-  className,
-  sliderClassName,
-  error,
-  helperText,
-  marks,
-  label,
-  disabled,
-  formatCurrentValue = (x) => x.toString(),
-  hideValueIndicators,
-  'data-test': dataTest,
-}: SliderProps<T>) {
+export function Slider<T extends SliderValue = number>(props: SliderProps<T>) {
+  const {
+    value,
+    onChange,
+    name,
+    step = 1,
+    min,
+    max,
+    className,
+    sliderClassName,
+    error,
+    helperText,
+    marks,
+    label,
+    disabled,
+    formatCurrentValue = (x) => x.toString(),
+    hideValueIndicators,
+    'data-test': dataTest,
+  } = props
   /**
    * Implementation notes
    *
@@ -248,8 +249,10 @@ export function Slider<T extends SliderValue = number>({
   const secondValueLeft: number = (secondValue - min) / (max - min)
   const widthInRangeMode: number = ((secondValue - firstValue) / (max - min)) * 100
 
+  console.log(styles.errorContainer)
+
   return (
-    <div className={className} data-test={dataTest}>
+    <div className={cn(className, { [styles.withError]: 'error' in props })} data-test={dataTest}>
       {!!label && <Label id={id} label={label} />}
       <div
         className={cn(styles.wrapper, {
@@ -390,7 +393,7 @@ export function Slider<T extends SliderValue = number>({
         </div>
         {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} />}
       </div>
-      <Error error={error} className={styles.errorContainer} inputId={id} />
+      <Error truncated error={error} className={styles.errorContainer} inputId={id} />
     </div>
   )
 }

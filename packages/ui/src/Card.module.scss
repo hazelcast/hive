@@ -20,6 +20,8 @@
 
     .title {
       margin: 0;
+      font-size: c.$fontSizeBodyNormal !important;
+      line-height: c.$lineHeightBodyNormal !important;
 
       &.space {
         margin-right: c.$grid * 2.5;

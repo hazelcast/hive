@@ -241,6 +241,7 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
       className={cn(
         styles.container,
         {
+          [styles.withError]: 'error' in props,
           [styles.disabled]: disabled,
           [styles.hasError]: error,
           [styles.empty]: !value,
@@ -270,7 +271,7 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
         />
         {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} />}
       </div>
-      <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
+      <Error truncated error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
     </div>
   )
 }

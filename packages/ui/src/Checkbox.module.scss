@@ -1,6 +1,8 @@
 @use '../styles/constants' as c;
 @use '../styles/helpers' as h;
 
+@include h.withError;
+
 .wrapper {
   display: flex;
   flex-direction: row;
@@ -85,8 +87,4 @@
       background-color: c.$colorNeutral;
     }
   }
-}
-
-.errorContainer {
-  margin-top: c.$grid;
 }

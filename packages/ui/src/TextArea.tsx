@@ -31,26 +31,27 @@ export type TextAreaExtraProps = {
 
 export type TextAreaProps = TextAreaCoreProps & TextAreaExtraProps & DataTestProp
 
-export const TextArea: FC<TextAreaProps> = ({
-  error,
-  label,
-  name,
-  onBlur,
-  onChange,
-  placeholder,
-  value,
-  disabled,
-  className,
-  labelClassName,
-  textareaClassName,
-  errorClassName,
-  required,
-  resizable = true,
-  helperText,
-  size = 'medium',
-  'data-test': dataTest,
-  ...htmlAttrs
-}) => {
+export const TextArea: FC<TextAreaProps> = (props) => {
+  const {
+    error,
+    label,
+    name,
+    onBlur,
+    onChange,
+    placeholder,
+    value,
+    disabled,
+    className,
+    labelClassName,
+    textareaClassName,
+    errorClassName,
+    required,
+    resizable = true,
+    helperText,
+    size = 'medium',
+    'data-test': dataTest,
+    ...htmlAttrs
+  } = props
   const id = useUID()
 
   const popperRef = useRef<PopperRef>()
@@ -70,6 +71,7 @@ export const TextArea: FC<TextAreaProps> = ({
         {
           [styles.disabled]: disabled,
           [styles.hasError]: error,
+          [styles.withError]: 'error' in props,
         },
         className,
       )}
@@ -101,7 +103,7 @@ export const TextArea: FC<TextAreaProps> = ({
           {helperText && resizeListener}
         </div>
       </div>
-      <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
+      <Error truncated error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
     </div>
   )
 }

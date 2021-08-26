@@ -62,3 +62,5 @@ $selectMultiValue: ':global .hz-select-field__multi-value';
     }
   }
 }
+
+@include h.withError;

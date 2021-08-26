@@ -105,33 +105,34 @@ export type MultiSelectFieldExtraProps<V> = {
 
 export type MultiSelectProps<V> = MultiSelectFieldCoreStaticProps<V> & MultiSelectFieldExtraProps<V>
 
-export const MultiSelectField = <V extends string | number = number>({
-  'data-test': dataTest,
-  className,
-  disabled,
-  error,
-  errorClassName,
-  helperText,
-  isCreatable,
-  isSearchable = true,
-  label,
-  labelClassName,
-  showAriaLabel = false,
-  menuIsOpen,
-  menuPortalTarget = 'body',
-  menuPlacement = 'auto',
-  name,
-  onChange,
-  options,
-  placeholder,
-  required,
-  value,
-  formatGroupLabel,
-  formatOptionLabel,
-  renderMenuFooter,
-  components: customComponents,
-  ...rest
-}: MultiSelectProps<V>): ReactElement<MultiSelectProps<V>> => {
+export const MultiSelectField = <V extends string | number = number>(props: MultiSelectProps<V>): ReactElement<MultiSelectProps<V>> => {
+  const {
+    'data-test': dataTest,
+    className,
+    disabled,
+    error,
+    errorClassName,
+    helperText,
+    isCreatable,
+    isSearchable = true,
+    label,
+    labelClassName,
+    showAriaLabel = false,
+    menuIsOpen,
+    menuPortalTarget = 'body',
+    menuPlacement = 'auto',
+    name,
+    onChange,
+    options,
+    placeholder,
+    required,
+    value,
+    formatGroupLabel,
+    formatOptionLabel,
+    renderMenuFooter,
+    components: customComponents,
+    ...rest
+  } = props
   const id = useUID()
 
   useIsomorphicLayoutEffect(() => {
@@ -164,7 +165,7 @@ export const MultiSelectField = <V extends string | number = number>({
     }
   }, [menuIsOpen])
 
-  const props: ReactSelectProps<SelectFieldOption<V>> = {
+  const selectProps: ReactSelectProps<SelectFieldOption<V>> = {
     ref: selectRef,
     inputId: id,
     className: 'hz-select-field',
@@ -212,6 +213,7 @@ export const MultiSelectField = <V extends string | number = number>({
           [styles.disabled]: disabled,
           [styles.hasError]: error,
           [styles.empty]: !value,
+          [styles.withError]: 'error' in props,
         },
         multiStyles.multiContainer,
         className,
@@ -226,9 +228,13 @@ export const MultiSelectField = <V extends string | number = number>({
         labelClassName={labelClassName}
       />
       <div className={styles.selectBlock}>
-        {isCreatable ? <ReactSelectCreatable<SelectFieldOption<V>> {...props} /> : <ReactSelect<SelectFieldOption<V>> {...props} />}
+        {isCreatable ? (
+          <ReactSelectCreatable<SelectFieldOption<V>> {...selectProps} />
+        ) : (
+          <ReactSelect<SelectFieldOption<V>> {...selectProps} />
+        )}
       </div>
-      <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
+      <Error truncated error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
     </div>
   )
 }

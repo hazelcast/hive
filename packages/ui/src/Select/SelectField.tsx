@@ -60,34 +60,35 @@ export type SelectFieldExtraProps<V> = {
 
 export type SelectFieldProps<V> = SelectFieldCoreStaticProps<V> & SelectFieldExtraProps<V>
 
-export const SelectField = <V extends string | number = string>({
-  'data-test': dataTest,
-  className,
-  disabled,
-  error,
-  errorClassName,
-  helperText,
-  isClearable = false,
-  isCreatable,
-  isSearchable = true,
-  label,
-  labelClassName,
-  showAriaLabel = false,
-  size = 'medium',
-  menuIsOpen,
-  menuPortalTarget = 'body',
-  menuPlacement = 'auto',
-  name,
-  onChange,
-  options,
-  placeholder,
-  required,
-  value,
-  formatGroupLabel,
-  formatOptionLabel,
-  renderMenuFooter,
-  ...iconAndRest
-}: SelectFieldProps<V>): ReactElement<SelectFieldProps<V>> => {
+export const SelectField = <V extends string | number = string>(props: SelectFieldProps<V>): ReactElement<SelectFieldProps<V>> => {
+  const {
+    'data-test': dataTest,
+    className,
+    disabled,
+    error,
+    errorClassName,
+    helperText,
+    isClearable = false,
+    isCreatable,
+    isSearchable = true,
+    label,
+    labelClassName,
+    showAriaLabel = false,
+    size = 'medium',
+    menuIsOpen,
+    menuPortalTarget = 'body',
+    menuPlacement = 'auto',
+    name,
+    onChange,
+    options,
+    placeholder,
+    required,
+    value,
+    formatGroupLabel,
+    formatOptionLabel,
+    renderMenuFooter,
+    ...iconAndRest
+  } = props
   const id = useUID()
 
   const { iconLeft, iconLeftAriaLabel, iconLeftClassName, iconLeftContainerClassName, ...rest } = iconAndRest
@@ -128,7 +129,7 @@ export const SelectField = <V extends string | number = string>({
     }
   }, [menuIsOpen])
 
-  const props: ReactSelectProps<SelectFieldOption<V>> = {
+  const selectProps: ReactSelectProps<SelectFieldOption<V>> = {
     ref: selectRef,
     inputId: id,
     className: 'hz-select-field',
@@ -171,6 +172,7 @@ export const SelectField = <V extends string | number = string>({
           [styles.empty]: !value,
           [styles.hasIcon]: !!iconLeft,
           [styles.small]: size === 'small',
+          [styles.withError]: 'error' in props,
         },
         className,
       )}
@@ -194,9 +196,13 @@ export const SelectField = <V extends string | number = string>({
             className={cn(styles.iconLeft, iconLeftClassName)}
           />
         )}
-        {isCreatable ? <ReactSelectCreatable<SelectFieldOption<V>> {...props} /> : <ReactSelect<SelectFieldOption<V>> {...props} />}
+        {isCreatable ? (
+          <ReactSelectCreatable<SelectFieldOption<V>> {...selectProps} />
+        ) : (
+          <ReactSelect<SelectFieldOption<V>> {...selectProps} />
+        )}
       </div>
-      <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
+      <Error truncated error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
     </div>
   )
 }

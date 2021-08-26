@@ -2,23 +2,17 @@ import React from 'react'
 import { act } from 'react-dom/test-utils'
 import { mountAndCheckA11Y, simulateChange } from '@hazelcast/test-helpers'
 import { ChevronLeft, ChevronRight } from 'react-feather'
-import { Formik, FormikConfig } from 'formik'
 import Select from 'react-select'
 
-import {
-  getShownItemsRange,
-  GetShownItemsRangeParams,
-  PageJumpFormValues,
-  Pagination,
-  PaginationProps,
-  ShownItemsRange,
-} from '../src/Pagination'
+import { getShownItemsRange, GetShownItemsRangeParams, Pagination, PaginationProps, ShownItemsRange } from '../src/Pagination'
 import { SelectField, SelectFieldOption, SelectFieldProps } from '../src/Select/index'
 import { IconButton, IconButtonProps } from '../src/IconButton'
 import { Button, ButtonProps } from '../src/Button'
-import { NumberFieldFormik, NumberFieldFormikProps } from '../src/NumberFieldFormik'
 
 import styles from '../src/Pagination.module.scss'
+import { NumberField } from '../src/NumberField'
+import { NumberFieldProps } from '../lib'
+import { Link } from '../src/Link'
 
 describe('helpers', () => {
   describe('getShownItemsRange', () => {
@@ -190,18 +184,7 @@ describe('Pagination', () => {
       children: '2000',
     })
 
-    const formik = wrapper.find(Formik)
-    expect(formik.props()).toEqual<FormikConfig<PageJumpFormValues>>({
-      initialValues: {
-        page: currentPage,
-      },
-      enableReinitialize: true,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      onSubmit: expect.anything(),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      children: expect.anything(),
-    })
-    expect(formik.find(NumberFieldFormik).props()).toEqual<NumberFieldFormikProps<PageJumpFormValues>>({
+    expect(wrapper.find(NumberField).props()).toEqual<NumberFieldProps>({
       inputContainerClassName: styles.inputContainer,
       name: 'page',
       label: 'Go to page',
@@ -210,6 +193,9 @@ describe('Pagination', () => {
       min: 1,
       max: pageCount,
       size: 'small',
+      value: currentPage,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      onChange: expect.anything(),
     })
   })
 
@@ -430,14 +416,14 @@ describe('Pagination', () => {
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      simulateChange(wrapper.find(NumberFieldFormik).find('input'), 42)
+      simulateChange(wrapper.find(NumberField).find('input'), 42)
     })
     wrapper.update()
 
     // We need the `async` call here to wait for processing of the asynchronous 'submit'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      wrapper.find(Formik).simulate('submit')
+      wrapper.find(Link).simulate('click')
     })
 
     expect(goToPage).toHaveBeenCalledTimes(1)
@@ -526,7 +512,6 @@ describe('Pagination', () => {
 
     expect(wrapper.findDataTest('pagination-range-of-shown-items').exists()).toBe(false)
     expect(wrapper.find(SelectField).exists()).toBe(false)
-    expect(wrapper.find(Formik).exists()).toBe(false)
 
     // Show more options
     act(() => {
@@ -550,18 +535,7 @@ describe('Pagination', () => {
       onChange: expect.anything(),
     })
 
-    const formik = wrapper.find(Formik)
-    expect(formik.props()).toEqual<FormikConfig<PageJumpFormValues>>({
-      initialValues: {
-        page: currentPage,
-      },
-      enableReinitialize: true,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      onSubmit: expect.anything(),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      children: expect.anything(),
-    })
-    expect(formik.find(NumberFieldFormik).props()).toEqual<NumberFieldFormikProps<PageJumpFormValues>>({
+    expect(wrapper.find(NumberField).props()).toEqual<NumberFieldProps>({
       inputContainerClassName: styles.inputContainer,
       name: 'page',
       label: 'Go to page',
@@ -570,6 +544,9 @@ describe('Pagination', () => {
       min: 1,
       max: pageCount,
       size: 'small',
+      value: currentPage,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      onChange: expect.anything(),
     })
 
     // Back to pagination buttons
@@ -602,6 +579,5 @@ describe('Pagination', () => {
 
     expect(wrapper.findDataTest('pagination-range-of-shown-items').exists()).toBe(false)
     expect(wrapper.find(SelectField).exists()).toBe(false)
-    expect(wrapper.find(Formik).exists()).toBe(false)
   })
 })
