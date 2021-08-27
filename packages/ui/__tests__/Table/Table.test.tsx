@@ -401,4 +401,29 @@ describe('Table', () => {
 
     expect(wrapper.find(Pagination).prop('currentPage')).toBe(1)
   })
+
+  it('Controlled pagination', async () => {
+    const columns = getColumns({ withFooter: true })
+    const onPageChange = jest.fn()
+
+    const wrapper = await mountAndCheckA11Y(
+      <Table data-test="table-test" pageIndex={1} columns={columns} data={bigDataSet} onPageChange={onPageChange} />,
+    )
+
+    expect(wrapper.find(Pagination).prop('currentPage')).toBe(2)
+
+    act(() => {
+      wrapper.find(Pagination).find(Button).at(2).simulate('click')
+    })
+    wrapper.update()
+
+    expect(wrapper.find(Pagination).prop('currentPage')).toBe(2)
+
+    wrapper.setProps({
+      pageIndex: 2,
+    })
+    wrapper.update()
+
+    expect(wrapper.find(Pagination).prop('currentPage')).toBe(3)
+  })
 })
