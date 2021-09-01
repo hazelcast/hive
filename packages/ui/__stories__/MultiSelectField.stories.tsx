@@ -46,7 +46,10 @@ const Template: Story<MultiSelectProps<string>> = ({ value: initialValue, ...arg
 
   return (
     <div style={{ height: 350 }}>
-      <MultiSelectField<string> {...args} value={value} onChange={setValue} />
+      <div style={{ marginBottom: 16 }}>
+        <MultiSelectField<string> {...args} value={value} onChange={setValue} />
+      </div>
+      <MultiSelectField<string> size="small" {...args} value={value} onChange={setValue} />
     </div>
   )
 }

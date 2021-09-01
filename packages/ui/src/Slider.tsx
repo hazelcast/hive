@@ -249,8 +249,6 @@ export function Slider<T extends SliderValue = number>(props: SliderProps<T>) {
   const secondValueLeft: number = (secondValue - min) / (max - min)
   const widthInRangeMode: number = ((secondValue - firstValue) / (max - min)) * 100
 
-  console.log(styles.errorContainer)
-
   return (
     <div className={cn(className, { [styles.withError]: 'error' in props })} data-test={dataTest}>
       {!!label && <Label id={id} label={label} />}

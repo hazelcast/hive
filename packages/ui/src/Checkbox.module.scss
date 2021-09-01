@@ -7,6 +7,11 @@
   display: flex;
   flex-direction: row;
   cursor: pointer;
+  box-sizing: border-box;
+
+  * {
+    box-sizing: border-box;
+  }
 
   @include c.typographyBodySmall;
 
@@ -16,19 +21,25 @@
   }
 
   .helperText {
+    margin-top: c.$grid * 0.5;
     margin-left: c.$grid * 1.5;
   }
 
   // default visible checkmark
   .checkmark {
-    width: c.$iconSizeSmall;
-    height: c.$iconSizeSmall;
+    /* doiuse-disable calc */
+    $checkmarkSize: calc(#{c.$iconSizeSmall} + #{c.$borderWidth * 2});
+    /* doiuse-enable calc */
+
+    width: $checkmarkSize;
+    height: $checkmarkSize;
     border: c.$borderWidth solid c.$colorNeutralLight;
     border-radius: c.$grid;
     color: c.$colorNeutralWhite;
     // because of ~ and + selectors used below, we need to keep the current order in DOM and
     // fix it visually with order property
     order: -1;
+    flex-shrink: 0;
   }
 
   & > input:checked ~ .checkmark {
