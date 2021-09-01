@@ -24,6 +24,7 @@ import { Header } from './Header'
 import { HeaderRow, LinkRow, Row, RowProps } from './Row'
 import { Loader } from '../Loader'
 import { EmptyState } from '../EmptyState'
+import { usePrevious } from '../hooks/usePrevious'
 
 import styles from './Table.module.scss'
 import styleConsts from '../../styles/constants/export.module.scss'
@@ -181,6 +182,8 @@ type CustomTableProps<D extends object> = {
   getCustomCellProps?: (cellInfo: CellType<D>) => CellProps
   onRenderedContentChange?: (newPage: RowType<D>[]) => void
   autoResetGlobalFilter?: boolean
+  pageIndex?: number
+  onPageChange?: (newPage: number) => void
 } & CustomTableRowClickProps<D> &
   DataTestProp
 
@@ -228,7 +231,8 @@ export const Table = <D extends object>({
   getCustomCellProps,
   loading,
   noDataTitle = 'The table is empty',
-  initialState = { pageIndex: 0, pageSize: defaultPageSize },
+  pageIndex: incomingPageIndex,
+  initialState = { pageIndex: incomingPageIndex || 0, pageSize: defaultPageSize },
   className = '',
   headerClassName = '',
   contentClassName = '',
@@ -236,7 +240,9 @@ export const Table = <D extends object>({
   searchValue,
   hideHeader,
   autoResetGlobalFilter = false,
+  onPageChange,
 }: TableProps<D>): ReactElement => {
+  const previousIncomingPageIndex = usePrevious(incomingPageIndex)
   const {
     getTableProps,
     headerGroups,
@@ -314,6 +320,12 @@ export const Table = <D extends object>({
       gotoPage(pageCount - 1)
     }
   }, [pageIndex, pageCount, gotoPage])
+
+  useEffect(() => {
+    if (incomingPageIndex !== undefined && incomingPageIndex !== previousIncomingPageIndex) {
+      gotoPage(incomingPageIndex)
+    }
+  }, [gotoPage, incomingPageIndex, previousIncomingPageIndex])
 
   const hasData = data.length > 0
 
@@ -459,9 +471,27 @@ export const Table = <D extends object>({
           currentPage={pageIndex + 1}
           canPreviousPage={canPreviousPage}
           canNextPage={canNextPage}
-          goToPage={(p) => gotoPage(p - 1)}
-          nextPage={nextPage}
-          previousPage={previousPage}
+          goToPage={(p) => {
+            if (onPageChange) {
+              onPageChange(p - 1)
+            } else {
+              gotoPage(p - 1)
+            }
+          }}
+          nextPage={() => {
+            if (onPageChange) {
+              onPageChange(pageIndex + 1)
+            } else {
+              nextPage()
+            }
+          }}
+          previousPage={() => {
+            if (onPageChange) {
+              onPageChange(pageIndex - 1)
+            } else {
+              previousPage()
+            }
+          }}
           pageSize={pageSize}
           setPageSize={setPageSize}
           numberOfItems={data.length}
