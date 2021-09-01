@@ -214,6 +214,8 @@ export const MultiSelectField = <V extends string | number = number>(props: Mult
           [styles.hasError]: error,
           [styles.empty]: !value,
           [styles.withError]: 'error' in props,
+          [styles.small]: rest.size === 'small',
+          [multiStyles.small]: rest.size === 'small',
         },
         multiStyles.multiContainer,
         className,

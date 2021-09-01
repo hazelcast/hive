@@ -61,6 +61,12 @@ $selectMultiValue: ':global .hz-select-field__multi-value';
       color: c.$colorTextSecondary;
     }
   }
+
+  &.small {
+    #{$selectIndicators} {
+      margin-top: c.$grid * 0.5;
+    }
+  }
 }
 
 @include h.withError;
