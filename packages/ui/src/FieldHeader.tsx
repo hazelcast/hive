@@ -3,7 +3,7 @@ import cn from 'classnames'
 
 import { Label } from './Label'
 import { Help, HelpProps } from './Help'
-import { DataTestProp } from '../../helpers'
+import { DataTestProp } from '@hazelcast/helpers'
 
 import styles from './FieldHeader.module.scss'
 

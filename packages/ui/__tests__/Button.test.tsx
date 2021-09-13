@@ -158,7 +158,7 @@ describe('Button', () => {
     })
     expect(wrapper.find(Loader).props()).toEqual({
       className: styles.iconLeft,
-      size: 'medium',
+      size: 'small',
     })
   })
 
@@ -174,7 +174,7 @@ describe('Button', () => {
 
     expect(wrapper.find(Loader).props()).toEqual({
       className: styles.iconRight,
-      size: 'medium',
+      size: 'small',
     })
   })
 
@@ -215,7 +215,7 @@ describe('Button', () => {
     })
     expect(wrapper.find(Loader).props()).toEqual({
       className: styles.iconLeft,
-      size: 'medium',
+      size: 'small',
     })
   })
 

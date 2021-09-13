@@ -70,7 +70,6 @@ export type ButtonCommonProps = {
    * @deprecated Use variant + color instead
    */
   kind?: ButtonKind
-  size?: ButtonSize
   children: string
   color?: ButtonColor
   capitalize?: boolean
@@ -155,7 +154,6 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
   (
     {
       kind,
-      size = 'medium',
       component: Component = 'button',
       className,
       bodyClassName,
@@ -206,7 +204,6 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
             className={cn(
               styles.button,
               {
-                [styles.small]: size === 'small',
                 ...(kind !== undefined
                   ? resolveButtonKindStyles(kind)
                   : {
@@ -225,14 +222,14 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
           >
             <span data-test="button-outline" className={cn(styles.outline, { [styles.inset]: outline === 'inset' }, outlineClassName)} />
             <span className={cn(styles.body, bodyClassName)} ref={mergeRefs([ref, tooltipRef])}>
-              {loading && !loadingAnimationOnRight && <Loader className={styles.iconLeft} size={size} />}
+              {loading && !loadingAnimationOnRight && <Loader className={styles.iconLeft} size='small' />}
               {iconLeft && iconLeftAriaLabel && !loading && (
                 <Icon
                   icon={iconLeft}
                   ariaLabel={iconLeftAriaLabel}
                   data-test="button-icon-left"
                   className={cn(styles.iconLeft, iconLeftClassName)}
-                  size={size}
+                  size="small"
                   color={iconLeftColor}
                 />
               )}
@@ -246,14 +243,14 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
                 */
                 tooltipVisible={disabled && disabledTooltipVisible !== false ? false : undefined}
               />
-              {loadingAnimationOnRight && <Loader className={styles.iconRight} size={size} />}
+              {loadingAnimationOnRight && <Loader className={styles.iconRight} size="small" />}
               {!loadingAnimationOnRight && iconRight && iconRightAriaLabel && (
                 <Icon
                   icon={iconRight}
                   ariaLabel={iconRightAriaLabel}
                   data-test="button-icon-right"
                   className={cn(styles.iconRight, iconRightClassName)}
-                  size={size}
+                  size="small"
                   color={iconRightColor}
                 />
               )}
