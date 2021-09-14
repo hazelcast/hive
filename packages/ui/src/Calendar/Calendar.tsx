@@ -16,9 +16,11 @@ const DATE_FORMAT_WITH_TIME = 'yyyy-MM-dd hh:mm a'
 const CalendarPopperContainer: FC = ({ children }) =>
   canUseDOM && children
     ? createPortal(
+      <div className={styles.popper}>
         <div data-test="date-picker-popper-container" className="hz-date-picker-popper-container">
           {children}
-        </div>,
+        </div>
+      </div>,
         document.body,
       )
     : null
