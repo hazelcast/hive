@@ -15,7 +15,7 @@ export const customTheme = create({
   appBorderRadius: 3,
 
   // Typography
-  fontBase: "'Roboto', sans-serif",
+  fontBase: "'Roboto', 'Helvetica', 'Arial', sans-serif",
   fontCode: 'sans-serif',
 
   // Text colors
