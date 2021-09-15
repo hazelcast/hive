@@ -1,7 +1,6 @@
 import React from 'react'
 import { useUID } from 'react-uid'
-import { getHookRes, testHook } from '@hazelcast/test-helpers/src/hooks'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { getHookRes, mountAndCheckA11Y, testHook } from '@hazelcast/test-helpers'
 
 import {
   getTabId,

@@ -108,7 +108,7 @@ export const Modal: FC<ModalProps> = ({
         {!hideActions && (
           <div data-test="modal-footer" className={cn(styles.footer, footerClassName)}>
             {actions?.map(({ children, ...actionPropsRest }, key) => (
-              <Button key={key} data-test="modal-button-action" size={size} {...actionPropsRest}>
+              <Button key={key} data-test="modal-button-action" {...actionPropsRest}>
                 {children}
               </Button>
             ))}
@@ -116,7 +116,6 @@ export const Modal: FC<ModalProps> = ({
               autoFocus={shouldAutoFocusCancelButton}
               data-test="modal-button-cancel"
               variant="outlined"
-              size={size}
               onClick={onClose}
             >
               Cancel
