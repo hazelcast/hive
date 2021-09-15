@@ -40,6 +40,7 @@
       border: 1px solid;
       border-color: c.$colorNeutralLight;
       height: c.$inputHeightSmall;
+      border-radius: c.$borderRadius;
       @include c.typographyBodySmall;
 
       .body {
