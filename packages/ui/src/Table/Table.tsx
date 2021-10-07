@@ -29,6 +29,8 @@ import { usePrevious } from '../hooks/usePrevious'
 import styles from './Table.module.scss'
 import styleConsts from '../../styles/constants/export.module.scss'
 
+export type { Accessor, Column, Cell, Renderer, Row, CellProps, HeaderGroup, TableInstance } from 'react-table'
+
 // Why do we need it: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react-table
 
 declare module 'react-table' {
