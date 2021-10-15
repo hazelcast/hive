@@ -3,10 +3,8 @@ import { Formik, Form, FormikProps } from 'formik'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import { act } from 'react-dom/test-utils'
 
-//import { MultiSelectFieldFormik } from '../../src/Select/MultiSelectFieldFormik'
 import { SelectFieldOption } from '../../src/Select/helpers'
 import { CheckableSelectFieldFormik } from '../../src'
-// import { Error } from '../../src/Error'
 
 const options: SelectFieldOption<string>[] = [
   { value: 'selectValue0', label: 'selectValue0' },
@@ -44,7 +42,7 @@ describe('CheckableSelectFieldFormik', () => {
     })
 
     act(() => {
-      wrapper.findDataTest('test-opener').at(0).simulate('click')
+      wrapper.findDataTest('test-opener').find('input').simulate('click')
     })
     wrapper.update()
 
@@ -77,10 +75,10 @@ describe('CheckableSelectFieldFormik', () => {
 
     const wrapper = await mountAndCheckA11Y(<TestForm />)
 
-    expect(wrapper.findDataTest('test-opener').at(0).prop('error')).toBe(undefined)
+    expect(wrapper.findDataTest('test-opener').find('input').prop('error')).toBe(undefined)
 
     act(() => {
-      wrapper.findDataTest('test-opener').at(0).simulate('click')
+      wrapper.findDataTest('test-opener').find('input').simulate('click')
     })
     wrapper.update()
 
@@ -126,7 +124,7 @@ describe('CheckableSelectFieldFormik', () => {
     })
 
     act(() => {
-      wrapper.findDataTest('test-opener').at(0).simulate('click')
+      wrapper.findDataTest('test-opener').find('input').simulate('click')
     })
     wrapper.update()
 

@@ -368,7 +368,7 @@ describe('Table', () => {
 
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      wrapper.findDataTest('table-custom-columns-opener').at(0).simulate('click')
+      wrapper.findDataTest('table-custom-columns-opener').find('input').simulate('click')
     })
     wrapper.update()
     // eslint-disable-next-line @typescript-eslint/require-await

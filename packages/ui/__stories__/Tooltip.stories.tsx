@@ -7,7 +7,7 @@ import { Button } from '../src/Button'
 export default {
   title: 'Components/Tooltip',
   component: Tooltip,
-  arameters: {
+  parameters: {
     design: {
       type: 'figma',
       url: 'https://www.figma.com/file/kaC3jgqMSgqMEgnv7TIse1/%F0%9F%93%90Sign-in-flow?node-id=118%3A2349',

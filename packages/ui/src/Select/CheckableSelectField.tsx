@@ -2,15 +2,13 @@ import React, { FocusEvent, ReactNode, useMemo, useState } from 'react'
 import { Check, ChevronDown, ChevronUp, Minus } from 'react-feather'
 import { useUID } from 'react-uid'
 import cls from 'classnames'
-import { Modifier, usePopper } from 'react-popper'
-import ReactDOM from 'react-dom'
 
 import { Popover } from '../Popover'
 import { Link } from '../Link'
 import { SelectFieldOption } from './helpers'
 import { TextField } from '../TextField'
 import { HelpProps } from '../Help'
-import { canUseDOM } from '../utils/ssr'
+import { useOpenCloseState } from '../hooks'
 
 import styles from './CheckableSelectField.module.scss'
 
@@ -72,9 +70,9 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
     noneSelectedLabel = 'None selected',
   } = props
   const id = useUID()
+  const { isOpen, toggle, close } = useOpenCloseState()
   const [searchValue, setSearchValue] = useState('')
-  const [referenceElement, setReferenceElement] = useState<HTMLElement | null>(null)
-  const [popperElement, setPopperElement] = useState<HTMLSpanElement | null>(null)
+  const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null)
 
   const valueSet = useMemo(() => new Set(value), [value])
   const filteredOptions = useMemo(() => {
@@ -83,34 +81,6 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
     return options.filter(({ label }) => label.toLowerCase().includes(value))
   }, [options, searchValue])
 
-  const modifiers = useMemo(
-    (): Modifier<string, Record<string, unknown>>[] => [
-      {
-        name: 'matchReferenceSize',
-        enabled: true,
-        fn: ({ state, instance }) => {
-          const widthOrHeight = state.placement.startsWith('left') || state.placement.startsWith('right') ? 'height' : 'width'
-
-          if (!popperElement) return
-
-          const popperSize = popperElement[`offset${widthOrHeight[0].toUpperCase() + widthOrHeight.slice(1)}` as 'offsetWidth']
-          const referenceSize = state.rects.reference[widthOrHeight]
-
-          if (Math.round(popperSize) === Math.round(referenceSize)) return
-
-          popperElement.style[widthOrHeight] = `${referenceSize}px`
-          void instance.update()
-        },
-        phase: 'beforeWrite',
-        requires: ['computeStyles'],
-      },
-    ],
-    [popperElement],
-  )
-  const popper = usePopper(referenceElement, popperElement, {
-    placement: 'bottom-start',
-    modifiers,
-  })
   const getValueLabel = () => {
     if (value.length === 0) {
       return noneSelectedLabel
@@ -123,101 +93,83 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
   }
 
   return (
-    <Popover>
-      {({ open }) => {
-        const opener = (
+    <>
+      <TextField
+        size={size}
+        name={name}
+        id={id}
+        onClick={toggle}
+        mRef={setAnchorElement}
+        onChange={() => null}
+        label={(label as string) || ''}
+        disabled={disabled}
+        showAriaLabel={showAriaLabel}
+        helperText={helperText}
+        className={cls(className, styles.opener)}
+        error={error}
+        onBlur={onBlur}
+        readOnly
+        required={required}
+        data-test={`${dataTest}-opener`}
+        value={getValueLabel()}
+        inputTrailingIconLabel={isOpen ? 'Close' : 'Open'}
+        inputTrailingIcon={isOpen ? ChevronUp : ChevronDown}
+      />
+
+      <Popover matchReferenceSize anchorElement={anchorElement} open={isOpen} onClose={close} className={styles.panel}>
+        <div className={styles.dropdown} data-test={`${dataTest}-dropdown`}>
           <TextField
             size={size}
-            name={name}
-            id={id}
-            onChange={() => null}
-            label={(label as string) || ''}
+            className={styles.search}
+            name="checkable-select-search"
+            data-test={`${dataTest}-search`}
+            onChange={(e) => setSearchValue(e.target.value)}
+            value={searchValue}
+            label=""
             disabled={disabled}
-            showAriaLabel={showAriaLabel}
-            helperText={helperText}
-            className={cls(className, styles.opener)}
-            error={error}
-            onBlur={onBlur}
-            readOnly
-            required={required}
-            data-test={`${dataTest}-opener`}
-            value={getValueLabel()}
-            inputTrailingIconLabel={open ? 'Close' : 'Open'}
-            inputTrailingIcon={open ? ChevronUp : ChevronDown}
+            placeholder={placeholder}
           />
-        )
+          <div className={styles.options}>
+            {filteredOptions.map((option) => {
+              const isChecked = valueSet.has(option.value)
 
-        return (
-          <>
-            {disabled ? (
-              opener
-            ) : (
-              <Popover.Button ref={setReferenceElement} as="span">
-                {opener}
-              </Popover.Button>
-            )}
-            {ReactDOM.createPortal(
-              <Popover.Panel ref={setPopperElement} style={popper.styles.popper} {...popper.attributes.popper} className={styles.panel}>
-                <div className={styles.dropdown} data-test={`${dataTest}-dropdown`}>
-                  <TextField
-                    size={size}
-                    className={styles.search}
-                    name="checkable-select-search"
-                    data-test={`${dataTest}-search`}
-                    onChange={(e) => setSearchValue(e.target.value)}
-                    value={searchValue}
-                    label=""
-                    disabled={disabled}
-                    placeholder={placeholder}
-                  />
-                  <div className={styles.options}>
-                    {filteredOptions.map((option) => {
-                      const isChecked = valueSet.has(option.value)
-
-                      return (
-                        <button
-                          type="button"
-                          key={option.value}
-                          name={option.label}
-                          data-test={`${dataTest}-option`}
-                          className={cls(styles.option, { [styles.optionChecked]: isChecked })}
-                          onClick={() => {
-                            if (isChecked) {
-                              onChange(value.filter((item) => item !== option.value))
-                            } else {
-                              onChange([...value, option.value])
-                            }
-                          }}
-                        >
-                          <Checkmark checked={isChecked} />
-                          {option.label}
-                        </button>
-                      )
-                    })}
-                  </div>
-                  <div className={styles.bottom}>
-                    <Link
-                      component="button"
-                      data-test={`${dataTest}-select-all`}
-                      onClick={() => {
-                        onChange(filteredOptions.map(({ value }) => value))
-                      }}
-                    >
-                      Select all
-                    </Link>
-                    <Link component="button" data-test={`${dataTest}-select-none`} onClick={() => onChange([])}>
-                      Select none
-                    </Link>
-                  </div>
-                </div>
-              </Popover.Panel>,
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
-              canUseDOM ? document.body : null,
-            )}
-          </>
-        )
-      }}
-    </Popover>
+              return (
+                <button
+                  type="button"
+                  key={option.value}
+                  name={option.label}
+                  data-test={`${dataTest}-option`}
+                  className={cls(styles.option, { [styles.optionChecked]: isChecked })}
+                  onClick={() => {
+                    if (isChecked) {
+                      onChange(value.filter((item) => item !== option.value))
+                    } else {
+                      onChange([...value, option.value])
+                    }
+                  }}
+                >
+                  <Checkmark checked={isChecked} />
+                  {option.label}
+                </button>
+              )
+            })}
+          </div>
+          <div className={styles.bottom}>
+            <Link
+              component="button"
+              data-test={`${dataTest}-select-all`}
+              onClick={() => {
+                onChange(filteredOptions.map(({ value }) => value))
+              }}
+            >
+              Select all
+            </Link>
+            <Link component="button" data-test={`${dataTest}-select-none`} onClick={() => onChange([])}>
+              Select none
+            </Link>
+          </div>
+        </div>
+      </Popover>
+    </>
   )
 }
