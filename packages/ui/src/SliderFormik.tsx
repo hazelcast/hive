@@ -6,7 +6,7 @@ import { Slider, SliderExtraProps, SliderValue } from './Slider'
 import { formikTouchAndUpdate, getFieldError } from './utils/formik'
 import { ExtractKeysOfValueType } from './utils/types'
 
-export type SliderFormikProps<V extends object> = SliderExtraProps & {
+export type SliderFormikProps<V extends object> = SliderExtraProps & Partial<Pick<HTMLInputElement, 'disabled'>> & {
   name: ExtractKeysOfValueType<V, SliderValue>
   validate?: FieldValidator
 }
