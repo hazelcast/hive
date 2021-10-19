@@ -1,0 +1,14 @@
+@use '../styles/constants/index' as c;
+
+$contentBorderRadius: 3px;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  background: c.$colorNeutralWhite;
+  border-bottom-left-radius: $contentBorderRadius;
+  border-bottom-right-radius: $contentBorderRadius;
+  -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.17);
+  -moz-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.17);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.17);
+}

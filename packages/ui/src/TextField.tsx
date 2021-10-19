@@ -1,5 +1,5 @@
 // https://zeroheight.com/11d0e6dac/p/316944-text-field
-import React, { ChangeEvent, FocusEvent, InputHTMLAttributes, KeyboardEvent, ReactElement } from 'react'
+import React, { ChangeEvent, FocusEvent, InputHTMLAttributes, KeyboardEvent, ReactElement, MouseEvent, Ref, forwardRef } from 'react'
 import cn from 'classnames'
 import { DataTestProp } from '@hazelcast/helpers'
 import { Icon as IconType } from 'react-feather'
@@ -31,6 +31,7 @@ type TextFieldCoreProps<T extends TextFieldTypes> = {
   value?: T extends 'number' ? number : string
   onBlur?: (e: FocusEvent<HTMLInputElement>) => void
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
+  onClick?: (e: MouseEvent<HTMLInputElement>) => void
   error?: string
 }
 export type TextFieldExtraProps<T extends TextFieldTypes> = {
@@ -66,7 +67,7 @@ export type TextFieldProps<T extends TextFieldTypes> = TextFieldCoreProps<T> & T
  * ### Usage
  * Use a text input when the expected user input is a single line of text.
  */
-export const TextField = <T extends TextFieldTypes>(props: TextFieldProps<T>) => {
+const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, ref?: Ref<HTMLInputElement>) => {
   const {
     'data-test': dataTest,
     className,
@@ -94,6 +95,7 @@ export const TextField = <T extends TextFieldTypes>(props: TextFieldProps<T>) =>
     type = 'text',
     value,
     readOnly,
+    onClick,
     ...htmlAttrs
   } = props
   // Use an auto generated id if it's not set explicitly
@@ -129,12 +131,14 @@ export const TextField = <T extends TextFieldTypes>(props: TextFieldProps<T>) =>
           <input
             type={type}
             id={id}
+            ref={ref}
             value={value ?? ''}
             name={name}
             onChange={onChange}
             onBlur={onBlur}
             readOnly={readOnly}
             onKeyPress={onKeyPress}
+            onClick={onClick}
             aria-label={showAriaLabel ? label : undefined}
             // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute
             aria-invalid={!!error}
@@ -174,3 +178,9 @@ export const TextField = <T extends TextFieldTypes>(props: TextFieldProps<T>) =>
     </div>
   )
 }
+
+const TextFieldWithRef = forwardRef(TextFieldInternal)
+
+export const TextField = <T extends TextFieldTypes>({ mRef, ...props }: TextFieldProps<T> & { mRef?: Ref<HTMLInputElement> }) => (
+  <TextFieldWithRef ref={mRef} {...props} />
+)
