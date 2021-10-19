@@ -1,4 +1,4 @@
-import React, { FocusEvent, ReactNode, useMemo, useState } from 'react'
+import React, { FocusEvent, ReactNode, useCallback, useMemo, useState, KeyboardEvent } from 'react'
 import { Check, ChevronDown, ChevronUp, Minus } from 'react-feather'
 import { useUID } from 'react-uid'
 import cls from 'classnames'
@@ -11,6 +11,7 @@ import { HelpProps } from '../Help'
 import { useOpenCloseState } from '../hooks'
 
 import styles from './CheckableSelectField.module.scss'
+import { TruncatedText } from '../TruncatedText'
 
 export type CheckableSelectFieldCoreStaticProps<V> = {
   name: string
@@ -72,7 +73,17 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
   const id = useUID()
   const { isOpen, toggle, close } = useOpenCloseState()
   const [searchValue, setSearchValue] = useState('')
+  const [forceUpdateToken, setForceUpdateToken] = useState(1)
   const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null)
+
+  const handleKeyPress = useCallback(
+    (e: KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter') {
+        toggle()
+      }
+    },
+    [toggle],
+  )
 
   const valueSet = useMemo(() => new Set(value), [value])
   const filteredOptions = useMemo(() => {
@@ -99,6 +110,7 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
         name={name}
         id={id}
         onClick={toggle}
+        onKeyPress={handleKeyPress}
         mRef={setAnchorElement}
         onChange={() => null}
         label={(label as string) || ''}
@@ -116,7 +128,14 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
         inputTrailingIcon={isOpen ? ChevronUp : ChevronDown}
       />
 
-      <Popover matchReferenceSize anchorElement={anchorElement} open={isOpen} onClose={close} className={styles.panel}>
+      <Popover
+        matchReferenceSize
+        anchorElement={anchorElement}
+        open={isOpen}
+        onClose={close}
+        className={styles.panel}
+        onUpdateLayout={() => setForceUpdateToken((token) => token + 1)}
+      >
         <div className={styles.dropdown} data-test={`${dataTest}-dropdown`}>
           <TextField
             size={size}
@@ -149,7 +168,7 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
                   }}
                 >
                   <Checkmark checked={isChecked} />
-                  {option.label}
+                  <TruncatedText text={option.label} forceUpdateToken={forceUpdateToken} />
                 </button>
               )
             })}

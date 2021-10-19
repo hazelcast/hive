@@ -1,4 +1,4 @@
-import React, { FC, FocusEvent, ReactNode, useContext } from 'react'
+import React, { FC, FocusEvent, ReactElement, ReactNode, ReactText, useContext } from 'react'
 import classNames from 'classnames'
 import { DataTestProp } from '@hazelcast/helpers'
 import { useUID } from 'react-uid'
@@ -7,6 +7,7 @@ import { Help, HelpProps, helpTooltipId } from './Help'
 import { RadioGroupContext } from './RadioGroupContext'
 
 import styles from './Radio.module.scss'
+import { TruncatedText } from './TruncatedText'
 
 type RadioCoreProps = {
   value: string
@@ -15,7 +16,7 @@ type RadioCoreProps = {
 }
 
 export type RadioExtraProps = {
-  label: ReactNode
+  label?: ReactText | ReactElement
   helperText?: HelpProps['helperText']
   disabled?: boolean
   required?: boolean
@@ -70,9 +71,11 @@ export const Radio: FC<RadioProps> = ({
         We can only style forward elements based on input state (with ~ or +), has() is not supported yet.
         That's why we need to explicitly pass error/checked/disabled classes to the wrapper element.
       */}
-      <span className={styles.name} data-test="radio-input-label">
-        {label}
-      </span>
+      {label !== undefined && (
+        <div className={styles.name} data-test="radio-input-label">
+          <TruncatedText text={label} />
+        </div>
+      )}
       <input
         type="radio"
         id={id}

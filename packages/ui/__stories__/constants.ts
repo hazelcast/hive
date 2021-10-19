@@ -1,0 +1,5 @@
+export const LONG_ONE_WORD_TEXT =
+  'LongTextLongTextLongTextLongTextLongTextLongTextLongTextLongTextLongTextLongTextLongTextLongTextLongTextLongTextLongTextLongTextLongTextLongTextLongTextLongTextLongTextLongTextLongTextLongText'
+
+export const LONG_MULTIPLE_WORD_TEXT =
+  'LongText LongText LongText LongText LongText LongText LongText LongText LongText LongText LongTextLongText LongText LongText LongText LongText LongText LongText LongText LongText LongText LongText'

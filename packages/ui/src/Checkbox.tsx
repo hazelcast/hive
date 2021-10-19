@@ -1,4 +1,4 @@
-import React, { AriaAttributes, ChangeEvent, FC, FocusEvent, useRef } from 'react'
+import React, { AriaAttributes, ChangeEvent, FC, FocusEvent, ReactElement, ReactText, useRef } from 'react'
 import { Check, Minus } from 'react-feather'
 import { DataTestProp } from '@hazelcast/helpers'
 import { useUID } from 'react-uid'
@@ -8,6 +8,7 @@ import { Error, errorId } from './Error'
 import { Help, HelpProps, helpTooltipId } from './Help'
 
 import styles from './Checkbox.module.scss'
+import { TruncatedText } from './TruncatedText'
 
 type CheckboxCoreProps = {
   name: string
@@ -19,7 +20,7 @@ type CheckboxCoreProps = {
 }
 
 export type CheckboxExtraProps = {
-  label: React.ReactNode
+  label?: ReactElement | ReactText
   helperText?: HelpProps['helperText']
   indeterminate?: boolean
   disabled?: boolean
@@ -83,9 +84,11 @@ export const Checkbox: FC<CheckboxProps> = (props) => {
         )}
         htmlFor={id}
       >
-        <span className={styles.name} data-test="input-checkbox-label">
-          {label}
-        </span>
+        {label !== undefined && (
+          <div className={styles.name} data-test="input-checkbox-label">
+            <TruncatedText text={label} />
+          </div>
+        )}
         <input
           type="checkbox"
           ref={inputRef}

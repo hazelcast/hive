@@ -7,9 +7,9 @@ import FocusTrap from 'focus-trap-react'
 
 import { canUseDOM } from './utils/ssr'
 import { DataTestProp } from '../../helpers'
+import { useOnClickOutside, useRefValue } from './hooks'
 
 import styles from './Popover.module.scss'
-import { useOnClickOutside } from './hooks'
 
 export interface PopoverProps extends DataTestProp {
   open: boolean
@@ -23,6 +23,7 @@ export interface PopoverProps extends DataTestProp {
   arrowElement?: HTMLElement | null
   onClose: () => void
   matchReferenceSize?: boolean
+  onUpdateLayout?: () => void
 }
 
 export const Popover: FC<PopoverProps> = (props) => {
@@ -37,8 +38,9 @@ export const Popover: FC<PopoverProps> = (props) => {
     onClose,
     'data-test': dataTest,
     matchReferenceSize,
+    onUpdateLayout,
   } = props
-
+  const getOnUpdate = useRefValue(onUpdateLayout)
   const [popperElement, setPopperElement] = useState<HTMLElement | null>(null)
 
   const hasFocusableElements = useMemo(() => {
@@ -70,6 +72,7 @@ export const Popover: FC<PopoverProps> = (props) => {
         name: 'matchReferenceSize',
         enabled: true,
         fn: ({ state, instance }) => {
+          const onUpdate = getOnUpdate()
           const widthOrHeight = state.placement.startsWith('left') || state.placement.startsWith('right') ? 'height' : 'width'
 
           if (!popperElement) return
@@ -81,6 +84,9 @@ export const Popover: FC<PopoverProps> = (props) => {
 
           popperElement.style[widthOrHeight] = `${referenceSize}px`
           void instance.update()
+          if (onUpdate) {
+            onUpdate()
+          }
         },
         phase: 'beforeWrite',
         requires: ['computeStyles'],
@@ -88,7 +94,7 @@ export const Popover: FC<PopoverProps> = (props) => {
     }
 
     return modifiers
-  }, [matchReferenceSize, offset, popperElement, arrowElement])
+  }, [matchReferenceSize, offset, popperElement, arrowElement, getOnUpdate])
 
   const popper = usePopper(anchorElement, popperElement, {
     placement,
@@ -107,7 +113,6 @@ export const Popover: FC<PopoverProps> = (props) => {
                   initialFocus: false,
                   setReturnFocus: anchorElement || undefined,
                   escapeDeactivates: true,
-                  //clickOutsideDeactivates: true,
                   allowOutsideClick: true,
                   onDeactivate: onClose,
                 }}

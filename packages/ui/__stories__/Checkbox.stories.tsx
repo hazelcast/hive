@@ -4,6 +4,7 @@ import { logger } from '@hazelcast/services'
 
 import { Checkbox, CheckboxFormik, Link } from '../src'
 import { formDecorator } from './decorators'
+import { LONG_MULTIPLE_WORD_TEXT, LONG_ONE_WORD_TEXT } from './constants'
 
 import styles from '../src/Checkbox.module.scss'
 
@@ -198,3 +199,10 @@ export const CheckboxWrappedInFormik = () => {
   return <TestForm />
 }
 CheckboxWrappedInFormik.parameters = { ignoreFormDecorator: true }
+
+export const WithLongLabels = () => (
+  <div style={{ width: 200, overflow: 'hidden' }}>
+    <Checkbox checked label={LONG_MULTIPLE_WORD_TEXT} name="default2" onChange={(e) => logger.log('change2', e.target.checked)} />
+    <Checkbox checked={false} label={LONG_ONE_WORD_TEXT} name="default" onChange={(e) => logger.log('change', e.target.checked)} />
+  </div>
+)
