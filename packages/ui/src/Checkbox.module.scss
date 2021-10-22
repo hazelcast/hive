@@ -8,6 +8,7 @@
   flex-direction: row;
   cursor: pointer;
   box-sizing: border-box;
+  overflow: hidden;
 
   * {
     box-sizing: border-box;
@@ -68,6 +69,7 @@
   }
 
   .name {
+    overflow: hidden;
     padding-left: c.$grid * 1.25;
   }
 

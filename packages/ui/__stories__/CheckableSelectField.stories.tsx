@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { logger } from '@hazelcast/services'
 import { Meta, Story } from '@storybook/react'
+import { Form, Formik } from 'formik'
 
 import { CheckableSelectField, CheckableSelectProps } from '../src/Select/CheckableSelectField'
 import { SelectFieldOption } from '../src/Select/helpers'
-
-import { Form, Formik } from 'formik'
 import { CheckableSelectFieldFormik } from '../src/Select/CheckableSelectFieldFormik'
+import { LONG_ONE_WORD_TEXT, LONG_MULTIPLE_WORD_TEXT } from './constants'
 
 const options: SelectFieldOption<string>[] = [
   { value: 'darth_vader', label: 'Darth Vader' },
@@ -61,11 +61,6 @@ WithError.args = {
   error: 'Dark side',
 }
 
-export const FocusedWithError = Template.bind({})
-FocusedWithError.args = {
-  ...WithError.args,
-}
-
 export const Disabled = Template.bind({})
 Disabled.args = {
   disabled: true,
@@ -81,18 +76,16 @@ WithoutLabel.args = {
   showAriaLabel: true,
 }
 
-export const WithMultilineOptions = Template.bind({})
-WithMultilineOptions.args = {
+export const WithLongTextOptions = Template.bind({})
+WithLongTextOptions.args = {
   options: [
     {
       value: '10000',
-      label: `Very long option Very long option Very long option Very long option 
-      Very long option Very long option Very long option Very long option Very long option Very 
-      long option Very long option Very long option Very long option Very long option Very long option 
-      Very long option Very long option Very long option Very long option Very long option Very long option 
-      Very long option Very long option Very long option Very long option Very long option Very long option 
-      Very long option Very long option Very long option Very long option Very long option Very long option 
-      Very long option Very long option`,
+      label: LONG_ONE_WORD_TEXT,
+    },
+    {
+      value: '10001',
+      label: LONG_MULTIPLE_WORD_TEXT,
     },
     ...options,
   ],

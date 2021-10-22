@@ -3,13 +3,14 @@ import { logger } from '@hazelcast/services'
 import { Meta, Story } from '@storybook/react'
 import { Aperture } from 'react-feather'
 import { GroupedOptionsType } from 'react-select'
+import { Form, Formik } from 'formik'
 
 import { SelectField, SelectFieldProps } from '../src/Select/SelectField'
 import { SelectFieldOption } from '../src/Select/helpers'
+import { SelectFieldFormik } from '../src/Select/SelectFieldFormik'
+import { LONG_MULTIPLE_WORD_TEXT, LONG_ONE_WORD_TEXT } from './constants'
 
 import styles from '../src/Select/SelectField.module.scss'
-import { Form, Formik } from 'formik'
-import { SelectFieldFormik } from '../src/Select/SelectFieldFormik'
 
 const options: SelectFieldOption<string>[] = [
   { value: 'darth_vader', label: 'Darth Vader' },
@@ -138,18 +139,16 @@ WithCreatableOptions.args = {
   isCreatable: true,
 }
 
-export const WithMultilineOptions = Template.bind({})
-WithMultilineOptions.args = {
+export const WithLongTextOptions = Template.bind({})
+WithLongTextOptions.args = {
   options: [
     {
       value: '10000',
-      label: `Very long option Very long option Very long option Very long option 
-      Very long option Very long option Very long option Very long option Very long option Very 
-      long option Very long option Very long option Very long option Very long option Very long option 
-      Very long option Very long option Very long option Very long option Very long option Very long option 
-      Very long option Very long option Very long option Very long option Very long option Very long option 
-      Very long option Very long option Very long option Very long option Very long option Very long option 
-      Very long option Very long option`,
+      label: LONG_MULTIPLE_WORD_TEXT,
+    },
+    {
+      value: '10001',
+      label: LONG_ONE_WORD_TEXT,
     },
     ...options,
   ],
