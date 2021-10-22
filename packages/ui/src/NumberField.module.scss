@@ -28,10 +28,11 @@ $inputMargin: c.$iconSizeSmall + $buttonMargin * 2;
       right: $buttonMargin;
       top: 50%;
       transform: translateY(-50%);
-      margin-right: 26px;
+      margin-right: c.$iconSizeSmallMedium+c.$grid;
       &.decrementSmall {
-        margin-right: 22px;
+        margin-right: c.$iconSizeSmall+c.$grid;
       }
+
       :global line {
         color: black;
       }
