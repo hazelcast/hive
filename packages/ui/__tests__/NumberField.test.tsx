@@ -1,6 +1,6 @@
 import React from 'react'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
-import { Minus, Plus } from 'react-feather'
+import { MinusCircle, PlusCircle } from 'react-feather'
 
 import { NumberField } from '../src/NumberField'
 import { TextField } from '../src/TextField'
@@ -44,27 +44,25 @@ describe('NumberField', () => {
     })
 
     expect(wrapper.find(IconButton).at(0).props()).toEqual({
-      size: 'small',
-      icon: Minus,
+      size: 'smallMedium',
+      icon: MinusCircle,
       ariaLabel: 'Decrement',
       'data-test': 'number-field-decrement',
       className: styles.decrement,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       onClick: expect.anything(),
-      disabled: undefined,
-      kind: 'primary',
+      kind: 'transparent',
       type: 'button',
     })
     expect(wrapper.find(IconButton).at(1).props()).toEqual({
-      size: 'small',
-      icon: Plus,
+      size: 'smallMedium',
+      icon: PlusCircle,
       ariaLabel: 'Increment',
       'data-test': 'number-field-increment',
       className: styles.increment,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       onClick: expect.anything(),
-      disabled: undefined,
-      kind: 'primary',
+      kind: 'transparent',
       type: 'button',
     })
   })
@@ -189,27 +187,27 @@ describe('NumberField', () => {
     )
 
     expect(wrapper.find(IconButton).at(0).props()).toEqual({
-      size: 'small',
-      icon: Minus,
+      size: 'smallMedium',
+      icon: MinusCircle,
       ariaLabel: '-1',
       'data-test': 'number-field-decrement',
       className: styles.decrement,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       onClick: expect.anything(),
       disabled: undefined,
-      kind: 'primary',
+      kind: 'transparent',
       type: 'button',
     })
     expect(wrapper.find(IconButton).at(1).props()).toEqual({
-      size: 'small',
-      icon: Plus,
+      size: 'smallMedium',
+      icon: PlusCircle,
       ariaLabel: '+1',
       'data-test': 'number-field-increment',
       className: styles.increment,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       onClick: expect.anything(),
       disabled: undefined,
-      kind: 'primary',
+      kind: 'transparent',
       type: 'button',
     })
   })
