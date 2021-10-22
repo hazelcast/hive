@@ -74,6 +74,7 @@
   }
 
   .name {
+    overflow: hidden;
     padding-left: c.$grid * 1.25;
     padding-right: c.$grid * 1.25;
   }

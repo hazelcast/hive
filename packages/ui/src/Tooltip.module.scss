@@ -21,6 +21,7 @@ $tooltipArrowSize2-3: math.div(c.$tooltipArrowSize, 3) * 2;
   border-radius: c.$borderRadius;
   color: c.$colorText;
   z-index: c.$zIndex2000;
+  word-break: break-all;
 
   &.hidden {
     visibility: hidden;

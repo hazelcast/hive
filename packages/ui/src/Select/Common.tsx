@@ -7,6 +7,7 @@ import { Icon } from '../Icon'
 import { IconButton } from '../IconButton'
 
 import styles from './Common.module.scss'
+import { TruncatedText } from '../TruncatedText'
 
 const DropdownIndicator: typeof rsComponents.DropdownIndicator = ({ selectProps }) => (
   <Icon
@@ -47,6 +48,12 @@ const MenuList: typeof rsComponents.MenuList = (props) => {
   )
 }
 
+const Option: typeof rsComponents.Option = (props) => (
+  <rsComponents.Option {...props}>
+    <TruncatedText text={props.label} />
+  </rsComponents.Option>
+)
+
 const IndicatorSeparator: typeof rsComponents.IndicatorSeparator = () => null
 
 export const components = {
@@ -55,4 +62,5 @@ export const components = {
   Input,
   MenuList,
   IndicatorSeparator,
+  Option,
 }

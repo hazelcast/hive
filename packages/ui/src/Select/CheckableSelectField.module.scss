@@ -42,6 +42,7 @@
   color: c.$colorTextSecondary;
   outline: c.$outlineWidth solid transparent;
   margin-bottom: c.$grid * 2.5;
+  overflow: hidden;
 
   &:focus {
     @include h.outlineFormField;

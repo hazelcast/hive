@@ -5,6 +5,7 @@ import { Check } from 'react-feather'
 import { RadioGroup } from '../src/RadioGroup'
 import { formDecorator } from './decorators'
 import { Radio } from '../src/Radio'
+import { LONG_MULTIPLE_WORD_TEXT, LONG_ONE_WORD_TEXT } from './constants'
 
 import styles from '../src/Radio.module.scss'
 
@@ -118,6 +119,15 @@ export const RadioCustomCheckmark = () => {
     </RadioGroup>
   )
 }
+
+export const WithLongLabels = () => (
+  <div style={{ width: 200, overflow: 'hidden' }}>
+    <RadioGroup name="jedi" onChange={(e) => logger.log('change', e.target.checked)}>
+      <Radio value="test2" label={LONG_MULTIPLE_WORD_TEXT} checked />
+      <Radio value="test" label={LONG_ONE_WORD_TEXT} checked={false} />
+    </RadioGroup>
+  </div>
+)
 
 DefaultRadio.parameters = {
   design: {

@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState, ReactChild, ReactText } from 'react'
+import React, { FC, useRef, useState, ReactChild, ReactText, ReactElement } from 'react'
 import mergeRefs from 'react-merge-refs'
 import cn from 'classnames'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
@@ -9,7 +9,7 @@ import { Tooltip } from './Tooltip'
 import styles from './TruncatedText.module.scss'
 
 interface TruncatedTextProps {
-  text: ReactText | ((...arg: unknown[]) => string)
+  text: ReactText | ((...arg: unknown[]) => string) | ReactElement
   // Pass a new value to trigger a force re-render
   forceUpdateToken?: ReactText | boolean
   className?: string
