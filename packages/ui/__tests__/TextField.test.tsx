@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { act } from 'react-dom/test-utils'
 import { mountAndCheckA11Y, simulateChange } from '@hazelcast/test-helpers'
 import { useUID } from 'react-uid'
@@ -305,5 +305,36 @@ describe('TextField', () => {
     )
 
     expect(wrapper.find(`.${styles.inputContainer}`).find('.r2d2').exists()).toBeTruthy()
+  })
+
+  it('Should clear field', async () => {
+    const onBlur = jest.fn()
+
+    const Wrapper = () => {
+      const [value, setValue] = useState('Yoda')
+
+      return (
+        <TextField
+          data-test="test"
+          name="name"
+          value={value}
+          label="Wisest jedi"
+          placeholder="Enter the name"
+          onBlur={onBlur}
+          onChange={(e) => setValue(e.target.value)}
+          clearable
+        />
+      )
+    }
+    const wrapper = await mountAndCheckA11Y(<Wrapper />)
+
+    expect(wrapper.findDataTest('test').find('input').prop('value')).toBe('Yoda')
+
+    act(() => {
+      wrapper.findDataTest('test-clear').find('button').simulate('click')
+    })
+    wrapper.update()
+
+    expect(wrapper.findDataTest('test').find('input').prop('value')).toBe('')
   })
 })

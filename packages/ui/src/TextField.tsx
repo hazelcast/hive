@@ -1,9 +1,20 @@
 // https://zeroheight.com/11d0e6dac/p/316944-text-field
-import React, { ChangeEvent, FocusEvent, InputHTMLAttributes, KeyboardEvent, ReactElement, MouseEvent, Ref, forwardRef } from 'react'
+import React, {
+  ChangeEvent,
+  FocusEvent,
+  InputHTMLAttributes,
+  KeyboardEvent,
+  ReactElement,
+  MouseEvent,
+  Ref,
+  forwardRef,
+  useRef,
+} from 'react'
 import cn from 'classnames'
 import { DataTestProp } from '@hazelcast/helpers'
-import { Icon as IconType } from 'react-feather'
+import { Icon as IconType, X } from 'react-feather'
 import { useUID } from 'react-uid'
+import mergeRefs from 'react-merge-refs'
 
 import { Icon } from './Icon'
 import { Error, errorId } from './Error'
@@ -11,6 +22,8 @@ import { FieldHeader, FieldHeaderProps } from './FieldHeader'
 import { helpTooltipId } from './Help'
 
 import styles from './TextField.module.scss'
+import { triggerNativeInputChange } from '../../helpers'
+import { IconButton } from './IconButton'
 
 export type TextFieldSize = 'medium' | 'small'
 
@@ -45,6 +58,7 @@ export type TextFieldExtraProps<T extends TextFieldTypes> = {
   onKeyPress?: (e: KeyboardEvent<HTMLInputElement>) => void
   type?: T
   readOnly?: boolean
+  clearable?: boolean
 } & DataTestProp &
   Pick<InputHTMLAttributes<HTMLInputElement>, 'id' | 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'> &
   TextFieldTrailingIcon &
@@ -96,11 +110,21 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
     value,
     readOnly,
     onClick,
+    clearable,
     ...htmlAttrs
   } = props
-  // Use an auto generated id if it's not set explicitly
   const autoId = useUID()
   const id = explicitId ?? autoId
+  const inputRef = useRef<HTMLInputElement | null>(null)
+
+  const isNotEmpty = value !== undefined && (typeof value === 'string' ? value.length > 0 : true)
+  const mergedRef = ref ? mergeRefs([ref, inputRef]) : inputRef
+
+  const handleClear = () => {
+    if (inputRef.current) {
+      triggerNativeInputChange('', inputRef.current)
+    }
+  }
 
   return (
     <div
@@ -131,7 +155,7 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
           <input
             type={type}
             id={id}
-            ref={ref}
+            ref={mergedRef}
             value={value ?? ''}
             name={name}
             onChange={onChange}
@@ -157,9 +181,19 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
             <Icon
               icon={inputIcon}
               ariaLabel={label}
-              containerClassName={styles.inputIconContainer}
+              containerClassName={cn(styles.inputIconContainer, styles.inputLeftIconContainer)}
               className={styles.inputIcon}
               size="small"
+            />
+          )}
+          {clearable && !disabled && isNotEmpty && (
+            <IconButton
+              icon={X}
+              size={size}
+              ariaLabel="Clear field"
+              onClick={handleClear}
+              className={styles.clearButton}
+              data-test={dataTest ? `${dataTest}-clear` : undefined}
             />
           )}
           {inputContainerChild}
@@ -167,7 +201,7 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
             <Icon
               icon={inputTrailingIcon}
               ariaLabel={inputTrailingIconLabel}
-              containerClassName={styles.inputIconContainer}
+              containerClassName={cn(styles.inputIconContainer, styles.inputTrailingIconContainer)}
               className={styles.inputIconTrailing}
               size={size}
             />
