@@ -1,6 +1,6 @@
 import { DataTestProp } from '@hazelcast/helpers'
 import React, { FC, FocusEvent, ChangeEvent, InputHTMLAttributes, useCallback, useMemo } from 'react'
-import { Plus, Minus } from 'react-feather'
+import { PlusCircle, MinusCircle } from 'react-feather'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 import cn from 'classnames'
 
@@ -54,6 +54,7 @@ export const NumberField: FC<NumberFieldProps> = ({
   inputContainerClassName,
   onChange,
   disabled,
+  size,
   ...props
 }) => {
   useIsomorphicLayoutEffect(() => {
@@ -139,30 +140,32 @@ export const NumberField: FC<NumberFieldProps> = ({
     return (
       <>
         <IconButton
-          size="small"
-          icon={Minus}
+          size={size === 'small' ? 'small' : 'smallMedium'}
+          icon={MinusCircle}
           ariaLabel={decrementIconAriaLabel}
-          className={styles.decrement}
+          className={cn(styles.decrement,
+            {[styles.decrementSmall]: size === 'small',
+            })}
           onClick={onDecrement}
-          kind="primary"
+          kind="transparent"
           data-test="number-field-decrement"
           type="button"
           {...decrementDisabledProps}
         />
         <IconButton
-          size="small"
-          icon={Plus}
+          size={size === 'small' ? 'small' : 'smallMedium'}
+          icon={PlusCircle}
           ariaLabel={incrementIconAriaLabel}
           className={styles.increment}
           onClick={onIncrement}
-          kind="primary"
+          kind="transparent"
           data-test="number-field-increment"
           type="button"
           {...incrementDisabledProps}
         />
       </>
     )
-  }, [showIconButtons, onIncrement, onDecrement, decrementIconAriaLabel, incrementIconAriaLabel, value, disabled, min, max])
+  }, [showIconButtons, onIncrement, onDecrement, decrementIconAriaLabel, incrementIconAriaLabel, value, disabled, min, max, size])
 
   const onChangeWrapped = useCallback(
     ({ target: { value: newValue } }: ChangeEvent<HTMLInputElement>) => {
@@ -193,6 +196,7 @@ export const NumberField: FC<NumberFieldProps> = ({
       inputContainerClassName={cn(styles.inputContainer, { [styles.buttons]: showIconButtons }, inputContainerClassName)}
       inputClassName={inputClassName}
       disabled={disabled}
+      size={size}
     />
   )
 }

@@ -19,21 +19,32 @@ $inputMargin: c.$iconSizeSmall + $buttonMargin * 2;
 
   &.buttons {
     > input {
-      padding-left: $inputMargin;
-      padding-right: $inputMargin;
+      padding-right: $inputMargin*2;
     }
 
     .decrement {
-      position: absolute;
-      left: $buttonMargin;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-    .increment {
+      color: c.$colorPrimary;
       position: absolute;
       right: $buttonMargin;
       top: 50%;
       transform: translateY(-50%);
+      margin-right: 26px;
+      &.decrementSmall {
+        margin-right: 22px;
+      }
+      :global line {
+        color: black;
+      }
+    }
+    .increment {
+      color: c.$colorPrimary;
+      position: absolute;
+      right: $buttonMargin;
+      top: 50%;
+      transform: translateY(-50%);
+      :global line {
+        color: black;
+      }
     }
   }
 }
