@@ -11,7 +11,7 @@ import React, {
   useRef,
 } from 'react'
 import cn from 'classnames'
-import { DataTestProp } from '@hazelcast/helpers'
+import { DataTestProp, triggerNativeInputChange } from '@hazelcast/helpers'
 import { Icon as IconType, X } from 'react-feather'
 import { useUID } from 'react-uid'
 import mergeRefs from 'react-merge-refs'
@@ -22,7 +22,6 @@ import { FieldHeader, FieldHeaderProps } from './FieldHeader'
 import { helpTooltipId } from './Help'
 
 import styles from './TextField.module.scss'
-import { triggerNativeInputChange } from '../../helpers'
 import { IconButton } from './IconButton'
 
 export type TextFieldSize = 'medium' | 'small'
