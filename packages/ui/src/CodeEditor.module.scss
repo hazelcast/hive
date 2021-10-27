@@ -4,13 +4,13 @@
 .container {
   box-shadow: 0 c.$cardShadowSize c.$cardShadowBlur 0 c.$colorShadow;
   border-radius: c.$borderRadius;
-  :global .cm-wrap {
+  :global .cm-editor {
     // bogus padding to avoid overlapping with our outlineFormField mixin.
     padding: 1px;
     border-radius: c.$borderRadius;
     border: c.$borderWidth solid c.$colorNeutralLight;
   }
-  :global .cm-wrap.cm-focused {
+  :global .cm-editor.cm-focused {
     // inherited outline just looks weird, override it
     outline: none;
 
