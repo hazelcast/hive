@@ -8,6 +8,7 @@ import { Icon, IconProps, IconAriaProps } from './Icon'
 import { Tooltip, TooltipProps } from './Tooltip'
 import { LinkRel, LinkTarget } from './Link'
 import { Loader } from './Loader'
+import { DataTestProp } from '../../helpers'
 
 import styles from './IconButton.module.scss'
 
@@ -21,7 +22,8 @@ type IconButtonCommonProps = {
   size?: IconProps['size']
   padding?: 'normal'
   tooltip?: string
-} & IconAriaProps &
+} & DataTestProp &
+  IconAriaProps &
   Pick<ButtonHTMLAttributes<HTMLAnchorElement | HTMLButtonElement>, 'onClick' | 'onMouseDown' | 'className' | 'tabIndex' | 'style'>
 
 export type IconButtonNotDisabledProps = {

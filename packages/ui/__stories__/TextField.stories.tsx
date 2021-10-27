@@ -145,6 +145,30 @@ WithTrailingIconDisabled.args = {
   ...Disabled.args,
 }
 
+export const WithClearButton = Template.bind({})
+WithClearButton.args = {
+  clearable: true,
+}
+
+export const WithClearButtonAndTrailingIcon = Template.bind({})
+WithClearButtonAndTrailingIcon.args = {
+  clearable: true,
+  inputTrailingIcon: Calendar,
+  inputTrailingIconLabel: 'Calendar icon',
+}
+
+export const WithClearButtonAndIcon = Template.bind({})
+WithClearButtonAndIcon.args = {
+  clearable: true,
+  ...WithIcon.args,
+}
+
+export const WithClearButtonDisabled = Template.bind({})
+WithClearButtonDisabled.args = {
+  disabled: true,
+  clearable: true,
+}
+
 export const TypeEmail = Template.bind({})
 TypeEmail.args = {
   type: 'email',
