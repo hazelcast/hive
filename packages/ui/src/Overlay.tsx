@@ -18,7 +18,7 @@ export type OverlayProps = {
   headerClassName?: string
   contentClassName?: string
   icon?: IconProps['icon']
-  onClose: ReactModalProps['onRequestClose']
+  onClose?: ReactModalProps['onRequestClose']
   contentWidth?: 'fullscreen' | 'normal'
   title?: string
   headingContent?: ReactNode
