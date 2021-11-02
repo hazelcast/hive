@@ -33,9 +33,9 @@ const Template: Story<NumberFieldProps> = ({ value: initValue, ...args }) => {
   return (
     <>
       <NumberField {...args} value={value} onChange={setValue} />
-      <NumberField {...args} value={value} onChange={setValue} iconPosition="together" className={storyStyles.shortField} />
+      <NumberField {...{...args, placeholder: ''}} value={value} onChange={setValue} iconPosition="together" className={storyStyles.shortField} />
       <NumberField {...args} value={value} onChange={setValue} size="small" />
-      <NumberField {...args} value={value} onChange={setValue} size="small" iconPosition="together" className={storyStyles.shortField}/>
+      <NumberField {...{...args, placeholder: ''}} value={value} onChange={setValue} size="small" iconPosition="together" className={storyStyles.shortField}/>
     </>
   )
 }
