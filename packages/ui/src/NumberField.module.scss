@@ -3,6 +3,10 @@
 $buttonMargin: c.$grid * 2;
 $inputMargin: c.$iconSizeSmall + $buttonMargin * 2;
 
+.disabled {
+  visibility: hidden;
+}
+
 .inputContainer {
   position: relative;
 
@@ -22,6 +26,18 @@ $inputMargin: c.$iconSizeSmall + $buttonMargin * 2;
       padding-right: $inputMargin*2;
     }
 
+    &.buttonsIconsTogether > input {
+      padding-left: $inputMargin;
+      padding-right: $inputMargin;
+      text-align: center;
+    }
+
+    &.buttonsRegularIconsTogether > input {
+      padding-left: $inputMargin + c.$grid;
+      padding-right: $inputMargin + c.$grid;
+      text-align: center;
+    }
+
     .decrement {
       color: c.$colorPrimary;
       position: absolute;
@@ -29,6 +45,10 @@ $inputMargin: c.$iconSizeSmall + $buttonMargin * 2;
       top: 50%;
       transform: translateY(-50%);
       margin-right: c.$iconSizeSmallMedium+c.$grid;
+      &.decrementIconsTogether {
+        left: $buttonMargin;
+        right: auto;
+      }
       &.decrementSmall {
         margin-right: c.$iconSizeSmall+c.$grid;
       }
