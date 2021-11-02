@@ -26,6 +26,7 @@ export type NumberFieldExtraProps = {
   max?: number
   defaultValue?: number
   numberType?: 'int' | 'float'
+  iconPosition?: 'separate' | 'together'
   showIconButtons?: boolean
   label: string
   showAriaLabel?: boolean
@@ -49,6 +50,7 @@ export const NumberField: FC<NumberFieldProps> = ({
   max,
   value,
   numberType = 'int',
+  iconPosition= 'separate',
   showIconButtons = true,
   inputClassName,
   inputContainerClassName,
@@ -144,7 +146,10 @@ export const NumberField: FC<NumberFieldProps> = ({
           icon={MinusCircle}
           ariaLabel={decrementIconAriaLabel}
           className={cn(styles.decrement,
-            {[styles.decrementSmall]: size === 'small',
+            {
+              [styles.decrementSmall]: size === 'small',
+              [styles.decrementIconsTogether]: iconPosition === 'together',
+              [styles.disabled]: disabled,
             })}
           onClick={onDecrement}
           kind="transparent"
@@ -156,7 +161,9 @@ export const NumberField: FC<NumberFieldProps> = ({
           size={size === 'small' ? 'small' : 'smallMedium'}
           icon={PlusCircle}
           ariaLabel={incrementIconAriaLabel}
-          className={styles.increment}
+          className={cn(styles.increment, {
+            [styles.disabled]: disabled,
+          })}
           onClick={onIncrement}
           kind="transparent"
           data-test="number-field-increment"
@@ -165,7 +172,7 @@ export const NumberField: FC<NumberFieldProps> = ({
         />
       </>
     )
-  }, [showIconButtons, onIncrement, onDecrement, decrementIconAriaLabel, incrementIconAriaLabel, value, disabled, min, max, size])
+  }, [showIconButtons, onIncrement, onDecrement, decrementIconAriaLabel, incrementIconAriaLabel, value, disabled, min, max, size, iconPosition])
 
   const onChangeWrapped = useCallback(
     ({ target: { value: newValue } }: ChangeEvent<HTMLInputElement>) => {
@@ -193,7 +200,11 @@ export const NumberField: FC<NumberFieldProps> = ({
       onChange={onChangeWrapped}
       type="number"
       inputContainerChild={overlay}
-      inputContainerClassName={cn(styles.inputContainer, { [styles.buttons]: showIconButtons }, inputContainerClassName)}
+      inputContainerClassName={cn(styles.inputContainer, {
+        [styles.buttons]: showIconButtons,
+        [styles.buttonsIconsTogether]: iconPosition === 'together',
+        [styles.buttonsRegularIconsTogether]: iconPosition === 'together' && size !== 'small',
+      }, inputContainerClassName)}
       inputClassName={inputClassName}
       disabled={disabled}
       size={size}
