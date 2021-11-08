@@ -26,13 +26,13 @@ $inputMargin: c.$iconSizeSmall + $buttonMargin * 2;
       padding-right: $inputMargin*2;
     }
 
-    &.buttonsIconsTogether > input {
+    &.buttonsIconsSeparate > input {
       padding-left: $inputMargin;
       padding-right: $inputMargin;
       text-align: center;
     }
 
-    &.buttonsRegularIconsTogether > input {
+    &.buttonsRegularIconsSeparate > input {
       padding-left: $inputMargin + c.$grid;
       padding-right: $inputMargin + c.$grid;
       text-align: center;
@@ -45,7 +45,7 @@ $inputMargin: c.$iconSizeSmall + $buttonMargin * 2;
       top: 50%;
       transform: translateY(-50%);
       margin-right: c.$iconSizeSmallMedium+c.$grid;
-      &.decrementIconsTogether {
+      &.decrementIconsSeparate {
         left: $buttonMargin;
         right: auto;
       }
