@@ -50,7 +50,7 @@ export const NumberField: FC<NumberFieldProps> = ({
   max,
   value,
   numberType = 'int',
-  iconPosition= 'separate',
+  iconPosition= 'together',
   showIconButtons = true,
   inputClassName,
   inputContainerClassName,
@@ -148,7 +148,7 @@ export const NumberField: FC<NumberFieldProps> = ({
           className={cn(styles.decrement,
             {
               [styles.decrementSmall]: size === 'small',
-              [styles.decrementIconsTogether]: iconPosition === 'together',
+              [styles.decrementIconsSeparate]: iconPosition === 'separate',
               [styles.disabled]: disabled,
             })}
           onClick={onDecrement}
@@ -202,8 +202,8 @@ export const NumberField: FC<NumberFieldProps> = ({
       inputContainerChild={overlay}
       inputContainerClassName={cn(styles.inputContainer, {
         [styles.buttons]: showIconButtons,
-        [styles.buttonsIconsTogether]: iconPosition === 'together',
-        [styles.buttonsRegularIconsTogether]: iconPosition === 'together' && size !== 'small',
+        [styles.buttonsIconsSeparate]: iconPosition === 'separate',
+        [styles.buttonsRegularIconsSeparate]: iconPosition === 'separate' && size !== 'small',
       }, inputContainerClassName)}
       inputClassName={inputClassName}
       disabled={disabled}
