@@ -1,5 +1,6 @@
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import React, { PropsWithChildren } from 'react'
+import { act } from 'react-dom/test-utils'
 
 import { HeaderRow, HeaderRowProps, LinkRow, LinkRowProps, Row, RowProps } from '../../src/Table/Row'
 
@@ -85,6 +86,35 @@ describe('Row', () => {
       expect(wrapper.findDataTest(rowDataTest).find('a').props()).toEqual(expectedInnerAnchorProps)
     },
   )
+
+  it('Should call onClick on Enter key press', async () => {
+    const onClick = jest.fn()
+    const wrapper = await mountAndCheckA11Y(<Row onClick={onClick} />)
+
+    expect(onClick).toBeCalledTimes(0)
+
+    act(() => {
+      const onKeyPress = wrapper.findDataTest('table-cell-row').prop('onKeyPress') as (event: {
+        preventDefault: () => void
+        key: string
+      }) => void
+      onKeyPress({ preventDefault: () => null, key: 'Tab' })
+    })
+    wrapper.update()
+
+    expect(onClick).toBeCalledTimes(0)
+
+    act(() => {
+      const onKeyPress = wrapper.findDataTest('table-cell-row').prop('onKeyPress') as (event: {
+        preventDefault: () => void
+        key: string
+      }) => void
+      onKeyPress({ preventDefault: () => null, key: 'Enter' })
+    })
+    wrapper.update()
+
+    expect(onClick).toBeCalledTimes(1)
+  })
 })
 
 const headerRowDataTest = 'table-header-row'

@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import { useUID } from 'react-uid'
 import sliderClasses from '../src/Slider.module.scss'
 
-import { getMarkMetadata, Slider } from '../src/Slider'
+import { getMarkMetadata, Slider, SliderValue } from '../src/Slider'
 
 jest.mock('react-uid')
 const useUIDMock = useUID as jest.Mock<ReturnType<typeof useUID>>
@@ -220,6 +220,35 @@ describe('Slider', () => {
     )
     expect(wrapper.findDataTest('slider-first-value-indicator').text()).toEqual('4 RAM')
     expect(wrapper.findDataTest('slider-second-value-indicator').text()).toEqual('10 RAM')
+  })
+
+  it('Adjust new value to min and max values', async () => {
+    const Wrapper = () => {
+      const [value, setValue] = useState<SliderValue>([4, 10])
+
+      return <Slider name="ram" label="RAM" value={value} min={1} max={100} onChange={setValue} formatCurrentValue={(x) => `${x} RAM`} />
+    }
+    const wrapper = await mountAndCheckA11Y(<Wrapper />)
+    expect(wrapper.findDataTest('slider-first-value-indicator').text()).toEqual('4 RAM')
+    expect(wrapper.findDataTest('slider-second-value-indicator').text()).toEqual('10 RAM')
+
+    wrapper
+      .find('input')
+      .at(0)
+      .simulate('change', { target: { value: '0' } })
+    wrapper.update()
+
+    expect(wrapper.findDataTest('slider-first-value-indicator').text()).toEqual('1 RAM')
+    expect(wrapper.findDataTest('slider-second-value-indicator').text()).toEqual('10 RAM')
+
+    wrapper
+      .find('input')
+      .at(1)
+      .simulate('change', { target: { value: '1000' } })
+    wrapper.update()
+
+    expect(wrapper.findDataTest('slider-first-value-indicator').text()).toEqual('1 RAM')
+    expect(wrapper.findDataTest('slider-second-value-indicator').text()).toEqual('100 RAM')
   })
 })
 

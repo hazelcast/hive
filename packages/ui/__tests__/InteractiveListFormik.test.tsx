@@ -3,7 +3,7 @@ import { Form, Formik, FormikProps } from 'formik'
 import { mountAndCheckA11Y, simulateChange } from '@hazelcast/test-helpers'
 import { act } from 'react-dom/test-utils'
 
-import { Button, InteractiveListFormik, InteractiveListInputRef, InteractiveListItem, TextField } from '../src'
+import { Button, IconButton, InteractiveListFormik, InteractiveListInputRef, InteractiveListItem, TextField } from '../src'
 import { List } from 'react-feather'
 import * as Yup from 'yup'
 
@@ -248,5 +248,119 @@ describe('InteractiveListFormik', () => {
     expect(onSubmit).toBeCalledTimes(0)
 
     expect(wrapper.find(TextField).prop('error')).toBe('Need at least 2 IP Addresses')
+  })
+
+  it('Should remove item', async () => {
+    type Values = {
+      ipAddresses: string[]
+    }
+
+    const schema = Yup.object().shape({
+      ipAddresses: Yup.array()
+        .of(Yup.string().min(3, 'Needs to be at least ${min} character long'))
+        .min(2, 'Need at least ${min} IP Addresses'),
+    })
+
+    const onSubmit = jest.fn()
+
+    const formikBag = createRef<FormikProps<Values>>()
+
+    const TestForm = () => (
+      <Formik<Values>
+        validationSchema={schema}
+        innerRef={formikBag}
+        initialValues={{
+          ipAddresses: ['4.3.2.1', '1.2.3.4', '127.0.0.1'],
+        }}
+        onSubmit={onSubmit}
+      >
+        <Form>
+          <InteractiveListFormik<Values> name="ipAddresses" label="IP Addresses" inputIcon={List} placeholder="Enter IP Address" />
+        </Form>
+      </Formik>
+    )
+
+    const wrapper = await mountAndCheckA11Y(<TestForm />)
+
+    act(() => {
+      wrapper.find(InteractiveListItem).at(0).find(IconButton).simulate('click')
+    })
+    wrapper.update()
+
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      wrapper.find('form').simulate('submit')
+    })
+    wrapper.update()
+    expect(onSubmit).toBeCalledTimes(1)
+
+    expect(formikBag.current?.values).toEqual({
+      ipAddresses: ['1.2.3.4', '127.0.0.1'],
+    })
+  })
+
+  it('Should add item', async () => {
+    type Values = {
+      ipAddresses: string[]
+    }
+
+    const schema = Yup.object().shape({
+      ipAddresses: Yup.array()
+        .of(Yup.string().min(3, 'Needs to be at least ${min} character long'))
+        .min(2, 'Need at least ${min} IP Addresses'),
+    })
+
+    const onSubmit = jest.fn()
+
+    const formikBag = createRef<FormikProps<Values>>()
+
+    const TestForm = () => (
+      <Formik<Values>
+        validationSchema={schema}
+        innerRef={formikBag}
+        initialValues={{
+          ipAddresses: ['4.3.2.1', '1.2.3.4'],
+        }}
+        onSubmit={onSubmit}
+      >
+        <Form>
+          <InteractiveListFormik<Values> name="ipAddresses" label="IP Addresses" inputIcon={List} placeholder="Enter IP Address" />
+        </Form>
+      </Formik>
+    )
+
+    const wrapper = await mountAndCheckA11Y(<TestForm />)
+
+    act(() => {
+      wrapper
+        .find(TextField)
+        .find('input')
+        .simulate('change', {
+          target: {
+            value: '127.0.0.1',
+          },
+        })
+    })
+    wrapper.update()
+
+    act(() => {
+      const onKeyPress = wrapper.find(TextField).prop('onKeyPress') as (event: { key: string; preventDefault: () => void }) => void
+      onKeyPress({
+        key: 'Enter',
+        preventDefault: () => null,
+      })
+    })
+    wrapper.update()
+
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      wrapper.find('form').simulate('submit')
+    })
+    wrapper.update()
+    expect(onSubmit).toBeCalledTimes(1)
+
+    expect(formikBag.current?.values).toEqual({
+      ipAddresses: ['4.3.2.1', '1.2.3.4', '127.0.0.1'],
+    })
   })
 })
