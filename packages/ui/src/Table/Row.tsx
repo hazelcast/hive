@@ -36,13 +36,7 @@ export const Row: FC<RowProps> = ({ children, className, style, role, ariaRowInd
       role={role}
       tabIndex={onClick ? 0 : undefined}
       onKeyPress={onClick ? onKeyPress : undefined}
-      onClick={
-        onClick
-          ? () => {
-              onClick()
-            }
-          : undefined
-      }
+      onClick={onClick}
     >
       {children}
     </div>

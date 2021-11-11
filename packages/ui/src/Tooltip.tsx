@@ -1,17 +1,41 @@
-import React, { FC, ReactNode, useCallback, useState, useImperativeHandle, MutableRefObject, ReactText, useLayoutEffect } from 'react'
+import React, {
+  FC,
+  ReactNode,
+  useCallback,
+  useState,
+  useImperativeHandle,
+  MutableRefObject,
+  ReactText,
+  useLayoutEffect,
+  createContext,
+  useContext,
+  useMemo,
+  useRef,
+  useEffect,
+} from 'react'
 import ReactDOM from 'react-dom'
 import { Placement } from '@popperjs/core'
 import { usePopper } from 'react-popper'
 import useEvent from 'react-use/lib/useEvent'
 import cn from 'classnames'
 
+import { containsElement } from './hooks'
 import { canUseDOM } from './utils/ssr'
 
 import styles from './Tooltip.module.scss'
 
+const tooltipZIndex = 20
+
+const TooltipContext = createContext<{
+  hide: () => void
+  clearHideTimeout: () => void
+  popperElement: HTMLSpanElement | null
+  referenceElement: HTMLSpanElement | null
+} | null>(null)
+
 export type TooltipContainer = 'body' | 'referenceElement' | HTMLElement
 
-const getTooltipPortalContainer = (tooltipContainer: TooltipContainer, referenceElement: HTMLElement | null): HTMLElement | null => {
+const getTooltipPortalContainer = (tooltipContainer: TooltipContainer, referenceElement: HTMLSpanElement | null): HTMLElement | null => {
   if (tooltipContainer === 'body') {
     // There is no document is SSR environment
     return canUseDOM ? document.body : null
@@ -70,7 +94,19 @@ export const Tooltip: FC<TooltipProps> = ({
   tooltipContainer = 'body',
 }) => {
   const [isShown, setShown] = useState<boolean>(false)
-  const [hideTimeout, setHideTimeout] = useState<NodeJS.Timeout | null>(null)
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  const context = useContext(TooltipContext)
+
+  const clearHideTimeout = useCallback(() => {
+    const timeoutId = timeoutRef.current
+
+    context?.clearHideTimeout()
+
+    if (timeoutId !== null) {
+      clearTimeout(timeoutId)
+    }
+  }, [context])
 
   /*
    * We're using useState instead of useRef because react-popper package has some issues with useRef:
@@ -102,22 +138,44 @@ export const Tooltip: FC<TooltipProps> = ({
   useImperativeHandle(popperRef, () => popper, [popper])
 
   const onMouseEnter = useCallback(() => {
-    if (hideTimeout !== null) {
-      clearTimeout(hideTimeout)
-    }
-
+    clearHideTimeout()
     setShown(true)
-  }, [hideTimeout])
+  }, [clearHideTimeout])
 
-  const onMouseLeave = useCallback(() => {
-    setHideTimeout(setTimeout(() => setShown(false), hideTimeoutDuration))
-  }, [hideTimeoutDuration])
+  const onMouseLeave = useCallback(
+    (event?: Event) => {
+      const e = event as MouseEvent
+
+      timeoutRef.current = setTimeout(() => {
+        if (e?.relatedTarget) {
+          if (
+            !containsElement(context?.referenceElement, e.relatedTarget as Node) &&
+            !containsElement(context?.popperElement, e.relatedTarget as Node)
+          ) {
+            context?.hide()
+          }
+        }
+        setShown(false)
+      }, hideTimeoutDuration)
+    },
+    [hideTimeoutDuration, context],
+  )
 
   useEvent('mouseenter', onMouseEnter, referenceElement)
   useEvent('mouseleave', onMouseLeave, referenceElement)
 
   useEvent('mouseenter', onMouseEnter, popperElement)
   useEvent('mouseleave', onMouseLeave, popperElement)
+
+  const contextValue = useMemo(
+    () => ({
+      popperElement,
+      referenceElement,
+      hide: onMouseLeave,
+      clearHideTimeout,
+    }),
+    [onMouseLeave, clearHideTimeout, popperElement, referenceElement],
+  )
 
   // Makes sure "visible" prop can override local "isShown" state
   const isTooltipVisible = visibilityOverride ?? isShown
@@ -129,11 +187,16 @@ export const Tooltip: FC<TooltipProps> = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isTooltipVisible, updateToken])
+  useEffect(() => {
+    return () => {
+      clearHideTimeout()
+    }
+  }, [clearHideTimeout])
 
   const tooltipPortalContainer = getTooltipPortalContainer(tooltipContainer, referenceElement)
 
   return (
-    <>
+    <TooltipContext.Provider value={contextValue}>
       {children(setReferenceElement)}
 
       {content !== undefined && (
@@ -149,7 +212,7 @@ export const Tooltip: FC<TooltipProps> = ({
                   className={cn(styles.overlay, {
                     [styles.hidden]: !isTooltipVisible,
                   })}
-                  style={popper.styles.popper}
+                  style={{ ...popper.styles.popper, ...{ zIndex: context ? tooltipZIndex + 1 : tooltipZIndex } }}
                   data-test="tooltip-overlay"
                   aria-hidden
                   {...popper.attributes.popper}
@@ -168,6 +231,6 @@ export const Tooltip: FC<TooltipProps> = ({
             )}
         </>
       )}
-    </>
+    </TooltipContext.Provider>
   )
 }

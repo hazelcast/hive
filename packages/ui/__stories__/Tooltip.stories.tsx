@@ -141,3 +141,25 @@ Invisible.args = {
   visible: false,
   id: 'tooltip-story-invisible',
 }
+
+export const WithTooltip: Story<TooltipProps> = () => (
+  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 320 }}>
+    <Tooltip
+      content={
+        <Tooltip content="internal tooltip2" id="root_tooltip">
+          {(internalRef) => <span ref={internalRef}>tooltip2</span>}
+        </Tooltip>
+      }
+      id="root"
+    >
+      {(ref) => (
+        <div ref={ref} style={{ height: 80 }}>
+          This element has a{' '}
+          <Tooltip content="internal tooltip" id="internal">
+            {(internalRef) => <span ref={internalRef}>tooltip</span>}
+          </Tooltip>
+        </div>
+      )}
+    </Tooltip>
+  </div>
+)

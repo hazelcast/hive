@@ -60,13 +60,13 @@ describe('Badge', () => {
   ]
 
   it.each(typeTestData)('Renders correct styles for %s Badge type', async (type, className, { icon, ariaLabel }) => {
-    const wrapper = await mountAndCheckA11Y(<Badge type={type} size="normal" content={badgeContent} />)
+    const wrapper = await mountAndCheckA11Y(<Badge type={type} size="small" content={badgeContent} />)
 
     expect(wrapper.findDataTest('badge-container').prop('className')).toContain(className)
     expect(wrapper.findDataTest('badge-icon').props()).toMatchObject({
       ariaLabel,
       icon,
-      size: 'medium',
+      size: 'small',
     })
   })
 
