@@ -36,6 +36,9 @@ export type CheckableSelectFieldExtraProps<V> = {
   labelClassName?: string
   errorClassName?: string
   'data-test': string
+  noOptionsMessage?: string
+  defaultOpen?: boolean
+  id?: string
 }
 
 export type CheckableSelectProps<V> = CheckableSelectFieldCoreStaticProps<V> & CheckableSelectFieldExtraProps<V>
@@ -55,7 +58,7 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
     options,
     onChange,
     value,
-    size = 'medium',
+    size = 'small',
     placeholder = 'Search',
     label,
     showAriaLabel,
@@ -66,12 +69,15 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
     onBlur,
     name,
     required,
+    defaultOpen = false,
     'data-test': dataTest,
     allSelectedLabel = 'All selected',
     noneSelectedLabel = 'None selected',
+    noOptionsMessage = 'No options',
+    id: rootId,
   } = props
   const id = useUID()
-  const { isOpen, toggle, close } = useOpenCloseState()
+  const { isOpen, toggle, close } = useOpenCloseState(defaultOpen)
   const [searchValue, setSearchValue] = useState('')
   const [forceUpdateToken, setForceUpdateToken] = useState(1)
   const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null)
@@ -108,7 +114,7 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
       <TextField
         size={size}
         name={name}
-        id={id}
+        id={rootId || id}
         onClick={toggle}
         onKeyPress={handleKeyPress}
         mRef={setAnchorElement}
@@ -139,6 +145,7 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
         <div className={styles.dropdown} data-test={`${dataTest}-dropdown`}>
           <TextField
             size={size}
+            iconSize="medium"
             className={styles.search}
             name="checkable-select-search"
             data-test={`${dataTest}-search`}
@@ -149,29 +156,35 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
             placeholder={placeholder}
           />
           <div className={styles.options}>
-            {filteredOptions.map((option) => {
-              const isChecked = valueSet.has(option.value)
+            {filteredOptions.length > 0 ? (
+              filteredOptions.map((option) => {
+                const isChecked = valueSet.has(option.value)
 
-              return (
-                <button
-                  type="button"
-                  key={option.value}
-                  name={option.label}
-                  data-test={`${dataTest}-option`}
-                  className={cls(styles.option, { [styles.optionChecked]: isChecked })}
-                  onClick={() => {
-                    if (isChecked) {
-                      onChange(value.filter((item) => item !== option.value))
-                    } else {
-                      onChange([...value, option.value])
-                    }
-                  }}
-                >
-                  <Checkmark checked={isChecked} />
-                  <TruncatedText text={option.label} forceUpdateToken={forceUpdateToken} />
-                </button>
-              )
-            })}
+                return (
+                  <button
+                    type="button"
+                    key={option.value}
+                    name={option.label}
+                    data-test={`${dataTest}-option`}
+                    className={cls(styles.option, { [styles.optionChecked]: isChecked })}
+                    onClick={() => {
+                      if (isChecked) {
+                        onChange(value.filter((item) => item !== option.value))
+                      } else {
+                        onChange([...value, option.value])
+                      }
+                    }}
+                  >
+                    <Checkmark checked={isChecked} />
+                    <TruncatedText text={option.label} forceUpdateToken={forceUpdateToken} />
+                  </button>
+                )
+              })
+            ) : (
+              <span className={styles.noOptionsMessage} data-test={`${dataTest}-no-options-message`}>
+                {noOptionsMessage}
+              </span>
+            )}
           </div>
           <div className={styles.bottom}>
             <Link

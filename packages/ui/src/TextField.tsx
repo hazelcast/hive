@@ -20,9 +20,10 @@ import { Icon } from './Icon'
 import { Error, errorId } from './Error'
 import { FieldHeader, FieldHeaderProps } from './FieldHeader'
 import { helpTooltipId } from './Help'
+import { IconButton } from './IconButton'
+import { IconSize } from './Icon'
 
 import styles from './TextField.module.scss'
-import { IconButton } from './IconButton'
 
 export type TextFieldSize = 'medium' | 'small'
 
@@ -48,6 +49,7 @@ type TextFieldCoreProps<T extends TextFieldTypes> = {
 }
 export type TextFieldExtraProps<T extends TextFieldTypes> = {
   size?: TextFieldSize
+  iconSize?: IconSize
   className?: string
   inputContainerClassName?: string
   inputClassName?: string
@@ -110,6 +112,7 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
     readOnly,
     onClick,
     clearable,
+    iconSize = size,
     ...htmlAttrs
   } = props
   const autoId = useUID()
@@ -202,7 +205,7 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
               ariaLabel={inputTrailingIconLabel}
               containerClassName={cn(styles.inputIconContainer, styles.inputTrailingIconContainer)}
               className={styles.inputIconTrailing}
-              size={size}
+              size={iconSize}
             />
           )}
         </div>

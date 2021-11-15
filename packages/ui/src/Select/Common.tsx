@@ -56,6 +56,12 @@ const Option: typeof rsComponents.Option = (props) => (
 
 const IndicatorSeparator: typeof rsComponents.IndicatorSeparator = () => null
 
+const SingleValue: typeof rsComponents.SingleValue = ({ children, ...props }) => (
+  <rsComponents.SingleValue {...props}>
+    <TruncatedText text={children as string} />
+  </rsComponents.SingleValue>
+)
+
 export const components = {
   DropdownIndicator,
   ClearIndicator,
@@ -63,4 +69,5 @@ export const components = {
   MenuList,
   IndicatorSeparator,
   Option,
+  SingleValue,
 }

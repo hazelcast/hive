@@ -53,7 +53,7 @@ describe('CheckableSelectField', () => {
     expect(wrapper.find(Label).props()).toEqual({
       id: selectId,
       label: selectLabel,
-      className: styles.label,
+      className: `${styles.label} ${styles.small}`,
     })
 
     expect(wrapper.find(Error).exists()).toBeTruthy()
@@ -75,7 +75,7 @@ describe('CheckableSelectField', () => {
     expect(wrapper.find(Label).props()).toEqual({
       id: selectId,
       label: selectLabel,
-      className: styles.label,
+      className: `${styles.label} ${styles.small}`,
     })
 
     expect(wrapper.findDataTest('test-opener').at(0).prop('disabled')).toBeTruthy()
@@ -249,5 +249,42 @@ describe('CheckableSelectField', () => {
     )
 
     expect(wrapper.findDataTest('test-opener').at(0).prop('value')).toBe('All selected')
+  })
+
+  it('"All selected" value when 2 items are selected', async () => {
+    const onChange = jest.fn()
+    const wrapper = await mountAndCheckA11Y(
+      <CheckableSelectField
+        disabled
+        name={selectName}
+        label={selectLabel}
+        options={options}
+        value={options.map(({ value }) => value)}
+        onChange={onChange}
+        data-test="test"
+      />,
+    )
+
+    expect(wrapper.findDataTest('test-opener').at(0).prop('value')).toBe('All selected')
+  })
+
+  it('Without options', async () => {
+    const onChange = jest.fn()
+    const wrapper = await mountAndCheckA11Y(
+      <CheckableSelectField
+        defaultOpen
+        name={selectName}
+        label={selectLabel}
+        options={[]}
+        value={[]}
+        id={'21313123'}
+        onChange={onChange}
+        data-test="test"
+        noOptionsMessage="There are no options"
+      />,
+    )
+
+    expect(wrapper.findDataTest('test-no-options-message').exists()).toBeTruthy()
+    expect(wrapper.findDataTest('test-no-options-message').text()).toBe('There are no options')
   })
 })
