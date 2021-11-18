@@ -29,7 +29,7 @@ export const InteractiveListFormik = <V extends object>({
   inputControlRef,
   ...props
 }: InteractiveListFormikProps<V>): ReactElement => {
-  const { validateForm } = useFormikContext<V>()
+  const { validateForm, values: valuesFormik } = useFormikContext<V>()
   const [field, meta, { setTouched, setError }] = useField<string[]>({
     name,
     validate,
@@ -58,6 +58,7 @@ export const InteractiveListFormik = <V extends object>({
       // If we passed with previous checks, let's check against Formik's validation error
       // We do that by checking future state with validateForm
       const formikErrors = await validateForm({
+        ...valuesFormik,
         [name]: [...field.value, normalizedValue],
       })
       const fieldErrors = formikErrors[name] as string[] | string | undefined
