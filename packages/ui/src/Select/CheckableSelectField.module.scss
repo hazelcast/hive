@@ -79,3 +79,10 @@
     border-color: c.$colorSuccessLight;
   }
 }
+
+.noOptionsMessage {
+  display: inline-flex;
+  min-height: c.$grid * 10;
+  line-height: c.$grid * 10;
+  color: c.$colorNeutralLight;
+}

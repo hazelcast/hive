@@ -31,7 +31,7 @@ export default {
     name: 'characters',
     label: 'Pick Characters',
     placeholder: 'One or more characters...',
-    noOptionsMessage: () => 'No characters :-(',
+    noOptionsMessage: 'No options',
     options,
     value: [options[1].value],
     onBlur: () => logger.log('blur'),
@@ -127,4 +127,11 @@ export const WrappedInFormik = () => {
   )
 
   return <TestForm />
+}
+
+export const WithoutOptions = Template.bind({})
+WithoutOptions.args = {
+  value: [],
+  options: [],
+  defaultOpen: true,
 }
