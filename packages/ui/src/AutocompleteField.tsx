@@ -215,6 +215,7 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
     'aria-errormessage': error && errorId(id),
     'aria-invalid': !!error,
     'aria-required': required,
+    error,
     isClearable: isClearable ?? false,
     isDisabled: disabled,
     isSearchable: true,
