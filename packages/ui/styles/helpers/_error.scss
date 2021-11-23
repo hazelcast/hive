@@ -3,7 +3,7 @@
 @mixin withError {
   .withError {
     position: relative;
-    padding-bottom: c.$errorHeight;
+    padding-bottom: c.$errorHeight+c.$grid;
 
     .errorContainer {
       position: absolute;
