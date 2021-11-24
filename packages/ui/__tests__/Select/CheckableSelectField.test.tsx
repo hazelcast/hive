@@ -89,6 +89,7 @@ describe('CheckableSelectField', () => {
   })
 
   it('Hides Label', async () => {
+    window.getComputedStyle = () => ({} as CSSStyleDeclaration)
     const wrapper = await mountAndCheckA11Y(
       <CheckableSelectField
         name={selectName}

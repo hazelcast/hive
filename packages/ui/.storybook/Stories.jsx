@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { DocsContext, Heading } from '@storybook/addon-docs/blocks'
-import { getDocsStories } from '@storybook/addon-docs/dist/blocks/utils'
+import { getDocsStories } from '@storybook/addon-docs/dist/modern/blocks/utils'
 
 import { Story } from './Story'
 
@@ -16,9 +16,7 @@ export const Stories = () => {
   return (
     <>
       <Heading>States</Heading>
-      {stories.map(
-        (story) => story && <Story key={story.id} {...story} expanded />,
-      )}
+      {stories.map((story) => story && <Story key={story.id} {...story} expanded />)}
     </>
   )
 }
