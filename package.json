@@ -34,7 +34,7 @@
     "link-parent-bin": "link-parent-bin",
     "patch-package": "patch-package",
     "compile": "lerna run compile",
-    "postinstall": "npm run patch-package && lerna bootstrap --hoist && npm run link-parent-bin && npm run compile",
+    "postinstall": "npm run patch-package && lerna bootstrap --ci && npm run link-parent-bin && npm run compile",
     "test": "lerna run --parallel test",
     "test:visual": "lerna run --parallel test:visual",
     "lint": "lerna run --parallel lint",
