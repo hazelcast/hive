@@ -198,7 +198,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
         visible={disabled && disabledTooltipVisible}
         placement={disabledTooltipPlacement}
       >
-        {(tooltipRef) => (
+        {(tooltipRef, onMouseEnter, onMouseLeave) => (
           <Component
             data-test="button"
             className={cn(
@@ -222,7 +222,9 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
             {...rest}
           >
             <span data-test="button-outline" className={cn(styles.outline, { [styles.inset]: outline === 'inset' }, outlineClassName)} />
-            <span className={cn(styles.body, bodyClassName)}>
+            <span className={cn(styles.body, bodyClassName)}
+                  onMouseEnter={onMouseEnter}
+                  onMouseLeave={onMouseLeave}>
               {loading && !loadingAnimationOnRight && <Loader className={styles.iconLeft} size="small" />}
               {iconLeft && iconLeftAriaLabel && !loading && (
                 <Icon

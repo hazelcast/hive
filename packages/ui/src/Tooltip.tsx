@@ -11,7 +11,7 @@ import React, {
   useContext,
   useMemo,
   useRef,
-  useEffect,
+  useEffect, MouseEventHandler,
 } from 'react'
 import ReactDOM from 'react-dom'
 import { Placement } from '@popperjs/core'
@@ -58,7 +58,11 @@ export type TooltipProps = {
   padding?: number
   placement?: Placement
   visible?: boolean
-  children: (ref: React.Dispatch<React.SetStateAction<HTMLElement | null>>) => ReactNode
+  children: (
+    ref: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
+    onMouseEnter?: MouseEventHandler<Element>,
+    onMouseLeave?: MouseEventHandler<Element>,
+  ) => ReactNode;
   popperRef?: MutableRefObject<PopperRef | undefined>
   updateToken?: ReactText | boolean
   tooltipContainer?: TooltipContainer
@@ -145,12 +149,13 @@ export const Tooltip: FC<TooltipProps> = ({
   const onMouseLeave = useCallback(
     (event?: Event) => {
       const e = event as MouseEvent
+      const { relatedTarget } = e ?? {};
 
       timeoutRef.current = setTimeout(() => {
-        if (e?.relatedTarget) {
+        if (relatedTarget) {
           if (
-            !containsElement(context?.referenceElement, e.relatedTarget as Node) &&
-            !containsElement(context?.popperElement, e.relatedTarget as Node)
+            !containsElement(context?.referenceElement, relatedTarget as Node) &&
+            !containsElement(context?.popperElement, relatedTarget as Node)
           ) {
             context?.hide()
           }
@@ -197,7 +202,9 @@ export const Tooltip: FC<TooltipProps> = ({
 
   return (
     <TooltipContext.Provider value={contextValue}>
-      {children(setReferenceElement)}
+      {children(setReferenceElement, onMouseEnter, (e: unknown) => {
+        onMouseLeave(e as Event);
+      })}
 
       {content !== undefined && (
         <>
