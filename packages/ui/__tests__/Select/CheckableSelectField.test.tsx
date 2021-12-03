@@ -85,6 +85,7 @@ describe('CheckableSelectField', () => {
       className: styles.errorContainer,
       inputId: selectId,
       truncated: true,
+      tooltipPlacement: 'top',
     })
   })
 
@@ -110,6 +111,7 @@ describe('CheckableSelectField', () => {
       className: styles.errorContainer,
       inputId: selectId,
       truncated: true,
+      tooltipPlacement: 'top',
     })
   })
 

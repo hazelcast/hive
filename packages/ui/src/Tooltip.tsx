@@ -11,12 +11,12 @@ import React, {
   useContext,
   useMemo,
   useRef,
-  useEffect, MouseEventHandler,
+  useEffect,
+  MouseEventHandler,
 } from 'react'
 import ReactDOM from 'react-dom'
 import { Placement } from '@popperjs/core'
 import { usePopper } from 'react-popper'
-import useEvent from 'react-use/lib/useEvent'
 import cn from 'classnames'
 
 import { containsElement } from './hooks'
@@ -58,11 +58,12 @@ export type TooltipProps = {
   padding?: number
   placement?: Placement
   visible?: boolean
+  hoverAbleTooltip?: boolean
   children: (
     ref: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
     onMouseEnter?: MouseEventHandler<Element>,
     onMouseLeave?: MouseEventHandler<Element>,
-  ) => ReactNode;
+  ) => ReactNode
   popperRef?: MutableRefObject<PopperRef | undefined>
   updateToken?: ReactText | boolean
   tooltipContainer?: TooltipContainer
@@ -96,6 +97,7 @@ export const Tooltip: FC<TooltipProps> = ({
   popperRef,
   updateToken,
   tooltipContainer = 'body',
+  hoverAbleTooltip = true,
 }) => {
   const [isShown, setShown] = useState<boolean>(false)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
@@ -149,7 +151,7 @@ export const Tooltip: FC<TooltipProps> = ({
   const onMouseLeave = useCallback(
     (event?: Event) => {
       const e = event as MouseEvent
-      const { relatedTarget } = e ?? {};
+      const { relatedTarget } = e ?? {}
 
       timeoutRef.current = setTimeout(() => {
         if (relatedTarget) {
@@ -165,12 +167,6 @@ export const Tooltip: FC<TooltipProps> = ({
     },
     [hideTimeoutDuration, context],
   )
-
-  useEvent('mouseenter', onMouseEnter, referenceElement)
-  useEvent('mouseleave', onMouseLeave, referenceElement)
-
-  useEvent('mouseenter', onMouseEnter, popperElement)
-  useEvent('mouseleave', onMouseLeave, popperElement)
 
   const contextValue = useMemo(
     () => ({
@@ -197,13 +193,33 @@ export const Tooltip: FC<TooltipProps> = ({
       clearHideTimeout()
     }
   }, [clearHideTimeout])
+  useEffect(() => {
+    referenceElement?.addEventListener('mouseenter', onMouseEnter, false)
+    referenceElement?.addEventListener('mouseleave', onMouseLeave, false)
+
+    return () => {
+      referenceElement?.removeEventListener('mouseenter', onMouseEnter)
+      referenceElement?.removeEventListener('mouseleave', onMouseLeave)
+    }
+  }, [referenceElement, onMouseEnter, onMouseLeave])
+  useEffect(() => {
+    if (hoverAbleTooltip) {
+      popperElement?.addEventListener('mouseenter', onMouseEnter, false)
+      popperElement?.addEventListener('mouseleave', onMouseLeave, false)
+    }
+
+    return () => {
+      popperElement?.removeEventListener('mouseenter', onMouseEnter)
+      popperElement?.removeEventListener('mouseleave', onMouseLeave)
+    }
+  }, [popperElement, onMouseEnter, onMouseLeave, hoverAbleTooltip])
 
   const tooltipPortalContainer = getTooltipPortalContainer(tooltipContainer, referenceElement)
 
   return (
     <TooltipContext.Provider value={contextValue}>
       {children(setReferenceElement, onMouseEnter, (e: unknown) => {
-        onMouseLeave(e as Event);
+        onMouseLeave(e as Event)
       })}
 
       {content !== undefined && (
