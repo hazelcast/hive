@@ -15,7 +15,7 @@ const useUIDMock = useUID as jest.Mock<ReturnType<typeof useUID>>
 const ariaLabel = 'X Icon'
 const id = 'luke'
 
-describe('Button', () => {
+describe('IconButton', () => {
   beforeEach(() => {
     useUIDMock.mockImplementation(() => id)
   })
@@ -131,6 +131,19 @@ describe('Button', () => {
       target: '_blank',
       type: undefined,
       'aria-label': ariaLabel,
+    })
+  })
+
+  it('Renders with a tooltip', async () => {
+    const tooltip = 'Tooltip'
+
+    const wrapper = await mountAndCheckA11Y(
+      <IconButton kind="primary" icon={X} ariaLabel={ariaLabel} tooltip={tooltip} tooltipPlacement="bottom" />,
+    )
+
+    expect(wrapper.find(Tooltip).at(0).props()).toMatchObject({
+      content: tooltip,
+      placement: 'bottom',
     })
   })
 })
