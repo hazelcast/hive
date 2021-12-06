@@ -4,7 +4,7 @@ import cn from 'classnames'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 import { useUID } from 'react-uid'
 
-import { Tooltip } from './Tooltip'
+import { Tooltip, TooltipProps } from './Tooltip'
 
 import styles from './TruncatedText.module.scss'
 
@@ -14,9 +14,18 @@ interface TruncatedTextProps {
   forceUpdateToken?: ReactText | boolean
   className?: string
   tooltipVisible?: boolean
+  hoverAbleTooltip?: boolean
+  tooltipPlacement?: TooltipProps['placement']
 }
 
-export const TruncatedText: FC<TruncatedTextProps> = ({ text, forceUpdateToken, className, tooltipVisible }) => {
+export const TruncatedText: FC<TruncatedTextProps> = ({
+  text,
+  forceUpdateToken,
+  className,
+  tooltipVisible,
+  tooltipPlacement = 'top',
+  hoverAbleTooltip,
+}) => {
   const textRef = useRef<HTMLDivElement>(null)
   const [tooltip, setTooltip] = useState<ReactChild | undefined>()
   const idTooltip = useUID()
@@ -33,7 +42,14 @@ export const TruncatedText: FC<TruncatedTextProps> = ({ text, forceUpdateToken, 
   }, [text, forceUpdateToken])
 
   return (
-    <Tooltip id={idTooltip} placement="top" content={tooltip} visible={tooltipVisible} updateToken={forceUpdateToken}>
+    <Tooltip
+      id={idTooltip}
+      content={tooltip}
+      visible={tooltipVisible}
+      placement={tooltipPlacement}
+      updateToken={forceUpdateToken}
+      hoverAbleTooltip={hoverAbleTooltip}
+    >
       {(ref) => (
         <div ref={mergeRefs([textRef, ref])} className={cn(styles.truncatedText, className)}>
           <span aria-labelledby={tooltip ? idTooltip : undefined}>{text}</span>

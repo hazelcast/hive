@@ -22,6 +22,7 @@ import { FieldHeader, FieldHeaderProps } from './FieldHeader'
 import { helpTooltipId } from './Help'
 import { IconButton } from './IconButton'
 import { IconSize } from './Icon'
+import { TooltipProps } from './Tooltip'
 
 import styles from './TextField.module.scss'
 
@@ -60,6 +61,7 @@ export type TextFieldExtraProps<T extends TextFieldTypes> = {
   type?: T
   readOnly?: boolean
   clearable?: boolean
+  errorTooltipPlacement?: TooltipProps['placement']
 } & DataTestProp &
   Pick<InputHTMLAttributes<HTMLInputElement>, 'id' | 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'> &
   TextFieldTrailingIcon &
@@ -113,6 +115,7 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
     onClick,
     clearable,
     iconSize = size,
+    errorTooltipPlacement = 'top',
     ...htmlAttrs
   } = props
   const autoId = useUID()
@@ -210,7 +213,13 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
           )}
         </div>
       </div>
-      <Error truncated error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
+      <Error
+        truncated
+        inputId={id}
+        error={error}
+        tooltipPlacement={errorTooltipPlacement}
+        className={cn(styles.errorContainer, errorClassName)}
+      />
     </div>
   )
 }
