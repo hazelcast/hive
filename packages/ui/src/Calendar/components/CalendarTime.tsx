@@ -61,7 +61,7 @@ export const CalendarTimeInternal: FC<CalendarTimeInternalProps> = ({ date, valu
   )
 
   const handleDateClick = useCallback(
-    (dp) => () => {
+    (dp: string) => () => {
       // Note: Input time (derived from timePoints) is in 'DATE_FORMAT'
       const parsedDate = parse(dp, DATE_FORMAT, date)
       // Note: Output time, that we feed back to 'react-datetime' is in 'DATE_FORMAT_NO_MERIDIEM' format

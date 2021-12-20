@@ -1,5 +1,5 @@
-@use '../../styles/constants' as c;
-@use '../../styles/helpers' as h;
+@use "../../styles/constants" as c;
+@use "../../styles/helpers" as h;
 
 $inputMaxWidth: 300px;
 $inputMinWidth: 118px;
@@ -52,7 +52,7 @@ $inputPadding: c.$grid * 3;
             margin: 0;
             color: c.$colorText;
 
-            @include c.typographyBodySmall('bold');
+            @include c.typographyBodySmall("bold");
 
             &:not(:last-of-type) {
               margin-right: c.$grid * 2;
@@ -78,7 +78,8 @@ $inputPadding: c.$grid * 3;
            * We need to use :global override here, as 'renderCustomDay' only allows us to override
            * the child of this element, which does not allow us to touch the styles properly
            *
-           * Source styles: https://github.com/Hacker0x01/react-datepicker/blob/master/src/stylesheets/datepicker.scss#L395
+           * Source styles:
+           * https://github.com/Hacker0x01/react-datepicker/blob/master/src/stylesheets/datepicker.scss#L395
            */
           :global .react-datepicker__day {
             border-radius: c.$grid;
@@ -98,7 +99,7 @@ $inputPadding: c.$grid * 3;
             @include c.typographyBodySmall;
 
             &--today {
-              @include c.typographyBodySmall('bold');
+              @include c.typographyBodySmall("bold");
             }
 
             &--in-selecting-range,
@@ -111,9 +112,10 @@ $inputPadding: c.$grid * 3;
             &--selected {
               background-color: c.$colorPrimaryLight;
               color: c.$colorNeutralWhite;
+
               // Note: Disable default browser outline, force our only on :focus
 
-              @include c.typographyBodySmall('bold');
+              @include c.typographyBodySmall("bold");
             }
 
             &--disabled {
@@ -167,13 +169,14 @@ $inputPadding: c.$grid * 3;
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
+
         // Note: There is 1.5px in designs - also $separatorWidth is not semantically the best fit
         margin-bottom: c.$separatorWidth;
 
         .headerMonthAndYear {
           color: c.$colorTextSecondary;
 
-          @include c.typographyBodySmall('bold');
+          @include c.typographyBodySmall("bold");
         }
       }
     }

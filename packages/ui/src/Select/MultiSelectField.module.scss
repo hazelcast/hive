@@ -1,10 +1,10 @@
-@use '../../styles/constants' as c;
-@use '../../styles/helpers' as h;
+@use "../../styles/constants" as c;
+@use "../../styles/helpers" as h;
 
-$selectContainer: ':global .hz-select-field';
-$selectValueContainer: ':global .hz-select-field__value-container';
-$selectIndicators: ':global .hz-select-field__indicators';
-$selectMultiValue: ':global .hz-select-field__multi-value';
+$selectContainer: ":global .hz-select-field";
+$selectValueContainer: ":global .hz-select-field__value-container";
+$selectIndicators: ":global .hz-select-field__indicators";
+$selectMultiValue: ":global .hz-select-field__multi-value";
 
 .multiContainer {
   #{$selectValueContainer}--has-value {

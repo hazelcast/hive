@@ -65,7 +65,7 @@ describe('Terminal', () => {
     expect(currentCommandInputBefore.prop('value')).toBe('Luke')
 
     act(() => {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion,@typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion,@typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-argument
       currentCommandInputBefore.prop('onKeyUp')!({ key: 'Enter' } as any)
     })
     wrapper.update()

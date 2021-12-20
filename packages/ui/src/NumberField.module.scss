@@ -1,4 +1,4 @@
-@use '../styles/constants' as c;
+@use "../styles/constants" as c;
 
 $buttonMargin: c.$grid * 2;
 $inputMargin: c.$iconSizeSmall + $buttonMargin * 2;
@@ -12,10 +12,11 @@ $inputMargin: c.$iconSizeSmall + $buttonMargin * 2;
 
   > input {
     /* doiuse-disable css-appearance */
-    -moz-appearance: textfield;
+    appearance: textfield;
+
     &::-webkit-inner-spin-button,
     &::-webkit-outer-spin-button {
-      -webkit-appearance: none;
+      appearance: none;
       margin: 0;
     }
     /* doiuse-enable css-appearance */
@@ -23,7 +24,7 @@ $inputMargin: c.$iconSizeSmall + $buttonMargin * 2;
 
   &.buttons {
     > input {
-      padding-right: $inputMargin*2;
+      padding-right: $inputMargin * 2;
     }
 
     &.buttonsIconsSeparate > input {
@@ -44,25 +45,29 @@ $inputMargin: c.$iconSizeSmall + $buttonMargin * 2;
       right: $buttonMargin;
       top: 50%;
       transform: translateY(-50%);
-      margin-right: c.$iconSizeSmallMedium+c.$grid;
+      margin-right: c.$iconSizeSmallMedium + c.$grid;
+
       &.decrementIconsSeparate {
         left: $buttonMargin;
         right: auto;
       }
+
       &.decrementSmall {
-        margin-right: c.$iconSizeSmall+c.$grid;
+        margin-right: c.$iconSizeSmall + c.$grid;
       }
 
       :global line {
         color: black;
       }
     }
+
     .increment {
       color: c.$colorPrimary;
       position: absolute;
       right: $buttonMargin;
       top: 50%;
       transform: translateY(-50%);
+
       :global line {
         color: black;
       }

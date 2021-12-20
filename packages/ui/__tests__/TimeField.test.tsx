@@ -60,6 +60,7 @@ describe('TimeField', () => {
 
     let event: object
     act(() => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       event = simulateChange(wrapper.find('input'), 'Luke')
     })
 

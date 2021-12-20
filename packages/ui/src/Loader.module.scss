@@ -1,6 +1,5 @@
 @use "sass:math";
-
-@use '../styles/constants' as c;
+@use "../styles/constants" as c;
 
 $itemsCnt: 8;
 $duration: c.$durationLoader;
@@ -13,18 +12,22 @@ $opacityMin: 0.2;
     width: c.$iconSizeSmall;
     height: c.$iconSizeSmall;
   }
+
   &.smallMedium {
     width: c.$iconSizeSmallMedium;
     height: c.$iconSizeSmallMedium;
   }
+
   &.medium {
     width: c.$iconSizeMedium;
     height: c.$iconSizeMedium;
   }
+
   &.large {
     width: c.$iconSizeLarge;
     height: c.$iconSizeLarge;
   }
+
   &.xlarge {
     width: c.$iconSizeXLarge;
     height: c.$iconSizeXLarge;
@@ -33,9 +36,11 @@ $opacityMin: 0.2;
   &.primary {
     color: c.$colorPrimaryDark;
   }
+
   &.contrast {
     color: c.$colorNeutralWhite;
   }
+
   &.inherit {
     color: inherit;
   }
@@ -58,9 +63,11 @@ $opacityMin: 0.2;
   0% {
     opacity: $opacityMax;
   }
+
   50% {
     opacity: $opacityMin;
   }
+
   100% {
     opacity: $opacityMax;
   }

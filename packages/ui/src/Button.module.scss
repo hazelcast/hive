@@ -1,5 +1,5 @@
-@use '../styles/constants' as c;
-@use '../styles/helpers' as h;
+@use "../styles/constants" as c;
+@use "../styles/helpers" as h;
 
 @mixin buttonColor($color: c.$colorPrimary) {
   color: $color;
@@ -23,10 +23,11 @@
   border-radius: c.$borderRadiusButtonSmall;
   height: c.$inputHeightSmall;
   max-width: c.$buttonMaxWidth;
+
   // for <a> element
   text-decoration: none;
 
-  @include c.typographyButton('small');
+  @include c.typographyButton("small");
 
   .outline {
     position: absolute;

@@ -40,11 +40,13 @@ describe('InteractiveListFormik', () => {
 
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       simulateChange(wrapper.find('input'), '127.0.0.1')
     })
 
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
       wrapper.findDataTest('interactive-list-add-button').at(0).simulate('click')
     })
     wrapper.update()
@@ -101,6 +103,7 @@ describe('InteractiveListFormik', () => {
 
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
       wrapper.findDataTest('interactive-list-add-button').at(0).simulate('click')
     })
     wrapper.update()
@@ -137,11 +140,13 @@ describe('InteractiveListFormik', () => {
 
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       simulateChange(wrapper.find('input'), '127.0.0.1')
     })
 
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
       wrapper.findDataTest('interactive-list-add-button').at(0).simulate('click')
     })
     wrapper.update()
@@ -180,11 +185,13 @@ describe('InteractiveListFormik', () => {
 
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       simulateChange(wrapper.find('input'), '1.2.3.4')
     })
 
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
       wrapper.findDataTest('interactive-list-add-button').at(0).simulate('click')
     })
     wrapper.update()
@@ -193,11 +200,13 @@ describe('InteractiveListFormik', () => {
 
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       simulateChange(wrapper.find('input'), ' ')
     })
 
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
       wrapper.findDataTest('interactive-list-add-button').at(0).simulate('click')
     })
     wrapper.update()

@@ -1,5 +1,5 @@
-@use '../styles/constants' as c;
-@use '../styles/helpers' as h;
+@use "../styles/constants" as c;
+@use "../styles/helpers" as h;
 
 // thumb width without a white border, let's make it the height of the slider
 $thumbWidth: c.$slideTrackHeight;
@@ -13,6 +13,7 @@ $currentValueIndicatorHeight: c.$grid * 6;
 @mixin track() {
   background: none; // get rid of track background
   appearance: none;
+
   // it's important for these values to be 0 in order to be consistent across (Firefox/IE11) & Chrome
   margin: 0;
   padding: 0;
@@ -109,11 +110,11 @@ ul.markDescriptions {
     flex: 1;
     margin: $thumbWidth 0;
 
-    input[type='range'] {
+    input[type="range"] {
       &::-webkit-slider-runnable-track,
       &::-webkit-slider-thumb,
       & {
-        -webkit-appearance: none;
+        appearance: none;
       }
 
       z-index: c.$zIndex100;
@@ -174,7 +175,7 @@ ul.markDescriptions {
     }
 
     // see the javascript code for an explanation of this class
-    input[type='range'].atTheBorder {
+    input[type="range"].atTheBorder {
       @include styleThumb {
         pointer-events: none;
       }
@@ -183,6 +184,7 @@ ul.markDescriptions {
     .fillPlaceholder {
       pointer-events: none;
       height: c.$slideTrackHeight;
+
       // highlighted part covers the border
       box-sizing: border-box;
       background: c.$colorNeutral;
@@ -200,6 +202,7 @@ ul.markDescriptions {
         pointer-events: none;
         height: 100%;
         background: c.$colorPrimaryLight;
+
         // width & marginLeft will be set by a Javascript
       }
 
@@ -240,6 +243,7 @@ ul.markDescriptions {
     .valueIndicators {
       color: c.$colorNeutralLight;
     }
+
     ul.markDescriptions {
       color: c.$colorNeutralLight;
     }
@@ -258,7 +262,7 @@ ul.markDescriptions {
       }
     }
 
-    input[type='range']:disabled {
+    input[type="range"]:disabled {
       @include styleThumb {
         box-shadow: 0 0 0 c.$sliderThumbHoverBorderSize c.$colorNeutral;
         background: c.$colorNeutralLight;

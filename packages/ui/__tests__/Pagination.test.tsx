@@ -143,12 +143,14 @@ describe('Pagination', () => {
       onChange: expect.anything(),
     })
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
     expect(wrapper.findDataTest('pagination-range-of-shown-items').props()).toEqual({
       'data-test': 'pagination-range-of-shown-items',
       className: styles.shownItems,
       children: '1 – 5 of 10000',
     })
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
     const iconButton = wrapper.findDataTest('pagination-buttons').find(IconButton)
     expect(iconButton.props()).toEqual<IconButtonProps>({
       ...nextPrevButtonPropsBase,
@@ -222,12 +224,14 @@ describe('Pagination', () => {
       />,
     )
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
     expect(wrapper.findDataTest('pagination-range-of-shown-items').props()).toEqual({
       'data-test': 'pagination-range-of-shown-items',
       className: styles.shownItems,
       children: '4996 – 5000 of 10000',
     })
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
     const iconButton = wrapper.findDataTest('pagination-buttons').find(IconButton)
     expect(iconButton).toHaveLength(2)
     expect(iconButton.at(0).props()).toEqual<IconButtonProps>({
@@ -354,7 +358,9 @@ describe('Pagination', () => {
       />,
     )
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
     const iconButtons = wrapper.findDataTest('pagination-buttons').find(IconButton)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
     const buttons = wrapper.findDataTest('pagination-buttons').find(Button)
     expect(previousPage).toHaveBeenCalledTimes(0)
     expect(nextPage).toHaveBeenCalledTimes(0)
@@ -416,6 +422,7 @@ describe('Pagination', () => {
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       simulateChange(wrapper.find(NumberField).find('input'), 42)
     })
     wrapper.update()
@@ -459,6 +466,7 @@ describe('Pagination', () => {
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       selectInstance.props.onChange?.({ value: 10, label: '10' }, { action: 'select-option' })
     })
     wrapper.update()
@@ -488,12 +496,14 @@ describe('Pagination', () => {
       />,
     )
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
     expect(wrapper.findDataTest('pagination-buttons').find(IconButton).props()).toEqual<IconButtonProps>({
       ...nextPrevButtonPropsBase,
       icon: ChevronRight,
       ariaLabel: 'Next page',
     })
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
     let buttons = wrapper.findDataTest('pagination-buttons').find(Button)
     expect(buttons).toHaveLength(3)
     expect(buttons.at(0).props()).toEqual<ButtonProps>({
@@ -510,6 +520,7 @@ describe('Pagination', () => {
       children: '2000',
     })
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
     expect(wrapper.findDataTest('pagination-range-of-shown-items').exists()).toBe(false)
     expect(wrapper.find(SelectField).exists()).toBe(false)
 
@@ -519,7 +530,9 @@ describe('Pagination', () => {
     })
     wrapper.update()
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
     expect(wrapper.findDataTest('pagination-buttons').exists()).toBe(false)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
     expect(wrapper.findDataTest('pagination-range-of-shown-items').exists()).toBe(false)
 
     expect(wrapper.find(SelectField).props()).toEqual<SelectFieldProps<number>>({
@@ -555,12 +568,14 @@ describe('Pagination', () => {
     })
     wrapper.update()
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
     expect(wrapper.findDataTest('pagination-buttons').find(IconButton).props()).toEqual<IconButtonProps>({
       ...nextPrevButtonPropsBase,
       icon: ChevronRight,
       ariaLabel: 'Next page',
     })
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
     buttons = wrapper.findDataTest('pagination-buttons').find(Button)
     expect(buttons).toHaveLength(3)
     expect(buttons.at(0).props()).toEqual<ButtonProps>({
@@ -577,6 +592,7 @@ describe('Pagination', () => {
       children: '2000',
     })
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
     expect(wrapper.findDataTest('pagination-range-of-shown-items').exists()).toBe(false)
     expect(wrapper.find(SelectField).exists()).toBe(false)
   })

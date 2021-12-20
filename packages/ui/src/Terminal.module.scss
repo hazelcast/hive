@@ -1,5 +1,5 @@
-@use '../styles/constants' as c;
-@use '../styles/helpers' as h;
+@use "../styles/constants" as c;
+@use "../styles/helpers" as h;
 
 .container {
   // Match TextField
@@ -23,6 +23,7 @@
     border: none;
     border-bottom: c.$outlineWidth solid c.$colorNeutral;
     padding: 0;
+
     // Align input bottom line with the icon
     margin-bottom: c.$grid;
     outline: none;
@@ -63,7 +64,7 @@
 }
 
 .welcome {
-  @include c.typographyBodySmall('bold');
+  @include c.typographyBodySmall("bold");
 
   margin: 0;
   margin-bottom: c.$grid * 5;
@@ -102,7 +103,7 @@
 }
 
 .prompt {
-  @include c.typographyBodySmall('bold');
+  @include c.typographyBodySmall("bold");
 
   margin-right: c.$grid;
 }

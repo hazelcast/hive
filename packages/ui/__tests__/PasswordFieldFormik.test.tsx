@@ -39,6 +39,7 @@ describe('PasswordFieldFormik', () => {
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       simulateChange(wrapper.find('input'), 'yoda')
     })
     wrapper.update()
@@ -94,6 +95,7 @@ describe('PasswordFieldFormik', () => {
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       simulateChange(wrapper.find('input'), 'yoda')
     })
     wrapper.update()
@@ -104,6 +106,7 @@ describe('PasswordFieldFormik', () => {
     // We need the `async` call here to wait for processing of the asynchronous 'blur'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       simulateBlur(wrapper.find('input'))
     })
     wrapper.update()
@@ -141,6 +144,7 @@ describe('PasswordFieldFormik', () => {
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       simulateChange(wrapper.find('input'), 'yoda')
     })
     wrapper.update()

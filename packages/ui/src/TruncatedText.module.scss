@@ -1,4 +1,4 @@
-@use '../styles/helpers' as h;
+@use "../styles/helpers" as h;
 
 .truncatedText {
   @include h.overflowEllipsis;

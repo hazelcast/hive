@@ -1,5 +1,5 @@
-@use '../styles/constants' as c;
-@use '../styles/helpers' as h;
+@use "../styles/constants" as c;
+@use "../styles/helpers" as h;
 
 .container {
   display: flex;
@@ -41,6 +41,7 @@
       border-color: c.$colorNeutralLight;
       height: c.$inputHeightSmall;
       border-radius: c.$borderRadius;
+
       @include c.typographyBodySmall;
 
       .body {

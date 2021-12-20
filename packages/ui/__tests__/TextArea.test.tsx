@@ -89,6 +89,7 @@ describe('TextArea', () => {
     expect(onChange).toBeCalledTimes(0)
 
     act(() => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       simulateChange(wrapper.find('textarea'), 'value')
     })
 

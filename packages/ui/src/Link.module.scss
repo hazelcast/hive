@@ -1,5 +1,5 @@
-@use '../styles/constants' as c;
-@use '../styles/helpers' as h;
+@use "../styles/constants" as c;
+@use "../styles/helpers" as h;
 
 @mixin link {
   display: inline-flex;
@@ -28,6 +28,7 @@
   &.primary {
     color: c.$colorPrimary;
   }
+
   &.secondary {
     color: c.$colorTextSecondary;
   }
@@ -44,5 +45,5 @@
 }
 
 .bold {
-  @include c.typographyBodyWeight('bold');
+  @include c.typographyBodyWeight("bold");
 }

@@ -1,5 +1,5 @@
-@use '../styles/constants' as c;
-@use '../styles/helpers' as h;
+@use "../styles/constants" as c;
+@use "../styles/helpers" as h;
 
 .overlayed {
   overflow: hidden;
@@ -27,6 +27,7 @@
     from {
       opacity: 0;
     }
+
     to {
       opacity: 1;
     }
@@ -50,6 +51,7 @@
     &.normal {
       max-width: c.$overlayContentMaxWidth;
     }
+
     .fullscreen {
       max-width: 100%;
     }

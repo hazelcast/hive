@@ -1,5 +1,5 @@
-@use '../../styles/constants' as c;
-@use '../../styles/helpers' as h;
+@use "../../styles/constants" as c;
+@use "../../styles/helpers" as h;
 
 .panel {
   z-index: c.$zIndex200;
@@ -48,7 +48,6 @@
   &:focus {
     @include h.outlineFormField;
   }
-
 }
 
 .optionChecked {

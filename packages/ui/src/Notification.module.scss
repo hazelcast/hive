@@ -1,4 +1,4 @@
-@use '../styles/constants' as c;
+@use "../styles/constants" as c;
 
 .notification {
   display: flex;
@@ -28,10 +28,11 @@
   .link {
     // Note: The (min)height is equal to corresponding icon height. Necessary due to 'flex-start' alignment.
     min-height: c.$grid * 6;
+
     // TODO: Improvisation. Consult with @pawel.
     margin-left: c.$grid * 2;
 
-    @include c.typographyBodyWeight('bold');
+    @include c.typographyBodyWeight("bold");
   }
 
   /* Theme - success */

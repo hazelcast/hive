@@ -1,8 +1,9 @@
-@use '../styles/constants' as c;
-@use '../styles/helpers' as h;
+@use "../styles/constants" as c;
+@use "../styles/helpers" as h;
 
 .wrapper {
   display: inline-flex;
+
   // inline-flex changes vertical align compared to display: flex
   // setting vertical-align allows us to easily use radio button
   // inline e.g. next to the text
@@ -30,6 +31,7 @@
     min-height: c.$iconSizeSmall;
     border: c.$borderWidth solid c.$colorNeutralLight;
     border-radius: 50%;
+
     // because of ~ and + selectors used below, we need to keep the current order in DOM and
     // fix it visually with order property
     order: -1;
@@ -62,7 +64,7 @@
 
   /* Style the indicator (dot/circle) */
   .checkmark::after {
-    content: '';
+    content: "";
     width: 1.5 * c.$grid;
     height: 1.5 * c.$grid;
     border-radius: 50%;

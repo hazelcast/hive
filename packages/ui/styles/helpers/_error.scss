@@ -1,9 +1,9 @@
-@use '../constants' as c;
+@use "../constants" as c;
 
 @mixin withError {
   .withError {
     position: relative;
-    padding-bottom: c.$errorHeight+c.$grid;
+    padding-bottom: c.$errorHeight + c.$grid;
 
     .errorContainer {
       position: absolute;

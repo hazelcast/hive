@@ -1,19 +1,18 @@
-@use '../../styles/constants' as c;
-@use '../../styles/helpers' as h;
+@use "../../styles/constants" as c;
+@use "../../styles/helpers" as h;
 
 $selectHorizontalPadding: c.$grid * 3;
 $menuMargin: c.$grid * 3;
-
-$selectContainer: ':global .hz-select-field';
-$selectControl: ':global .hz-select-field__control';
-$selectValueContainer: ':global .hz-select-field__value-container';
-$selectMenuPortal: ':global .hz-select-field__menu-portal';
-$selectMenu: ':global .hz-select-field__menu';
-$selectMenuList: ':global .hz-select-field__menu-list';
-$selectMenuNotice: ':global .hz-select-field__menu-notice';
-$selectOption: ':global .hz-select-field__option';
-$selectGroup: ':global .hz-select-field__group';
-$selectGroupHeading: ':global .hz-select-field__group-heading';
+$selectContainer: ":global .hz-select-field";
+$selectControl: ":global .hz-select-field__control";
+$selectValueContainer: ":global .hz-select-field__value-container";
+$selectMenuPortal: ":global .hz-select-field__menu-portal";
+$selectMenu: ":global .hz-select-field__menu";
+$selectMenuList: ":global .hz-select-field__menu-list";
+$selectMenuNotice: ":global .hz-select-field__menu-notice";
+$selectOption: ":global .hz-select-field__option";
+$selectGroup: ":global .hz-select-field__group";
+$selectGroupHeading: ":global .hz-select-field__group-heading";
 
 .container {
   .label {
@@ -154,6 +153,7 @@ $selectGroupHeading: ':global .hz-select-field__group-heading';
     line-height: c.$inputHeight;
     padding: 0 $selectHorizontalPadding;
     background-color: transparent;
+
     // Do not remove outline for high-contrast modes
     // https://stackoverflow.com/a/52616313
     outline: c.$outlineWidth solid transparent;

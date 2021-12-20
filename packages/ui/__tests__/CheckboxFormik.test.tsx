@@ -72,6 +72,7 @@ describe('CheckboxFormik', () => {
 
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       simulateChange(wrapper.find('input'), true)
     })
 

@@ -1,5 +1,5 @@
-@use '../styles/constants' as c;
-@use '../styles/helpers' as h;
+@use "../styles/constants" as c;
+@use "../styles/helpers" as h;
 
 .group {
   display: flex;
@@ -28,7 +28,7 @@
       padding-right: c.$grid * 2;
       cursor: pointer;
 
-      @include c.typographyBodyNormal('bold');
+      @include c.typographyBodyNormal("bold");
     }
 
     &.checked {
@@ -74,7 +74,7 @@
       border-bottom-width: 4px;
 
       .label {
-        @include c.typographyBodySmall('bold');
+        @include c.typographyBodySmall("bold");
       }
     }
   }

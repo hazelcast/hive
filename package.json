@@ -44,6 +44,7 @@
     "publish-storybook": "lerna run --scope @hazelcast/ui publish-storybook",
     "start": "lerna run --scope @hazelcast/ui storybook",
     "prepack": "npm run compile",
+    "prepare": "husky install",
     "publish-canary": "lerna publish --canary --preid next --dist-tag next --yes --no-verify-access --include-merged-tags"
   }
 }
