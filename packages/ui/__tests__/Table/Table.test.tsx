@@ -57,7 +57,7 @@ describe('Table', () => {
     })
 
     const headers = headerRowGroup.find(Header)
-    headers.forEach((header, i) => {
+    headers.forEach((header, i: number) => {
       expect(header.props()).toMatchObject<PropsWithChildren<HeaderProps>>({
         align: columns[i].align,
         canSort: false,
@@ -94,7 +94,7 @@ describe('Table', () => {
     })
 
     const cellRows = cellRowGroup.find(Row)
-    cellRows.forEach((cellRow, i) => {
+    cellRows.forEach((cellRow, i: number) => {
       expect(cellRow.props()).toMatchObject<PropsWithChildren<RowProps>>({
         // 1 for header row, 1 because we're indexing from 0
         ariaRowIndex: i + 2,
