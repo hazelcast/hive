@@ -5,14 +5,14 @@ import { ChevronLeft, ChevronRight } from 'react-feather'
 import Select from 'react-select'
 
 import { getShownItemsRange, GetShownItemsRangeParams, Pagination, PaginationProps, ShownItemsRange } from '../src/Pagination'
-import { SelectField, SelectFieldOption, SelectFieldProps } from '../src/Select/index'
 import { IconButton, IconButtonProps } from '../src/IconButton'
 import { Button, ButtonProps } from '../src/Button'
 
 import styles from '../src/Pagination.module.scss'
-import { NumberField } from '../src/NumberField'
-import { NumberFieldProps } from '../lib'
-import { Link } from '../src/Link'
+import { NumberField, NumberFieldProps } from '../src/NumberField'
+import { Link, SelectField } from '../src'
+import { SelectFieldProps } from '../src/Select/SelectField'
+import { SelectFieldOption } from '../src/Select/helpers'
 
 describe('helpers', () => {
   describe('getShownItemsRange', () => {
