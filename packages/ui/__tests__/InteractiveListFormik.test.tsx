@@ -3,9 +3,10 @@ import { Form, Formik, FormikProps } from 'formik'
 import { mountAndCheckA11Y, simulateChange } from '@hazelcast/test-helpers'
 import { act } from 'react-dom/test-utils'
 
-import { Button, IconButton, InteractiveListFormik, InteractiveListInputRef, InteractiveListItem, TextField } from '../src'
+import { Button, IconButton, InteractiveListFormik, InteractiveListItem, TextField } from '../src'
 import { List } from 'react-feather'
 import * as Yup from 'yup'
+import { InteractiveListInputRef } from '../src/InteractiveList'
 
 describe('InteractiveListFormik', () => {
   it('can be used in a form', async () => {

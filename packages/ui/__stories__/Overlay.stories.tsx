@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { Meta, Story } from '@storybook/react'
 
-import { Button, Card, Tab, TabContextProvider, TabList, TabPanel, Overlay, OverlayProps } from '../src'
+import { Button, Card, Tab, TabList, TabPanel, Overlay, TabContextProvider } from '../src'
 
 import styles from './Overlay.stories.module.scss'
+import { OverlayProps } from '../src/Overlay'
 
 const content = (
   <TabContextProvider>

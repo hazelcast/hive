@@ -12,8 +12,8 @@ export { CodeEditor } from './CodeEditor'
 export { CodeEditorFormik } from './CodeEditorFormik'
 export { Dialog } from './Dialog'
 export { EmptyState } from './EmptyState'
-export { Error } from './Error'
-export { Help } from './Help'
+export { Error, errorId } from './Error'
+export { Help, helpTooltipId } from './Help'
 export { Icon } from './Icon'
 export { IconButton } from './IconButton'
 export { InteractiveListItem } from './InteractiveList'
@@ -50,7 +50,18 @@ export { SimpleTable } from './SimpleTable'
 export { Slider } from './Slider'
 export { SliderFormik } from './SliderFormik'
 export { Table } from './Table/Table'
-export { TabContext, TabPanel, Tab, TabList } from './Tabs/index'
+export {
+  TabContext,
+  TabPanel,
+  Tab,
+  TabList,
+  TabContextProvider,
+  TabContextProviderControlled,
+  getPanelId,
+  getTabId,
+  useTabContext,
+  tabContextDefaultValue,
+} from './Tabs/index'
 export { Terminal } from './Terminal'
 export { TextArea } from './TextArea'
 export { TextAreaFormik } from './TextAreaFormik'

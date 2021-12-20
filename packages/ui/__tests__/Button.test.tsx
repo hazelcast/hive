@@ -3,9 +3,10 @@ import { X } from 'react-feather'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import cn from 'classnames'
 
-import { Loader, TruncatedText, Tooltip, Button, ButtonKind, Icon, ButtonVariant } from '../src'
+import { Loader, TruncatedText, Tooltip, Button, Icon } from '../src'
 
 import styles from '../src/Button.module.scss'
+import { ButtonKind, ButtonVariant } from '../src/Button'
 
 const label = 'LABEL'
 const ariaLabel = 'X Icon'
