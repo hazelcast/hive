@@ -1,14 +1,12 @@
 import React from 'react'
-import { Meta, Story } from '@storybook/react'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { Info, ChevronDown } from 'react-feather'
 import cn from 'classnames'
 
-import { Button, ButtonProps, ButtonTypeAnchorProps, ButtonTypeButtonProps } from '../src/Button'
+import { Button, ButtonProps, ButtonTypeAnchorProps } from '../src/Button'
 
 import styles from '../src/Button.module.scss'
 import storyStyles from './Button.stories.module.scss'
-
-type Args = ButtonProps<ButtonTypeButtonProps>
 
 export default {
   title: 'Components/Button',
@@ -22,9 +20,9 @@ export default {
   args: {
     children: 'Button',
   },
-} as Meta<Args>
+} as ComponentMeta<typeof Button>
 
-const Template: Story<Args> = ({ className, ...args }) => {
+const Template: ComponentStory<typeof Button> = ({ className, ...args }) => {
   const props = {
     ...args,
     className: cn(storyStyles.button, className),
@@ -81,8 +79,10 @@ WithRightIcon.args = {
 
 export const WithLeftAndRightIcons = Template.bind({})
 WithLeftAndRightIcons.args = {
-  ...WithLeftIcon.args,
-  ...WithRightIcon.args,
+  iconLeft: Info,
+  iconLeftAriaLabel: 'Additional information',
+  iconRight: ChevronDown,
+  iconRightAriaLabel: 'Show additional information',
 }
 
 export const WithLoader = Template.bind({})
@@ -92,21 +92,25 @@ WithLoader.args = {
 
 export const WithLoaderAndLeftIcon = Template.bind({})
 WithLoaderAndLeftIcon.args = {
-  ...WithLoader.args,
-  ...WithLeftIcon.args,
+  loading: true,
+  iconLeft: Info,
+  iconLeftAriaLabel: 'Additional information',
 }
 
 export const WithLoaderAndRightIcon = Template.bind({})
 WithLoaderAndRightIcon.args = {
-  ...WithLoader.args,
-  ...WithRightIcon.args,
+  loading: true,
+  iconRight: ChevronDown,
+  iconRightAriaLabel: 'Show additional information',
 }
 
 export const WithLoaderAndBothIcons = Template.bind({})
 WithLoaderAndBothIcons.args = {
-  ...WithLoader.args,
-  ...WithLeftIcon.args,
-  ...WithRightIcon.args,
+  loading: true,
+  iconLeft: Info,
+  iconLeftAriaLabel: 'Additional information',
+  iconRight: ChevronDown,
+  iconRightAriaLabel: 'Show additional information',
 }
 
 export const WithLongLabel = Template.bind({})
@@ -117,8 +121,10 @@ WithLongLabel.args = {
 
 export const DisabledWithLongLabel = Template.bind({})
 DisabledWithLongLabel.args = {
-  ...Disabled.args,
-  ...WithLongLabel.args,
+  disabled: true,
+  disabledTooltip: 'This button is disabled',
+  children: 'Looooooooooooooooooooooooooooooooong Label',
+  className: storyStyles.block,
 }
 
 export const DisabledWithLongLabelShowingLabelInTooltip = Template.bind({})

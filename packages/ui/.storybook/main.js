@@ -28,6 +28,16 @@ module.exports = {
           presets: ['@babel/preset-env'],
         },
       },
+      {
+        test: /\.stories\.tsx?$/,
+        use: [
+          {
+            loader: require.resolve('@storybook/source-loader'),
+            options: { parser: 'typescript' },
+          },
+        ],
+        enforce: 'pre',
+      },
     ]
 
     return config
@@ -42,6 +52,6 @@ module.exports = {
     },
   },
   core: {
-    builder: "webpack5",
+    builder: 'webpack5',
   },
 }

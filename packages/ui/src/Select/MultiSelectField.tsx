@@ -145,10 +145,10 @@ export const MultiSelectField = <V extends string | number = number>(props: Mult
 
   const optionsMap = useMemo<SelectFieldOptionsMap<V>>(() => getOptionsMap<V>(options), [options])
 
-  const selectedOptions = useMemo<SelectFieldOption<V>[]>(() => value.map((val) => optionsMap[val] ?? { value: val, label: val }), [
-    optionsMap,
-    value,
-  ])
+  const selectedOptions = useMemo<SelectFieldOption<V>[]>(
+    () => value.map((val) => optionsMap[val] ?? { value: val, label: val }),
+    [optionsMap, value],
+  )
 
   const onChangeWrapped = useCallback(
     (selectedOptions: readonly SelectFieldOption<V>[]) => {
