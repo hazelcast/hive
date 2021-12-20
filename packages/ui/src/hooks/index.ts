@@ -1,6 +1,6 @@
 /* export only hooks for external usage */
-export * from './useTableCustomizableColumns'
-export * from './useOnClickOutside'
-export * from './useIsMounted'
-export * from './useRefValue'
-export * from './useOpenCloseState'
+export { useTableCustomizableColumns } from './useTableCustomizableColumns'
+export { useOnClickOutside, containsElement } from './useOnClickOutside'
+export { useIsMounted } from './useIsMounted'
+export { useRefValue } from './useRefValue'
+export { useOpenCloseState } from './useOpenCloseState'
