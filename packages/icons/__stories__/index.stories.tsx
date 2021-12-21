@@ -9,9 +9,11 @@ export default {
 export const Icons = () => {
   return (
     <>
-      {Object.values(icons).map((Icon, i) => (
-        <Icon key={i} />
-      ))}
+      {Object.values(icons)
+        .filter((Icon) => Icon)
+        .map((Icon, i) => (
+          <Icon key={i} />
+        ))}
     </>
   )
 }
