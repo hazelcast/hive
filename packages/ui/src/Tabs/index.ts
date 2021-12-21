@@ -1,4 +1,12 @@
-export * from './TabContext'
-export * from './TabList'
-export * from './Tab'
-export * from './TabPanel'
+export {
+  TabContext,
+  TabContextProvider,
+  TabContextProviderControlled,
+  getPanelId,
+  getTabId,
+  useTabContext,
+  tabContextDefaultValue,
+} from './TabContext'
+export { TabList } from './TabList'
+export { Tab } from './Tab'
+export { TabPanel } from './TabPanel'

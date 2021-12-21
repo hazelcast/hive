@@ -1,7 +1,7 @@
 import React, { ReactElement, Ref, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react'
 import { FieldArray, FieldValidator, useField, useFormikContext } from 'formik'
 import { ExtractKeysOfValueType } from './utils/types'
-import InteractiveList, { InteractiveListExtraProps, InteractiveListInputRef } from './InteractiveList'
+import { InteractiveList, InteractiveListExtraProps, InteractiveListInputRef } from './InteractiveList'
 import { getFieldError } from './utils/formik'
 
 export type InteractiveListFormikProps<V extends object> = InteractiveListExtraProps & {

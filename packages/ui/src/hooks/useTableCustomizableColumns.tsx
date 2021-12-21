@@ -1,7 +1,9 @@
 import React, { useMemo, useState } from 'react'
 
 import { ColumnType } from '../Table/Table'
-import { CheckableSelectField, CheckableSelectProps, SelectFieldOption } from '../Select'
+import { CheckableSelectField } from '../Select'
+import { CheckableSelectProps } from '../Select/CheckableSelectField'
+import { SelectFieldOption } from '../Select/helpers'
 
 export function useTableCustomizableColumns<T>(
   columns: T,

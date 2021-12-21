@@ -2,10 +2,10 @@ import React from 'react'
 import { Database } from 'react-feather'
 import { Meta, Story } from '@storybook/react'
 
-import { Card, CardProps, IconButton } from '../src'
+import { Alert, Card, IconButton } from '../src'
 
 import styles from './Card.stories.module.scss'
-import { Alert } from '../lib'
+import { CardProps } from '../src/Card'
 
 export default {
   title: 'Components/Card',

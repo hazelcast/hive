@@ -5,10 +5,12 @@ import { Settings, X } from 'react-feather'
 import { act } from 'react-dom/test-utils'
 import cn from 'classnames'
 
-import { Icon, IconProps, Link, LinkProps, Overlay } from '../src'
+import { Icon, Link, Overlay } from '../src'
 
 import styles from './Overlay.module.scss'
 import { DataTestProp } from '@hazelcast/helpers'
+import { IconProps } from '../src/Icon'
+import { LinkProps } from '../src/Link'
 
 const title = 'Modal Title'
 const icon = Settings

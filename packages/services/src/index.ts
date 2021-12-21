@@ -1,2 +1,2 @@
-export * from './logger'
-export * from './time'
+export { logger } from './logger'
+export { TimeService } from './time'
