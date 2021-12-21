@@ -1,12 +1,12 @@
-@use "../styles/constants" as c;
-@use "../styles/helpers" as h;
-@use "sass:math";
+@use '../styles/constants' as c;
+@use '../styles/helpers' as h;
+@use 'sass:math';
 
 $height: c.$grid * 6;
 $width: c.$grid * 15;
 $labelMargin: c.$grid * 2.5;
 /* doiuse-disable calc */
-$trackBr: calc(#{$h} - #{c.$borderWidth * 2});
+$trackBr: calc(#{$height} - #{c.$borderWidth * 2});
 /* doiuse-enable calc */
 $trackBgOn: c.$colorSuccessLight;
 $trackBgOff: c.$colorNeutral;
@@ -114,7 +114,7 @@ $knobHorizontalOffset: math.max(c.$outlineWidth - c.$borderWidth, 0px);
 
   // the `knob` OFF state
   .toggleTrack::before {
-    content: "";
+    content: '';
     display: inline-block;
     height: $knobRadius;
     width: $knobRadius;
