@@ -1,4 +1,4 @@
-@use "../constants" as c;
+@use '../constants' as c;
 
 @mixin outlineSimple {
   box-shadow: inset 0 0 0 c.$outlineWidth c.$colorAccessibilityOutline;

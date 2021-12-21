@@ -1,5 +1,5 @@
-@use "../styles/constants" as c;
-@use "../styles/helpers" as h;
+@use '../styles/constants' as c;
+@use '../styles/helpers' as h;
 
 // Why is it so complex? Why do we need .borderOverlay?
 // Ideally, we would have used native `border` for every style: hover, error, focus.

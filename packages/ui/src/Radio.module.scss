@@ -1,5 +1,5 @@
-@use "../styles/constants" as c;
-@use "../styles/helpers" as h;
+@use '../styles/constants' as c;
+@use '../styles/helpers' as h;
 
 .wrapper {
   display: inline-flex;
@@ -64,7 +64,7 @@
 
   /* Style the indicator (dot/circle) */
   .checkmark::after {
-    content: "";
+    content: '';
     width: 1.5 * c.$grid;
     height: 1.5 * c.$grid;
     border-radius: 50%;

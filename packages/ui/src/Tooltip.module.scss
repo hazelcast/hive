@@ -1,6 +1,6 @@
-@use "sass:math";
-@use "../styles/constants" as c;
-@use "../styles/helpers" as h;
+@use 'sass:math';
+@use '../styles/constants' as c;
+@use '../styles/helpers' as h;
 
 .tooltipSr {
   @include h.visuallyHidden;
@@ -38,12 +38,12 @@ $tooltipArrowSize2-3: math.div(c.$tooltipArrowSize, 3) * 2;
 
     &::before,
     &::after {
-      content: "";
+      content: '';
       position: absolute;
     }
   }
 
-  &[data-popper-placement^="top"] {
+  &[data-popper-placement^='top'] {
     > .arrow {
       bottom: 0;
 
@@ -67,7 +67,7 @@ $tooltipArrowSize2-3: math.div(c.$tooltipArrowSize, 3) * 2;
     }
   }
 
-  &[data-popper-placement^="right"] {
+  &[data-popper-placement^='right'] {
     > .arrow {
       left: 0;
 
@@ -92,7 +92,7 @@ $tooltipArrowSize2-3: math.div(c.$tooltipArrowSize, 3) * 2;
     }
   }
 
-  &[data-popper-placement^="bottom"] {
+  &[data-popper-placement^='bottom'] {
     > .arrow {
       top: 0;
 
@@ -117,7 +117,7 @@ $tooltipArrowSize2-3: math.div(c.$tooltipArrowSize, 3) * 2;
     }
   }
 
-  &[data-popper-placement^="left"] {
+  &[data-popper-placement^='left'] {
     > .arrow {
       right: 0;
 

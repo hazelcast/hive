@@ -1,8 +1,8 @@
-$fontFamilyHeading: "Roboto", "Helvetica", "Arial", sans-serif !default;
+$fontFamilyHeading: 'Roboto', 'Helvetica', 'Arial', sans-serif !default;
 $fontWeightHeadingLight: 300 !default;
 $fontWeightHeadingRegular: 400 !default;
 $fontWeightHeadingBold: 500 !default;
-$fontFamilyText: "Roboto", "Helvetica", "Arial", sans-serif !default;
+$fontFamilyText: 'Roboto', 'Helvetica', 'Arial', sans-serif !default;
 $fontWeightTextLight: 300 !default;
 $fontWeightTextRegular: 400 !default;
 $fontWeightTextBold: 500 !default;
@@ -37,10 +37,10 @@ $lineHeightBodyTiny: normal !default;
 
 @function override($override: false) {
   @if $override {
-    @return "!important";
+    @return '!important';
   }
 
-  @return "";
+  @return '';
 }
 
 @mixin typographyH1($override: false) {
@@ -67,38 +67,38 @@ $lineHeightBodyTiny: normal !default;
   line-height: $lineHeightH3 #{override($override)};
 }
 
-@mixin typographyButton($size: "medium") {
+@mixin typographyButton($size: 'medium') {
   font-family: $fontFamilyText;
   line-height: $lineHeightButton;
 
-  @if $size == "medium" {
+  @if $size == 'medium' {
     font-weight: $fontWeightTextRegular;
     font-size: $fontSizeButton;
     letter-spacing: $letterSpacingButton;
   }
 
-  @if $size == "small" {
+  @if $size == 'small' {
     font-weight: $fontWeightTextRegular;
     font-size: $fontSizeButtonSmall;
     letter-spacing: $letterSpacingButtonSmall;
   }
 }
 
-@mixin typographyBodyWeight($weight: "regular") {
-  @if $weight == "regular" {
+@mixin typographyBodyWeight($weight: 'regular') {
+  @if $weight == 'regular' {
     font-weight: $fontWeightTextRegular;
   }
 
-  @if $weight == "bold" {
+  @if $weight == 'bold' {
     font-weight: $fontWeightTextBold;
   }
 
-  @if $weight == "light" {
+  @if $weight == 'light' {
     font-weight: $fontWeightTextLight;
   }
 }
 
-@mixin typographyBodyNormal($weight: "regular") {
+@mixin typographyBodyNormal($weight: 'regular') {
   font-family: $fontFamilyText;
   font-size: $fontSizeBodyNormal;
   letter-spacing: $letterSpacingBodyNormal;
@@ -107,7 +107,7 @@ $lineHeightBodyTiny: normal !default;
   @include typographyBodyWeight($weight);
 }
 
-@mixin typographyBodySmall($weight: "regular") {
+@mixin typographyBodySmall($weight: 'regular') {
   font-family: $fontFamilyText;
   font-size: $fontSizeBodySmall;
   letter-spacing: $letterSpacingBodySmall;
@@ -116,7 +116,7 @@ $lineHeightBodyTiny: normal !default;
   @include typographyBodyWeight($weight);
 }
 
-@mixin typographyBodySmaller($weight: "regular") {
+@mixin typographyBodySmaller($weight: 'regular') {
   font-family: $fontFamilyText;
   font-size: $fontSizeBodySmaller;
   letter-spacing: $letterSpacingBodySmaller;
@@ -125,7 +125,7 @@ $lineHeightBodyTiny: normal !default;
   @include typographyBodyWeight($weight);
 }
 
-@mixin typographyBodyTiny($weight: "regular") {
+@mixin typographyBodyTiny($weight: 'regular') {
   font-family: $fontFamilyText;
   font-size: $fontSizeBodyTiny;
   letter-spacing: $letterSpacingBodyTiny;

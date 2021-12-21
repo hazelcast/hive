@@ -1,5 +1,5 @@
-@use "../../styles/constants" as c;
-@use "../../styles/helpers" as h;
+@use '../../styles/constants' as c;
+@use '../../styles/helpers' as h;
 
 $inputMaxWidth: 300px;
 $inputMinWidth: 118px;
@@ -52,7 +52,7 @@ $inputPadding: c.$grid * 3;
             margin: 0;
             color: c.$colorText;
 
-            @include c.typographyBodySmall("bold");
+            @include c.typographyBodySmall('bold');
 
             &:not(:last-of-type) {
               margin-right: c.$grid * 2;
@@ -99,7 +99,7 @@ $inputPadding: c.$grid * 3;
             @include c.typographyBodySmall;
 
             &--today {
-              @include c.typographyBodySmall("bold");
+              @include c.typographyBodySmall('bold');
             }
 
             &--in-selecting-range,
@@ -115,7 +115,7 @@ $inputPadding: c.$grid * 3;
 
               // Note: Disable default browser outline, force our only on :focus
 
-              @include c.typographyBodySmall("bold");
+              @include c.typographyBodySmall('bold');
             }
 
             &--disabled {
@@ -176,7 +176,7 @@ $inputPadding: c.$grid * 3;
         .headerMonthAndYear {
           color: c.$colorTextSecondary;
 
-          @include c.typographyBodySmall("bold");
+          @include c.typographyBodySmall('bold');
         }
       }
     }

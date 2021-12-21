@@ -1,5 +1,5 @@
-@use "../../styles/constants" as c;
-@use "../../styles/helpers" as h;
+@use '../../styles/constants' as c;
+@use '../../styles/helpers' as h;
 
 .container {
   position: relative;
@@ -12,7 +12,7 @@
     padding-right: c.$grid * 5;
     color: c.$colorText;
 
-    @include c.typographyBodySmall("bold");
+    @include c.typographyBodySmall('bold');
     @include h.overflowEllipsis;
 
     .sortingIcon {

@@ -1,5 +1,5 @@
-@use "../styles/constants" as c;
-@use "../styles/helpers" as h;
+@use '../styles/constants' as c;
+@use '../styles/helpers' as h;
 
 .container {
   // Match TextField
@@ -64,7 +64,7 @@
 }
 
 .welcome {
-  @include c.typographyBodySmall("bold");
+  @include c.typographyBodySmall('bold');
 
   margin: 0;
   margin-bottom: c.$grid * 5;
@@ -103,7 +103,7 @@
 }
 
 .prompt {
-  @include c.typographyBodySmall("bold");
+  @include c.typographyBodySmall('bold');
 
   margin-right: c.$grid;
 }

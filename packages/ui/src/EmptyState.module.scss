@@ -1,4 +1,4 @@
-@use "../styles/constants" as c;
+@use '../styles/constants' as c;
 
 .container {
   display: flex;
@@ -11,7 +11,7 @@
     .title {
       margin: c.$grid * 4.5 0 0 0;
 
-      @include c.typographyBodyNormal("bold" !important);
+      @include c.typographyBodyNormal('bold' !important);
     }
 
     .description {
@@ -68,7 +68,7 @@
       .title {
         margin: 0;
 
-        @include c.typographyBodyNormal("bold" !important);
+        @include c.typographyBodyNormal('bold' !important);
       }
 
       .description {

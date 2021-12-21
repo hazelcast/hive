@@ -1,5 +1,5 @@
-@use "../styles/constants" as c;
-@use "../styles/helpers" as h;
+@use '../styles/constants' as c;
+@use '../styles/helpers' as h;
 @include h.withError;
 
 .wrapper {
@@ -58,7 +58,7 @@
     }
   }
 
-  input[aria-checked="mixed"] ~ .checkmark {
+  input[aria-checked='mixed'] ~ .checkmark {
     background-color: c.$colorPrimaryLight;
     border-color: c.$colorPrimaryLight;
   }

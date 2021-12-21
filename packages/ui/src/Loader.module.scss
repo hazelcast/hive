@@ -1,5 +1,5 @@
-@use "sass:math";
-@use "../styles/constants" as c;
+@use 'sass:math';
+@use '../styles/constants' as c;
 
 $itemsCnt: 8;
 $duration: c.$durationLoader;

@@ -1,4 +1,4 @@
-@use "../styles/constants" as c;
+@use '../styles/constants' as c;
 
 .wrapperCentered {
   display: flex;
@@ -43,21 +43,21 @@
 }
 
 .customTableFooter {
-  [role="cell"] {
+  [role='cell'] {
     font-style: italic;
   }
 }
 
 .customTableContent {
-  [role="row"]:nth-child(odd) {
-    [role="cell"] {
+  [role='row']:nth-child(odd) {
+    [role='cell'] {
       background: #ccc;
     }
   }
 }
 
 .customTableHeader {
-  [role="columnheader"] {
+  [role='columnheader'] {
     background: lightblue;
 
     span {

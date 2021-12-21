@@ -1,5 +1,5 @@
-@use "../styles/constants" as c;
-@use "../styles/helpers" as h;
+@use '../styles/constants' as c;
+@use '../styles/helpers' as h;
 
 // thumb width without a white border, let's make it the height of the slider
 $thumbWidth: c.$slideTrackHeight;
@@ -110,7 +110,7 @@ ul.markDescriptions {
     flex: 1;
     margin: $thumbWidth 0;
 
-    input[type="range"] {
+    input[type='range'] {
       &::-webkit-slider-runnable-track,
       &::-webkit-slider-thumb,
       & {
@@ -175,7 +175,7 @@ ul.markDescriptions {
     }
 
     // see the javascript code for an explanation of this class
-    input[type="range"].atTheBorder {
+    input[type='range'].atTheBorder {
       @include styleThumb {
         pointer-events: none;
       }
@@ -262,7 +262,7 @@ ul.markDescriptions {
       }
     }
 
-    input[type="range"]:disabled {
+    input[type='range']:disabled {
       @include styleThumb {
         box-shadow: 0 0 0 c.$sliderThumbHoverBorderSize c.$colorNeutral;
         background: c.$colorNeutralLight;

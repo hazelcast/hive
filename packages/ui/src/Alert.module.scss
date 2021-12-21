@@ -1,5 +1,5 @@
-@use "../styles/constants" as c;
-@use "../styles/helpers" as h;
+@use '../styles/constants' as c;
+@use '../styles/helpers' as h;
 
 // TODO: potential max-height
 .alert {
@@ -29,7 +29,7 @@
       flex: 1 0 auto;
       margin-right: c.$grid * 8.5;
 
-      @include c.typographyBodyNormal("bold");
+      @include c.typographyBodyNormal('bold');
       @include h.overflowEllipsis;
     }
   }

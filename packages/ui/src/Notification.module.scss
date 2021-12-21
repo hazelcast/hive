@@ -1,4 +1,4 @@
-@use "../styles/constants" as c;
+@use '../styles/constants' as c;
 
 .notification {
   display: flex;
@@ -32,7 +32,7 @@
     // TODO: Improvisation. Consult with @pawel.
     margin-left: c.$grid * 2;
 
-    @include c.typographyBodyWeight("bold");
+    @include c.typographyBodyWeight('bold');
   }
 
   /* Theme - success */

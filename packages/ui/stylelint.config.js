@@ -1,10 +1,12 @@
 module.exports = {
-  extends: ['stylelint-config-standard', 'stylelint-config-prettier', 'stylelint-config-standard-scss'],
+  extends: ['stylelint-config-standard', 'stylelint-config-prettier', 'stylelint-config-standard-scss', 'stylelint-prettier/recommended'],
   plugins: [
     // SCSS rules set, need to be explicitly set in "rules"
     'stylelint-scss',
+    'stylelint-prettier',
   ],
   rules: {
+    'prettier/prettier': true,
     /*
      * CSS-modules rules (from stylelint-config-css-module)
      * Overrides of stylelint-config-standard for CSS modules

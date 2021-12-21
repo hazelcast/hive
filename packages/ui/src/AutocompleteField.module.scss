@@ -1,9 +1,9 @@
-@use "../styles/constants" as c;
-@use "../styles/helpers" as h;
+@use '../styles/constants' as c;
+@use '../styles/helpers' as h;
 
 $selectHorizontalPadding: c.$grid * 3;
 $menuMargin: c.$grid * 3;
-$select: ":global .hz-autocomplete-field__control";
+$select: ':global .hz-autocomplete-field__control';
 
 .container {
   .label {
