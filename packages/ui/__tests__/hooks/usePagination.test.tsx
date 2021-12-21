@@ -1,5 +1,5 @@
 import { testHook, getHookRes } from '@hazelcast/test-helpers'
-import { getZeroSiblingCountItems, PaginationItem, usePagination, UsePaginationProps } from '../src/hooks/usePagination'
+import { getZeroSiblingCountItems, PaginationItem, usePagination, UsePaginationProps } from '../../src/hooks/usePagination'
 
 describe('usePagination', () => {
   const data: [UsePaginationProps, PaginationItem[]][] = [
