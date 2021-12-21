@@ -7,8 +7,9 @@ import { act } from 'react-dom/test-utils'
 // Equivalent to `2021-02-08T09:00:00.000Z`
 const timestamp = 1612774800000
 const date = getFixedTimezoneDate(timestamp)
+const monthDate = getFixedTimezoneDate(timestamp)
 
-const calendarHeaderIntrinsicProps: Omit<CalendarHeaderProps, 'date' | 'increaseMonth' | 'decreaseMonth'> = {
+const calendarHeaderIntrinsicProps: Omit<CalendarHeaderProps, 'date' | 'monthDate' | 'increaseMonth' | 'decreaseMonth'> = {
   changeYear: jest.fn(),
   changeMonth: jest.fn(),
   prevMonthButtonDisabled: false,
@@ -28,6 +29,7 @@ describe('CalendarHeader', () => {
     const props: CalendarHeaderProps = {
       ...calendarHeaderIntrinsicProps,
       date,
+      monthDate,
       increaseMonth,
       decreaseMonth,
     }
@@ -54,6 +56,7 @@ describe('CalendarHeader', () => {
     const props: CalendarHeaderProps = {
       ...calendarHeaderIntrinsicProps,
       date,
+      monthDate,
       increaseMonth,
       decreaseMonth,
     }
@@ -79,6 +82,7 @@ describe('CalendarHeader', () => {
     const props: CalendarHeaderProps = {
       ...calendarHeaderIntrinsicProps,
       date,
+      monthDate,
       increaseMonth,
       decreaseMonth,
     }

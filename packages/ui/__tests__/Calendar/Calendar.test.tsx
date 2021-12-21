@@ -6,6 +6,7 @@ import { Calendar as CalendarIcon, ChevronLeft, ChevronRight } from 'react-feath
 import { Calendar } from '../../src/Calendar/Calendar'
 
 import styleConsts from '../styles/constants/export.module.scss'
+import { waitForComponentToPaint } from '../../src/utils/test'
 
 // Equivalent to `2021-02-08T09:00:00.000Z`
 const timestamp = 1612774800000
@@ -97,10 +98,9 @@ describe('Calendar', () => {
       inputTrailingIconLabel: 'Calendar Icon',
     })
 
-    act(() => {
-      wrapper.findDataTest('calendar-input').find('input').simulate('click')
-    })
-    wrapper.update()
+    wrapper.findDataTest('calendar-input').find('input').simulate('click')
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    await waitForComponentToPaint(wrapper)
 
     const datePickerPopperContainer = wrapper.findDataTest('date-picker-popper-container')
     expect(datePickerPopperContainer.exists()).toBeTruthy()
@@ -143,10 +143,9 @@ describe('Calendar', () => {
       inputTrailingIconLabel: 'Calendar Icon',
     })
 
-    act(() => {
-      wrapper.findDataTest('calendar-input').find('input').simulate('click')
-    })
-    wrapper.update()
+    wrapper.findDataTest('calendar-input').find('input').simulate('click')
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    await waitForComponentToPaint(wrapper)
 
     const datePickerPopperContainer = wrapper.findDataTest('date-picker-popper-container')
     expect(datePickerPopperContainer.exists()).toBeTruthy()

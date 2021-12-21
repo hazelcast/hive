@@ -18,10 +18,11 @@ import { Button } from '../../src/Button'
 import { bigDataSet, smallDataSet } from './consts'
 import { useTableCustomizableColumns } from '../../src/hooks/useTableCustomizableColumns'
 
+const rules = axeDefaultOptions?.rules ?? {}
 const axeOptions = {
   ...axeDefaultOptions,
   rules: {
-    ...axeDefaultOptions?.rules,
+    ...rules,
     'autocomplete-valid': { enabled: false },
   },
 }

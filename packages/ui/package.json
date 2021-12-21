@@ -87,12 +87,14 @@
     "@types/classnames": "^2.3.1",
     "@types/enzyme": "^3.10.10",
     "@types/enzyme-adapter-react-16": "^1.0.6",
-    "@types/react": "^16.14.4",
+    "@types/jest-axe": "^3.5.3",
+    "@types/react": "^16.14.21",
     "@types/react-datepicker": "^4.3.2",
-    "@types/react-dom": "^16.9.11",
+    "@types/react-dom": "^16.9.14",
     "doiuse": "^4.2.0",
     "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.5",
+    "enzyme-adapter-react-16": "^1.15.6",
+    "jest-axe": "^5.0.1",
     "loki": "^0.28.1",
     "postcss": "^8.4.5",
     "postcss-cli": "^9.1.0",
@@ -111,6 +113,8 @@
   },
   "peerDependencies": {
     "react": "^16.14.0 || ^17.0.0",
-    "react-dom": "^16.14.0 || ^17.0.0"
+    "react-dom": "^16.14.0 || ^17.0.0",
+    "@types/enzyme": "^3.10.10",
+    "enzyme": "^3.11.0"
   }
 }

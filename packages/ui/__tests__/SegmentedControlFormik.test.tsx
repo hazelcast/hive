@@ -40,15 +40,15 @@ describe('SegmentedControlFormik', () => {
         onSubmit={onSubmit}
       >
         <Form>
-          <SegmentedControlFormik name="character" options={swCharactersOptions} label="test" />
+          <SegmentedControlFormik<Values> name="character" options={swCharactersOptions} label="test" />
         </Form>
       </Formik>
     )
-
+    const rules = axeDefaultOptions?.rules ?? {}
     const wrapper = await mountAndCheckA11Y(<TestForm />, {
       axeOptions: {
         rules: {
-          ...axeDefaultOptions?.rules,
+          ...rules,
           // RadioGroup.Label is passed role="none" which is appratently wrong
           'aria-allowed-role': { enabled: false },
         },
