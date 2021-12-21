@@ -23,3 +23,10 @@ jobs:
             ${{ runner.os }}-
 
       - run: npm ci && npm run verify-all
+      - name: Publish to Chromatic
+        uses: chromaui/action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          exitZeroOnChanges: true
+          workingDir: packages/ui
