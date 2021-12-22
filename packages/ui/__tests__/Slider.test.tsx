@@ -42,7 +42,7 @@ describe('Slider', () => {
       max: 100,
       min: 1,
       // This is an internal component function
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       onChange: expect.any(Function),
       step: 1,
       type: 'range',
@@ -85,18 +85,16 @@ describe('Slider', () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const events: any = {}
     jest.spyOn(window, 'addEventListener').mockImplementation((event, handle) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       events[event] = handle
     })
     jest.spyOn(window, 'removeEventListener').mockImplementation((event) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       events[event] = undefined
     })
 
     const wrapper = await mountAndCheckA11Y(<Slider name="ram" label="RAM" value={1} min={0} max={10} onChange={onChange} />)
 
     expect(onChange).toBeCalledTimes(0)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+
     events['click']({ offsetX: 100, target: wrapper.find("div[role='group']").instance() })
 
     expect(onChange).toBeCalledTimes(1)
@@ -114,18 +112,16 @@ describe('Slider', () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const events: any = {}
     jest.spyOn(window, 'addEventListener').mockImplementation((event, handle) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       events[event] = handle
     })
     jest.spyOn(window, 'removeEventListener').mockImplementation((event) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       events[event] = undefined
     })
 
     const wrapper = await mountAndCheckA11Y(<Slider name="ram" label="RAM" value={[3, 9]} min={0} max={10} onChange={onChange} />)
 
     expect(onChange).toBeCalledTimes(0)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+
     events['click']({ offsetX: 100, target: wrapper.find("div[role='group']").instance() })
 
     expect(onChange).toBeCalledTimes(1)

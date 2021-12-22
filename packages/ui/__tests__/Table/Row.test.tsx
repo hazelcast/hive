@@ -34,9 +34,9 @@ describe('Row', () => {
         role: '',
         'aria-rowindex': 1,
         tabIndex: 0,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
         onClick: expect.anything(),
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
         onKeyPress: expect.anything(),
         style: { width: 40 },
         children: 'Row',
@@ -58,7 +58,7 @@ describe('Row', () => {
         className: styles.linkRow,
         role: undefined,
         'aria-rowindex': undefined,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
         children: expect.anything(),
       },
       { className: styles.link, style: undefined, href: 'testHref', children: 'Row' },
@@ -70,7 +70,7 @@ describe('Row', () => {
         className: `${styles.linkRow} testClassName`,
         role: '',
         'aria-rowindex': 1,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
         children: expect.anything(),
       },
       { className: styles.link, style: { width: 40 }, href: 'testHref', children: 'Row' },

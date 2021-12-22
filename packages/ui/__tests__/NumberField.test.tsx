@@ -33,10 +33,8 @@ describe('NumberField', () => {
       value: 42,
       name: 'name',
       onBlur,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       onChange: expect.anything(),
       type: 'number',
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       inputContainerChild: expect.anything(),
       inputContainerClassName: `${styles.inputContainer} ${styles.buttons}`,
       inputClassName: 'amidala',
@@ -49,7 +47,6 @@ describe('NumberField', () => {
       ariaLabel: 'Decrement',
       'data-test': 'number-field-decrement',
       className: styles.decrement,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       onClick: expect.anything(),
       kind: 'transparent',
       type: 'button',
@@ -60,7 +57,6 @@ describe('NumberField', () => {
       ariaLabel: 'Increment',
       'data-test': 'number-field-increment',
       className: styles.increment,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       onClick: expect.anything(),
       kind: 'transparent',
       type: 'button',
@@ -192,7 +188,6 @@ describe('NumberField', () => {
       ariaLabel: '-1',
       'data-test': 'number-field-decrement',
       className: styles.decrement,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       onClick: expect.anything(),
       disabled: undefined,
       kind: 'transparent',
@@ -204,7 +199,6 @@ describe('NumberField', () => {
       ariaLabel: '+1',
       'data-test': 'number-field-increment',
       className: styles.increment,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       onClick: expect.anything(),
       disabled: undefined,
       kind: 'transparent',

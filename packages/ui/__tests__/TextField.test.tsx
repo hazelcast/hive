@@ -88,7 +88,7 @@ describe('TextField', () => {
     })
 
     expect(onChange).toBeCalledTimes(1)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-non-null-assertion
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     expect(onChange.mock.calls[0][0]).toMatchObject(event!)
   })
 

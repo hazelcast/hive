@@ -54,13 +54,12 @@ describe('Overlay', () => {
     expect(overlayWrapper.props()).toEqual({
       'data-test': 'overlay-wrapper',
       className: cn(styles.wrapper, styles.normal),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       children: expect.anything(),
     })
     expect(header.props()).toEqual({
       'data-test': 'overlay-header',
       className: styles.header,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       children: expect.anything(),
     })
     expect(headerIcon.type()).toEqual(Icon)
@@ -87,7 +86,7 @@ describe('Overlay', () => {
       iconClassName: styles.closeIcon,
       icon: X,
       ariaLabel: 'Cancel',
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       children: expect.anything(),
     })
     expect(overlayContent.props()).toEqual({
@@ -110,7 +109,7 @@ describe('Overlay', () => {
     expect(overlayWrapper.props()).toEqual({
       'data-test': 'overlay-wrapper',
       className: cn(styles.wrapper, styles.fullscreen),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       children: expect.anything(),
     })
   })

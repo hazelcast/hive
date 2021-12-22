@@ -94,7 +94,6 @@ describe('TextArea', () => {
     })
 
     expect(onChange).toBeCalledTimes(1)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     expect(onChange.mock.calls[0][0]).toMatchObject({ target: { value: 'value' } })
   })
 

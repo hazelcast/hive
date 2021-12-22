@@ -47,9 +47,9 @@ describe('TabList', () => {
       role: 'tablist',
       className: styles.tabList,
       'aria-label': ariaLabel,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       children: expect.anything(),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       onKeyDown: expect.anything(),
     })
   })

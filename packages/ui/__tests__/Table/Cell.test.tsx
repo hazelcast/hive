@@ -31,7 +31,7 @@ describe('CellWarning', () => {
     expect(tooltip.props()).toEqual<TooltipProps>({
       id: iconId,
       content: 'testWarning',
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       children: expect.anything(),
     })
 
@@ -39,7 +39,7 @@ describe('CellWarning', () => {
     expect(cellWarningContent.props()).toEqual({
       'data-test': 'cell-warning-content',
       className: `${styles.warningIcon} ${styles[align]}`,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       children: expect.anything(),
     })
 
@@ -65,7 +65,7 @@ describe('Cell', () => {
     'aria-sort': undefined,
     onClick: undefined,
     onKeyPress: undefined,
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
     children: expect.anything(),
   }
 
