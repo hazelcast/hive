@@ -60,5 +60,5 @@ jobs:
         if: ${{ failure() }}
         uses: actions/upload-artifact@v1
         with:
-          name: react-example-screenshots
+          name: loki-screenshots
           path: packages/ui/.loki

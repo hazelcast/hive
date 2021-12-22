@@ -112,11 +112,5 @@
     "stylelint-prettier": "^2.0.0",
     "webpack": "^5.65.0",
     "yup": "^0.32.11"
-  },
-  "peerDependencies": {
-    "react": "^16.14.0 || ^17.0.0",
-    "react-dom": "^16.14.0 || ^17.0.0",
-    "@types/enzyme": "^3.10.10",
-    "enzyme": "^3.11.0"
   }
 }
