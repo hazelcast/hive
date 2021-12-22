@@ -1,8 +1,8 @@
-name: check request
+name: check pull request
 on: pull_request
 
 jobs:
-  build_check:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -10,43 +10,84 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Cache node modules
-        uses: actions/cache@v2
+      - uses: actions/cache@v2
         env:
           cache-name: cache-node-modules
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+          key: ${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
 
-      - run: npm ci && npm run verify-all
+      - run: npm ci && npm run lint
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+
+      - run: npm ci &&  npm run test
+
+  test_visual:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+
+      - run: npm ci && npm run test:visual
+
+  build:
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+
+      - run: npm ci && npm run build-storybook
 
   chromatic-deployment:
     runs-on: ubuntu-latest
-    needs: [build_check]
+    needs: [build, test, test_visual]
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 0
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
 
-      - name: Cache node modules
-        uses: actions/cache@v2
+      - uses: actions/cache@v2
         env:
           cache-name: cache-node-modules
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+          key: ${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
 
       - run: npm ci
 
