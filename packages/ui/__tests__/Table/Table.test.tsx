@@ -16,7 +16,6 @@ import {
 import { Pagination, PaginationProps } from '../../src/Pagination'
 import { Button } from '../../src/Button'
 import { bigDataSet, smallDataSet } from './consts'
-import { useTableCustomizableColumns } from '../../src/hooks/useTableCustomizableColumns'
 
 const rules = axeDefaultOptions?.rules ?? {}
 const axeOptions = {
@@ -61,6 +60,7 @@ describe('Table', () => {
     headers.forEach((header, i: number) => {
       expect(header.props()).toMatchObject<PropsWithChildren<HeaderProps>>({
         align: columns[i].align,
+        index: i,
         canSort: false,
         isSorted: false,
         isSortedDesc: undefined,
@@ -91,7 +91,7 @@ describe('Table', () => {
     expect(cellRowGroup.props()).toMatchObject({
       'data-test': 'table-cell-row-group',
       role: 'rowgroup',
-      className: '',
+      className: 'content',
     })
 
     const cellRows = cellRowGroup.find(Row)
@@ -332,13 +332,15 @@ describe('Table', () => {
   it('With customizable columns should render all columns by default', async () => {
     const columns = getColumns({ withFooter: true })
     const Wrapper = () => {
-      const { tableColumns, control } = useTableCustomizableColumns(columns)
-
       return (
-        <div>
-          {control}
-          <Table data-test="table-test" columns={tableColumns} data={[]} hidePagination />
-        </div>
+        <Table data-test="table-test" columns={columns} data={[]} hidePagination>
+          {(table, toggleColumnsControl) => (
+            <div>
+              {toggleColumnsControl}
+              {table}
+            </div>
+          )}
+        </Table>
       )
     }
 
@@ -351,13 +353,15 @@ describe('Table', () => {
   it('With customizable columns should render without columns when all columns unselected', async () => {
     const columns = getColumns({ withFooter: true })
     const Wrapper = () => {
-      const { tableColumns, control } = useTableCustomizableColumns(columns)
-
       return (
-        <div>
-          {control}
-          <Table data-test="table-test" columns={tableColumns} data={[]} hidePagination />
-        </div>
+        <Table data-test="table-test" columns={columns} data={[]} hidePagination>
+          {(table, toggleColumnsControl) => (
+            <div>
+              {toggleColumnsControl}
+              {table}
+            </div>
+          )}
+        </Table>
       )
     }
 
@@ -377,7 +381,7 @@ describe('Table', () => {
     })
     wrapper.update()
 
-    expect(wrapper.findDataTest('table-test').at(0).prop('columns')).toEqual([])
+    expect(wrapper.findDataTest('table-cell-row-group').find(Cell).exists()).toBeFalsy()
   })
 
   it('Reset out of range pageIndex to last available page', async () => {

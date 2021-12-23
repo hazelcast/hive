@@ -1,4 +1,4 @@
-import React, { AriaAttributes, ChangeEvent, FC, FocusEvent, ReactElement, ReactText, useRef } from 'react'
+import React, { AriaAttributes, ChangeEvent, FC, FocusEvent, ReactElement, ReactText, useRef, MouseEvent } from 'react'
 import { Check, Minus } from 'react-feather'
 import { DataTestProp } from '@hazelcast/helpers'
 import { useUID } from 'react-uid'
@@ -15,6 +15,7 @@ type CheckboxCoreProps = {
   value?: string
   onBlur?: (e: FocusEvent<HTMLInputElement>) => void
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
+  onClick?: (e: MouseEvent<HTMLInputElement>) => void
   error?: string
   checked?: boolean
 }
@@ -57,6 +58,7 @@ export const Checkbox: FC<CheckboxProps> = (props) => {
     disabled = false,
     required,
     'data-test': dataTest,
+    onClick,
   } = props
   const inputRef = useRef<HTMLInputElement>(null)
   const id = useUID()
@@ -97,6 +99,7 @@ export const Checkbox: FC<CheckboxProps> = (props) => {
           checked={!!checked}
           onChange={onChange}
           onBlur={onBlur}
+          onClick={onClick}
           value={value}
           disabled={disabled}
           aria-checked={ariaChecked}

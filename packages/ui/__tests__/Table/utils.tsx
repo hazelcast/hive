@@ -1,7 +1,8 @@
 import React, { PropsWithChildren, useMemo } from 'react'
-import { CellProps, Column } from 'react-table'
+import { CellProps } from 'react-table'
 
 import { Link } from '../../src/Link'
+import { Column } from '../../src/Table/Table'
 
 export type Person = {
   name: string
@@ -14,6 +15,7 @@ export type Person = {
 export type GetColumns = {
   withFooter?: boolean
   withNameLink?: boolean
+  canHide?: boolean
 }
 
 const NameCell = (row: PropsWithChildren<CellProps<Person, string>>) => (
@@ -30,7 +32,8 @@ export const getColumns = ({ withFooter = false, withNameLink = false }: GetColu
   },
   {
     Header: 'Name',
-    accessor: 'name',
+    id: 'name',
+    accessor: ({ name }) => name,
     ...(withFooter && { Footer: 'Name' }),
     ...(withNameLink && { Cell: NameCell }),
   },

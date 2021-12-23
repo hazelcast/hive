@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useCallback, MouseEvent, KeyboardEvent, AriaAttributes } from 'react'
+import React, { FC, useMemo, useCallback, MouseEvent, KeyboardEvent, AriaAttributes, DragEvent, useRef } from 'react'
 import { ChevronDown, ChevronUp } from 'react-feather'
 import { TableHeaderProps, TableResizerProps } from 'react-table'
 import cn from 'classnames'
@@ -23,6 +23,9 @@ export type HeaderProps = {
   isResizing: boolean
   getResizerProps: (props?: Partial<TableResizerProps>) => TableResizerProps
   isLastHeader: boolean
+  index: number
+  onDragStart?: (e: DragEvent) => void
+  onDrop?: (e: DragEvent, index: number) => void
 } & Omit<TableHeaderProps, 'key'>
 
 export const Header: FC<HeaderProps> = ({
@@ -40,7 +43,15 @@ export const Header: FC<HeaderProps> = ({
   style,
   className,
   role,
+  index,
+  onDragStart,
+  onDrop,
 }) => {
+  const rootRef = useRef<HTMLDivElement>(null)
+  const isDragStarterRef = useRef(false)
+  const counterRef = useRef(0)
+
+  const draggable = !!onDrop && !!onDragStart
   let ariaSort: AriaAttributes['aria-sort']
   if (isSorted) {
     ariaSort = isSortedDesc ? 'descending' : 'ascending'
@@ -80,6 +91,7 @@ export const Header: FC<HeaderProps> = ({
 
   return (
     <div
+      ref={rootRef}
       data-test="table-header-container"
       className={cn(styles.container, className)}
       style={style}
@@ -88,6 +100,7 @@ export const Header: FC<HeaderProps> = ({
       aria-sort={ariaSort}
     >
       <div
+        draggable={draggable}
         data-test="table-header-content"
         className={cn(styles.th, {
           [styles.sortable]: canSort,
@@ -95,6 +108,52 @@ export const Header: FC<HeaderProps> = ({
           [styles.alignRight]: align === 'right',
           [styles.alignCenter]: align === 'center',
         })}
+        onDragStart={
+          draggable
+            ? (e) => {
+                e.dataTransfer.setData('text/plain', String(index))
+                isDragStarterRef.current = true
+                onDragStart && onDragStart(e)
+              }
+            : undefined
+        }
+        onDragEnd={() => {
+          isDragStarterRef.current = false
+        }}
+        onDragOver={(e) => e.preventDefault()}
+        onDragEnter={
+          draggable
+            ? (e) => {
+                e.preventDefault()
+                if (!isDragStarterRef.current && rootRef.current && counterRef.current === 0) {
+                  rootRef.current.classList.add(styles.dragOver)
+                }
+                counterRef.current++
+              }
+            : undefined
+        }
+        onDragLeave={
+          draggable
+            ? () => {
+                counterRef.current--
+                if (rootRef.current && counterRef.current === 0) {
+                  rootRef.current.classList.remove(styles.dragOver)
+                }
+              }
+            : undefined
+        }
+        onDrop={
+          draggable
+            ? (e) => {
+                onDrop && onDrop(e, index)
+                if (rootRef.current) {
+                  rootRef.current.classList.remove(styles.dragOver)
+                }
+                isDragStarterRef.current = false
+                counterRef.current = 0
+              }
+            : undefined
+        }
         {...buttonRoleProps}
       >
         {canSort && align === 'right' && Chevron}

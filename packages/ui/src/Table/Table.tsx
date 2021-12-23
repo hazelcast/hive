@@ -1,5 +1,5 @@
 import { DataTestProp } from '@hazelcast/helpers'
-import React, { AnchorHTMLAttributes, FC, ReactChild, ReactElement, useEffect } from 'react'
+import React, { AnchorHTMLAttributes, FC, ReactChild, ReactElement, useCallback, useEffect, useRef, DragEvent, useMemo } from 'react'
 import cn from 'classnames'
 import {
   useTable,
@@ -14,6 +14,10 @@ import {
   useFlexLayout,
   Column as ColumnType,
   useGlobalFilter,
+  useRowSelect,
+  useColumnOrder,
+  TableState,
+  IdType,
 } from 'react-table'
 import { AlertTriangle } from 'react-feather'
 
@@ -25,11 +29,16 @@ import { HeaderRow, LinkRow, Row, RowProps } from './Row'
 import { Loader } from '../Loader'
 import { EmptyState } from '../EmptyState'
 import { usePrevious } from '../hooks/usePrevious'
+import { Checkbox } from '../Checkbox'
+import { useTableCustomizableColumns } from '../hooks'
 
 import styles from './Table.module.scss'
 import styleConsts from '../../styles/constants/export.module.scss'
 
-export type { Accessor, Column, Cell, Renderer, Row, CellProps, HeaderGroup, TableInstance } from 'react-table'
+export type { Accessor, Cell, Renderer, Row, CellProps, HeaderGroup, TableInstance } from 'react-table'
+export type Column<T extends object> = ColumnType<T> & {
+  canHide?: boolean // true by default
+}
 
 // Why do we need it: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react-table
 
@@ -37,7 +46,7 @@ declare module 'react-table' {
   // take this file as-is, or comment out the sections that don't apply to your plugin configuration
   export interface TableOptions<
     // eslint-disable-next-line @typescript-eslint/ban-types
-    D extends object = {}
+    D extends object = {},
   > extends UsePaginationOptions<D>,
       UseSortByOptions<D>,
       UseFiltersOptions<D>,
@@ -56,7 +65,7 @@ declare module 'react-table' {
 
   export interface Hooks<
     // eslint-disable-next-line @typescript-eslint/ban-types
-    D extends object = {}
+    D extends object = {},
   > extends UseSortByHooks<D>,
       UseRowSelectHooks<D>,
       // UseExpandedHooks<D>,
@@ -64,7 +73,7 @@ declare module 'react-table' {
 
   export interface TableInstance<
     // eslint-disable-next-line @typescript-eslint/ban-types
-    D extends object = {}
+    D extends object = {},
   > extends UsePaginationInstanceProps<D>,
       UseSortByInstanceProps<D>,
       UseFiltersInstanceProps<D>,
@@ -77,7 +86,7 @@ declare module 'react-table' {
 
   export interface TableState<
     // eslint-disable-next-line @typescript-eslint/ban-types
-    D extends object = {}
+    D extends object = {},
   > extends UsePaginationState<D>,
       UseSortByState<D>,
       UseFiltersState<D>,
@@ -91,7 +100,7 @@ declare module 'react-table' {
 
   export interface ColumnInterface<
     // eslint-disable-next-line @typescript-eslint/ban-types
-    D extends object = {}
+    D extends object = {},
   > extends UseSortByColumnOptions<D>,
       UseFiltersColumnOptions<D>,
       UseGroupByColumnOptions<D>,
@@ -103,7 +112,7 @@ declare module 'react-table' {
 
   export interface ColumnInstance<
     // eslint-disable-next-line @typescript-eslint/ban-types
-    D extends object = {}
+    D extends object = {},
   > extends UseSortByColumnProps<D>,
       UseFiltersColumnProps<D>,
       UseGroupByColumnProps<D>,
@@ -114,13 +123,13 @@ declare module 'react-table' {
     D extends object = {},
     /* eslint-disable @typescript-eslint/no-unused-vars */
     /* eslint-disable @typescript-eslint/no-explicit-any */
-    V = any
+    V = any,
   > extends UseGroupByCellProps<D>,
       UseRowStateCellProps<D> {}
 
   export interface Row<
     // eslint-disable-next-line @typescript-eslint/ban-types
-    D extends object = {}
+    D extends object = {},
   > extends UseGroupByRowProps<D>,
       // UseExpandedRowProps<D>,
       // UseRowSelectRowProps<D>,
@@ -170,6 +179,7 @@ type CustomTableRowClickProps<D extends object> =
 
 type CustomTableProps<D extends object> = {
   loading?: boolean
+  overlayLoading?: boolean
   className?: string
   hideHeader?: boolean
   searchValue?: string
@@ -186,6 +196,11 @@ type CustomTableProps<D extends object> = {
   autoResetGlobalFilter?: boolean
   pageIndex?: number
   onPageChange?: (newPage: number) => void
+  rowsSelectable?: boolean
+  onRowSelect?: (ids: string[]) => void
+  columnsOrdering?: boolean
+  storageKey?: string
+  children?: (table: ReactElement, toggleColumnsControl: ReactElement) => ReactElement
 } & CustomTableRowClickProps<D> &
   DataTestProp
 
@@ -198,6 +213,39 @@ const column = {
   minWidth: Number(styleConsts.tableColumnMinWidth), // minWidth is only used as a limit for resizing
   width: Number(styleConsts.tableColumnWidth), // width is used for both the flex-basis and flex-grow
   maxWidth: Number(styleConsts.tableColumnMaxWidth), // maxWidth is only used as a limit for resizing
+}
+
+export const selectionColumnId = 'selection'
+
+export type TableLocalState<T extends object> = (TableState<T> & { columnOrder: IdType<T>[]; columns: Column<T>[] }) | null
+
+const readStorage = <T extends object>(key: string): TableLocalState<T> => {
+  try {
+    const data = window.localStorage.getItem(key)
+
+    if (data) {
+      return JSON.parse(data) as TableLocalState<T>
+    }
+
+    return null
+  } catch (e) {
+    return null
+  }
+}
+const writeStorage = <T extends object>(key: string, value: Partial<TableLocalState<T>>) => {
+  try {
+    const state = readStorage(key)
+    const data = JSON.stringify({ ...(state || {}), ...value })
+
+    if (data) {
+      window.localStorage.setItem(key, data)
+    }
+  } catch (e) {
+    return null
+  }
+}
+const clearStorage = (key: string) => {
+  window.localStorage.removeItem(key)
 }
 
 /**
@@ -243,14 +291,53 @@ export const Table = <D extends object>({
   hideHeader,
   autoResetGlobalFilter = false,
   onPageChange,
+  overlayLoading,
+  rowsSelectable,
+  onRowSelect,
+  columnsOrdering = false,
+  autoResetResize = false,
+  autoResetSelectedRows = false,
+  children,
+  storageKey,
 }: TableProps<D>): ReactElement => {
+  const didMountRef = useRef(false)
+  const draggedColumnRef = useRef<number | null>(null)
   const previousIncomingPageIndex = usePrevious(incomingPageIndex)
+  // Debounce our `fetchData` call for 200ms.
+  // We can use non-null assertion here since we're checking existence of `fetchData` in the `useEffect` below
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
+  const savedInitialState = useMemo(() => {
+    const state = storageKey ? readStorage<D>(storageKey) : null
+
+    if (storageKey && state) {
+      // we need to check it only when component mounts
+      if (
+        !state.columns.every(({ id, accessor }) =>
+          columns.find((column) => (id && id in column) || (typeof accessor === 'string' && accessor in column)),
+        )
+      ) {
+        clearStorage(storageKey)
+
+        return {}
+      }
+    }
+
+    return state
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [storageKey])
+
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const onPaginationChangeDebounced = useAsyncDebounce<(paginationChangeProps: PaginationChangeProps) => void>(onPaginationChange!, 200)
+
   const {
     getTableProps,
     headerGroups,
     footerGroups,
     prepareRow,
     page,
+    visibleColumns,
+    allColumns,
     canPreviousPage,
     canNextPage,
     pageCount,
@@ -259,8 +346,10 @@ export const Table = <D extends object>({
     previousPage,
     setPageSize,
     // Get the state from the instance
-    state: { pageIndex, pageSize, columnResizing },
+    state: { pageIndex, pageSize, columnResizing, selectedRowIds },
     setGlobalFilter,
+    setHiddenColumns,
+    setColumnOrder,
   } = useTable<D>(
     {
       columns,
@@ -270,7 +359,26 @@ export const Table = <D extends object>({
       // https://react-table.tanstack.com/docs/faq#how-do-i-stop-my-table-state-from-automatically-resetting-when-my-data-changes
       autoResetSortBy,
       // Pass our hoisted table state
-      initialState,
+      initialState: useMemo(
+        () => ({
+          ...(savedInitialState || {}),
+          ...initialState,
+        }),
+        [initialState, savedInitialState],
+      ),
+      useControlledState: useCallback(
+        (state: TableState<D>) => {
+          if (storageKey) {
+            writeStorage(storageKey, {
+              ...state,
+              columnOrder: (state as TableLocalState<D>)?.columnOrder?.filter((id) => id !== selectionColumnId),
+            })
+          }
+
+          return state
+        },
+        [storageKey],
+      ),
       // Tell the usePagination hook that we'll handle our own data fetching
       manualPagination: manualPagination,
       // This means we'll also have to provide our own pageCount
@@ -278,18 +386,66 @@ export const Table = <D extends object>({
       autoResetPage,
       defaultColumn,
       autoResetGlobalFilter,
+      autoResetResize,
+      autoResetSelectedRows,
     },
     useGlobalFilter,
     useSortBy,
     usePagination,
     useFlexLayout,
     useResizeColumns,
+    useRowSelect,
+    useColumnOrder,
+    (hooks) => {
+      if (rowsSelectable) {
+        hooks.visibleColumns.push((columns) => [
+          // Let's make a column for selection
+          {
+            id: selectionColumnId,
+            // The header can use the table's getToggleAllRowsSelectedProps method
+            // to render a checkbox
+            Header: function HeaderSelectionCell({ getToggleAllRowsSelectedProps }) {
+              return <Checkbox name="" {...(getToggleAllRowsSelectedProps() as any)} />
+            },
+            width: 60,
+            minWidth: 60,
+            maxWidth: 60,
+            disableResizing: true,
+            // The cell can use the individual row's getToggleRowSelectedProps method
+            // to the render a checkbox
+            Cell: function SelectionCell({ row }: { row: RowType<D> }) {
+              return <Checkbox name="" {...(row.getToggleRowSelectedProps() as any)} />
+            },
+          },
+          ...columns,
+        ])
+      }
+    },
   )
 
-  // Debounce our `fetchData` call for 200ms.
-  // We can use non-null assertion here since we're checking existence of `fetchData` in the `useEffect` below
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const onPaginationChangeDebounced = useAsyncDebounce<(paginationChangeProps: PaginationChangeProps) => void>(onPaginationChange!, 200)
+  const toggleColumnsControl = useTableCustomizableColumns({
+    columns: allColumns,
+    visibleColumns,
+    setHiddenColumns,
+  })
+
+  // drag and drop
+  const onDragStart = useCallback((e: DragEvent) => {
+    draggedColumnRef.current = Number(e.dataTransfer.getData('text/plain'))
+  }, [])
+  const onDrop = useCallback(
+    (e: DragEvent, columnIndex: number) => {
+      if (draggedColumnRef.current !== null && columnIndex !== draggedColumnRef.current) {
+        const newColumns = [...visibleColumns]
+        newColumns[columnIndex] = visibleColumns[draggedColumnRef.current]
+        newColumns[draggedColumnRef.current] = visibleColumns[columnIndex]
+
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        setColumnOrder(newColumns.map(({ id, accessor }: Column<D>) => (id || accessor) as string))
+      }
+    },
+    [visibleColumns, setColumnOrder],
+  )
 
   // Listen for changes in pagination and use the state to fetch new data. This is a recommended way to fetch new data: https://react-table.tanstack.com/docs/faq#how-can-i-use-the-table-state-to-fetch-new-data
   useEffect(() => {
@@ -329,6 +485,20 @@ export const Table = <D extends object>({
     }
   }, [gotoPage, incomingPageIndex, previousIncomingPageIndex])
 
+  useEffect(() => {
+    if (onRowSelect) {
+      onRowSelect(Object.keys(selectedRowIds))
+    }
+  }, [onRowSelect, selectedRowIds])
+
+  useEffect(() => {
+    if (storageKey && didMountRef.current) {
+      clearStorage(storageKey)
+    }
+
+    didMountRef.current = true
+  }, [columns, storageKey])
+
   const hasData = data.length > 0
 
   // If at least one of the columns has footer then we display the footer row
@@ -341,7 +511,7 @@ export const Table = <D extends object>({
   // Total row count.
   const rowCount = data.length + headerIndex + (hasFooter ? 1 : 0)
 
-  return (
+  const content = (
     <div data-test={dataTest ?? 'table-wrapper'} className={className}>
       <div
         className={cn(styles.container, {
@@ -353,13 +523,17 @@ export const Table = <D extends object>({
             <div data-test="table-header-row-group" role="rowgroup" className={headerClassName}>
               {headerGroups.map((headerGroup) => {
                 const { key: headerGroupKey, ...restHeaderGroupProps } = headerGroup.getHeaderGroupProps()
+
                 return (
                   <HeaderRow key={headerGroupKey} {...restHeaderGroupProps} ariaRowIndex={headerIndex}>
                     {headerGroup.headers.map((column, i) => {
+                      const isSelectionHeader = rowsSelectable && i === 0
                       const { key: columnKey, ...restHeaderProps } = column.getHeaderProps(column.getSortByToggleProps())
+
                       return (
                         <Header
                           key={columnKey}
+                          index={i}
                           align={column.align}
                           canSort={column.canSort}
                           isSorted={column.isSorted}
@@ -368,6 +542,8 @@ export const Table = <D extends object>({
                           canResize={column.canResize}
                           isResizing={column.isResizing}
                           getResizerProps={column.getResizerProps}
+                          onDrop={columnsOrdering && !isSelectionHeader ? onDrop : undefined}
+                          onDragStart={onDragStart}
                           {...restHeaderProps}
                         >
                           <EnhancedHeaderFooterRenderer column={column} columnResizing={columnResizing} type="Header" />
@@ -379,21 +555,32 @@ export const Table = <D extends object>({
               })}
             </div>
           )}
-          {loading ? (
+          {!overlayLoading && loading ? (
             <Row role="row">
               <Cell role="cell" align="center" colSpan={columns.length} data-test="table-loader-cell">
                 <Loader />
               </Cell>
             </Row>
           ) : hasData ? (
-            <div data-test="table-cell-row-group" role="rowgroup" className={contentClassName}>
+            <div data-test="table-cell-row-group" role="rowgroup" className={cn(styles.content, contentClassName)}>
               {page.map((row) => {
                 prepareRow(row)
                 const { key: rowKey, ...restRowProps } = row.getRowProps(getCustomRowProps?.(row))
                 const cells = row.cells.map((cell, i) => {
+                  const index = rowsSelectable ? i - 1 : i
                   const { key: cellKey, ...restCellProps } = cell.getCellProps(getCustomCellProps?.(cell))
                   // We don't want to use cell.column.Cell as that is a ColumnInstance which already has a cell renderer
-                  const column = columns[i] as ColumnInterfaceBasedOnValue<D>
+                  const column = columns[index] as ColumnInterfaceBasedOnValue<D>
+
+                  // columns added via react-table hooks
+                  if (!column) {
+                    return (
+                      <Cell key={cellKey} align={cell.column.align} {...restCellProps}>
+                        {cell.render('Cell')}
+                      </Cell>
+                    )
+                  }
+
                   return (
                     <Cell key={cellKey} align={cell.column.align} {...restCellProps}>
                       <EnhancedCellRenderer cell={cell} hasCellRenderer={!!column.Cell} columnResizing={columnResizing} />
@@ -435,6 +622,11 @@ export const Table = <D extends object>({
                   </Row>
                 )
               })}
+              {overlayLoading && loading && (
+                <div className={styles.overlayLoading}>
+                  <Loader />
+                </div>
+              )}
             </div>
           ) : (
             <div role="row">
@@ -502,4 +694,10 @@ export const Table = <D extends object>({
       )}
     </div>
   )
+
+  if (children) {
+    return children(content, toggleColumnsControl)
+  }
+
+  return content
 }
