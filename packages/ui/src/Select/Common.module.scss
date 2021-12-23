@@ -27,6 +27,7 @@ $selectHorizontalPadding: c.$grid * 3;
   line-height: c.$inputHeight;
   padding: 0 $selectHorizontalPadding;
   background-color: transparent;
+
   // Do not remove outline for high-contrast modes
   // https://stackoverflow.com/a/52616313
   outline: c.$outlineWidth solid transparent;
@@ -49,6 +50,7 @@ $selectHorizontalPadding: c.$grid * 3;
 
   &.selected {
     color: red;
+
     // color: c.$colorPrimary;
   }
 }

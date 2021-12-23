@@ -4,6 +4,7 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+
   // Note: Unset properties set by Modal
   min-width: 0;
   max-width: none;
@@ -35,6 +36,7 @@
         flex: 1 1 auto;
         margin: 0 !important;
         max-width: none;
+
         // Note: Unset border-radius for the buttons
         border-radius: 0;
       }
@@ -50,6 +52,7 @@
         &:nth-of-type(1) {
           border-bottom-left-radius: c.$borderRadius;
         }
+
         &:nth-of-type(2) {
           border-bottom-right-radius: c.$borderRadius;
         }

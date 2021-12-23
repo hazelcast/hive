@@ -56,7 +56,6 @@ describe('TabContext', () => {
         const wrapper = await mountAndCheckA11Y(<TabContextProvider>{children}</TabContextProvider>)
 
         expect(wrapper.find(TabContextProviderControlled).props()).toEqual<TabContextProviderControlledProps>({
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           onChange: expect.anything(),
           value: 0,
           children,
@@ -80,7 +79,6 @@ describe('TabContext', () => {
           const values = useTabContext()
 
           expect(values).toEqual<TabContextValue>({
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             onChange: expect.anything(),
             value,
             idPrefix,

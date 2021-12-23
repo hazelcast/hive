@@ -84,7 +84,7 @@ const buttonPropsBase: ButtonProps = {
   bodyClassName: styles.body,
   outlineClassName: styles.outline,
   capitalize: false,
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
   onClick: expect.anything(),
   children: 'Base',
 }
@@ -94,7 +94,7 @@ const nextPrevButtonPropsBase: IconButtonProps = {
   icon: ChevronRight,
   ariaLabel: 'Base',
   className: styles.iconButton,
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
   onClick: expect.anything(),
 }
 
@@ -139,7 +139,7 @@ describe('Pagination', () => {
       label: 'Rows',
       options: pageSizeOptions.map((opt) => ({ value: opt, label: opt.toString() })),
       size: 'small',
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       onChange: expect.anything(),
     })
 
@@ -194,7 +194,7 @@ describe('Pagination', () => {
       max: pageCount,
       size: 'small',
       value: currentPage,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       onChange: expect.anything(),
     })
   })
@@ -355,6 +355,7 @@ describe('Pagination', () => {
     )
 
     const iconButtons = wrapper.findDataTest('pagination-buttons').find(IconButton)
+
     const buttons = wrapper.findDataTest('pagination-buttons').find(Button)
     expect(previousPage).toHaveBeenCalledTimes(0)
     expect(nextPage).toHaveBeenCalledTimes(0)
@@ -416,6 +417,7 @@ describe('Pagination', () => {
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       simulateChange(wrapper.find(NumberField).find('input'), 42)
     })
     wrapper.update()
@@ -520,6 +522,7 @@ describe('Pagination', () => {
     wrapper.update()
 
     expect(wrapper.findDataTest('pagination-buttons').exists()).toBe(false)
+
     expect(wrapper.findDataTest('pagination-range-of-shown-items').exists()).toBe(false)
 
     expect(wrapper.find(SelectField).props()).toEqual<SelectFieldProps<number>>({
@@ -531,7 +534,7 @@ describe('Pagination', () => {
       label: 'Rows',
       size: 'small',
       options: pageSizeOptions.map((opt) => ({ value: opt, label: opt.toString() })),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       onChange: expect.anything(),
     })
 
@@ -545,7 +548,7 @@ describe('Pagination', () => {
       max: pageCount,
       size: 'small',
       value: currentPage,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       onChange: expect.anything(),
     })
 

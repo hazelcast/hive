@@ -7,6 +7,7 @@ $marginLeftWithIcon: c.$grid * 5;
 .container {
   color: c.$colorText;
   box-sizing: border-box;
+
   @include c.typographyBodySmall;
 
   .inputBlock {
@@ -59,8 +60,10 @@ $marginLeftWithIcon: c.$grid * 5;
 
   // Here we go. Another border hack. Why?
   // TextField is re-used for PasswordField. PasswordField is meant for passwords.
-  // Passwords are often handled by password managers. Password managers often add their own UI on top of the password inputs.
-  // To make our password visibility toggle and their UI not overlap, we have to make the actual input shorter than its visual representation.
+  // Passwords are often handled by password managers.
+  // Password managers often add their own UI on top of the password inputs.
+  // To make our password visibility toggle and their UI not overlap,
+  // we have to make the actual input shorter than its visual representation.
   // However, visually we still would like our users to see it as one unit.
   // As result, we cannot apply border to the input itself (because it's shorter).
   // We could have applied border styles to .inputContainer. But IE11 does not support :focus-within.
@@ -133,6 +136,7 @@ $marginLeftWithIcon: c.$grid * 5;
     & ~ .borderOverlay {
       border-color: c.$colorPrimary;
     }
+
     & ~ .inputIconContainer > .inputIcon {
       color: c.$colorPrimary;
     }
@@ -153,12 +157,14 @@ $marginLeftWithIcon: c.$grid * 5;
     & ~ .borderOverlay {
       @include h.outlineFormField;
     }
+
     & ~ .inputIconContainer > .inputIcon {
       color: c.$colorPrimary;
     }
   }
 
-  // .hasError styles split in two groups to always color the icon with the error color but the change the color of the border
+  // .hasError styles split in two groups to always color the icon with the error colors
+  // but the change the color of the border
   /* stylelint-disable-next-line no-duplicate-selectors */
   &.hasError input {
     ~ .inputIconContainer > .inputIcon {
@@ -177,9 +183,11 @@ $marginLeftWithIcon: c.$grid * 5;
       & ~ .borderOverlay {
         border-color: c.$colorNeutralLight;
       }
+
       & ~ .inputIconContainer > .inputIcon {
         color: c.$colorTextSecondary;
       }
+
       & ~ .inputIconContainer > .inputIconTrailing {
         color: c.$colorTextSecondary;
       }

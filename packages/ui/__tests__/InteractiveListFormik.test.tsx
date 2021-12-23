@@ -40,6 +40,7 @@ describe('InteractiveListFormik', () => {
 
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       simulateChange(wrapper.find('input'), '127.0.0.1')
     })
 
@@ -137,6 +138,7 @@ describe('InteractiveListFormik', () => {
 
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       simulateChange(wrapper.find('input'), '127.0.0.1')
     })
 
@@ -180,6 +182,7 @@ describe('InteractiveListFormik', () => {
 
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       simulateChange(wrapper.find('input'), '1.2.3.4')
     })
 
@@ -193,6 +196,7 @@ describe('InteractiveListFormik', () => {
 
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       simulateChange(wrapper.find('input'), ' ')
     })
 

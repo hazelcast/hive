@@ -24,8 +24,8 @@ export default {
 } as Meta<CalendarRangeProps>
 
 const Template: Story<CalendarRangeProps> = ({ startDate: initialStartDate, endDate: initialEndDate, ...args }) => {
-  const [startDate, setStartDate] = useState<Date | null | undefined>(initialStartDate)
-  const [endDate, setEndDate] = useState<Date | null | undefined>(initialEndDate)
+  const [startDate, setStartDate] = useState<Date | null>(initialStartDate)
+  const [endDate, setEndDate] = useState<Date | null>(initialEndDate)
   return (
     <div className={cn(storyStyles.container, utilsStyles.row)}>
       <CalendarRange

@@ -9,7 +9,7 @@
   background: c.$colorNeutralWhite;
 
   .heading {
-    @include c.typographyH3();
+    @include c.typographyH3;
 
     display: flex;
     align-items: center;

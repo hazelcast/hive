@@ -4,53 +4,37 @@
 // Any spacing should be expressed as a multiplier if $grid
 
 $grid: 0.25rem !default;
-
 $alertWidth: 350px !default;
-
 $borderRadius: $grid * 1.25 !default;
 $borderRadiusButtonSmall: $grid * 5 !default;
-
 $borderRadiusToast: 37px !default;
-
 $borderRadiusBadge: 37px !default;
-
 $borderRadiusTimeField: 3px !default;
 
 // It does not make sense to express separator width in REMs since we do not need it to scale with the base font size
 $separatorWidth: 1px !default;
-
 $borderWidth: 1px !default;
 $borderWidthButton: 1px !default;
-
 $outlineWidth: 2px !default;
-
 $iconStrokeWidth: 1.5px !default;
 $iconStrokeWidthBold: 3px !default;
-
 $iconSizeSmall: $grid * 4 !default;
 $iconSizeSmallMedium: $grid * 5 !default;
 $iconSizeMedium: $grid * 6 !default;
 $iconSizeLarge: $grid * 10 !default;
 $iconSizeXLarge: $grid * 12 !default;
-
 $tooltipArrowSize: 6px !default;
-
 $tooltipMaxWidth: 550px !default;
-
 $buttonMaxWidth: 370px !default;
-
 $toastMaxWidth: 580px !default;
-
 $inputHeight: $grid * 10 !default;
 $inputHeightSmall: $grid * 7.5 !default;
-
 $cardShadowSize: 1px !default;
 $cardShadowBlur: 4px !default;
-
 $selectMenuShadowSize: 1px !default;
 $selectMenuShadowBlur: 4px !default;
 
-//Overlay
+// Overlay
 $overlayContentMaxWidth: 1000px;
 
 // Modal
@@ -65,23 +49,20 @@ $dialogMinHeight: 200px !default;
 
 // border radius on left/right size of the progress tracker
 $sliderTrackBorderRadius: $grid * 2;
+
 // height of the track
 $slideTrackHeight: $grid * 2;
 $sliderThumbBorderSize: $grid * 1.5; // in rem
 $sliderThumbHoverBorderSize: 1px;
-
 $sliderThumbShadowSize: 1px;
 $sliderThumbShadowBlur: $grid;
 $sliderFillBorderSize: 1px;
-
 $emptyStateButtonMinWidthNormal: 120px !default;
 $emptyStateButtonMinWidthLarge: 140px !default;
-
 $borderRadiusNotification: 3px;
 
 // Table column widths
 $tableColumnMinWidth: 60;
 $tableColumnWidth: 170;
 $tableColumnMaxWidth: 600;
-
 $errorHeight: $grid * 4.75;

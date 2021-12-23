@@ -26,7 +26,6 @@ const expectedContainerProps: Record<string, any> = {
   role: undefined,
   'aria-colspan': undefined,
   'aria-sort': undefined,
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   children: expect.anything(),
 }
 
@@ -37,7 +36,6 @@ const expectedContentProps: Record<string, any> = {
   role: undefined,
   onClick: undefined,
   onKeyPress: undefined,
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   children: expect.anything(),
 }
 
@@ -80,7 +78,6 @@ describe('Header', () => {
         role: '',
         'aria-colspan': 1,
       },
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       { ...expectedContentProps, role: 'button', tabIndex: 0, onClick, onKeyPress: expect.anything() },
     ],
   ]
@@ -140,7 +137,6 @@ describe('Header', () => {
       'data-test': 'table-header-column-resizer-container',
       className: `${styles.resizer}`,
       testprop: 'testProp',
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       children: expect.anything(),
     })
 

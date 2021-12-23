@@ -180,7 +180,7 @@ export function Slider<T extends SliderValue = number>(props: SliderProps<T>) {
     if (isRange && secondRangeInputRef.current) {
       adjustMinMaxValue(secondValue, secondRangeInputRef.current, min, max)
     }
-  }, [min, max, firstValue, secondValue, firstRangeInputRef, secondRangeInputRef])
+  }, [min, max, firstValue, secondValue, firstRangeInputRef, secondRangeInputRef, isRange])
 
   /**
    * The following code makes sure that the relevant thumb is moved to the position once

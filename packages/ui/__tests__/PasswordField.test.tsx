@@ -33,10 +33,10 @@ describe('PasswordField', () => {
       value: 'password',
       name: 'name',
       onBlur,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       onChange: expect.anything(),
       type: 'password',
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       inputContainerChild: expect.anything(),
       inputContainerClassName: styles.inputContainer,
       inputClassName: 'amidala',
@@ -49,7 +49,7 @@ describe('PasswordField', () => {
       ariaLabel: 'Show password',
       'data-test': 'password-field-toggle',
       className: styles.toggle,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       onClick: expect.anything(),
       disabled: undefined,
       kind: 'primary',

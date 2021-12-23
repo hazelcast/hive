@@ -2,7 +2,6 @@ $fontFamilyHeading: 'Roboto', 'Helvetica', 'Arial', sans-serif !default;
 $fontWeightHeadingLight: 300 !default;
 $fontWeightHeadingRegular: 400 !default;
 $fontWeightHeadingBold: 500 !default;
-
 $fontFamilyText: 'Roboto', 'Helvetica', 'Arial', sans-serif !default;
 $fontWeightTextLight: 300 !default;
 $fontWeightTextRegular: 400 !default;
@@ -18,7 +17,6 @@ $fontSizeBodyNormal: 1rem !default;
 $fontSizeBodySmall: 0.875rem !default;
 $fontSizeBodySmaller: 0.75rem !default;
 $fontSizeBodyTiny: 0.625rem !default;
-
 $letterSpacingH1: 0.25px !default;
 $letterSpacingH2: 0 !default;
 $letterSpacingH3: 0.15px !default;
@@ -28,7 +26,6 @@ $letterSpacingBodyNormal: 0.5px !default;
 $letterSpacingBodySmall: 0.25px !default;
 $letterSpacingBodySmaller: normal !default;
 $letterSpacingBodyTiny: normal !default;
-
 $lineHeightH1: normal !default;
 $lineHeightH2: normal !default;
 $lineHeightH3: normal !default;
@@ -39,33 +36,37 @@ $lineHeightBodySmaller: normal !default;
 $lineHeightBodyTiny: normal !default;
 
 @function override($override: false) {
-  @if ($override) {
+  @if $override {
     @return '!important';
   }
+
   @return '';
 }
 
 @mixin typographyH1($override: false) {
-  font-family: $fontFamilyHeading #{override($override)}; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
+  font-family: $fontFamilyHeading #{override($override)};
   font-weight: $fontWeightHeadingBold #{override($override)};
   font-size: $fontSizeH1 #{override($override)};
   letter-spacing: $letterSpacingH1 #{override($override)};
   line-height: $lineHeightH1 #{override($override)};
 }
+
 @mixin typographyH2($override: false) {
-  font-family: $fontFamilyHeading #{override($override)}; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
+  font-family: $fontFamilyHeading #{override($override)};
   font-weight: $fontWeightHeadingBold #{override($override)};
   font-size: $fontSizeH2 #{override($override)};
   letter-spacing: $letterSpacingH2 #{override($override)};
   line-height: $lineHeightH2 #{override($override)};
 }
+
 @mixin typographyH3($override: false) {
-  font-family: $fontFamilyHeading #{override($override)}; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
+  font-family: $fontFamilyHeading #{override($override)};
   font-weight: $fontWeightHeadingBold #{override($override)};
   font-size: $fontSizeH3 #{override($override)};
   letter-spacing: $letterSpacingH3 #{override($override)};
   line-height: $lineHeightH3 #{override($override)};
 }
+
 @mixin typographyButton($size: 'medium') {
   font-family: $fontFamilyText;
   line-height: $lineHeightButton;
@@ -75,23 +76,28 @@ $lineHeightBodyTiny: normal !default;
     font-size: $fontSizeButton;
     letter-spacing: $letterSpacingButton;
   }
+
   @if $size == 'small' {
     font-weight: $fontWeightTextRegular;
     font-size: $fontSizeButtonSmall;
     letter-spacing: $letterSpacingButtonSmall;
   }
 }
+
 @mixin typographyBodyWeight($weight: 'regular') {
   @if $weight == 'regular' {
     font-weight: $fontWeightTextRegular;
   }
+
   @if $weight == 'bold' {
     font-weight: $fontWeightTextBold;
   }
+
   @if $weight == 'light' {
     font-weight: $fontWeightTextLight;
   }
 }
+
 @mixin typographyBodyNormal($weight: 'regular') {
   font-family: $fontFamilyText;
   font-size: $fontSizeBodyNormal;
@@ -100,6 +106,7 @@ $lineHeightBodyTiny: normal !default;
 
   @include typographyBodyWeight($weight);
 }
+
 @mixin typographyBodySmall($weight: 'regular') {
   font-family: $fontFamilyText;
   font-size: $fontSizeBodySmall;
@@ -108,6 +115,7 @@ $lineHeightBodyTiny: normal !default;
 
   @include typographyBodyWeight($weight);
 }
+
 @mixin typographyBodySmaller($weight: 'regular') {
   font-family: $fontFamilyText;
   font-size: $fontSizeBodySmaller;
@@ -116,6 +124,7 @@ $lineHeightBodyTiny: normal !default;
 
   @include typographyBodyWeight($weight);
 }
+
 @mixin typographyBodyTiny($weight: 'regular') {
   font-family: $fontFamilyText;
   font-size: $fontSizeBodyTiny;
@@ -131,9 +140,11 @@ $lineHeightBodyTiny: normal !default;
   h1 {
     @include typographyH1($override);
   }
+
   h2 {
     @include typographyH2($override);
   }
+
   h3 {
     @include typographyH3($override);
   }

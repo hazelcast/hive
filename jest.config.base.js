@@ -1,5 +1,6 @@
 module.exports = {
   roots: ['<rootDir>'],
+  testEnvironment: 'jsdom',
   transformIgnorePatterns: ['node_modules/(?!@hazelcast)'],
   preset: 'ts-jest/presets/js-with-ts',
   testRegex: '^.+\\.(test|spec)\\.tsx?$',

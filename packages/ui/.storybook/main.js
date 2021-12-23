@@ -28,6 +28,16 @@ module.exports = {
           presets: ['@babel/preset-env'],
         },
       },
+      {
+        test: /\.stories\.tsx?$/,
+        use: [
+          {
+            loader: require.resolve('@storybook/source-loader'),
+            options: { parser: 'typescript' },
+          },
+        ],
+        enforce: 'pre',
+      },
     ]
 
     return config
@@ -40,5 +50,8 @@ module.exports = {
       shouldExtractLiteralValuesFromEnum: true,
       propFilter: (prop) => (prop.parent ? !/node_modules/.test(prop.parent.fileName) : true),
     },
+  },
+  core: {
+    builder: 'webpack5',
   },
 }

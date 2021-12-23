@@ -53,10 +53,8 @@ describe('Button', () => {
 
     expect(wrapper.find(Button).props()).toStrictEqual({ children: label })
     expect(wrapper.find(Tooltip).at(0).props()).toStrictEqual({
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       children: expect.anything(),
       content: undefined,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       id: expect.anything(),
       placement: undefined,
       visible: undefined,

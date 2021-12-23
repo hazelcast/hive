@@ -2,11 +2,11 @@
 @use '../styles/helpers' as h;
 @use 'sass:math';
 
-$h: c.$grid * 6;
-$w: c.$grid * 15;
+$height: c.$grid * 6;
+$width: c.$grid * 15;
 $labelMargin: c.$grid * 2.5;
 /* doiuse-disable calc */
-$trackBr: calc(#{$h} - #{c.$borderWidth * 2});
+$trackBr: calc(#{$height} - #{c.$borderWidth * 2});
 /* doiuse-enable calc */
 $trackBgOn: c.$colorSuccessLight;
 $trackBgOff: c.$colorNeutral;
@@ -22,16 +22,19 @@ $knobHorizontalOffset: math.max(c.$outlineWidth - c.$borderWidth, 0px);
     opacity: 0;
     transform: translateY(-50%) translateX(100%);
   }
+
   to {
     opacity: 1;
     transform: translateY(-50%);
   }
 }
+
 @keyframes switchOff {
   from {
     opacity: 0;
     transform: translateY(-50%) translateX(-100%);
   }
+
   to {
     opacity: 1;
     transform: translateY(-50%);
@@ -73,8 +76,8 @@ $knobHorizontalOffset: math.max(c.$outlineWidth - c.$borderWidth, 0px);
   // the `track` (default off state)
   .toggleTrack {
     display: inline-block;
-    height: $h;
-    width: $w;
+    height: $height;
+    width: $width;
     background: $trackBgOff;
     border-radius: $trackBr;
     position: relative;
@@ -121,7 +124,7 @@ $knobHorizontalOffset: math.max(c.$outlineWidth - c.$borderWidth, 0px);
     top: 50%;
     transform: translateY(-50%);
     /* doiuse-disable calc */
-    right: calc(#{$w} - #{c.$borderWidth * 2} - #{$knobRadius} - #{$knobHorizontalOffset});
+    right: calc(#{$width} - #{c.$borderWidth * 2} - #{$knobRadius} - #{$knobHorizontalOffset});
     /* doiuse-enable calc */
     transition: right c.$transitionTimeMedium ease-in;
   }
