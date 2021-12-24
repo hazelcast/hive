@@ -2,25 +2,6 @@ name: check pull request
 on: pull_request
 
 jobs:
-  changelog:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 100
-
-      - name: 'Build Changelog'
-        id: build_changelog
-        uses: mikepenz/release-changelog-builder-action@main
-        with:
-          fromTag: v1.1.0
-          toTag: v1.2.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - run: |
-          echo > #${{steps.build_changelog.outputs.changelog}} <
-
   test:
     runs-on: ubuntu-latest
     steps:
