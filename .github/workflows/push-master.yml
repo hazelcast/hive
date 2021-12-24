@@ -9,16 +9,16 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - uses: ./.github/actions/install
-
       - run: npm run lint
       - run: npm run test
 
   test_visual:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - uses: ./.github/actions/install
-
       - run: npm run build-storybook
       - run: npm run test:visual
 
@@ -33,8 +33,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: [test, test_visual]
     steps:
+      - uses: actions/checkout@v2
       - uses: ./.github/actions/install
-
       - name: Publish to Chromatic
         uses: chromaui/action@v1
         with:
@@ -47,8 +47,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: [test, test_visual]
     steps:
+      - uses: actions/checkout@v2
       - uses: ./.github/actions/install
-
       - run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
