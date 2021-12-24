@@ -5,6 +5,10 @@ jobs:
   changelog:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 100
+
       - name: 'Build Changelog'
         id: build_changelog
         uses: mikepenz/release-changelog-builder-action@v1
