@@ -1,4 +1,5 @@
 name: install
+description: cache npm install
 
 runs:
   using: 'composite'
@@ -14,4 +15,5 @@ runs:
         path: ~/.npm
         key: ${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
 
-    - run: npm ci
+    - shell: bash
+      run: npm ci
