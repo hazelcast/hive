@@ -34,6 +34,8 @@ jobs:
     needs: [test, test_visual]
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - uses: ./.github/actions/install
       - name: Publish to Chromatic
         uses: chromaui/action@v1
