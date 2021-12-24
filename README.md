@@ -225,7 +225,9 @@ npx lerna version 1.1.0
 
 At this point you should create a pull request and merge the new version branch (v1.1.0) to master.
 
-3. Now that we have our latest version available on GitHub with the necessary tags and releases; as the final step we inform npm about our new release:
+3. Now that we have the latest version available on GitHub, after merging this Pull Request, it will be automatically published on npm with the required tags and releases;
+
+If something went wrong and npm did not create a new release, then you can manually inform it about our new release:
 
 ```
 npx lerna publish from-git
