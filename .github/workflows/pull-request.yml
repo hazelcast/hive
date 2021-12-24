@@ -8,8 +8,6 @@ jobs:
       - name: Changelog
         uses: Bullrich/generate-release-changelog@master
         id: changelog
-        env:
-          REPO: ${{ github.repository }}
 
       - run: |
           echo #${{ steps.changelog.outputs.changelog }}
