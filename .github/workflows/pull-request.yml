@@ -2,6 +2,18 @@ name: check pull request
 on: pull_request
 
 jobs:
+  changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Changelog
+        uses: Bullrich/generate-release-changelog@master
+        id: changelog
+        env:
+          REPO: ${{ github.repository }}
+
+      - run: |
+          echo #${{ steps.changelog.outputs.changelog }}
+
   test:
     runs-on: ubuntu-latest
     steps:
