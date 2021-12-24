@@ -5,12 +5,14 @@ jobs:
   changelog:
     runs-on: ubuntu-latest
     steps:
-      - name: Changelog
-        uses: Bullrich/generate-release-changelog@master
-        id: changelog
+      - name: 'Build Changelog'
+        id: build_changelog
+        uses: mikepenz/release-changelog-builder-action@{latest-release}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - run: |
-          echo #${{ steps.changelog.outputs.changelog }}
+          echo #${{steps.build_changelog.outputs.changelog}}
 
   test:
     runs-on: ubuntu-latest
