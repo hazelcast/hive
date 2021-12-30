@@ -34,7 +34,6 @@ describe('CircularProgressBar', () => {
         width: size,
         height: size,
       },
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       children: expect.anything(),
     })
     expect(svg.props()).toEqual({
@@ -44,7 +43,6 @@ describe('CircularProgressBar', () => {
       style: {
         transform: `rotate(${rotate}deg)`,
       },
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       children: expect.anything(),
     })
     expect(backgroundOuterCircle.props()).toEqual({
@@ -105,7 +103,6 @@ describe('CircularProgressBar', () => {
         width: size,
         height: size,
       },
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       children: expect.anything(),
     })
     expect(svg.props()).toEqual({
@@ -115,7 +112,6 @@ describe('CircularProgressBar', () => {
       style: {
         transform: 'rotate(0deg)',
       },
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       children: expect.anything(),
     })
     expect(backgroundOuterCircle.props()).toEqual({

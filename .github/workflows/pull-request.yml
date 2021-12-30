@@ -1,0 +1,26 @@
+name: check pull request
+on: pull_request
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/install
+      - run: npm run lint
+      - run: npm run test
+
+  test_visual:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/install
+      - run: npm run build-storybook
+      - run: npm run test:visual
+
+      - name: Archive screenshots
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v1
+        with:
+          name: loki-screenshots
+          path: packages/ui/.loki

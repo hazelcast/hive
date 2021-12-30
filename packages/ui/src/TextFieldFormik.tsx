@@ -32,7 +32,7 @@ export const TextFieldFormik = <V extends object>({
       }
       onFormikBlur(e)
     },
-    [onFormikBlur],
+    [onBlur, onFormikBlur],
   )
 
   return (

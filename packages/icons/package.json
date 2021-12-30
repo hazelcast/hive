@@ -6,6 +6,8 @@
   "homepage": "https://github.com/hazelcast/frontend-shared#readme",
   "license": "Apache-2.0",
   "main": "lib/index.js",
+  "module": "lib/index.js",
+  "sideEffects": false,
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -35,17 +37,20 @@
   "peerDependencies": {
     "@types/react": "16 || ^17.0.0",
     "@types/react-dom": "16 || ^17.0.0",
-    "react": "16 || ^17.0.0",
-    "react-dom": "16 || ^17.0.0"
+    "react": "^16.14.0 || ^17.0.0",
+    "react-dom": "^16.14.0 || ^17.0.0"
   },
   "devDependencies": {
-    "@storybook/addons": "^6.1.21",
-    "@storybook/react": "^6.1.21",
-    "@storybook/theming": "^6.1.21",
-    "@types/react": "16",
-    "@types/react-dom": "16",
+    "@storybook/addons": "^6.4.9",
+    "@storybook/react": "^6.4.9",
+    "@storybook/theming": "^6.4.9",
+    "@storybook/builder-webpack5": "^6.4.9",
+    "@storybook/manager-webpack5": "^6.4.9",
+    "@types/react": "^16.14.21",
+    "@types/react-dom": "^16.9.14",
     "loki": "^0.28.1",
-    "react": "16",
-    "react-dom": "16"
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "webpack": "^5.65.0"
   }
 }

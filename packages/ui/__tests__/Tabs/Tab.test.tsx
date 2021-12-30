@@ -49,9 +49,9 @@ describe('Tab', () => {
       'aria-selected': false,
       tabIndex: -1,
       children: [undefined, 'Tab 2'],
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       onClick: expect.anything(),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       onKeyPress: expect.anything(),
     })
   })
@@ -67,9 +67,9 @@ describe('Tab', () => {
       'aria-selected': true,
       tabIndex: 0,
       children: [undefined, 'Tab 1'],
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       onKeyPress: expect.anything(),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       onClick: expect.anything(),
     })
   })

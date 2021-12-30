@@ -21,6 +21,7 @@
   // this should never be possible to override, this is only for storybook purpose - visual regression testing
   opacity: 0.5 !important;
 }
+
 .typographyBodySmall {
   @include c.typographyBodySmall;
 }
@@ -42,21 +43,21 @@
 }
 
 .customTableFooter {
-  [role="cell"] {
+  [role='cell'] {
     font-style: italic;
   }
 }
 
 .customTableContent {
-  [role="row"]:nth-child(odd) {
-    [role="cell"] {
+  [role='row']:nth-child(odd) {
+    [role='cell'] {
       background: #ccc;
     }
   }
 }
 
 .customTableHeader {
-  [role="columnheader"] {
+  [role='columnheader'] {
     background: lightblue;
 
     span {

@@ -69,7 +69,7 @@ export const InteractiveListItem = ({ onRemoveItem, content, error, idx }: Inter
  * This component is meant to be used only from InteractiveListFormik
  * @private
  */
-const InteractiveList = <V,>({
+export const InteractiveList = <V,>({
   label,
   children,
   error,
@@ -133,5 +133,3 @@ const InteractiveList = <V,>({
     </>
   )
 }
-
-export default InteractiveList

@@ -43,6 +43,7 @@ const MenuList: typeof rsComponents.MenuList = (props) => {
   return (
     <>
       <rsComponents.MenuList {...props} />
+      {/* eslint-disable-next-line @typescript-eslint/no-unsafe-argument */}
       {isRenderMenuFooterFunction(renderMenuFooter) && renderMenuFooter()}
     </>
   )

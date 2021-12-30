@@ -7,11 +7,12 @@ import { usePagination } from './hooks/usePagination'
 import { Button } from './Button'
 import { IconButton } from './IconButton'
 import { useDimensions } from './hooks/useDimensions'
-import { SelectField, SelectFieldOption } from './Select'
+import { SelectField } from './Select'
 import { Link } from './Link'
 
 import styles from './Pagination.module.scss'
 import { NumberField } from './NumberField'
+import { SelectFieldOption } from './Select/helpers'
 
 export type GetShownItemsRangeParams = {
   currentPage: number

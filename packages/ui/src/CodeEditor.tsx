@@ -155,8 +155,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({
 
       const domEventsExtension = () => {
         const eventHandlers: DOMEventHandlers<unknown> = {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          blur: (event) => onBlur && onBlur(event as any),
+          blur: (event) => onBlur && onBlur(event as unknown as FocusEvent),
         }
 
         return EditorView.domEventHandlers(eventHandlers)
@@ -204,6 +203,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({
       const extensions = [
         ...basicExtensions,
         ...(customExtensions ?? []),
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         ...(opts.language ? [StreamLanguage.define(opts.language)] : []),
         ...(opts.lineWrapping ? [EditorView.lineWrapping] : []),
         ...(opts.lineNumbers ? [foldGutter(), lineNumbers()] : []),

@@ -13,6 +13,7 @@ $currentValueIndicatorHeight: c.$grid * 6;
 @mixin track() {
   background: none; // get rid of track background
   appearance: none;
+
   // it's important for these values to be 0 in order to be consistent across (Firefox/IE11) & Chrome
   margin: 0;
   padding: 0;
@@ -113,7 +114,7 @@ ul.markDescriptions {
       &::-webkit-slider-runnable-track,
       &::-webkit-slider-thumb,
       & {
-        -webkit-appearance: none;
+        appearance: none;
       }
 
       z-index: c.$zIndex100;
@@ -183,6 +184,7 @@ ul.markDescriptions {
     .fillPlaceholder {
       pointer-events: none;
       height: c.$slideTrackHeight;
+
       // highlighted part covers the border
       box-sizing: border-box;
       background: c.$colorNeutral;
@@ -200,6 +202,7 @@ ul.markDescriptions {
         pointer-events: none;
         height: 100%;
         background: c.$colorPrimaryLight;
+
         // width & marginLeft will be set by a Javascript
       }
 
@@ -240,6 +243,7 @@ ul.markDescriptions {
     .valueIndicators {
       color: c.$colorNeutralLight;
     }
+
     ul.markDescriptions {
       color: c.$colorNeutralLight;
     }

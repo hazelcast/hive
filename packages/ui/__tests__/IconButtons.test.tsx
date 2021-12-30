@@ -4,9 +4,10 @@ import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import cn from 'classnames'
 import { useUID } from 'react-uid'
 
-import { Loader, Tooltip, IconButton, IconButtonKind, Icon } from '../src'
+import { Loader, Tooltip, IconButton, Icon } from '../src'
 
 import styles from '../src/IconButton.module.scss'
+import { IconButtonKind } from '../src/IconButton'
 
 jest.mock('react-uid')
 

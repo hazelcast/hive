@@ -17,11 +17,11 @@
   color: c.$colorText;
   background-color: transparent;
   cursor: pointer;
+
   // for <a> element
   text-decoration: none;
 
   @include c.typographyH3;
-
   @include h.overflowEllipsis;
 
   .icon {

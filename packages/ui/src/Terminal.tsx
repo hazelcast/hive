@@ -92,9 +92,9 @@ export const Terminal: FC<TerminalProps> = memo(
 
         addExecutionHistoryItem({ command: inputVal, res, prompt })
       } catch (err) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const errorTyped: Error = err
-        addExecutionHistoryItem({ command: inputVal, error: errorTyped.message, prompt })
+        if (err instanceof Error) {
+          addExecutionHistoryItem({ command: inputVal, error: err.message, prompt })
+        }
       } finally {
         setExecuting(false)
         clearTimeout(timer)

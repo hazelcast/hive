@@ -3,9 +3,11 @@ import { Database } from 'react-feather'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import { DataTestProp } from '@hazelcast/helpers'
 
-import { Card, IconButton, IconButtonProps, IconProps } from '../src'
+import { Card, IconButton } from '../src'
 
 import styles from '../src/Card.module.scss'
+import { IconProps } from '../src/Icon'
+import { IconButtonProps } from '../src/IconButton'
 
 describe('Card', () => {
   const cardHeadingIcon = Database

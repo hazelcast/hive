@@ -5,10 +5,12 @@ import { Settings, X } from 'react-feather'
 import { act } from 'react-dom/test-utils'
 import cn from 'classnames'
 
-import { Icon, IconProps, Link, LinkProps, Overlay } from '../src'
+import { Icon, Link, Overlay } from '../src'
 
 import styles from './Overlay.module.scss'
 import { DataTestProp } from '@hazelcast/helpers'
+import { IconProps } from '../src/Icon'
+import { LinkProps } from '../src/Link'
 
 const title = 'Modal Title'
 const icon = Settings
@@ -52,13 +54,12 @@ describe('Overlay', () => {
     expect(overlayWrapper.props()).toEqual({
       'data-test': 'overlay-wrapper',
       className: cn(styles.wrapper, styles.normal),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       children: expect.anything(),
     })
     expect(header.props()).toEqual({
       'data-test': 'overlay-header',
       className: styles.header,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       children: expect.anything(),
     })
     expect(headerIcon.type()).toEqual(Icon)
@@ -85,7 +86,7 @@ describe('Overlay', () => {
       iconClassName: styles.closeIcon,
       icon: X,
       ariaLabel: 'Cancel',
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       children: expect.anything(),
     })
     expect(overlayContent.props()).toEqual({
@@ -108,7 +109,7 @@ describe('Overlay', () => {
     expect(overlayWrapper.props()).toEqual({
       'data-test': 'overlay-wrapper',
       className: cn(styles.wrapper, styles.fullscreen),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       children: expect.anything(),
     })
   })

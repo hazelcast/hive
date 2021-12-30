@@ -1,10 +1,11 @@
 import React from 'react'
 import { Form, Formik } from 'formik'
 import { logger } from '@hazelcast/services'
-import { Checkbox, CodeEditor, EditorViewRef, CodeEditorFormik } from '../src/'
+import { Checkbox, CodeEditor, CodeEditorFormik } from '../src/'
 
 // manually import a language
 import { javascript } from '@codemirror/legacy-modes/mode/javascript'
+import { EditorViewRef } from '../src/CodeEditor'
 
 export default {
   title: 'Components/CodeEditor',

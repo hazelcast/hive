@@ -35,7 +35,9 @@
         // Do not remove outline for high-contrast modes
         // https://stackoverflow.com/a/52616313
         outline: c.$outlineWidth solid transparent;
+
         @include h.outlineSimple;
+
         // Put outline over resizer
         z-index: c.$zIndex1000;
         background-color: c.$colorNeutralLighter;
@@ -71,6 +73,7 @@
   right: -(c.$grid * 2.5);
   z-index: c.$zIndex100;
   cursor: col-resize;
+
   // Prevents from scrolling while dragging on touch devices
   /* doiuse-disable css-touch-action */
   touch-action: none;

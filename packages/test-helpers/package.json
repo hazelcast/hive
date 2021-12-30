@@ -6,6 +6,8 @@
   "homepage": "https://github.com/hazelcast/frontend-shared#readme",
   "license": "Apache-2.0",
   "main": "lib/index.js",
+  "module": "lib/index.js",
+  "sideEffects": false,
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -31,22 +33,22 @@
   },
   "dependencies": {
     "@hazelcast/services": "^1.2.0",
-    "@types/jest-axe": "^3.5.0",
-    "jest-axe": "^4.0.0"
+    "@types/jest-axe": "^3.5.3",
+    "jest-axe": "^5.0.1"
   },
   "peerDependencies": {
-    "@types/enzyme": "^3.10.7",
+    "@types/enzyme": "^3.10.10",
     "enzyme": "^3.11.0",
     "react": "^16.14.0 || ^17.0.0",
     "react-dom": "^16.14.0 || ^17.0.0"
   },
   "devDependencies": {
-    "@types/enzyme": "^3.10.8",
+    "@types/enzyme": "^3.10.10",
     "@types/enzyme-adapter-react-16": "^1.0.6",
-    "@types/react": "^16.14.4",
-    "@types/react-dom": "^16.9.11",
+    "@types/react": "^16.14.21",
+    "@types/react-dom": "^16.9.14",
     "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.5",
+    "enzyme-adapter-react-16": "^1.15.6",
     "react": "^16.14.0",
     "react-dom": "^16.14.0"
   }

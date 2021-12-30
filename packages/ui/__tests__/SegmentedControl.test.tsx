@@ -24,12 +24,13 @@ describe('SegmentedControl', () => {
     const label = 'Star Wars Characters'
     const onChange = jest.fn()
 
+    const rules = axeDefaultOptions?.rules ?? {}
     const wrapper = await mountAndCheckA11Y(
       <SegmentedControl<SWCharacters> label={label} value={checked.value} onChange={onChange} options={swCharactersOptions} />,
       {
         axeOptions: {
           rules: {
-            ...axeDefaultOptions?.rules,
+            ...rules,
             // RadioGroup.Label is passed role="none" which is appratently wrong
             'aria-allowed-role': { enabled: false },
           },

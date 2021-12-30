@@ -1,5 +1,6 @@
 module.exports = {
   roots: ['<rootDir>'],
+  testEnvironment: 'jsdom',
   transformIgnorePatterns: ['node_modules/(?!@hazelcast)'],
   preset: 'ts-jest/presets/js-with-ts',
   testRegex: '^.+\\.(test|spec)\\.tsx?$',
@@ -12,7 +13,7 @@ module.exports = {
   coverageThreshold: {
     global: {
       branches: 80,
-      functions: 80,
+      functions: 70,
       lines: 80,
       statements: 80,
     },

@@ -1,0 +1,19 @@
+name: install
+description: cache npm install
+
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+
+    - uses: actions/cache@v2
+      env:
+        cache-name: cache-node-modules
+      with:
+        path: ~/.npm
+        key: ${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+
+    - shell: bash
+      run: npm ci

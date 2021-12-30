@@ -18,10 +18,11 @@ import { Button } from '../../src/Button'
 import { bigDataSet, smallDataSet } from './consts'
 import { useTableCustomizableColumns } from '../../src/hooks/useTableCustomizableColumns'
 
+const rules = axeDefaultOptions?.rules ?? {}
 const axeOptions = {
   ...axeDefaultOptions,
   rules: {
-    ...axeDefaultOptions?.rules,
+    ...rules,
     'autocomplete-valid': { enabled: false },
   },
 }
@@ -57,7 +58,7 @@ describe('Table', () => {
     })
 
     const headers = headerRowGroup.find(Header)
-    headers.forEach((header, i) => {
+    headers.forEach((header, i: number) => {
       expect(header.props()).toMatchObject<PropsWithChildren<HeaderProps>>({
         align: columns[i].align,
         canSort: false,
@@ -65,7 +66,7 @@ describe('Table', () => {
         isSortedDesc: undefined,
         canResize: true,
         isResizing: false,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
         getResizerProps: expect.anything(),
         isLastHeader: headers.length === i + 1,
         onClick: undefined,
@@ -94,7 +95,7 @@ describe('Table', () => {
     })
 
     const cellRows = cellRowGroup.find(Row)
-    cellRows.forEach((cellRow, i) => {
+    cellRows.forEach((cellRow, i: number) => {
       expect(cellRow.props()).toMatchObject<PropsWithChildren<RowProps>>({
         // 1 for header row, 1 because we're indexing from 0
         ariaRowIndex: i + 2,
@@ -127,14 +128,14 @@ describe('Table', () => {
       currentPage: 1,
       canPreviousPage: false,
       canNextPage: false,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       goToPage: expect.anything(),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       nextPage: expect.anything(),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       previousPage: expect.anything(),
       pageSize: 10,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       setPageSize: expect.anything(),
       pageSizeOptions: [5, 10, 20],
       numberOfItems: smallDataSet.length,
@@ -156,7 +157,7 @@ describe('Table', () => {
       'data-test': 'table-footer-row-group',
       role: 'rowgroup',
       className: '',
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       children: expect.anything(),
     })
 
@@ -164,9 +165,9 @@ describe('Table', () => {
     expect(footerRow.props()).toEqual<PropsWithChildren<RowProps>>({
       ariaRowIndex: 12,
       role: 'row',
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       style: expect.anything(),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       children: expect.anything(),
     })
 
@@ -176,14 +177,13 @@ describe('Table', () => {
         align: columns[i].align,
         colSpan: 1,
         role: 'cell',
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
         style: expect.anything(),
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
         children: expect.anything(),
       })
 
       expect(footer.find(EnhancedHeaderFooterRenderer).props()).toEqual<EnhancedHeaderFooterRendererProps<Person>>({
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         column: expect.anything(),
         type: 'Footer',
         // We ignore typescript error here since some props of `columnResizing` are in fact nullable as opposed
@@ -215,20 +215,20 @@ describe('Table', () => {
       isSortedDesc: undefined,
       canResize: true,
       isResizing: false,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       getResizerProps: expect.anything(),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       onClick: expect.anything(),
       colSpan: 1,
       role: 'columnheader',
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       style: expect.anything(),
       // We ignore typescript error here since `title` prop is not described in @types/react-table and we're not using it anyway.
       // TODO: Remove once the types are correct
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       title: 'Toggle SortBy',
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       children: expect.anything(),
     }
 

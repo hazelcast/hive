@@ -7,6 +7,7 @@ import { TextField } from '../src/TextField'
 import { Label } from '../src/Label'
 import { Error, errorId } from '../src/Error'
 import { Help, helpTooltipId } from '../src/Help'
+import { Tooltip } from '../src/Tooltip'
 
 import styles from '../src/TextField.module.scss'
 
@@ -64,6 +65,7 @@ describe('TextField', () => {
       className: styles.errorContainer,
       inputId: 'republic',
       truncated: true,
+      tooltipPlacement: 'top',
     })
 
     expect(wrapper.find(Help).exists()).toBeFalsy()
@@ -81,11 +83,12 @@ describe('TextField', () => {
 
     let event: object
     act(() => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       event = simulateChange(wrapper.find('input'), 'Luke')
     })
 
     expect(onChange).toBeCalledTimes(1)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-non-null-assertion
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     expect(onChange.mock.calls[0][0]).toMatchObject(event!)
   })
 
@@ -150,6 +153,7 @@ describe('TextField', () => {
       className: styles.errorContainer,
       inputId: 'republic',
       truncated: true,
+      tooltipPlacement: 'top',
     })
 
     expect(wrapper.find(Help).props()).toEqual({
@@ -202,6 +206,7 @@ describe('TextField', () => {
       className: styles.errorContainer,
       inputId: 'republic',
       truncated: true,
+      tooltipPlacement: 'top',
     })
 
     expect(wrapper.find(Help).exists()).toBeFalsy()
@@ -242,6 +247,7 @@ describe('TextField', () => {
       className: styles.errorContainer,
       inputId: 'republic',
       truncated: true,
+      tooltipPlacement: 'top',
     })
 
     expect(wrapper.find(Help).exists()).toBeFalsy()
@@ -282,6 +288,7 @@ describe('TextField', () => {
       className: styles.errorContainer,
       inputId: 'republic',
       truncated: true,
+      tooltipPlacement: 'top',
     })
 
     expect(wrapper.find(Help).exists()).toBeFalsy()
@@ -336,5 +343,26 @@ describe('TextField', () => {
     wrapper.update()
 
     expect(wrapper.findDataTest('test').find('input').prop('value')).toBe('')
+  })
+
+  it('Error tooltip placement can be adjusted', async () => {
+    const wrapper = await mountAndCheckA11Y(
+      <TextField
+        data-test="test"
+        name="name"
+        label="Wisest jedi"
+        placeholder="Enter the name"
+        error="Error"
+        onChange={jest.fn()}
+        clearable
+      />,
+    )
+
+    expect(wrapper.find(Error).exists()).toBeTruthy()
+    expect(wrapper.find(Error).find(Tooltip).prop('placement')).toBe('top')
+    wrapper.setProps({ errorTooltipPlacement: 'bottom' })
+    wrapper.update()
+
+    expect(wrapper.find(Error).find(Tooltip).prop('placement')).toBe('bottom')
   })
 })
