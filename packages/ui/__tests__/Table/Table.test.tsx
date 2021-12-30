@@ -208,82 +208,40 @@ describe('Table', () => {
   })
 
   it('renders table with sorting capabilities', async () => {
-    const headerProps: PropsWithChildren<HeaderProps> = {
-      align: 'left',
-      canSort: false,
-      isSorted: false,
-      isSortedDesc: undefined,
-      canResize: true,
-      isResizing: false,
-
-      getResizerProps: expect.anything(),
-
-      onClick: expect.anything(),
-      colSpan: 1,
-      role: 'columnheader',
-
-      style: expect.anything(),
-      // We ignore typescript error here since `title` prop is not described in @types/react-table and we're not using it anyway.
-      // TODO: Remove once the types are correct
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      title: 'Toggle SortBy',
-
-      children: expect.anything(),
-    }
-
     const columns = getColumns({})
 
     const wrapper = await mountAndCheckA11Y(<Table data-test="table-test" columns={columns} data={smallDataSet} />, { axeOptions })
 
     const headers = wrapper.find(Header)
+
     headers.forEach((header, i) => {
-      const isLastHeader = headers.length === i + 1
       // Sorting enabled but not used
-      expect(header.props()).toEqual<PropsWithChildren<HeaderProps>>({
-        ...headerProps,
-        align: columns[i].align,
-        canSort: true,
-        isSorted: false,
-        isSortedDesc: undefined,
-        isLastHeader,
-      })
+      expect(header.prop('isSorted')).toBeFalsy()
+      expect(header.prop('isSortedDesc')).toBe(undefined)
+      expect(header.prop('canSort')).toBeTruthy()
 
       // Let's sort!
       header.findDataTest('table-header-content').simulate('click')
       wrapper.update()
-      expect(wrapper.find(Header).at(i).props()).toEqual<PropsWithChildren<HeaderProps>>({
-        ...headerProps,
-        align: columns[i].align,
-        canSort: true,
-        isSorted: true,
-        isSortedDesc: false,
-        isLastHeader,
-      })
+
+      expect(wrapper.find(Header).at(i).prop('isSorted')).toBeTruthy()
+      expect(wrapper.find(Header).at(i).prop('isSortedDesc')).toBeFalsy()
+      expect(wrapper.find(Header).at(i).prop('canSort')).toBeTruthy()
 
       // Let's sort in descending order
       header.findDataTest('table-header-content').simulate('click')
       wrapper.update()
-      expect(wrapper.find(Header).at(i).props()).toEqual<PropsWithChildren<HeaderProps>>({
-        ...headerProps,
-        align: columns[i].align,
-        canSort: true,
-        isSorted: true,
-        isSortedDesc: true,
-        isLastHeader,
-      })
+
+      expect(wrapper.find(Header).at(i).prop('isSorted')).toBeTruthy()
+      expect(wrapper.find(Header).at(i).prop('isSortedDesc')).toBeTruthy()
+      expect(wrapper.find(Header).at(i).prop('canSort')).toBeTruthy()
 
       // Back to default state
       header.findDataTest('table-header-content').simulate('click')
       wrapper.update()
-      expect(wrapper.find(Header).at(i).props()).toEqual<PropsWithChildren<HeaderProps>>({
-        ...headerProps,
-        align: columns[i].align,
-        canSort: true,
-        isSorted: false,
-        isSortedDesc: undefined,
-        isLastHeader,
-      })
+      expect(wrapper.find(Header).at(i).prop('isSorted')).toBeFalsy()
+      expect(wrapper.find(Header).at(i).prop('isSortedDesc')).toBe(undefined)
+      expect(wrapper.find(Header).at(i).prop('canSort')).toBeTruthy()
     })
   })
 

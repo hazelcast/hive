@@ -14,7 +14,6 @@ import {
   useFlexLayout,
   Column as ColumnType,
   useGlobalFilter,
-  useRowSelect,
   useColumnOrder,
   TableState,
   IdType,
@@ -29,7 +28,6 @@ import { HeaderRow, LinkRow, Row, RowProps } from './Row'
 import { Loader } from '../Loader'
 import { EmptyState } from '../EmptyState'
 import { usePrevious } from '../hooks/usePrevious'
-import { Checkbox } from '../Checkbox'
 import { useTableCustomizableColumns } from '../hooks'
 
 import styles from './Table.module.scss'
@@ -196,7 +194,6 @@ type CustomTableProps<D extends object> = {
   autoResetGlobalFilter?: boolean
   pageIndex?: number
   onPageChange?: (newPage: number) => void
-  rowsSelectable?: boolean
   onRowSelect?: (ids: string[]) => void
   columnsOrdering?: boolean
   storageKey?: string
@@ -292,9 +289,8 @@ export const Table = <D extends object>({
   autoResetGlobalFilter = false,
   onPageChange,
   overlayLoading,
-  rowsSelectable,
   onRowSelect,
-  columnsOrdering = false,
+  columnsOrdering = true,
   autoResetResize = false,
   autoResetSelectedRows = false,
   children,
@@ -311,11 +307,13 @@ export const Table = <D extends object>({
     const state = storageKey ? readStorage<D>(storageKey) : null
 
     if (storageKey && state) {
-      // we need to check it only when component mounts
+      // delete saved state if columns are changed
       if (
-        !state.columns.every(({ id, accessor }) =>
-          columns.find((column) => (id && id in column) || (typeof accessor === 'string' && accessor in column)),
-        )
+        state.columns &&
+        (state.columns.length !== columns.length ||
+          state.columns?.every(({ id, accessor }) =>
+            columns.find((column) => (id && id in column) || (typeof accessor === 'string' && accessor in column)),
+          ))
       ) {
         clearStorage(storageKey)
 
@@ -394,33 +392,7 @@ export const Table = <D extends object>({
     usePagination,
     useFlexLayout,
     useResizeColumns,
-    useRowSelect,
     useColumnOrder,
-    (hooks) => {
-      if (rowsSelectable) {
-        hooks.visibleColumns.push((columns) => [
-          // Let's make a column for selection
-          {
-            id: selectionColumnId,
-            // The header can use the table's getToggleAllRowsSelectedProps method
-            // to render a checkbox
-            Header: function HeaderSelectionCell({ getToggleAllRowsSelectedProps }) {
-              return <Checkbox name="" {...(getToggleAllRowsSelectedProps() as any)} />
-            },
-            width: 60,
-            minWidth: 60,
-            maxWidth: 60,
-            disableResizing: true,
-            // The cell can use the individual row's getToggleRowSelectedProps method
-            // to the render a checkbox
-            Cell: function SelectionCell({ row }: { row: RowType<D> }) {
-              return <Checkbox name="" {...(row.getToggleRowSelectedProps() as any)} />
-            },
-          },
-          ...columns,
-        ])
-      }
-    },
   )
 
   const toggleColumnsControl = useTableCustomizableColumns({
@@ -527,7 +499,6 @@ export const Table = <D extends object>({
                 return (
                   <HeaderRow key={headerGroupKey} {...restHeaderGroupProps} ariaRowIndex={headerIndex}>
                     {headerGroup.headers.map((column, i) => {
-                      const isSelectionHeader = rowsSelectable && i === 0
                       const { key: columnKey, ...restHeaderProps } = column.getHeaderProps(column.getSortByToggleProps())
 
                       return (
@@ -542,7 +513,7 @@ export const Table = <D extends object>({
                           canResize={column.canResize}
                           isResizing={column.isResizing}
                           getResizerProps={column.getResizerProps}
-                          onDrop={columnsOrdering && !isSelectionHeader ? onDrop : undefined}
+                          onDrop={columnsOrdering ? onDrop : undefined}
                           onDragStart={onDragStart}
                           {...restHeaderProps}
                         >
@@ -567,10 +538,9 @@ export const Table = <D extends object>({
                 prepareRow(row)
                 const { key: rowKey, ...restRowProps } = row.getRowProps(getCustomRowProps?.(row))
                 const cells = row.cells.map((cell, i) => {
-                  const index = rowsSelectable ? i - 1 : i
                   const { key: cellKey, ...restCellProps } = cell.getCellProps(getCustomCellProps?.(cell))
                   // We don't want to use cell.column.Cell as that is a ColumnInstance which already has a cell renderer
-                  const column = columns[index] as ColumnInterfaceBasedOnValue<D>
+                  const column = columns[i] as ColumnInterfaceBasedOnValue<D>
 
                   // columns added via react-table hooks
                   if (!column) {
