@@ -91,3 +91,15 @@ export const PrimaryLoading = () => <IconButton kind="primary" ariaLabel="Close 
 export const PrimaryLinkSemantics = () => <IconButton kind="primary" ariaLabel="Close icon" icon={X} component="a" href="#" />
 
 export const PrimaryPaddingNormal = () => <IconButton kind="primary" ariaLabel="Close icon" padding="normal" icon={X} />
+
+export const WithTooltip = () => (
+  <IconButton
+    kind="transparent"
+    ariaLabel="Close icon"
+    icon={X}
+    loading
+    tooltipVisible
+    tooltipPlacement="bottom"
+    tooltip="Button tooltip"
+  />
+)
