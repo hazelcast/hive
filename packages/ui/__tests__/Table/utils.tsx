@@ -10,6 +10,7 @@ export type Person = {
   age: number
   visits: number
   status: 'relationship' | 'complicated' | 'single'
+  subRows?: Person[]
 }
 
 export type GetColumns = {

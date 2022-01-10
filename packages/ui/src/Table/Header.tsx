@@ -1,5 +1,5 @@
 import React, { FC, useMemo, useCallback, MouseEvent, KeyboardEvent, AriaAttributes, DragEvent, useRef } from 'react'
-import { ChevronDown, ChevronUp } from 'react-feather'
+import { ChevronDown, ChevronUp, Menu } from 'react-feather'
 import { TableHeaderProps, TableResizerProps } from 'react-table'
 import cn from 'classnames'
 
@@ -71,6 +71,7 @@ export const Header: FC<HeaderProps> = ({
     ),
     [align, isSorted, isSortedDesc],
   )
+  const DraggableIcon = <Icon className={cn(styles.dragIcon, { [styles.dragIconRight]: align === 'right' })} icon={Menu} size="small" />
 
   const onKeyPress = useCallback(
     (event: KeyboardEvent<HTMLDivElement>) => {
@@ -156,9 +157,11 @@ export const Header: FC<HeaderProps> = ({
         }
         {...buttonRoleProps}
       >
+        {draggable && align === 'right' && DraggableIcon}
         {canSort && align === 'right' && Chevron}
         {children}
         {canSort && (align === 'left' || align === 'center') && Chevron}
+        {draggable && (align === 'left' || align === 'center') && DraggableIcon}
       </div>
       {canResize && !isLastHeader && (
         <div data-test="table-header-column-resizer-container" className={styles.resizer} {...getResizerProps()}>

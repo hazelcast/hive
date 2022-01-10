@@ -100,3 +100,12 @@
 .dragOver {
   @include h.outlineSimple;
 }
+
+.dragIcon {
+  margin-left: c.$grid * 2;
+}
+
+.dragIconRight {
+  margin-left: 0;
+  margin-right: c.$grid * 2;
+}

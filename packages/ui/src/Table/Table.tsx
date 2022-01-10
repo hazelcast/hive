@@ -1,5 +1,16 @@
 import { DataTestProp } from '@hazelcast/helpers'
-import React, { AnchorHTMLAttributes, FC, ReactChild, ReactElement, useCallback, useEffect, useRef, DragEvent, useMemo } from 'react'
+import React, {
+  AnchorHTMLAttributes,
+  FC,
+  ReactChild,
+  ReactElement,
+  useCallback,
+  useEffect,
+  useRef,
+  DragEvent,
+  useMemo,
+  ReactNode,
+} from 'react'
 import cn from 'classnames'
 import {
   useTable,
@@ -17,8 +28,9 @@ import {
   useColumnOrder,
   TableState,
   IdType,
+  useExpanded,
 } from 'react-table'
-import { AlertTriangle } from 'react-feather'
+import { AlertTriangle, ChevronDown, ChevronUp } from 'react-feather'
 
 import { Pagination, PaginationProps } from '../Pagination'
 import { Cell, CellProps } from './Cell'
@@ -29,6 +41,7 @@ import { Loader } from '../Loader'
 import { EmptyState } from '../EmptyState'
 import { usePrevious } from '../hooks/usePrevious'
 import { useTableCustomizableColumns } from '../hooks'
+import { Icon } from '../Icon'
 
 import styles from './Table.module.scss'
 import styleConsts from '../../styles/constants/export.module.scss'
@@ -36,6 +49,7 @@ import styleConsts from '../../styles/constants/export.module.scss'
 export type { Accessor, Cell, Renderer, Row, CellProps, HeaderGroup, TableInstance } from 'react-table'
 export type Column<T extends object> = ColumnType<T> & {
   canHide?: boolean // true by default
+  subRows?: Column<T>[]
 }
 
 // Why do we need it: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react-table
@@ -45,7 +59,7 @@ declare module 'react-table' {
   export interface TableOptions<
     // eslint-disable-next-line @typescript-eslint/ban-types
     D extends object = {},
-  > extends UsePaginationOptions<D>,
+  > extends UsePaginationOptions<D & UseExpandedRowProps<D>>,
       UseSortByOptions<D>,
       UseFiltersOptions<D>,
       UseRowSelectOptions<D>,
@@ -131,7 +145,8 @@ declare module 'react-table' {
   > extends UseGroupByRowProps<D>,
       // UseExpandedRowProps<D>,
       // UseRowSelectRowProps<D>,
-      UseRowSelectRowProps<D> {}
+      UseRowSelectRowProps<D>,
+      UseExpandedRowProps<D> {}
 }
 
 export type PaginationOptions = Partial<Pick<PaginationProps, 'pageSizeOptions'>>
@@ -198,6 +213,7 @@ type CustomTableProps<D extends object> = {
   columnsOrdering?: boolean
   storageKey?: string
   children?: (table: ReactElement, toggleColumnsControl: ReactElement) => ReactElement
+  renderRowSubComponent: (props: RowType<D>) => ReactNode
 } & CustomTableRowClickProps<D> &
   DataTestProp
 
@@ -290,11 +306,12 @@ export const Table = <D extends object>({
   onPageChange,
   overlayLoading,
   onRowSelect,
-  columnsOrdering = true,
+  columnsOrdering = false,
   autoResetResize = false,
   autoResetSelectedRows = false,
   children,
   storageKey,
+  renderRowSubComponent,
 }: TableProps<D>): ReactElement => {
   const didMountRef = useRef(false)
   const draggedColumnRef = useRef<number | null>(null)
@@ -386,9 +403,11 @@ export const Table = <D extends object>({
       autoResetGlobalFilter,
       autoResetResize,
       autoResetSelectedRows,
+      paginateExpandedRows: false,
     },
     useGlobalFilter,
     useSortBy,
+    useExpanded,
     usePagination,
     useFlexLayout,
     useResizeColumns,
@@ -541,6 +560,7 @@ export const Table = <D extends object>({
                   const { key: cellKey, ...restCellProps } = cell.getCellProps(getCustomCellProps?.(cell))
                   // We don't want to use cell.column.Cell as that is a ColumnInstance which already has a cell renderer
                   const column = columns[i] as ColumnInterfaceBasedOnValue<D>
+                  const isFirstNotReactTableColumn = column && (i === 0 || !columns[i - 1])
 
                   // columns added via react-table hooks
                   if (!column) {
@@ -553,6 +573,11 @@ export const Table = <D extends object>({
 
                   return (
                     <Cell key={cellKey} align={cell.column.align} {...restCellProps}>
+                      {isFirstNotReactTableColumn && row.canExpand && (
+                        <span role="button" tabIndex={0} {...row.getToggleRowExpandedProps()}>
+                          <Icon icon={row.isExpanded ? ChevronUp : ChevronDown} />
+                        </span>
+                      )}
                       <EnhancedCellRenderer cell={cell} hasCellRenderer={!!column.Cell} columnResizing={columnResizing} />
                     </Cell>
                   )
@@ -576,20 +601,22 @@ export const Table = <D extends object>({
                 }
 
                 return (
-                  <Row
-                    key={rowKey}
-                    {...restRowProps}
-                    ariaRowIndex={row.index + 1 + cellIndexOffset}
-                    onClick={
-                      onRowClick
-                        ? () => {
-                            onRowClick(row)
-                          }
-                        : undefined
-                    }
-                  >
-                    {cells}
-                  </Row>
+                  <React.Fragment key={rowKey}>
+                    <Row
+                      {...restRowProps}
+                      ariaRowIndex={row.index + 1 + cellIndexOffset}
+                      onClick={
+                        onRowClick
+                          ? () => {
+                              onRowClick(row)
+                            }
+                          : undefined
+                      }
+                    >
+                      {cells}
+                    </Row>
+                    {row.isExpanded ? renderRowSubComponent && <div>{renderRowSubComponent(row)}</div> : null}
+                  </React.Fragment>
                 )
               })}
               {overlayLoading && loading && (

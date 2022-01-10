@@ -4,7 +4,7 @@ import { Meta, Story } from '@storybook/react'
 
 import { PaginationChangeProps, Table, TableProps } from '../src/Table/Table'
 import { getColumns, Person } from '../__tests__/Table/utils'
-import { bigDataSet, smallDataSet } from '../__tests__/Table/consts'
+import { bigDataSet, smallDataSet, smallDataSetWithSubRows } from '../__tests__/Table/consts'
 import { TextField } from '../src'
 
 import storyStyles from './TextField.stories.module.scss'
@@ -218,4 +218,22 @@ export const WithCustomizableColumns: Story<TableProps<Person>> = ({ columns, ..
 
 export const WithColumnsOrdering: Story<TableProps<Person>> = ({ columns, ...args }) => {
   return <Table columnsOrdering columns={columns} {...args} />
+}
+WithColumnsOrdering.args = {
+  disableSortBy: false,
+}
+
+export const WithExpandableRows: Story<TableProps<Person>> = ({ columns, ...args }) => {
+  return <Table columns={columns} {...args} />
+}
+WithExpandableRows.args = {
+  data: smallDataSetWithSubRows,
+}
+
+export const WithExpandableRowsAndCustomContent: Story<TableProps<Person>> = ({ columns, ...args }) => {
+  return <Table columns={columns} {...args} />
+}
+WithExpandableRowsAndCustomContent.args = {
+  data: smallDataSetWithSubRows,
+  renderRowSubComponent: ({ original }) => <div>Sub row #{original.id}</div>,
 }
