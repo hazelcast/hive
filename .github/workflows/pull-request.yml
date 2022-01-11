@@ -32,4 +32,5 @@ jobs:
       - uses: actions/checkout@v2
       - name: Publish to npm
         run: |
+          git tag --sort version:refname --points-at HEAD
           npx lerna publish from-git --force-publish
