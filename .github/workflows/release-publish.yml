@@ -66,6 +66,7 @@ jobs:
     # this job will only run if the PR has been merged
     if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'release/v')
     runs-on: ubuntu-latest
+    needs: [test, test_visual]
     steps:
       - name: Check Release Format
         id: check-release
