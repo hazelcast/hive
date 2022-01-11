@@ -234,6 +234,6 @@ export const WithExpandableRowsAndCustomContent: Story<TableProps<Person>> = ({ 
   return <Table columns={columns} {...args} />
 }
 WithExpandableRowsAndCustomContent.args = {
-  data: smallDataSetWithSubRows,
+  data: smallDataSet,
   renderRowSubComponent: ({ original }) => <div>Sub row #{original.id}</div>,
 }

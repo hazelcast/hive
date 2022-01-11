@@ -49,7 +49,6 @@ import styleConsts from '../../styles/constants/export.module.scss'
 export type { Accessor, Cell, Renderer, Row, CellProps, HeaderGroup, TableInstance } from 'react-table'
 export type Column<T extends object> = ColumnType<T> & {
   canHide?: boolean // true by default
-  subRows?: Column<T>[]
 }
 
 // Why do we need it: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react-table
@@ -213,7 +212,7 @@ type CustomTableProps<D extends object> = {
   columnsOrdering?: boolean
   storageKey?: string
   children?: (table: ReactElement, toggleColumnsControl: ReactElement) => ReactElement
-  renderRowSubComponent: (props: RowType<D>) => ReactNode
+  renderRowSubComponent?: (props: RowType<D>) => ReactNode
 } & CustomTableRowClickProps<D> &
   DataTestProp
 
@@ -275,7 +274,7 @@ const clearStorage = (key: string) => {
 export const Table = <D extends object>({
   'data-test': dataTest,
   autoResetSortBy = false,
-  columns,
+  columns: propColumns,
   data,
   defaultColumn = column,
   disableSortBy,
@@ -319,6 +318,28 @@ export const Table = <D extends object>({
   // Debounce our `fetchData` call for 200ms.
   // We can use non-null assertion here since we're checking existence of `fetchData` in the `useEffect` below
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
+  const columns = useMemo<readonly Column<D>[]>(() => {
+    if (renderRowSubComponent || data.some((item) => 'subRows' in item)) {
+      return [
+        {
+          width: 60,
+          id: 'expander',
+          disableResizing: true,
+          Cell: ({ row }: { row: RowType<D> }) => {
+            return row.canExpand || renderRowSubComponent ? (
+              <div tabIndex={0} role="button" data-test="row-expander" className={styles.expander} {...row.getToggleRowExpandedProps()}>
+                <Icon icon={row.isExpanded ? ChevronUp : ChevronDown} ariaLabel="row-expander" />
+              </div>
+            ) : null
+          },
+        },
+        ...propColumns,
+      ]
+    }
+
+    return propColumns
+  }, [propColumns, data, renderRowSubComponent])
 
   const savedInitialState = useMemo(() => {
     const state = storageKey ? readStorage<D>(storageKey) : null
@@ -519,11 +540,12 @@ export const Table = <D extends object>({
                   <HeaderRow key={headerGroupKey} {...restHeaderGroupProps} ariaRowIndex={headerIndex}>
                     {headerGroup.headers.map((column, i) => {
                       const { key: columnKey, ...restHeaderProps } = column.getHeaderProps(column.getSortByToggleProps())
+                      const isDraggable = columnsOrdering && column.id !== 'expander'
 
                       return (
                         <Header
-                          key={columnKey}
                           index={i}
+                          key={columnKey}
                           align={column.align}
                           canSort={column.canSort}
                           isSorted={column.isSorted}
@@ -532,7 +554,7 @@ export const Table = <D extends object>({
                           canResize={column.canResize}
                           isResizing={column.isResizing}
                           getResizerProps={column.getResizerProps}
-                          onDrop={columnsOrdering ? onDrop : undefined}
+                          onDrop={isDraggable ? onDrop : undefined}
                           onDragStart={onDragStart}
                           {...restHeaderProps}
                         >
@@ -560,7 +582,6 @@ export const Table = <D extends object>({
                   const { key: cellKey, ...restCellProps } = cell.getCellProps(getCustomCellProps?.(cell))
                   // We don't want to use cell.column.Cell as that is a ColumnInstance which already has a cell renderer
                   const column = columns[i] as ColumnInterfaceBasedOnValue<D>
-                  const isFirstNotReactTableColumn = column && (i === 0 || !columns[i - 1])
 
                   // columns added via react-table hooks
                   if (!column) {
@@ -573,11 +594,6 @@ export const Table = <D extends object>({
 
                   return (
                     <Cell key={cellKey} align={cell.column.align} {...restCellProps}>
-                      {isFirstNotReactTableColumn && row.canExpand && (
-                        <span role="button" tabIndex={0} {...row.getToggleRowExpandedProps()}>
-                          <Icon icon={row.isExpanded ? ChevronUp : ChevronDown} />
-                        </span>
-                      )}
                       <EnhancedCellRenderer cell={cell} hasCellRenderer={!!column.Cell} columnResizing={columnResizing} />
                     </Cell>
                   )

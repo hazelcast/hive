@@ -71,7 +71,14 @@ export const Header: FC<HeaderProps> = ({
     ),
     [align, isSorted, isSortedDesc],
   )
-  const DraggableIcon = <Icon className={cn(styles.dragIcon, { [styles.dragIconRight]: align === 'right' })} icon={Menu} size="small" />
+  const DraggableIcon = (
+    <Icon
+      icon={Menu}
+      size="small"
+      ariaLabel="draggable-indicator"
+      className={cn(styles.dragIcon, { [styles.dragIconRight]: align === 'right' })}
+    />
+  )
 
   const onKeyPress = useCallback(
     (event: KeyboardEvent<HTMLDivElement>) => {

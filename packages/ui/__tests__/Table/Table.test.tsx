@@ -1,6 +1,7 @@
 import { axeDefaultOptions, mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import React, { PropsWithChildren } from 'react'
 import { act } from 'react-dom/test-utils'
+import { ChevronDown, ChevronUp } from 'react-feather'
 
 import { getColumns, Person } from './utils'
 import { Table } from '../../src/Table/Table'
@@ -16,6 +17,7 @@ import {
 import { Pagination, PaginationProps } from '../../src/Pagination'
 import { Button } from '../../src/Button'
 import { bigDataSet, smallDataSet } from './consts'
+import { Icon } from '../../src/Icon'
 
 const rules = axeDefaultOptions?.rules ?? {}
 const axeOptions = {
@@ -387,5 +389,53 @@ describe('Table', () => {
     wrapper.update()
 
     expect(wrapper.find(Pagination).prop('currentPage')).toBe(3)
+  })
+
+  it('SubRows', async () => {
+    const columns = getColumns({ withFooter: true })
+
+    const wrapper = await mountAndCheckA11Y(
+      <Table
+        data-test="table-test"
+        columns={columns}
+        data={[{ ...smallDataSet[0], subRows: [smallDataSet[4], smallDataSet[5]] }, ...smallDataSet.slice(1)]}
+      />,
+    )
+
+    expect(wrapper.findDataTest('row-expander').length).toBe(1)
+    expect(wrapper.findDataTest('table-cell-row-group').findDataTest('table-cell-row').length).toBe(10)
+
+    expect(wrapper.findDataTest('row-expander').find(Icon).prop('icon')).toBe(ChevronDown)
+
+    act(() => {
+      wrapper.findDataTest('row-expander').simulate('click')
+    })
+    wrapper.update()
+
+    expect(wrapper.findDataTest('table-cell-row-group').findDataTest('table-cell-row').length).toBe(12)
+    expect(wrapper.findDataTest('row-expander').find(Icon).prop('icon')).toBe(ChevronUp)
+  })
+
+  it('Custom expandable content', async () => {
+    const columns = getColumns({ withFooter: true })
+
+    const wrapper = await mountAndCheckA11Y(
+      <Table
+        data-test="table-test"
+        columns={columns}
+        data={smallDataSet}
+        renderRowSubComponent={() => <div data-test="custom-expandable-content" />}
+      />,
+    )
+
+    expect(wrapper.findDataTest('row-expander').exists()).toBeTruthy()
+    expect(wrapper.findDataTest('custom-expandable-content').length).toBe(0)
+
+    act(() => {
+      wrapper.findDataTest('row-expander').at(0).simulate('click')
+    })
+    wrapper.update()
+
+    expect(wrapper.findDataTest('custom-expandable-content').length).toBe(1)
   })
 })
