@@ -50,7 +50,7 @@ export const NumberField: FC<NumberFieldProps> = ({
   max,
   value,
   numberType = 'int',
-  iconPosition= 'together',
+  iconPosition = 'together',
   showIconButtons = true,
   inputClassName,
   inputContainerClassName,
@@ -108,7 +108,7 @@ export const NumberField: FC<NumberFieldProps> = ({
     } else if (min !== undefined && value <= min) {
       decrementDisabledProps = {
         disabled: true,
-        disabledTooltip: `Value must be greater than ${min}`,
+        disabledTooltip: `Value can't be less than ${min}`,
       }
     } else if (disabled) {
       // The entire input is disabled. No need for a tooltip.
@@ -128,7 +128,7 @@ export const NumberField: FC<NumberFieldProps> = ({
     } else if (max !== undefined && value !== undefined && value >= max) {
       incrementDisabledProps = {
         disabled: true,
-        disabledTooltip: `Value must be less than ${max}`,
+        disabledTooltip: `Value can't be greater than ${max}`,
       }
     } else if (disabled) {
       // The entire input is disabled. No need for a tooltip.
@@ -145,12 +145,11 @@ export const NumberField: FC<NumberFieldProps> = ({
           size={size === 'small' ? 'small' : 'smallMedium'}
           icon={MinusCircle}
           ariaLabel={decrementIconAriaLabel}
-          className={cn(styles.decrement,
-            {
-              [styles.decrementSmall]: size === 'small',
-              [styles.decrementIconsSeparate]: iconPosition === 'separate',
-              [styles.disabled]: disabled,
-            })}
+          className={cn(styles.decrement, {
+            [styles.decrementSmall]: size === 'small',
+            [styles.decrementIconsSeparate]: iconPosition === 'separate',
+            [styles.disabled]: disabled,
+          })}
           onClick={onDecrement}
           kind="transparent"
           data-test="number-field-decrement"
@@ -172,7 +171,19 @@ export const NumberField: FC<NumberFieldProps> = ({
         />
       </>
     )
-  }, [showIconButtons, onIncrement, onDecrement, decrementIconAriaLabel, incrementIconAriaLabel, value, disabled, min, max, size, iconPosition])
+  }, [
+    showIconButtons,
+    onIncrement,
+    onDecrement,
+    decrementIconAriaLabel,
+    incrementIconAriaLabel,
+    value,
+    disabled,
+    min,
+    max,
+    size,
+    iconPosition,
+  ])
 
   const onChangeWrapped = useCallback(
     ({ target: { value: newValue } }: ChangeEvent<HTMLInputElement>) => {
@@ -200,11 +211,15 @@ export const NumberField: FC<NumberFieldProps> = ({
       onChange={onChangeWrapped}
       type="number"
       inputContainerChild={overlay}
-      inputContainerClassName={cn(styles.inputContainer, {
-        [styles.buttons]: showIconButtons,
-        [styles.buttonsIconsSeparate]: iconPosition === 'separate',
-        [styles.buttonsRegularIconsSeparate]: iconPosition === 'separate' && size !== 'small',
-      }, inputContainerClassName)}
+      inputContainerClassName={cn(
+        styles.inputContainer,
+        {
+          [styles.buttons]: showIconButtons,
+          [styles.buttonsIconsSeparate]: iconPosition === 'separate',
+          [styles.buttonsRegularIconsSeparate]: iconPosition === 'separate' && size !== 'small',
+        },
+        inputContainerClassName,
+      )}
       inputClassName={inputClassName}
       disabled={disabled}
       size={size}
