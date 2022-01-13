@@ -1,4 +1,4 @@
-import React, { CSSProperties, FocusEvent, ReactNode, useMemo, useState } from 'react'
+import React, { FocusEvent, ReactNode, useMemo } from 'react'
 import ReactSelect, { ActionMeta, components, ValueType } from 'react-select'
 import { useUID } from 'react-uid'
 import cn from 'classnames'
@@ -44,6 +44,7 @@ export type AutocompleteFieldProps = {
   options: AutocompleteFieldOption[]
   value?: string | null
   placeholder?: string
+  openMenuOnClick?: boolean
 }
 
 type GetSelectedOptionFromValueProps = {
@@ -134,7 +135,6 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
 }) => {
   // when the user clicks on an input with the value, the value should disappear,
   // but then it should appear after the user selects something or blurs the input
-  const [isValueHidden, setValueHidden] = useState(false)
   const id = useUID()
 
   useIsomorphicLayoutEffect(() => {
@@ -158,7 +158,6 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
 
   const onChangeFn = React.useCallback(
     (option: AutocompleteFieldOption | null) => {
-      setValueHidden(false)
       ;(onChange as (newValue: string | null) => void)(option === null ? null : option.value)
     },
     [onChange],
@@ -169,7 +168,6 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
       if (onFocus) {
         onFocus(e)
       }
-      setValueHidden(true)
     },
     [onFocus],
   )
@@ -179,7 +177,6 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
       if (onBlur) {
         onBlur(e)
       }
-      setValueHidden(false)
     },
     [onBlur],
   )
@@ -259,14 +256,8 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
         <ReactSelect<AutocompleteFieldOption>
           onInputChange={onInputChange}
           formatOptionLabel={formatOptionLabelFn}
-          openMenuOnClick={false}
           styles={{
             ...props.styles,
-            singleValue: (base: CSSProperties) => ({
-              ...base,
-              ...props.styles?.singleValue,
-              visibility: isValueHidden ? 'hidden' : 'visible',
-            }),
           }}
           {...props}
         />

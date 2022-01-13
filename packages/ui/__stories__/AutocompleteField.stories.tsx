@@ -62,6 +62,28 @@ export const NotSelected = () => {
   )
 }
 
+export const NoOpenMenuOnClick = () => {
+  const [value, setValue] = useState<string | null>(null)
+  return (
+    <div>
+      Value: {value}
+      <AutocompleteField
+        openMenuOnClick={false}
+        name="name"
+        value={value}
+        isClearable
+        label="Character"
+        options={options}
+        onBlur={() => logger.log('blur')}
+        onChange={(val: string | null) => {
+          setValue(val)
+          logger.log('change', val)
+        }}
+      />
+    </div>
+  )
+}
+
 export const WithCustomPlaceholder = () => {
   const [value, setValue] = useState<string | null>(null)
   return (
