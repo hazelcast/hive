@@ -9,6 +9,7 @@ export type LinkKind = 'primary' | 'secondary'
 const sizes = {
   normal: styles.normal,
   small: styles.small,
+  inherit: styles.inherit,
 }
 
 type AnchorAttributes = AnchorHTMLAttributes<HTMLAnchorElement>
@@ -77,7 +78,7 @@ export type LinkProps = IconProps & {
  *
  * ### General Info
  * - There are 2 kinds (colors) of Link available - primary (default) and secondary.
- * - There are 2 sizes of Link available - normal (default) and small.
+ * - There are 3 sizes of Link available - normal (default), small and inherit.
  * - The default state of all types of link is underlined and on hover it has no underline.
  * - Link can be used as a stand-alone component with right chevron icon.
  * - You can change underlying semantics with a component property. Typescript will guard you on providing other properties related to the component type.
@@ -106,6 +107,7 @@ export const Link = forwardRef<HTMLAnchorElement | HTMLButtonElement, LinkProps>
 
     const commonProps = {
       className: cn(
+        styles.link,
         styles[size],
         {
           // kind
