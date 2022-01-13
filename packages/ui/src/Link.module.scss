@@ -34,14 +34,24 @@
   }
 }
 
-.normal {
+.link {
   @include link;
+}
+
+.normal {
   @include c.typographyBodyNormal;
 }
 
 .small {
-  @include link;
   @include c.typographyBodySmall;
+}
+
+.inherit {
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  font-weight: inherit;
 }
 
 .bold {
