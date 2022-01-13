@@ -14,7 +14,7 @@ describe('Link', () => {
 
     const anchor = wrapper.find('a')
     expect(anchor.props()).toEqual({
-      className: cn(styles.normal, styles.primary),
+      className: cn(styles.link, styles.normal, styles.primary),
       href: 'https://hazelcast.com/',
       rel: 'noopener',
       target: '_self',
@@ -32,7 +32,7 @@ describe('Link', () => {
 
     const anchor = wrapper.find('a')
     expect(anchor.props()).toMatchObject({
-      className: cn(styles.normal, styles.primary),
+      className: cn(styles.link, styles.normal, styles.primary),
       href: 'https://hazelcast.com/',
       rel: 'noopener',
       target: '_self',
@@ -56,7 +56,7 @@ describe('Link', () => {
 
     const anchor = wrapper.find('a')
     expect(anchor.props()).toEqual({
-      className: cn(styles.small, styles.primary),
+      className: cn(styles.link, styles.small, styles.primary),
       href: 'https://hazelcast.com/',
       rel: 'noopener',
       target: '_self',
@@ -74,7 +74,7 @@ describe('Link', () => {
 
     const anchor = wrapper.find('a')
     expect(anchor.props()).toMatchObject({
-      className: cn(styles.small, styles.primary),
+      className: cn(styles.link, styles.small, styles.primary),
       href: 'https://hazelcast.com/',
       rel: 'noopener',
       target: '_self',
@@ -99,7 +99,7 @@ describe('Link', () => {
 
     const anchor = wrapper.find('a')
     expect(anchor.props()).toEqual({
-      className: cn(styles.normal, styles.primary, styles.bold),
+      className: cn(styles.link, styles.normal, styles.primary, styles.bold),
       href: 'https://hazelcast.com/',
       rel: 'noopener',
       target: '_self',
@@ -117,7 +117,7 @@ describe('Link', () => {
 
     const anchor = wrapper.find('a')
     expect(anchor.props()).toMatchObject({
-      className: cn(styles.normal, styles.primary, styles.bold),
+      className: cn(styles.link, styles.normal, styles.primary, styles.bold),
       href: 'https://hazelcast.com/',
       rel: 'noopener',
       target: '_self',
@@ -142,7 +142,7 @@ describe('Link', () => {
 
     const anchor = wrapper.find('a')
     expect(anchor.props()).toEqual({
-      className: cn(styles.normal, styles.secondary),
+      className: cn(styles.link, styles.normal, styles.secondary),
       href: 'https://hazelcast.com/',
       rel: 'noopener',
       target: '_self',
@@ -159,7 +159,7 @@ describe('Link', () => {
 
     const anchor = wrapper.find('a')
     expect(anchor.props()).toEqual({
-      className: cn(styles.normal, styles.primary),
+      className: cn(styles.link, styles.normal, styles.primary),
       href: 'https://hazelcast.com/',
       rel: 'help noreferrer',
       target: '_parent',
