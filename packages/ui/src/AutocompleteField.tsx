@@ -1,4 +1,4 @@
-import React, { FocusEvent, ReactNode, useMemo } from 'react'
+import React, { CSSProperties, FocusEvent, ReactNode, useMemo, useState } from 'react'
 import ReactSelect, { ActionMeta, components, ValueType } from 'react-select'
 import { useUID } from 'react-uid'
 import cn from 'classnames'
@@ -131,10 +131,12 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
   value,
   placeholder = 'Search...',
   renderOption,
+  openMenuOnClick = true,
   ...rest
 }) => {
   // when the user clicks on an input with the value, the value should disappear,
   // but then it should appear after the user selects something or blurs the input
+  const [isValueHidden, setValueHidden] = useState(false)
   const id = useUID()
 
   useIsomorphicLayoutEffect(() => {
@@ -158,6 +160,7 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
 
   const onChangeFn = React.useCallback(
     (option: AutocompleteFieldOption | null) => {
+      setValueHidden(false)
       ;(onChange as (newValue: string | null) => void)(option === null ? null : option.value)
     },
     [onChange],
@@ -168,6 +171,9 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
       if (onFocus) {
         onFocus(e)
       }
+      if (!openMenuOnClick) {
+        setValueHidden(true)
+      }
     },
     [onFocus],
   )
@@ -177,6 +183,7 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
       if (onBlur) {
         onBlur(e)
       }
+      setValueHidden(false)
     },
     [onBlur],
   )
@@ -230,6 +237,7 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
       ClearIndicator,
       Input,
     },
+    openMenuOnClick,
     ...rest,
   }
 
@@ -258,6 +266,11 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
           formatOptionLabel={formatOptionLabelFn}
           styles={{
             ...props.styles,
+            singleValue: (base: CSSProperties) => ({
+              ...base,
+              ...props.styles?.singleValue,
+              visibility: isValueHidden ? 'hidden' : 'visible',
+            }),
           }}
           {...props}
         />

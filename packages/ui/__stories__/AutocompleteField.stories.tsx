@@ -63,24 +63,17 @@ export const NotSelected = () => {
 }
 
 export const NoOpenMenuOnClick = () => {
-  const [value, setValue] = useState<string | null>(null)
+  const [value, setValue] = useState<string | null>('obi')
   return (
-    <div>
-      Value: {value}
-      <AutocompleteField
-        openMenuOnClick={false}
-        name="name"
-        value={value}
-        isClearable
-        label="Character"
-        options={options}
-        onBlur={() => logger.log('blur')}
-        onChange={(val: string | null) => {
-          setValue(val)
-          logger.log('change', val)
-        }}
-      />
-    </div>
+    <AutocompleteField
+      name={name}
+      value={value}
+      label={label}
+      options={options}
+      onBlur={() => logger.log('blur')}
+      onChange={setValue}
+      openMenuOnClick={false}
+    />
   )
 }
 
