@@ -34,4 +34,4 @@ jobs:
       - uses: ./.github/actions/install
       - run: git describe
       - name: Publish to npm
-        run: npm run publish-canary
+        run: npx lerna publish --canary --preid next --dist-tag next --no-verify-access --include-merged-tags --no-push --force-publish
