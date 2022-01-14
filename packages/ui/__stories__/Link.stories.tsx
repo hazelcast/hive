@@ -170,6 +170,15 @@ export const SecondarySmallWithIcon = () => (
   </Link>
 )
 
+export const InheritSize = () => (
+  <p style={{ fontSize: '24px', fontWeight: 'bold' }}>
+    Some Parent Text{' '}
+    <Link href="https://hazelcast.com/" size="inherit">
+      Inherited Text Link
+    </Link>
+  </p>
+)
+
 export const ButtonSemanticsNormal = () => <Link component="button">Normal Text Link</Link>
 
 export const ButtonSemanticsSecondarySmallWithIcon = () => (

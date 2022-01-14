@@ -44,6 +44,7 @@ export type AutocompleteFieldProps = {
   options: AutocompleteFieldOption[]
   value?: string | null
   placeholder?: string
+  openMenuOnClick?: boolean
 }
 
 type GetSelectedOptionFromValueProps = {
@@ -130,6 +131,7 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
   value,
   placeholder = 'Search...',
   renderOption,
+  openMenuOnClick = true,
   ...rest
 }) => {
   // when the user clicks on an input with the value, the value should disappear,
@@ -169,7 +171,9 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
       if (onFocus) {
         onFocus(e)
       }
-      setValueHidden(true)
+      if (!openMenuOnClick) {
+        setValueHidden(true)
+      }
     },
     [onFocus],
   )
@@ -233,6 +237,7 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
       ClearIndicator,
       Input,
     },
+    openMenuOnClick,
     ...rest,
   }
 
@@ -259,7 +264,6 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
         <ReactSelect<AutocompleteFieldOption>
           onInputChange={onInputChange}
           formatOptionLabel={formatOptionLabelFn}
-          openMenuOnClick={false}
           styles={{
             ...props.styles,
             singleValue: (base: CSSProperties) => ({

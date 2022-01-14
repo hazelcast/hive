@@ -1,0 +1,95 @@
+name: publish release
+
+# only trigger on pull request closed events
+on:
+  pull_request:
+    types: [closed]
+    branches: [master]
+
+jobs:
+  test:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/install
+      - run: npm run lint
+      - run: npm run test
+
+  test_visual:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/install
+      - run: npm run build-storybook
+      - run: npm run test:visual
+
+      - name: Archive screenshots
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v1
+        with:
+          name: loki-screenshots
+          path: packages/ui/.loki
+
+  chromatic-deployment:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    needs: [test, test_visual]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: ./.github/actions/install
+      - name: Publish to Chromatic
+        uses: chromaui/action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          exitZeroOnChanges: true
+          workingDir: packages/ui
+
+  publish_canary:
+    if: github.event.pull_request.merged == true && !startsWith(github.head_ref, 'release/v')
+    runs-on: ubuntu-latest
+    needs: [test, test_visual]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: ./.github/actions/install
+      - run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish to npm
+        run: npm run publish-canary
+
+  publish_release:
+    # this job will only run if the PR has been merged
+    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'release/v')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Release Format
+        id: check-release
+        run: |
+          if [[ ${{ github.head_ref }} =~ ^release/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+              echo ::set-output name=match::true
+          fi
+      - name: Create tag
+        if: steps.check-release.outputs.match == 'true'
+        id: create_tag
+        run: |
+          tag=$(echo ${{ github.event.pull_request.head.ref }} | sed 's/release\///')
+          echo ::set-output name=tag::$tag
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Set tag
+        if: steps.check-release.outputs.match == 'true'
+        run: |
+          npx lerna publish from-git --no-push --force-publish
+          git tag --force ${{ steps.create_tag.outputs.tag }} -m "tag release ${{ steps.create_tag.outputs.tag }}"
+          git push -f origin ${{ steps.create_tag.outputs.tag }}
