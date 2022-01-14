@@ -56,7 +56,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 100
+          fetch-depth: 0
       - uses: ./.github/actions/install
       - run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
         env:
@@ -82,6 +82,11 @@ jobs:
           tag=$(echo ${{ github.event.pull_request.head.ref }} | sed 's/release\///')
           echo ::set-output name=tag::$tag
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Set tag
         if: steps.check-release.outputs.match == 'true'
         run: |
