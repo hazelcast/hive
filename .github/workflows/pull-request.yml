@@ -24,14 +24,3 @@ jobs:
         with:
           name: loki-screenshots
           path: packages/ui/.loki
-
-  publish_canary:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - uses: ./.github/actions/install
-      - run: git describe
-      - name: Publish to npm
-        run: npx lerna publish --canary --preid next --dist-tag next --no-verify-access --include-merged-tags --no-push --force-publish

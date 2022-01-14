@@ -1,7 +1,8 @@
 import React from 'react'
 import { Clipboard } from 'react-feather'
 
-import { Alert, AlertAction, AlertActionButton, AlertActionLink } from '../src'
+import { Alert } from '../src'
+import { AlertAction, AlertActionButton, AlertActionLink } from '../src/Alert'
 
 export default {
   title: 'components/Alert',

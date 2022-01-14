@@ -1,4 +1,4 @@
-export { Alert, AlertActionLink, AlertAction, AlertActionButton } from './Alert'
+export { Alert } from './Alert'
 export { Badge } from './Badge'
 export { Button } from './Button'
 export { Calendar } from './Calendar/Calendar'
