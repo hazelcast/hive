@@ -24,17 +24,15 @@ export const FieldHeader = (props: FieldHeaderProps) => {
     return null
   }
 
-  return (
+  return label ? (
     <div className={styles.root}>
-      {label && (
-        <Label
-          id={id}
-          label={label}
-          data-test={dataTest ? `${dataTest}-label` : undefined}
-          className={cn(styles.label, { [styles.small]: size === 'small' }, labelClassName)}
-        />
-      )}
-      {label && helperText && (
+      <Label
+        id={id}
+        label={label}
+        data-test={dataTest ? `${dataTest}-label` : undefined}
+        className={cn(styles.label, { [styles.small]: size === 'small' }, labelClassName)}
+      />
+      {helperText && (
         <Help
           parentId={id}
           helperText={helperText}
@@ -43,5 +41,5 @@ export const FieldHeader = (props: FieldHeaderProps) => {
         />
       )}
     </div>
-  )
+  ) : null
 }
