@@ -13,6 +13,7 @@ import { getMenuContainer, getOptionsMap, SelectFieldOption, SelectFieldOptionsM
 import { components, RenderMenuFooterFunction } from './Common'
 
 import styles from './SelectField.module.scss'
+import { components as rsComponents } from 'react-select'
 
 export type SelectFieldCoreStaticProps<V> = {
   name: string
@@ -52,6 +53,7 @@ export type SelectFieldExtraProps<V> = {
   formatOptionLabel?: ReactSelectProps<SelectFieldOption<V>>['formatOptionLabel']
   renderMenuFooter?: RenderMenuFooterFunction
   styles?: ReactSelectProps<SelectFieldOption<V>>['styles']
+  singleValueTooltipVisible?: boolean
 } & DataTestProp &
   Pick<InputHTMLAttributes<HTMLElement>, 'autoFocus' | 'disabled' | 'required' | 'placeholder'> &
   Pick<ReactSelectProps, 'isSearchable' | 'isClearable' | 'menuIsOpen' | 'menuPlacement' | 'noOptionsMessage' | 'inputValue'> &
@@ -87,6 +89,7 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
     formatGroupLabel,
     formatOptionLabel,
     renderMenuFooter,
+    singleValueTooltipVisible = true,
     ...iconAndRest
   } = props
   const id = useUID()
@@ -129,6 +132,17 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
     }
   }, [menuIsOpen])
 
+  const innerComponents = useMemo(
+    () =>
+      singleValueTooltipVisible
+        ? components
+        : {
+            ...components,
+            SingleValue: rsComponents.SingleValue,
+          },
+    [singleValueTooltipVisible],
+  )
+
   const selectProps: ReactSelectProps<SelectFieldOption<V>> = {
     ref: selectRef,
     inputId: id,
@@ -150,7 +164,7 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
     menuIsOpen,
     menuPlacement,
     menuPortalTarget: getMenuContainer(menuPortalTarget),
-    components,
+    components: innerComponents,
     formatGroupLabel,
     formatOptionLabel,
     renderMenuFooter,
