@@ -177,6 +177,7 @@ export const WithGroupedOptions = Template.bind({})
 WithGroupedOptions.args = {
   options: groupedOptions,
   value: groupedOptions[0].options[1].value,
+  singleValueTooltipVisible: false,
   // eslint-disable-next-line react/display-name
   formatGroupLabel: ({ label }) => (
     <p
