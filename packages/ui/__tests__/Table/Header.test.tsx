@@ -8,6 +8,7 @@ import { Header, HeaderProps } from '../../src/Table/Header'
 import styles from '../../src/Table/Header.module.scss'
 
 const headerPropsBase: HeaderProps = {
+  index: 0,
   align: 'left',
   canSort: false,
   isSorted: false,
@@ -37,6 +38,13 @@ const expectedContentProps: Record<string, any> = {
   onClick: undefined,
   onKeyPress: undefined,
   children: expect.anything(),
+  draggable: false,
+  onDragEnd: expect.anything(),
+  onDragEnter: undefined,
+  onDragLeave: undefined,
+  onDragOver: expect.anything(),
+  onDragStart: undefined,
+  onDrop: undefined,
 }
 
 describe('Header', () => {
@@ -145,5 +153,59 @@ describe('Header', () => {
       'data-test': 'table-header-column-resizer',
       className: `${styles.separator} ${styles.resizing}`,
     })
+  })
+
+  it('draggable attribute', async () => {
+    const wrapper = await mountAndCheckA11Y(<Header {...headerPropsBase}>Header</Header>)
+
+    expect(wrapper.findDataTest('table-header-content').prop('draggable')).toBeFalsy()
+
+    wrapper.setProps({
+      onDrop: jest.fn(),
+      onDragStart: jest.fn(),
+    })
+
+    expect(wrapper.findDataTest('table-header-content').prop('draggable')).toBeTruthy()
+
+    wrapper.setProps({
+      onDrop: undefined,
+      onDragStart: jest.fn(),
+    })
+
+    expect(wrapper.findDataTest('table-header-content').prop('draggable')).toBeFalsy()
+
+    wrapper.setProps({
+      onDrop: jest.fn(),
+      onDragStart: undefined,
+    })
+
+    expect(wrapper.findDataTest('table-header-content').prop('draggable')).toBeFalsy()
+  })
+
+  it('calls onDragStart callback with correct data', async () => {
+    const onDragStart = jest.fn()
+    const onDrop = jest.fn()
+    const setData = jest.fn()
+    const wrapper = await mountAndCheckA11Y(
+      <Header {...headerPropsBase} onDragStart={onDragStart} onDrop={onDrop}>
+        Header
+      </Header>,
+    )
+
+    expect(onDragStart).toBeCalledTimes(0)
+    expect(onDrop).toBeCalledTimes(0)
+    expect(setData).toBeCalledTimes(0)
+
+    expect(wrapper.findDataTest('table-header-content').prop('draggable')).toBeTruthy()
+
+    wrapper.findDataTest('table-header-content').simulate('dragstart', {
+      dataTransfer: {
+        setData,
+      },
+    })
+
+    expect(onDragStart).toBeCalledTimes(1)
+    expect(setData).toBeCalledTimes(1)
+    expect(setData).toBeCalledWith('text/plain', '0')
   })
 })

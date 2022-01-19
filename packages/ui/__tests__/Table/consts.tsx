@@ -7029,3 +7029,8 @@ export const bigDataSet: Person[] = [
 ]
 
 export const smallDataSet: Person[] = bigDataSet.slice(0, 10)
+
+export const smallDataSetWithSubRows: Person[] = bigDataSet.slice(0, 10).map((row, i) => ({
+  ...row,
+  subRows: bigDataSet.slice(100 + (i + 1) * 10, 100 + (i + 2) * 10),
+}))
