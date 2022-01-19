@@ -154,6 +154,22 @@ WithLongTextOptions.args = {
   ],
 }
 
+export const WithTooltipHidden = Template.bind({})
+WithTooltipHidden.args = {
+  options: [
+    {
+      value: '10000',
+      label: LONG_MULTIPLE_WORD_TEXT,
+    },
+    {
+      value: '10001',
+      label: LONG_ONE_WORD_TEXT,
+    },
+    ...options,
+  ],
+  singleValueTooltipVisible: false,
+}
+
 const groupedOptions: GroupedOptionsType<SelectFieldOption<string>> = [
   {
     label: 'Dark Side',
@@ -177,7 +193,6 @@ export const WithGroupedOptions = Template.bind({})
 WithGroupedOptions.args = {
   options: groupedOptions,
   value: groupedOptions[0].options[1].value,
-  singleValueTooltipVisible: false,
   // eslint-disable-next-line react/display-name
   formatGroupLabel: ({ label }) => (
     <p
