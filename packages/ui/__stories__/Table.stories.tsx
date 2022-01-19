@@ -4,12 +4,11 @@ import { Meta, Story } from '@storybook/react'
 
 import { PaginationChangeProps, Table, TableProps } from '../src/Table/Table'
 import { getColumns, Person } from '../__tests__/Table/utils'
-import { bigDataSet, smallDataSet } from '../__tests__/Table/consts'
+import { bigDataSet, smallDataSet, smallDataSetWithSubRows } from '../__tests__/Table/consts'
 import { TextField } from '../src'
 
 import storyStyles from './TextField.stories.module.scss'
 import styles from './utils.scss'
-import { useTableCustomizableColumns } from '../src/hooks/useTableCustomizableColumns'
 
 export default {
   title: 'Components/Table',
@@ -205,12 +204,36 @@ WithCustomRowAndCellProps.args = {
 }
 
 export const WithCustomizableColumns: Story<TableProps<Person>> = ({ columns, ...args }) => {
-  const { tableColumns, control } = useTableCustomizableColumns(columns)
-
   return (
-    <div>
-      {control}
-      <Table columns={tableColumns} {...args} />
-    </div>
+    <Table columns={columns} {...args}>
+      {(table, toggleColumnsControl) => (
+        <div>
+          {toggleColumnsControl}
+          {table}
+        </div>
+      )}
+    </Table>
   )
+}
+
+export const WithColumnsOrdering: Story<TableProps<Person>> = ({ columns, ...args }) => {
+  return <Table columnsOrdering columns={columns} {...args} />
+}
+WithColumnsOrdering.args = {
+  disableSortBy: false,
+}
+
+export const WithExpandableRows: Story<TableProps<Person>> = ({ columns, ...args }) => {
+  return <Table columns={columns} {...args} />
+}
+WithExpandableRows.args = {
+  data: smallDataSetWithSubRows,
+}
+
+export const WithExpandableRowsAndCustomContent: Story<TableProps<Person>> = ({ columns, ...args }) => {
+  return <Table columns={columns} {...args} />
+}
+WithExpandableRowsAndCustomContent.args = {
+  data: smallDataSet,
+  renderRowSubComponent: ({ original }) => <div>Sub row #{original.id}</div>,
 }

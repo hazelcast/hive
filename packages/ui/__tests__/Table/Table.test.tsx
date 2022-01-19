@@ -1,6 +1,7 @@
 import { axeDefaultOptions, mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import React, { PropsWithChildren } from 'react'
 import { act } from 'react-dom/test-utils'
+import { ChevronDown, ChevronUp } from 'react-feather'
 
 import { getColumns, Person } from './utils'
 import { Table } from '../../src/Table/Table'
@@ -16,7 +17,7 @@ import {
 import { Pagination, PaginationProps } from '../../src/Pagination'
 import { Button } from '../../src/Button'
 import { bigDataSet, smallDataSet } from './consts'
-import { useTableCustomizableColumns } from '../../src/hooks/useTableCustomizableColumns'
+import { Icon } from '../../src/Icon'
 
 const rules = axeDefaultOptions?.rules ?? {}
 const axeOptions = {
@@ -61,6 +62,7 @@ describe('Table', () => {
     headers.forEach((header, i: number) => {
       expect(header.props()).toMatchObject<PropsWithChildren<HeaderProps>>({
         align: columns[i].align,
+        index: i,
         canSort: false,
         isSorted: false,
         isSortedDesc: undefined,
@@ -91,7 +93,7 @@ describe('Table', () => {
     expect(cellRowGroup.props()).toMatchObject({
       'data-test': 'table-cell-row-group',
       role: 'rowgroup',
-      className: '',
+      className: 'content',
     })
 
     const cellRows = cellRowGroup.find(Row)
@@ -208,82 +210,40 @@ describe('Table', () => {
   })
 
   it('renders table with sorting capabilities', async () => {
-    const headerProps: PropsWithChildren<HeaderProps> = {
-      align: 'left',
-      canSort: false,
-      isSorted: false,
-      isSortedDesc: undefined,
-      canResize: true,
-      isResizing: false,
-
-      getResizerProps: expect.anything(),
-
-      onClick: expect.anything(),
-      colSpan: 1,
-      role: 'columnheader',
-
-      style: expect.anything(),
-      // We ignore typescript error here since `title` prop is not described in @types/react-table and we're not using it anyway.
-      // TODO: Remove once the types are correct
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      title: 'Toggle SortBy',
-
-      children: expect.anything(),
-    }
-
     const columns = getColumns({})
 
     const wrapper = await mountAndCheckA11Y(<Table data-test="table-test" columns={columns} data={smallDataSet} />, { axeOptions })
 
     const headers = wrapper.find(Header)
+
     headers.forEach((header, i) => {
-      const isLastHeader = headers.length === i + 1
       // Sorting enabled but not used
-      expect(header.props()).toEqual<PropsWithChildren<HeaderProps>>({
-        ...headerProps,
-        align: columns[i].align,
-        canSort: true,
-        isSorted: false,
-        isSortedDesc: undefined,
-        isLastHeader,
-      })
+      expect(header.prop('isSorted')).toBeFalsy()
+      expect(header.prop('isSortedDesc')).toBe(undefined)
+      expect(header.prop('canSort')).toBeTruthy()
 
       // Let's sort!
       header.findDataTest('table-header-content').simulate('click')
       wrapper.update()
-      expect(wrapper.find(Header).at(i).props()).toEqual<PropsWithChildren<HeaderProps>>({
-        ...headerProps,
-        align: columns[i].align,
-        canSort: true,
-        isSorted: true,
-        isSortedDesc: false,
-        isLastHeader,
-      })
+
+      expect(wrapper.find(Header).at(i).prop('isSorted')).toBeTruthy()
+      expect(wrapper.find(Header).at(i).prop('isSortedDesc')).toBeFalsy()
+      expect(wrapper.find(Header).at(i).prop('canSort')).toBeTruthy()
 
       // Let's sort in descending order
       header.findDataTest('table-header-content').simulate('click')
       wrapper.update()
-      expect(wrapper.find(Header).at(i).props()).toEqual<PropsWithChildren<HeaderProps>>({
-        ...headerProps,
-        align: columns[i].align,
-        canSort: true,
-        isSorted: true,
-        isSortedDesc: true,
-        isLastHeader,
-      })
+
+      expect(wrapper.find(Header).at(i).prop('isSorted')).toBeTruthy()
+      expect(wrapper.find(Header).at(i).prop('isSortedDesc')).toBeTruthy()
+      expect(wrapper.find(Header).at(i).prop('canSort')).toBeTruthy()
 
       // Back to default state
       header.findDataTest('table-header-content').simulate('click')
       wrapper.update()
-      expect(wrapper.find(Header).at(i).props()).toEqual<PropsWithChildren<HeaderProps>>({
-        ...headerProps,
-        align: columns[i].align,
-        canSort: true,
-        isSorted: false,
-        isSortedDesc: undefined,
-        isLastHeader,
-      })
+      expect(wrapper.find(Header).at(i).prop('isSorted')).toBeFalsy()
+      expect(wrapper.find(Header).at(i).prop('isSortedDesc')).toBe(undefined)
+      expect(wrapper.find(Header).at(i).prop('canSort')).toBeTruthy()
     })
   })
 
@@ -332,13 +292,15 @@ describe('Table', () => {
   it('With customizable columns should render all columns by default', async () => {
     const columns = getColumns({ withFooter: true })
     const Wrapper = () => {
-      const { tableColumns, control } = useTableCustomizableColumns(columns)
-
       return (
-        <div>
-          {control}
-          <Table data-test="table-test" columns={tableColumns} data={[]} hidePagination />
-        </div>
+        <Table data-test="table-test" columns={columns} data={[]} hidePagination>
+          {(table, toggleColumnsControl) => (
+            <div>
+              {toggleColumnsControl}
+              {table}
+            </div>
+          )}
+        </Table>
       )
     }
 
@@ -351,13 +313,15 @@ describe('Table', () => {
   it('With customizable columns should render without columns when all columns unselected', async () => {
     const columns = getColumns({ withFooter: true })
     const Wrapper = () => {
-      const { tableColumns, control } = useTableCustomizableColumns(columns)
-
       return (
-        <div>
-          {control}
-          <Table data-test="table-test" columns={tableColumns} data={[]} hidePagination />
-        </div>
+        <Table data-test="table-test" columns={columns} data={[]} hidePagination>
+          {(table, toggleColumnsControl) => (
+            <div>
+              {toggleColumnsControl}
+              {table}
+            </div>
+          )}
+        </Table>
       )
     }
 
@@ -377,7 +341,7 @@ describe('Table', () => {
     })
     wrapper.update()
 
-    expect(wrapper.findDataTest('table-test').at(0).prop('columns')).toEqual([])
+    expect(wrapper.findDataTest('table-cell-row-group').find(Cell).exists()).toBeFalsy()
   })
 
   it('Reset out of range pageIndex to last available page', async () => {
@@ -425,5 +389,53 @@ describe('Table', () => {
     wrapper.update()
 
     expect(wrapper.find(Pagination).prop('currentPage')).toBe(3)
+  })
+
+  it('SubRows', async () => {
+    const columns = getColumns({ withFooter: true })
+
+    const wrapper = await mountAndCheckA11Y(
+      <Table
+        data-test="table-test"
+        columns={columns}
+        data={[{ ...smallDataSet[0], subRows: [smallDataSet[4], smallDataSet[5]] }, ...smallDataSet.slice(1)]}
+      />,
+    )
+
+    expect(wrapper.findDataTest('row-expander').length).toBe(1)
+    expect(wrapper.findDataTest('table-cell-row-group').findDataTest('table-cell-row').length).toBe(10)
+
+    expect(wrapper.findDataTest('row-expander').find(Icon).prop('icon')).toBe(ChevronDown)
+
+    act(() => {
+      wrapper.findDataTest('row-expander').simulate('click')
+    })
+    wrapper.update()
+
+    expect(wrapper.findDataTest('table-cell-row-group').findDataTest('table-cell-row').length).toBe(12)
+    expect(wrapper.findDataTest('row-expander').find(Icon).prop('icon')).toBe(ChevronUp)
+  })
+
+  it('Custom expandable content', async () => {
+    const columns = getColumns({ withFooter: true })
+
+    const wrapper = await mountAndCheckA11Y(
+      <Table
+        data-test="table-test"
+        columns={columns}
+        data={smallDataSet}
+        renderRowSubComponent={() => <div data-test="custom-expandable-content" />}
+      />,
+    )
+
+    expect(wrapper.findDataTest('row-expander').exists()).toBeTruthy()
+    expect(wrapper.findDataTest('custom-expandable-content').length).toBe(0)
+
+    act(() => {
+      wrapper.findDataTest('row-expander').at(0).simulate('click')
+    })
+    wrapper.update()
+
+    expect(wrapper.findDataTest('custom-expandable-content').length).toBe(1)
   })
 })

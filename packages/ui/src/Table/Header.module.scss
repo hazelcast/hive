@@ -59,6 +59,12 @@
     &.alignCenter {
       justify-content: center;
     }
+
+    &[draggable='true'] {
+      /* doiuse-disable css3-cursors-newer */
+      cursor: grabbing;
+      /* doiuse-enable css3-cursors-newer */
+    }
   }
 }
 
@@ -89,4 +95,17 @@
   &:hover .separator {
     background-color: c.$colorPrimary;
   }
+}
+
+.dragOver {
+  @include h.outlineSimple;
+}
+
+.dragIcon {
+  margin-left: c.$grid * 2;
+}
+
+.dragIconRight {
+  margin-left: 0;
+  margin-right: c.$grid * 2;
 }

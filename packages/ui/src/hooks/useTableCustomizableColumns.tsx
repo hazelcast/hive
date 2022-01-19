@@ -1,48 +1,58 @@
-import React, { useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
+import { ColumnInstance, IdType } from 'react-table'
 
-import { ColumnType } from '../Table/Table'
+import { Column, selectionColumnId } from '../Table/Table'
 import { CheckableSelectField } from '../Select'
-import { CheckableSelectProps } from '../Select/CheckableSelectField'
 import { SelectFieldOption } from '../Select/helpers'
 
-export function useTableCustomizableColumns<T>(
-  columns: T,
-  opts?: {
-    'data-test'?: string
-    size: CheckableSelectProps<T>['size']
-  },
-) {
-  const untypedColumns = (columns as unknown) as ColumnType<object>[]
-  const { size = 'medium', 'data-test': dataTest = 'table-custom-columns' } = opts || {}
+export function useTableCustomizableColumns<T extends object>({
+  columns,
+  visibleColumns,
+  setHiddenColumns,
+  dataTest = 'table-custom-columns',
+}: {
+  dataTest?: string
+  columns: Column<T>[]
+  visibleColumns: ColumnInstance<T>[]
+  setHiddenColumns: (columns: IdType<T>[]) => void
+}) {
   // Header is used as a label
-  const toggleableColumns = useMemo(() => untypedColumns.filter(({ Header }) => !!Header), [untypedColumns])
+  const toggleableColumns = useMemo(
+    () => columns.filter(({ Header, id, accessor, canHide = true }) => canHide && !!Header && (!!id || !!accessor)),
+    [columns],
+  )
   const options = useMemo<SelectFieldOption<string>[]>(
     () =>
-      toggleableColumns.map(({ Header }) => ({
-        value: String(Header),
+      toggleableColumns.map(({ Header, id, accessor }) => ({
+        value: String(id || accessor),
         label: String(Header),
       })),
     [toggleableColumns],
   )
-  const [value, setValue] = useState<string[]>(toggleableColumns.map(({ Header }) => String(Header)))
-  const valueSet = useMemo(() => new Set(value), [value])
-  const toggleableColumnsSet = useMemo(() => new Set(toggleableColumns.map(({ Header }) => String(Header))), [toggleableColumns])
-  const tableColumns = useMemo(() => {
-    return untypedColumns.filter(({ Header }) => (toggleableColumnsSet.has(String(Header)) ? valueSet.has(String(Header)) : true))
-  }, [untypedColumns, valueSet, toggleableColumnsSet])
 
-  return {
-    tableColumns: (tableColumns as unknown) as T,
-    control: (
-      <CheckableSelectField<string>
-        name="custom-columns"
-        options={options}
-        value={value}
-        data-test={dataTest}
-        label="Columns"
-        onChange={setValue}
-        size={size}
-      />
-    ),
-  }
+  const onChange = useCallback(
+    (value: string[]) => {
+      const visibleColumns = new Set(value)
+
+      setHiddenColumns(
+        toggleableColumns
+          .filter(({ id, accessor }) => !visibleColumns.has((id || accessor) as string))
+          .map(({ id, accessor }) => (id || accessor) as string),
+      )
+      setValue(value)
+    },
+    [setHiddenColumns, toggleableColumns],
+  )
+  const [value, setValue] = useState<string[]>(visibleColumns.filter(({ id }) => id !== selectionColumnId).map(({ id }) => id))
+
+  return (
+    <CheckableSelectField<string>
+      name="custom-columns"
+      options={options}
+      value={value}
+      data-test={dataTest}
+      label="Columns"
+      onChange={onChange}
+    />
+  )
 }

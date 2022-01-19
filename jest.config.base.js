@@ -12,10 +12,10 @@ module.exports = {
   coverageReporters: ['text-summary', 'lcov'],
   coverageThreshold: {
     global: {
-      branches: 80,
+      branches: 78,
       functions: 70,
-      lines: 80,
-      statements: 80,
+      lines: 78,
+      statements: 78,
     },
   },
   // https://jestjs.io/docs/en/webpack.html#mocking-css-modules
