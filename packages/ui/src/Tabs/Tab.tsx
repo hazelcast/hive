@@ -1,4 +1,4 @@
-import React, { FC, useCallback, MouseEvent, KeyboardEvent } from 'react'
+import React, { FC, useCallback, MouseEvent, KeyboardEvent, ReactNode } from 'react'
 import cn from 'classnames'
 
 import { Icon, IconProps } from '../Icon'
@@ -19,22 +19,34 @@ export type ButtonTabProps = {
 
 type TabTypeProps = AnchorTabProps | ButtonTabProps
 
-type TabIconProps =
+type TabLabelProps =
   | {
+      label: string
       icon: IconProps['icon']
       iconAriaLabel: string
+      children?: never
+      ariaLabel?: never
     }
   | {
+      label: string
       icon?: never
       iconAriaLabel?: never
+      children?: never
+      ariaLabel?: never
     }
+  | {
+      label?: never
+      icon?: never
+      iconAriaLabel?: never
+      children: ReactNode
+      ariaLabel: string
+    }
+
 export type TabCommonProps = {
-  label: string
   value: number
   onClick?: (event: MouseEvent<HTMLButtonElement | HTMLAnchorElement> | KeyboardEvent<HTMLButtonElement | HTMLAnchorElement>) => void
 }
-
-export type TabProps<T = TabTypeProps> = TabCommonProps & T & TabIconProps
+export type TabProps<T = TabTypeProps> = TabCommonProps & T & TabLabelProps
 
 /**
  * ### Purpose
@@ -47,7 +59,17 @@ export type TabProps<T = TabTypeProps> = TabCommonProps & T & TabIconProps
  * More info - https://www.w3.org/TR/wai-aria-practices/#kbd_selection_follows_focus
  *
  */
-export const Tab: FC<TabProps> = ({ component: Component = 'button', label, value, href, onClick, icon, iconAriaLabel }) => {
+export const Tab: FC<TabProps> = ({
+  component: Component = 'button',
+  label,
+  value,
+  href,
+  onClick,
+  icon,
+  iconAriaLabel,
+  children,
+  ariaLabel,
+}) => {
   const { onChange, value: activeValue, idPrefix, fullWidth } = useTabContext()
   const selected = value === activeValue
 
@@ -89,10 +111,18 @@ export const Tab: FC<TabProps> = ({ component: Component = 'button', label, valu
       tabIndex={selected ? 0 : -1}
       onKeyPress={onKeyPress}
       onClick={handleClick}
-      href={selected ? undefined : href}
+      {...(Component === 'a' && selected && href)}
+      aria-label={label ?? ariaLabel}
     >
-      {icon && iconAriaLabel && <Icon icon={icon} ariaLabel={iconAriaLabel} className={styles.icon} />}
-      {label}
+      {children
+        ? children
+        : (icon && iconAriaLabel && (
+            <span>
+              <Icon icon={icon} ariaLabel={iconAriaLabel} className={styles.icon} />
+              {label}
+            </span>
+          )) ??
+          label}
     </Component>
   )
 }
