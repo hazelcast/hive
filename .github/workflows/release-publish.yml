@@ -48,6 +48,7 @@ jobs:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           exitZeroOnChanges: true
           workingDir: packages/ui
+          autoAcceptChanges: true
 
   publish_canary:
     if: github.event.pull_request.merged == true && !startsWith(github.head_ref, 'release/v')
