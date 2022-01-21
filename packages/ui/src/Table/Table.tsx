@@ -45,6 +45,7 @@ import { Icon } from '../Icon'
 
 import styles from './Table.module.scss'
 import styleConsts from '../../styles/constants/export.module.scss'
+import { selectionColumnId } from '../hooks/useTableCustomizableColumns'
 
 export type { Accessor, Cell, Renderer, Row, CellProps, HeaderGroup, TableInstance } from 'react-table'
 export type Column<T extends object> = ColumnType<T> & {
@@ -226,8 +227,6 @@ const column = {
   width: Number(styleConsts.tableColumnWidth), // width is used for both the flex-basis and flex-grow
   maxWidth: Number(styleConsts.tableColumnMaxWidth), // maxWidth is only used as a limit for resizing
 }
-
-export const selectionColumnId = 'selection'
 
 export type TableLocalState<T extends object> = (TableState<T> & { columnOrder: IdType<T>[]; columns: Column<T>[] }) | null
 
