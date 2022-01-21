@@ -47,8 +47,9 @@ describe('Tab', () => {
       id: getTabId(testId, '1'),
       'aria-controls': getPanelId(testId, '1'),
       'aria-selected': false,
+      'aria-label': 'Tab 2',
       tabIndex: -1,
-      children: [undefined, 'Tab 2'],
+      children: 'Tab 2',
 
       onClick: expect.anything(),
 
@@ -65,8 +66,9 @@ describe('Tab', () => {
       id: getTabId(testId, '0'),
       'aria-controls': getPanelId(testId, '0'),
       'aria-selected': true,
+      'aria-label': 'Tab 1',
       tabIndex: 0,
-      children: [undefined, 'Tab 1'],
+      children: 'Tab 1',
 
       onKeyPress: expect.anything(),
 
@@ -85,6 +87,32 @@ describe('Tab', () => {
     )
 
     expect(wrapper.find(Settings).exists()).toBeTruthy()
+  })
+
+  it('renders custom tab name correct props', async () => {
+    const wrapper = await mountAndCheckA11Y(
+      <TabContextProvider>
+        <TabList ariaLabel={ariaLabel}>
+          <Tab data-test="tab1" value={0} ariaLabel="Tab 1">
+            Tab<b key="">1</b>
+          </Tab>
+        </TabList>
+        <TabPanel value={0}>Panel 1</TabPanel>
+      </TabContextProvider>,
+    )
+
+    expect(wrapper.findDataTest('tab1').find('button').props()).toEqual<ButtonHTMLAttributes<HTMLButtonElement>>({
+      className: cn(styles.tab, styles.selected),
+      role: 'tab',
+      id: getTabId(testId, '0'),
+      'aria-controls': getPanelId(testId, '0'),
+      'aria-selected': true,
+      'aria-label': 'Tab 1',
+      tabIndex: 0,
+      children: ['Tab', <b key="">1</b>],
+      onKeyPress: expect.anything(),
+      onClick: expect.anything(),
+    })
   })
 
   it('fires onChange with correct parameter on click, Enter press and Space press', async () => {

@@ -115,3 +115,29 @@ export const WithIcons = () => (
     </TabPanel>
   </TabContextProvider>
 )
+
+export const CustomLabel = () => (
+  <TabContextProvider>
+    <TabList ariaLabel="Tabs Story">
+      <Tab value={0} ariaLabel="Tab 1">
+        <b>Tab</b> <Info /> 1
+      </Tab>
+      <Tab value={1} ariaLabel="Tab 2">
+        <b>Tab</b> <PenTool /> 2
+      </Tab>
+      <Tab value={2} ariaLabel="Tab 3">
+        <b>Tab</b>
+        <Settings /> 3
+      </Tab>
+    </TabList>
+    <TabPanel value={0}>
+      <p>Panel 1</p>
+    </TabPanel>
+    <TabPanel value={1}>
+      <p>Panel 2</p>
+    </TabPanel>
+    <TabPanel value={2}>
+      <p>Panel 3</p>
+    </TabPanel>
+  </TabContextProvider>
+)
