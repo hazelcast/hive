@@ -21,6 +21,7 @@ type TabTypeProps = AnchorTabProps | ButtonTabProps
 
 type TabLabelProps =
   | {
+      /** @deprecated The property should not be used */
       label: string
       icon: IconProps['icon']
       iconAriaLabel: string
@@ -28,6 +29,7 @@ type TabLabelProps =
       ariaLabel?: never
     }
   | {
+      /** @deprecated The property should not be used */
       label: string
       icon?: never
       iconAriaLabel?: never
@@ -61,11 +63,16 @@ export type TabProps<T = TabTypeProps> = TabCommonProps & T & TabLabelProps
  */
 export const Tab: FC<TabProps> = ({
   component: Component = 'button',
+  /**
+   * @deprecated The property should not be used
+   */
   label,
   value,
   href,
   onClick,
+  /** @deprecated The property should not be used */
   icon,
+  /** @deprecated The property should not be used */
   iconAriaLabel,
   children,
   ariaLabel,
