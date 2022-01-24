@@ -47,6 +47,7 @@ type TabLabelProps =
 export type TabCommonProps = {
   value: number
   onClick?: (event: MouseEvent<HTMLButtonElement | HTMLAnchorElement> | KeyboardEvent<HTMLButtonElement | HTMLAnchorElement>) => void
+  className?: string
 }
 export type TabProps<T = TabTypeProps> = TabCommonProps & T & TabLabelProps
 
@@ -76,6 +77,7 @@ export const Tab: FC<TabProps> = ({
   iconAriaLabel,
   children,
   ariaLabel,
+  className,
 }) => {
   const { onChange, value: activeValue, idPrefix, fullWidth } = useTabContext()
   const selected = value === activeValue
@@ -110,7 +112,7 @@ export const Tab: FC<TabProps> = ({
 
   return (
     <Component
-      className={cn(styles.tab, { [styles.selected]: selected, [styles.fullWidth]: fullWidth })}
+      className={cn(styles.tab, { [styles.selected]: selected, [styles.fullWidth]: fullWidth }, className)}
       role="tab"
       id={getTabId(idPrefix, value.toString())}
       aria-controls={getPanelId(idPrefix, value.toString())}
