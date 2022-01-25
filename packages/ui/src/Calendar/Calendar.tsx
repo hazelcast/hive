@@ -6,24 +6,26 @@ import DatePicker, { ReactDatePickerProps } from 'react-datepicker'
 import { CalendarInput } from './components/CalendarInput'
 import { CalendarHeader } from './components/CalendarHeader'
 import { CalendarTime } from './components/CalendarTime'
-import { canUseDOM } from '../utils/ssr'
 
 import styles from './Calendar.module.scss'
+import { getPortalContainer, PortalContainer } from '../utils/portal'
 
 const DATE_FORMAT = 'yyyy-MM-dd'
 const DATE_FORMAT_WITH_TIME = 'yyyy-MM-dd hh:mm a'
 
-const CalendarPopperContainer: FC = ({ children }) =>
-  canUseDOM && children
-    ? createPortal(
-      <div className={styles.popper}>
-        <div data-test="date-picker-popper-container" className="hz-date-picker-popper-container">
-          {children}
-        </div>
-      </div>,
-        document.body,
-      )
-    : null
+const CalendarPopperContainer =
+  (container: HTMLElement | null): FC =>
+  ({ children }) =>
+    container && children
+      ? createPortal(
+          <div className={styles.popper}>
+            <div data-test="date-picker-popper-container" className="hz-date-picker-popper-container">
+              {children}
+            </div>
+          </div>,
+          container,
+        )
+      : null
 
 export type CalendarSize = 'medium' | 'small'
 
@@ -34,6 +36,7 @@ export type CalendarProps = {
   inputClassName?: string
   onDateChange: ReactDatePickerProps['onChange']
   size?: CalendarSize
+  container?: PortalContainer
 } & Omit<ReactDatePickerProps, 'value' | 'onChange'>
 
 export const Calendar: FC<CalendarProps> = ({
@@ -46,6 +49,7 @@ export const Calendar: FC<CalendarProps> = ({
   onDateChange,
   showTimeInput,
   size = 'medium',
+  container = `body`,
   ...props
 }) => (
   <div
@@ -69,7 +73,7 @@ export const Calendar: FC<CalendarProps> = ({
       customTimeInput={<CalendarTime />}
       dateFormat={showTimeInput ? DATE_FORMAT_WITH_TIME : DATE_FORMAT}
       onChange={onDateChange}
-      popperContainer={CalendarPopperContainer}
+      popperContainer={CalendarPopperContainer(getPortalContainer(container))}
       /*
        * Note:
        * 'renderCustomHeader' is the only child component override prop that is not instantiated
