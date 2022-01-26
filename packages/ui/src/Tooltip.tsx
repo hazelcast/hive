@@ -20,7 +20,7 @@ import { usePopper } from 'react-popper'
 import cn from 'classnames'
 
 import { containsElement } from './hooks'
-import { canUseDOM } from './utils/ssr'
+import { getPortalContainer, PortalContainer } from './utils/portal'
 
 import styles from './Tooltip.module.scss'
 
@@ -32,21 +32,6 @@ const TooltipContext = createContext<{
   popperElement: HTMLSpanElement | null
   referenceElement: HTMLSpanElement | null
 } | null>(null)
-
-export type TooltipContainer = 'body' | 'referenceElement' | HTMLElement
-
-const getTooltipPortalContainer = (tooltipContainer: TooltipContainer, referenceElement: HTMLSpanElement | null): HTMLElement | null => {
-  if (tooltipContainer === 'body') {
-    // There is no document is SSR environment
-    return canUseDOM ? document.body : null
-  }
-
-  if (tooltipContainer === 'referenceElement') {
-    return referenceElement ?? null
-  }
-
-  return tooltipContainer
-}
 
 export type PopperRef = ReturnType<typeof usePopper>
 
@@ -66,7 +51,7 @@ export type TooltipProps = {
   ) => ReactNode
   popperRef?: MutableRefObject<PopperRef | undefined>
   updateToken?: ReactText | boolean
-  tooltipContainer?: TooltipContainer
+  tooltipContainer?: PortalContainer
 }
 
 /**
@@ -214,7 +199,7 @@ export const Tooltip: FC<TooltipProps> = ({
     }
   }, [popperElement, onMouseEnter, onMouseLeave, hoverAbleTooltip])
 
-  const tooltipPortalContainer = getTooltipPortalContainer(tooltipContainer, referenceElement)
+  const tooltipPortalContainer = getPortalContainer(tooltipContainer, referenceElement)
 
   return (
     <TooltipContext.Provider value={contextValue}>

@@ -5,7 +5,7 @@ import { Placement } from '@popperjs/core'
 import cls from 'classnames'
 import FocusTrap from 'focus-trap-react'
 
-import { canUseDOM } from './utils/ssr'
+import { getPortalContainer, PortalContainer } from './utils/portal'
 import { DataTestProp } from '../../helpers'
 import { useOnClickOutside, useRefValue } from './hooks'
 
@@ -24,6 +24,7 @@ export interface PopoverProps extends DataTestProp {
   onClose: () => void
   matchReferenceSize?: boolean
   onUpdateLayout?: () => void
+  container?: PortalContainer
 }
 
 export const Popover: FC<PopoverProps> = (props) => {
@@ -39,6 +40,7 @@ export const Popover: FC<PopoverProps> = (props) => {
     'data-test': dataTest,
     matchReferenceSize,
     onUpdateLayout,
+    container = `body`,
   } = props
   const getOnUpdate = useRefValue(onUpdateLayout)
   const [popperElement, setPopperElement] = useState<HTMLElement | null>(null)
@@ -100,11 +102,18 @@ export const Popover: FC<PopoverProps> = (props) => {
     placement,
     modifiers,
   })
-  useOnClickOutside(open, { target: popperElement, excludeElement: anchorElement, handler: onClose })
+
+  const containerEl = getPortalContainer(container, anchorElement)
+
+  useOnClickOutside(open, {
+    target: popperElement,
+    excludeElement: anchorElement,
+    handler: onClose,
+  })
 
   return (
     <>
-      {canUseDOM
+      {containerEl
         ? createPortal(
             open && (
               <FocusTrap
@@ -128,7 +137,7 @@ export const Popover: FC<PopoverProps> = (props) => {
                 </div>
               </FocusTrap>
             ),
-            document.body,
+            containerEl,
           )
         : children}
     </>
