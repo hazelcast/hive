@@ -11,6 +11,7 @@ export type CodeProps = {
   value?: string
   className?: string
   options?: CodeOptions
+  dataTest?: string
 }
 
 const DEFAULT_OPTIONS: CodeOptions = {
@@ -19,6 +20,14 @@ const DEFAULT_OPTIONS: CodeOptions = {
   lineNumbers: true,
 }
 
-export const Code: FC<CodeProps> = ({ value, className, options = DEFAULT_OPTIONS }) => {
-  return <CodeEditor value={value} options={options} className={className} customExtensions={[EditorView.editable.of(false)]} />
+export const Code: FC<CodeProps> = ({ value, className, options = DEFAULT_OPTIONS, dataTest = 'code' }) => {
+  return (
+    <CodeEditor
+      value={value}
+      options={options}
+      dataTest={dataTest}
+      className={className}
+      customExtensions={[EditorView.editable.of(false)]}
+    />
+  )
 }

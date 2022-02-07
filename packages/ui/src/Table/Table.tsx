@@ -64,7 +64,7 @@ declare module 'react-table' {
       UseFiltersOptions<D>,
       UseRowSelectOptions<D>,
       UseGroupByOptions<D>,
-      // UseExpandedOptions<D>,
+      UseExpandedOptions<D>,
       // UseGlobalFiltersOptions<D>,
       UseResizeColumnsOptions<D>,
       // UseRowStateOptions<D>,
@@ -310,6 +310,7 @@ export const Table = <D extends object>({
   children,
   storageKey,
   renderRowSubComponent,
+  autoResetExpanded = false,
 }: TableProps<D>): ReactElement => {
   const didMountRef = useRef(false)
   const draggedColumnRef = useRef<number | null>(null)
@@ -423,6 +424,7 @@ export const Table = <D extends object>({
       autoResetGlobalFilter,
       autoResetResize,
       autoResetSelectedRows,
+      autoResetExpanded,
       paginateExpandedRows: false,
     },
     useGlobalFilter,

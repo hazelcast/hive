@@ -103,6 +103,7 @@ export type CodeEditorProps = {
   innerRef?: MutableRefObject<EditorViewRef | null>
   error?: string
   errorClassName?: string
+  dataTest?: string
 }
 
 const DEFAULT_OPTIONS: CodeOptions = {
@@ -123,6 +124,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({
   innerRef,
   error,
   errorClassName,
+  dataTest = 'code-editor',
 }) => {
   const id = useUID()
   const parentRef = useRef<HTMLDivElement | null>(null)
@@ -247,7 +249,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({
 
   return (
     <>
-      <div className={cn(styles.container, className)} id={name} ref={parentRef}></div>
+      <div className={cn(styles.container, className)} id={name} ref={parentRef} data-test={dataTest} />
       <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
     </>
   )
