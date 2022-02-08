@@ -56,7 +56,10 @@ export type SelectFieldExtraProps<V> = {
   singleValueTooltipVisible?: boolean
 } & DataTestProp &
   Pick<InputHTMLAttributes<HTMLElement>, 'autoFocus' | 'disabled' | 'required' | 'placeholder'> &
-  Pick<ReactSelectProps, 'isSearchable' | 'isClearable' | 'menuIsOpen' | 'menuPlacement' | 'noOptionsMessage' | 'inputValue'> &
+  Pick<
+    ReactSelectProps,
+    'isSearchable' | 'isClearable' | 'menuIsOpen' | 'menuPlacement' | 'closeMenuOnScroll' | 'noOptionsMessage' | 'inputValue'
+  > &
   SelectFieldIconLeftProps &
   Omit<FieldHeaderProps, 'id'>
 

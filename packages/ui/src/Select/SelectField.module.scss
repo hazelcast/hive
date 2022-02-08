@@ -31,7 +31,6 @@ $selectGroupHeading: ':global .hz-select-field__group-heading';
 
   #{$selectContainer} {
     flex: 1 1 auto;
-    overflow: hidden;
 
     @include c.typographyBodySmall;
   }
@@ -94,7 +93,6 @@ $selectGroupHeading: ':global .hz-select-field__group-heading';
     flex-direction: row;
     align-items: center;
     position: relative;
-    overflow: hidden;
 
     .iconLeftContainer {
       .iconLeft {
