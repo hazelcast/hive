@@ -120,7 +120,7 @@ export const Tab: FC<TabProps> = ({
       tabIndex={selected ? 0 : -1}
       onKeyPress={onKeyPress}
       onClick={handleClick}
-      {...(Component === 'a' && selected && href)}
+      {...(Component === 'a' && !selected && { href })}
       aria-label={label ?? ariaLabel}
     >
       {children
