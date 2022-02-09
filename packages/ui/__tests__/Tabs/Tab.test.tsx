@@ -169,4 +169,33 @@ describe('Tab', () => {
     // Parameter is the value
     expect(onChange).toHaveBeenLastCalledWith(1)
   })
+
+  it('Unselected tab link must have href', async () => {
+    const onChange = jest.fn()
+    const contextValues = {
+      value: 0,
+      onChange,
+    }
+
+    const wrapper = await mountAndCheckA11Y(
+      <TabContextProviderControlled {...contextValues}>
+        <TabList ariaLabel={ariaLabel}>
+          <Tab data-test="tab1" label="Tab 1" component="a" href="/href-1" value={0} />
+          <Tab data-test="tab2" label="Tab 2" component="a" href="/href-2" value={1} />
+        </TabList>
+        <TabPanel value={0}>Panel 1</TabPanel>
+        <TabPanel value={1}>Panel 2</TabPanel>
+      </TabContextProviderControlled>,
+    )
+
+    expect(wrapper.findDataTest('tab1').find('a').prop('href')).toBeFalsy()
+    expect(wrapper.findDataTest('tab2').find('a').prop('href')).toBe('/href-2')
+
+    wrapper.setProps({
+      value: 1,
+    })
+
+    expect(wrapper.findDataTest('tab1').find('a').prop('href')).toBe('/href-1')
+    expect(wrapper.findDataTest('tab2').find('a').prop('href')).toBeFalsy()
+  })
 })
