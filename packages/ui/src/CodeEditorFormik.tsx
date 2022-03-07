@@ -8,23 +8,45 @@ import { ExtractKeysOfValueType } from './utils/types'
 export type CodeEditorFormikProps<V extends object> = CodeEditorProps & {
   name: ExtractKeysOfValueType<V, string | undefined>
   validate?: FieldValidator
+  onChange?: (value: string) => void
+  onBlur?: (e: React.FocusEvent) => void
 }
 
-export const CodeEditorFormik = <V extends object>({ name, validate, ...props }: CodeEditorFormikProps<V>): ReactElement => {
-  const [field, meta, helpers] = useField<string | undefined>({
+export const CodeEditorFormik = <V extends object>({
+  name,
+  validate,
+  onBlur,
+  onChange,
+  ...props
+}: CodeEditorFormikProps<V>): ReactElement => {
+  const [{ onBlur: onFormikBlur, value }, meta, helpers] = useField<string | undefined>({
     name,
     validate,
   })
+
+  const onBlurInner = React.useCallback(
+    (e: React.FocusEvent) => {
+      if (onBlur) {
+        onBlur(e)
+      }
+      onFormikBlur(e)
+    },
+    [onBlur, onFormikBlur],
+  )
 
   return (
     <CodeEditor
       {...props}
       name={name}
-      value={field.value}
+      value={value}
       onChange={(val: string) => {
-        helpers.setValue(val, false)
+        if (onChange) {
+          onChange(val)
+        }
+
+        helpers.setValue(val)
       }}
-      onBlur={field.onBlur}
+      onBlur={onBlurInner}
       error={getFieldError(meta)}
     />
   )
