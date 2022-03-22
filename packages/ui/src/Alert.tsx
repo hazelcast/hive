@@ -49,6 +49,7 @@ export type AlertProps = {
   actions?: AlertAction[]
   className?: string
   titleClassName?: string
+  bodyClassName?: string
   dismissableByEscKey?: boolean
   closeToast?: (e?: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void
 }
@@ -62,6 +63,7 @@ export const Alert: FC<AlertProps> = ({
   dismissableByEscKey = true,
   closeToast,
   titleClassName,
+  bodyClassName,
 }) => {
   const { icon, ariaLabel } = ToastIcon[type]
 
@@ -101,7 +103,7 @@ export const Alert: FC<AlertProps> = ({
           )}
           {!!closeToast && <IconButton data-test="alert-close" kind="transparent" ariaLabel="Close icon" icon={X} onClick={closeToast} />}
         </div>
-        <div data-test="alert-body" className={styles.body}>
+        <div data-test="alert-body" className={cn(styles.body, bodyClassName)}>
           {content && <div data-test="alert-content">{content}</div>}
           {actions?.length ? (
             <div data-test="alert-actions" className={styles.actions}>
