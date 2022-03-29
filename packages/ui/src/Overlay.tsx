@@ -15,6 +15,7 @@ export type OverlayActionProps = ButtonProps<ButtonTypeButtonProps>
 export type OverlayProps = {
   children?: ReactNode
   closable?: boolean
+  closeText?: string | null
   headerClassName?: string
   contentClassName?: string
   icon?: IconProps['icon']
@@ -47,6 +48,7 @@ export const Overlay: FC<OverlayProps> = ({
   contentWidth = 'normal',
   isOpen,
   closable = true,
+  closeText = 'Cancel',
   ...rest
 }) => {
   useIsomorphicLayoutEffect(() => {
@@ -93,9 +95,9 @@ export const Overlay: FC<OverlayProps> = ({
               size="small"
               iconClassName={styles.closeIcon}
               icon={X}
-              ariaLabel="Cancel"
+              ariaLabel={closeText || 'Cancel'}
             >
-              <span className={styles.closeText}>Cancel</span>
+              {!!closeText && <span className={styles.closeText}>{closeText}</span>}
             </Link>
           )}
         </div>

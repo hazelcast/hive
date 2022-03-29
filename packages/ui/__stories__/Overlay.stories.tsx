@@ -85,6 +85,11 @@ const Template: Story<OverlayProps> = ({ isOpen: isOpenInitially, ...args }) => 
 
 export const Default = Template.bind({})
 
+export const WithoutCloseText = Template.bind({})
+WithoutCloseText.args = {
+  closeText: null,
+}
+
 export const WithoutTitle = Template.bind({})
 WithoutTitle.args = {
   title: undefined,
