@@ -43,12 +43,14 @@ export const Card: FC<CardProps> = ({
 }) => (
   <div data-test={dataTest ?? 'card-wrapper'} className={cn(styles.wrapper, { [styles.noTitle]: !title }, className)}>
     {caption && <div className={styles.caption}>{caption}</div>}
-    {title && (
+    {(title || headingContent || headingIcon) && (
       <div data-test="card-heading" className={cn(styles.heading, headerClassName)}>
         {headingIcon && <Icon data-test="card-heading-icon" icon={headingIcon} className={cn(styles.icon, iconClassName)} ariaHidden />}
-        <h3 data-test="card-heading-title" className={cn(styles.title, { [styles.space]: !!headingContent }, titleClassName)}>
-          {title}
-        </h3>
+        {title && (
+          <h3 data-test="card-heading-title" className={cn(styles.title, { [styles.space]: !!headingContent }, titleClassName)}>
+            {title}
+          </h3>
+        )}
         {headingContent}
       </div>
     )}
