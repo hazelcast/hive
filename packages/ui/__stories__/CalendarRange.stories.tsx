@@ -56,3 +56,8 @@ export const Small = Template.bind({})
 Small.args = {
   size: 'small',
 }
+
+export const Vertical = Template.bind({})
+Vertical.args = {
+  variant: 'vertical',
+}

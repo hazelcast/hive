@@ -24,7 +24,6 @@ describe('CalendarRange', () => {
       startDate: date,
       endDate: date,
       inputLabel: 'From',
-      showTimeInput: undefined,
       open: undefined,
     })
 
@@ -38,12 +37,10 @@ describe('CalendarRange', () => {
     expect(wrapper.findDataTest('calendar-range-end').at(0).props()).toMatchObject({
       date,
       onDateChange: onEndDateChange,
-      selectsEnd: true,
       startDate: date,
       endDate: date,
       minDate: date,
       inputLabel: 'To',
-      showTimeInput: undefined,
       open: undefined,
     })
   })
