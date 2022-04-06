@@ -33,6 +33,8 @@ $inputPadding: c.$grid * 3;
     }
 
     :global .react-datepicker {
+      padding: $inputPadding;
+
       :global .react-datepicker__header {
         margin: 0;
         padding: 0;
@@ -161,7 +163,6 @@ $inputPadding: c.$grid * 3;
       flex-direction: row;
       border: c.$borderWidth solid c.$colorNeutralLight;
       background-color: c.$colorNeutralLighter;
-      padding: $inputPadding;
       box-sizing: border-box;
 
       .headerContainer {

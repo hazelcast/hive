@@ -1,5 +1,4 @@
 import React, { FC } from 'react'
-import { ReactDatePickerProps } from 'react-datepicker'
 import { ArrowRight } from 'react-feather'
 import cn from 'classnames'
 
@@ -8,6 +7,7 @@ import { Calendar, CalendarProps } from './Calendar'
 
 import styles from './CalendarRange.module.scss'
 
+export type CalendarRangeVariant = 'horizontal' | 'vertical'
 export type CalendarRangeProps = {
   startDate: CalendarProps['date']
   startInputLabel?: string
@@ -16,9 +16,10 @@ export type CalendarRangeProps = {
   endDate: CalendarProps['date']
   endInputLabel?: string
   endOpen?: boolean
+  variant?: CalendarRangeVariant
   onEndDateChange: CalendarProps['onDateChange']
-  size?: CalendarProps['size']
-} & Pick<ReactDatePickerProps, 'showTimeInput'>
+  insidePopover?: boolean
+} & Omit<CalendarProps, 'onDateChange' | 'date' | 'inputLabel'>
 
 export const CalendarRange: FC<CalendarRangeProps> = ({
   startDate,
@@ -29,11 +30,13 @@ export const CalendarRange: FC<CalendarRangeProps> = ({
   endInputLabel = 'To',
   endOpen,
   onEndDateChange,
-  showTimeInput,
   size,
+  insidePopover = false,
+  variant = 'horizontal',
+  ...rest
 }) => {
   return (
-    <div className={styles.container}>
+    <div className={cn(styles.container, { [styles.vertical]: variant === 'vertical' })}>
       <Calendar
         data-test="calendar-range-start"
         date={startDate}
@@ -42,16 +45,19 @@ export const CalendarRange: FC<CalendarRangeProps> = ({
         startDate={startDate}
         endDate={endDate}
         inputLabel={startInputLabel}
-        showTimeInput={showTimeInput}
         open={startOpen}
         size={size}
+        insidePopover={insidePopover}
+        {...rest}
       />
-      <Icon
-        data-test="calendar-range-icon"
-        className={cn(styles.arrowRight, { [styles.small]: size === 'small' })}
-        icon={ArrowRight}
-        ariaLabel="Arrow Right"
-      />
+      {variant === 'horizontal' && (
+        <Icon
+          data-test="calendar-range-icon"
+          className={cn(styles.arrowRight, { [styles.small]: size === 'small' })}
+          icon={ArrowRight}
+          ariaLabel="Arrow Right"
+        />
+      )}
       <Calendar
         data-test="calendar-range-end"
         date={endDate}
@@ -61,9 +67,10 @@ export const CalendarRange: FC<CalendarRangeProps> = ({
         endDate={endDate}
         minDate={startDate}
         inputLabel={endInputLabel}
-        showTimeInput={showTimeInput}
         open={endOpen}
         size={size}
+        insidePopover={insidePopover}
+        {...rest}
       />
     </div>
   )
