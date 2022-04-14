@@ -18,7 +18,6 @@ export type CalendarRangeProps = {
   endOpen?: boolean
   variant?: CalendarRangeVariant
   onEndDateChange: CalendarProps['onDateChange']
-  insidePopover?: boolean
 } & Omit<CalendarProps, 'onDateChange' | 'date' | 'inputLabel'>
 
 export const CalendarRange: FC<CalendarRangeProps> = ({
@@ -31,7 +30,6 @@ export const CalendarRange: FC<CalendarRangeProps> = ({
   endOpen,
   onEndDateChange,
   size,
-  insidePopover = false,
   variant = 'horizontal',
   ...rest
 }) => {
@@ -47,7 +45,6 @@ export const CalendarRange: FC<CalendarRangeProps> = ({
         inputLabel={startInputLabel}
         open={startOpen}
         size={size}
-        insidePopover={insidePopover}
         {...rest}
       />
       {variant === 'horizontal' && (
@@ -69,7 +66,6 @@ export const CalendarRange: FC<CalendarRangeProps> = ({
         inputLabel={endInputLabel}
         open={endOpen}
         size={size}
-        insidePopover={insidePopover}
         {...rest}
       />
     </div>

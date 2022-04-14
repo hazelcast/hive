@@ -78,7 +78,6 @@ export const CalendarTimeInternal: FC<CalendarTimeInternalProps> = ({ date, valu
           showAriaLabel
           label="Time Input"
           error={timeInputError}
-          className={styles.input}
           name="time"
           value={time.toString()}
           onChange={handleTimeInputChange}
