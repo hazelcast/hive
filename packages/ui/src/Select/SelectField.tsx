@@ -11,9 +11,10 @@ import { FieldHeader, FieldHeaderProps } from '../FieldHeader'
 import { Icon, IconProps } from '../Icon'
 import { getMenuContainer, getOptionsMap, SelectFieldOption, SelectFieldOptionsMap } from './helpers'
 import { components, RenderMenuFooterFunction } from './Common'
+import { components as rsComponents } from 'react-select'
+import { useCloseOnResize } from '../hooks/useCloseOnResize'
 
 import styles from './SelectField.module.scss'
-import { components as rsComponents } from 'react-select'
 
 export type SelectFieldCoreStaticProps<V> = {
   name: string
@@ -128,28 +129,12 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
   )
 
   /** Recipe: https://react-select.com/advanced#controlled-props */
-  const selectRef = useRef<HTMLElement>()
+  const selectRef = useRef<ReactSelect>()
   useEffect(() => {
     if (selectRef.current) {
-      menuIsOpen ? selectRef.current.focus() : selectRef.current.blur()
+      menuIsOpen ? selectRef.current.onMenuOpen() : selectRef.current.onMenuClose()
     }
   }, [menuIsOpen])
-
-  /** If the size of screen is changed we close dropdown menu to aviod the dropdown menu bug in react-select library.
-   * For more information visit: https://github.com/JedWatson/react-select/issues/3533
-   */
-  useEffect(() => {
-    const handleResize = () => {
-      if (selectRef.current) {
-        selectRef.current.blur()
-      }
-    }
-
-    window.addEventListener('resize', handleResize)
-
-    /** Clean up established event listeners before creating new ones */
-    return () => window.removeEventListener('resize', handleResize)
-  })
 
   const innerComponents = useMemo(
     () =>
@@ -161,6 +146,8 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
           },
     [singleValueTooltipVisible],
   )
+
+  useCloseOnResize(selectRef)
 
   const selectProps: ReactSelectProps<SelectFieldOption<V>> = {
     ref: selectRef,
