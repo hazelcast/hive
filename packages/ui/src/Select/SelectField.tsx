@@ -135,6 +135,22 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
     }
   }, [menuIsOpen])
 
+  /** If the size of screen is changed we close dropdown menu to aviod the dropdown menu bug in react-select library.
+   * For more information visit: https://github.com/JedWatson/react-select/issues/3533
+   */
+  useEffect(() => {
+    const handleResize = () => {
+      if (selectRef.current) {
+        selectRef.current.blur()
+      }
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    /** Clean up established event listeners before creating new ones */
+    return () => window.removeEventListener('resize', handleResize)
+  })
+
   const innerComponents = useMemo(
     () =>
       singleValueTooltipVisible
