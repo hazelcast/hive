@@ -1,0 +1,256 @@
+/*
+  CodeMirror based Code Editor component.
+
+  * For readonly/code-viewing purposes use `Code`.
+
+  ## CM5 vs CM6
+
+  We are not using the old CM5; we're basing our component on CM6 which is the next gen. version of the hugely
+  popular CM5. CM6 is still years old and solid despite being a young project.
+
+  See https://codemirror.net/6/ for more.
+
+  ## About language support
+
+  There is a combined package of backported languages from CM5. We are using this language pack for ease
+  of use (no need to add anything to your dependencies) and also there're not many CM6 languages as of
+  writing this.
+
+  // add @codemirror/legacy-modes to your project's dependencies.
+  import { javascript } from '@codemirror/legacy-modes/mode/javascript'
+  import { python } from '@codemirror/legacy-modes/mode/python'
+
+  So using a language is one import and one property assignment. See the `CodeEditor.stories.tsx`.
+
+  For more see https://github.com/codemirror/legacy-modes
+
+  ## About styling/themes
+
+  CM6 is not that rich with predefined themes yet so we are not providing anything other than the
+  default theme (though it's easy provide custom ones if/when we need it.)
+
+  ## Customizing the editor
+
+  For further customizations, one can use .customExtensions prop to extend the editor with
+  any CM6 extension possible. (see Code component for an example.)
+
+  For getting a handle to the actual CM6 instance one may use the .innerRef prop which refers
+  to the EditorView instance created behind the scenes. (See the story of this component)
+*/
+
+import React, { FC, useEffect, useRef, useImperativeHandle, MutableRefObject, FocusEvent } from 'react'
+import cn from 'classnames'
+import { useUID } from 'react-uid'
+import {
+  EditorView,
+  ViewUpdate,
+  highlightSpecialChars,
+  drawSelection,
+  highlightActiveLine,
+  keymap,
+  DOMEventHandlers,
+  KeyBinding,
+} from '@codemirror/view'
+import { EditorState, Extension } from '@codemirror/state'
+import { history, historyKeymap } from '@codemirror/history'
+import { foldGutter, foldKeymap } from '@codemirror/fold'
+import { indentOnInput } from '@codemirror/language'
+import { lineNumbers } from '@codemirror/gutter'
+import { defaultKeymap } from '@codemirror/commands'
+import { bracketMatching } from '@codemirror/matchbrackets'
+import { closeBrackets, closeBracketsKeymap } from '@codemirror/closebrackets'
+import { highlightSelectionMatches, searchKeymap } from '@codemirror/search'
+import { autocompletion, completionKeymap } from '@codemirror/autocomplete'
+import { commentKeymap } from '@codemirror/comment'
+import { rectangularSelection } from '@codemirror/rectangular-selection'
+import { defaultHighlightStyle } from '@codemirror/highlight'
+import { lintKeymap } from '@codemirror/lint'
+import { StreamLanguage } from '@codemirror/stream-parser'
+
+import { useDeepCompareMemo } from './hooks/useDeepCompareMemo'
+import { Error } from './Error'
+import styles from './CodeEditor.module.scss'
+
+// Export these very common CodeMirror types for ease of use
+export { EditorView, EditorState, KeyBinding }
+
+// Common options for the component.
+// More advanced configuration of the underlying component should be done directly via a handle.
+// Note that changing these options will recreate the CodeMirror DOM object.
+export type CodeOptions = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  language?: any
+  lineWrapping?: boolean
+  lineNumbers?: boolean
+  rows?: number
+}
+
+export interface EditorViewRef {
+  view(): EditorView | null
+}
+
+type OnChangeCallback = (val: string) => void
+
+export type CodeEditorProps = {
+  value?: string
+  className?: string
+  name?: string
+  options?: CodeOptions
+  onChange?: OnChangeCallback
+  onBlur?: (e: FocusEvent) => void
+  customExtensions?: Extension[]
+  customKeymap?: KeyBinding[]
+  innerRef?: MutableRefObject<EditorViewRef | null>
+  error?: string
+  errorClassName?: string
+  dataTest?: string
+}
+
+const DEFAULT_OPTIONS: CodeOptions = {
+  language: null,
+  lineWrapping: false,
+  lineNumbers: true,
+}
+
+export const CodeEditor: FC<CodeEditorProps> = ({
+  name,
+  value,
+  className,
+  options = {},
+  onChange,
+  onBlur,
+  customExtensions,
+  customKeymap,
+  innerRef,
+  error,
+  errorClassName,
+  dataTest = 'code-editor',
+}) => {
+  const id = useUID()
+  const parentRef = useRef<HTMLDivElement | null>(null)
+  const cm = useRef<EditorView | null>(null)
+  const optionsMemoized = useDeepCompareMemo(() => options, [options])
+
+  // use onChange via a Ref so we avoid unnecessary calls if the caller does not use useCallback on onChange
+  const onChangeRef = useRef<OnChangeCallback | undefined>(onChange)
+
+  // use this handle to access the cm element (which is a `view`)
+  useImperativeHandle(innerRef, () => ({
+    view: () => cm.current,
+  }))
+
+  useEffect(
+    () => {
+      if (!parentRef.current) return
+
+      const opts: CodeOptions = { ...DEFAULT_OPTIONS, ...optionsMemoized }
+
+      const updateListenerExtension = () =>
+        EditorView.updateListener.of((v: ViewUpdate) => {
+          if (!v.docChanged) return
+
+          const val = v.state.doc.toString()
+
+          const cb = onChangeRef.current
+          if (cb) cb(val)
+        })
+
+      const domEventsExtension = () => {
+        const eventHandlers: DOMEventHandlers<unknown> = {
+          blur: (event) => onBlur && onBlur(event as unknown as FocusEvent),
+        }
+
+        return EditorView.domEventHandlers(eventHandlers)
+      }
+
+      // configure/enable very common features
+      const basicExtensions = [
+        highlightSpecialChars(),
+        history(),
+        drawSelection(),
+        EditorState.allowMultipleSelections.of(true),
+        indentOnInput(),
+        defaultHighlightStyle.fallback,
+        bracketMatching(),
+        closeBrackets(),
+        autocompletion(),
+        rectangularSelection(),
+        highlightActiveLine(),
+        highlightSelectionMatches(),
+        keymap.of([
+          ...closeBracketsKeymap,
+          ...defaultKeymap,
+          ...searchKeymap,
+          ...historyKeymap,
+          ...foldKeymap,
+          ...commentKeymap,
+          ...completionKeymap,
+          ...lintKeymap,
+          ...(customKeymap ?? []),
+        ]),
+      ]
+
+      const fixedHeightExtension = () => {
+        if (!opts.rows) return []
+
+        const LINE_HEIGHT = 22
+        const EXTRA_PADDING = 4
+        const h = LINE_HEIGHT * opts.rows + EXTRA_PADDING
+        return EditorView.theme({
+          '&': { height: `${h}px` },
+          '.cm-scroller': { overflow: 'auto' },
+        })
+      }
+
+      const extensions = [
+        ...basicExtensions,
+        ...(customExtensions ?? []),
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        ...(opts.language ? [StreamLanguage.define(opts.language)] : []),
+        ...(opts.lineWrapping ? [EditorView.lineWrapping] : []),
+        ...(opts.lineNumbers ? [foldGutter(), lineNumbers()] : []),
+        ...(opts.rows ? [fixedHeightExtension()] : []),
+        updateListenerExtension(),
+        domEventsExtension(),
+      ]
+
+      cm.current = new EditorView({
+        state: EditorState.create({
+          doc: value || '',
+          extensions,
+        }),
+        parent: parentRef.current,
+      })
+
+      // set the .id attr. of the dom element (formik demands this)
+      if (name) cm.current.contentDOM.id = name
+
+      return () => {
+        // destroy cm. (mind you; this component will be recreated whenever options are modified.)
+        cm.current?.destroy()
+        cm.current = null
+      }
+    },
+    // value should not be a dependency (it is handled below), just disable the warnings:
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [cm, optionsMemoized, customExtensions, onChangeRef],
+  )
+
+  useEffect(() => {
+    if (!cm.current) return
+
+    // avoid recursive calls between .value and onChange listener/
+    if (value === cm.current.state.doc.toString()) return
+
+    cm.current.dispatch({
+      changes: { from: 0, to: cm.current.state.doc.length, insert: value },
+    })
+  }, [value])
+
+  return (
+    <>
+      <div className={cn(styles.container, className)} id={name} ref={parentRef} data-test={dataTest} />
+      <Error error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
+    </>
+  )
+}
