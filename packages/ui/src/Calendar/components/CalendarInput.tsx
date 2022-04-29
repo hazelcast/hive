@@ -9,21 +9,25 @@ export type CalendarInputInternalProps = {
 } & CalendarInputExtraProps &
   Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'>
 
-export const CalendarInputInternal: FC<CalendarInputInternalProps> = ({ className, value, onChange, label, textFieldSize, ...props }) => (
-  <TextField<'text'>
-    {...props}
-    size={textFieldSize}
-    data-test="calendar-input"
-    value={value?.toString()}
-    onChange={onChange}
-    inputContainerClassName={className}
-    type="text"
-    name="calendar-input"
-    label={label}
-    inputTrailingIcon={Calendar}
-    inputTrailingIconLabel="Calendar Icon"
-  />
+export const CalendarInputInternal = forwardRef<HTMLInputElement, CalendarInputInternalProps>(
+  ({ className, value, onChange, label, textFieldSize, ...props }, ref) => (
+    <TextField<'text'>
+      {...props}
+      mRef={ref}
+      size={textFieldSize}
+      data-test="calendar-input"
+      value={value?.toString()}
+      onChange={onChange}
+      inputContainerClassName={className}
+      type="text"
+      name="calendar-input"
+      label={label}
+      inputTrailingIcon={Calendar}
+      inputTrailingIconLabel="Calendar Icon"
+    />
+  ),
 )
+CalendarInputInternal.displayName = 'CalendarInputInternal'
 
 export type CalendarInputExtraProps = {
   label: string
@@ -39,12 +43,11 @@ export type CalendarInputExtraProps = {
  */
 export type CalendarInputProps = unknown & CalendarInputExtraProps
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const CalendarInput: FC<CalendarInputProps> = forwardRef((props, ref) => {
+export const CalendarInput: FC<CalendarInputProps> = forwardRef<HTMLInputElement, CalendarInputProps>((props, ref) => {
   // Note: Cast the "unknown" props to the actual type
   const propsTyped = props as CalendarInputInternalProps
 
-  return <CalendarInputInternal {...propsTyped} />
+  return <CalendarInputInternal ref={ref} {...propsTyped} />
 })
 
 CalendarInput.displayName = 'CalendarInput'
