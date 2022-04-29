@@ -20,6 +20,7 @@ import { Icon } from '../Icon'
 import { SelectFieldOption, getMenuContainer, getOptionsMap, SelectFieldOptionsMap } from './helpers'
 import { components, RenderMenuFooterFunction } from './Common'
 import { FieldHeader, FieldHeaderProps } from '../FieldHeader'
+import { useCloseOnResize } from '../hooks/useCloseOnResize'
 
 import styles from './SelectField.module.scss'
 import multiStyles from './MultiSelectField.module.scss'
@@ -158,12 +159,14 @@ export const MultiSelectField = <V extends string | number = number>(props: Mult
   )
 
   /** Recipe: https://react-select.com/advanced#controlled-props */
-  const selectRef = useRef<HTMLElement>()
+  const selectRef = useRef<ReactSelect>()
   useEffect(() => {
     if (selectRef.current) {
-      menuIsOpen ? selectRef.current.focus() : selectRef.current.blur()
+      menuIsOpen ? selectRef.current.onMenuOpen() : selectRef.current.onMenuClose()
     }
   }, [menuIsOpen])
+
+  useCloseOnResize(selectRef)
 
   const selectProps: ReactSelectProps<SelectFieldOption<V>> = {
     ref: selectRef,

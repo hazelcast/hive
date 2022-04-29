@@ -11,9 +11,10 @@ import { FieldHeader, FieldHeaderProps } from '../FieldHeader'
 import { Icon, IconProps } from '../Icon'
 import { getMenuContainer, getOptionsMap, SelectFieldOption, SelectFieldOptionsMap } from './helpers'
 import { components, RenderMenuFooterFunction } from './Common'
+import { components as rsComponents } from 'react-select'
+import { useCloseOnResize } from '../hooks/useCloseOnResize'
 
 import styles from './SelectField.module.scss'
-import { components as rsComponents } from 'react-select'
 
 export type SelectFieldCoreStaticProps<V> = {
   name: string
@@ -128,10 +129,10 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
   )
 
   /** Recipe: https://react-select.com/advanced#controlled-props */
-  const selectRef = useRef<HTMLElement>()
+  const selectRef = useRef<ReactSelect>()
   useEffect(() => {
     if (selectRef.current) {
-      menuIsOpen ? selectRef.current.focus() : selectRef.current.blur()
+      menuIsOpen ? selectRef.current.onMenuOpen() : selectRef.current.onMenuClose()
     }
   }, [menuIsOpen])
 
@@ -145,6 +146,8 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
           },
     [singleValueTooltipVisible],
   )
+
+  useCloseOnResize(selectRef)
 
   const selectProps: ReactSelectProps<SelectFieldOption<V>> = {
     ref: selectRef,
