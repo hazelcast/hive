@@ -175,7 +175,7 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
         setValueHidden(true)
       }
     },
-    [onFocus],
+    [onFocus, openMenuOnClick],
   )
 
   const onBlurFn = React.useCallback(

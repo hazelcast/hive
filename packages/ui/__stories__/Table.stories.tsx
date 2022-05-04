@@ -73,7 +73,7 @@ Sortable.args = {
 
 export const WithUncontrolledPagination = Template.bind({})
 WithUncontrolledPagination.args = {
-  data: bigDataSet,
+  data: bigDataSet.slice(0, 15),
   hidePagination: false,
 }
 
@@ -203,17 +203,11 @@ WithCustomRowAndCellProps.args = {
   },
 }
 
-export const WithCustomizableColumns: Story<TableProps<Person>> = ({ columns, ...args }) => {
-  return (
-    <Table columns={columns} {...args}>
-      {(table, toggleColumnsControl) => (
-        <div>
-          {toggleColumnsControl}
-          {table}
-        </div>
-      )}
-    </Table>
-  )
+export const WithColumnsSelection: Story<TableProps<Person>> = ({ columns, ...args }) => {
+  return <Table columns={columns} {...args} />
+}
+WithColumnsSelection.args = {
+  onCopy: (value) => logger.log(value),
 }
 
 export const WithColumnsOrdering: Story<TableProps<Person>> = ({ columns, ...args }) => {

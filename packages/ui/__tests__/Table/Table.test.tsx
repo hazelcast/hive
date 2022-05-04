@@ -19,6 +19,8 @@ import { Button } from '../../src/Button'
 import { bigDataSet, smallDataSet } from './consts'
 import { Icon } from '../../src/Icon'
 
+import cellStyles from '../../src/Table/Cell.module.scss'
+
 const rules = axeDefaultOptions?.rules ?? {}
 const axeOptions = {
   ...axeDefaultOptions,
@@ -289,61 +291,6 @@ describe('Table', () => {
     expect(wrapper.findDataTest('table-header-row-group').exists()).toBe(false)
   })
 
-  it('With customizable columns should render all columns by default', async () => {
-    const columns = getColumns({ withFooter: true })
-    const Wrapper = () => {
-      return (
-        <Table data-test="table-test" columns={columns} data={[]} hidePagination>
-          {(table, toggleColumnsControl) => (
-            <div>
-              {toggleColumnsControl}
-              {table}
-            </div>
-          )}
-        </Table>
-      )
-    }
-
-    const wrapper = await mountAndCheckA11Y(<Wrapper />)
-
-    expect(wrapper.findDataTest('table-custom-columns').exists()).toBeTruthy()
-    expect(wrapper.findDataTest('table-test').at(0).prop('columns')).toEqual(columns)
-  })
-
-  it('With customizable columns should render without columns when all columns unselected', async () => {
-    const columns = getColumns({ withFooter: true })
-    const Wrapper = () => {
-      return (
-        <Table data-test="table-test" columns={columns} data={[]} hidePagination>
-          {(table, toggleColumnsControl) => (
-            <div>
-              {toggleColumnsControl}
-              {table}
-            </div>
-          )}
-        </Table>
-      )
-    }
-
-    const wrapper = await mountAndCheckA11Y(<Wrapper />)
-
-    expect(wrapper.findDataTest('table-custom-columns').exists()).toBeTruthy()
-    expect(wrapper.findDataTest('table-test').at(0).prop('columns')).toEqual(columns)
-
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      wrapper.findDataTest('table-custom-columns-opener').find('input').simulate('click')
-    })
-    wrapper.update()
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      wrapper.findDataTest('table-custom-columns-select-none').at(0).simulate('click')
-    })
-    wrapper.update()
-
-    expect(wrapper.findDataTest('table-cell-row-group').find(Cell).exists()).toBeFalsy()
-  })
-
   it('Reset out of range pageIndex to last available page', async () => {
     const columns = getColumns({ withFooter: true })
 
@@ -437,5 +384,31 @@ describe('Table', () => {
     wrapper.update()
 
     expect(wrapper.findDataTest('custom-expandable-content').length).toBe(1)
+  })
+
+  it('Columns selection', async () => {
+    const columns = getColumns({})
+    const onCopy = jest.fn()
+
+    const wrapper = await mountAndCheckA11Y(<Table data-test="table-test" columns={columns} data={smallDataSet} />)
+
+    act(() => {
+      wrapper.findDataTest('table-cell').at(0).simulate('mousedown', {})
+    })
+    wrapper.update()
+
+    expect(wrapper.findDataTest('table-cell').at(0).prop('className')?.includes(cellStyles.selected)).toBeFalsy()
+
+    wrapper.setProps({
+      onCopy,
+    })
+    wrapper.update()
+
+    act(() => {
+      wrapper.findDataTest('table-cell').at(0).simulate('mousedown', {})
+    })
+    wrapper.update()
+
+    expect(wrapper.findDataTest('table-cell').at(0).prop('className')?.includes(cellStyles.selected)).toBeTruthy()
   })
 })
