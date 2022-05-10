@@ -214,7 +214,6 @@ export const SmallVariant = () => (
     title={title}
     isOpen
     onClose={onClose}
-    size="small"
     actions={[
       {
         children: 'Submit',

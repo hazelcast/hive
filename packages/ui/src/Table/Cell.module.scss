@@ -26,6 +26,10 @@
     justify-content: center;
   }
 
+  &.selected {
+    background: lighten((c.$colorPrimary), 30) !important;
+  }
+
   &:not(:last-of-type) {
     border-right: c.$borderWidth solid c.$colorNeutral;
   }
@@ -41,4 +45,8 @@
   &.right {
     margin-right: c.$grid * 2;
   }
+}
+
+.selectable {
+  user-select: none;
 }

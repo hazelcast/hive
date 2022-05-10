@@ -21,33 +21,33 @@ import {
   Cell as CellType,
   useAsyncDebounce,
   useResizeColumns,
-  ColumnInterfaceBasedOnValue,
   useFlexLayout,
   Column as ColumnType,
   useGlobalFilter,
   useColumnOrder,
-  TableState,
-  IdType,
   useExpanded,
+  TableInstance,
 } from 'react-table'
 import { AlertTriangle, ChevronDown, ChevronUp } from 'react-feather'
 
 import { Pagination, PaginationProps } from '../Pagination'
 import { Cell, CellProps } from './Cell'
-import { EnhancedCellRenderer, EnhancedHeaderFooterRenderer } from './EnhancedRenderers'
+import { EnhancedHeaderFooterRenderer } from './EnhancedRenderers'
 import { Header } from './Header'
-import { HeaderRow, LinkRow, Row, RowProps } from './Row'
+import { HeaderRow, Row, RowProps } from './Row'
 import { Loader } from '../Loader'
 import { EmptyState } from '../EmptyState'
 import { usePrevious } from '../hooks/usePrevious'
-import { useTableCustomizableColumns } from '../hooks'
 import { Icon } from '../Icon'
+import { TableContent } from './TableContent'
+import { ROW_EXPANDER_COLUMN_ID } from './constants'
+import { useColumnsSelection } from './features/columnsSelection'
+import { useRefValue } from '../hooks'
 
 import styles from './Table.module.scss'
 import styleConsts from '../../styles/constants/export.module.scss'
-import { selectionColumnId } from '../hooks/useTableCustomizableColumns'
 
-export type { Accessor, Cell, Renderer, Row, CellProps, HeaderGroup, TableInstance } from 'react-table'
+export type { Accessor, Cell, Renderer, Row, CellProps, HeaderGroup, TableInstance, TableState } from 'react-table'
 export type Column<T extends object> = ColumnType<T> & {
   canHide?: boolean // true by default
 }
@@ -211,9 +211,9 @@ type CustomTableProps<D extends object> = {
   onPageChange?: (newPage: number) => void
   onRowSelect?: (ids: string[]) => void
   columnsOrdering?: boolean
-  storageKey?: string
-  children?: (table: ReactElement, toggleColumnsControl: ReactElement) => ReactElement
+  children?: (table: ReactElement, tableInstance: TableInstance<D>) => ReactElement
   renderRowSubComponent?: (props: RowType<D>) => ReactNode
+  onCopy?: (data: string[][]) => void
 } & CustomTableRowClickProps<D> &
   DataTestProp
 
@@ -226,37 +226,6 @@ const column = {
   minWidth: Number(styleConsts.tableColumnMinWidth), // minWidth is only used as a limit for resizing
   width: Number(styleConsts.tableColumnWidth), // width is used for both the flex-basis and flex-grow
   maxWidth: Number(styleConsts.tableColumnMaxWidth), // maxWidth is only used as a limit for resizing
-}
-
-export type TableLocalState<T extends object> = (TableState<T> & { columnOrder: IdType<T>[]; columns: Column<T>[] }) | null
-
-const readStorage = <T extends object>(key: string): TableLocalState<T> => {
-  try {
-    const data = window.localStorage.getItem(key)
-
-    if (data) {
-      return JSON.parse(data) as TableLocalState<T>
-    }
-
-    return null
-  } catch (e) {
-    return null
-  }
-}
-const writeStorage = <T extends object>(key: string, value: Partial<TableLocalState<T>>) => {
-  try {
-    const state = readStorage(key)
-    const data = JSON.stringify({ ...(state || {}), ...value })
-
-    if (data) {
-      window.localStorage.setItem(key, data)
-    }
-  } catch (e) {
-    return null
-  }
-}
-const clearStorage = (key: string) => {
-  window.localStorage.removeItem(key)
 }
 
 /**
@@ -308,11 +277,11 @@ export const Table = <D extends object>({
   autoResetResize = false,
   autoResetSelectedRows = false,
   children,
-  storageKey,
   renderRowSubComponent,
   autoResetExpanded = false,
+  onCopy,
 }: TableProps<D>): ReactElement => {
-  const didMountRef = useRef(false)
+  const getOncopy = useRefValue(onCopy)
   const draggedColumnRef = useRef<number | null>(null)
   const previousIncomingPageIndex = usePrevious(incomingPageIndex)
   // Debounce our `fetchData` call for 200ms.
@@ -324,8 +293,8 @@ export const Table = <D extends object>({
       return [
         {
           width: 60,
-          id: 'expander',
           disableResizing: true,
+          id: ROW_EXPANDER_COLUMN_ID,
           Cell: ({ row }: { row: RowType<D> }) => {
             return row.canExpand || renderRowSubComponent ? (
               <div tabIndex={0} role="button" data-test="row-expander" className={styles.expander} {...row.getToggleRowExpandedProps()}>
@@ -341,52 +310,10 @@ export const Table = <D extends object>({
     return propColumns
   }, [propColumns, data, renderRowSubComponent])
 
-  const savedInitialState = useMemo(() => {
-    const state = storageKey ? readStorage<D>(storageKey) : null
-
-    if (storageKey && state) {
-      // delete saved state if columns are changed
-      if (
-        state.columns &&
-        (state.columns.length !== columns.length ||
-          state.columns?.every(({ id, accessor }) =>
-            columns.find((column) => (id && id in column) || (typeof accessor === 'string' && accessor in column)),
-          ))
-      ) {
-        clearStorage(storageKey)
-
-        return {}
-      }
-    }
-
-    return state
-    //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [storageKey])
-
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const onPaginationChangeDebounced = useAsyncDebounce<(paginationChangeProps: PaginationChangeProps) => void>(onPaginationChange!, 200)
 
-  const {
-    getTableProps,
-    headerGroups,
-    footerGroups,
-    prepareRow,
-    page,
-    visibleColumns,
-    allColumns,
-    canPreviousPage,
-    canNextPage,
-    pageCount,
-    gotoPage,
-    nextPage,
-    previousPage,
-    setPageSize,
-    // Get the state from the instance
-    state: { pageIndex, pageSize, columnResizing, selectedRowIds },
-    setGlobalFilter,
-    setHiddenColumns,
-    setColumnOrder,
-  } = useTable<D>(
+  const tableInstance = useTable<D>(
     {
       columns,
       data,
@@ -395,26 +322,7 @@ export const Table = <D extends object>({
       // https://react-table.tanstack.com/docs/faq#how-do-i-stop-my-table-state-from-automatically-resetting-when-my-data-changes
       autoResetSortBy,
       // Pass our hoisted table state
-      initialState: useMemo(
-        () => ({
-          ...(savedInitialState || {}),
-          ...initialState,
-        }),
-        [initialState, savedInitialState],
-      ),
-      useControlledState: useCallback(
-        (state: TableState<D>) => {
-          if (storageKey) {
-            writeStorage(storageKey, {
-              ...state,
-              columnOrder: (state as TableLocalState<D>)?.columnOrder?.filter((id) => id !== selectionColumnId),
-            })
-          }
-
-          return state
-        },
-        [storageKey],
-      ),
+      initialState,
       // Tell the usePagination hook that we'll handle our own data fetching
       manualPagination: manualPagination,
       // This means we'll also have to provide our own pageCount
@@ -436,16 +344,31 @@ export const Table = <D extends object>({
     useColumnOrder,
   )
 
-  const toggleColumnsControl = useTableCustomizableColumns({
-    columns: allColumns,
+  const {
+    getTableProps,
+    headerGroups,
+    footerGroups,
+    prepareRow,
+    page,
     visibleColumns,
-    setHiddenColumns,
-  })
+    canPreviousPage,
+    canNextPage,
+    pageCount,
+    gotoPage,
+    nextPage,
+    previousPage,
+    setPageSize,
+    // Get the state from the instance
+    state: { pageIndex, pageSize, columnResizing, selectedRowIds },
+    setGlobalFilter,
+    setColumnOrder,
+  } = tableInstance
 
   // drag and drop
   const onDragStart = useCallback((e: DragEvent) => {
     draggedColumnRef.current = Number(e.dataTransfer.getData('text/plain'))
   }, [])
+
   const onDrop = useCallback(
     (e: DragEvent, columnIndex: number) => {
       if (draggedColumnRef.current !== null && columnIndex !== draggedColumnRef.current) {
@@ -459,6 +382,37 @@ export const Table = <D extends object>({
     },
     [visibleColumns, setColumnOrder],
   )
+
+  const columnsSelectionProps = useColumnsSelection({
+    rowsPerPage: page.length,
+    columnsPerRow: columns.length,
+  })
+  const { onEndSelection, getSelectedColumns, selectedColumnValuesRef } = columnsSelectionProps
+
+  const onKeyUp = useCallback(
+    (e: KeyboardEvent) => {
+      const callback = getOncopy()
+
+      if (callback) {
+        const { columns, range } = getSelectedColumns()
+
+        if (columns.size || (range[0] !== undefined && range[0] !== undefined)) {
+          if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
+            callback(selectedColumnValuesRef?.current)
+          }
+        }
+      }
+    },
+    [getOncopy, getSelectedColumns, selectedColumnValuesRef],
+  )
+
+  useEffect(() => {
+    return () => {
+      document.body.removeEventListener('mouseup', onEndSelection)
+      document.body.removeEventListener('contextmenu', onEndSelection)
+      document.body.removeEventListener('keyup', onKeyUp)
+    }
+  }, [onKeyUp, onEndSelection])
 
   // Listen for changes in pagination and use the state to fetch new data. This is a recommended way to fetch new data: https://react-table.tanstack.com/docs/faq#how-can-i-use-the-table-state-to-fetch-new-data
   useEffect(() => {
@@ -503,14 +457,6 @@ export const Table = <D extends object>({
       onRowSelect(Object.keys(selectedRowIds))
     }
   }, [onRowSelect, selectedRowIds])
-
-  useEffect(() => {
-    if (storageKey && didMountRef.current) {
-      clearStorage(storageKey)
-    }
-
-    didMountRef.current = true
-  }, [columns, storageKey])
 
   const hasData = data.length > 0
 
@@ -575,73 +521,23 @@ export const Table = <D extends object>({
               </Cell>
             </Row>
           ) : hasData ? (
-            <div data-test="table-cell-row-group" role="rowgroup" className={cn(styles.content, contentClassName)}>
-              {page.map((row) => {
-                prepareRow(row)
-                const { key: rowKey, ...restRowProps } = row.getRowProps(getCustomRowProps?.(row))
-                const cells = row.cells.map((cell, i) => {
-                  const { key: cellKey, ...restCellProps } = cell.getCellProps(getCustomCellProps?.(cell))
-                  // We don't want to use cell.column.Cell as that is a ColumnInstance which already has a cell renderer
-                  const column = columns[i] as ColumnInterfaceBasedOnValue<D>
-
-                  // columns added via react-table hooks
-                  if (!column) {
-                    return (
-                      <Cell key={cellKey} align={cell.column.align} {...restCellProps}>
-                        {cell.render('Cell')}
-                      </Cell>
-                    )
-                  }
-
-                  return (
-                    <Cell key={cellKey} align={cell.column.align} {...restCellProps}>
-                      <EnhancedCellRenderer cell={cell} hasCellRenderer={!!column.Cell} columnResizing={columnResizing} />
-                    </Cell>
-                  )
-                })
-
-                if (getHref) {
-                  const href = getHref(row)
-                  if (href) {
-                    return (
-                      <LinkRow
-                        key={rowKey}
-                        AnchorComponent={AnchorComponent}
-                        {...restRowProps}
-                        ariaRowIndex={row.index + 1 + cellIndexOffset}
-                        href={href}
-                      >
-                        {cells}
-                      </LinkRow>
-                    )
-                  }
-                }
-
-                return (
-                  <React.Fragment key={rowKey}>
-                    <Row
-                      {...restRowProps}
-                      ariaRowIndex={row.index + 1 + cellIndexOffset}
-                      onClick={
-                        onRowClick
-                          ? () => {
-                              onRowClick(row)
-                            }
-                          : undefined
-                      }
-                    >
-                      {cells}
-                    </Row>
-                    {row.isExpanded ? renderRowSubComponent && <div>{renderRowSubComponent(row)}</div> : null}
-                  </React.Fragment>
-                )
-              })}
-              {overlayLoading && loading && (
-                <div className={styles.overlayLoading}>
-                  <Loader />
-                </div>
-              )}
-            </div>
+            <TableContent
+              page={page}
+              onCopy={onCopy}
+              getHref={getHref}
+              columns={columns}
+              onKeyUp={onKeyUp}
+              {...columnsSelectionProps}
+              onRowClick={onRowClick}
+              prepareRow={prepareRow}
+              className={contentClassName}
+              columnResizing={columnResizing}
+              AnchorComponent={AnchorComponent}
+              cellIndexOffset={cellIndexOffset}
+              getCustomRowProps={getCustomRowProps}
+              getCustomCellProps={getCustomCellProps}
+              renderRowSubComponent={renderRowSubComponent}
+            />
           ) : (
             <div role="row">
               <div role="cell">
@@ -710,7 +606,7 @@ export const Table = <D extends object>({
   )
 
   if (children) {
-    return children(content, toggleColumnsControl)
+    return children(content, tableInstance)
   }
 
   return content

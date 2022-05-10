@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, MouseEvent, RefObject } from 'react'
 import { AlertTriangle } from 'react-feather'
 import { TableCellProps } from 'react-table'
 import { useUID } from 'react-uid'
@@ -41,28 +41,67 @@ export type CellProps = {
    * you to compare them or add them up quickly in your head.
    */
   align?: 'left' | 'right' | 'center'
+  selected?: boolean
   warning?: string
   colSpan?: number
+  cellId?: string
+  selectionStartedRef?: RefObject<boolean>
+  onMouseEnterSelection?: (id: string) => void
+  onClickSelection?: (id: string, modifiers: { ctrl: boolean; shift: boolean }) => void
 } & Omit<TableCellProps, 'key'>
 
-export const Cell: FC<CellProps> = ({ align = 'left', warning, colSpan, children, style, className, role }) => (
-  <div
-    data-test="table-cell"
-    className={cn(
-      styles.td,
-      {
-        [styles.alignLeft]: align === 'left',
-        [styles.alignRight]: align === 'right',
-        [styles.alignCenter]: align === 'center',
-      },
-      className,
-    )}
-    aria-colspan={colSpan}
-    style={style}
-    role={role}
-  >
-    {warning && align === 'right' && <CellWarning warning={warning} align="right" />}
-    {children}
-    {warning && (align === 'left' || align === 'center') && <CellWarning warning={warning} align="left" />}
-  </div>
-)
+export const Cell: FC<CellProps> = ({
+  align = 'left',
+  warning,
+  colSpan,
+  children,
+  style,
+  className,
+  role,
+  cellId,
+  onClickSelection,
+  selected,
+  onMouseEnterSelection,
+  selectionStartedRef,
+}) => {
+  const handleClick = (e: MouseEvent) => {
+    if (onClickSelection && cellId) {
+      onClickSelection(cellId, {
+        shift: e.shiftKey,
+        ctrl: e.ctrlKey || e.metaKey,
+      })
+    }
+  }
+  const handleMouseEnter = () => {
+    if (cellId && onMouseEnterSelection && selectionStartedRef?.current) {
+      onMouseEnterSelection(cellId)
+    }
+  }
+
+  return (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+    <div
+      data-test="table-cell"
+      className={cn(
+        styles.td,
+        {
+          [styles.alignLeft]: align === 'left',
+          [styles.alignRight]: align === 'right',
+          [styles.alignCenter]: align === 'center',
+          [styles.selectable]: onClickSelection,
+          [styles.selected]: selected,
+        },
+        className,
+      )}
+      aria-colspan={colSpan}
+      style={style}
+      role={role}
+      onMouseEnter={onClickSelection ? handleMouseEnter : undefined}
+      onMouseDown={onClickSelection ? handleClick : undefined}
+    >
+      {warning && align === 'right' && <CellWarning warning={warning} align="right" />}
+      {children}
+      {warning && (align === 'left' || align === 'center') && <CellWarning warning={warning} align="left" />}
+    </div>
+  )
+}
