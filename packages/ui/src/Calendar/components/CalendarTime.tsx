@@ -6,6 +6,7 @@ import { timePoints } from '../helpers/consts'
 import { TimeField } from '../../TimeField'
 
 import styles from './CalendarTime.module.scss'
+import { useRefValue } from '../../hooks'
 
 // Note: AM/PM 1-12 hours time
 const DATE_FORMAT = 'hh:mm a'
@@ -22,6 +23,8 @@ export const CalendarTimeInternal: FC<CalendarTimeInternalProps> = ({ date, valu
   const [time, setTime] = useState(value)
   const [timeInputError, setTimeInputError] = useState<string | undefined>()
 
+  const getValue = useRefValue(value)
+
   /*
    * Note:
    * We cannot override how react-datepicker handles time values.
@@ -33,7 +36,7 @@ export const CalendarTimeInternal: FC<CalendarTimeInternalProps> = ({ date, valu
    * Furthermore, the package even does not handle potential thrown error by date-fns' parse.
    * Even the live demos do crash on an input like "10:10q" (See source 1. link below).
    *
-   * For this reasons we need to provide our own wrapper around the functionality to achieve 2 things:
+   * For these reasons we need to provide our own wrapper around the functionality to achieve 2 things:
    * - Provide IE11 with a proper fallback
    * - Prevent the invalid input value crash
    * - Provide the user with an input error in case the value is invalid
@@ -67,8 +70,16 @@ export const CalendarTimeInternal: FC<CalendarTimeInternalProps> = ({ date, valu
       // Note: Output time, that we feed back to 'react-datetime' is in 'DATE_FORMAT_NO_MERIDIEM' format
       const timeStringWithoutAm = format(parsedDate, DATE_FORMAT_NO_MERIDIEM)
       onChange(timeStringWithoutAm)
+
+      // remove error because time from the list can not be invalid
+      setTimeInputError(undefined)
+
+      // restores input field value when we select the same time from the list
+      if (getValue() === timeStringWithoutAm) {
+        setTime(timeStringWithoutAm)
+      }
     },
-    [onChange, date],
+    [onChange, getValue, date],
   )
 
   return (
@@ -85,13 +96,7 @@ export const CalendarTimeInternal: FC<CalendarTimeInternalProps> = ({ date, valu
       </div>
       <div data-test="calendar-time-timePoints" className={styles.timePoints}>
         {timePoints.map((tP) => (
-          <Button
-            className={styles.timePoint}
-            bodyClassName={styles.timePointBody}
-            key={tP}
-            kind="transparent"
-            onClick={handleDateClick(tP)}
-          >
+          <Button className={styles.timePoint} bodyClassName={styles.timePointBody} key={tP} variant="text" onClick={handleDateClick(tP)}>
             {tP}
           </Button>
         ))}
