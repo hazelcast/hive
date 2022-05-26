@@ -1,5 +1,19 @@
 lockfileVersion: 5.4
 
+overrides:
+  glob-parent@<5.1.2: '>=5.1.2'
+  minimist@<1.2.6: '>=1.2.6'
+  nanoid@>=3.0.0 <3.1.31: '>=3.1.31'
+  follow-redirects@<1.14.8: '>=1.14.8'
+  shelljs@<0.8.5: '>=0.8.5'
+  follow-redirects@<1.14.7: '>=1.14.7'
+  path-parse@<1.0.7: '>=1.0.7'
+  ini@<1.3.6: '>=1.3.6'
+  log4js@<6.4.0: '>=6.4.0'
+  trim@<0.0.3: '>=0.0.3'
+  ansi-regex@>=3.0.0 <3.0.1: '>=3.0.1'
+  trim-newlines@<3.0.1: '>=3.0.1'
+
 importers:
 
   .:
@@ -141,7 +155,6 @@ importers:
       '@storybook/theming': ^6.5.5
       '@types/classnames': ^2.3.1
       '@types/enzyme': ^3.10.10
-      '@types/enzyme-adapter-react-16': ^1.0.6
       '@types/jest-axe': ^3.5.3
       '@types/react': ^17.0.45
       '@types/react-datepicker': ^4.3.2
@@ -224,7 +237,6 @@ importers:
       '@storybook/theming': 6.5.5_sfoxds7t5ydpegc3knd667wn6m
       '@types/classnames': 2.3.1
       '@types/enzyme': 3.10.10
-      '@types/enzyme-adapter-react-16': 1.0.6
       '@types/jest-axe': 3.5.3
       '@types/react': 17.0.45
       '@types/react-datepicker': 4.3.2_react@17.0.2
@@ -4520,12 +4532,6 @@ packages:
       classnames: 2.3.1
     dev: true
 
-  /@types/enzyme-adapter-react-16/1.0.6:
-    resolution: {integrity: sha512-VonDkZ15jzqDWL8mPFIQnnLtjwebuL9YnDkqeCDYnB4IVgwUm0mwKkqhrxLL6mb05xm7qqa3IE95m8CZE9imCg==}
-    dependencies:
-      '@types/enzyme': 3.10.10
-    dev: true
-
   /@types/enzyme/3.10.10:
     resolution: {integrity: sha512-/D4wFhiEjUDfPu+j5FVK0g/jf7rqeEIpNfAI+kyxzLpw5CKO0drnW3W5NC38alIjsWgnyQ8pbuPF5+UD+vhVyg==}
     dependencies:
@@ -6280,7 +6286,7 @@ packages:
       mississippi: 3.0.0
       mkdirp: 0.5.5
       move-concurrently: 1.0.1
-      promise-inflight: 1.0.1_bluebird@3.7.2
+      promise-inflight: 1.0.1
       rimraf: 2.7.1
       ssri: 6.0.2
       unique-filename: 1.1.1
@@ -6499,7 +6505,7 @@ packages:
       anymatch: 2.0.0
       async-each: 1.0.3
       braces: 2.3.2
-      glob-parent: 3.1.0
+      glob-parent: 6.0.2
       inherits: 2.0.4
       is-binary-path: 1.0.1
       is-glob: 4.0.3
@@ -8265,7 +8271,7 @@ packages:
     dependencies:
       '@mrmlnc/readdir-enhanced': 2.2.1
       '@nodelib/fs.stat': 1.1.3
-      glob-parent: 3.1.0
+      glob-parent: 6.0.2
       is-glob: 4.0.3
       merge2: 1.4.1
       micromatch: 3.1.10
@@ -8871,13 +8877,6 @@ packages:
 
   /github-slugger/1.4.0:
     resolution: {integrity: sha512-w0dzqw/nt51xMVmlaV1+JRzN+oCa1KfcgGEWhxUG16wbdA+Xnt/yoFO8Z8x/V82ZcZ0wy6ln9QDup5avbhiDhQ==}
-    dev: true
-
-  /glob-parent/3.1.0:
-    resolution: {integrity: sha1-nmr2KZ2NO9K9QEMIMr0RPfkGxa4=}
-    dependencies:
-      is-glob: 3.1.0
-      path-dirname: 1.0.2
     dev: true
 
   /glob-parent/5.1.2:
@@ -11385,7 +11384,7 @@ packages:
       object-assign: 4.1.1
       read-pkg-up: 1.0.1
       redent: 1.0.0
-      trim-newlines: 1.0.0
+      trim-newlines: 4.0.2
     dev: true
     optional: true
 
@@ -12330,10 +12329,6 @@ packages:
     resolution: {integrity: sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g==}
     dev: true
 
-  /path-dirname/1.0.2:
-    resolution: {integrity: sha1-zDPSTVJeCZpTiMAzbG4yuRYGCeA=}
-    dev: true
-
   /path-exists/2.1.0:
     resolution: {integrity: sha1-D+tsZPD8UY2adU3V77YscCJ2H0s=}
     engines: {node: '>=0.10.0'}
@@ -12802,17 +12797,6 @@ packages:
     peerDependenciesMeta:
       bluebird:
         optional: true
-    dev: true
-
-  /promise-inflight/1.0.1_bluebird@3.7.2:
-    resolution: {integrity: sha1-mEcocL8igTL8vdhoEputEsPAKeM=}
-    peerDependencies:
-      bluebird: '*'
-    peerDependenciesMeta:
-      bluebird:
-        optional: true
-    dependencies:
-      bluebird: 3.7.2
     dev: true
 
   /promise.allsettled/1.0.5:
@@ -13661,7 +13645,7 @@ packages:
       parse-entities: 1.2.2
       repeat-string: 1.6.1
       state-toggle: 1.0.3
-      trim: 0.0.1
+      trim: 1.0.1
       trim-trailing-lines: 1.1.4
       unherit: 1.1.3
       unist-util-remove-position: 1.1.4
@@ -13682,7 +13666,7 @@ packages:
       parse-entities: 2.0.0
       repeat-string: 1.6.1
       state-toggle: 1.0.3
-      trim: 0.0.1
+      trim: 1.0.1
       trim-trailing-lines: 1.1.4
       unherit: 1.1.3
       unist-util-remove-position: 2.0.1
@@ -15262,23 +15246,23 @@ packages:
     resolution: {integrity: sha1-y99WD9e5r2MlAv7UD5GMFX6pcTc=}
     dev: true
 
-  /trim-newlines/1.0.0:
-    resolution: {integrity: sha1-WIeWa7WCpFA6QetST301ARgVphM=}
-    engines: {node: '>=0.10.0'}
-    dev: true
-    optional: true
-
   /trim-newlines/3.0.0:
     resolution: {integrity: sha512-C4+gOpvmxaSMKuEf9Qc134F1ZuOHVXKRbtEflf4NTtuuJDEIJ9p5PXsalL8SkeRw+qit1Mo+yuvMPAKwWg/1hA==}
     engines: {node: '>=8'}
     dev: true
 
+  /trim-newlines/4.0.2:
+    resolution: {integrity: sha512-GJtWyq9InR/2HRiLZgpIKv+ufIKrVrvjQWEj7PxAXNc5dwbNJkqhAUoAGgzRmULAnoOM5EIpveYd3J2VeSAIew==}
+    engines: {node: '>=12'}
+    dev: true
+    optional: true
+
   /trim-trailing-lines/1.1.4:
     resolution: {integrity: sha512-rjUWSqnfTNrjbB9NQWfPMH/xRK1deHeGsHoVfpxJ++XeYXE0d6B1En37AHfw3jtfTU7dzMzZL2jjpe8Qb5gLIQ==}
     dev: true
 
-  /trim/0.0.1:
-    resolution: {integrity: sha1-WFhUf2spB1fulczMZm+1AITEYN0=}
+  /trim/1.0.1:
+    resolution: {integrity: sha512-3JVP2YVqITUisXblCDq/Bi4P9457G/sdEamInkyvCsjbTcXLXIiG7XCb4kGMFWh6JGXesS3TKxOPtrncN/xe8w==}
     dev: true
 
   /trough/1.0.5:
