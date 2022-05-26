@@ -80,13 +80,13 @@ declare module 'enzyme' {
 }
 
 ReactWrapper.prototype.findDataTest = function <T>(this: ReactWrapper, dataTest: string) {
-  return (this.find(`[data-test="${dataTest}"]`) as unknown) as ReactWrapper<T>
+  return this.find(`[data-test="${dataTest}"]`) as unknown as ReactWrapper<T>
 }
 ReactWrapper.prototype.existsDataTest = function (this: ReactWrapper, dataTest: string) {
   return this.exists(`[data-test="${dataTest}"]`)
 }
 ShallowWrapper.prototype.findDataTest = function <T>(this: ShallowWrapper, dataTest: string) {
-  return (this.find(`[data-test="${dataTest}"]`) as unknown) as ShallowWrapper<T>
+  return this.find(`[data-test="${dataTest}"]`) as unknown as ShallowWrapper<T>
 }
 ShallowWrapper.prototype.existsDataTest = function (this: ShallowWrapper, dataTest: string) {
   return this.exists(`[data-test="${dataTest}"]`)
