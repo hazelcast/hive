@@ -24,7 +24,7 @@
   },
   "scripts": {
     "compile": "tsc -p tsconfig.build.json",
-    "start": "npm run storybook",
+    "start": "pnpm run storybook",
     "storybook": "start-storybook -p 6007",
     "build-storybook": "build-storybook",
     "test:visual": "loki --verboseRenderer --requireReference --reactUri file:./storybook-static --chromeFlags='--headless --disable-gpu --hide-scrollbars --no-sandbox --allow-file-access-from-files'",

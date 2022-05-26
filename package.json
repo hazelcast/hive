@@ -32,15 +32,15 @@
   "scripts": {
     "link-parent-bin": "link-parent-bin",
     "compile": "pnpm m run compile",
-    "postinstall": "npm run link-parent-bin && npm run compile",
+    "postinstall": "pnpm run link-parent-bin && pnpm run compile",
     "test": "pnpm m run test",
     "test:visual": "pnpm run --filter @hazelcast/ui test:visual",
     "lint": "pnpm m run lint",
-    "verify-all": "npm run lint && npm run test && npm run build-storybook && npm run test:visual",
+    "verify-all": "pnpm run lint && pnpm run test && pnpm run build-storybook && pnpm run test:visual",
     "build-storybook": "pnpm m run build-storybook",
     "publish-storybook": "pnpm run --filter @hazelcast/ui publish-storybook",
     "start": "pnpm run --filter @hazelcast/ui storybook",
-    "prepack": "npm run compile",
+    "prepack": "pnpm run compile",
     "prepare": "husky install",
     "publish-canary": "lerna publish --canary --preid next --dist-tag next --yes --no-verify-access --include-merged-tags"
   },

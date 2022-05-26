@@ -26,7 +26,7 @@
     "compile": "tsc -p tsconfig.build.json",
     "test": "jest",
     "lint": "eslint --ext .ts,.tsx .",
-    "lint:fix": "npm run lint -- --fix"
+    "lint:fix": "pnpm run lint -- --fix"
   },
   "bugs": {
     "url": "https://github.com/hazelcast/frontend-shared/issues"

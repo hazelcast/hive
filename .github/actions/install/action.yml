@@ -1,5 +1,5 @@
 name: install
-description: cache npm install
+description: cache pnpm install
 
 runs:
   using: 'composite'
