@@ -31,11 +31,10 @@
   },
   "scripts": {
     "link-parent-bin": "link-parent-bin",
-    "patch-package": "patch-package",
     "compile": "pnpm m run compile",
-    "postinstall11": "npm run patch-package && npm run link-parent-bin && npm run compile",
+    "postinstall": "npm run link-parent-bin && npm run compile",
     "test": "pnpm m run test",
-    "test:visual": "lerna run --parallel test:visual",
+    "test:visual": "pnpm run --filter @hazelcast/ui test:visual",
     "lint": "pnpm m run lint",
     "verify-all": "npm run lint && npm run test && npm run build-storybook && npm run test:visual",
     "build-storybook": "pnpm m run build-storybook",
