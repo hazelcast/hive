@@ -1,7 +1,7 @@
 import '../../setupTests.base'
 
 import Enzyme, { ReactWrapper, ShallowWrapper } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 import { unmountComponentAtNode } from 'react-dom'
 
 // https://github.com/cgood92/enzyme-cleanup/blob/master/index.js
