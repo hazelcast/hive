@@ -85,7 +85,7 @@
     "@storybook/react": "^6.5.5",
     "@storybook/theming": "^6.5.5",
     "@types/classnames": "^2.3.1",
-    "@types/enzyme": "^3.10.10",
+    "@types/enzyme": "^3.10.12",
     "@types/jest-axe": "^3.5.3",
     "@types/react": "^17.0.45",
     "@types/react-datepicker": "^4.3.2",

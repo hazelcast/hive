@@ -116,7 +116,7 @@ importers:
   packages/test-helpers:
     specifiers:
       '@hazelcast/services': ^1.3.1
-      '@types/enzyme': ^3.10.10
+      '@types/enzyme': ^3.10.12
       '@types/jest-axe': ^3.5.3
       '@types/react': ^17.0.45
       '@types/react-dom': ^17.0.17
@@ -130,7 +130,7 @@ importers:
       '@types/jest-axe': 3.5.3
       jest-axe: 5.0.1
     devDependencies:
-      '@types/enzyme': 3.10.10
+      '@types/enzyme': 3.10.12
       '@types/react': 17.0.45
       '@types/react-dom': 17.0.17
       '@wojtekmaj/enzyme-adapter-react-17': 0.6.7_7ltvq4e2railvf5uya4ffxpe2a
@@ -154,7 +154,7 @@ importers:
       '@storybook/react': ^6.5.5
       '@storybook/theming': ^6.5.5
       '@types/classnames': ^2.3.1
-      '@types/enzyme': ^3.10.10
+      '@types/enzyme': ^3.10.12
       '@types/jest-axe': ^3.5.3
       '@types/react': ^17.0.45
       '@types/react-datepicker': ^4.3.2
@@ -236,7 +236,7 @@ importers:
       '@storybook/react': 6.5.5_3l2b5brcjcpftzu77pe35d56jm
       '@storybook/theming': 6.5.5_sfoxds7t5ydpegc3knd667wn6m
       '@types/classnames': 2.3.1
-      '@types/enzyme': 3.10.10
+      '@types/enzyme': 3.10.12
       '@types/jest-axe': 3.5.3
       '@types/react': 17.0.45
       '@types/react-datepicker': 4.3.2_react@17.0.2
@@ -4734,8 +4734,8 @@ packages:
       classnames: 2.3.1
     dev: true
 
-  /@types/enzyme/3.10.10:
-    resolution: {integrity: sha512-/D4wFhiEjUDfPu+j5FVK0g/jf7rqeEIpNfAI+kyxzLpw5CKO0drnW3W5NC38alIjsWgnyQ8pbuPF5+UD+vhVyg==}
+  /@types/enzyme/3.10.12:
+    resolution: {integrity: sha512-xryQlOEIe1TduDWAOphR0ihfebKFSWOXpIsk+70JskCfRfW+xALdnJ0r1ZOTo85F9Qsjk6vtlU7edTYHbls9tA==}
     dependencies:
       '@types/cheerio': 0.22.30
       '@types/react': 17.0.45
@@ -6511,7 +6511,7 @@ packages:
       mississippi: 3.0.0
       mkdirp: 0.5.5
       move-concurrently: 1.0.1
-      promise-inflight: 1.0.1
+      promise-inflight: 1.0.1_bluebird@3.7.2
       rimraf: 2.7.1
       ssri: 6.0.2
       unique-filename: 1.1.1
@@ -13112,6 +13112,17 @@ packages:
     peerDependenciesMeta:
       bluebird:
         optional: true
+    dev: true
+
+  /promise-inflight/1.0.1_bluebird@3.7.2:
+    resolution: {integrity: sha1-mEcocL8igTL8vdhoEputEsPAKeM=}
+    peerDependencies:
+      bluebird: '*'
+    peerDependenciesMeta:
+      bluebird:
+        optional: true
+    dependencies:
+      bluebird: 3.7.2
     dev: true
 
   /promise.allsettled/1.0.5:

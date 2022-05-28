@@ -36,14 +36,8 @@
     "@types/jest-axe": "^3.5.3",
     "jest-axe": "^5.0.1"
   },
-  "peerDependencies": {
-    "@types/enzyme": "^3.10.10",
-    "enzyme": "^3.11.0",
-    "react": "^17.0.0",
-    "react-dom": "^17.0.0"
-  },
   "devDependencies": {
-    "@types/enzyme": "^3.10.10",
+    "@types/enzyme": "^3.10.12",
     "@types/react": "^17.0.45",
     "@types/react-dom": "^17.0.17",
     "enzyme": "^3.11.0",
