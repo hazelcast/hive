@@ -4,11 +4,26 @@
 $selectHorizontalPadding: c.$grid * 3;
 $menuMargin: c.$grid * 3;
 $select: ':global .hz-autocomplete-field__control';
+$selectValueContainer: ':global .hz-autocomplete-field__value-container';
 
 .container {
   .label {
     display: block;
     margin-bottom: c.$grid;
+
+    &.small {
+      @include c.typographyBodySmall;
+    }
+  }
+
+  &.small {
+    #{$selectValueContainer} {
+      padding: 0;
+    }
+
+    #{$select} {
+      min-height: c.$inputHeightSmall;
+    }
   }
 
   .helperText {
@@ -56,6 +71,7 @@ $select: ':global .hz-autocomplete-field__control';
 
     .hz-autocomplete-field__dropdown-indicator {
       color: c.$colorNeutralLight;
+      padding: 0 c.$grid * 0.5;
     }
   }
 

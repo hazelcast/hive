@@ -170,6 +170,18 @@ export const WithHelperText = () => (
   />
 )
 
+export const Small = () => (
+  <AutocompleteField
+    name="name"
+    value={value}
+    label="Character"
+    options={options}
+    size="small"
+    onBlur={() => logger.log('blur')}
+    onChange={(val: unknown) => logger.log('change', val)}
+  />
+)
+
 export const Clearable = () => {
   const [currentValue, setValue] = useState<string | null>(value)
   return (
