@@ -5,12 +5,13 @@ import cn from 'classnames'
 import { Search, X } from 'react-feather'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 import styles from './AutocompleteField.module.scss'
-import { Label } from './Label'
 import { Error, errorId } from './Error'
-import { Help, HelpProps } from './Help'
+import { HelpProps } from './Help'
 import { FormatOptionLabelMeta, Props as ReactSelectProps } from 'react-select/src/Select'
 import { canUseDOM } from './utils/ssr'
 import { IconButton } from './IconButton'
+import { SelectFieldSize } from './Select/SelectField'
+import { FieldHeader, FieldHeaderProps } from './FieldHeader'
 
 export type AutocompleteFieldOption = {
   label: string
@@ -25,6 +26,7 @@ export type RenderOptionFunction<O = AutocompleteFieldOption> = (
 
 export type AutocompleteFieldProps = {
   'data-test'?: string
+  size?: SelectFieldSize
   className?: string
   disabled?: boolean
   error?: string
@@ -45,7 +47,7 @@ export type AutocompleteFieldProps = {
   value?: string | null
   placeholder?: string
   openMenuOnClick?: boolean
-}
+} & Omit<FieldHeaderProps, 'id'>
 
 type GetSelectedOptionFromValueProps = {
   value?: string | null
@@ -120,6 +122,7 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
   label,
   labelClassName,
   helperText,
+  size = 'medium',
   menuPortalTarget = 'body',
   name,
   onChange,
@@ -130,6 +133,7 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
   required,
   value,
   placeholder = 'Search...',
+  showAriaLabel = false,
   renderOption,
   openMenuOnClick = true,
   ...rest
@@ -250,6 +254,7 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
           [styles.withError]: 'error' in props,
           [styles.disabled]: disabled,
           [styles.hasError]: error,
+          [styles.small]: size === 'small',
           [styles.empty]: !value,
         },
         // Menu container is either this select itself or any other element
@@ -259,7 +264,14 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
         className,
       )}
     >
-      <Label id={id} label={label} className={cn(styles.label, labelClassName)} />
+      <FieldHeader
+        label={label}
+        id={id}
+        size={size}
+        helperText={helperText}
+        showAriaLabel={showAriaLabel}
+        labelClassName={labelClassName}
+      />
       <div className={styles.selectBlock}>
         <ReactSelect<AutocompleteFieldOption>
           onInputChange={onInputChange}
@@ -274,7 +286,6 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
           }}
           {...props}
         />
-        {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} />}
       </div>
       <Error truncated error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
     </div>

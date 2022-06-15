@@ -39,7 +39,7 @@ export type SelectFieldIconLeftProps =
       iconLeftContainerClassName?: never
     }
 
-type SelectFieldSize = 'small' | 'medium'
+export type SelectFieldSize = 'small' | 'medium'
 
 export type SelectFieldExtraProps<V> = {
   options: GroupedOptionsType<SelectFieldOption<V>> | OptionsType<SelectFieldOption<V>>
