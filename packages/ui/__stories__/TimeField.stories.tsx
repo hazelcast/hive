@@ -7,7 +7,7 @@ import { TimeField } from '../src/TimeField'
 import { Form, Formik } from 'formik'
 import { TimeFieldFormik } from '../src/TimeFieldFormik'
 
-import styles from '../src/TimeField.module.scss'
+import styles from '../src/TextField.module.scss'
 import styleUtils from './utils.scss'
 
 export default {

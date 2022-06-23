@@ -3,6 +3,7 @@ import React from 'react'
 import ReactDatePicker from 'react-datepicker'
 import { act } from 'react-dom/test-utils'
 import { Calendar as CalendarIcon, ChevronLeft, ChevronRight } from 'react-feather'
+
 import { Calendar } from '../../src/Calendar/Calendar'
 
 import styleConsts from '../styles/constants/export.module.scss'
@@ -127,7 +128,7 @@ describe('Calendar', () => {
 
     // ReactDatePicker
     expect(wrapper.find(ReactDatePicker).props()).toMatchObject({
-      dateFormat: 'yyyy-MM-dd hh:mm a',
+      dateFormat: 'yyyy-MM-dd HH:mm',
       disabled: false,
       showPopperArrow: false,
       selected: date,
@@ -135,7 +136,7 @@ describe('Calendar', () => {
 
     // Date Input
     expect(wrapper.findDataTest('calendar-input').at(0).props()).toMatchObject({
-      value: '2021-02-08 12:00 PM',
+      value: '2021-02-08 12:00',
       type: 'text',
       name: 'calendar-input',
       label: 'Calendar Input',
