@@ -66,3 +66,7 @@ $buttonWidth: calc(98px - 2 * #{$outlinePreservingPadding});
     }
   }
 }
+
+.timeInput {
+  width: 88px !important;
+}

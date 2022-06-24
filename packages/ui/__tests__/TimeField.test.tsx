@@ -32,11 +32,11 @@ describe('TimeField', () => {
     })
 
     expect(wrapper.find('input').props()).toMatchObject({
-      type: 'time',
+      type: 'text',
       id,
       value,
       name,
-      onChange,
+      onChange: expect.anything(),
       onBlur,
       'aria-invalid': false,
       'aria-required': undefined,
@@ -100,11 +100,11 @@ describe('TimeField', () => {
     })
 
     expect(wrapper.find('input').props()).toMatchObject({
-      type: 'time',
+      type: 'text',
       id,
       value,
       name,
-      onChange,
+      onChange: expect.anything(),
       onBlur,
       'aria-invalid': true,
       'aria-required': undefined,
@@ -132,11 +132,11 @@ describe('TimeField', () => {
     })
 
     expect(wrapper.find('input').props()).toMatchObject({
-      type: 'time',
+      type: 'text',
       id,
       value,
       name,
-      onChange,
+      onChange: expect.anything(),
       onBlur,
       'aria-invalid': false,
       'aria-required': true,
@@ -164,11 +164,11 @@ describe('TimeField', () => {
     })
 
     expect(wrapper.find('input').props()).toMatchObject({
-      type: 'time',
+      type: 'text',
       id,
       value,
       name,
-      onChange,
+      onChange: expect.anything(),
       onBlur,
       'aria-invalid': false,
       'aria-required': undefined,

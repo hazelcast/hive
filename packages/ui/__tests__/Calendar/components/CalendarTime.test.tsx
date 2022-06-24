@@ -9,7 +9,7 @@ import { Button } from '../../../src'
 // Equivalent to `2021-02-08T09:00:00.000Z`
 const timestamp = 1612774800000
 const date = getFixedTimezoneDate(timestamp)
-const value = '09:00:00 AM'
+const value = '09:00:00'
 
 describe('CalendarTime', () => {
   it('Renders', async () => {
@@ -69,7 +69,7 @@ describe('CalendarTime', () => {
     // Grab a "random" button
     const ninthTimePointButton = wrapper.findDataTest('calendar-time-timePoints').find(Button).at(9)
 
-    expect(ninthTimePointButton.text()).toBe('02:15 AM')
+    expect(ninthTimePointButton.text()).toBe('02:15')
 
     act(() => {
       ninthTimePointButton.simulate('click')

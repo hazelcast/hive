@@ -11,7 +11,7 @@ import styles from './Calendar.module.scss'
 import { getPortalContainer, PortalContainer } from '../utils/portal'
 
 const DATE_FORMAT = 'yyyy-MM-dd'
-const TIME_FORMAT = 'hh:mm a'
+const TIME_FORMAT = 'HH:mm'
 
 const CalendarPopperContainer =
   (container: HTMLElement | null, inPortal: boolean): FC =>

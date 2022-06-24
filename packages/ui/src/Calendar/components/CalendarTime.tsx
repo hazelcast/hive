@@ -4,14 +4,11 @@ import { format, parse } from 'date-fns'
 import { Button } from '../../Button'
 import { timePoints } from '../helpers/consts'
 import { TimeField } from '../../TimeField'
-
-import styles from './CalendarTime.module.scss'
 import { useRefValue } from '../../hooks'
 
-// Note: AM/PM 1-12 hours time
-const DATE_FORMAT = 'hh:mm a'
-// Note: 0-23 hours time
-const DATE_FORMAT_NO_MERIDIEM = 'HH:mm'
+import styles from './CalendarTime.module.scss'
+
+const DATE_FORMAT = 'HH:mm'
 
 export type CalendarTimeInternalProps = {
   date: Date
@@ -51,7 +48,7 @@ export const CalendarTimeInternal: FC<CalendarTimeInternalProps> = ({ date, valu
   const handleTimeInputChange = useCallback(
     ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
       setTime(value)
-      const parsedDate = parse(value, DATE_FORMAT_NO_MERIDIEM, date)
+      const parsedDate = parse(value, DATE_FORMAT, date)
 
       if (!isNaN(parsedDate.valueOf())) {
         setTimeInputError(undefined)
@@ -68,7 +65,7 @@ export const CalendarTimeInternal: FC<CalendarTimeInternalProps> = ({ date, valu
       // Note: Input time (derived from timePoints) is in 'DATE_FORMAT'
       const parsedDate = parse(dp, DATE_FORMAT, date)
       // Note: Output time, that we feed back to 'react-datetime' is in 'DATE_FORMAT_NO_MERIDIEM' format
-      const timeStringWithoutAm = format(parsedDate, DATE_FORMAT_NO_MERIDIEM)
+      const timeStringWithoutAm = format(parsedDate, DATE_FORMAT)
       onChange(timeStringWithoutAm)
 
       // remove error because time from the list can not be invalid
@@ -87,10 +84,12 @@ export const CalendarTimeInternal: FC<CalendarTimeInternalProps> = ({ date, valu
       <div data-test="calendar-time-header" className={styles.header}>
         <TimeField
           showAriaLabel
+          size="small"
           label="Time Input"
           error={timeInputError}
           name="time"
           value={time.toString()}
+          inputClassName={styles.timeInput}
           onChange={handleTimeInputChange}
         />
       </div>

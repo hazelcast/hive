@@ -1,12 +1,13 @@
 import React, { FocusEvent, ChangeEvent, FC, InputHTMLAttributes } from 'react'
 import cn from 'classnames'
 import { useUID } from 'react-uid'
-
+import SimpleTimeField from 'react-simple-timefield'
 import { DataTestProp } from '@hazelcast/helpers'
-import { Error, errorId } from './Error'
-import { FieldHeader, FieldHeaderProps } from './FieldHeader'
+
+import { FieldHeaderProps } from './FieldHeader'
 
 import styles from './TimeField.module.scss'
+import { TextField } from './TextField'
 
 export type TimeFieldCoreProps = {
   name: string
@@ -52,43 +53,31 @@ export const TimeField: FC<TypeFieldProps> = (props) => {
   const id = explicitId ?? autoId
 
   return (
-    <div data-test={dataTest} className={cn(styles.container, className, { [styles.withError]: 'error' in props })}>
-      <FieldHeader
-        id={id}
-        size={size}
-        label={label}
-        helperText={helperText}
-        showAriaLabel={showAriaLabel}
-        labelClassName={labelClassName}
-      />
-
-      <div className={styles.inputBlock}>
-        <div className={styles.inputContainer}>
-          <input
-            type="time"
-            step={seconds ? '1' : undefined}
-            id={id}
+    <div data-test={dataTest} className={cn(styles.container, className)}>
+      <SimpleTimeField
+        showSeconds={seconds}
+        input={
+          <TextField
             name={name}
-            className={cn(styles.input, inputClassName, {
-              [styles.disabled]: disabled,
-              [styles.error]: error,
-            })}
+            id={id}
+            label={label}
+            error={error}
             onChange={onChange}
+            errorClassName={errorClassName}
+            inputClassName={inputClassName}
+            labelClassName={labelClassName}
             onBlur={onBlur}
-            value={value}
+            size={size}
             required={required}
             disabled={disabled}
-            // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute
-            aria-invalid={!!error}
-            aria-label={showAriaLabel ? label : undefined}
-            aria-required={required}
-            aria-errormessage={error && errorId(id)}
+            showAriaLabel={showAriaLabel}
+            helperText={helperText}
             {...rest}
           />
-          <div className={styles.borderOverlay} />
-        </div>
-      </div>
-      <Error truncated error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
+        }
+        onChange={onChange}
+        value={value}
+      />
     </div>
   )
 }
