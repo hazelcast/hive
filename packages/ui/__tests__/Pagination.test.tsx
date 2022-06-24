@@ -466,7 +466,7 @@ describe('Pagination', () => {
     wrapper.update()
 
     expect(setPageSize).toHaveBeenCalledTimes(1)
-    expect(setPageSize).toHaveBeenCalledWith<Parameters<typeof setPageSize>>(10)
+    expect(setPageSize).toHaveBeenCalledWith(10)
   })
 
   it('renders small version of pagination', async () => {

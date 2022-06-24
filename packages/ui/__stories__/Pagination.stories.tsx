@@ -14,7 +14,7 @@ export default {
   },
 } as Meta<Pick<PaginationProps, 'displaySmallBreakpoint'>>
 
-const Template: Story<Pick<PaginationProps, 'displaySmallBreakpoint'>> = ({ displaySmallBreakpoint }) => {
+const Template: Story<Pick<PaginationProps, 'displaySmallBreakpoint' | 'isSimpleView'>> = ({ displaySmallBreakpoint, isSimpleView }) => {
   const numberOfItems = 10000
   const [pageSize, setPageSize] = useState<number>(5)
   const pageSizeOptions = [5, 10, 100, 1000]
@@ -43,6 +43,7 @@ const Template: Story<Pick<PaginationProps, 'displaySmallBreakpoint'>> = ({ disp
       pageSizeOptions={pageSizeOptions}
       numberOfItems={numberOfItems}
       displaySmallBreakpoint={displaySmallBreakpoint}
+      isSimpleView={isSimpleView}
     />
   )
 }
@@ -52,4 +53,9 @@ export const Default = Template.bind({})
 export const WithCustomSmallBreakpoint = Template.bind({})
 WithCustomSmallBreakpoint.args = {
   displaySmallBreakpoint: 1000,
+}
+
+export const WithSimpleView = Template.bind({})
+WithSimpleView.args = {
+  isSimpleView: true,
 }
