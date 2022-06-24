@@ -56,11 +56,12 @@ export type PaginationProps = {
   goToPage: (page: number) => void
   nextPage: () => void
   previousPage: () => void
-  pageSize: number
-  setPageSize: (pageSize: number) => void
-  pageSizeOptions: number[]
   numberOfItems: number
+  pageSize: number
+  setPageSize?: (pageSize: number) => void
+  pageSizeOptions?: number[]
   displaySmallBreakpoint?: number
+  isSimpleView?: boolean
 }
 
 /**
@@ -83,9 +84,10 @@ export const Pagination: FC<PaginationProps> = ({
   previousPage,
   pageSize,
   setPageSize,
-  pageSizeOptions,
+  pageSizeOptions = [],
   numberOfItems,
   displaySmallBreakpoint = 820,
+  isSimpleView,
 }) => {
   const [currentPageValue, setCurrentPageValue] = useState<number | undefined>(currentPage)
   const containerWidthRef = useRef<HTMLDivElement>(null)
@@ -111,7 +113,7 @@ export const Pagination: FC<PaginationProps> = ({
 
   const onChangeWrapped = useCallback(
     (pageSize: number | null) => {
-      if (typeof pageSize === 'number') {
+      if (typeof pageSize === 'number' && setPageSize) {
         setPageSize(pageSize)
       }
     },
@@ -225,7 +227,7 @@ export const Pagination: FC<PaginationProps> = ({
 
   return (
     <div ref={containerWidthRef} className={styles.container}>
-      {displaySmall && moreOptions ? (
+      {displaySmall && moreOptions && !isSimpleView ? (
         <>
           {PageJumpForm}
           {RowsPerPageSelect}
@@ -234,16 +236,16 @@ export const Pagination: FC<PaginationProps> = ({
         PageButtons
       )}
 
-      {!displaySmall && (
+      {!displaySmall && !isSimpleView && (
         <span
           data-test="pagination-range-of-shown-items"
           className={styles.shownItems}
         >{`${firstItemShown} – ${lastItemShown} of ${numberOfItems}`}</span>
       )}
-      {!displaySmall && PageJumpForm}
-      {!displaySmall && RowsPerPageSelect}
+      {!displaySmall && !isSimpleView && PageJumpForm}
+      {!displaySmall && !isSimpleView && RowsPerPageSelect}
 
-      {displaySmall && (
+      {displaySmall && !isSimpleView && (
         // TODO: button should display an overlay with more options
         <IconButton
           key="next"
