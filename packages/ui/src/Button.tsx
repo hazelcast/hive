@@ -244,7 +244,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
                 */
                 tooltipVisible={disabled && disabledTooltipVisible !== false ? false : undefined}
               />
-              ){loadingAnimationOnRight && <Loader className={styles.iconRight} size="small" />}
+              {loadingAnimationOnRight && <Loader className={styles.iconRight} size="small" />}
               {!loadingAnimationOnRight && iconRight && iconRightAriaLabel && (
                 <Icon
                   icon={iconRight}
