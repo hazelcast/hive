@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes, forwardRef, HTMLAttributes } from 'react'
+import React, { ButtonHTMLAttributes, forwardRef, HTMLAttributes, ReactElement } from 'react'
 import cn from 'classnames'
 import mergeRefs from 'react-merge-refs'
 import { useUID } from 'react-uid'
@@ -70,7 +70,7 @@ export type ButtonCommonProps = {
    * @deprecated Use variant + color instead
    */
   kind?: ButtonKind
-  children: string
+  children: string | ReactElement
   color?: ButtonColor
   capitalize?: boolean
   bodyClassName?: string
@@ -222,9 +222,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
             {...rest}
           >
             <span data-test="button-outline" className={cn(styles.outline, { [styles.inset]: outline === 'inset' }, outlineClassName)} />
-            <span className={cn(styles.body, bodyClassName)}
-                  onMouseEnter={onMouseEnter}
-                  onMouseLeave={onMouseLeave}>
+            <span className={cn(styles.body, bodyClassName)} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
               {loading && !loadingAnimationOnRight && <Loader className={styles.iconLeft} size="small" />}
               {iconLeft && iconLeftAriaLabel && !loading && (
                 <Icon
@@ -237,7 +235,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
                 />
               )}
               <TruncatedText
-                text={capitalize ? children.toUpperCase() : children}
+                text={capitalize && typeof children === 'string' ? children.toUpperCase() : children}
                 /*
                   If a button is disabled and text is long we don't want to show 2 popups.
                   1. In case a button is disabled and no `disabledTooltipVisible` is enforced, we just hide truncated popup.
