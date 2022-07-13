@@ -1,5 +1,7 @@
 // Useful to override current time for our code in tests, leaving third-party code untouched.
 export class TimeService {
+  public static DEFAULT_FORMAT = 'YYYY-MM-DD hh:mm:ss'
+
   public static currentTimestamp() {
     return Date.now()
   }
