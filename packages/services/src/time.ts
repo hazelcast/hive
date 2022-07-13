@@ -15,8 +15,8 @@ export class TimeService {
   }
 
   public static formatDate(source: Date): string {
-    return `${('0' + source.getDate().toString()).slice(-2)}-${('0' + (source.getMonth() + 1).toString()).slice(
+    return `${source.getFullYear()}-${('0' + (source.getMonth() + 1).toString()).slice(-2)}-${('0' + source.getDate().toString()).slice(
       -2,
-    )}-${source.getFullYear()}`
+    )}`
   }
 }
