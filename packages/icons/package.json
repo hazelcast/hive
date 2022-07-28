@@ -28,6 +28,7 @@
     "storybook": "start-storybook -p 6007",
     "build-storybook": "build-storybook",
     "test:visual": "loki --verboseRenderer --requireReference --reactUri file:./storybook-static --chromeFlags='--headless --disable-gpu --hide-scrollbars --no-sandbox --allow-file-access-from-files'",
+    "test:visual:update": "loki update --storiesFilter=\"^Icons Icons\\$\" --verboseRenderer --reactUri=\"file:./storybook-static\" --chromeFlags=\"--headless --disable-gpu --hide-scrollbars --no-sandbox --allow-file-access-from-files\"",
     "test:visual:approve": "loki approve",
     "generate-screenshots": "loki update --reactUri file:./storybook-static --chromeFlags='--headless --disable-gpu --hide-scrollbars --no-sandbox --allow-file-access-from-files'"
   },
