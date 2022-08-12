@@ -9,7 +9,6 @@ import { LinkRow, Row, RowProps } from './Row'
 import { isCellSelected, useColumnsSelection } from './features/columnsSelection'
 
 import styles from './Table.module.scss'
-import { useOnClickOutside } from '../hooks'
 
 export type TableContentProps<D extends object> = {
   loading?: boolean
@@ -19,7 +18,6 @@ export type TableContentProps<D extends object> = {
   overlayLoading?: boolean
   onEndSelection: () => void
   columns: readonly Column<D>[]
-  onKeyUp: (e: KeyboardEvent) => void
   onCopy?: (value: string[][]) => void
   prepareRow: (row: RowType<D>) => void
   onRowClick?: (row: RowType<D>) => void
@@ -37,7 +35,6 @@ export const TableContent = <D extends object>(props: TableContentProps<D>) => {
     page,
     onCopy,
     columns,
-    onKeyUp,
     getHref,
     loading,
     className,
@@ -59,13 +56,6 @@ export const TableContent = <D extends object>(props: TableContentProps<D>) => {
   } = props
   const rootRef = useRef<HTMLDivElement>(null)
 
-  useOnClickOutside(!!onCopy, {
-    target: rootRef.current,
-    handler: () => {
-      document.body.removeEventListener('keyup', onKeyUp)
-    },
-  })
-
   return (
     // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <div
@@ -77,7 +67,6 @@ export const TableContent = <D extends object>(props: TableContentProps<D>) => {
         selectionStartedRef.current = true
         document.body.addEventListener('mouseup', onEndSelection)
         document.body.addEventListener('contextmenu', onEndSelection)
-        document.body.addEventListener('keyup', onKeyUp)
       }}
     >
       {page.map((row, rowIndex) => {
