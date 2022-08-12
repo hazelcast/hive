@@ -12,6 +12,7 @@ import React, {
   ReactNode,
 } from 'react'
 import cn from 'classnames'
+import { HotKeys, KeyMap } from 'react-hotkeys'
 import {
   useTable,
   usePagination,
@@ -227,6 +228,7 @@ const column = {
   width: Number(styleConsts.tableColumnWidth), // width is used for both the flex-basis and flex-grow
   maxWidth: Number(styleConsts.tableColumnMaxWidth), // maxWidth is only used as a limit for resizing
 }
+const commands: KeyMap = { copy: ['ctrl+c', 'command+c'] }
 
 /**
  * ### Purpose
@@ -389,21 +391,25 @@ export const Table = <D extends object>({
   })
   const { onEndSelection, getSelectedColumns, selectedColumnValuesRef } = columnsSelectionProps
 
-  const onKeyUp = useCallback(
-    (e: KeyboardEvent) => {
-      const callback = getOncopy()
+  const onKeyUp = useCallback(() => {
+    const callback = getOncopy()
 
-      if (callback) {
-        const { columns, range } = getSelectedColumns()
+    if (callback) {
+      const { columns, range } = getSelectedColumns()
 
-        if (columns.size || (range[0] !== undefined && range[0] !== undefined)) {
-          if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
-            callback(selectedColumnValuesRef?.current)
-          }
-        }
+      if (columns.size || (range[0] !== undefined && range[0] !== undefined)) {
+        callback(selectedColumnValuesRef?.current)
       }
-    },
-    [getOncopy, getSelectedColumns, selectedColumnValuesRef],
+    }
+  }, [getOncopy, getSelectedColumns, selectedColumnValuesRef])
+  const hotKeysHandlers = useMemo(
+    () => ({
+      copy: (e?: KeyboardEvent) => {
+        e?.preventDefault()
+        onKeyUp()
+      },
+    }),
+    [onKeyUp],
   )
 
   useEffect(() => {
@@ -471,138 +477,145 @@ export const Table = <D extends object>({
   const rowCount = data.length + headerIndex + (hasFooter ? 1 : 0)
 
   const content = (
-    <div data-test={dataTest ?? 'table-wrapper'} className={className}>
-      <div
-        className={cn(styles.container, {
-          [styles.spaceBottom]: !hidePagination,
-        })}
-      >
-        <div data-test="table" {...getTableProps()} aria-rowcount={rowCount}>
-          {!hideHeader && (
-            <div data-test="table-header-row-group" role="rowgroup" className={headerClassName}>
-              {headerGroups.map((headerGroup) => {
-                const { key: headerGroupKey, ...restHeaderGroupProps } = headerGroup.getHeaderGroupProps()
+    <HotKeys keyMap={commands} handlers={hotKeysHandlers}>
+      <div data-test={dataTest ?? 'table-wrapper'} className={className}>
+        <div
+          className={cn(styles.container, {
+            [styles.spaceBottom]: !hidePagination,
+          })}
+        >
+          <div data-test="table" {...getTableProps()} aria-rowcount={rowCount}>
+            {!hideHeader && (
+              <div data-test="table-header-row-group" role="rowgroup" className={headerClassName}>
+                {headerGroups.map((headerGroup) => {
+                  const { key: headerGroupKey, ...restHeaderGroupProps } = headerGroup.getHeaderGroupProps()
 
-                return (
-                  <HeaderRow key={headerGroupKey} {...restHeaderGroupProps} ariaRowIndex={headerIndex}>
-                    {headerGroup.headers.map((column, i) => {
-                      const { key: columnKey, ...restHeaderProps } = column.getHeaderProps(column.getSortByToggleProps())
-                      const isDraggable = columnsOrdering && column.id !== 'expander'
+                  return (
+                    <HeaderRow key={headerGroupKey} {...restHeaderGroupProps} ariaRowIndex={headerIndex}>
+                      {headerGroup.headers.map((column, i) => {
+                        const { key: columnKey, ...restHeaderProps } = column.getHeaderProps(column.getSortByToggleProps())
+                        const isDraggable = columnsOrdering && column.id !== 'expander'
 
-                      return (
-                        <Header
-                          index={i}
-                          key={columnKey}
-                          align={column.align}
-                          canSort={column.canSort}
-                          isSorted={column.isSorted}
-                          isSortedDesc={column.isSortedDesc}
-                          isLastHeader={headerGroup.headers.length === i + 1}
-                          canResize={column.canResize}
-                          isResizing={column.isResizing}
-                          getResizerProps={column.getResizerProps}
-                          onDrop={isDraggable ? onDrop : undefined}
-                          onDragStart={onDragStart}
-                          {...restHeaderProps}
-                        >
-                          <EnhancedHeaderFooterRenderer column={column} columnResizing={columnResizing} type="Header" />
-                        </Header>
-                      )
-                    })}
-                  </HeaderRow>
-                )
-              })}
-            </div>
-          )}
-          {!overlayLoading && loading ? (
-            <Row role="row">
-              <Cell role="cell" align="center" colSpan={columns.length} data-test="table-loader-cell">
-                <Loader />
-              </Cell>
-            </Row>
-          ) : hasData ? (
-            <TableContent
-              page={page}
-              onCopy={onCopy}
-              getHref={getHref}
-              columns={columns}
-              onKeyUp={onKeyUp}
-              {...columnsSelectionProps}
-              onRowClick={onRowClick}
-              prepareRow={prepareRow}
-              className={contentClassName}
-              columnResizing={columnResizing}
-              AnchorComponent={AnchorComponent}
-              cellIndexOffset={cellIndexOffset}
-              getCustomRowProps={getCustomRowProps}
-              getCustomCellProps={getCustomCellProps}
-              renderRowSubComponent={renderRowSubComponent}
-            />
-          ) : (
-            <div role="row">
-              <div role="cell">
-                <EmptyState data-test="table-no-data" className={styles.empty} title={noDataTitle} icon={AlertTriangle} iconLabel="Alert" />
+                        return (
+                          <Header
+                            index={i}
+                            key={columnKey}
+                            align={column.align}
+                            canSort={column.canSort}
+                            isSorted={column.isSorted}
+                            isSortedDesc={column.isSortedDesc}
+                            isLastHeader={headerGroup.headers.length === i + 1}
+                            canResize={column.canResize}
+                            isResizing={column.isResizing}
+                            getResizerProps={column.getResizerProps}
+                            onDrop={isDraggable ? onDrop : undefined}
+                            onDragStart={onDragStart}
+                            {...restHeaderProps}
+                          >
+                            <EnhancedHeaderFooterRenderer column={column} columnResizing={columnResizing} type="Header" />
+                          </Header>
+                        )
+                      })}
+                    </HeaderRow>
+                  )
+                })}
               </div>
-            </div>
-          )}
-          {hasFooter && (
-            <div data-test="table-footer-row-group" role="rowgroup" className={footerClassName}>
-              {footerGroups.map((group) => {
-                const { key: footerGroupKey, ...restFooterGroupProps } = group.getFooterGroupProps()
-                return (
-                  // Footer props getters do not provide role attributes
-                  <Row key={footerGroupKey} ariaRowIndex={rowCount} {...restFooterGroupProps} role="row">
-                    {group.headers.map((column) => {
-                      const { key: footerKey, ...restFooterProps } = column.getFooterProps()
-                      return (
-                        // Footer props getters do not provide role attributes
-                        <Cell key={footerKey} {...restFooterProps} align={column.align} role="cell">
-                          <EnhancedHeaderFooterRenderer column={column} columnResizing={columnResizing} type="Footer" />
-                        </Cell>
-                      )
-                    })}
-                  </Row>
-                )
-              })}
-            </div>
-          )}
+            )}
+            {!overlayLoading && loading ? (
+              <Row role="row">
+                <Cell role="cell" align="center" colSpan={columns.length} data-test="table-loader-cell">
+                  <Loader />
+                </Cell>
+              </Row>
+            ) : hasData ? (
+              <TableContent
+                page={page}
+                onCopy={onCopy}
+                getHref={getHref}
+                columns={columns}
+                {...columnsSelectionProps}
+                onRowClick={onRowClick}
+                prepareRow={prepareRow}
+                className={contentClassName}
+                columnResizing={columnResizing}
+                AnchorComponent={AnchorComponent}
+                cellIndexOffset={cellIndexOffset}
+                getCustomRowProps={getCustomRowProps}
+                getCustomCellProps={getCustomCellProps}
+                renderRowSubComponent={renderRowSubComponent}
+              />
+            ) : (
+              <div role="row">
+                <div role="cell">
+                  <EmptyState
+                    data-test="table-no-data"
+                    className={styles.empty}
+                    title={noDataTitle}
+                    icon={AlertTriangle}
+                    iconLabel="Alert"
+                  />
+                </div>
+              </div>
+            )}
+            {hasFooter && (
+              <div data-test="table-footer-row-group" role="rowgroup" className={footerClassName}>
+                {footerGroups.map((group) => {
+                  const { key: footerGroupKey, ...restFooterGroupProps } = group.getFooterGroupProps()
+                  return (
+                    // Footer props getters do not provide role attributes
+                    <Row key={footerGroupKey} ariaRowIndex={rowCount} {...restFooterGroupProps} role="row">
+                      {group.headers.map((column) => {
+                        const { key: footerKey, ...restFooterProps } = column.getFooterProps()
+                        return (
+                          // Footer props getters do not provide role attributes
+                          <Cell key={footerKey} {...restFooterProps} align={column.align} role="cell">
+                            <EnhancedHeaderFooterRenderer column={column} columnResizing={columnResizing} type="Footer" />
+                          </Cell>
+                        )
+                      })}
+                    </Row>
+                  )
+                })}
+              </div>
+            )}
+          </div>
         </div>
-      </div>
 
-      {!hidePagination && hasData && (
-        <Pagination
-          pageCount={pageCount}
-          currentPage={pageIndex + 1}
-          canPreviousPage={canPreviousPage}
-          canNextPage={canNextPage}
-          goToPage={(p) => {
-            if (onPageChange) {
-              onPageChange(p - 1)
-            } else {
-              gotoPage(p - 1)
-            }
-          }}
-          nextPage={() => {
-            if (onPageChange) {
-              onPageChange(pageIndex + 1)
-            } else {
-              nextPage()
-            }
-          }}
-          previousPage={() => {
-            if (onPageChange) {
-              onPageChange(pageIndex - 1)
-            } else {
-              previousPage()
-            }
-          }}
-          pageSize={pageSize}
-          setPageSize={setPageSize}
-          numberOfItems={data.length}
-          pageSizeOptions={paginationOptions?.pageSizeOptions ?? [5, 10, 20]}
-        />
-      )}
-    </div>
+        {!hidePagination && hasData && (
+          <Pagination
+            pageCount={pageCount}
+            currentPage={pageIndex + 1}
+            canPreviousPage={canPreviousPage}
+            canNextPage={canNextPage}
+            goToPage={(p) => {
+              if (onPageChange) {
+                onPageChange(p - 1)
+              } else {
+                gotoPage(p - 1)
+              }
+            }}
+            nextPage={() => {
+              if (onPageChange) {
+                onPageChange(pageIndex + 1)
+              } else {
+                nextPage()
+              }
+            }}
+            previousPage={() => {
+              if (onPageChange) {
+                onPageChange(pageIndex - 1)
+              } else {
+                previousPage()
+              }
+            }}
+            pageSize={pageSize}
+            setPageSize={setPageSize}
+            numberOfItems={data.length}
+            pageSizeOptions={paginationOptions?.pageSizeOptions ?? [5, 10, 20]}
+          />
+        )}
+      </div>
+    </HotKeys>
   )
 
   if (children) {

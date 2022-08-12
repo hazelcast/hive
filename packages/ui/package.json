@@ -62,6 +62,7 @@
     "rc-tooltip": "^5.1.1",
     "react-datepicker": "^4.5.0",
     "react-feather": "^2.0.9",
+    "react-hotkeys": "^2.0.0",
     "react-merge-refs": "^1.1.0",
     "react-modal": "^3.14.4",
     "react-popper": "^2.2.3",
