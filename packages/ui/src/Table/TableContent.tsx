@@ -1,4 +1,5 @@
 import cn from 'classnames'
+import { IgnoreKeys } from 'react-hotkeys'
 import React, { AnchorHTMLAttributes, FC, MutableRefObject, ReactNode, useRef } from 'react'
 import { Cell as CellType, ColumnInterfaceBasedOnValue, Row as RowType, Column, UseResizeColumnsState } from 'react-table'
 
@@ -130,7 +131,13 @@ export const TableContent = <D extends object>(props: TableContentProps<D>) => {
             >
               {cells}
             </Row>
-            {row.isExpanded ? renderRowSubComponent && <div>{renderRowSubComponent(row)}</div> : null}
+            {row.isExpanded
+              ? renderRowSubComponent && (
+                  <IgnoreKeys tabIndex={-1} className={styles.subRowWrapper}>
+                    {renderRowSubComponent(row)}
+                  </IgnoreKeys>
+                )
+              : null}
           </React.Fragment>
         )
       })}

@@ -214,7 +214,7 @@ type CustomTableProps<D extends object> = {
   columnsOrdering?: boolean
   children?: (table: ReactElement, tableInstance: TableInstance<D>) => ReactElement
   renderRowSubComponent?: (props: RowType<D>) => ReactNode
-  onCopy?: (data: string[][]) => void
+  onCopy?: (data: (string | undefined)[][]) => void
 } & CustomTableRowClickProps<D> &
   DataTestProp
 

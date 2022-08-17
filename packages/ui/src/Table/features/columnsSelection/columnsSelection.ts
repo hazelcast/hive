@@ -18,7 +18,7 @@ export const useColumnsSelection = (props: ColumnsSelectionProps) => {
 
   const [selectedColumns, setSelectedColumns] = useState<SelectedColumnsState>(initialSelectedColumnsState)
   const selectionStartedRef = useRef(false)
-  const selectedColumnValuesRef = useRef<string[][]>([])
+  const selectedColumnValuesRef = useRef<(string | undefined)[][]>([])
   const getColumnsPerRow = useRefValue(columnsPerRow)
   const getRowsPerPage = useRefValue(rowsPerPage)
   const getSelectedColumns = useRefValue(selectedColumns)
