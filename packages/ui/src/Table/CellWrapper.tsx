@@ -9,7 +9,7 @@ export type CellWrapperProps<D extends object> = CellProps & {
   cell: Cell<D>
   selectable?: boolean
   column?: ColumnInterface<D> & ColumnInterfaceBasedOnValue
-  selectedColumnValuesRef?: RefObject<string[][]>
+  selectedColumnValuesRef?: RefObject<(string | undefined)[][]>
   columnResizing: UseResizeColumnsState<D>['columnResizing']
 }
 
@@ -29,10 +29,18 @@ export const CellWrapper = <D extends object>(props: CellWrapperProps<D>) => {
   const isSelectable = selectable && column?.id !== ROW_EXPANDER_COLUMN_ID
 
   useEffect(() => {
-    if (rest.selected && rest.cellId && selectedColumnValuesRef?.current) {
+    if (rest.cellId) {
       const [rowIndex, cellIndex] = rest.cellId.split(':') as [string, string]
 
-      selectedColumnValuesRef.current[Number(rowIndex)][Number(cellIndex)] = typeof cell.value !== 'object' ? String(cell.value) : ''
+      if (selectedColumnValuesRef?.current) {
+        if (rest.selected) {
+          selectedColumnValuesRef.current[Number(rowIndex)][Number(cellIndex)] = typeof cell.value !== 'object' ? String(cell.value) : ''
+        } else {
+          if (selectedColumnValuesRef.current[Number(rowIndex)] && selectedColumnValuesRef.current[Number(rowIndex)][Number(cellIndex)]) {
+            selectedColumnValuesRef.current[Number(rowIndex)][Number(cellIndex)] = undefined
+          }
+        }
+      }
     }
   }, [rest, cell, selectedColumnValuesRef])
 
