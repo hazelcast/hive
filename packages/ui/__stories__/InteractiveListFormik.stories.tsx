@@ -107,6 +107,8 @@ export const DefaultWithYupValidation = () => {
             validate={validateIPAddress}
             inputIcon={List}
             placeholder="Type a value starting with 3"
+            disabled={true}
+            disabledTooltip={'blocked'}
           />
           <button type="submit">Submit</button>
         </Form>

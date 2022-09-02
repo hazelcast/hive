@@ -10,6 +10,8 @@ import { FieldHeaderProps } from './FieldHeader'
 
 export type InteractiveListExtraProps = {
   children?: React.ReactNode | React.ReactNode[]
+  disabled?: boolean
+  disabledTooltip?: string
 } & Pick<TextFieldExtraProps<'text'>, 'inputIcon' | 'type' | 'placeholder'> &
   Omit<FieldHeaderProps, 'id'>
 
@@ -33,9 +35,10 @@ export type InteractiveListItemProps = {
   error?: string
   idx: number
   onRemoveItem: (idx: number) => boolean
+  disabled?: boolean
 }
 
-export const InteractiveListItem = ({ onRemoveItem, content, error, idx }: InteractiveListItemProps) => {
+export const InteractiveListItem = ({ onRemoveItem, content, error, idx, disabled }: InteractiveListItemProps) => {
   const id = useUID()
   const errorProps = error
     ? {
@@ -50,15 +53,17 @@ export const InteractiveListItem = ({ onRemoveItem, content, error, idx }: Inter
         <span id={id} {...errorProps}>
           {content}
         </span>{' '}
-        <IconButton
-          kind="transparent"
-          ariaLabel="Remove Item"
-          icon={X}
-          size="small"
-          onClick={() => {
-            onRemoveItem(idx)
-          }}
-        />
+        {!disabled && (
+          <IconButton
+            kind="transparent"
+            ariaLabel="Remove Item"
+            icon={X}
+            size="small"
+            onClick={() => {
+              onRemoveItem(idx)
+            }}
+          />
+        )}
       </div>
       {error && <Error error={error} inputId={id} />}
     </>
@@ -82,6 +87,8 @@ export const InteractiveList = <V,>({
   setInputValue,
   onAddItem,
   onRemoveItem,
+  disabled,
+  disabledTooltip = '',
 }: InteractiveListProps<V>) => {
   const id = useUID()
 
@@ -114,6 +121,8 @@ export const InteractiveList = <V,>({
           icon={Plus}
           className={styles.addIcon}
           size="medium"
+          disabled={!!disabled}
+          disabledTooltip={disabledTooltip}
           onClick={onAddItem}
         />
       </div>
@@ -126,6 +135,7 @@ export const InteractiveList = <V,>({
               idx={idx}
               content={str}
               error={typeof error === 'object' && error[idx] ? error[idx] : undefined}
+              disabled={disabled}
             />
           </li>
         ))}
