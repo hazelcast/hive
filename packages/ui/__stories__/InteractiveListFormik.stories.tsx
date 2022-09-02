@@ -71,6 +71,42 @@ export const WithCustomAddButton = () => {
   return <TestForm />
 }
 
+export const Disabled = () => {
+  type Values = {
+    ipAddresses: string[]
+  }
+  const inputRef = useRef<InteractiveListInputRef>(null)
+
+  const TestForm = () => (
+    <Formik<Values>
+      initialValues={{
+        ipAddresses: ['1.2.3.4'],
+      }}
+      initialErrors={{
+        ipAddresses: 'Server Error: Invalid IP Address',
+      }}
+      onSubmit={(values) => logger.log('submit', values)}
+    >
+      {({ values }) => (
+        <Form>
+          <div>Values: {JSON.stringify(values)}</div>
+          <InteractiveListFormik<Values>
+            name="ipAddresses"
+            label="Name"
+            inputIcon={List}
+            inputControlRef={inputRef}
+            disabled={true}
+            disabledTooltip={'blocked'}
+          />
+          <button type="submit">Submit</button>
+        </Form>
+      )}
+    </Formik>
+  )
+
+  return <TestForm />
+}
+
 export const DefaultWithYupValidation = () => {
   type Values = {
     ipAddresses: string[]
@@ -107,8 +143,6 @@ export const DefaultWithYupValidation = () => {
             validate={validateIPAddress}
             inputIcon={List}
             placeholder="Type a value starting with 3"
-            disabled={true}
-            disabledTooltip={'blocked'}
           />
           <button type="submit">Submit</button>
         </Form>

@@ -1,4 +1,5 @@
 import React, { FocusEvent } from 'react'
+import cn from 'classnames'
 import { TextField, TextFieldExtraProps } from './TextField'
 import { IconButton } from './IconButton'
 import { Plus, X } from 'react-feather'
@@ -119,7 +120,7 @@ export const InteractiveList = <V,>({
           kind="transparent"
           ariaLabel="Add Icon"
           icon={Plus}
-          className={styles.addIcon}
+          className={cn(styles.addIcon, { [styles.disabledIcon]: disabled })}
           size="medium"
           disabled={!!disabled}
           disabledTooltip={disabledTooltip}

@@ -18,6 +18,11 @@ $addIconSpacing: c.$grid;
     // label (1rem * 1.4 line-height) + margin-bottom of a label
     margin-top: c.$grid * 7;
   }
+
+  .disabledIcon {
+    border: c.$borderWidth solid c.$colorNeutralLight;
+    color: c.$colorNeutralLight;
+  }
 }
 
 ul.list {
