@@ -92,6 +92,7 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
     error,
     errorClassName,
     helperText,
+    helperTextTooltipWordBreak,
     id: explicitId,
     inputClassName,
     inputContainerChild,
@@ -154,6 +155,7 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
         helperText={helperText}
         showAriaLabel={showAriaLabel}
         labelClassName={labelClassName}
+        helperTextTooltipWordBreak={helperTextTooltipWordBreak}
       />
       <div className={styles.inputBlock}>
         <div className={cn(styles.inputContainer, inputContainerClassName)}>

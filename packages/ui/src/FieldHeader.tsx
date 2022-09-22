@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { CSSProperties } from 'react'
 import cn from 'classnames'
 
 import { Label } from './Label'
@@ -8,8 +8,18 @@ import { DataTestProp } from '@hazelcast/helpers'
 import styles from './FieldHeader.module.scss'
 
 export type FieldHeaderSize = 'small' | 'medium'
-export type FieldHeaderLabelProps = { label: string; labelClassName?: string; helperText?: HelpProps['helperText'] }
-export type FieldHeaderNoLabelProps = { label: never; labelClassName: never; helperText: never }
+export type FieldHeaderLabelProps = {
+  label: string
+  labelClassName?: string
+  helperText?: HelpProps['helperText']
+  helperTextTooltipWordBreak?: CSSProperties['wordBreak']
+}
+export type FieldHeaderNoLabelProps = {
+  label: never
+  labelClassName: never
+  helperText: never
+  helperTextTooltipWordBreak: never
+}
 export type FieldHeaderProps = {
   size?: FieldHeaderSize
   id: string
@@ -18,7 +28,7 @@ export type FieldHeaderProps = {
   (FieldHeaderNoLabelProps | FieldHeaderLabelProps)
 
 export const FieldHeader = (props: FieldHeaderProps) => {
-  const { label, id, helperText, size = 'medium', labelClassName, 'data-test': dataTest, showAriaLabel } = props
+  const { label, id, helperText, size = 'medium', labelClassName, 'data-test': dataTest, showAriaLabel, helperTextTooltipWordBreak } = props
 
   if (showAriaLabel) {
     return null
@@ -37,6 +47,7 @@ export const FieldHeader = (props: FieldHeaderProps) => {
           parentId={id}
           helperText={helperText}
           className={styles.helperText}
+          tooltipWordBreak={helperTextTooltipWordBreak}
           data-test={dataTest ? `${dataTest}-helperText` : undefined}
         />
       )}
