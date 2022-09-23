@@ -34,7 +34,10 @@ export const CellWrapper = <D extends object>(props: CellWrapperProps<D>) => {
 
       if (selectedColumnValuesRef?.current) {
         if (rest.selected) {
-          selectedColumnValuesRef.current[Number(rowIndex)][Number(cellIndex)] = typeof cell.value !== 'object' ? String(cell.value) : ''
+          const row = selectedColumnValuesRef.current[Number(rowIndex)]
+          if (row) {
+            row[Number(cellIndex)] = typeof cell.value !== 'object' ? String(cell.value) : ''
+          }
         } else {
           if (selectedColumnValuesRef.current[Number(rowIndex)] && selectedColumnValuesRef.current[Number(rowIndex)][Number(cellIndex)]) {
             selectedColumnValuesRef.current[Number(rowIndex)][Number(cellIndex)] = undefined
