@@ -1,4 +1,4 @@
-import React, { FC, ReactElement } from 'react'
+import React, { CSSProperties, FC, ReactElement } from 'react'
 import { HelpCircle } from 'react-feather'
 import cn from 'classnames'
 
@@ -17,13 +17,22 @@ export interface HelpProps {
   className?: string
   popperRef?: TooltipProps['popperRef']
   size?: IconSize
+  tooltipWordBreak?: CSSProperties['wordBreak']
 }
 
-export const Help: FC<HelpProps> = ({ helperText, placement = 'top', parentId, className, popperRef, size = 'small' }) => {
+export const Help: FC<HelpProps> = ({
+  helperText,
+  placement = 'top',
+  parentId,
+  className,
+  tooltipWordBreak,
+  popperRef,
+  size = 'small',
+}) => {
   const tooltipId = helpTooltipId(parentId)
 
   return (
-    <Tooltip placement={placement} content={helperText} id={tooltipId} popperRef={popperRef}>
+    <Tooltip placement={placement} content={helperText} id={tooltipId} popperRef={popperRef} wordBreak={tooltipWordBreak}>
       {(ref) => (
         <div ref={ref} className={cn(styles.container, className)}>
           <Icon

@@ -13,6 +13,7 @@ import React, {
   useRef,
   useEffect,
   MouseEventHandler,
+  CSSProperties,
 } from 'react'
 import ReactDOM from 'react-dom'
 import { Placement } from '@popperjs/core'
@@ -52,6 +53,7 @@ export type TooltipProps = {
   popperRef?: MutableRefObject<PopperRef | undefined>
   updateToken?: ReactText | boolean
   tooltipContainer?: PortalContainer
+  wordBreak?: CSSProperties['wordBreak']
 }
 
 /**
@@ -80,6 +82,7 @@ export const Tooltip: FC<TooltipProps> = ({
   visible: visibilityOverride,
   children,
   popperRef,
+  wordBreak,
   updateToken,
   tooltipContainer = 'body',
   hoverAbleTooltip = true,
@@ -220,7 +223,7 @@ export const Tooltip: FC<TooltipProps> = ({
                   className={cn(styles.overlay, {
                     [styles.hidden]: !isTooltipVisible,
                   })}
-                  style={{ ...popper.styles.popper, ...{ zIndex: context ? tooltipZIndex + 1 : tooltipZIndex } }}
+                  style={{ ...popper.styles.popper, ...{ zIndex: context ? tooltipZIndex + 1 : tooltipZIndex }, wordBreak }}
                   data-test="tooltip-overlay"
                   aria-hidden
                   {...popper.attributes.popper}
