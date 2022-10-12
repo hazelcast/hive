@@ -1,0 +1,26 @@
+@use '../styles/constants' as c;
+@use '../styles/helpers' as h;
+@include h.withError;
+
+.wrapper {
+  margin-left: c.$grid * 10;
+  margin-right: c.$grid * 10;
+  margin-bottom: c.$grid * 2;
+}
+
+.nextButtonClassName {
+  position: relative;
+  left: c.$grid * 12;
+}
+
+.prevButtonClassName {
+  position: relative;
+  right: c.$grid * 12;
+}
+
+.pagingDotsClassName {
+  position: relative;
+  top: c.$grid * 7;
+  margin-left: c.$grid * 0.5;
+  margin-right: c.$grid * 0.5;
+}
