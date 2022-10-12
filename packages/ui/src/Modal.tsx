@@ -29,6 +29,8 @@ export type ModalProps = {
   headerClassName?: string
   contentClassName?: string
   footerClassName?: string
+  overlayClassName?: string
+  className?: string
   icon?: IconProps['icon']
   iconAriaLabel?: IconProps['ariaLabel']
   onClose: ReactModalProps['onRequestClose']
