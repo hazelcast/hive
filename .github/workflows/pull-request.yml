@@ -9,6 +9,8 @@ jobs:
       - uses: ./.github/actions/install
       - run: npm run lint
       - run: npm run test:prod
+        env:
+          NODE_OPTIONS: --max-old-space-size=8192
 
   test_visual:
     runs-on: ubuntu-latest
