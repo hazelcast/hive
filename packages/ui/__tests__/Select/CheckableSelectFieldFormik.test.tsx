@@ -41,9 +41,9 @@ describe('CheckableSelectFieldFormik', () => {
       names: [],
     })
 
-    act(() => {
-      wrapper.findDataTest('test-opener').find('input').simulate('click')
-    })
+    // act(() => {
+    wrapper.findDataTest('test-opener').find('input').simulate('click')
+    // })
     wrapper.update()
 
     // We need the `async` call here to wait for processing of the asynchronous 'change'
