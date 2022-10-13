@@ -13,15 +13,6 @@ export type CarouselProps = {
   wrapperClassName?: string
 } & NukaCarouselProps
 
-/*
- * ### Purpose
- * Overlay is a full-screen modal. Windows under an Overlay are inert. That is, users cannot interact with content outside an active Overlay window.
- * Overlay should be used to drive a more complex actions (e.g. filling and saving forms). In case of a confirmation action, use a Dialog.
- *
- * ### General Info
- * - Overlay always contains a title, cancel button in the top right corner, and content.
- * - To close the Overlay, use cancel button in the top right corner or press "Esc" key.
- */
 export const Carousel: FC<CarouselProps> = ({
   children,
   color = styleConsts.colorPrimary,
