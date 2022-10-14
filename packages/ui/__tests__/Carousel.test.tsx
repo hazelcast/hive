@@ -15,15 +15,14 @@ describe('Carousel', () => {
     })
 
     const defaultSlideText = wrapper.find('.slide-current').findDataTest('card-content').at(0).text()
-
     expect(defaultSlideText).toEqual('Item1')
 
     act(() => {
       wrapper.find('.nextButtonClassName').at(0).simulate('click')
     })
     wrapper.update()
-    const currentSlideText = wrapper.find('.slide-current').findDataTest('card-content').at(0).text()
 
+    const currentSlideText = wrapper.find('.slide-current').findDataTest('card-content').at(0).text()
     expect(currentSlideText).toEqual('Item2')
   })
 })

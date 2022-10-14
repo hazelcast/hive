@@ -1,11 +1,11 @@
 import React, { CSSProperties, FC, ReactElement, ReactNode } from 'react'
+import cn from 'classnames'
 import * as NukaCarousel from 'nuka-carousel'
 import { CarouselProps as NukaCarouselProps } from 'nuka-carousel'
 import { ChevronLeft, ChevronRight } from 'react-feather'
-import cn from 'classnames'
 
-import styles from './Carousel.module.scss'
 import styleConsts from '../styles/constants/export.module.scss'
+import styles from './Carousel.module.scss'
 
 interface ControlsConfig {
   containerClassName?: string
