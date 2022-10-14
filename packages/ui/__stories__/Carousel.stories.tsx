@@ -11,8 +11,8 @@ export default {
   component: Carousel,
   parameters: {
     docs: {
-      inlineStories: false,
-      iframeHeight: 700,
+      inlineStories: true,
+      iframeHeight: 200,
     },
   },
   args: {
@@ -25,3 +25,27 @@ const Template: Story<CarouselProps> = ({ children, ...args }) => {
 }
 
 export const Default = Template.bind({})
+
+export const WithoutControls = Template.bind({})
+WithoutControls.args = {
+  withoutControls: true,
+}
+
+export const Doubles = Template.bind({})
+Doubles.args = {
+  slidesToShow: 2,
+}
+
+export const AnimationFade = Template.bind({})
+AnimationFade.args = {
+  animation: 'fade',
+}
+
+export const StartFromLast = Template.bind({})
+StartFromLast.args = {
+  slideIndex: 2,
+}
+export const InfiniteSlides = Template.bind({})
+InfiniteSlides.args = {
+  wrapAround: true,
+}
