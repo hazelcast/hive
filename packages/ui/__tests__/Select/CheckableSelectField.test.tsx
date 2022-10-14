@@ -132,9 +132,9 @@ describe('CheckableSelectField', () => {
 
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      wrapper.findDataTest('test-opener').find('input').simulate('click')
-    })
+    // await act(async () => {
+    wrapper.findDataTest('test-opener').find('input').simulate('click')
+    // })
     wrapper.update()
 
     act(() => {
@@ -164,9 +164,9 @@ describe('CheckableSelectField', () => {
 
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      wrapper.findDataTest('test-opener').find('input').simulate('click')
-    })
+    // await act(async () => {
+    wrapper.findDataTest('test-opener').find('input').simulate('click')
+    // })
     wrapper.update()
 
     act(() => {

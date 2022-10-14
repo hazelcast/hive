@@ -124,6 +124,7 @@ export const Popover: FC<PopoverProps> = (props) => {
                   escapeDeactivates: true,
                   allowOutsideClick: true,
                   onDeactivate: onClose,
+                  tabbableOptions: { displayCheck: 'none' },
                 }}
               >
                 <div

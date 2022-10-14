@@ -16,6 +16,7 @@ export type OverlayProps = {
   children?: ReactNode
   closable?: boolean
   closeText?: string | null
+  className?: string
   headerClassName?: string
   footerClassName?: string
   contentClassName?: string
