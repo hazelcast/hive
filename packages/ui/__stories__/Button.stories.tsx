@@ -36,6 +36,8 @@ const Template: ComponentStory<typeof Button> = ({ className, ...args }) => {
         <Button {...props} variant="outlined" color="secondary" />
         <Button {...props} color="warning" />
         <Button {...props} variant="outlined" color="warning" />
+        <Button {...props} color="brand" />
+        <Button {...props} variant="outlined" color="brand" />
         <Button {...props} variant="text" />
       </div>
     </div>
