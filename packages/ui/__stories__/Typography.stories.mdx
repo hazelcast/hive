@@ -1,0 +1,77 @@
+import { Meta, Typeset } from '@storybook/addon-docs/blocks'
+
+import styleConsts from '../styles/constants/export.module.scss'
+
+<Meta title="Visual Style/Typography" />
+
+export const getSampleText = (letterSpacing) => (
+  <span
+   style={{ letterSpacing: '0.25px' }}
+  >
+   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  </span>
+);
+
+# Typography
+
+## Headings
+
+**Font:** Roboto
+
+**Weight:** regular
+
+<Typeset
+  fontSizes={[
+    styleConsts.fontSizeH1Hero,
+    styleConsts.fontSizeH1,
+    styleConsts.fontSizeH2,
+    styleConsts.fontSizeH3,
+  ]}
+  fontWeight={styleConsts.fontWeightHeadingRegular}
+  sampleText={getSampleText()}
+  fontFamily={styleConsts.fontFamilyHeading}
+/>
+
+**Font:** Roboto
+
+**Weight:** bold
+
+<Typeset
+  fontSizes={[
+    styleConsts.fontSizeH1Hero,
+    styleConsts.fontSizeH1,
+    styleConsts.fontSizeH2,
+    styleConsts.fontSizeH3,
+  ]}
+  fontWeight={styleConsts.fontWeightHeadingBold}
+  sampleText={getSampleText()}
+  fontFamily={styleConsts.fontFamilyHeading}
+/>
+
+**Font:** Open Sans
+
+**Weight:** regular
+
+<Typeset
+  fontSizes={[
+    styleConsts.fontSizeBodyNormal,
+    styleConsts.fontSizeBodySmall,
+  ]}
+  fontWeight={styleConsts.fontWeightTextRegular}
+  sampleText={getSampleText()}
+  fontFamily={styleConsts.fontFamilyText}
+/>
+
+**Font:** Open Sans
+
+**Weight:** bold
+
+<Typeset
+  fontSizes={[
+    styleConsts.fontSizeBodyNormal,
+    styleConsts.fontSizeBodySmall,
+  ]}
+  fontWeight={styleConsts.fontWeightTextBold}
+  sampleText={getSampleText()}
+  fontFamily={styleConsts.fontFamilyText}
+/>

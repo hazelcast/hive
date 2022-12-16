@@ -2,6 +2,7 @@ const path = require('path')
 
 module.exports = {
   stories: ['../**/*.stories.@(tsx|mdx)'],
+  staticDirs: ['../assets'],
   addons: [
     {
       name: '@storybook/preset-scss',
@@ -27,6 +28,11 @@ module.exports = {
           babelrc: false,
           presets: ['@babel/preset-env'],
         },
+      },
+      {
+        test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+        include: [path.resolve(__dirname, '../')],
+        loader: 'file-loader',
       },
       {
         test: /\.stories\.tsx?$/,

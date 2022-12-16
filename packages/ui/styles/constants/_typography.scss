@@ -1,31 +1,32 @@
 $fontFamilyHeading: 'Roboto', 'Helvetica', 'Arial', sans-serif !default;
-$fontWeightHeadingLight: 300 !default;
 $fontWeightHeadingRegular: 400 !default;
 $fontWeightHeadingBold: 500 !default;
-$fontFamilyText: 'Roboto', 'Helvetica', 'Arial', sans-serif !default;
-$fontWeightTextLight: 300 !default;
+$fontFamilyText: 'Open Sans', 'Helvetica', 'Arial', sans-serif !default;
 $fontWeightTextRegular: 400 !default;
-$fontWeightTextBold: 500 !default;
+$fontWeightTextBold: 600 !default;
 
 // https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE?node-id=0%3A136
-$fontSizeH1: 2rem !default;
-$fontSizeH2: 1.625rem !default;
-$fontSizeH3: 1.25rem !default;
+$fontSizeH1Hero: 2.875rem !default; // 46px
+$fontSizeH1: 2.125rem !default; // 34px
+$fontSizeH2: 1.625rem !default; // 26px
+$fontSizeH3: 1.25rem !default; // 20px
 $fontSizeButton: 1.125rem !default;
 $fontSizeButtonSmall: 0.875rem !default;
 $fontSizeBodyNormal: 1rem !default;
 $fontSizeBodySmall: 0.875rem !default;
 $fontSizeBodySmaller: 0.75rem !default;
 $fontSizeBodyTiny: 0.625rem !default;
+$letterSpacingH1Hero: 0.25px !default;
 $letterSpacingH1: 0.25px !default;
-$letterSpacingH2: 0 !default;
-$letterSpacingH3: 0.15px !default;
+$letterSpacingH2: 0.25px !default;
+$letterSpacingH3: 0.25px !default;
 $letterSpacingButton: 1.25px !default;
 $letterSpacingButtonSmall: 0.25px !default;
-$letterSpacingBodyNormal: 0.5px !default;
-$letterSpacingBodySmall: 0.25px !default;
+$letterSpacingBodyNormal: 0.25px !default;
+$letterSpacingBodySmall: 0.5px !default;
 $letterSpacingBodySmaller: normal !default;
 $letterSpacingBodyTiny: normal !default;
+$lineHeightH1Hero: normal !default;
 $lineHeightH1: normal !default;
 $lineHeightH2: normal !default;
 $lineHeightH3: normal !default;
@@ -41,6 +42,14 @@ $lineHeightBodyTiny: normal !default;
   }
 
   @return '';
+}
+
+@mixin typographyH1Hero($override: false) {
+  font-family: $fontFamilyHeading #{override($override)};
+  font-weight: $fontWeightHeadingBold #{override($override)};
+  font-size: $fontSizeH4 #{override($override)};
+  letter-spacing: $letterSpacingH4 #{override($override)};
+  line-height: $lineHeightH4 #{override($override)};
 }
 
 @mixin typographyH1($override: false) {
@@ -91,10 +100,6 @@ $lineHeightBodyTiny: normal !default;
 
   @if $weight == 'bold' {
     font-weight: $fontWeightTextBold;
-  }
-
-  @if $weight == 'light' {
-    font-weight: $fontWeightTextLight;
   }
 }
 
