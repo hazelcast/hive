@@ -4,7 +4,13 @@ import styleConsts from '../styles/constants/export.module.scss'
 
 <Meta title="Visual Style/Typography" />
 
-export const sampleText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+export const getSampleText = (letterSpacing) => (
+  <span
+   style={{ letterSpacing: '0.25px' }}
+  >
+   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  </span>
+);
 
 # Typography
 
@@ -22,7 +28,7 @@ export const sampleText = 'Lorem ipsum dolor sit amet, consectetur adipiscing el
     styleConsts.fontSizeH3,
   ]}
   fontWeight={styleConsts.fontWeightHeadingRegular}
-  sampleText={sampleText}
+  sampleText={getSampleText()}
   fontFamily={styleConsts.fontFamilyHeading}
 />
 
@@ -38,7 +44,7 @@ export const sampleText = 'Lorem ipsum dolor sit amet, consectetur adipiscing el
     styleConsts.fontSizeH3,
   ]}
   fontWeight={styleConsts.fontWeightHeadingBold}
-  sampleText={sampleText}
+  sampleText={getSampleText()}
   fontFamily={styleConsts.fontFamilyHeading}
 />
 
@@ -52,7 +58,7 @@ export const sampleText = 'Lorem ipsum dolor sit amet, consectetur adipiscing el
     styleConsts.fontSizeBodySmall,
   ]}
   fontWeight={styleConsts.fontWeightTextRegular}
-  sampleText={sampleText}
+  sampleText={getSampleText()}
   fontFamily={styleConsts.fontFamilyText}
 />
 
@@ -66,6 +72,6 @@ export const sampleText = 'Lorem ipsum dolor sit amet, consectetur adipiscing el
     styleConsts.fontSizeBodySmall,
   ]}
   fontWeight={styleConsts.fontWeightTextBold}
-  sampleText={sampleText}
+  sampleText={getSampleText()}
   fontFamily={styleConsts.fontFamilyText}
 />

@@ -28,7 +28,7 @@
     "test": "jest --maxWorkers=50%",
     "test:watch": "jest --watch",
     "start": "npm run storybook",
-    "storybook": "start-storybook -p 6006 -s ./",
+    "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "publish-storybook": "chromatic --storybook-build-dir storybook-static --project-token $CHROMATIC_PROJECT_TOKEN --exit-zero-on-changes",
     "chromatic": "chromatic --project-token=CHROMATIC_PROJECT_TOKEN",
