@@ -29,6 +29,11 @@ module.exports = {
         },
       },
       {
+        test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+        include: [path.resolve(__dirname, '../')],
+        loader: 'file-loader',
+      },
+      {
         test: /\.stories\.tsx?$/,
         use: [
           {

@@ -1,7 +1,7 @@
 import { create } from '@storybook/theming/create'
 
 // manager.js does not support importing from SCSS
-// TODO: Research and fix
+// @TODO: Research and fix
 export const customTheme = create({
   base: 'light',
 
@@ -34,6 +34,7 @@ export const customTheme = create({
   inputBorderRadius: 3,
 
   brandTitle: 'Hazelcast Hive',
-  brandUrl: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=1586%3A0',
-  brandImage: 'https://hazelcast.com/wp-content/themes/hazelcast/assets/images/hazelcast-logo.svg',
+  brandUrl:
+    'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=1586%3A0&t=iw1cZgifeooEjKp1-0',
+  brandImage: 'https://hazelcast.com/files/brand-images/logo/previews/preview-horz-flat.png',
 })
