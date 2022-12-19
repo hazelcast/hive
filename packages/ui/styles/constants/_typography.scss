@@ -45,32 +45,28 @@ $lineHeightBodyTiny: normal !default;
 }
 
 @mixin typographyH1Hero($override: false) {
-  font-family: $fontFamilyHeading #{override($override)};
-  font-weight: $fontWeightHeadingBold #{override($override)};
+  font-weight: $fontWeightHeadingRegular #{override($override)};
   font-size: $fontSizeH4 #{override($override)};
   letter-spacing: $letterSpacingH4 #{override($override)};
   line-height: $lineHeightH4 #{override($override)};
 }
 
 @mixin typographyH1($override: false) {
-  font-family: $fontFamilyHeading #{override($override)};
-  font-weight: $fontWeightHeadingBold #{override($override)};
+  font-weight: $fontWeightHeadingRegular #{override($override)};
   font-size: $fontSizeH1 #{override($override)};
   letter-spacing: $letterSpacingH1 #{override($override)};
   line-height: $lineHeightH1 #{override($override)};
 }
 
 @mixin typographyH2($override: false) {
-  font-family: $fontFamilyHeading #{override($override)};
-  font-weight: $fontWeightHeadingBold #{override($override)};
+  font-weight: $fontWeightHeadingRegular #{override($override)};
   font-size: $fontSizeH2 #{override($override)};
   letter-spacing: $letterSpacingH2 #{override($override)};
   line-height: $lineHeightH2 #{override($override)};
 }
 
 @mixin typographyH3($override: false) {
-  font-family: $fontFamilyHeading #{override($override)};
-  font-weight: $fontWeightHeadingBold #{override($override)};
+  font-weight: $fontWeightHeadingRegular #{override($override)};
   font-size: $fontSizeH3 #{override($override)};
   letter-spacing: $letterSpacingH3 #{override($override)};
   line-height: $lineHeightH3 #{override($override)};
@@ -141,6 +137,15 @@ $lineHeightBodyTiny: normal !default;
 
 @mixin typographyGlobal($override: false) {
   @include typographyBodyNormal;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: $fontFamilyHeading;
+  }
 
   h1 {
     @include typographyH1($override);
