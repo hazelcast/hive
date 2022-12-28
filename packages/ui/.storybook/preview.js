@@ -9,7 +9,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 
 export const decorators = [
   (Story) => (
-    <div style={{ margin: 50 }}>
+    <div style={{ margin: '10px', display: 'flex', justifyContent: 'center' }}>
       <Story />
     </div>
   ),

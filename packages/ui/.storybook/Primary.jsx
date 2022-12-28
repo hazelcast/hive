@@ -8,5 +8,5 @@ export const Primary = () => {
   const { componentStories } = useContext(DocsContext);
   let stories = componentStories();
   const story = stories[0]
-  return story ? <Story {...story} expanded={false} withToolbar /> : null
+  return story ? <Story {...story} expanded={false} /> : null
 }
