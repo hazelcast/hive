@@ -1,12 +1,17 @@
 <style>
     html,
     body {
-        font-family: "Open Sans", Sans-Serif;
+        font-family: "Open Sans", sans-serif;
     }
 
     .sidebar-container {
         color: #fafafa;
         background-color: #333333;
+    }
+
+    .sidebar-subheading button:focus {
+        color: white;
+        box-shadow: none;
     }
 
     .sidebar-container a {
@@ -17,17 +22,20 @@
         color: #00bac6;
     }
 
-    a.sidebar-item svg {
+    button.sidebar-item span:first-child {
+        margin-top: 1px;
+        margin-left: 15px;
+        margin-right: 9px;
+        border-width: 6px 0 6px 7px;
+    }
+
+    .sidebar-item svg {
         display: none;
     }
 
-    .sidebar-subheading button:focus {
-        color: white;
-        box-shadow: none;
-    }
-
     a.sidebar-item[data-selected="true"],
-    a.sidebar-item[data-selected="true"]:focus {
+    a.sidebar-item[data-selected="true"]:focus,
+    a.sidebar-item[data-selected="true"]:hover {
         background-color: #CBDBFF;
         color: #202020;
     }
