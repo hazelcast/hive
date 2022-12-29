@@ -23,9 +23,9 @@ export const customTheme = create({
   textInverseColor: '#fff',
 
   // Toolbar default and active colors
-  barTextColor: '#041a3b',
-  barSelectedColor: '#041a3b',
-  barBg: '#fafafa',
+  barTextColor: '#041a3b', // $colorText
+  barSelectedColor: '#00bac6', // $colorBrand
+  barBg: '#f2f5f9', // $colorOverlayBackground
 
   // Form colors
   inputBg: '#fafafa',
@@ -36,5 +36,5 @@ export const customTheme = create({
   brandTitle: 'Hazelcast Hive',
   brandUrl:
     'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=1586%3A0&t=iw1cZgifeooEjKp1-0',
-  brandImage: 'https://hazelcast.com/files/brand-images/logo/previews/preview-horz-flat.png',
+  brandImage: './images/logo.png',
 })

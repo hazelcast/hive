@@ -7,6 +7,12 @@ import { AlertAction, AlertActionButton, AlertActionLink } from '../src/Alert'
 export default {
   title: 'components/Alert',
   component: Alert,
+  argTypes: {
+    type: {
+      options: ['success', 'info', 'warning', 'critical'],
+      control: { type: 'radio' },
+    },
+  },
 }
 
 const noOp = () => undefined

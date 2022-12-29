@@ -1,20 +1,7 @@
 @use '../styles/constants' as c;
 
-$screenMinWidth: 1280px;
-
 html {
-  // 100vw - 100% = width of the sidebar
-  /* doiuse-disable calc */
-  min-width: calc($screenMinWidth - 100vw + 100%);
-  /* doiuse-enable calc */
-  overflow-x: auto;
   color: c.$colorText;
 
   @include c.typographyGlobal(true);
-}
-
-body {
-  padding: 0;
-  margin: 0;
-  height: 100%;
 }

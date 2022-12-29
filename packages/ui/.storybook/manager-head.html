@@ -1,0 +1,71 @@
+<style>
+    html,
+    body {
+        font-family: "Open Sans", sans-serif;
+    }
+
+    .sidebar-container {
+        color: #fafafa;
+        background-color: #333;
+    }
+
+    .sidebar-subheading button:focus {
+        color: white;
+        box-shadow: none;
+    }
+
+    .sidebar-container a {
+        color: #fafafa;
+    }
+
+    .sidebar-item svg {
+        color: #00bac6;
+    }
+
+    button.sidebar-item span:first-child {
+        margin-top: 1px;
+        margin-left: 15px;
+        margin-right: 9px;
+        border-width: 6px 0 6px 7px;
+    }
+
+    .sidebar-item svg {
+        display: none;
+    }
+
+    a.sidebar-item[data-selected="true"],
+    a.sidebar-item[data-selected="true"]:focus,
+    a.sidebar-item[data-selected="true"]:hover {
+        background-color: #CBDBFF;
+        color: #202020;
+    }
+
+    .sidebar-item span:first-child {
+        color: #00bac6;
+    }
+
+    button[title="Shortcuts"],
+    button[title="Shortcuts"]:focus {
+        background-color: white;
+    }
+
+    button[title="Shortcuts"]::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        border: 1px solid white;
+        border-radius: 100%;
+    }
+
+    #storybook-explorer-searchfield {
+        border-color: #B7C1CB;
+        background-color: white;
+    }
+
+    #storybook-explorer-searchfield ~ code {
+        display: none;
+    }
+</style>
