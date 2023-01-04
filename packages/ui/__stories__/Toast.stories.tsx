@@ -3,7 +3,7 @@ import React from 'react'
 import { Toast } from '../src/Toast'
 
 export default {
-  title: 'components/Toast',
+  title: 'Components/Toast',
   component: Toast,
 }
 

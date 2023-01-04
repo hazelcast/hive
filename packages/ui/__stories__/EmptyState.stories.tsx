@@ -4,7 +4,7 @@ import { Figma } from 'react-feather'
 import { EmptyState } from '../src/EmptyState'
 
 export default {
-  title: 'components/EmptyState',
+  title: 'Components/EmptyState',
   component: EmptyState,
 }
 

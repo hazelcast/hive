@@ -5,7 +5,7 @@ import { Alert } from '../src'
 import { AlertAction, AlertActionButton, AlertActionLink } from '../src/Alert'
 
 export default {
-  title: 'components/Alert',
+  title: 'Components/Alert',
   component: Alert,
   argTypes: {
     type: {

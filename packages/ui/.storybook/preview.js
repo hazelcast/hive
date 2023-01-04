@@ -23,4 +23,11 @@ export const parameters = {
     page: CustomDocsPage,
     theme: customTheme,
   },
+  options: {
+    storySort: {
+      method: 'alphabetical',
+      order: ['Getting Started', 'Components', 'Visual Style'],
+      locales: 'en-US',
+    },
+  },
 }
