@@ -9,7 +9,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 
 export const decorators = [
   (Story) => (
-    <div style={{ display: 'flex', justifyContent: 'center' }}>
+    <div style={{ margin: 50 }}>
       <Story />
     </div>
   ),
@@ -22,5 +22,12 @@ export const parameters = {
   docs: {
     page: CustomDocsPage,
     theme: customTheme,
+  },
+  options: {
+    storySort: {
+      method: 'alphabetical',
+      order: ['Getting Started', 'Components', 'Visual Style'],
+      locales: 'en-US',
+    },
   },
 }

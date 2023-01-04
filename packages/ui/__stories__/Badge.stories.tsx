@@ -5,7 +5,7 @@ import { Badge } from '../src/Badge'
 const longText = 'This is a long text that forces the Badge to wrap'
 
 export default {
-  title: 'components/Badge',
+  title: 'Components/Badge',
   component: Badge,
 }
 

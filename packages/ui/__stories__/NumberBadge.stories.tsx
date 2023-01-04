@@ -3,7 +3,7 @@ import React from 'react'
 import { NumberBadge } from '../src/NumberBadge'
 
 export default {
-  title: 'components/NumberBadge',
+  title: 'Components/NumberBadge',
   component: NumberBadge,
 }
 
