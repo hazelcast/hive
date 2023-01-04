@@ -3,17 +3,17 @@
 body {
   color: c.$colorText;
 
-  @include c.typographyGlobal();
+  @include c.typographyGlobal;
 }
 
 .subheading {
   margin: 0 0 20px;
-  @include c.typographyH2();
+  @include c.typographyH2;
 }
 
 .paragraphHeading {
   font-weight: 400;
-  @include c.typographyH3();
+  @include c.typographyH3;
 }
 
 .paragraph {
