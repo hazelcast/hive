@@ -228,7 +228,6 @@ const column = {
   width: Number(styleConsts.tableColumnWidth), // width is used for both the flex-basis and flex-grow
   maxWidth: Number(styleConsts.tableColumnMaxWidth), // maxWidth is only used as a limit for resizing
 }
-const commands: KeyMap = { copy: ['ctrl+c', 'command+c'] }
 
 /**
  * ### Purpose
@@ -290,6 +289,15 @@ export const Table = <D extends object>({
   // We can use non-null assertion here since we're checking existence of `fetchData` in the `useEffect` below
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 
+  const commands = useMemo<KeyMap>(() => {
+    const result: KeyMap = {}
+
+    if (onCopy) {
+      result.copy = ['ctrl+c', 'command+c']
+    }
+
+    return result
+  }, [onCopy])
   const columns = useMemo<readonly Column<D>[]>(() => {
     if (renderRowSubComponent || data.some((item) => 'subRows' in item)) {
       return [
