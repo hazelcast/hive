@@ -48,7 +48,7 @@ export const Icon = forwardRef<HTMLDivElement, IconProps>(
     const iconStroke = bold ? styleConsts.iconStrokeWidthBold : styleConsts.iconStrokeWidth
 
     const props: SVGProps<SVGElement> = {
-      'aria-label': ariaLabel,
+      'aria-label': ariaLabel || 'icon',
       'aria-labelledby': ariaLabelledBy,
       'aria-hidden': ariaHidden,
       color,

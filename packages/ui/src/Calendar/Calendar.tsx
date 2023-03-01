@@ -15,14 +15,16 @@ const TIME_FORMAT = 'HH:mm'
 
 const CalendarPopperContainer =
   (container: HTMLElement | null, inPortal: boolean): FC =>
+  // eslint-disable-next-line react/display-name
   ({ children }) => {
-    const content = ( // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-      <div className={styles.popper}>
-        <div data-test="date-picker-popper-container" className="hz-date-picker-popper-container">
-          {children}
+    const content = // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+      (
+        <div className={styles.popper}>
+          <div data-test="date-picker-popper-container" className="hz-date-picker-popper-container">
+            {children}
+          </div>
         </div>
-      </div>
-    )
+      )
 
     if (inPortal) {
       return content

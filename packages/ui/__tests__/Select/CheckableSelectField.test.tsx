@@ -130,17 +130,19 @@ describe('CheckableSelectField', () => {
 
     expect(onChange).toBeCalledTimes(0)
 
-    // We need the `async` call here to wait for processing of the asynchronous 'change'
-    // eslint-disable-next-line @typescript-eslint/require-await
-    // await act(async () => {
     wrapper.findDataTest('test-opener').find('input').simulate('click')
-    // })
-    wrapper.update()
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      wrapper.update()
+    })
 
     act(() => {
       wrapper.findDataTest('test-select-all').simulate('click')
     })
-    wrapper.update()
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      wrapper.update()
+    })
 
     expect(onChange).toBeCalledTimes(1)
     expect(onChange).toBeCalledWith(options.map(({ value }) => value))
@@ -148,7 +150,10 @@ describe('CheckableSelectField', () => {
     act(() => {
       wrapper.findDataTest('test-select-none').simulate('click')
     })
-    wrapper.update()
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      wrapper.update()
+    })
 
     expect(onChange).toBeCalledTimes(2)
     expect(onChange).toBeCalledWith([])
@@ -167,12 +172,18 @@ describe('CheckableSelectField', () => {
     // await act(async () => {
     wrapper.findDataTest('test-opener').find('input').simulate('click')
     // })
-    wrapper.update()
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      wrapper.update()
+    })
 
     act(() => {
       wrapper.findDataTest('test-option').at(0).simulate('click')
     })
-    wrapper.update()
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      wrapper.update()
+    })
 
     expect(onChange).toBeCalledTimes(1)
     expect(onChange).toBeCalledWith([options[0].value])
@@ -197,7 +208,10 @@ describe('CheckableSelectField', () => {
     act(() => {
       wrapper.findDataTest('test-opener').at(0).simulate('click')
     })
-    wrapper.update()
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      wrapper.update()
+    })
 
     expect(wrapper.findDataTest('test-dropdown').exists()).toBeFalsy()
   })

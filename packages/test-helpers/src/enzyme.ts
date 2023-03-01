@@ -60,6 +60,8 @@ export const mountAndCheckA11Y = async <P>(
     wrapper = mountEnzyme(node, mountOptions)
   }
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const results = await axe((getAxeNode ?? getAxeNodeDefault)(wrapper), axeOptions)
   expect(results).toHaveNoViolations()
 
