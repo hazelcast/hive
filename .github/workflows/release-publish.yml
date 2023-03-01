@@ -1,5 +1,7 @@
 name: publish release
-
+env:
+  CI: true
+  PNPM_CACHE_FOLDER: .pnpm-store
 # only trigger on pull request closed events
 on:
   pull_request:

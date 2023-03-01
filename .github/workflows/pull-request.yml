@@ -1,5 +1,8 @@
 name: check pull request
 on: pull_request
+env:
+  CI: true
+  PNPM_CACHE_FOLDER: .pnpm-store
 
 jobs:
   test:

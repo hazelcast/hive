@@ -41,7 +41,9 @@
     "publish-storybook": "pnpm run --filter @hazelcast/ui publish-storybook",
     "start": "pnpm run --filter @hazelcast/ui storybook",
     "prepack": "pnpm run compile",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "ci:version": "pnpm changeset version --yes --snapshot next",
+    "ci:publish": "pnpm publish -r"
   },
   "pnpm": {
     "overrides": {
