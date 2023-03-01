@@ -54,7 +54,7 @@ jobs:
           workingDir: packages/ui
           autoAcceptChanges: true
 
-  publish_canary:
+  publish_next:
     if: github.event.pull_request.merged == true && !startsWith(github.head_ref, 'release/v')
     runs-on: ubuntu-latest
     needs: [test, test_visual]
@@ -69,7 +69,7 @@ jobs:
       - name: create and publish versions
         uses: changesets/action@master
         with:
-          version: pnpm ci:version
+          version: pnpm ci:next
           commit: 'chore: update versions'
           title: 'chore: update versions'
           publish: pnpm ci:publish

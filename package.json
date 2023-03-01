@@ -42,8 +42,11 @@
     "start": "pnpm run --filter @hazelcast/ui storybook",
     "prepack": "pnpm run compile",
     "prepare": "husky install",
-    "ci:version": "pnpm changeset version --yes --snapshot next",
-    "ci:publish": "pnpm publish -r"
+    "ci:version:next": "pnpm changeset version --snapshot next",
+    "ci:publish": "pnpm publish -r",
+    "ci:changeset": "pnpm changeset add && git add .changeset && git commit -m '📝 Changeset'",
+    "ci:release": "pnpm changeset version && git add packages .changeset && git commit -m '🚚 Release packages' && pnpm changeset tag",
+    "ci:next": "pnpm changeset pre enter next && pnpm run release && pnpm changeset pre exit"
   },
   "pnpm": {
     "overrides": {
