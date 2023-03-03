@@ -1,4 +1,4 @@
-import React, { FC, MouseEvent, RefObject } from 'react'
+import React, { FC, MouseEvent, RefObject, useEffect, useRef } from 'react'
 import { AlertTriangle } from 'react-feather'
 import { TableCellProps } from 'react-table'
 import { useUID } from 'react-uid'
@@ -6,6 +6,8 @@ import cn from 'classnames'
 
 import { Icon } from '../Icon'
 import { Tooltip } from '../Tooltip'
+import { useOpenCloseState } from '../hooks'
+import { CellCopyablePopover } from './features/columnsSelection'
 
 import styles from './Cell.module.scss'
 
@@ -64,6 +66,8 @@ export const Cell: FC<CellProps> = ({
   onMouseEnterSelection,
   selectionStartedRef,
 }) => {
+  const rootRef = useRef(null)
+  const { isOpen, open, close } = useOpenCloseState()
   const handleClick = (e: MouseEvent) => {
     if (onClickSelection && cellId) {
       onClickSelection(cellId, {
@@ -78,30 +82,54 @@ export const Cell: FC<CellProps> = ({
     }
   }
 
+  useEffect(() => {
+    if (!selected) {
+      close()
+    }
+  }, [close, selected])
+
   return (
-    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-    <div
-      data-test="table-cell"
-      className={cn(
-        styles.td,
-        {
-          [styles.alignLeft]: align === 'left',
-          [styles.alignRight]: align === 'right',
-          [styles.alignCenter]: align === 'center',
-          [styles.selectable]: onClickSelection,
-          [styles.selected]: selected,
-        },
-        className,
+    <>
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+      <div
+        ref={rootRef}
+        data-test="table-cell"
+        className={cn(
+          styles.td,
+          {
+            [styles.alignLeft]: align === 'left',
+            [styles.alignRight]: align === 'right',
+            [styles.alignCenter]: align === 'center',
+            [styles.selectable]: onClickSelection,
+            [styles.selected]: selected,
+          },
+          className,
+        )}
+        aria-colspan={colSpan}
+        style={style}
+        role={role}
+        onDoubleClick={selected ? open : undefined}
+        onMouseEnter={onClickSelection ? handleMouseEnter : undefined}
+        onMouseDown={onClickSelection ? handleClick : undefined}
+      >
+        {warning && align === 'right' && <CellWarning warning={warning} align="right" />}
+        {children}
+        {warning && (align === 'left' || align === 'center') && <CellWarning warning={warning} align="left" />}
+      </div>
+      {selected && (
+        <CellCopyablePopover
+          anchorElement={rootRef.current}
+          isOpen={isOpen}
+          onClose={close}
+          contentClassName={cn(styles.td, {
+            [styles.alignLeft]: align === 'left',
+            [styles.alignRight]: align === 'right',
+            [styles.alignCenter]: align === 'center',
+          })}
+        >
+          {children}
+        </CellCopyablePopover>
       )}
-      aria-colspan={colSpan}
-      style={style}
-      role={role}
-      onMouseEnter={onClickSelection ? handleMouseEnter : undefined}
-      onMouseDown={onClickSelection ? handleClick : undefined}
-    >
-      {warning && align === 'right' && <CellWarning warning={warning} align="right" />}
-      {children}
-      {warning && (align === 'left' || align === 'center') && <CellWarning warning={warning} align="left" />}
-    </div>
+    </>
   )
 }

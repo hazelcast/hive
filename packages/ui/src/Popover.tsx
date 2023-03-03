@@ -57,7 +57,7 @@ export const Popover: FC<PopoverProps> = (props) => {
       {
         name: 'offset',
         options: {
-          offset: [offset?.y ?? 0, offset?.x ?? 0],
+          offset: [offset?.x ?? 0, offset?.y ?? 0],
         },
       },
       {

@@ -392,6 +392,8 @@ describe('Table', () => {
 
     const wrapper = await mountAndCheckA11Y(<Table data-test="table-test" columns={columns} data={smallDataSet} />)
 
+    expect(wrapper.findDataTest('cell-copyable-popover').length).toBe(0)
+
     act(() => {
       wrapper.findDataTest('table-cell').at(0).simulate('mousedown', {})
     })
@@ -410,5 +412,6 @@ describe('Table', () => {
     wrapper.update()
 
     expect(wrapper.findDataTest('table-cell').at(0).prop('className')?.includes(cellStyles.selected)).toBeTruthy()
+    expect(wrapper.findDataTest('cell-copyable-popover').length).toBe(1)
   })
 })
