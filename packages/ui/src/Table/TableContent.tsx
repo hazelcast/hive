@@ -9,7 +9,7 @@ import { CellWrapper } from './CellWrapper'
 import { LinkRow, Row, RowProps } from './Row'
 import { isCellSelected, useColumnsSelection } from './features/columnsSelection'
 
-import styles from './Table.module.scss'
+import styles from './TableContent.module.scss'
 
 export type TableContentProps<D extends object> = {
   loading?: boolean

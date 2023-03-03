@@ -485,7 +485,7 @@ export const Table = <D extends object>({
   const rowCount = data.length + headerIndex + (hasFooter ? 1 : 0)
 
   const content = (
-    <HotKeys keyMap={commands} handlers={hotKeysHandlers}>
+    <HotKeys keyMap={commands} handlers={hotKeysHandlers} className={styles.hotKeys}>
       <div data-test={dataTest ?? 'table-wrapper'} className={className}>
         <div
           className={cn(styles.container, {

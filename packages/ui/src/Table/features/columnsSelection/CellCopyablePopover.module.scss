@@ -1,0 +1,12 @@
+@use '../../../../styles/constants' as c;
+
+.root {
+  z-index: c.$zIndex2000;
+}
+
+.content {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
