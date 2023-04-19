@@ -17,7 +17,7 @@
     "husky": "^7.0.4",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.4.5",
-    "lerna": "^4.0.0",
+    "lerna": "^5.6.2",
     "lerna-update-wizard": "^1.1.0",
     "link-parent-bin": "^2.0.0",
     "lint-staged": "^12.1.3",
