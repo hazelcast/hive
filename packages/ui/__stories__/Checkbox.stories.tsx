@@ -186,7 +186,6 @@ export const ColoredCheckboxes = () => (
     />
     <Checkbox
       checked={false}
-      disabled
       label="Unchecked Disabled"
       name="default"
       onChange={(e) => logger.log('change', e.target.checked)}

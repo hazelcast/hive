@@ -1,5 +1,6 @@
 .redLabel {
   .redCheckmark {
+    color: blue;
   }
 
   & > input:checked ~ .redCheckmark {
@@ -9,6 +10,7 @@
 
 .blueLabel {
   .blueCheckmark {
+    color: red;
   }
 
   & > input:checked ~ .blueCheckmark {
