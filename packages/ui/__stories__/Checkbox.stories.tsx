@@ -173,26 +173,15 @@ export const TwoCheckboxes = () => (
   </div>
 )
 
-export const ColoredCheckboxes = () => (
-  <div>
-    <Checkbox
-      checked
-      label="Checked"
-      name="default2"
-      error="This is an error message"
-      onChange={(e) => logger.log('change2', e.target.checked)}
-      classNameLabel={customStyles.redLabel}
-      classNameCheckmark={customStyles.redCheckmark}
-    />
-    <Checkbox
-      checked={false}
-      label="Unchecked Disabled"
-      name="default"
-      onChange={(e) => logger.log('change', e.target.checked)}
-      classNameLabel={customStyles.blueLabel}
-      classNameCheckmark={customStyles.blueCheckmark}
-    />
-  </div>
+export const Colored = () => (
+  <Checkbox
+    checked
+    label="Colored"
+    name="default2"
+    onChange={(e) => logger.log('change2', e.target.checked)}
+    classNameLabel={customStyles.redLabel}
+    classNameCheckmark={customStyles.redCheckmark}
+  />
 )
 
 export const CheckboxWrappedInFormik = () => {
