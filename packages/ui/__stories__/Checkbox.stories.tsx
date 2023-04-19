@@ -7,6 +7,7 @@ import { formDecorator } from './decorators'
 import { LONG_MULTIPLE_WORD_TEXT, LONG_ONE_WORD_TEXT } from './constants'
 
 import styles from '../src/Checkbox.module.scss'
+import customStyles from './Checkbox.stories.module.scss'
 
 export default {
   title: 'Components/Checkbox',
@@ -170,6 +171,17 @@ export const TwoCheckboxes = () => (
     />
     <Checkbox checked={false} disabled label="Unchecked Disabled" name="default" onChange={(e) => logger.log('change', e.target.checked)} />
   </div>
+)
+
+export const Colored = () => (
+  <Checkbox
+    checked
+    label="Colored"
+    name="default2"
+    onChange={(e) => logger.log('change2', e.target.checked)}
+    classNameLabel={customStyles.redLabel}
+    classNameCheckmark={customStyles.redCheckmark}
+  />
 )
 
 export const CheckboxWrappedInFormik = () => {

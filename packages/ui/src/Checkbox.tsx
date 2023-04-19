@@ -28,6 +28,7 @@ export type CheckboxExtraProps = {
   required?: boolean
   className?: string
   classNameLabel?: string
+  classNameCheckmark?: string
 }
 
 type CheckboxProps = CheckboxCoreProps & CheckboxExtraProps & DataTestProp
@@ -50,6 +51,7 @@ export const Checkbox: FC<CheckboxProps> = (props) => {
     onBlur,
     className,
     classNameLabel,
+    classNameCheckmark,
     value,
     indeterminate = false,
     label,
@@ -108,7 +110,11 @@ export const Checkbox: FC<CheckboxProps> = (props) => {
           aria-describedby={helperText && helpTooltipId(id)}
           aria-errormessage={error && errorId(id)}
         />
-        {indeterminate ? <Minus className={styles.checkmark} /> : <Check className={styles.checkmark} />}
+        {indeterminate ? (
+          <Minus className={classNames(styles.checkmark, classNameCheckmark)} />
+        ) : (
+          <Check className={classNames(styles.checkmark, classNameCheckmark)} />
+        )}
         {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} />}
       </label>
       <Error truncated error={error} className={styles.errorContainer} inputId={id} />

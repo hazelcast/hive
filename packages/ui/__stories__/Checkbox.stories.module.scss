@@ -1,0 +1,19 @@
+.redLabel {
+  .redCheckmark {
+    color: blue;
+  }
+
+  & > input:checked ~ .redCheckmark {
+    background-color: red;
+  }
+}
+
+.blueLabel {
+  .blueCheckmark {
+    color: red;
+  }
+
+  & > input:checked ~ .blueCheckmark {
+    background-color: blue;
+  }
+}
