@@ -1,9 +1,8 @@
 import React from 'react'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { axeDefaultOptions, mountAndCheckA11Y } from '@hazelcast/test-helpers'
 
 import { Card, Carousel } from '../src'
 
-import { axeDefaultOptions } from '@hazelcast/test-helpers/src'
 import { act } from 'react-dom/test-utils'
 
 describe('Carousel', () => {
