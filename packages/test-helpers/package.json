@@ -44,5 +44,11 @@
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.7",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
+  },
+  "peerDependencies": {
+    "@types/react": "^17 || ^18",
+    "@types/react-dom": "^17 || ^18",
+    "react": "^17 || ^18",
+    "react-dom": "^17 || ^18"
   }
 }
