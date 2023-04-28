@@ -23,8 +23,6 @@ module.exports = {
   // https://jestjs.io/docs/en/webpack.html#mocking-css-modules
   moduleNameMapper: {
     '\\.(s?css)$': 'identity-obj-proxy',
-    '^react($|/.+)': '<rootDir>/node_modules/react$1',
-    '^react-router-dom($|/.+)': '<rootDir>/node_modules/react-router-dom$1',
   },
   setupFilesAfterEnv: ['<rootDir>setupTests.ts'],
 }

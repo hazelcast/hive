@@ -1,0 +1,66 @@
+{
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "nx/tasks-runners/default",
+      "options": {
+        "cacheableOperations": []
+      }
+    }
+  },
+  "targetDefaults": {
+    "compile": {
+      "dependsOn": ["^compile"]
+    },
+    "test": {
+      "dependsOn": ["^test"]
+    },
+    "lint": {
+      "dependsOn": ["^lint"]
+    },
+    "lint:fix": {
+      "dependsOn": ["^lint:fix"]
+    },
+    "start": {
+      "dependsOn": ["^start"]
+    },
+    "storybook": {
+      "dependsOn": ["^storybook"]
+    },
+    "build-storybook": {
+      "dependsOn": ["^build-storybook"]
+    },
+    "test:visual": {
+      "dependsOn": ["^test:visual"]
+    },
+    "test:visual:update": {
+      "dependsOn": ["^test:visual:update"]
+    },
+    "test:visual:approve": {
+      "dependsOn": ["^test:visual:approve"]
+    },
+    "generate-screenshots": {
+      "dependsOn": ["^generate-screenshots"]
+    },
+    "test:watch": {
+      "dependsOn": ["^test:watch"]
+    },
+    "publish-storybook": {
+      "dependsOn": ["^publish-storybook"]
+    },
+    "chromatic": {
+      "dependsOn": ["^chromatic"]
+    },
+    "lint:ts": {
+      "dependsOn": ["^lint:ts"]
+    },
+    "lint:ts:fix": {
+      "dependsOn": ["^lint:ts:fix"]
+    },
+    "lint:css": {
+      "dependsOn": ["^lint:css"]
+    },
+    "lint:css:fix": {
+      "dependsOn": ["^lint:css:fix"]
+    }
+  }
+}
