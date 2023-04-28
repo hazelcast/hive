@@ -21,7 +21,7 @@ export type AutocompleteFieldOption = {
 export type RenderOptionFunction<O = AutocompleteFieldOption> = (
   highlightedLabelText: ReactNode,
   option: O extends AutocompleteFieldOption ? O : never,
-  labelMeta: FormatOptionLabelMeta<AutocompleteFieldOption>,
+  labelMeta: FormatOptionLabelMeta<AutocompleteFieldOption, false>,
 ) => ReactNode
 
 export type AutocompleteFieldProps = {
@@ -193,7 +193,7 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
   )
 
   const formatOptionLabelFn = React.useCallback(
-    (option: AutocompleteFieldOption, labelMeta: FormatOptionLabelMeta<AutocompleteFieldOption>) => {
+    (option: AutocompleteFieldOption, labelMeta: FormatOptionLabelMeta<AutocompleteFieldOption, false>) => {
       const { inputValue } = labelMeta
       let optionText: ReactNode = option.label
       if (inputValue) {
@@ -232,7 +232,7 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
     value: selectedOption,
     placeholder,
     options,
-    onChange: onChangeFn as (value: ValueType<AutocompleteFieldOption>, action: ActionMeta<AutocompleteFieldOption>) => void,
+    onChange: onChangeFn as (value: ValueType<AutocompleteFieldOption, false>, action: ActionMeta<AutocompleteFieldOption>) => void,
     onFocus: onFocusFn,
     onBlur: onBlurFn,
     menuPortalTarget: getMenuContainer(menuPortalTarget),

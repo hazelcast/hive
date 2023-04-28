@@ -165,7 +165,7 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
     name: name,
     value: selectedOption,
     options,
-    onChange: onChangeWrapped as (value: ValueType<SelectFieldOption<V>>, action: ActionMeta<SelectFieldOption<V>>) => void,
+    onChange: onChangeWrapped as (value: ValueType<SelectFieldOption<V>, false>, action: ActionMeta<SelectFieldOption<V>>) => void,
     placeholder,
     menuIsOpen,
     menuPlacement,
