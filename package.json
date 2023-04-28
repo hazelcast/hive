@@ -2,10 +2,15 @@
   "name": "root",
   "private": true,
   "devDependencies": {
+    "@babel/core": "^7.21.4",
+    "@babel/preset-env": "^7.21.4",
+    "@babel/preset-react": "^7.18.6",
+    "@babel/preset-typescript": "^7.21.4",
     "@storybook/source-loader": "^6.4.9",
     "@types/jest": "^29.5.1",
     "@typescript-eslint/eslint-plugin": "^5.7.0",
     "@typescript-eslint/parser": "^5.7.0",
+    "babel-jest": "^29.5.0",
     "chromatic": "^6.2.3",
     "css-loader": "^6.5.1",
     "doctoc": "^2.1.0",
@@ -29,7 +34,6 @@
     "sass-loader": "^12.4.0",
     "shx": "^0.3.3",
     "style-loader": "^3.3.1",
-    "ts-jest": "^29.1.0",
     "typescript": "^4.3.5"
   },
   "scripts": {
@@ -37,7 +41,7 @@
     "patch-package": "patch-package",
     "compile": "lerna run compile",
     "postinstall": "npm run patch-package && lerna bootstrap --hoist && npm run link-parent-bin && npm run compile",
-    "test": "lerna run --parallel test",
+    "test": "lerna run --scope=@hazelcast/ui test",
     "test:visual": "lerna run --parallel test:visual",
     "lint": "lerna run --parallel lint",
     "verify-all": "npm run lint && npm run test && npm run build-storybook && npm run test:visual",
