@@ -2,7 +2,9 @@ module.exports = {
   roots: ['<rootDir>'],
   testEnvironment: 'jsdom',
   transformIgnorePatterns: ['node_modules/(?!@hazelcast)'],
-  preset: 'ts-jest/presets/js-with-ts',
+  transform: {
+    '\\.[jt]sx?$': 'babel-jest',
+  },
   testRegex: '^.+\\.(test|spec)\\.tsx?$',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   restoreMocks: true,
