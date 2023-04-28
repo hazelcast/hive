@@ -43,6 +43,7 @@
     "postinstall": "pnpm run compile",
     "test": "pnpm m run test",
     "test:visual": "pnpm run --filter @hazelcast/ui test:visual",
+    "test:visual:approve": "pnpm run --filter @hazelcast/ui test:visual:approve",
     "lint": "pnpm m run lint",
     "verify-all": "pnpm run lint && pnpm run test && pnpm run build-storybook && pnpm run test:visual",
     "build-storybook": "pnpm m run build-storybook",
