@@ -189,7 +189,7 @@ describe('Link', () => {
 
     const props = wrapper.find('button').props()
     expect(props).toHaveProperty('onClick', onClick)
-    expect(props).toHaveProperty('rel', undefined)
-    expect(props).toHaveProperty('target', undefined)
+    expect(props).not.toHaveProperty('rel')
+    expect(props).not.toHaveProperty('target')
   })
 })

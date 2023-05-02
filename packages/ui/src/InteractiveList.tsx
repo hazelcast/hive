@@ -100,6 +100,7 @@ export const InteractiveList = <V,>({
           onChange={({ target: { value } }) => {
             setInputValue(value)
           }}
+          /* eslint-disable-next-line @typescript-eslint/no-misused-promises */
           onKeyPress={async (e) => {
             if (e.key === 'Enter') {
               e.preventDefault()
@@ -114,7 +115,7 @@ export const InteractiveList = <V,>({
           icon={Plus}
           className={styles.addIcon}
           size="medium"
-          onClick={onAddItem}
+          onClick={() => void onAddItem()}
         />
       </div>
       {children}

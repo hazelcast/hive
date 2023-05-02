@@ -24,7 +24,7 @@
   },
   "scripts": {
     "compile": "tsc -p tsconfig.build.json",
-    "start": "npm run storybook",
+    "start": "pnpm run storybook",
     "storybook": "start-storybook -p 6007",
     "build-storybook": "build-storybook",
     "test:visual": "loki --verboseRenderer --requireReference --reactUri file:./storybook-static --chromeFlags='--headless --disable-gpu --hide-scrollbars --no-sandbox --allow-file-access-from-files'",
@@ -36,10 +36,10 @@
     "url": "https://github.com/hazelcast/frontend-shared/issues"
   },
   "peerDependencies": {
-    "@types/react": "16 || ^17.0.0",
-    "@types/react-dom": "16 || ^17.0.0",
-    "react": "^16.14.0 || ^17.0.0",
-    "react-dom": "^16.14.0 || ^17.0.0"
+    "@types/react": "^17 || ^18",
+    "@types/react-dom": "^17 || ^18",
+    "react": "^17 || ^18",
+    "react-dom": "^17 || ^18"
   },
   "devDependencies": {
     "@storybook/addons": "^6.5.16",
@@ -47,11 +47,11 @@
     "@storybook/manager-webpack5": "^6.5.16",
     "@storybook/react": "^6.5.16",
     "@storybook/theming": "^6.5.16",
-    "@types/react": "^16.14.21",
-    "@types/react-dom": "^16.9.14",
+    "@types/react": "^17.0.45",
+    "@types/react-dom": "^17.0.17",
     "loki": "^0.31.1",
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0",
-    "webpack": "^5.79.0"
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "webpack": "^5.81.0"
   }
 }

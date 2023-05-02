@@ -8,11 +8,13 @@ body {
 
 .subheading {
   margin: 0 0 20px;
+
   @include c.typographyH2;
 }
 
 .paragraphHeading {
   font-weight: 400;
+
   @include c.typographyH3;
 }
 

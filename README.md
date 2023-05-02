@@ -16,6 +16,7 @@ Design system built with A11Y in mind. Developed as a [Lerna](https://lerna.js.o
 - [Project structure](#project-structure)
   - [Automated visual regression testing](#automated-visual-regression-testing)
 - [How-to](#how-to)
+  - [Install PnpM](#install-pnpm)
   - [Setup](#setup)
     - [Under the hood](#under-the-hood)
   - [Deploy](#deploy)
@@ -88,23 +89,24 @@ Uses stories from [Storybook](https://storybook.js.org/) as test cases. In other
 
 ## How-to
 
+### Install [PnpM](https://pnpm.io/installation)
+
+```
+npm install -g pnpm
+```
+
 ### Setup
 
 ```
-npm ci
+pnpm i
 ```
 
 #### Under the hood
 
-It runs a regular `npm ci` and executes a `postinstall` hook. In that hook it runs:
+It runs a regular `pnpm install` and executes a `postinstall` hook. In that hook it runs:
 
-1. `lerna bootstrap --hoist`
-   Installs dependencies for all packages.
-2. `link-parent-bin`
-   Creates symlinks in `packages/*/node_modules/.bin` to all executables in `node_modules/.bin`.
-   We store shared dependencies at the root level. This command allows us to run executables from these modules in our child packages.
-3. `lerna run compile`
-   Our child packages are written in TypeScript. To import them from `node_modules` in other packages they must be compiled to JavaScript first.
+- `pnpm run compile`
+  Our child packages are written in TypeScript. To import them from `node_modules` in other packages they must be compiled to JavaScript first.
 
 ### Deploy
 
@@ -115,26 +117,23 @@ Every commit to `master` is automatically deployed new canary version of the pac
 In the root folder run
 
 ```
-npm i [-D] dependency-name
+pnpm add [-D] dependency-name
 ```
-
-If it contains an executable we want to run in our child packages, run `npm run link-parent-bin` after it.
-If it is a production (not dev only) dependency for one or several of our child packages, add it to their `package.json` as a peer dependency.
 
 ### Add a new local dependency (for one package only)
 
 In the root folder run (replace @hazelcast/ui with @hazelcast/helpers, @hazelcast/test-helpers or @hazelcast/services if needed)
 
 ```
-lerna add --scope @hazelcast/ui dependency-name
+pnpm add --filter @hazelcast/ui dependency-name
 ```
 
 ### Make changes to several packages and test it
 
 When Lerna does the bootstrapping, it creates symlinks to the local packages other packages depend on. In our case, `@hazelcast/ui` depends on `@hazelcast/helpers`. Lerna is going to create a symlink `./packages/ui/node_modules/@hazelcast/helpers` that points to `./packages/helpers`. When we change our TypeScript code, the associated compiled JavaScript is not updated automatically. So if we change something in `@hazelcast/helpers` and we want to test how it works in `@hazelcast/ui`, we need to compile our changes in `@hazelcast/helpers`. To do that we have two options:
 
-1. Compile all packages with `npm run compile` in the root directory
-2. Compile a specific package, e.g. `cd packages/helpers && npm run compile`
+1. Compile all packages with `pnpm run compile` in the root directory
+2. Compile a specific package, e.g. `cd packages/helpers && pnpm run compile`
 
 Now we can use the updated code in `@hazelcast/ui`.
 
@@ -143,7 +142,7 @@ Now we can use the updated code in `@hazelcast/ui`.
 In the root directory
 
 ```
-npm start
+pnpm start
 ```
 
 ### Run linting
@@ -151,7 +150,7 @@ npm start
 In the root directory
 
 ```
-npm run lint
+pnpm run lint
 ```
 
 ### Run unit tests
@@ -159,7 +158,7 @@ npm run lint
 In the root directory
 
 ```
-npm test
+pnpm test
 ```
 
 ### Run visual regression tests
@@ -167,8 +166,8 @@ npm test
 In the root directory
 
 ```
-npm run build-storybook
-npm run test:visual
+pnpm run build-storybook
+pnpm run test:visual
 ```
 
 ### Approve the updated for visual regression test screenshots
@@ -177,11 +176,11 @@ Say, we have changed something in our components.
 First we need to run the visual regression tests to make sure that the change affected how the component is displayed.
 
 ```
-npm run build-storybook
-npm run test:visual
+pnpm run build-storybook
+pnpm run test:visual
 ```
 
-Now, if the test suite failed, we need to go to `packages/ui/.loki` and manually review the screenshots in the `current` folder and the diff in the `difference` folder. If we like what we see, we need to run `npm run test:visual:approve` in the `packages/ui` folder. It will update the reference screenshots.
+Now, if the test suite failed, we need to go to `packages/ui/.loki` and manually review the screenshots in the `current` folder and the diff in the `difference` folder. If we like what we see, we need to run `pnpm run test:visual:approve` in the `packages/ui` folder. It will update the reference screenshots.
 
 ### Generate new screenshots for the new/updated components
 
@@ -189,20 +188,20 @@ Go to `packages/ui` and run command for screenshot generation. The command build
 
 ```
 cd packages/ui
-npm run generate-screenshots
+pnpm run generate-screenshots
 ```
 
 ### Run all checks at once
 
 ```
-npm run verify-all
+pnpm run verify-all
 ```
 
 If you PR passes this check locally, it is almost guaranteed to pass it on the CI.
 
 ## Releasing a new version
 
-Assuming you're on latest master and the build is alright (`npm run build` runs without errors).
+Assuming you're on latest master and the build is alright (`pnpm run build` runs without errors).
 
 1. First we create a release branch for the next version locally (in this case v1.1.0):
 
@@ -220,7 +219,7 @@ git push -u origin release/v1.1.0
    This updates the package versions (in package.json, package-lock.json), creates a commit with necessary tags and pushes to Github automatically.
 
 ```
-npx lerna version 1.1.0
+pnpm exec lerna version 1.1.0
 ```
 
 At this point you should create a pull request and merge the new version branch (v1.1.0) to master.
@@ -230,11 +229,11 @@ At this point you should create a pull request and merge the new version branch 
 Wait for a few seconds/minutes (depends on how busy npm is at the time), and you should see the latest version we just released in the list returned by:
 
 ```
-npm view @hazelcast/ui versions
+pnpm view @hazelcast/ui versions
 ```
 
 If something went wrong and npm did not create a new release, then you can manually inform it about our new release:
 
 ```
-npx lerna publish from-git
+pnpm exec lerna publish from-git
 ```
