@@ -16,6 +16,7 @@ Design system built with A11Y in mind. Developed as a [Lerna](https://lerna.js.o
 - [Project structure](#project-structure)
   - [Automated visual regression testing](#automated-visual-regression-testing)
 - [How-to](#how-to)
+  - [Install PnpM](#install-pnpm)
   - [Setup](#setup)
     - [Under the hood](#under-the-hood)
   - [Deploy](#deploy)
@@ -88,6 +89,12 @@ Uses stories from [Storybook](https://storybook.js.org/) as test cases. In other
 
 ## How-to
 
+### Install [PnpM](https://pnpm.io/installation)
+
+```
+npm install -g pnpm
+```
+
 ### Setup
 
 ```
@@ -98,8 +105,8 @@ pnpm i
 
 It runs a regular `pnpm install` and executes a `postinstall` hook. In that hook it runs:
 
-1. `lerna run compile`
-   Our child packages are written in TypeScript. To import them from `node_modules` in other packages they must be compiled to JavaScript first.
+- `pnpm run compile`
+  Our child packages are written in TypeScript. To import them from `node_modules` in other packages they must be compiled to JavaScript first.
 
 ### Deploy
 
@@ -113,9 +120,6 @@ In the root folder run
 pnpm add [-D] dependency-name
 ```
 
-If it contains an executable we want to run in our child packages, run `npm run link-parent-bin` after it.
-If it is a production (not dev only) dependency for one or several of our child packages, add it to their `package.json` as a peer dependency.
-
 ### Add a new local dependency (for one package only)
 
 In the root folder run (replace @hazelcast/ui with @hazelcast/helpers, @hazelcast/test-helpers or @hazelcast/services if needed)
@@ -128,8 +132,8 @@ pnpm add --filter @hazelcast/ui dependency-name
 
 When Lerna does the bootstrapping, it creates symlinks to the local packages other packages depend on. In our case, `@hazelcast/ui` depends on `@hazelcast/helpers`. Lerna is going to create a symlink `./packages/ui/node_modules/@hazelcast/helpers` that points to `./packages/helpers`. When we change our TypeScript code, the associated compiled JavaScript is not updated automatically. So if we change something in `@hazelcast/helpers` and we want to test how it works in `@hazelcast/ui`, we need to compile our changes in `@hazelcast/helpers`. To do that we have two options:
 
-1. Compile all packages with `npm run compile` in the root directory
-2. Compile a specific package, e.g. `cd packages/helpers && npm run compile`
+1. Compile all packages with `pnpm run compile` in the root directory
+2. Compile a specific package, e.g. `cd packages/helpers && pnpm run compile`
 
 Now we can use the updated code in `@hazelcast/ui`.
 
@@ -176,7 +180,7 @@ pnpm run build-storybook
 pnpm run test:visual
 ```
 
-Now, if the test suite failed, we need to go to `packages/ui/.loki` and manually review the screenshots in the `current` folder and the diff in the `difference` folder. If we like what we see, we need to run `npm run test:visual:approve` in the `packages/ui` folder. It will update the reference screenshots.
+Now, if the test suite failed, we need to go to `packages/ui/.loki` and manually review the screenshots in the `current` folder and the diff in the `difference` folder. If we like what we see, we need to run `pnpm run test:visual:approve` in the `packages/ui` folder. It will update the reference screenshots.
 
 ### Generate new screenshots for the new/updated components
 
@@ -197,7 +201,7 @@ If you PR passes this check locally, it is almost guaranteed to pass it on the C
 
 ## Releasing a new version
 
-Assuming you're on latest master and the build is alright (`npm run build` runs without errors).
+Assuming you're on latest master and the build is alright (`pnpm run build` runs without errors).
 
 1. First we create a release branch for the next version locally (in this case v1.1.0):
 
