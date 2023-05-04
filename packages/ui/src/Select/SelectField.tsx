@@ -154,7 +154,7 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
     inputId: id,
     className: 'hz-select-field',
     classNamePrefix: 'hz-select-field',
-    'aria-label': showAriaLabel ? label : undefined,
+    'aria-label': showAriaLabel ? label : 'Select Field',
     // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute
     'aria-errormessage': error && errorId(id),
     'aria-invalid': !!error,

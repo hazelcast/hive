@@ -3,6 +3,7 @@ import cn from 'classnames'
 
 import styles from './Row.module.scss'
 import { TableHeaderGroupProps } from 'react-table'
+import { useUID } from 'react-uid'
 import { keyIsOneOf } from '../utils/keyboard'
 
 type RowBase = Omit<TableHeaderGroupProps, 'key'> & { ariaRowIndex?: number }
@@ -46,13 +47,17 @@ export const Row: FC<RowProps> = ({ children, className, style, role, ariaRowInd
 // eslint-disable-next-line jsx-a11y/anchor-has-content
 const DefaultAnchor: FC<AnchorHTMLAttributes<HTMLAnchorElement>> = (props) => <a {...props} />
 
-export const LinkRow: FC<LinkRowProps> = ({ children, className, style, role, ariaRowIndex, href, AnchorComponent = DefaultAnchor }) => (
-  <div data-test="table-cell-row" className={cn(styles.linkRow, className)} role={role} aria-rowindex={ariaRowIndex}>
-    <AnchorComponent className={styles.link} style={style} href={href}>
-      {children}
-    </AnchorComponent>
-  </div>
-)
+export const LinkRow: FC<LinkRowProps> = ({ children, className, style, role, ariaRowIndex, href, AnchorComponent = DefaultAnchor }) => {
+  const anchorId = useUID()
+
+  return (
+    <div data-test="table-cell-row" className={cn(styles.linkRow, className)} role={role} aria-rowindex={ariaRowIndex} aria-owns={anchorId}>
+      <AnchorComponent className={styles.link} style={style} href={href} id={anchorId}>
+        {children}
+      </AnchorComponent>
+    </div>
+  )
+}
 
 export const HeaderRow: FC<HeaderRowProps> = ({ children, className, style, role, ariaRowIndex }) => (
   <div data-test="table-header-row" className={cn(styles.headerRow, className)} style={style} role={role} aria-rowindex={ariaRowIndex}>
