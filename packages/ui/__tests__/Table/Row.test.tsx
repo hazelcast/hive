@@ -58,10 +58,10 @@ describe('Row', () => {
         className: styles.linkRow,
         role: undefined,
         'aria-rowindex': undefined,
-
+        'aria-owns': '1',
         children: expect.anything(),
       },
-      { className: styles.link, style: undefined, href: 'testHref', children: 'Row' },
+      { className: styles.link, id: '1', style: undefined, href: 'testHref', children: 'Row' },
     ],
     [
       { ariaRowIndex: 1, href: 'testHref', style: { width: 40 }, className: 'testClassName', role: '', children: 'Row' },
