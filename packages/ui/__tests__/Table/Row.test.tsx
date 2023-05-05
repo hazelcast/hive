@@ -70,10 +70,10 @@ describe('Row', () => {
         className: `${styles.linkRow} testClassName`,
         role: '',
         'aria-rowindex': 1,
-
+        'aria-owns': '2',
         children: expect.anything(),
       },
-      { className: styles.link, style: { width: 40 }, href: 'testHref', children: 'Row' },
+      { className: styles.link, id: '2', style: { width: 40 }, href: 'testHref', children: 'Row' },
     ],
   ]
 
