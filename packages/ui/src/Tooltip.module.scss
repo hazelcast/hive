@@ -19,7 +19,7 @@ $tooltipArrowSize2-3: math.div(c.$tooltipArrowSize, 3) * 2;
   border: c.$borderWidth solid c.$colorNeutralLight;
   border-radius: c.$borderRadius;
   color: c.$colorText;
-  word-break: break-all;
+  word-break: normal;
 
   &.hidden {
     visibility: hidden;
