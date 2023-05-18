@@ -26,15 +26,14 @@ export const Help: FC<HelpProps> = ({
   placement = 'top',
   parentId,
   className,
-  tooltipWordBreak,
+  tooltipWordBreak = 'normal',
   popperRef,
   size = 'small',
-  visible = false,
 }) => {
   const tooltipId = helpTooltipId(parentId)
 
   return (
-    <Tooltip placement={placement} content={helperText} id={tooltipId} popperRef={popperRef} wordBreak={tooltipWordBreak} visible={visible}>
+    <Tooltip placement={placement} content={helperText} id={tooltipId} popperRef={popperRef} wordBreak={tooltipWordBreak}>
       {(ref) => (
         <div ref={ref} className={cn(styles.container, className)}>
           <Icon
