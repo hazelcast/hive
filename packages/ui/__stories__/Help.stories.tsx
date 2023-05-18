@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { Help } from '../src/Help'
+import { LONG_ONE_WORD_TEXT } from './constants'
 
 export default {
   title: 'Components/Help',
@@ -22,6 +23,7 @@ export const TextWithHelp = () => (
 )
 
 export const HelpSmall = () => <Help parentId="test" helperText={helpText} />
+export const HelpLongOneWorld = () => <Help parentId="test" helperText={LONG_ONE_WORD_TEXT} size="smallMedium" />
 export const HelpMedium = () => <Help parentId="test" helperText={helpText} size="medium" />
 export const HelpLarge = () => <Help parentId="test" helperText={helpTextLarge} size="large" />
 export const HelpXLarge = () => <Help parentId="test" helperText={helpTextXLarge} size="xlarge" />
