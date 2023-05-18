@@ -18,6 +18,7 @@ export interface HelpProps {
   popperRef?: TooltipProps['popperRef']
   size?: IconSize
   tooltipWordBreak?: CSSProperties['wordBreak']
+  visible?: boolean
 }
 
 export const Help: FC<HelpProps> = ({
@@ -28,11 +29,12 @@ export const Help: FC<HelpProps> = ({
   tooltipWordBreak,
   popperRef,
   size = 'small',
+  visible = false,
 }) => {
   const tooltipId = helpTooltipId(parentId)
 
   return (
-    <Tooltip placement={placement} content={helperText} id={tooltipId} popperRef={popperRef} wordBreak={tooltipWordBreak} visible={true}>
+    <Tooltip placement={placement} content={helperText} id={tooltipId} popperRef={popperRef} wordBreak={tooltipWordBreak} visible={visible}>
       {(ref) => (
         <div ref={ref} className={cn(styles.container, className)}>
           <Icon
