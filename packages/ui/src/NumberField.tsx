@@ -4,9 +4,8 @@ import { PlusCircle, MinusCircle } from 'react-feather'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 import cn from 'classnames'
 
-import { TextField, TextFieldSize } from './TextField'
+import { TextField, TextFieldProps, TextFieldSize } from './TextField'
 import { IconButton, IconButtonDisabledProps, IconButtonNotDisabledProps } from './IconButton'
-import { HelpProps } from './Help'
 
 import styles from './NumberField.module.scss'
 
@@ -18,7 +17,7 @@ type NumberFieldCoreProps = {
   error?: string
 }
 
-export type NumberFieldExtraProps = {
+export type NumberFieldExtraProps = Omit<TextFieldProps<'number'>, 'onChange' | 'inputTrailingIcon' | 'inputTrailingIconLabel'> & {
   incrementIconAriaLabel?: string
   decrementIconAriaLabel?: string
   step?: number
@@ -30,7 +29,6 @@ export type NumberFieldExtraProps = {
   showIconButtons?: boolean
   label: string
   showAriaLabel?: boolean
-  helperText?: HelpProps['helperText']
   size?: TextFieldSize
   className?: string
   labelClassName?: string
