@@ -72,7 +72,6 @@ describe('Table', () => {
         isResizing: false,
 
         getResizerProps: expect.anything(),
-        isLastHeader: headers.length === i + 1,
         onClick: undefined,
         colSpan: 1,
         role: 'columnheader',
