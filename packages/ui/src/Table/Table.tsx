@@ -512,7 +512,6 @@ export const Table = <D extends object>({
                             canSort={column.canSort}
                             isSorted={column.isSorted}
                             isSortedDesc={column.isSortedDesc}
-                            isLastHeader={headerGroup.headers.length === i + 1}
                             canResize={column.canResize}
                             isResizing={column.isResizing}
                             getResizerProps={column.getResizerProps}

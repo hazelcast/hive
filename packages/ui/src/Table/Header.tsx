@@ -22,7 +22,6 @@ export type HeaderProps = {
   canResize: boolean
   isResizing: boolean
   getResizerProps: (props?: Partial<TableResizerProps>) => TableResizerProps
-  isLastHeader: boolean
   index: number
   onDragStart?: (e: DragEvent) => void
   onDrop?: (e: DragEvent, index: number) => void
@@ -38,7 +37,6 @@ export const Header: FC<HeaderProps> = ({
   canResize,
   isResizing,
   getResizerProps,
-  isLastHeader,
   onClick,
   style,
   className,
@@ -170,7 +168,7 @@ export const Header: FC<HeaderProps> = ({
         {canSort && (align === 'left' || align === 'center') && Chevron}
         {draggable && (align === 'left' || align === 'center') && DraggableIcon}
       </div>
-      {canResize && !isLastHeader && (
+      {canResize && (
         <div data-test="table-header-column-resizer-container" className={styles.resizer} {...getResizerProps()}>
           <div
             data-test="table-header-column-resizer"
