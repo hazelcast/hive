@@ -70,6 +70,9 @@ export const Cell: FC<CellProps> = ({
   const { isOpen, open, close } = useOpenCloseState()
   const handleClick = (e: MouseEvent) => {
     if (onClickSelection && cellId) {
+      if (e.button === 2 && selected) {
+        return
+      }
       onClickSelection(cellId, {
         shift: e.shiftKey,
         ctrl: e.ctrlKey || e.metaKey,

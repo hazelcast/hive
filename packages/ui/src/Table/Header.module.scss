@@ -1,6 +1,36 @@
 @use '../../styles/constants' as c;
 @use '../../styles/helpers' as h;
 
+.resizer {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: c.$grid * 5;
+  height: 100%;
+  top: 0;
+  right: -(c.$grid * 2.5);
+  z-index: c.$zIndex100;
+  cursor: col-resize;
+  user-select: none;
+
+  // Prevents from scrolling while dragging on touch devices
+  /* doiuse-disable css-touch-action */
+  touch-action: none;
+  /* doiuse-enable css-touch-action */
+
+  .separator {
+    width: 2px;
+    height: 50%;
+    background: c.$colorNeutral;
+  }
+
+  .resizing,
+  &:hover .separator {
+    background-color: c.$colorPrimary;
+  }
+}
+
 .container {
   position: relative;
 
@@ -66,34 +96,12 @@
       /* doiuse-enable css3-cursors-newer */
     }
   }
-}
 
-.resizer {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: c.$grid * 5;
-  height: 100%;
-  top: 0;
-  right: -(c.$grid * 2.5);
-  z-index: c.$zIndex100;
-  cursor: col-resize;
-
-  // Prevents from scrolling while dragging on touch devices
-  /* doiuse-disable css-touch-action */
-  touch-action: none;
-  /* doiuse-enable css-touch-action */
-
-  .separator {
-    width: 2px;
-    height: 50%;
-    background: c.$colorNeutral;
-  }
-
-  .resizing,
-  &:hover .separator {
-    background-color: c.$colorPrimary;
+  &:last-child {
+    .resizer {
+      width: c.$grid;
+      right: 0;
+    }
   }
 }
 
