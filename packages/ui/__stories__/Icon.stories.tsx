@@ -3,7 +3,7 @@ import { Clipboard, FolderPlus } from 'react-feather'
 import { Google } from '@icons-pack/react-simple-icons'
 import { Meta, Story } from '@storybook/react'
 
-import { Icon, IconProps } from '../src'
+import { Icon, IconProps } from '../src/Icon'
 
 import styleConsts from '../styles/constants/export.module.scss'
 
