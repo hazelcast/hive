@@ -3,6 +3,7 @@ import { Icon as FeatherIcon } from 'react-feather'
 import cn from 'classnames'
 import { Icon } from './Icon'
 import styles from './Link.module.scss'
+import { DataTestProp } from '@hazelcast/helpers'
 
 export type LinkKind = 'primary' | 'secondary'
 
@@ -54,6 +55,7 @@ export type LinkProps = IconProps & {
   // it's also required by next.js for <a> https://nextjs.org/docs/api-reference/next/link
   onClick?: MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>
 } & Pick<AnchorAttributes, 'className'> &
+  DataTestProp &
   (
     | {
         component: 'button'
