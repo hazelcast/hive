@@ -102,6 +102,7 @@ export const Link = forwardRef<HTMLAnchorElement | HTMLButtonElement, LinkProps>
       onClick,
       className,
       children,
+      'data-test': dataTest = 'link',
     },
     ref,
   ) => {
@@ -130,12 +131,12 @@ export const Link = forwardRef<HTMLAnchorElement | HTMLButtonElement, LinkProps>
       ) : undefined
 
     return component === 'a' ? (
-      <a {...commonProps} rel={relFinal} target={target} ref={ref as MutableRefObject<HTMLAnchorElement>}>
+      <a {...commonProps} rel={relFinal} target={target} ref={ref as MutableRefObject<HTMLAnchorElement>} data-test={dataTest}>
         {children}
         {iconComponent}
       </a>
     ) : (
-      <button {...commonProps} type={type} ref={ref as MutableRefObject<HTMLButtonElement>}>
+      <button {...commonProps} type={type} ref={ref as MutableRefObject<HTMLButtonElement>} data-test={dataTest}>
         {children}
         {iconComponent}
       </button>
