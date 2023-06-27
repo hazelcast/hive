@@ -137,7 +137,7 @@ describe('CheckableSelectField', () => {
     })
 
     act(() => {
-      wrapper.findDataTest('test-select-all').simulate('click')
+      wrapper.findDataTestFirst('test-select-all').simulate('click')
     })
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
@@ -148,7 +148,7 @@ describe('CheckableSelectField', () => {
     expect(onChange).toBeCalledWith(options.map(({ value }) => value))
 
     act(() => {
-      wrapper.findDataTest('test-select-none').simulate('click')
+      wrapper.findDataTestFirst('test-select-none').simulate('click')
     })
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {

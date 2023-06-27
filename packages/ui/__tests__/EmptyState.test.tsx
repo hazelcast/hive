@@ -115,7 +115,7 @@ describe('EmptyState', () => {
     })
     expect(wrapper.findDataTest('empty-state-title').text()).toBe(title)
     expect(wrapper.existsDataTest('empty-state-description')).toBeFalsy()
-    expect(wrapper.findDataTest('empty-state-link').props()).toMatchObject({
+    expect(wrapper.findDataTestFirst('empty-state-link').props()).toMatchObject({
       icon: ChevronRight,
       ariaLabel: 'Icon Chevron Right',
       href: actionHref,
