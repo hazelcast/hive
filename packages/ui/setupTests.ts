@@ -69,6 +69,7 @@ declare module 'enzyme' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface ReactWrapper<P> {
     findDataTest<T = HTMLAttributes>(dataTest: string): ReactWrapper<T>
+    findDataTestFirst<T = HTMLAttributes>(dataTest: string): ReactWrapper<T>
     existsDataTest(dataTest: string): boolean
   }
 
@@ -81,6 +82,9 @@ declare module 'enzyme' {
 
 ReactWrapper.prototype.findDataTest = function <T>(this: ReactWrapper, dataTest: string) {
   return this.find(`[data-test="${dataTest}"]`) as unknown as ReactWrapper<T>
+}
+ReactWrapper.prototype.findDataTestFirst = function <T>(this: ReactWrapper, dataTest: string) {
+  return this.findDataTest<T>(dataTest).first()
 }
 ReactWrapper.prototype.existsDataTest = function (this: ReactWrapper, dataTest: string) {
   return this.exists(`[data-test="${dataTest}"]`)

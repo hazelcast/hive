@@ -34,7 +34,7 @@ describe('Overlay', () => {
     const header = overlayWrapper.findDataTest('overlay-header')
     const headerIcon = header.findDataTest('overlay-header-icon')
     const headerTitle = header.findDataTest('overlay-header-title')
-    const headerCancelButton = header.findDataTest('overlay-header-cancel-button')
+    const headerCancelButton = header.findDataTestFirst('overlay-header-cancel-button')
     const overlayContent = overlayWrapper.findDataTest('overlay-content')
 
     expect(reactModal.props()).toMatchObject<ReactModalProps>({
@@ -148,7 +148,7 @@ describe('Overlay', () => {
       </Overlay>,
     )
 
-    const closeButton = wrapper.findDataTest('overlay-header-cancel-button')
+    const closeButton = wrapper.findDataTestFirst('overlay-header-cancel-button')
 
     expect(closeButton.exists()).toBe(true)
     expect(onClose).toHaveBeenCalledTimes(0)

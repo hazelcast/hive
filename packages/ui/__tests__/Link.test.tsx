@@ -18,6 +18,7 @@ describe('Link', () => {
       href: 'https://hazelcast.com/',
       rel: 'noopener',
       target: '_self',
+      'data-test': 'link',
       children: ['Normal Text Link', undefined],
       onClick: undefined,
     })
@@ -60,6 +61,7 @@ describe('Link', () => {
       href: 'https://hazelcast.com/',
       rel: 'noopener',
       target: '_self',
+      'data-test': 'link',
       children: ['Small Link', undefined],
       onClick: undefined,
     })
@@ -103,6 +105,7 @@ describe('Link', () => {
       href: 'https://hazelcast.com/',
       rel: 'noopener',
       target: '_self',
+      'data-test': 'link',
       children: ['Bold Link', undefined],
       onClick: undefined,
     })
@@ -146,6 +149,7 @@ describe('Link', () => {
       href: 'https://hazelcast.com/',
       rel: 'noopener',
       target: '_self',
+      'data-test': 'link',
       children: ['Normal Text Link', undefined],
     })
   })
@@ -163,6 +167,7 @@ describe('Link', () => {
       href: 'https://hazelcast.com/',
       rel: 'help noreferrer',
       target: '_parent',
+      'data-test': 'link',
       children: ['Normal Text Link', undefined],
     })
   })

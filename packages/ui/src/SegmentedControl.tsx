@@ -3,6 +3,7 @@ import cn from 'classnames'
 import { RadioGroup } from '@headlessui/react'
 
 import styles from './SegmentedControl.module.scss'
+import { DataTestProp } from '@hazelcast/helpers'
 
 export type SegmentedControlOption<V> = {
   value: V
@@ -20,7 +21,7 @@ export type SegmentedControlProps<V> = {
   className?: string
   optionClassName?: string
   labelClassName?: string
-}
+} & DataTestProp
 
 export const SegmentedControl = <V extends string = string>({
   label,
@@ -31,16 +32,27 @@ export const SegmentedControl = <V extends string = string>({
   className,
   optionClassName,
   labelClassName,
+  'data-test': dataTest = 'segmented',
 }: SegmentedControlProps<V>) => (
-  <RadioGroup className={cn(styles.group, { [styles.small]: size === 'small' }, className)} value={value} onChange={onChange}>
-    <RadioGroup.Label className={styles.groupLabel}>{label}</RadioGroup.Label>
+  <RadioGroup
+    data-test={dataTest}
+    className={cn(styles.group, { [styles.small]: size === 'small' }, className)}
+    value={value}
+    onChange={onChange}
+  >
+    <RadioGroup.Label data-test={`${dataTest}-label`} className={styles.groupLabel}>
+      {label}
+    </RadioGroup.Label>
     {options.map((option) => (
       <RadioGroup.Option
+        data-test={`${dataTest}-${value}`}
         key={option.value}
         value={option.value}
         className={({ checked }) => cn(styles.option, { [styles.checked]: checked }, optionClassName)}
       >
-        <RadioGroup.Label className={cn(styles.label, labelClassName)}>{option.label}</RadioGroup.Label>
+        <RadioGroup.Label data-test={`${dataTest}-${value}-label`} className={cn(styles.label, labelClassName)}>
+          {option.label}
+        </RadioGroup.Label>
       </RadioGroup.Option>
     ))}
   </RadioGroup>

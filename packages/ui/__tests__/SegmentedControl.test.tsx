@@ -31,7 +31,7 @@ describe('SegmentedControl', () => {
         axeOptions: {
           rules: {
             ...rules,
-            // RadioGroup.Label is passed role="none" which is appratently wrong
+            // RadioGroup.Label is passed role="none" which is apparently wrong
             'aria-allowed-role': { enabled: false },
           },
         },

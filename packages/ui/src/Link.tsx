@@ -3,8 +3,7 @@ import { Icon as FeatherIcon } from 'react-feather'
 import cn from 'classnames'
 import { Icon } from './Icon'
 import styles from './Link.module.scss'
-
-export type LinkKind = 'primary' | 'secondary'
+import { DataTestProp } from '@hazelcast/helpers'
 
 const sizes = {
   normal: styles.normal,
@@ -54,6 +53,7 @@ export type LinkProps = IconProps & {
   // it's also required by next.js for <a> https://nextjs.org/docs/api-reference/next/link
   onClick?: MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>
 } & Pick<AnchorAttributes, 'className'> &
+  DataTestProp &
   (
     | {
         component: 'button'
@@ -100,6 +100,7 @@ export const Link = forwardRef<HTMLAnchorElement | HTMLButtonElement, LinkProps>
       onClick,
       className,
       children,
+      'data-test': dataTest = 'link',
     },
     ref,
   ) => {
@@ -128,12 +129,12 @@ export const Link = forwardRef<HTMLAnchorElement | HTMLButtonElement, LinkProps>
       ) : undefined
 
     return component === 'a' ? (
-      <a {...commonProps} rel={relFinal} target={target} ref={ref as MutableRefObject<HTMLAnchorElement>}>
+      <a {...commonProps} rel={relFinal} target={target} ref={ref as MutableRefObject<HTMLAnchorElement>} data-test={dataTest}>
         {children}
         {iconComponent}
       </a>
     ) : (
-      <button {...commonProps} type={type} ref={ref as MutableRefObject<HTMLButtonElement>}>
+      <button {...commonProps} type={type} ref={ref as MutableRefObject<HTMLButtonElement>} data-test={dataTest}>
         {children}
         {iconComponent}
       </button>

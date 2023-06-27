@@ -77,7 +77,7 @@ describe('Notification', () => {
       icon: CheckCircle,
     })
     expect(wrapper.findDataTest('notification-content').text()).toBe(text)
-    expect(wrapper.findDataTest('notification-link').props()).toMatchObject({
+    expect(wrapper.findDataTestFirst('notification-link').props()).toMatchObject({
       component: 'a',
       size: 'small',
       href: linkHref,
@@ -85,6 +85,6 @@ describe('Notification', () => {
       ariaLabel: 'Icon chevron right',
       bold: true,
     })
-    expect(wrapper.findDataTest('notification-link').text()).toBe(link)
+    expect(wrapper.findDataTestFirst('notification-link').text()).toBe(link)
   })
 })
