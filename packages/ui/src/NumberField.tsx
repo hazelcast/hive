@@ -27,7 +27,7 @@ export type NumberFieldExtraProps = Omit<TextFieldProps<'number'>, 'onChange' | 
   numberType?: 'int' | 'float'
   iconPosition?: 'separate' | 'together'
   showIconButtons?: boolean
-  label: string
+  label?: string
   showAriaLabel?: boolean
   size?: TextFieldSize
   className?: string

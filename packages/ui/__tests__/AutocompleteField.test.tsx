@@ -10,6 +10,7 @@ import { Error, errorId } from '../src/Error'
 import { IconButton } from '../src/IconButton'
 
 import styles from '../src/AutocompleteField.module.scss'
+import { shallow } from 'enzyme'
 
 jest.mock('react-uid')
 
@@ -64,6 +65,14 @@ describe('AutocompleteField', () => {
       inputId: selectId,
       truncated: true,
     })
+  })
+
+  it('Renders correctly without label prop', () => {
+    const onChange = jest.fn()
+
+    const wrapper = shallow(<AutocompleteField name={selectName} options={selectOptions} value="selectValue0" onChange={onChange} />)
+
+    expect(wrapper.prop('label')).toBeUndefined()
   })
 
   it('Renders error with correct props', async () => {

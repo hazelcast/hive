@@ -32,7 +32,7 @@ export type AutocompleteFieldProps = {
   error?: string
   errorClassName?: string
   isClearable?: boolean
-  label: string
+  label?: string
   labelClassName?: string
   menuPortalTarget?: 'body' | 'self' | HTMLElement | null
   onChange?: (newValue: string) => void
