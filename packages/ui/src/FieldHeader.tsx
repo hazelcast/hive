@@ -9,7 +9,7 @@ import styles from './FieldHeader.module.scss'
 
 export type FieldHeaderSize = 'small' | 'medium'
 export type FieldHeaderLabelProps = {
-  label: string
+  label?: string
   labelClassName?: string
   helperText?: HelpProps['helperText']
   helperTextTooltipWordBreak?: CSSProperties['wordBreak']

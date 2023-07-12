@@ -15,7 +15,7 @@ export type SegmentedControlSize = 'medium' | 'small'
 export type SegmentedControlProps<V> = {
   value: V
   onChange: (value: V) => void
-  label: string
+  label?: string
   options: SegmentedControlOption<V>[]
   size?: SegmentedControlSize
   className?: string

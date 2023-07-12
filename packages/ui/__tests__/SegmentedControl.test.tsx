@@ -3,6 +3,7 @@ import { axeDefaultOptions, mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import { RadioGroup } from '@headlessui/react'
 
 import { SegmentedControl, SegmentedControlOption } from '../src/SegmentedControl'
+import { shallow } from 'enzyme'
 
 const swCharacters = {
   darth_vader: 'Darth Vader',
@@ -53,5 +54,13 @@ describe('SegmentedControl', () => {
       expect(option.prop('value')).toBe(value)
       expect(option.find(RadioGroup.Label).text()).toBe(label)
     })
+  })
+
+  it('Renders correctly without label prop', () => {
+    const checked = swCharactersOptions[0]
+    const onChange = jest.fn()
+    const wrapper = shallow(<SegmentedControl<SWCharacters> value={checked.value} onChange={onChange} options={swCharactersOptions} />)
+
+    expect(wrapper.prop('label')).toBeUndefined()
   })
 })

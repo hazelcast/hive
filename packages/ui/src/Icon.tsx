@@ -9,7 +9,7 @@ export type IconSize = 'small' | 'smallMedium' | 'medium' | 'large' | 'xlarge'
 // Makes it required to set either "aria-label", "aria-labelledby" or "aria-hidden" attribute.
 export type IconAriaProps =
   | {
-      ariaLabel: string
+      ariaLabel: string | undefined
       ariaLabelledBy?: never
       ariaHidden?: never
     }

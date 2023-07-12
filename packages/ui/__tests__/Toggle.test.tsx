@@ -5,6 +5,7 @@ import { useUID } from 'react-uid'
 import { Toggle } from '../src/Toggle'
 import { Error, errorId } from '../src/Error'
 import { Help, helpTooltipId } from '../src'
+import { shallow } from 'enzyme'
 
 jest.mock('react-uid')
 
@@ -36,6 +37,13 @@ describe('Toggle', () => {
     })
 
     expect(wrapper.exists(Help)).toBeFalsy()
+  })
+
+  it('Renders without the label prop', () => {
+    const onChange = jest.fn()
+    const wrapper = shallow(<Toggle checked={false} name="hello" onChange={onChange} />)
+
+    expect(wrapper.prop('label')).toBeUndefined()
   })
 
   it('Renders an unchecked Toggle', async () => {

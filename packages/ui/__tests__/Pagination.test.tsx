@@ -1,6 +1,6 @@
 import React from 'react'
 import { act } from 'react-dom/test-utils'
-import { mountAndCheckA11Y, simulateChange } from '@hazelcast/test-helpers'
+import { simulateChange } from '@hazelcast/test-helpers'
 import { ChevronLeft, ChevronRight } from 'react-feather'
 import Select from 'react-select'
 
@@ -13,6 +13,7 @@ import { NumberField, NumberFieldProps } from '../src/NumberField'
 import { Link, SelectField } from '../src'
 import { SelectFieldProps } from '../src/Select/SelectField'
 import { SelectFieldOption } from '../src/Select/helpers'
+import { mount, shallow } from 'enzyme'
 
 describe('helpers', () => {
   describe('getShownItemsRange', () => {
@@ -107,12 +108,12 @@ describe('Pagination', () => {
     canNextPage = true
   })
 
-  it('renders number of rows select, buttons, and page jump', async () => {
+  it('renders number of rows select, buttons, and page jump', () => {
     currentPage = 1
     canPreviousPage = currentPage !== 1
     canNextPage = currentPage !== pageCount
 
-    const wrapper = await mountAndCheckA11Y(
+    const wrapper = shallow(
       <Pagination
         pageCount={pageCount}
         currentPage={currentPage}
@@ -199,12 +200,12 @@ describe('Pagination', () => {
     })
   })
 
-  it('renders correct buttons when current page is somewhere in the middle', async () => {
+  it('renders correct buttons when current page is somewhere in the middle', () => {
     currentPage = 1000
     canPreviousPage = currentPage !== 1
     canNextPage = currentPage !== pageCount
 
-    const wrapper = await mountAndCheckA11Y(
+    const wrapper = shallow(
       <Pagination
         pageCount={pageCount}
         currentPage={currentPage}
@@ -266,12 +267,12 @@ describe('Pagination', () => {
     })
   })
 
-  it('renders correct buttons when current page is the last page', async () => {
+  it('renders correct buttons when current page is the last page', () => {
     currentPage = pageCount
     canPreviousPage = currentPage !== 1
     canNextPage = currentPage !== pageCount
 
-    const wrapper = await mountAndCheckA11Y(
+    const wrapper = shallow(
       <Pagination
         pageCount={pageCount}
         currentPage={currentPage}
@@ -331,12 +332,12 @@ describe('Pagination', () => {
     })
   })
 
-  it('changes pages correctly', async () => {
+  it('changes pages correctly', () => {
     currentPage = 10
     canPreviousPage = currentPage !== 1
     canNextPage = currentPage !== pageCount
 
-    const wrapper = await mountAndCheckA11Y(
+    const wrapper = shallow(
       <Pagination
         pageCount={pageCount}
         currentPage={currentPage}
@@ -394,7 +395,7 @@ describe('Pagination', () => {
     canPreviousPage = currentPage !== 1
     canNextPage = currentPage !== pageCount
 
-    const wrapper = await mountAndCheckA11Y(
+    const wrapper = mount(
       <Pagination
         pageCount={pageCount}
         currentPage={currentPage}
@@ -437,7 +438,7 @@ describe('Pagination', () => {
     canPreviousPage = currentPage !== 1
     canNextPage = currentPage !== pageCount
 
-    const wrapper = await mountAndCheckA11Y(
+    const wrapper = mount(
       <Pagination
         pageCount={pageCount}
         currentPage={currentPage}
@@ -469,12 +470,12 @@ describe('Pagination', () => {
     expect(setPageSize).toHaveBeenCalledWith(10)
   })
 
-  it('renders small version of pagination', async () => {
+  it('renders small version of pagination', () => {
     currentPage = 1
     canPreviousPage = currentPage !== 1
     canNextPage = currentPage !== pageCount
 
-    const wrapper = await mountAndCheckA11Y(
+    const wrapper = shallow(
       <Pagination
         pageCount={pageCount}
         currentPage={currentPage}

@@ -49,6 +49,7 @@ type TextFieldCoreProps<T extends TextFieldTypes> = {
   error?: string
 }
 export type TextFieldExtraProps<T extends TextFieldTypes> = {
+  ariaLabel?: string
   size?: TextFieldSize
   iconSize?: IconSize
   className?: string
@@ -78,7 +79,6 @@ export type TextFieldProps<T extends TextFieldTypes> = TextFieldCoreProps<T> & T
  * - Text Field is available in 2 variations: `small` (height of 30 px) and `medium` (height of 40 px). The use depends mainly on the space in UI.
  * - All of the variations can be either with the label, or without label.
  * - Standard label alignment is left-aligned with the field underneath.
- * - Mostly all of the fields are required. If some of them are not, use text "Optional" behind the label.
  * - If needed, you can use icon on the left side or on the right side inside the Text Input (e.g. Eye icon to show / hide password).
  *
  * ### Usage
@@ -87,6 +87,7 @@ export type TextFieldProps<T extends TextFieldTypes> = TextFieldCoreProps<T> & T
 const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, ref?: Ref<HTMLInputElement>) => {
   const {
     'data-test': dataTest,
+    ariaLabel,
     className,
     disabled,
     error,
@@ -170,7 +171,7 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
             readOnly={readOnly}
             onKeyPress={onKeyPress}
             onClick={onClick}
-            aria-label={showAriaLabel ? label : undefined}
+            aria-label={showAriaLabel ? ariaLabel : undefined}
             // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute
             aria-invalid={!!error}
             aria-required={required}

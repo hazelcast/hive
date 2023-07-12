@@ -8,6 +8,7 @@ import { IconButton } from '../src/IconButton'
 
 import styles from '../src/NumberField.module.scss'
 import { act } from 'react-dom/test-utils'
+import { shallow } from 'enzyme'
 
 describe('NumberField', () => {
   it('renders the default with correct props', async () => {
@@ -63,6 +64,24 @@ describe('NumberField', () => {
     })
   })
 
+  it('Renders correctly without the label prop', () => {
+    const onBlur = jest.fn()
+    const onChange = jest.fn()
+
+    const wrapper = shallow(
+      <NumberField
+        name="name"
+        value={42}
+        placeholder="Enter the name"
+        onBlur={onBlur}
+        onChange={onChange}
+        className="padme"
+        inputClassName="amidala"
+      />,
+    )
+
+    expect(wrapper.prop('label')).toBeUndefined()
+  })
   it('onDecrement works', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()

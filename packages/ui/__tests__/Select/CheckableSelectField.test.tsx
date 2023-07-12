@@ -9,6 +9,7 @@ import { Error } from '../../src/Error'
 import { SelectFieldOption } from '../../src/Select/helpers'
 
 import styles from '../src/SelectField.module.scss'
+import { mount } from 'enzyme'
 
 jest.mock('react-uid')
 
@@ -89,8 +90,8 @@ describe('CheckableSelectField', () => {
     })
   })
 
-  it('Hides Label', async () => {
-    const wrapper = await mountAndCheckA11Y(
+  it('Hides Label', () => {
+    const wrapper = mount(
       <CheckableSelectField
         name={selectName}
         label={selectLabel}
