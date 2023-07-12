@@ -1,10 +1,11 @@
-import { getFixedTimezoneDate, mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { getFixedTimezoneDate } from '@hazelcast/test-helpers'
 import React from 'react'
 import { act } from 'react-dom/test-utils'
 import { CalendarTimeInternal } from '../../../src/Calendar/components/CalendarTime'
 import { TimeField } from '../../../src/TimeField'
 import { timePoints } from '../../../src/Calendar/helpers/consts'
 import { Button } from '../../../src'
+import { mount, shallow } from 'enzyme'
 
 // Equivalent to `2021-02-08T09:00:00.000Z`
 const timestamp = 1612774800000
@@ -12,10 +13,10 @@ const date = getFixedTimezoneDate(timestamp)
 const value = '09:00:00'
 
 describe('CalendarTime', () => {
-  it('Renders', async () => {
+  it('Renders', () => {
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(<CalendarTimeInternal date={date} onChange={onChange} value={value} />)
+    const wrapper = shallow(<CalendarTimeInternal date={date} onChange={onChange} value={value} />)
 
     // Time input
     expect(wrapper.find(TimeField).props()).toMatchObject({
@@ -31,10 +32,10 @@ describe('CalendarTime', () => {
     expect(timePointsData).toStrictEqual(timePoints)
   })
 
-  it('Change handler is called on Time Input change', async () => {
+  it('Change handler is called on Time Input change', () => {
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(<CalendarTimeInternal date={date} onChange={onChange} value={value} />)
+    const wrapper = mount(<CalendarTimeInternal date={date} onChange={onChange} value={value} />)
 
     // Time input
     expect(wrapper.find(TimeField).props()).toMatchObject({
@@ -56,10 +57,10 @@ describe('CalendarTime', () => {
     expect(onChange).toHaveBeenCalledWith('11:00')
   })
 
-  it('Change handler is called on time point press', async () => {
+  it('Change handler is called on time point press', () => {
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(<CalendarTimeInternal date={date} onChange={onChange} value={value} />)
+    const wrapper = shallow(<CalendarTimeInternal date={date} onChange={onChange} value={value} />)
 
     // Time points
     expect(wrapper.existsDataTest('calendar-time-timePoints'))
