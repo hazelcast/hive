@@ -48,6 +48,12 @@ Empty.args = {
   value: undefined,
 }
 
+export const WithoutLabel = Template.bind({})
+WithoutLabel.args = {
+  label: undefined,
+  value: undefined,
+}
+
 export const WithError = Template.bind({})
 WithError.args = {
   error: 'Dark side',

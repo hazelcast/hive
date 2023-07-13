@@ -36,6 +36,15 @@ export const Empty = () => (
   />
 )
 
+export const WithoutLabel = () => (
+  <TextArea
+    name="name"
+    placeholder="Describe character"
+    onBlur={() => logger.log('blur')}
+    onChange={(e) => logger.log('change', e.target.value)}
+  />
+)
+
 export const Error = () => (
   <TextArea
     name="name"
