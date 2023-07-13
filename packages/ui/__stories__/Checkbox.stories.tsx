@@ -106,6 +106,19 @@ export const WithDescription = () => (
   />
 )
 
+export const WithoutLabel = () => {
+  const [checked, setChecked] = useState<boolean>(true)
+  return (
+    <Checkbox
+      checked={checked}
+      name="default"
+      onChange={(e) => {
+        setChecked(e.target.checked)
+      }}
+    />
+  )
+}
+
 export const LabelWithLink = () => (
   <Checkbox
     checked={false}

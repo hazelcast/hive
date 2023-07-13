@@ -72,7 +72,7 @@ export const Toggle: FC<ToggleProps> = (props) => {
         )}
         htmlFor={id}
       >
-        <span className={styles.labelText}>{label}</span>
+        {label && <span className={styles.labelText}>{label}</span>}
         {/* actual element to render */}
         <span className={styles.toggleTrack}>
           <span className={styles.toggleTrackText}>{checked ? 'ON' : 'OFF'}</span>

@@ -17,9 +17,10 @@ export default {
     },
   },
   args: {
-    startDate: new Date(2020, 11, 20),
-    endDate: new Date(2020, 11, 21),
-    inputLabel: 'Choose Date',
+    startDate: new Date(2022, 11, 20),
+    endDate: new Date(2022, 11, 21),
+    startInputLabel: 'Choose Date',
+    endInputLabel: 'Choose Date',
   },
 } as Meta<CalendarRangeProps>
 
@@ -40,6 +41,12 @@ const Template: Story<CalendarRangeProps> = ({ startDate: initialStartDate, endD
 }
 
 export const Default = Template.bind({})
+
+export const WithoutLabel = Template.bind({})
+WithoutLabel.args = {
+  startInputLabel: '',
+  endInputLabel: '',
+}
 
 export const Open = Template.bind({})
 Open.args = {
