@@ -18,7 +18,7 @@ type ToggleCoreProps = {
 }
 
 export type ToggleExtraProps = {
-  label?: string | React.ReactNode
+  label?: React.ReactNode
   helperText?: HelpProps['helperText']
   disabled?: boolean
   className?: string
