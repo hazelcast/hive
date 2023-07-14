@@ -45,12 +45,30 @@ export const NotSelected = () => {
   const [value, setValue] = useState<string | null>(null)
   return (
     <div>
-      Value: {value}
       <AutocompleteField
         name="name"
         value={value}
         isClearable
         label="Character"
+        options={options}
+        onBlur={() => logger.log('blur')}
+        onChange={(val: string | null) => {
+          setValue(val)
+          logger.log('change', val)
+        }}
+      />
+    </div>
+  )
+}
+
+export const WithoutLabel = () => {
+  const [value, setValue] = useState<string | null>(null)
+  return (
+    <div>
+      <AutocompleteField
+        name="name"
+        value={value}
+        isClearable
         options={options}
         onBlur={() => logger.log('blur')}
         onChange={(val: string | null) => {

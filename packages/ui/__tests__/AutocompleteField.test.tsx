@@ -72,7 +72,7 @@ describe('AutocompleteField', () => {
 
     const wrapper = shallow(<AutocompleteField name={selectName} options={selectOptions} value="selectValue0" onChange={onChange} />)
 
-    expect(wrapper.prop('label')).toBeUndefined()
+    expect(wrapper.existsDataTest('label-data-test')).toBeFalsy()
   })
 
   it('Renders error with correct props', async () => {

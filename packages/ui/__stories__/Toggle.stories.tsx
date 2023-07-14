@@ -44,6 +44,12 @@ Default.parameters = {
   },
 }
 
+export const CheckedWithoutLabel = () => <Toggle checked={true} name="default" onChange={(e) => logger.log('change', e.target.checked)} />
+
+export const UncheckedWithoutLabel = () => (
+  <Toggle checked={false} name="default" onChange={(e) => logger.log('change', e.target.checked)} />
+)
+
 export const Unchecked = () => (
   <Toggle checked={false} label="Label" name="default" onChange={(e) => logger.log('change', e.target.checked)} />
 )

@@ -43,7 +43,7 @@ describe('Toggle', () => {
     const onChange = jest.fn()
     const wrapper = shallow(<Toggle checked={false} name="hello" onChange={onChange} />)
 
-    expect(wrapper.prop('label')).toBeUndefined()
+    expect(wrapper.existsDataTest('label-data-test')).toBeFalsy()
   })
 
   it('Renders an unchecked Toggle', async () => {

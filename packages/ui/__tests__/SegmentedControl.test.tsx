@@ -61,6 +61,6 @@ describe('SegmentedControl', () => {
     const onChange = jest.fn()
     const wrapper = shallow(<SegmentedControl<SWCharacters> value={checked.value} onChange={onChange} options={swCharactersOptions} />)
 
-    expect(wrapper.prop('label')).toBeUndefined()
+    expect(wrapper.existsDataTest('label-data-test')).toBeFalsy()
   })
 })

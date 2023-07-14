@@ -30,7 +30,7 @@ export const CalendarInputInternal = forwardRef<HTMLInputElement, CalendarInputI
 CalendarInputInternal.displayName = 'CalendarInputInternal'
 
 export type CalendarInputExtraProps = {
-  label: string
+  label?: string
   textFieldSize?: CalendarSize
   className?: string
 }

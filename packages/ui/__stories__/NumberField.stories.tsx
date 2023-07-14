@@ -33,15 +33,34 @@ const Template: Story<NumberFieldProps> = ({ value: initValue, ...args }) => {
   return (
     <>
       <NumberField {...args} value={value} onChange={setValue} />
-      <NumberField {...{...args, placeholder: ''}} value={value} onChange={setValue} iconPosition="separate" className={storyStyles.shortField} />
+      <NumberField
+        {...{ ...args, placeholder: '' }}
+        value={value}
+        onChange={setValue}
+        iconPosition="separate"
+        className={storyStyles.shortField}
+      />
       <NumberField {...args} value={value} onChange={setValue} size="small" />
-      <NumberField {...{...args, placeholder: ''}} value={value} onChange={setValue} size="small" iconPosition="separate" className={storyStyles.shortField}/>
+      <NumberField
+        {...{ ...args, placeholder: '' }}
+        value={value}
+        onChange={setValue}
+        size="small"
+        iconPosition="separate"
+        className={storyStyles.shortField}
+      />
     </>
   )
 }
 
 export const Default = Template.bind({})
 Default.args = {
+  value: undefined,
+}
+
+export const WithoutLabel = Template.bind({})
+WithoutLabel.args = {
+  label: undefined,
   value: undefined,
 }
 

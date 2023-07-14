@@ -80,7 +80,7 @@ describe('NumberField', () => {
       />,
     )
 
-    expect(wrapper.prop('label')).toBeUndefined()
+    expect(wrapper.existsDataTest('label-data-test')).toBeFalsy()
   })
   it('onDecrement works', async () => {
     const onBlur = jest.fn()

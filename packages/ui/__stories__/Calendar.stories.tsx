@@ -17,7 +17,7 @@ export default {
     },
   },
   args: {
-    date: new Date(2020, 11, 20),
+    date: new Date(2022, 11, 20),
     inputLabel: 'Choose Date',
     containerClassName: storyStyles.field,
   },
@@ -34,6 +34,11 @@ const Template: Story<CalendarProps> = ({ date: initialDate, ...args }) => {
 }
 
 export const Default = Template.bind({})
+
+export const WithoutLabel = Template.bind({})
+WithoutLabel.args = {
+  inputLabel: undefined,
+}
 
 export const Open = Template.bind({})
 Open.args = {

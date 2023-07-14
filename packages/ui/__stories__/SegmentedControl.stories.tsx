@@ -43,6 +43,11 @@ const Template: Story<Omit<SegmentedControlProps<SWCharacters>, 'onChange'>> = (
 
 export const Default = Template.bind({})
 
+export const WithoutLabel = Template.bind({})
+WithoutLabel.args = {
+  label: undefined,
+}
+
 export const Small = Template.bind({})
 Small.args = {
   size: 'small',
@@ -60,9 +65,8 @@ export const WrappedInFormik = () => {
       }}
       onSubmit={(values) => logger.log('submit', values)}
     >
-      {({ values }) => (
+      {() => (
         <Form>
-          Values: {JSON.stringify(values)}
           <SegmentedControlFormik<Values> name="character" label="Name" options={swCharactersOptions} />
           <button type="submit">Submit</button>
         </Form>

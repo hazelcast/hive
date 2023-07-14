@@ -40,9 +40,11 @@ export const SegmentedControl = <V extends string = string>({
     value={value}
     onChange={onChange}
   >
-    <RadioGroup.Label data-test={`${dataTest}-label`} className={styles.groupLabel}>
-      {label}
-    </RadioGroup.Label>
+    {label && (
+      <RadioGroup.Label data-test={`${dataTest}-label`} className={styles.groupLabel}>
+        {label}
+      </RadioGroup.Label>
+    )}
     {options.map((option) => (
       <RadioGroup.Option
         data-test={`${dataTest}-${option.value}`}
