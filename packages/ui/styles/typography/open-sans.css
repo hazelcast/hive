@@ -1,0 +1,35 @@
+/* open sans-400 */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./fonts/OpenSans-Regular.woff2') format('woff2');
+}
+
+/* open sans-400 */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./fonts/OpenSans-Italic.woff2') format('woff2');
+}
+
+/* open sans-600 */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('./fonts/OpenSans-SemiBold.woff2') format('woff2');
+}
+
+/* open sans-600 */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url('./fonts/OpenSans-SemiBoldItalic.woff2') format('woff2');
+}
