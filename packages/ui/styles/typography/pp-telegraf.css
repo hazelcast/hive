@@ -1,0 +1,31 @@
+@font-face {
+  font-family: 'PP Telegraf';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url('./fonts/PPTelegraf-Light.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'PP Telegraf';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 400;
+  src: url('./fonts/PPTelegraf-UltralightSlanted.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'PP Telegraf';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src: url('./fonts/PPTelegraf-Medium.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'PP Telegraf';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 500;
+  src: url('./fonts/PPTelegraf-RegularSlanted.woff2') format('woff2');
+}

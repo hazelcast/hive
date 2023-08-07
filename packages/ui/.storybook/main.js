@@ -2,7 +2,7 @@ const path = require('path')
 
 module.exports = {
   stories: ['../**/*.stories.@(tsx|mdx)'],
-  staticDirs: ['../assets'],
+  staticDirs: ['../assets', '../styles'],
   addons: [
     {
       name: '@storybook/preset-scss',
