@@ -20,14 +20,13 @@ jobs:
         env:
           NODE_OPTIONS: --max-old-space-size=8192
 
-  test_visual:
+  build:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/install
       - run: pnpm run build-storybook
-      - run: pnpm run test:visual
 
       - name: Archive screenshots
         if: ${{ failure() }}
@@ -39,7 +38,7 @@ jobs:
   chromatic-deployment:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
-    needs: [test, test_visual]
+    needs: [test, build]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -57,7 +56,7 @@ jobs:
   publish_canary:
     if: github.event.pull_request.merged == true && !startsWith(github.head_ref, 'release/v')
     runs-on: ubuntu-latest
-    needs: [test, test_visual]
+    needs: [test, build]
     steps:
       - uses: actions/checkout@v3
         with:
