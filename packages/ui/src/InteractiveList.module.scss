@@ -26,6 +26,7 @@ ul.list {
   margin: 0;
 
   .content {
+    background: c.$colorOverlayBackground;
     padding: c.$grid c.$grid * 3;
     margin-top: c.$grid * 3;
     border: c.$borderWidth solid c.$colorNeutralLight;

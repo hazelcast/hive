@@ -23,7 +23,7 @@ $marginLeftWithIcon: c.$grid * 5;
     flex-direction: row;
     box-sizing: border-box;
     height: c.$inputHeight;
-    background-color: c.$colorNeutralLighter;
+    background-color: c.$colorOverlayBackground;
     border-radius: c.$borderRadius;
   }
 
@@ -146,6 +146,10 @@ $marginLeftWithIcon: c.$grid * 5;
     & ~ .borderOverlay {
       border-color: c.$colorError;
     }
+  }
+
+  &.hasError label {
+    color: c.$colorError;
   }
 
   input:focus,
