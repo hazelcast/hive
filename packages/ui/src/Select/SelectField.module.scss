@@ -48,7 +48,7 @@ $selectGroupHeading: ':global .hz-select-field__group-heading';
     box-sizing: border-box;
     border: c.$borderWidth solid c.$colorNeutralLight;
     border-radius: c.$borderRadius;
-    background-color: c.$colorCustom6;
+    background-color: c.$colorOverlayBackground;
     transition: none;
   }
 
@@ -136,7 +136,7 @@ $selectGroupHeading: ':global .hz-select-field__group-heading';
     margin-bottom: $menuMargin;
     border: c.$borderWidth solid c.$colorNeutralLight;
     border-radius: c.$borderRadius;
-    background-color: c.$colorCustom6;
+    background-color: c.$colorOverlayBackground;
     overflow: hidden;
     box-shadow: 0 c.$selectMenuShadowSize c.$selectMenuShadowBlur 0 c.$colorShadow;
     z-index: c.$zIndex1000;
