@@ -37,6 +37,7 @@ const Template: Story<TextFieldProps<TextFieldTypes>> = ({ value: initialValue, 
     <>
       <TextField value={value} {...args} onChange={(e) => setValue(e.target.value)} />
       <TextField value={value} {...args} onChange={(e) => setValue(e.target.value)} size="small" />
+      <TextField value={value} {...args} onChange={(e) => setValue(e.target.value)} size="large" />
     </>
   )
 }

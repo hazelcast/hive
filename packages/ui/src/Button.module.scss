@@ -29,6 +29,11 @@
 
   @include c.typographyButton('small');
 
+  &.medium {
+    height: c.$grid * 10.75;
+    @include c.typographyButton('medium');
+  }
+
   .outline {
     position: absolute;
     border-radius: c.$borderRadiusButtonSmall;
@@ -178,6 +183,30 @@
 
       &.variantContained {
         color: c.$colorNeutralWhite;
+      }
+
+      &:disabled {
+        @include disabledButtonColor;
+      }
+    }
+
+    &BrandCustom4 {
+      @include buttonColor(c.$colorCustom4);
+
+      &:hover,
+      &.hover,
+      &:focus,
+      &.focus {
+        @include buttonColor(lighten(c.$colorCustom4, 10%));
+      }
+
+      &:active,
+      &.active {
+        @include buttonColor(darken(c.$colorCustom4, 10%));
+      }
+
+      &.variantContained {
+        color: c.$colorText;
       }
 
       &:disabled {

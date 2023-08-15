@@ -26,7 +26,8 @@ import { TooltipProps } from './Tooltip'
 
 import styles from './TextField.module.scss'
 
-export type TextFieldSize = 'medium' | 'small'
+export type TextFieldSize = 'medium' | 'small' | 'large'
+export type TextFieldVariant = 'primary' | 'secondary'
 
 type TextFieldTrailingIcon =
   | {
@@ -51,6 +52,7 @@ type TextFieldCoreProps<T extends TextFieldTypes> = {
 export type TextFieldExtraProps<T extends TextFieldTypes> = {
   ariaLabel?: string
   size?: TextFieldSize
+  variant?: TextFieldVariant
   iconSize?: IconSize
   className?: string
   inputContainerClassName?: string
@@ -106,6 +108,7 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
     showAriaLabel = false,
     name,
     size = 'medium',
+    variant = 'primary',
     onBlur,
     onChange,
     onKeyPress,
@@ -141,6 +144,7 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
         {
           [styles.withError]: 'error' in props,
           [styles.small]: size === 'small',
+          [styles.large]: size === 'large',
           [styles.disabled]: disabled,
           [styles.hasError]: error,
           [styles.withIcon]: inputIcon,
@@ -153,6 +157,7 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
         id={id}
         size={size}
         label={label}
+        variant={variant}
         helperText={helperText}
         showAriaLabel={showAriaLabel}
         labelClassName={labelClassName}

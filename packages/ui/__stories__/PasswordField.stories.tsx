@@ -34,6 +34,7 @@ const Template: Story<PasswordFieldProps> = ({ value: initValue, ...args }) => {
     <>
       <PasswordField {...args} value={value} onChange={(e) => setValue(e.target.value)} />
       <PasswordField {...args} value={value} onChange={(e) => setValue(e.target.value)} size="small" />
+      <PasswordField {...args} value={value} onChange={(e) => setValue(e.target.value)} size="large" />
     </>
   )
 }

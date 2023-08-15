@@ -21,6 +21,7 @@ $marginLeftWithIcon: c.$grid * 5;
     flex: 1 1 auto;
     display: flex;
     flex-direction: row;
+    overflow: hidden;
     box-sizing: border-box;
     height: c.$inputHeight;
     background-color: c.$colorOverlayBackground;
@@ -112,6 +113,12 @@ $marginLeftWithIcon: c.$grid * 5;
   &.small {
     .inputContainer {
       height: c.$inputHeightSmall;
+    }
+  }
+
+  &.large {
+    .inputContainer {
+      height: c.$inputHeightLarge;
     }
   }
 
