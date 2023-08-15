@@ -1,8 +1,8 @@
 @use '../constants' as c;
 
 @mixin gradientLime {
-  background: c.$colorCustom4;
-  background: linear-gradient(270deg, c.$colorCustom4 0%, #00b8b8 100%);
+  background: c.$authPrimary;
+  background: linear-gradient(270deg, c.$authPrimary 0%, #00b8b8 100%);
 }
 
 @mixin gradientOcean {

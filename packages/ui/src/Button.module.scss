@@ -192,18 +192,18 @@
     }
 
     &AuthPrimary {
-      @include buttonColor(c.$colorCustom4);
+      @include buttonColor(c.$authPrimary);
 
       &:hover,
       &.hover,
       &:focus,
       &.focus {
-        @include buttonColor(lighten(c.$colorCustom4, 10%));
+        @include buttonColor(lighten(c.$authPrimary, 10%));
       }
 
       &:active,
       &.active {
-        @include buttonColor(darken(c.$colorCustom4, 10%));
+        @include buttonColor(darken(c.$authPrimary, 10%));
       }
 
       &.variantContained {
