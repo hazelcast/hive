@@ -40,6 +40,7 @@ describe('TextField', () => {
     expect(wrapper.find(Label).props()).toEqual({
       id: 'republic',
       label: 'Wisest jedi',
+      variant: 'primary',
       className: styles.label,
     })
 
@@ -129,6 +130,7 @@ describe('TextField', () => {
     expect(wrapper.find(Label).props()).toEqual({
       id: 'republic',
       label: 'Wisest jedi',
+      variant: 'primary',
       className: styles.label,
     })
 
@@ -182,6 +184,7 @@ describe('TextField', () => {
     expect(wrapper.find(Label).props()).toEqual({
       id: 'republic',
       label: 'Wisest jedi',
+      variant: 'primary',
       className: styles.label,
     })
 
@@ -223,6 +226,7 @@ describe('TextField', () => {
     expect(wrapper.find(Label).props()).toEqual({
       id: 'republic',
       label: 'Wisest jedi',
+      variant: 'primary',
       className: styles.label,
     })
 
@@ -264,6 +268,7 @@ describe('TextField', () => {
     expect(wrapper.find(Label).props()).toEqual({
       id: 'republic',
       label: 'Wisest jedi',
+      variant: 'primary',
       className: styles.label,
     })
 

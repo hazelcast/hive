@@ -213,8 +213,8 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
                       [styles[`color${capitalizeFirstCharacter(color)}`]]: true,
                       [styles[`variant${capitalizeFirstCharacter(variant)}`]]: true,
                     }),
+                [styles[size]]: size !== 'small',
               },
-              styles[size],
               className,
             )}
             aria-describedby={disabled ? tooltipId : undefined}
