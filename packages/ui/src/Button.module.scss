@@ -31,6 +31,7 @@
 
   &.medium {
     height: c.$grid * 10.75;
+
     @include c.typographyButton('medium');
   }
 
