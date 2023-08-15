@@ -14,7 +14,7 @@ import styles from './Button.module.scss'
 export type ButtonKind = 'primary' | 'secondary' | 'danger' | 'transparent'
 
 export type ButtonVariant = 'contained' | 'outlined' | 'text'
-export type ButtonColor = 'primary' | 'secondary' | 'warning' | 'brand' | 'brandCustom4'
+export type ButtonColor = 'primary' | 'secondary' | 'warning' | 'brand' | 'authPrimary'
 
 export type ButtonSize = 'medium' | 'small'
 

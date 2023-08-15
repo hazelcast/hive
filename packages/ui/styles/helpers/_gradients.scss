@@ -6,6 +6,6 @@
 }
 
 @mixin gradientOcean {
-  background: c.$colorCustom7;
-  background: linear-gradient(270deg, c.$colorCustom7 0%, #1b2939 100%);
+  background: c.$colorText;
+  background: linear-gradient(270deg, c.$colorText 0%, #1b2939 100%);
 }

@@ -42,9 +42,9 @@ const Template: ComponentStory<typeof Button> = ({ className, ...args }) => {
         <Button {...props} color="brand" />
         <Button {...props} variant="outlined" color="brand" />
         <Button {...props} variant="text" color="brand" />
-        <Button {...props} color="brandCustom4" />
-        <Button {...props} variant="outlined" color="brandCustom4" />
-        <Button {...props} variant="text" color="brandCustom4" />
+        <Button {...props} color="authPrimary" />
+        <Button {...props} variant="outlined" color="authPrimary" />
+        <Button {...props} variant="text" color="authPrimary" />
         <Button {...props} size="medium" />
         <Button {...props} variant="outlined" size="medium" />
         <Button {...props} variant="text" size="medium" />
@@ -57,9 +57,9 @@ const Template: ComponentStory<typeof Button> = ({ className, ...args }) => {
         <Button {...props} color="brand" size="medium" />
         <Button {...props} variant="outlined" color="brand" size="medium" />
         <Button {...props} variant="text" color="brand" size="medium" />
-        <Button {...props} color="brandCustom4" size="medium" />
-        <Button {...props} variant="outlined" color="brandCustom4" size="medium" />
-        <Button {...props} variant="text" color="brandCustom4" size="medium" />
+        <Button {...props} color="authPrimary" size="medium" />
+        <Button {...props} variant="outlined" color="authPrimary" size="medium" />
+        <Button {...props} variant="text" color="authPrimary" size="medium" />
       </div>
     </div>
   )
