@@ -11,7 +11,7 @@ $fontSizeH1Hero: 2.875rem !default; // 46px
 $fontSizeH1: 2.125rem !default; // 34px
 $fontSizeH2: 1.625rem !default; // 26px
 $fontSizeH3: 1.25rem !default; // 20px
-$fontSizeButton: 1.125rem !default;
+$fontSizeButton: 1rem !default;
 $fontSizeButtonSmall: 0.875rem !default;
 $fontSizeBodyNormal: 1rem !default;
 $fontSizeBodySmall: 0.875rem !default;
@@ -78,7 +78,7 @@ $lineHeightBodyTiny: normal !default;
   line-height: $lineHeightButton;
 
   @if $size == 'medium' {
-    font-weight: $fontWeightTextRegular;
+    font-weight: $fontWeightTextBold;
     font-size: $fontSizeButton;
     letter-spacing: $letterSpacingButton;
   }

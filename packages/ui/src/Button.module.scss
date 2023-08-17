@@ -29,6 +29,12 @@
 
   @include c.typographyButton('small');
 
+  &.medium {
+    height: c.$grid * 10.75;
+
+    @include c.typographyButton('medium');
+  }
+
   .outline {
     position: absolute;
     border-radius: c.$borderRadiusButtonSmall;
@@ -178,6 +184,30 @@
 
       &.variantContained {
         color: c.$colorNeutralWhite;
+      }
+
+      &:disabled {
+        @include disabledButtonColor;
+      }
+    }
+
+    &AuthPrimary {
+      @include buttonColor(c.$authPrimary);
+
+      &:hover,
+      &.hover,
+      &:focus,
+      &.focus {
+        @include buttonColor(lighten(c.$authPrimary, 10%));
+      }
+
+      &:active,
+      &.active {
+        @include buttonColor(darken(c.$authPrimary, 10%));
+      }
+
+      &.variantContained {
+        color: c.$colorText;
       }
 
       &:disabled {

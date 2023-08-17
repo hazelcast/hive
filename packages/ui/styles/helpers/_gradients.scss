@@ -1,0 +1,11 @@
+@use '../constants' as c;
+
+@mixin gradientLime {
+  background: c.$authPrimary;
+  background: linear-gradient(270deg, c.$authPrimary 0%, #00b8b8 100%);
+}
+
+@mixin gradientOcean {
+  background: c.$colorText;
+  background: linear-gradient(270deg, #0c6f8e 0%, #1b2939 100%);
+}

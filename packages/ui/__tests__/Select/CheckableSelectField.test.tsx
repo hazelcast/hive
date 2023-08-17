@@ -54,6 +54,7 @@ describe('CheckableSelectField', () => {
     expect(wrapper.find(Label).props()).toEqual({
       id: selectId,
       label: selectLabel,
+      variant: 'primary',
       className: `${styles.label} ${styles.small}`,
     })
 
@@ -76,6 +77,7 @@ describe('CheckableSelectField', () => {
     expect(wrapper.find(Label).props()).toEqual({
       id: selectId,
       label: selectLabel,
+      variant: 'primary',
       className: `${styles.label} ${styles.small}`,
     })
 

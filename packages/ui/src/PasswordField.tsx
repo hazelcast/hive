@@ -2,7 +2,7 @@ import { DataTestProp } from '@hazelcast/helpers'
 import React, { FC, FocusEvent, ChangeEvent, InputHTMLAttributes, useMemo, useState } from 'react'
 import { Eye, EyeOff, Lock } from 'react-feather'
 
-import { TextField, TextFieldSize } from './TextField'
+import { TextField, TextFieldSize, TextFieldVariant } from './TextField'
 import { IconButton, IconButtonDisabledProps, IconButtonNotDisabledProps } from './IconButton'
 import { HelpProps } from './Help'
 
@@ -21,6 +21,7 @@ export type PasswordFieldExtraProps = {
   label: string
   helperText?: HelpProps['helperText']
   size?: TextFieldSize
+  variant?: TextFieldVariant
   labelClassName?: string
   className?: string
   inputClassName?: string

@@ -5,4 +5,8 @@
 
   color: c.$colorTextSecondary;
   padding: 0;
+
+  &.secondary {
+    color: c.$colorNeutralWhite;
+  }
 }

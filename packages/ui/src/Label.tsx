@@ -7,10 +7,11 @@ export type LabelProps = {
   id: string
   label: string | ReactElement
   className?: string
+  variant?: 'primary' | 'secondary'
 }
 
-export const Label: FC<LabelProps> = ({ id, label, className }) => (
-  <label htmlFor={id} className={cn(styles.label, className)}>
+export const Label: FC<LabelProps> = ({ id, label, className, variant = 'primary' }) => (
+  <label htmlFor={id} className={cn(styles.label, styles[variant], className)}>
     {label}
   </label>
 )

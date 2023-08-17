@@ -3,7 +3,7 @@ import cn from 'classnames'
 import mergeRefs from 'react-merge-refs'
 import { useUID } from 'react-uid'
 
-import { Icon, IconProps } from './Icon'
+import { Icon, IconProps, IconSize } from './Icon'
 import { TruncatedText } from './TruncatedText'
 import { Tooltip, TooltipProps } from './Tooltip'
 import { LinkRel, LinkTarget } from './Link'
@@ -14,7 +14,7 @@ import styles from './Button.module.scss'
 export type ButtonKind = 'primary' | 'secondary' | 'danger' | 'transparent'
 
 export type ButtonVariant = 'contained' | 'outlined' | 'text'
-export type ButtonColor = 'primary' | 'secondary' | 'warning' | 'brand'
+export type ButtonColor = 'primary' | 'secondary' | 'warning' | 'brand' | 'authPrimary'
 
 export type ButtonSize = 'medium' | 'small'
 
@@ -71,6 +71,7 @@ export type ButtonCommonProps = {
    */
   kind?: ButtonKind
   children: string | ReactElement
+  size?: ButtonSize
   color?: ButtonColor
   capitalize?: boolean
   bodyClassName?: string
@@ -183,11 +184,13 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
       variant = 'contained',
       color = 'primary',
       tooltip,
+      size = 'small',
       ...rest
     },
     ref,
   ) => {
     const tooltipId = useUID()
+    const iconSize: IconSize = size === 'medium' ? 'smallMedium' : 'small'
     const relFinal = Array.isArray(rel) ? rel.join(' ') : rel
     const loadingAnimationOnRight = loading && iconRight && iconRightAriaLabel && !(iconLeft && iconLeftAriaLabel)
 
@@ -210,6 +213,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
                       [styles[`color${capitalizeFirstCharacter(color)}`]]: true,
                       [styles[`variant${capitalizeFirstCharacter(variant)}`]]: true,
                     }),
+                [styles[size]]: size !== 'small',
               },
               className,
             )}
@@ -223,14 +227,14 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
           >
             <span data-test="button-outline" className={cn(styles.outline, { [styles.inset]: outline === 'inset' }, outlineClassName)} />
             <span className={cn(styles.body, bodyClassName)} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
-              {loading && !loadingAnimationOnRight && <Loader className={styles.iconLeft} size="small" />}
+              {loading && !loadingAnimationOnRight && <Loader className={styles.iconLeft} size={iconSize} />}
               {iconLeft && iconLeftAriaLabel && !loading && (
                 <Icon
                   icon={iconLeft}
                   ariaLabel={iconLeftAriaLabel}
                   data-test="button-icon-left"
                   className={cn(styles.iconLeft, iconLeftClassName)}
-                  size="small"
+                  size={iconSize}
                   color={iconLeftColor}
                 />
               )}
@@ -244,14 +248,14 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
                 */
                 tooltipVisible={disabled && disabledTooltipVisible !== false ? false : undefined}
               />
-              {loadingAnimationOnRight && <Loader className={styles.iconRight} size="small" />}
+              {loadingAnimationOnRight && <Loader className={styles.iconRight} size={iconSize} />}
               {!loadingAnimationOnRight && iconRight && iconRightAriaLabel && (
                 <Icon
                   icon={iconRight}
                   ariaLabel={iconRightAriaLabel}
                   data-test="button-icon-right"
                   className={cn(styles.iconRight, iconRightClassName)}
-                  size="small"
+                  size={iconSize}
                   color={iconRightColor}
                 />
               )}

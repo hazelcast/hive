@@ -32,13 +32,34 @@ const Template: ComponentStory<typeof Button> = ({ className, ...args }) => {
       <div>
         <Button {...props} />
         <Button {...props} variant="outlined" />
+        <Button {...props} variant="text" />
         <Button {...props} color="secondary" />
         <Button {...props} variant="outlined" color="secondary" />
+        <Button {...props} variant="text" color="secondary" />
         <Button {...props} color="warning" />
         <Button {...props} variant="outlined" color="warning" />
+        <Button {...props} variant="text" color="warning" />
         <Button {...props} color="brand" />
         <Button {...props} variant="outlined" color="brand" />
-        <Button {...props} variant="text" />
+        <Button {...props} variant="text" color="brand" />
+        <Button {...props} color="authPrimary" />
+        <Button {...props} variant="outlined" color="authPrimary" />
+        <Button {...props} variant="text" color="authPrimary" />
+        <Button {...props} size="medium" />
+        <Button {...props} variant="outlined" size="medium" />
+        <Button {...props} variant="text" size="medium" />
+        <Button {...props} color="secondary" size="medium" />
+        <Button {...props} variant="outlined" color="secondary" size="medium" />
+        <Button {...props} variant="text" color="secondary" size="medium" />
+        <Button {...props} color="warning" size="medium" />
+        <Button {...props} variant="outlined" color="warning" size="medium" />
+        <Button {...props} variant="text" color="warning" size="medium" />
+        <Button {...props} color="brand" size="medium" />
+        <Button {...props} variant="outlined" color="brand" size="medium" />
+        <Button {...props} variant="text" color="brand" size="medium" />
+        <Button {...props} color="authPrimary" size="medium" />
+        <Button {...props} variant="outlined" color="authPrimary" size="medium" />
+        <Button {...props} variant="text" color="authPrimary" size="medium" />
       </div>
     </div>
   )

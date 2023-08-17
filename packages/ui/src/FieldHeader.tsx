@@ -7,7 +7,8 @@ import { DataTestProp } from '@hazelcast/helpers'
 
 import styles from './FieldHeader.module.scss'
 
-export type FieldHeaderSize = 'small' | 'medium'
+export type FieldHeaderSize = 'small' | 'medium' | 'large'
+export type FieldHeaderVariant = 'primary' | 'secondary'
 export type FieldHeaderLabelProps = {
   label?: string
   labelClassName?: string
@@ -22,13 +23,24 @@ export type FieldHeaderNoLabelProps = {
 }
 export type FieldHeaderProps = {
   size?: FieldHeaderSize
+  variant?: FieldHeaderVariant
   id: string
   showAriaLabel?: boolean
 } & DataTestProp &
   (FieldHeaderNoLabelProps | FieldHeaderLabelProps)
 
 export const FieldHeader = (props: FieldHeaderProps) => {
-  const { label, id, helperText, size = 'medium', labelClassName, 'data-test': dataTest, showAriaLabel, helperTextTooltipWordBreak } = props
+  const {
+    label,
+    id,
+    variant,
+    helperText,
+    size = 'medium',
+    labelClassName,
+    'data-test': dataTest,
+    showAriaLabel,
+    helperTextTooltipWordBreak,
+  } = props
 
   if (showAriaLabel) {
     return null
@@ -39,6 +51,7 @@ export const FieldHeader = (props: FieldHeaderProps) => {
       <Label
         id={id}
         label={label}
+        variant={variant}
         data-test={dataTest ? `${dataTest}-label` : undefined}
         className={cn(styles.label, { [styles.small]: size === 'small' }, labelClassName)}
       />
