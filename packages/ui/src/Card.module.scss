@@ -4,9 +4,9 @@
   $padding: c.$grid * 5;
 
   padding: $padding;
-  box-shadow: 0 c.$cardShadowSize c.$cardShadowBlur 0 c.$colorShadow;
   border-radius: c.$borderRadius;
   background: c.$colorNeutralWhite;
+  border: c.$borderWidth solid c.$colorNeutral;
 
   .heading {
     @include c.typographyH3;
