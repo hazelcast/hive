@@ -137,4 +137,24 @@ describe('PasswordField', () => {
 
     expect(wrapper.find(IconButton).prop('disabled')).toBe(true)
   })
+
+  it('hides toggle button', async () => {
+    const onBlur = jest.fn()
+    const onChange = jest.fn()
+
+    const wrapper = await mountAndCheckA11Y(
+      <PasswordField
+        name="name"
+        value="password"
+        placeholder="Enter the name"
+        label="Wisest jedi"
+        onBlur={onBlur}
+        onChange={onChange}
+        hideToggle
+        disabled
+      />,
+    )
+
+    expect(wrapper.findDataTestFirst('password-field-toggle').exists()).toBeFalsy()
+  })
 })

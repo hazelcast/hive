@@ -35,7 +35,6 @@ const Template: Story<PasswordFieldProps> = ({ value: initValue, ...args }) => {
       <PasswordField {...args} value={value} onChange={(e) => setValue(e.target.value)} />
       <PasswordField {...args} value={value} onChange={(e) => setValue(e.target.value)} size="small" />
       <PasswordField {...args} value={value} onChange={(e) => setValue(e.target.value)} size="large" />
-      <PasswordField {...args} value={value} onChange={(e) => setValue(e.target.value)} hideToggle size="large" />
     </>
   )
 }
@@ -116,4 +115,9 @@ export const WrappedInFormik = () => {
   )
 
   return <TestForm />
+}
+
+export const WithoutToggle = Template.bind({})
+WithoutToggle.args = {
+  hideToggle: true,
 }
