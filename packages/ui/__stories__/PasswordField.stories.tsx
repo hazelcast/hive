@@ -116,3 +116,8 @@ export const WrappedInFormik = () => {
 
   return <TestForm />
 }
+
+export const WithoutToggle = Template.bind({})
+WithoutToggle.args = {
+  hideToggle: true,
+}

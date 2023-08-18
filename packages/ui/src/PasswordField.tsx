@@ -1,6 +1,7 @@
 import { DataTestProp } from '@hazelcast/helpers'
 import React, { FC, FocusEvent, ChangeEvent, InputHTMLAttributes, useMemo, useState } from 'react'
 import { Eye, EyeOff, Lock } from 'react-feather'
+import cls from 'classnames'
 
 import { TextField, TextFieldSize, TextFieldVariant } from './TextField'
 import { IconButton, IconButtonDisabledProps, IconButtonNotDisabledProps } from './IconButton'
@@ -14,6 +15,7 @@ type PasswordFieldCoreProps = {
   onBlur?: (e: FocusEvent<HTMLInputElement>) => void
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
   error?: string
+  hideToggle?: boolean
 }
 export type PasswordFieldExtraProps = {
   showIconLabel?: string
@@ -39,11 +41,16 @@ export const PasswordField: FC<PasswordFieldProps> = ({
   withIcon,
   disabled,
   initiallyVisible = false,
+  hideToggle = false,
   ...props
 }) => {
   const [visible, setVisible] = useState(initiallyVisible)
 
   const overlay = useMemo(() => {
+    if (hideToggle) {
+      return undefined
+    }
+
     let disabledProps: IconButtonDisabledProps | IconButtonNotDisabledProps = {}
     if (disabled) {
       // The IconButton is disabled only when the entire input is disabled. No need for a tooltip.
@@ -67,14 +74,14 @@ export const PasswordField: FC<PasswordFieldProps> = ({
         {...disabledProps}
       />
     )
-  }, [visible, hideIconLabel, showIconLabel, disabled])
+  }, [visible, hideToggle, hideIconLabel, showIconLabel, disabled])
 
   return (
     <TextField
       {...props}
       type={visible ? 'text' : 'password'}
       inputContainerChild={overlay}
-      inputContainerClassName={styles.inputContainer}
+      inputContainerClassName={cls(styles.inputContainer, { [styles.withoutToggle]: hideToggle })}
       inputClassName={inputClassName}
       inputIcon={withIcon ? Lock : undefined}
       disabled={disabled}
