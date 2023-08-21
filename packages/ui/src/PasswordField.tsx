@@ -15,7 +15,6 @@ type PasswordFieldCoreProps = {
   onBlur?: (e: FocusEvent<HTMLInputElement>) => void
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
   error?: string
-  hideToggle?: boolean
 }
 export type PasswordFieldExtraProps = {
   showIconLabel?: string
@@ -30,6 +29,7 @@ export type PasswordFieldExtraProps = {
   errorClassName?: string
   withIcon?: boolean
   initiallyVisible?: boolean
+  hideToggle?: boolean
 } & DataTestProp &
   Pick<InputHTMLAttributes<HTMLInputElement>, 'id' | 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'>
 export type PasswordFieldProps = PasswordFieldCoreProps & PasswordFieldExtraProps
