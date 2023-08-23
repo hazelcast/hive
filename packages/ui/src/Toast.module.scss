@@ -24,8 +24,8 @@
   }
 
   &.success {
-    background-color: c.$colorSuccess;
-    color: c.$colorNeutralWhite;
+    background-color: c.$colorSuccessLight;
+    color: c.$colorText;
   }
 
   &.info {
@@ -33,7 +33,7 @@
     color: c.$colorText;
 
     .icon {
-      color: c.$colorInfoDark;
+      color: c.$colorText;
     }
   }
 
@@ -42,12 +42,12 @@
     color: c.$colorText;
 
     .icon {
-      color: c.$colorWarningDark;
+      color: c.$colorText;
     }
   }
 
   &.critical {
-    background-color: c.$colorError;
-    color: c.$colorNeutralWhite;
+    background-color: c.$colorErrorLight;
+    color: c.$colorText;
   }
 }

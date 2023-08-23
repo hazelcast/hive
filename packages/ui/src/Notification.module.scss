@@ -37,15 +37,15 @@
 
   /* Theme - success */
   &.success {
-    color: c.$colorNeutralWhite;
-    background-color: c.$colorSuccess;
+    color: c.$colorText;
+    background-color: c.$colorSuccessLight;
 
     .icon {
-      color: c.$colorNeutralWhite;
+      color: c.$colorText;
     }
 
     .link {
-      color: c.$colorNeutralWhite;
+      color: c.$colorText;
     }
   }
 
@@ -69,25 +69,25 @@
     background-color: c.$colorWarningLight;
 
     .icon {
-      color: c.$colorWarningDark;
+      color: c.$colorText;
     }
 
     .link {
-      color: c.$colorWarningDark;
+      color: c.$colorText;
     }
   }
 
   /* Theme - error */
   &.error {
-    color: c.$colorNeutralWhite;
-    background-color: c.$colorError;
+    color: c.$colorText;
+    background-color: c.$colorErrorLight;
 
     .icon {
-      color: c.$colorNeutralWhite;
+      color: c.$colorText;
     }
 
     .link {
-      color: c.$colorNeutralWhite;
+      color: c.$colorText;
     }
   }
 }
