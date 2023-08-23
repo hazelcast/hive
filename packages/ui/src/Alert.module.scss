@@ -4,9 +4,9 @@
 // TODO: potential max-height
 .alert {
   display: inline-flex;
-  border-radius: c.$borderRadius;
   padding: c.$grid * 2.5;
   width: c.$alertWidth;
+  border-left: 5px solid transparent;
 
   .icon {
     flex-shrink: 0;
@@ -36,16 +36,17 @@
 
   /* Theme - Success */
   &.success {
-    color: c.$colorNeutralWhite;
-    background-color: c.$colorSuccess;
+    color: c.$colorText;
+    border-color: c.$colorSuccess;
+    background-color: rgba(c.$colorSuccess, 30%);
 
     .icon {
-      color: c.$colorNeutralWhite;
+      color: c.$colorText;
     }
 
     .actions {
       .action {
-        color: c.$colorNeutralWhite;
+        color: c.$colorText;
       }
     }
   }
@@ -53,10 +54,11 @@
   /* Theme - Info */
   &.info {
     color: c.$colorText;
-    background-color: c.$colorInfoLight;
+    border-color: c.$colorInfo;
+    background-color: rgba(c.$colorInfo, 30%);
 
     .icon {
-      color: c.$colorInfoDark;
+      color: c.$colorText;
     }
 
     .actions {
@@ -69,10 +71,11 @@
   /* Theme - Warning */
   &.warning {
     color: c.$colorText;
-    background-color: c.$colorWarningLight;
+    border-color: c.$colorWarning;
+    background-color: rgba(c.$colorWarning, 30%);
 
     .icon {
-      color: c.$colorWarningDark;
+      color: c.$colorText;
     }
 
     .actions {
@@ -84,16 +87,17 @@
 
   /* Theme - Critical */
   &.critical {
-    color: c.$colorNeutralWhite;
-    background-color: c.$colorError;
+    color: c.$colorText;
+    border-color: c.$colorError;
+    background-color: rgba(c.$colorError, 30%);
 
     .icon {
-      color: c.$colorNeutralWhite;
+      color: c.$colorText;
     }
 
     .actions {
       .action {
-        color: c.$colorNeutralWhite;
+        color: c.$colorText;
       }
     }
   }
