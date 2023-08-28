@@ -84,7 +84,7 @@
     line-height: inherit;
     letter-spacing: inherit;
     color: inherit;
-    background-color: c.$colorNeutralLighter;
+    background-color: c.$colorOverlayBackground;
     /* doiuse-disable css-resize */
     resize: vertical;
     /* doiuse-enable css-resize */
@@ -122,6 +122,10 @@
   &.hasError {
     .textAreaWrapper .borderOverlay {
       border-color: c.$colorError;
+    }
+
+    label {
+      color: c.$colorError;
     }
   }
 
