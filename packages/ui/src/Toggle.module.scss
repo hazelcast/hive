@@ -8,7 +8,7 @@ $labelMargin: c.$grid * 2.5;
 /* doiuse-disable calc */
 $trackBr: calc(#{$height} - #{c.$borderWidth * 2});
 /* doiuse-enable calc */
-$trackBgOn: c.$colorSuccessLight;
+$trackBgOn: c.$colorSuccess;
 $trackBgOff: c.$colorNeutral;
 $knobBgOn: c.$colorNeutralWhite;
 $knobBgOff: c.$colorNeutralLighter;
