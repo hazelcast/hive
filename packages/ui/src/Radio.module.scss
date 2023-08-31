@@ -48,8 +48,8 @@
   }
 
   & > input:checked ~ .checkmark {
-    background-color: c.$colorSuccessLight;
-    border-color: c.$colorSuccessLight;
+    background-color: c.$colorSuccess;
+    border-color: c.$colorSuccess;
   }
 
   /**
