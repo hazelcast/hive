@@ -29,6 +29,7 @@ import {
   useColumnOrder,
   useExpanded,
   TableInstance,
+  TableState,
 } from 'react-table'
 import { AlertTriangle, ChevronDown, ChevronUp } from 'react-feather'
 
@@ -45,6 +46,7 @@ import { TableContent } from './TableContent'
 import { ROW_EXPANDER_COLUMN_ID } from './constants'
 import { useColumnsSelection, ContextMenu } from './features/columnsSelection'
 import { useRefValue } from '../hooks'
+import { useDebouncedEffect } from '../hooks/useDebouncedEffect'
 
 import styles from './Table.module.scss'
 import styleConsts from '../../styles/constants/export.module.scss'
@@ -216,6 +218,7 @@ type CustomTableProps<D extends object> = {
   children?: (table: ReactElement, tableInstance: TableInstance<D>) => ReactElement
   renderRowSubComponent?: (props: RowType<D>) => ReactNode
   onCopy?: (data: (string | undefined)[][]) => void
+  onTableStateChange?: (state: Pick<TableState<D>, 'columnResizing' | 'pageSize'>) => void
 } & CustomTableRowClickProps<D> &
   DataTestProp
 
@@ -282,6 +285,7 @@ export const Table = <D extends object>({
   renderRowSubComponent,
   autoResetExpanded = false,
   onCopy,
+  onTableStateChange,
 }: TableProps<D>): ReactElement => {
   const getOncopy = useRefValue(onCopy)
   const [rootEl, setRootEl] = useState<HTMLDivElement | null>(null)
@@ -421,6 +425,12 @@ export const Table = <D extends object>({
     }),
     [onKeyUp],
   )
+
+  useDebouncedEffect(() => {
+    if (onTableStateChange) {
+      onTableStateChange({ pageSize, columnResizing })
+    }
+  }, [pageSize, columnResizing])
 
   useEffect(() => {
     return () => {
