@@ -20,9 +20,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/install
-      - run: export NODE_OPTIONS=--openssl-legacy-provider
       - run: pnpm run build-storybook
-      - run: pnpm run test:visual
+      - run: export NODE_OPTIONS=--openssl-legacy-provider && pnpm run test:visual
 
       - name: Archive screenshots
         if: ${{ failure() }}
