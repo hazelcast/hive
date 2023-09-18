@@ -191,6 +191,14 @@ cd packages/ui
 pnpm run generate-screenshots
 ```
 
+In case you see an error in the console `error:0308010C:digital envelope routines`
+
+try to run first
+
+```shell
+export NODE_OPTIONS=--openssl-legacy-provider
+```
+
 ### Run all checks at once
 
 ```
