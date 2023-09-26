@@ -21,6 +21,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/install
       - run: pnpm run build-storybook
+      - run: export DOCKER_DEFAULT_PLATFORM=linux/amd64
       - run: docker pull yukinying/chrome-headless-browser-stable:latest
       - run: export NODE_OPTIONS=--openssl-legacy-provider && pnpm run test:visual
 
