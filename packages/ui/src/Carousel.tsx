@@ -1,10 +1,8 @@
 import React, { CSSProperties, FC, ReactElement, ReactNode } from 'react'
 import cn from 'classnames'
-import * as NukaCarousel from 'nuka-carousel'
-import { CarouselProps as NukaCarouselProps } from 'nuka-carousel'
+import NukaCarousel, { CarouselProps as NukaCarouselProps } from 'nuka-carousel'
 import { ChevronLeft, ChevronRight } from 'react-feather'
 import { DataTestProp } from '@hazelcast/helpers'
-
 import styleConsts from '../styles/constants/export.module.scss'
 import styles from './Carousel.module.scss'
 
@@ -44,7 +42,7 @@ export const Carousel: FC<CarouselProps> = ({
 }) => {
   return (
     <div data-test={dataTest} className={cn(wrapperClassName, styles.wrapper)}>
-      <NukaCarousel.default
+      <NukaCarousel
         slidesToShow={slidesToShow}
         defaultControlsConfig={{
           nextButtonText: defaultControlsConfig?.nextButtonContent ?? <ChevronRight size={40} strokeWidth="0.9" color={color} />,
@@ -67,7 +65,7 @@ export const Carousel: FC<CarouselProps> = ({
         {...props}
       >
         {children}
-      </NukaCarousel.default>
+      </NukaCarousel>
     </div>
   )
 }
