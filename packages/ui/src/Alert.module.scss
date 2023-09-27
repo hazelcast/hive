@@ -38,7 +38,7 @@
   &.success {
     color: c.$colorText;
     border-color: c.$colorSuccess;
-    background-color: rgba(c.$colorSuccess, 30%);
+    background-color: c.$colorSuccessLight;
 
     .icon {
       color: c.$colorText;
@@ -55,7 +55,7 @@
   &.info {
     color: c.$colorText;
     border-color: c.$colorInfo;
-    background-color: rgba(c.$colorInfo, 30%);
+    background-color: c.$colorInfoLight;
 
     .icon {
       color: c.$colorText;
@@ -72,7 +72,7 @@
   &.warning {
     color: c.$colorText;
     border-color: c.$colorWarning;
-    background-color: rgba(c.$colorWarning, 30%);
+    background-color: c.$colorWarningLight;
 
     .icon {
       color: c.$colorText;
@@ -89,7 +89,7 @@
   &.critical {
     color: c.$colorText;
     border-color: c.$colorError;
-    background-color: rgba(c.$colorError, 30%);
+    background-color: c.$colorErrorLight;
 
     .icon {
       color: c.$colorText;
