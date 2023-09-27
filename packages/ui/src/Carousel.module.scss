@@ -9,13 +9,22 @@
 }
 
 .nextButtonClassName {
-  position: relative;
   left: c.$grid * 12;
 }
 
 .prevButtonClassName {
-  position: relative;
   right: c.$grid * 12;
+}
+
+.nextButtonClassName,
+.prevButtonClassName {
+  padding: 0 !important;
+  position: relative;
+  height: 40px;
+
+  &:focus {
+    @include h.outlineAround;
+  }
 }
 
 .pagingDotsClassName {
@@ -23,4 +32,12 @@
   top: c.$grid * 7;
   margin-left: c.$grid * 0.5;
   margin-right: c.$grid * 0.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: c.$grid * 1.5;
+
+  &:focus {
+    @include h.outlineAround;
+  }
 }
