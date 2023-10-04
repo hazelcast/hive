@@ -18,6 +18,8 @@ type IconButtonCommonProps = {
   icon: FeatherIcon
   iconClassName?: string
   iconColor?: string
+  iconRole?: string
+  loaderRole?: string
   kind?: IconButtonKind
   size?: IconProps['size']
   padding?: 'normal'
@@ -66,6 +68,8 @@ export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
       icon,
       iconClassName,
       iconColor,
+      iconRole,
+      loaderRole,
       className,
       size,
       kind = 'transparent',
@@ -121,8 +125,8 @@ export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
             {...rest}
           >
             <span className={styles.body} ref={mergeRefs([ref, tooltipRef])}>
-              {loading && <Loader size={size} />}
-              {!loading && <Icon className={iconClassName} color={iconColor} icon={icon} size={size} ariaHidden />}
+              {loading && <Loader role={loaderRole} size={size} />}
+              {!loading && <Icon role={iconRole} className={iconClassName} color={iconColor} icon={icon} size={size} ariaHidden />}
             </span>
           </Component>
         )}

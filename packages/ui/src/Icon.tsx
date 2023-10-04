@@ -38,11 +38,23 @@ export type IconProps = {
   className?: string
   containerClassName?: string
   bold?: boolean
+  role?: string
 } & IconAriaProps
 
 export const Icon = forwardRef<HTMLDivElement, IconProps>(
   (
-    { color, icon: IconElement, ariaLabel, ariaLabelledBy, ariaHidden, className, containerClassName, size = 'medium', bold = false },
+    {
+      color,
+      icon: IconElement,
+      ariaLabel,
+      ariaLabelledBy,
+      ariaHidden,
+      className,
+      containerClassName,
+      size = 'medium',
+      bold = false,
+      role = 'img',
+    },
     ref,
   ) => {
     const iconStroke = bold ? styleConsts.iconStrokeWidthBold : styleConsts.iconStrokeWidth
@@ -69,7 +81,7 @@ export const Icon = forwardRef<HTMLDivElement, IconProps>(
 
     return (
       <div className={cn(styles.iconContainer, containerClassName)} ref={ref}>
-        <IconElement role="img" {...props} />
+        <IconElement role={role} {...props} />
       </div>
     )
   },
