@@ -38,7 +38,7 @@ export type PopperRef = ReturnType<typeof usePopper>
 
 export type TooltipProps = {
   content: ReactNode
-  id: string
+  id?: string
   hideTimeoutDuration?: number
   offset?: number
   padding?: number
@@ -212,7 +212,7 @@ export const Tooltip: FC<TooltipProps> = ({
 
       {content !== undefined && (
         <>
-          <span id={id} className={styles.tooltipSr} role="tooltip" data-test="tooltip-sr">
+          <span {...(id && { id })} className={styles.tooltipSr} role="tooltip" data-test="tooltip-sr">
             {content}
           </span>
           {tooltipPortalContainer &&
