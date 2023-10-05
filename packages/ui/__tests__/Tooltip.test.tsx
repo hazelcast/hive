@@ -37,7 +37,7 @@ describe('Tooltip', () => {
 
   it('Does not render tooltip if "content" property is not defined.', async () => {
     const wrapper = await mountAndCheckA11Y(
-      <Tooltip id="tooltip-test" content={undefined}>
+      <Tooltip content={undefined}>
         {(ref) => (
           <button ref={ref} data-test="tooltip-reference">
             Hover me
@@ -51,7 +51,7 @@ describe('Tooltip', () => {
 
   it('Shows tooltip overlay by default if "visible" prop is true.', async () => {
     const wrapper = await mountAndCheckA11Y(
-      <Tooltip id="tooltip-test" content="Tooltip content" visible>
+      <Tooltip content="Tooltip content" visible>
         {(ref) => (
           <button ref={ref} data-test="tooltip-reference">
             Hover me
