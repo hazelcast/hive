@@ -79,7 +79,8 @@ export type ButtonCommonProps = {
   outlineClassName?: string
   outline?: ButtonOutlineType
   tooltip?: string
-} & Pick<HTMLAttributes<HTMLAnchorElement | HTMLButtonElement>, 'className' | 'onClick' | 'tabIndex' | 'style'>
+} & (ButtonDisabledProps | ButtonNotDisabledProps) &
+  Pick<HTMLAttributes<HTMLAnchorElement | HTMLButtonElement>, 'className' | 'onClick' | 'tabIndex' | 'style'>
 
 export type ButtonTypeAnchorProps = {
   component: 'a'
@@ -96,8 +97,7 @@ export type ButtonTypeButtonProps = {
   target?: never
   rel?: never
   loading?: boolean
-} & (ButtonDisabledProps | ButtonNotDisabledProps) &
-  Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'autoFocus' | 'type'>
+} & Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'autoFocus' | 'type'>
 
 export type ButtonTypeProps = ButtonTypeAnchorProps | ButtonTypeButtonProps
 
