@@ -89,7 +89,7 @@ export type ButtonTypeAnchorProps = {
   rel?: LinkRel | LinkRel[]
   type?: never
   loading?: never
-} & ButtonNotDisabledProps
+}
 
 export type ButtonTypeButtonProps = {
   component?: 'button'
@@ -101,7 +101,7 @@ export type ButtonTypeButtonProps = {
 
 export type ButtonTypeProps = ButtonTypeAnchorProps | ButtonTypeButtonProps
 
-export type ButtonProps<T = ButtonTypeProps> = ButtonCommonProps & ButtonAccessibleIconLeftProps & ButtonAccessibleIconRightProps & T
+export type ButtonProps<T = ButtonTypeProps> = ButtonCommonProps & T & ButtonAccessibleIconLeftProps & ButtonAccessibleIconRightProps
 
 const capitalizeFirstCharacter = (str: string) => `${str[0].toUpperCase()}${str.slice(1)}`
 
