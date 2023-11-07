@@ -284,7 +284,7 @@ export const Table = <D extends object>({
   onCopy,
 }: TableProps<D>): ReactElement => {
   const getOncopy = useRefValue(onCopy)
-  const [rootEl, setRootEl] = useState<HTMLDivElement | null>(null)
+  const [contextMenuAnchorEl, setContextMenuAnchorEl] = useState<HTMLDivElement | null>(null)
   const draggedColumnRef = useRef<number | null>(null)
   const previousIncomingPageIndex = usePrevious(incomingPageIndex)
   // Debounce our `fetchData` call for 200ms.
@@ -489,7 +489,7 @@ export const Table = <D extends object>({
   const content = (
     <>
       <HotKeys keyMap={commands} handlers={hotKeysHandlers} className={styles.hotKeys}>
-        <div ref={setRootEl} data-test={dataTest ?? 'table-wrapper'} className={className}>
+        <div data-test={dataTest ?? 'table-wrapper'} className={className}>
           <div
             className={cn(styles.container, {
               [styles.spaceBottom]: !hidePagination,
@@ -543,6 +543,7 @@ export const Table = <D extends object>({
                   onCopy={onCopy}
                   getHref={getHref}
                   columns={columns}
+                  rootRef={setContextMenuAnchorEl}
                   {...columnsSelectionProps}
                   onRowClick={onRowClick}
                   prepareRow={prepareRow}
@@ -626,7 +627,7 @@ export const Table = <D extends object>({
           )}
         </div>
       </HotKeys>
-      {onCopy && <ContextMenu anchorElement={rootEl} onCopy={onKeyUp} />}
+      {onCopy && <ContextMenu anchorElement={contextMenuAnchorEl} onCopy={onKeyUp} />}
     </>
   )
 

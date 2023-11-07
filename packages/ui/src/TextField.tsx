@@ -45,6 +45,7 @@ type TextFieldCoreProps<T extends TextFieldTypes> = {
   name: string
   value?: T extends 'number' ? number : string
   onBlur?: (e: FocusEvent<HTMLInputElement>) => void
+  onFocus?: (e: FocusEvent<HTMLInputElement>) => void
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
   onClick?: (e: MouseEvent<HTMLInputElement>) => void
   error?: string
@@ -110,6 +111,7 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
     size = 'medium',
     variant = 'primary',
     onBlur,
+    onFocus,
     onChange,
     onKeyPress,
     placeholder,
@@ -173,6 +175,7 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
             name={name}
             onChange={onChange}
             onBlur={onBlur}
+            onFocus={onFocus}
             readOnly={readOnly}
             onKeyPress={onKeyPress}
             onClick={onClick}

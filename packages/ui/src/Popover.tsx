@@ -1,9 +1,8 @@
-import React, { FC, useMemo, useState } from 'react'
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Modifier, usePopper } from 'react-popper'
 import { Placement } from '@popperjs/core'
 import cls from 'classnames'
-import FocusTrap from 'focus-trap-react'
 
 import { getPortalContainer, PortalContainer } from './utils/portal'
 import { DataTestProp } from '../../helpers'
@@ -42,16 +41,11 @@ export const Popover: FC<PopoverProps> = (props) => {
     onUpdateLayout,
     container = `body`,
   } = props
+
   const getOnUpdate = useRefValue(onUpdateLayout)
+  const getOnClos = useRefValue(onClose)
   const [popperElement, setPopperElement] = useState<HTMLElement | null>(null)
 
-  const hasFocusableElements = useMemo(() => {
-    return open
-      ? (popperElement?.querySelectorAll<HTMLElement>(
-          'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"]):not([disabled]), details:not([disabled]), summary:not(:disabled)',
-        )?.length ?? 0) > 0
-      : false
-  }, [popperElement, open])
   const modifiers = useMemo((): Modifier<string, Record<string, unknown>>[] => {
     const modifiers: Modifier<string, Record<string, unknown>>[] = [
       {
@@ -111,32 +105,53 @@ export const Popover: FC<PopoverProps> = (props) => {
     handler: onClose,
   })
 
+  const handleFocusIn = useCallback(
+    (e: FocusEvent) => {
+      console.log(e.target)
+      if (popperElement && !popperElement.contains(e.target as Node)) {
+        onClose()
+      }
+    },
+    [onClose, popperElement],
+  )
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        getOnClos()()
+      }
+    },
+    [getOnClos],
+  )
+
+  useEffect(() => {
+    if (open) {
+      document.addEventListener('focusin', handleFocusIn, false)
+      document.addEventListener('keydown', handleKeyDown, false)
+    } else {
+      document.removeEventListener('focusin', handleFocusIn)
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+
+    return () => {
+      document.removeEventListener('focusin', handleFocusIn)
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [open, handleFocusIn, handleKeyDown])
+
   return (
     <>
       {containerEl
         ? createPortal(
             open && (
-              <FocusTrap
-                active={hasFocusableElements}
-                focusTrapOptions={{
-                  initialFocus: false,
-                  setReturnFocus: anchorElement || undefined,
-                  escapeDeactivates: true,
-                  allowOutsideClick: true,
-                  onDeactivate: onClose,
-                  tabbableOptions: { displayCheck: 'none' },
-                }}
+              <div
+                ref={setPopperElement}
+                data-test={dataTest}
+                className={cls(styles.root, className)}
+                style={popper.styles.popper}
+                {...popper.attributes.popper}
               >
-                <div
-                  ref={setPopperElement}
-                  data-test={dataTest}
-                  className={cls(styles.root, className)}
-                  style={popper.styles.popper}
-                  {...popper.attributes.popper}
-                >
-                  {children}
-                </div>
-              </FocusTrap>
+                {children}
+              </div>
             ),
             containerEl,
           )

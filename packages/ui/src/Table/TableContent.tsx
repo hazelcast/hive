@@ -1,6 +1,6 @@
 import cn from 'classnames'
 import { IgnoreKeys } from 'react-hotkeys'
-import React, { AnchorHTMLAttributes, FC, MutableRefObject, ReactNode, useRef } from 'react'
+import React, { AnchorHTMLAttributes, FC, LegacyRef, MutableRefObject, ReactNode } from 'react'
 import { Cell as CellType, ColumnInterfaceBasedOnValue, Row as RowType, Column, UseResizeColumnsState } from 'react-table'
 
 import { Loader } from '../Loader'
@@ -15,6 +15,7 @@ export type TableContentProps<D extends object> = {
   loading?: boolean
   page: RowType<D>[]
   className?: string
+  rootRef?: LegacyRef<HTMLDivElement>
   cellIndexOffset: number
   overlayLoading?: boolean
   onEndSelection: () => void
@@ -33,6 +34,7 @@ export type TableContentProps<D extends object> = {
 
 export const TableContent = <D extends object>(props: TableContentProps<D>) => {
   const {
+    rootRef,
     page,
     onCopy,
     columns,
@@ -55,7 +57,6 @@ export const TableContent = <D extends object>(props: TableContentProps<D>) => {
     onMouseEnterSelection,
     selectedColumnValuesRef,
   } = props
-  const rootRef = useRef<HTMLDivElement>(null)
 
   return (
     // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
