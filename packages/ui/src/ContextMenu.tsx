@@ -27,6 +27,9 @@ export const ContextMenu = ({ anchorElement, offset, items }: ContextMenuProps) 
 
   const handleContextMenuOpen = useCallback(
     (e: MouseEvent) => {
+      if (!anchorElement || (!anchorElement.contains(e.target as Node) && e.target !== anchorElement)) {
+        return
+      }
       e.preventDefault()
 
       const currentOffset = getOffset()
@@ -44,7 +47,7 @@ export const ContextMenu = ({ anchorElement, offset, items }: ContextMenuProps) 
 
       setCoords({ top, left })
     },
-    [setCoords, getOffset],
+    [setCoords, getOffset, anchorElement],
   )
   const handleContextMenuClose = useCallback(() => {
     setCoords(null)
@@ -52,12 +55,12 @@ export const ContextMenu = ({ anchorElement, offset, items }: ContextMenuProps) 
 
   useIsomorphicLayoutEffect(() => {
     if (anchorElement) {
-      anchorElement.addEventListener('contextmenu', handleContextMenuOpen, false)
+      document.body.addEventListener('contextmenu', handleContextMenuOpen, false)
     }
     return () => {
-      anchorElement?.removeEventListener('contextmenu', handleContextMenuOpen)
+      document.body.removeEventListener('contextmenu', handleContextMenuOpen)
     }
-  }, [handleContextMenuOpen, anchorElement])
+  }, [handleContextMenuOpen])
   useIsomorphicLayoutEffect(() => {
     if (coords) {
       document.body.addEventListener('click', handleContextMenuClose, false)
