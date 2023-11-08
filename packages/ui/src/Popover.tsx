@@ -107,7 +107,6 @@ export const Popover: FC<PopoverProps> = (props) => {
 
   const handleFocusIn = useCallback(
     (e: FocusEvent) => {
-      console.log(e.target)
       if (popperElement && !popperElement.contains(e.target as Node)) {
         onClose()
       }
