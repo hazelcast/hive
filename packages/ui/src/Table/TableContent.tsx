@@ -1,6 +1,6 @@
 import cn from 'classnames'
-import { IgnoreKeys } from 'react-hotkeys'
-import React, { AnchorHTMLAttributes, FC, MutableRefObject, ReactNode, useRef } from 'react'
+import { HotKeys, IgnoreKeys } from 'react-hotkeys'
+import React, { AnchorHTMLAttributes, FC, LegacyRef, MutableRefObject, ReactNode, useCallback, MouseEvent } from 'react'
 import { Cell as CellType, ColumnInterfaceBasedOnValue, Row as RowType, Column, UseResizeColumnsState } from 'react-table'
 
 import { Loader } from '../Loader'
@@ -15,6 +15,7 @@ export type TableContentProps<D extends object> = {
   loading?: boolean
   page: RowType<D>[]
   className?: string
+  rootRef?: LegacyRef<HTMLDivElement>
   cellIndexOffset: number
   overlayLoading?: boolean
   onEndSelection: () => void
@@ -33,6 +34,7 @@ export type TableContentProps<D extends object> = {
 
 export const TableContent = <D extends object>(props: TableContentProps<D>) => {
   const {
+    rootRef,
     page,
     onCopy,
     columns,
@@ -55,7 +57,11 @@ export const TableContent = <D extends object>(props: TableContentProps<D>) => {
     onMouseEnterSelection,
     selectedColumnValuesRef,
   } = props
-  const rootRef = useRef<HTMLDivElement>(null)
+
+  const handleOnContesxtMenu = useCallback((e: MouseEvent<HotKeys>) => {
+    // disable table custom context menu
+    e.stopPropagation()
+  }, [])
 
   return (
     // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
@@ -133,7 +139,7 @@ export const TableContent = <D extends object>(props: TableContentProps<D>) => {
             </Row>
             {row.isExpanded
               ? renderRowSubComponent && (
-                  <IgnoreKeys tabIndex={-1} className={styles.subRowWrapper}>
+                  <IgnoreKeys tabIndex={-1} className={styles.subRowWrapper} onContextMenu={handleOnContesxtMenu}>
                     {renderRowSubComponent(row)}
                   </IgnoreKeys>
                 )
