@@ -43,7 +43,7 @@ export const Popover: FC<PopoverProps> = (props) => {
   } = props
 
   const getOnUpdate = useRefValue(onUpdateLayout)
-  const getOnClos = useRefValue(onClose)
+  const getOnClose = useRefValue(onClose)
   const [popperElement, setPopperElement] = useState<HTMLElement | null>(null)
 
   const modifiers = useMemo((): Modifier<string, Record<string, unknown>>[] => {
@@ -117,10 +117,10 @@ export const Popover: FC<PopoverProps> = (props) => {
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        getOnClos()()
+        getOnClose()()
       }
     },
-    [getOnClos],
+    [getOnClose],
   )
 
   useEffect(() => {
