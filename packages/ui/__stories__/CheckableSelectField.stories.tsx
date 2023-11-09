@@ -78,7 +78,8 @@ WithoutLabel.args = {
 
 export const WithPermanentPlaceholder = Template.bind({})
 WithPermanentPlaceholder.args = {
-  permanentPlaceholder: 'Permanent placeholder',
+  placeholderMode: 'permanent',
+  placeholder: 'Permanent placeholder',
 }
 
 export const WithLongTextOptions = Template.bind({})
