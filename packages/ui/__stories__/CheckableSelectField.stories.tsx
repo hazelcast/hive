@@ -76,6 +76,11 @@ WithoutLabel.args = {
   showAriaLabel: true,
 }
 
+export const WithPermanentPlaceholder = Template.bind({})
+WithPermanentPlaceholder.args = {
+  permanentPlaceholder: 'Permanent placeholder',
+}
+
 export const WithLongTextOptions = Template.bind({})
 WithLongTextOptions.args = {
   options: [
