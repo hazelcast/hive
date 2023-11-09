@@ -21,6 +21,7 @@ export type CheckableSelectFieldCoreStaticProps<V> = {
   onChange: (newValue: V[]) => void
   allSelectedLabel?: string
   noneSelectedLabel?: string
+  permanentPlaceholder?: string
 }
 
 export type CheckableSelectFieldExtraProps<V> = {
@@ -73,6 +74,7 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
     'data-test': dataTest,
     allSelectedLabel = 'All selected',
     noneSelectedLabel = 'None selected',
+    permanentPlaceholder,
     noOptionsMessage = 'No options',
     id: rootId,
   } = props
@@ -99,6 +101,9 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
   }, [options, searchValue])
 
   const getValueLabel = () => {
+    if (permanentPlaceholder) {
+      return permanentPlaceholder
+    }
     if (value.length === 0) {
       return noneSelectedLabel
     }
@@ -123,7 +128,9 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
         disabled={disabled}
         showAriaLabel={showAriaLabel}
         helperText={helperText}
-        className={cls(className, styles.opener)}
+        className={cls(className, styles.opener, {
+          [styles.withPermanentPlaceholder]: !!permanentPlaceholder,
+        })}
         error={error}
         onBlur={onBlur}
         readOnly
