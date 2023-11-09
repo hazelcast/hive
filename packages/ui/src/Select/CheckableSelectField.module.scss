@@ -8,6 +8,10 @@
 .opener {
   input {
     cursor: pointer;
+
+    &.withPermanentPlaceholder {
+      color: c.$colorTextSecondary;
+    }
   }
 }
 
