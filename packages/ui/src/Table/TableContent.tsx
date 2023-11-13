@@ -64,11 +64,10 @@ export const TableContent = <D extends object>(props: TableContentProps<D>) => {
   }, [])
 
   return (
-    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions,jsx-a11y/no-static-element-interactions
     <div
       ref={rootRef}
-      role="rowgroup"
-      data-test="table-cell-row-group"
+      data-test="table-content"
       className={cn(styles.content, className)}
       onMouseDown={() => {
         selectionStartedRef.current = true

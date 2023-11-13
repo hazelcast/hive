@@ -1,22 +1,28 @@
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { ChevronDown, ChevronUp } from 'react-feather'
+import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 
 import { Icon, IconProps } from '../../src/Icon'
 import { Header, HeaderProps } from '../../src/Table/Header'
 
 import styles from '../../src/Table/Header.module.scss'
 
+const Wrapper = ({ children, ...props }: { children: (props: Partial<HeaderProps>) => ReactNode } & object) => (
+  <div role="table">
+    <div role="row">{children(props)}</div>
+  </div>
+)
+
 const headerPropsBase: HeaderProps = {
   index: 0,
   align: 'left',
+  role: 'columnheader',
   canSort: false,
   isSorted: false,
   isSortedDesc: false,
   canResize: false,
   isResizing: false,
   getResizerProps: jest.fn() as HeaderProps['getResizerProps'],
-  isLastHeader: false,
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -24,7 +30,7 @@ const expectedContainerProps: Record<string, any> = {
   'data-test': 'table-header-container',
   className: styles.container,
   style: undefined,
-  role: undefined,
+  role: 'columnheader',
   'aria-colspan': undefined,
   'aria-sort': undefined,
   children: expect.anything(),
@@ -78,12 +84,11 @@ describe('Header', () => {
       { ...expectedContentProps, className: `${styles.th} ${styles.alignRight}` },
     ],
     [
-      { ...headerPropsBase, colSpan: 1, style: { width: 40 }, className: 'testClassName', onClick, role: '' },
+      { ...headerPropsBase, colSpan: 1, style: { width: 40 }, className: 'testClassName', onClick },
       {
         ...expectedContainerProps,
         className: `${styles.container} testClassName`,
         style: { width: 40 },
-        role: '',
         'aria-colspan': 1,
       },
       { ...expectedContentProps, role: 'button', tabIndex: 0, onClick, onKeyPress: expect.anything() },
@@ -93,7 +98,7 @@ describe('Header', () => {
   it.each(data)(
     'returns div with correct props for given Header props',
     async (headerProps, expectedContainerProps, expectedContentProps) => {
-      const wrapper = await mountAndCheckA11Y(<Header {...headerProps}>Header</Header>)
+      const wrapper = await mountAndCheckA11Y(<Wrapper>{() => <Header {...headerProps}>Header</Header>}</Wrapper>)
 
       expect(wrapper.findDataTest('table-header-container').props()).toEqual(expectedContainerProps)
       expect(wrapper.findDataTest('table-header-content').props()).toEqual(expectedContentProps)
@@ -102,9 +107,13 @@ describe('Header', () => {
 
   it('renders ChevronDown Icon when sorting in descending order', async () => {
     const wrapper = await mountAndCheckA11Y(
-      <Header {...headerPropsBase} canSort isSorted isSortedDesc>
-        Header
-      </Header>,
+      <Wrapper>
+        {() => (
+          <Header {...headerPropsBase} canSort isSorted isSortedDesc>
+            Header
+          </Header>
+        )}
+      </Wrapper>,
     )
 
     expect(wrapper.find(Icon).props()).toEqual<IconProps>({
@@ -117,9 +126,13 @@ describe('Header', () => {
 
   it('renders ChevronUp Icon when sorting in ascending order', async () => {
     const wrapper = await mountAndCheckA11Y(
-      <Header {...headerPropsBase} canSort isSorted isSortedDesc={false}>
-        Header
-      </Header>,
+      <Wrapper>
+        {() => (
+          <Header {...headerPropsBase} canSort isSorted isSortedDesc={false}>
+            Header
+          </Header>
+        )}
+      </Wrapper>,
     )
 
     expect(wrapper.find(Icon).props()).toEqual<IconProps>({
@@ -136,9 +149,13 @@ describe('Header', () => {
     })
 
     const wrapper = await mountAndCheckA11Y(
-      <Header {...headerPropsBase} canResize getResizerProps={getResizerProps}>
-        Header
-      </Header>,
+      <Wrapper>
+        {(props) => (
+          <Header {...headerPropsBase} canResize getResizerProps={getResizerProps} {...props}>
+            Header
+          </Header>
+        )}
+      </Wrapper>,
     )
 
     expect(wrapper.findDataTest('table-header-column-resizer-container').props()).toEqual({
@@ -156,7 +173,15 @@ describe('Header', () => {
   })
 
   it('draggable attribute', async () => {
-    const wrapper = await mountAndCheckA11Y(<Header {...headerPropsBase}>Header</Header>)
+    const wrapper = await mountAndCheckA11Y(
+      <Wrapper>
+        {(props) => (
+          <Header {...headerPropsBase} {...props}>
+            Header
+          </Header>
+        )}
+      </Wrapper>,
+    )
 
     expect(wrapper.findDataTest('table-header-content').prop('draggable')).toBeFalsy()
 
@@ -187,9 +212,13 @@ describe('Header', () => {
     const onDrop = jest.fn()
     const setData = jest.fn()
     const wrapper = await mountAndCheckA11Y(
-      <Header {...headerPropsBase} onDragStart={onDragStart} onDrop={onDrop}>
-        Header
-      </Header>,
+      <Wrapper>
+        {() => (
+          <Header {...headerPropsBase} onDragStart={onDragStart} onDrop={onDrop}>
+            Header
+          </Header>
+        )}
+      </Wrapper>,
     )
 
     expect(onDragStart).toBeCalledTimes(0)

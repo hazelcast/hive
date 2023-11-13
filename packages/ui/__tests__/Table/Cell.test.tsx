@@ -1,5 +1,5 @@
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
-import React from 'react'
+import React, { PropsWithChildren } from 'react'
 import { AlertTriangle } from 'react-feather'
 import { useUID } from 'react-uid'
 
@@ -11,6 +11,12 @@ import styles from '../../src/Table/Cell.module.scss'
 
 jest.mock('react-uid')
 const useUIDMock = useUID as jest.Mock<ReturnType<typeof useUID>>
+
+const Wrapper = (props: PropsWithChildren<object>) => (
+  <div role="table">
+    <div role="row">{props.children}</div>
+  </div>
+)
 
 describe('CellWarning', () => {
   const iconId = 'iconId'
@@ -54,13 +60,14 @@ describe('CellWarning', () => {
 describe('Cell', () => {
   const cellPropsBase: CellProps = {
     align: 'left',
+    role: 'cell',
   }
 
   const expectedPropsBase = {
     'data-test': 'table-cell',
     className: `${styles.td} ${styles.alignLeft}`,
     style: undefined,
-    role: undefined,
+    role: 'cell',
     'aria-colspan': undefined,
     'aria-sort': undefined,
     onClick: undefined,
@@ -85,19 +92,22 @@ describe('Cell', () => {
       { ...expectedPropsBase, className: `${styles.td} ${styles.alignRight}` },
     ],
     [
-      { ...cellPropsBase, colSpan: 1, style: { width: 40 }, className: 'testClassName', role: '' },
+      { ...cellPropsBase, colSpan: 1, style: { width: 40 }, className: 'testClassName' },
       {
         ...expectedPropsBase,
         className: `${styles.td} ${styles.alignLeft} testClassName`,
         style: { width: 40 },
         'aria-colspan': 1,
-        role: '',
       },
     ],
   ]
 
   it.each(data)('returns div with correct props for given Cell props', async (cellProps, expectedProps) => {
-    const wrapper = await mountAndCheckA11Y(<Cell {...cellProps}>Cell</Cell>)
+    const wrapper = await mountAndCheckA11Y(
+      <Wrapper>
+        <Cell {...cellProps}>Cell</Cell>
+      </Wrapper>,
+    )
 
     expect(wrapper.findDataTest('table-cell').props()).toEqual(expectedProps)
   })
@@ -105,7 +115,11 @@ describe('Cell', () => {
   it('renders CellWarning when warning prop is defined', async () => {
     const warning = 'testWarning'
 
-    const wrapper = await mountAndCheckA11Y(<Cell {...cellPropsBase} warning={warning} />)
+    const wrapper = await mountAndCheckA11Y(
+      <Wrapper>
+        <Cell {...cellPropsBase} warning={warning} />
+      </Wrapper>,
+    )
 
     expect(wrapper.find(CellWarning).props()).toEqual<CellWarningProps>({
       warning: warning,

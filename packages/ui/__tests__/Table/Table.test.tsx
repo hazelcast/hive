@@ -90,14 +90,13 @@ describe('Table', () => {
       })
     })
 
-    const cellRowGroup = table.findDataTest('table-cell-row-group')
-    expect(cellRowGroup.props()).toMatchObject({
-      'data-test': 'table-cell-row-group',
-      role: 'rowgroup',
+    const tableContent = table.findDataTest('table-content')
+    expect(tableContent.props()).toMatchObject({
+      'data-test': 'table-content',
       className: 'content',
     })
 
-    const cellRows = cellRowGroup.find(Row)
+    const cellRows = tableContent.find(Row)
     cellRows.forEach((cellRow, i: number) => {
       expect(cellRow.props()).toMatchObject<PropsWithChildren<RowProps>>({
         // 1 for header row, 1 because we're indexing from 0
