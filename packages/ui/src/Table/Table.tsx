@@ -307,6 +307,7 @@ export const Table = <D extends object>({
           width: 60,
           disableResizing: true,
           id: ROW_EXPANDER_COLUMN_ID,
+          Header: () => <span role="contentinfo" aria-label="row-expander-column-header" />,
           Cell: ({ row }: { row: RowType<D> }) => {
             return row.canExpand || renderRowSubComponent ? (
               <div tabIndex={0} role="button" data-test="row-expander" className={styles.expander} {...row.getToggleRowExpandedProps()}>
@@ -537,7 +538,13 @@ export const Table = <D extends object>({
                 </Cell>
               </Row>
             ) : hasData ? (
-              <HotKeys keyMap={commands} handlers={hotKeysHandlers} className={styles.hotKeys}>
+              <HotKeys
+                role="rowgroup"
+                data-test="table-cell-row-group"
+                keyMap={commands}
+                handlers={hotKeysHandlers}
+                className={styles.hotKeys}
+              >
                 <TableContent
                   page={page}
                   onCopy={onCopy}

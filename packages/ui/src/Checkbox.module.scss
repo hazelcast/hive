@@ -49,6 +49,14 @@
   }
 
   /**
+    Indeterminate
+  */
+  &.indeterminate input ~ .checkmark {
+    background-color: c.$colorPrimaryLight;
+    border-color: c.$colorPrimaryLight;
+  }
+
+  /**
     Hover
    */
   &:hover,
@@ -56,11 +64,6 @@
     input ~ .checkmark {
       border-color: c.$colorPrimary;
     }
-  }
-
-  input[aria-checked='mixed'] ~ .checkmark {
-    background-color: c.$colorPrimaryLight;
-    border-color: c.$colorPrimaryLight;
   }
 
   // Error state

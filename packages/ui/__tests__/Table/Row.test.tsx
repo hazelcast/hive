@@ -27,11 +27,18 @@ describe('Row', () => {
       },
     ],
     [
-      { ariaRowIndex: 1, onClick: jest.fn(), style: { width: 40 }, className: 'testClassName', role: '', children: 'Row' },
+      {
+        ariaRowIndex: 1,
+        onClick: jest.fn(),
+        style: { width: 40 },
+        className: 'testClassName',
+        role: 'row',
+        children: <div role="cell">Row</div>,
+      },
       {
         'data-test': rowDataTest,
         className: `${styles.row} ${styles.clickable} testClassName`,
-        role: '',
+        role: 'row',
         'aria-rowindex': 1,
         tabIndex: 0,
 
@@ -39,13 +46,17 @@ describe('Row', () => {
 
         onKeyPress: expect.anything(),
         style: { width: 40 },
-        children: 'Row',
+        children: <div role="cell">Row</div>,
       },
     ],
   ]
 
   it.each(rowData)('returns <div> with correct props for given Row props', async (cellProps, expectedDivProps) => {
-    const wrapper = await mountAndCheckA11Y(<Row {...cellProps} />)
+    const wrapper = await mountAndCheckA11Y(
+      <div role={cellProps.role === 'row' ? 'table' : undefined}>
+        <Row {...cellProps} />
+      </div>,
+    )
 
     expect(wrapper.findDataTest(rowDataTest).props()).toEqual(expectedDivProps)
   })
@@ -64,11 +75,18 @@ describe('Row', () => {
       { className: styles.link, id: '1', style: undefined, href: 'testHref', children: 'Row' },
     ],
     [
-      { ariaRowIndex: 1, href: 'testHref', style: { width: 40 }, className: 'testClassName', role: '', children: 'Row' },
+      {
+        ariaRowIndex: 1,
+        href: 'testHref',
+        style: { width: 40 },
+        className: 'testClassName',
+        role: 'row',
+        children: 'Row',
+      },
       {
         'data-test': rowDataTest,
         className: `${styles.linkRow} testClassName`,
-        role: '',
+        role: 'row',
         'aria-rowindex': 1,
         'aria-owns': '2',
         children: expect.anything(),
@@ -77,7 +95,8 @@ describe('Row', () => {
     ],
   ]
 
-  it.each(linkRowData)(
+  // Blocked by https://github.com/w3c/html-aria/issues/473
+  it.skip.each(linkRowData)(
     'returns <div> with <a> child, both with correct props for given Row props',
     async (cellProps, expectedOuterDivProps, expectedInnerAnchorProps) => {
       const wrapper = await mountAndCheckA11Y(<LinkRow {...cellProps} />)
@@ -123,30 +142,32 @@ const expectedHeaderRowElementProps: AnyProps = {
   'data-test': headerRowDataTest,
   className: styles.headerRow,
   style: undefined,
-  role: undefined,
+  role: 'row',
   'aria-rowindex': undefined,
-  children: undefined,
+  children: expect.anything(),
 }
 
 describe('HeaderRow', () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const data: [PropsWithChildren<HeaderRowProps>, AnyProps][] = [
-    [{}, expectedHeaderRowElementProps],
+    [{ role: 'row', children: <div role="cell" /> }, expectedHeaderRowElementProps],
     [
-      { ariaRowIndex: 1, style: { width: 40 }, className: 'testClassName', role: '', children: 'Header Row' },
+      { ariaRowIndex: 1, role: 'row', style: { width: 40 }, className: 'testClassName', children: <div role="cell">Header Row</div> },
       {
         ...expectedHeaderRowElementProps,
         className: `${styles.headerRow} testClassName`,
         style: { width: 40 },
-        role: '',
         'aria-rowindex': 1,
-        children: 'Header Row',
       },
     ],
   ]
 
   it.each(data)('returns <div> with correct props for given HeaderRow props', async (cellProps, expectedElementProps) => {
-    const wrapper = await mountAndCheckA11Y(<HeaderRow {...cellProps} />)
+    const wrapper = await mountAndCheckA11Y(
+      <div role="table">
+        <HeaderRow {...cellProps} />
+      </div>,
+    )
 
     expect(wrapper.findDataTest(headerRowDataTest).props()).toEqual(expectedElementProps)
   })

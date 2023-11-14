@@ -93,7 +93,7 @@
     "babel-loader": "^9.1.2",
     "doiuse": "^4.4.1",
     "enzyme": "^3.11.0",
-    "jest-axe": "^5.0.1",
+    "jest-axe": "^8.0.0",
     "loki": "^0.32.0",
     "postcss": "^8.4.23",
     "postcss-cli": "^9.1.0",
