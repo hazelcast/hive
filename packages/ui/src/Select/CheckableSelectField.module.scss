@@ -51,7 +51,7 @@
   margin-bottom: c.$grid * 2.5;
   overflow: hidden;
 
-  &:focus {
+  &:focus-visible {
     @include h.outlineFormField;
   }
 }

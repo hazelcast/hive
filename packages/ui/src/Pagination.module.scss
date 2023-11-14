@@ -55,7 +55,7 @@
         border-color: c.$colorPrimary;
       }
 
-      &:focus {
+      &:focus-visible {
         .outline {
           visibility: hidden;
         }
@@ -82,7 +82,8 @@
       border-color: c.$colorPrimary;
     }
 
-    &:focus {
+    &:focus,
+    &:focus-visible {
       box-shadow: none;
     }
   }

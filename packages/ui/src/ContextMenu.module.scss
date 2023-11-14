@@ -22,7 +22,7 @@
   border: none;
   text-align: left;
 
-  &:focus {
+  &:focus-visible {
     @include h.outlineSimple;
   }
 
