@@ -10,7 +10,7 @@
   box-sizing: border-box;
   height: c.$grid * 10;
   min-width: c.$grid * 40;
-  padding: 0 c.$grid * 5 c.$grid c.$grid * 5;
+  padding: c.$grid c.$grid * 5;
   border: none;
   border-bottom: 1px solid;
   border-color: c.$colorNeutralLight;
