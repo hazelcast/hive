@@ -125,7 +125,7 @@ $inputPadding: c.$grid * 3;
               color: c.$colorNeutral;
             }
 
-            &:focus {
+            &:focus-visible {
               @include h.outlineSimple;
             }
 

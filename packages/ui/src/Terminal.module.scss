@@ -43,7 +43,7 @@
       border-bottom-color: c.$colorText;
     }
 
-    &:focus,
+    &:focus-visible,
     &.focus {
       // Do not remove outline for high-contrast modes
       // https://stackoverflow.com/a/52616313

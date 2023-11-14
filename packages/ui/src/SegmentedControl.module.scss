@@ -55,7 +55,7 @@
       color: c.$colorText;
     }
 
-    &:focus {
+    &:focus-visible {
       // Do not remove outline for high-contrast modes
       // https://stackoverflow.com/a/52616313
       outline: c.$outlineWidth solid transparent;

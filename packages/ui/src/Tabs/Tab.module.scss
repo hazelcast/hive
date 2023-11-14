@@ -10,7 +10,7 @@
   box-sizing: border-box;
   height: c.$grid * 10;
   min-width: c.$grid * 40;
-  padding: 0 c.$grid * 5;
+  padding: c.$grid c.$grid * 5;
   border: none;
   border-bottom: 1px solid;
   border-color: c.$colorNeutralLight;
@@ -30,9 +30,15 @@
 
   &.selected {
     color: c.$colorPrimary;
-    border-radius: none;
+    border-radius: 0;
     border-color: c.$colorPrimary;
     box-shadow: inset 0 -4px 0 0 c.$colorPrimary;
+  }
+
+  &.selected:focus-visible {
+    border-color: c.$colorPrimary;
+    border-bottom-width: c.$grid;
+    padding-bottom: 0;
   }
 
   &.fullWidth {
@@ -43,7 +49,7 @@
     color: c.$colorPrimary;
   }
 
-  &:focus {
+  &:focus-visible {
     // Do not remove outline for high-contrast modes
     // https://stackoverflow.com/a/52616313
     outline: c.$outlineWidth solid transparent;
