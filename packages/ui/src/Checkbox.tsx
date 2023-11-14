@@ -78,6 +78,7 @@ export const Checkbox: FC<CheckboxProps> = (props) => {
             [styles.error]: !!error,
             [styles.checked]: checked,
             [styles.disabled]: disabled,
+            [styles.indeterminate]: indeterminate,
           },
           classNameLabel,
         )}
