@@ -33,8 +33,5 @@
   },
   "dependencies": {
     "serialize-error": "^7.0.1"
-  },
-  "devDependencies": {
-    "@types/node": "^16.18.13"
   }
 }
