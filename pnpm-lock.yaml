@@ -167,10 +167,6 @@ importers:
       serialize-error:
         specifier: ^7.0.1
         version: 7.0.1
-    devDependencies:
-      '@types/node':
-        specifier: ^16.18.13
-        version: 16.18.13
 
   packages/test-helpers:
     dependencies:
