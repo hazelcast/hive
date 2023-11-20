@@ -33,5 +33,8 @@
   },
   "dependencies": {
     "serialize-error": "^7.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.9.0"
   }
 }
