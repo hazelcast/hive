@@ -169,8 +169,8 @@ importers:
         version: 7.0.1
     devDependencies:
       '@types/node':
-        specifier: ^20.9.0
-        version: 20.9.0
+        specifier: ^16.18.13
+        version: 16.18.13
 
   packages/test-helpers:
     dependencies:
