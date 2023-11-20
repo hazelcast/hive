@@ -22,7 +22,7 @@
   position: relative;
   height: 40px;
 
-  &:focus {
+  &:focus-visible {
     @include h.outlineAround;
   }
 }
@@ -37,7 +37,7 @@
   align-items: center;
   padding: c.$grid * 1.5;
 
-  &:focus {
+  &:focus-visible {
     @include h.outlineAround;
   }
 }

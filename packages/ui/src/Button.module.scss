@@ -57,7 +57,7 @@
     }
   }
 
-  &:focus,
+  &:focus-visible,
   &.focus {
     // Do not remove outline for high-contrast modes
     // https://stackoverflow.com/a/52616313
@@ -100,7 +100,7 @@
 
       &:hover,
       &.hover,
-      &:focus,
+      &:focus-visible,
       &.focus {
         @include buttonColor(c.$colorPrimaryLight);
       }
@@ -124,7 +124,7 @@
 
       &:hover,
       &.hover,
-      &:focus,
+      &:focus-visible,
       &.focus {
         @include buttonColor(c.$colorErrorLight);
       }
@@ -148,7 +148,7 @@
 
       &:hover,
       &.hover,
-      &:focus,
+      &:focus-visible,
       &.focus {
         @include buttonColor(c.$colorWarningLight);
       }
@@ -172,7 +172,7 @@
 
       &:hover,
       &.hover,
-      &:focus,
+      &:focus-visible,
       &.focus {
         @include buttonColor(lighten(c.$colorBrand, 20%));
       }
@@ -196,7 +196,7 @@
 
       &:hover,
       &.hover,
-      &:focus,
+      &:focus-visible,
       &.focus {
         @include buttonColor(lighten(c.$authPrimary, 10%));
       }
@@ -241,7 +241,7 @@
       &.hover,
       &:active,
       &.active,
-      &:focus,
+      &:focus-visible,
       &.focus,
       &:disabled,
       &.disabled {
@@ -257,7 +257,7 @@
       &.hover,
       &:active,
       &.active,
-      &:focus,
+      &:focus-visible,
       &.focus,
       &:disabled,
       &.disabled {

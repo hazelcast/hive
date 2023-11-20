@@ -30,6 +30,7 @@ export type CheckableSelectFieldExtraProps<V> = {
   showAriaLabel?: boolean
   helperText?: HelpProps['helperText']
   className?: string
+  placeholderMode?: 'normal' | 'permanent'
   placeholder?: string
   disabled?: boolean
   required?: boolean
@@ -60,6 +61,7 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
     value,
     size = 'small',
     placeholder = 'Search',
+    placeholderMode = 'normal',
     label,
     showAriaLabel,
     disabled,
@@ -99,6 +101,9 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
   }, [options, searchValue])
 
   const getValueLabel = () => {
+    if (placeholderMode === 'permanent') {
+      return placeholder
+    }
     if (value.length === 0) {
       return noneSelectedLabel
     }
@@ -123,7 +128,9 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
         disabled={disabled}
         showAriaLabel={showAriaLabel}
         helperText={helperText}
-        className={cls(className, styles.opener)}
+        className={cls(className, styles.opener, {
+          [styles.withPermanentPlaceholder]: placeholderMode === 'permanent',
+        })}
         error={error}
         onBlur={onBlur}
         readOnly

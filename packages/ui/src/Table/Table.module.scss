@@ -15,7 +15,7 @@
 }
 
 .expander {
-  &:focus {
+  &:focus-visible {
     @include h.outlineSimple;
   }
 }

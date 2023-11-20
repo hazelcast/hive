@@ -50,7 +50,6 @@ describe('Checkbox', () => {
       onChange,
       onBlur,
       checked: true,
-      'aria-checked': 'true',
       'aria-invalid': false,
       'aria-required': true,
       'aria-describedby': undefined,
@@ -73,7 +72,6 @@ describe('Checkbox', () => {
       onChange,
       onBlur,
       checked: true,
-      'aria-checked': 'true',
       'aria-invalid': true,
       'aria-required': undefined,
       'aria-describedby': undefined,
@@ -89,7 +87,6 @@ describe('Checkbox', () => {
 
     expect(wrapper.find(Check).exists()).toBeFalsy()
     expect(wrapper.find(Minus).exists()).toBeTruthy()
-    expect(wrapper.find('input').props()).toHaveProperty('aria-checked', 'mixed')
   })
 
   it('Checkbox is passed a disabled property, input contains disabled property', async () => {

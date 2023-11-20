@@ -162,7 +162,7 @@ ul.markDescriptions {
       }
 
       &.focus,
-      &:focus {
+      &:focus-visible {
         @include styleThumb {
           box-shadow: 0 0 0 c.$outlineWidth c.$colorAccessibilityOutline;
         }

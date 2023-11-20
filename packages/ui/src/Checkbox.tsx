@@ -1,4 +1,4 @@
-import React, { AriaAttributes, ChangeEvent, FC, FocusEvent, ReactElement, ReactText, useRef, MouseEvent } from 'react'
+import React, { ChangeEvent, FC, FocusEvent, ReactElement, ReactText, useRef, MouseEvent } from 'react'
 import { Check, Minus } from 'react-feather'
 import { DataTestProp } from '@hazelcast/helpers'
 import { useUID } from 'react-uid'
@@ -65,11 +65,6 @@ export const Checkbox: FC<CheckboxProps> = (props) => {
   const inputRef = useRef<HTMLInputElement>(null)
   const id = useUID()
 
-  let ariaChecked: AriaAttributes['aria-checked'] = checked ? 'true' : 'false'
-  if (indeterminate) {
-    ariaChecked = 'mixed'
-  }
-
   return (
     <div className={classNames(className, { [styles.withError]: 'error' in props })} data-test={dataTest}>
       {/* 
@@ -83,6 +78,7 @@ export const Checkbox: FC<CheckboxProps> = (props) => {
             [styles.error]: !!error,
             [styles.checked]: checked,
             [styles.disabled]: disabled,
+            [styles.indeterminate]: indeterminate,
           },
           classNameLabel,
         )}
@@ -104,7 +100,6 @@ export const Checkbox: FC<CheckboxProps> = (props) => {
           onClick={onClick}
           value={value}
           disabled={disabled}
-          aria-checked={ariaChecked}
           aria-invalid={!!error}
           aria-required={required}
           aria-describedby={helperText && helpTooltipId(id)}
