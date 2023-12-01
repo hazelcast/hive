@@ -7,10 +7,11 @@ import { useUID } from 'react-uid'
 import { Error, errorId } from './Error'
 import { ExtractKeysOfValueType } from './utils/types'
 import { FieldHeaderProps } from './FieldHeader'
+import cn from 'classnames'
 
 export type InteractiveListExtraProps = {
   children?: React.ReactNode | React.ReactNode[]
-} & Pick<TextFieldExtraProps<'text'>, 'inputIcon' | 'type' | 'placeholder'> &
+} & Pick<TextFieldExtraProps<'text'>, 'inputIcon' | 'type' | 'placeholder' | 'inputClassName'> &
   Omit<FieldHeaderProps, 'id'>
 
 export type InteractiveListCoreProps<V> = {
@@ -26,7 +27,7 @@ export type InteractiveListCoreProps<V> = {
 
 export type InteractiveListProps<V> = InteractiveListExtraProps & InteractiveListCoreProps<V>
 
-export type InteractiveListInputRef = { setValue: (value: string) => void }
+export type InteractiveListInputRef = { setValue: (value: string) => void; addItem: () => Promise<string | undefined> }
 
 export type InteractiveListItemProps = {
   content: string
@@ -82,17 +83,19 @@ export const InteractiveList = <V,>({
   setInputValue,
   onAddItem,
   onRemoveItem,
+  inputClassName,
 }: InteractiveListProps<V>) => {
   const id = useUID()
 
   return (
     <>
-      <div className={styles.inputRow}>
+      <div className={cn(styles.inputRow)}>
         <TextField
           id={id}
           type={type}
           helperText={helperText}
           inputIcon={inputIcon}
+          className={inputClassName}
           error={typeof error === 'string' ? error : undefined}
           label={label}
           name={name}

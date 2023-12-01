@@ -30,12 +30,18 @@ export const InteractiveListFormik = <V extends object>({
   ...props
 }: InteractiveListFormikProps<V>): ReactElement => {
   const { validateForm, values: valuesFormik } = useFormikContext<V>()
-  const [field, meta, { setTouched, setError }] = useField<string[]>({
+  const [field, meta, { setTouched, setError, setValue }] = useField<string[]>({
     name,
     validate,
   })
 
-  const getValidationError = async () => {
+  const [inputValue, setInputValue] = useState<string>('')
+  // We want to revalidate on change only after un-successful insert
+  const [inputTouched, setInputTouched] = useState(false)
+
+  const normalizedValue = useMemo(() => inputValue.trim(), [inputValue])
+
+  const getValidationError = useCallback(async () => {
     let validationError: string | undefined = undefined
 
     if (normalizedValue.length === 0) {
@@ -66,7 +72,7 @@ export const InteractiveListFormik = <V extends object>({
     }
 
     return validationError
-  }
+  }, [field.value, name, normalizedValue, validate, validateForm, valuesFormik])
 
   const onError = useCallback(
     (value: string | string[]) => {
@@ -78,16 +84,26 @@ export const InteractiveListFormik = <V extends object>({
     [setTouched, setError],
   )
 
-  const [inputValue, setInputValue] = useState<string>('')
-  // We want to revalidate on change only after un-successful insert
-  const [inputTouched, setInputTouched] = useState(false)
-
-  const normalizedValue = useMemo(() => inputValue.trim(), [inputValue])
+  const addItem = useCallback(async () => {
+    const validationError = await getValidationError()
+    if (validationError) {
+      onError(validationError)
+      setInputTouched(true)
+      return validationError
+    } else {
+      field.value.push(normalizedValue)
+      setValue(field.value)
+      setInputTouched(false)
+      setInputValue('')
+      return undefined
+    }
+  }, [field.value, getValidationError, normalizedValue, onError, setValue])
 
   useImperativeHandle(inputControlRef, () => ({
     setValue: (value: string) => {
       setInputValue(value)
     },
+    addItem: addItem,
   }))
 
   useEffect(() => {
@@ -113,19 +129,7 @@ export const InteractiveListFormik = <V extends object>({
             inputValue={inputValue}
             setInputValue={setInputValue}
             error={getFieldError(meta)}
-            onAddItem={async () => {
-              const validationError = await getValidationError()
-              if (validationError) {
-                onError(validationError)
-                setInputTouched(true)
-                return validationError
-              } else {
-                arrayHelpers.push(normalizedValue)
-                setInputTouched(false)
-                setInputValue('')
-                return undefined
-              }
-            }}
+            onAddItem={addItem}
             onRemoveItem={(idx) => !!arrayHelpers.remove(idx)}
           >
             {children}

@@ -6,6 +6,7 @@ import { logger } from '@hazelcast/services'
 import { InteractiveListFormik } from '../src/InteractiveListFormik'
 import { List } from 'react-feather'
 import * as Yup from 'yup'
+import styles from './InteractiveListFormik.stories.module.scss'
 
 export default {
   title: 'Components/InteractiveListFormik',
@@ -40,12 +41,10 @@ export const Default = () => {
   return <TestForm />
 }
 
-export const WithCustomAddButton = () => {
+export const WithCustomClassInput = () => {
   type Values = {
     ipAddresses: string[]
   }
-  const inputRef = useRef<InteractiveListInputRef>(null)
-
   const TestForm = () => (
     <Formik<Values>
       initialValues={{
@@ -59,8 +58,82 @@ export const WithCustomAddButton = () => {
       {({ values }) => (
         <Form>
           <div>Values: {JSON.stringify(values)}</div>
+          <InteractiveListFormik<Values>
+            name="ipAddresses"
+            label="Name"
+            inputIcon={List}
+            inputClassName={styles.field}
+          ></InteractiveListFormik>
+          <button type="submit">Submit</button>
+        </Form>
+      )}
+    </Formik>
+  )
+
+  return <TestForm />
+}
+
+export const WithCustomSetButton = () => {
+  type Values = {
+    ipAddresses: string[]
+  }
+  const inputRef = useRef<InteractiveListInputRef>(null)
+
+  const TestForm = () => (
+    <Formik<Values>
+      initialValues={{
+        ipAddresses: ['1.2.3.4'],
+      }}
+      onSubmit={(values) => logger.log('submit', values)}
+    >
+      {({ values }) => (
+        <Form>
+          <div>Values: {JSON.stringify(values)}</div>
           <InteractiveListFormik<Values> name="ipAddresses" label="Name" inputIcon={List} inputControlRef={inputRef}>
             <Button onClick={() => inputRef.current?.setValue('127.0.0.1')}>Add Custom IP</Button>
+          </InteractiveListFormik>
+          <button type="submit">Submit</button>
+        </Form>
+      )}
+    </Formik>
+  )
+
+  return <TestForm />
+}
+
+export const WithCustomAddButton = () => {
+  type Values = {
+    numbers: string[]
+  }
+  const inputRef = useRef<InteractiveListInputRef>(null)
+
+  const schema = Yup.object().shape({
+    numbers: Yup.array().of(Yup.number()).min(1, 'Need at least ${min} number'),
+  })
+
+  const submit = async (values: Values) => {
+    try {
+      await inputRef.current?.addItem()
+      await schema.validate(values, { abortEarly: false })
+      console.log('submit', values)
+    } catch (e) {
+      logger.log('submit', e)
+    }
+  }
+
+  const TestForm = () => (
+    <Formik<Values>
+      validationSchema={schema}
+      initialValues={{
+        numbers: ['123'],
+      }}
+      onSubmit={(values) => logger.log('submit', values)}
+    >
+      {({ values }) => (
+        <Form>
+          <div>Values: {JSON.stringify(values)}</div>
+          <InteractiveListFormik<Values> name="numbers" label="Name" inputIcon={List} inputControlRef={inputRef}>
+            <Button onClick={() => void submit(values)}>Add Item & Submit</Button>
           </InteractiveListFormik>
           <button type="submit">Submit</button>
         </Form>
@@ -91,9 +164,6 @@ export const DefaultWithYupValidation = () => {
       validationSchema={schema}
       initialValues={{
         ipAddresses: ['1.2.3.4'],
-      }}
-      initialErrors={{
-        ipAddresses: 'Server Error: Invalid IP Address',
       }}
       onSubmit={(values) => logger.log('submit', values)}
     >
