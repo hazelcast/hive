@@ -7,10 +7,14 @@ import { useUID } from 'react-uid'
 import { Error, errorId } from './Error'
 import { ExtractKeysOfValueType } from './utils/types'
 import { FieldHeaderProps } from './FieldHeader'
+import cn from 'classnames'
 
 export type InteractiveListExtraProps = {
   children?: React.ReactNode | React.ReactNode[]
-} & Pick<TextFieldExtraProps<'text'>, 'inputIcon' | 'type' | 'placeholder'> &
+  iconClassName?: string
+  itemClassName?: string
+  listClassName?: string
+} & Pick<TextFieldExtraProps<'text'>, 'inputIcon' | 'type' | 'placeholder' | 'inputClassName' | 'className'> &
   Omit<FieldHeaderProps, 'id'>
 
 export type InteractiveListCoreProps<V> = {
@@ -26,7 +30,7 @@ export type InteractiveListCoreProps<V> = {
 
 export type InteractiveListProps<V> = InteractiveListExtraProps & InteractiveListCoreProps<V>
 
-export type InteractiveListInputRef = { setValue: (value: string) => void }
+export type InteractiveListInputRef = { setValue: (value: string) => void; addItem: () => Promise<string | undefined> }
 
 export type InteractiveListItemProps = {
   content: string
@@ -82,17 +86,23 @@ export const InteractiveList = <V,>({
   setInputValue,
   onAddItem,
   onRemoveItem,
+  className,
+  inputClassName,
+  iconClassName,
+  itemClassName,
+  listClassName,
 }: InteractiveListProps<V>) => {
   const id = useUID()
 
   return (
     <>
-      <div className={styles.inputRow}>
+      <div className={cn(styles.inputRow, className)}>
         <TextField
           id={id}
           type={type}
           helperText={helperText}
           inputIcon={inputIcon}
+          className={inputClassName}
           error={typeof error === 'string' ? error : undefined}
           label={label}
           name={name}
@@ -113,15 +123,15 @@ export const InteractiveList = <V,>({
           kind="transparent"
           ariaLabel="Add Icon"
           icon={Plus}
-          className={styles.addIcon}
+          className={cn(styles.addIcon, iconClassName)}
           size="medium"
           onClick={() => void onAddItem()}
         />
       </div>
       {children}
-      <ul className={styles.list}>
+      <ul className={cn(styles.list, listClassName)}>
         {value.map((str, idx) => (
-          <li key={str}>
+          <li key={str} className={itemClassName}>
             <InteractiveListItem
               onRemoveItem={onRemoveItem}
               idx={idx}
