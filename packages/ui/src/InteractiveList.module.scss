@@ -6,17 +6,37 @@ $addIconSpacing: c.$grid;
   display: flex;
   margin-bottom: c.$grid * 3;
 
+  .input {
+    border-right: none;
+  }
+  .inputContainer {
+    border-radius: c.$borderRadius 0 0 c.$borderRadius;
+
+    .input:focus {
+      & ~ .inputBorderOverlay {
+        border-right: none;
+        box-shadow: none;
+        border-color: c.$colorPrimary;
+      }
+    }
+  }
+  .inputBorderOverlay {
+    border-radius: c.$borderRadius 0 0 c.$borderRadius;
+    border-right: none;
+  }
   .addIcon {
     display: block;
-    margin-left: c.$grid * 3;
-    border-radius: c.$inputHeight;
+    border-radius: 0 c.$borderRadius c.$borderRadius 0;
     border: c.$borderWidth solid c.$colorPrimary;
-    color: c.$colorPrimary;
-    height: c.$inputHeight - $addIconSpacing;
-    width: c.$inputHeight - $addIconSpacing;
+    background-color: c.$colorPrimary;
+    color: c.$colorNeutralWhite;
+    height: c.$inputHeight;
+    width: c.$inputHeight;
 
-    // label (1rem * 1.4 line-height) + margin-bottom of a label
-    margin-top: c.$grid * 7;
+    &:hover {
+      background-color: c.$colorPrimaryLight;
+      border-color: c.$colorPrimaryLight;
+    }
   }
 }
 
@@ -24,10 +44,18 @@ ul.list {
   list-style-type: none;
   padding: 0;
   margin: 0;
+  .removeIcon {
+    margin-right: 0;
 
+    &:hover {
+      background-color: transparent;
+      border-color: transparent;
+      color: c.$colorPrimaryLight;
+    }
+  }
   .content {
     background: c.$colorOverlayBackground;
-    padding: c.$grid c.$grid * 3;
+    padding: c.$grid/3 c.$grid c.$grid/3 c.$grid * 2;
     margin-top: c.$grid * 3;
     border: c.$borderWidth solid c.$colorNeutralLight;
     border-radius: c.$borderRadius;
