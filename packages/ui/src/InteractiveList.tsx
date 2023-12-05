@@ -55,10 +55,11 @@ export const InteractiveListItem = ({ onRemoveItem, content, error, idx }: Inter
           {content}
         </span>{' '}
         <IconButton
-          kind="transparent"
+          kind="primary"
           ariaLabel="Remove Item"
           icon={X}
-          size="small"
+          size="medium"
+          className={styles.removeIcon}
           onClick={() => {
             onRemoveItem(idx)
           }}
@@ -102,7 +103,9 @@ export const InteractiveList = <V,>({
           type={type}
           helperText={helperText}
           inputIcon={inputIcon}
-          className={inputClassName}
+          inputClassName={cn(styles.input, inputClassName)}
+          inputContainerClassName={styles.inputContainer}
+          inputBorderOverlayClassName={styles.inputBorderOverlay}
           error={typeof error === 'string' ? error : undefined}
           label={label}
           name={name}
@@ -117,16 +120,17 @@ export const InteractiveList = <V,>({
               await onAddItem()
             }
           }}
-        />
-        <IconButton
-          data-test="interactive-list-add-button"
-          kind="transparent"
-          ariaLabel="Add Icon"
-          icon={Plus}
-          className={cn(styles.addIcon, iconClassName)}
-          size="medium"
-          onClick={() => void onAddItem()}
-        />
+        >
+          <IconButton
+            data-test="interactive-list-add-button"
+            kind="transparent"
+            ariaLabel="Add Icon"
+            icon={Plus}
+            className={cn(styles.addIcon, iconClassName)}
+            size="medium"
+            onClick={() => void onAddItem()}
+          />
+        </TextField>
       </div>
       {children}
       <ul className={cn(styles.list, listClassName)}>

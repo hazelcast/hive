@@ -58,6 +58,7 @@ export type TextFieldExtraProps<T extends TextFieldTypes> = {
   className?: string
   inputContainerClassName?: string
   inputClassName?: string
+  inputBorderOverlayClassName?: string
   errorClassName?: string
   inputContainerChild?: ReactElement
   inputIcon?: IconType
@@ -66,6 +67,7 @@ export type TextFieldExtraProps<T extends TextFieldTypes> = {
   readOnly?: boolean
   clearable?: boolean
   errorTooltipPlacement?: TooltipProps['placement']
+  children?: React.ReactNode
 } & DataTestProp &
   Pick<InputHTMLAttributes<HTMLInputElement>, 'id' | 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'> &
   TextFieldTrailingIcon &
@@ -101,6 +103,7 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
     inputClassName,
     inputContainerChild,
     inputContainerClassName,
+    inputBorderOverlayClassName,
     inputIcon,
     inputTrailingIcon,
     inputTrailingIconLabel,
@@ -123,6 +126,7 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
     clearable,
     iconSize = size,
     errorTooltipPlacement = 'top',
+    children,
     ...htmlAttrs
   } = props
   const autoId = useUID()
@@ -192,7 +196,7 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
             })}
             {...htmlAttrs}
           />
-          <div className={styles.borderOverlay} />
+          <div className={cn(styles.borderOverlay, inputBorderOverlayClassName)} />
           {inputIcon && (
             <Icon
               icon={inputIcon}
@@ -223,6 +227,7 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
             />
           )}
         </div>
+        {children}
       </div>
       <Error
         truncated
