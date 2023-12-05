@@ -9,6 +9,12 @@ $addIconSpacing: c.$grid;
   .input {
     border-right: none;
   }
+
+  .inputBorderOverlay {
+    border-radius: c.$borderRadius 0 0 c.$borderRadius;
+    border-right: none;
+  }
+
   .inputContainer {
     border-radius: c.$borderRadius 0 0 c.$borderRadius;
 
@@ -20,10 +26,7 @@ $addIconSpacing: c.$grid;
       }
     }
   }
-  .inputBorderOverlay {
-    border-radius: c.$borderRadius 0 0 c.$borderRadius;
-    border-right: none;
-  }
+
   .addIcon {
     display: block;
     border-radius: 0 c.$borderRadius c.$borderRadius 0;
@@ -44,6 +47,7 @@ ul.list {
   list-style-type: none;
   padding: 0;
   margin: 0;
+
   .removeIcon {
     margin-right: 0;
 
@@ -53,9 +57,10 @@ ul.list {
       color: c.$colorPrimaryLight;
     }
   }
+
   .content {
     background: c.$colorOverlayBackground;
-    padding: c.$grid/3 c.$grid c.$grid/3 c.$grid * 2;
+    padding: c.$grid / 3 c.$grid c.$grid / 3 c.$grid * 2;
     margin-top: c.$grid * 3;
     border: c.$borderWidth solid c.$colorNeutralLight;
     border-radius: c.$borderRadius;
