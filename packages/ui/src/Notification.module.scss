@@ -35,6 +35,10 @@
     @include c.typographyBodyWeight('bold');
   }
 
+  .closeButton {
+    margin-left: c.$grid * 3;
+  }
+
   /* Theme - success */
   &.success {
     color: c.$colorText;
