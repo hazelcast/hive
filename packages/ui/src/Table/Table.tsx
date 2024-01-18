@@ -106,7 +106,7 @@ declare module 'react-table' {
       UseFiltersState<D>,
       UseRowSelectState<D>,
       UseGroupByState<D>,
-      // UseColumnOrderState<D>,
+      UseColumnOrderState<D>,
       // UseExpandedState<D>,
       // UseGlobalFiltersState<D>,
       // UseRowStateState<D>,
