@@ -6,6 +6,7 @@ const text = 'Lorem ipsum dolor sit amet'
 const longText =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ultricies orci sed laoreet tempus. Suspendisse eget semper odio. Nulla vel erat tempor, feugiat nulla vitae, mollis purus. Maecenas varius ante sed mauris scelerisque aliquam. Aenean et congue ante. Etiam dictum, libero sit amet semper posuere, leo metus vestibulum libero, et fringilla metus ante eget lorem. Donec facilisis non nunc at pulvinar. Quisque cursus mi libero, in malesuada nulla tempor et. In at ligula ac est vehicula congue. Donec eget est sed ante cursus malesuada maximus a felis. Phasellus vitae pretium nibh, sed auctor purus. In congue, tortor sed dictum egestas, ligula nibh vehicula nulla, nec euismod ligula diam sit amet mauris. Vivamus congue interdum lorem sit amet facilisis.'
 
+const fn = () => undefined
 const link = 'Link'
 const linkHref = '/'
 
@@ -66,10 +67,22 @@ Warning.parameters = {
   },
 }
 
+export const WarningWithCloseButton = () => (
+  <Notification type="warning" onClose={fn}>
+    {text}
+  </Notification>
+)
+
 export const WarningWithLongText = () => <Notification type="warning">{longText}</Notification>
 
 export const WarningWithLink = () => (
   <Notification type="warning" link={link} linkHref={linkHref}>
+    {text}
+  </Notification>
+)
+
+export const WarningWithCloseButtonAndLink = () => (
+  <Notification type="warning" link={link} linkHref={linkHref} onClose={fn}>
     {text}
   </Notification>
 )

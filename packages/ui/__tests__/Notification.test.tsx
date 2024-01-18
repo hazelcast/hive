@@ -87,4 +87,21 @@ describe('Notification', () => {
     })
     expect(wrapper.findDataTestFirst('notification-link').text()).toBe(link)
   })
+
+  it('Renders close button and calls onClose when callback is passed', async () => {
+    const onClose = jest.fn()
+
+    const wrapper = await mountAndCheckA11Y(
+      <Notification type="success" onClose={onClose}>
+        {text}
+      </Notification>,
+    )
+
+    const closeButton = wrapper.findDataTestFirst('notification-close')
+    expect(closeButton.exists()).toBeTruthy()
+
+    expect(onClose).toBeCalledTimes(0)
+    closeButton.simulate('click')
+    expect(onClose).toBeCalledTimes(1)
+  })
 })
