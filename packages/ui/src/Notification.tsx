@@ -86,7 +86,15 @@ export const Notification: FC<NotificationProps> = ({ type, children, className,
           {link}
         </Link>
       )}
-      {onClose && <IconButton className={styles.closeButton} icon={X} onClick={onClose} ariaLabel="Notification close button" />}
+      {onClose && (
+        <IconButton
+          data-test="notification-close"
+          className={styles.closeButton}
+          icon={X}
+          onClick={onClose}
+          ariaLabel="Notification close button"
+        />
+      )}
     </div>
   )
 }
