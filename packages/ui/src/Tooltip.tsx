@@ -54,6 +54,7 @@ export type TooltipProps = {
   updateToken?: ReactText | boolean
   tooltipContainer?: PortalContainer
   wordBreak?: CSSProperties['wordBreak']
+  disabled?: boolean
 }
 
 /**
@@ -86,6 +87,7 @@ export const Tooltip: FC<TooltipProps> = ({
   updateToken,
   tooltipContainer = 'body',
   hoverAbleTooltip = true,
+  disabled = false,
 }) => {
   const [isShown, setShown] = useState<boolean>(false)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
@@ -167,7 +169,7 @@ export const Tooltip: FC<TooltipProps> = ({
   )
 
   // Makes sure "visible" prop can override local "isShown" state
-  const isTooltipVisible = visibilityOverride ?? isShown
+  const isTooltipVisible = !disabled && (visibilityOverride || isShown)
 
   // Update the tooltip's position (useful when resizing table columns)
   useLayoutEffect(() => {

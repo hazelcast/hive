@@ -142,6 +142,18 @@ Invisible.args = {
   id: 'tooltip-story-invisible',
 }
 
+export const Visible = Template.bind({})
+Visible.args = {
+  visible: true,
+  id: 'tooltip-story-visible',
+}
+
+export const Disabled = Template.bind({})
+Disabled.args = {
+  disabled: true,
+  id: 'tooltip-story-disabled',
+}
+
 export const WithTooltip: Story<TooltipProps> = () => (
   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 320 }}>
     <Tooltip
