@@ -78,7 +78,7 @@ export type MultiSelectFieldCoreStaticProps<V> = {
 }
 
 export type MultiSelectFieldExtraProps<V> = {
-  options: ReadonlyArray<SelectFieldOption<V>> | Options<SelectFieldOption<V>>
+  options: ReadonlyArray<GroupBase<SelectFieldOption<V>>> | Options<SelectFieldOption<V>>
   // Since the user input is string, let's allow creatable only for string
   isCreatable?: V extends string ? boolean : false
   className?: string
@@ -199,7 +199,8 @@ export const MultiSelectField = <V extends string | number = number>(props: Mult
     },
     formatGroupLabel,
     formatOptionLabel,
-    // @ts-ignore eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     renderMenuFooter,
     ...rest,
   }

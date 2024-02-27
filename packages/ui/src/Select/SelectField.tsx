@@ -1,5 +1,5 @@
 import React, { FocusEvent, InputHTMLAttributes, ReactElement, useCallback, useEffect, useMemo, useRef } from 'react'
-import ReactSelect, { ActionMeta, Props as ReactSelectProps, OnChangeValue, Options, SelectInstance } from 'react-select'
+import ReactSelect, { ActionMeta, Props as ReactSelectProps, OnChangeValue, Options, SelectInstance, GroupBase } from 'react-select'
 import ReactSelectCreatable from 'react-select/creatable'
 import { useUID } from 'react-uid'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
@@ -42,7 +42,7 @@ export type SelectFieldIconLeftProps =
 export type SelectFieldSize = 'small' | 'medium'
 
 export type SelectFieldExtraProps<V> = {
-  options: ReadonlyArray<SelectFieldOption<V>> | Options<SelectFieldOption<V>>
+  options: ReadonlyArray<GroupBase<SelectFieldOption<V>>> | Options<SelectFieldOption<V>>
   size?: SelectFieldSize
   // Since the user input is string, let's allow creatable only for string
   isCreatable?: V extends string ? boolean : false
@@ -172,7 +172,8 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
     components: innerComponents,
     formatGroupLabel,
     formatOptionLabel,
-    // @ts-ignore eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     renderMenuFooter,
     ...rest,
   }

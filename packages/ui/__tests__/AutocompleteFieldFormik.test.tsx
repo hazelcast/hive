@@ -2,7 +2,7 @@ import React, { createRef } from 'react'
 import { Formik, Form, FormikProps } from 'formik'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import { act } from 'react-dom/test-utils'
-import Select from 'react-select'
+import Select, { SelectInstance } from 'react-select'
 
 import { AutocompleteFieldFormik } from '../src/AutocompleteFieldFormik'
 import { Error } from '../src/Error'
@@ -38,7 +38,7 @@ describe('AutocompleteFieldFormik', () => {
     )
 
     const wrapper = await mountAndCheckA11Y(<TestForm />)
-    const selectInstance = wrapper.find(Select).instance() as Select
+    const selectInstance = wrapper.find(Select).instance() as SelectInstance
 
     expect(formikBag.current?.values).toEqual({
       name: null,
@@ -83,7 +83,7 @@ describe('AutocompleteFieldFormik', () => {
     )
 
     const wrapper = await mountAndCheckA11Y(<TestForm />)
-    const selectInstance = wrapper.find(Select).instance() as Select
+    const selectInstance = wrapper.find(Select).instance() as SelectInstance
 
     expect(wrapper.find(Error).prop('error')).toBe(undefined)
 
@@ -123,7 +123,7 @@ describe('AutocompleteFieldFormik', () => {
     )
 
     const wrapper = await mountAndCheckA11Y(<TestForm />)
-    const selectInstance = wrapper.find(Select).instance() as Select
+    const selectInstance = wrapper.find(Select).instance() as SelectInstance
 
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await

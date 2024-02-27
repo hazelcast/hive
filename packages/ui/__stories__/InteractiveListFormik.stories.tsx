@@ -115,7 +115,6 @@ export const WithCustomAddButton = () => {
     try {
       await inputRef.current?.addItem()
       await schema.validate(values, { abortEarly: false })
-      console.log('submit', values)
     } catch (e) {
       logger.log('submit', e)
     }

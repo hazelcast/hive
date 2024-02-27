@@ -87,6 +87,7 @@ const DropdownIndicator: typeof components.DropdownIndicator = (props) => {
 // innerProps set event handling
 const ClearIndicator: typeof components.ClearIndicator = ({ innerProps }) => {
   // Visually impaired people will use the keyboard (backspace) to remove the value. We do not want to confuse them by allowing to focus this button.
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   return <IconButton {...innerProps} icon={X} ariaHidden kind="primary" size="medium" className={styles.clear} tabIndex={-1} />
 }
@@ -280,7 +281,8 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
           formatOptionLabel={formatOptionLabelFn}
           styles={{
             ...props.styles,
-            // @ts-ignore eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             singleValue: (base: CSSProperties) => ({
               ...base,
               ...props.styles?.singleValue,

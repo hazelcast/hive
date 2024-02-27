@@ -1,10 +1,11 @@
-import { GroupedOptionsType, OptionsType } from 'react-select'
+import { Options } from 'react-select'
 
 import { getOptionsMap, SelectFieldOption, SelectFieldOptionsMap } from '../../src/Select/helpers'
+import { GroupBase } from 'react-select/dist/declarations/src/types'
 
 describe('helpers', () => {
   describe('getOptionsMap', () => {
-    const simpleOptions: OptionsType<SelectFieldOption<string>> = [
+    const simpleOptions: Options<SelectFieldOption<string>> = [
       { value: 'darth_vader', label: 'Darth Vader' },
       { value: 'luke_skywalker', label: 'Luke Skywalker' },
       { value: 'obi', label: 'Obi-Wan Kenobi' },
@@ -14,7 +15,7 @@ describe('helpers', () => {
       { value: 'jar_jar_binks', label: 'Jar Jar Binks' },
     ]
 
-    const groupedOptions: GroupedOptionsType<SelectFieldOption<string>> = [
+    const groupedOptions: ReadonlyArray<GroupBase<SelectFieldOption<string>>> = [
       {
         label: 'Dark Side',
         options: [

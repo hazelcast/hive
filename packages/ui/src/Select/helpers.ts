@@ -15,7 +15,7 @@ const isSimpleOption = <V>(option: GroupBase<SelectFieldOption<V>> | SelectField
   !!(option as SelectFieldOption<V>).value
 
 export const getOptionsMap = <V extends string | number>(
-  options: Options<SelectFieldOption<V>> | ReadonlyArray<SelectFieldOption<V>>,
+  options: Options<SelectFieldOption<V>> | ReadonlyArray<GroupBase<SelectFieldOption<V>>>,
 ): SelectFieldOptionsMap<V> =>
   // need this type assertion because of the TS issue https://github.com/microsoft/TypeScript/issues/7294
   (options as Array<GroupBase<SelectFieldOption<V>> | SelectFieldOption<V>>).reduce(

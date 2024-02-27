@@ -21,7 +21,8 @@ const DropdownIndicator: typeof rsComponents.DropdownIndicator = ({ selectProps 
 // innerProps set event handling
 const ClearIndicator: typeof rsComponents.ClearIndicator = ({ innerProps }) => (
   // Visually impaired people will use the keyboard (backspace) to remove the value. We do not want to confuse them by allowing to focus this button.
-  // @ts-ignore eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   <IconButton {...innerProps} icon={X} ariaHidden kind="primary" size="medium" className={styles.clear} tabIndex={-1} />
 )
 
@@ -40,6 +41,7 @@ export type RenderMenuFooterFunction = () => ReactNode
 const isRenderMenuFooterFunction = (fn: object): fn is RenderMenuFooterFunction => typeof fn === 'function'
 
 const MenuList: typeof rsComponents.MenuList = (props) => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const { renderMenuFooter } = props.selectProps
   return (
@@ -56,7 +58,7 @@ const Option: typeof rsComponents.Option = (props) => (
     <TruncatedText text={props.label} />
   </rsComponents.Option>
 )
-
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const IndicatorSeparator: typeof rsComponents.IndicatorSeparator = () => null
 

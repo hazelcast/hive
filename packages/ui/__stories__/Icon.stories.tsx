@@ -1,6 +1,6 @@
 import React from 'react'
 import { Clipboard, FolderPlus } from 'react-feather'
-import { Google } from '@icons-pack/react-simple-icons'
+import { SiGoogle } from '@icons-pack/react-simple-icons'
 import { Meta, Story } from '@storybook/react'
 
 import { Icon, IconProps } from '../src/Icon'
@@ -60,5 +60,5 @@ FeatherIcon.args = {
 
 export const SimpleIcon = Template.bind({})
 SimpleIcon.args = {
-  icon: Google,
+  icon: SiGoogle,
 }
