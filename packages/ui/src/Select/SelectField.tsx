@@ -1,5 +1,5 @@
 import React, { FocusEvent, InputHTMLAttributes, ReactElement, useCallback, useEffect, useMemo, useRef } from 'react'
-import ReactSelect, { ActionMeta, GroupedOptionsType, Props as ReactSelectProps, ValueType, OptionsType } from 'react-select'
+import ReactSelect, { ActionMeta, Props as ReactSelectProps, OnChangeValue, Options, SelectInstance } from 'react-select'
 import ReactSelectCreatable from 'react-select/creatable'
 import { useUID } from 'react-uid'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
@@ -42,7 +42,7 @@ export type SelectFieldIconLeftProps =
 export type SelectFieldSize = 'small' | 'medium'
 
 export type SelectFieldExtraProps<V> = {
-  options: GroupedOptionsType<SelectFieldOption<V>> | OptionsType<SelectFieldOption<V>>
+  options: ReadonlyArray<SelectFieldOption<V>> | Options<SelectFieldOption<V>>
   size?: SelectFieldSize
   // Since the user input is string, let's allow creatable only for string
   isCreatable?: V extends string ? boolean : false
@@ -56,7 +56,7 @@ export type SelectFieldExtraProps<V> = {
   styles?: ReactSelectProps<SelectFieldOption<V>>['styles']
   singleValueTooltipVisible?: boolean
 } & DataTestProp &
-  Pick<InputHTMLAttributes<HTMLElement>, 'autoFocus' | 'disabled' | 'required' | 'placeholder'> &
+  Pick<InputHTMLAttributes<HTMLElement>, 'autoFocus' | 'disabled' | 'required' | 'placeholder' | 'aria-required'> &
   Pick<
     ReactSelectProps,
     'isSearchable' | 'isClearable' | 'menuIsOpen' | 'menuPlacement' | 'closeMenuOnScroll' | 'noOptionsMessage' | 'inputValue'
@@ -88,7 +88,7 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
     onChange,
     options,
     placeholder,
-    required,
+    required = false,
     value,
     formatGroupLabel,
     formatOptionLabel,
@@ -129,7 +129,7 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
   )
 
   /** Recipe: https://react-select.com/advanced#controlled-props */
-  const selectRef = useRef<ReactSelect>()
+  const selectRef = useRef<SelectInstance<SelectFieldOption<V>, false>>(null)
   useEffect(() => {
     if (selectRef.current) {
       menuIsOpen ? selectRef.current.onMenuOpen() : selectRef.current.onMenuClose()
@@ -147,10 +147,9 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
     [singleValueTooltipVisible],
   )
 
-  useCloseOnResize(selectRef)
+  useCloseOnResize<SelectFieldOption<V>>(selectRef)
 
-  const selectProps: ReactSelectProps<SelectFieldOption<V>> = {
-    ref: selectRef,
+  const selectProps: ReactSelectProps<SelectFieldOption<V>, false> = {
     inputId: id,
     className: 'hz-select-field',
     classNamePrefix: 'hz-select-field',
@@ -165,7 +164,7 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
     name: name,
     value: selectedOption,
     options,
-    onChange: onChangeWrapped as (value: ValueType<SelectFieldOption<V>, false>, action: ActionMeta<SelectFieldOption<V>>) => void,
+    onChange: onChangeWrapped as (value: OnChangeValue<SelectFieldOption<V>, false>, action: ActionMeta<SelectFieldOption<V>>) => void,
     placeholder,
     menuIsOpen,
     menuPlacement,
@@ -173,6 +172,7 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
     components: innerComponents,
     formatGroupLabel,
     formatOptionLabel,
+    // @ts-ignore eslint-disable-next-line @typescript-eslint/ban-ts-comment
     renderMenuFooter,
     ...rest,
   }
@@ -217,9 +217,9 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
           />
         )}
         {isCreatable ? (
-          <ReactSelectCreatable<SelectFieldOption<V>> {...selectProps} />
+          <ReactSelectCreatable<SelectFieldOption<V>> ref={selectRef} {...selectProps} />
         ) : (
-          <ReactSelect<SelectFieldOption<V>> {...selectProps} />
+          <ReactSelect<SelectFieldOption<V>> ref={selectRef} {...selectProps} />
         )}
       </div>
       <Error truncated error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
