@@ -93,7 +93,7 @@
     "doiuse": "^4.4.1",
     "enzyme": "^3.11.0",
     "jest-axe": "^8.0.0",
-    "loki": "^0.32.0",
+    "loki": "^0.34.0",
     "postcss": "^8.4.23",
     "postcss-cli": "^9.1.0",
     "postcss-reporter": "^7.0.5",
