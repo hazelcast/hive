@@ -117,7 +117,7 @@ describe('Header', () => {
     )
 
     expect(wrapper.find(Icon).props()).toEqual<IconProps>({
-      className: `${styles.sortingIcon} ${styles.left}`,
+      className: `${styles.sortingIcon} ${styles.left} ${styles.isSorted}`,
       icon: ChevronDown,
       ariaLabel: 'Descending',
       size: 'smallMedium',
@@ -136,7 +136,7 @@ describe('Header', () => {
     )
 
     expect(wrapper.find(Icon).props()).toEqual<IconProps>({
-      className: `${styles.sortingIcon} ${styles.left}`,
+      className: `${styles.sortingIcon} ${styles.left} ${styles.isSorted}`,
       icon: ChevronUp,
       ariaLabel: 'Ascending',
       size: 'smallMedium',
