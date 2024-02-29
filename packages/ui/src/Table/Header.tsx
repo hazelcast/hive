@@ -61,6 +61,7 @@ export const Header: FC<HeaderProps> = ({
         className={cn(styles.sortingIcon, {
           [styles.left]: align === 'left',
           [styles.right]: align === 'right',
+          [styles.isSorted]: isSorted,
         })}
         icon={!isSorted ? ChevronUp : isSortedDesc ? ChevronDown : ChevronUp}
         ariaLabel={!isSorted ? 'Not Sorted' : isSortedDesc ? 'Descending' : 'Ascending'}

@@ -56,6 +56,10 @@
       &.right {
         margin-right: c.$grid * 1.25;
       }
+
+      &:not(.isSorted) {
+        color: c.$colorNeutral;
+      }
     }
 
     &.sortable {
