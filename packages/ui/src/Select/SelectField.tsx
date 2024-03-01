@@ -88,7 +88,7 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
     onChange,
     options,
     placeholder,
-    required = false,
+    required,
     value,
     formatGroupLabel,
     formatOptionLabel,

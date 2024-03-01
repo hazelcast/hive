@@ -1,7 +1,7 @@
 import React from 'react'
 import { useUID } from 'react-uid'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
-import ReactSelect, { OptionsType } from 'react-select'
+import ReactSelect, { Options } from 'react-select'
 import ReactSelectCreatable from 'react-select/creatable'
 import { X } from 'react-feather'
 
@@ -21,7 +21,7 @@ const selectId = 'selectId'
 const selectName = 'selectName'
 const selectLabel = 'selectLabel'
 
-const options: OptionsType<SelectFieldOption<string>> = [
+const options: Options<SelectFieldOption<string>> = [
   { value: 'darth_vader', label: 'Darth Vader' },
   { value: 'luke_skywalker', label: 'Luke Skywalker' },
   { value: 'obi', label: 'Obi-Wan Kenobi' },
@@ -33,7 +33,7 @@ const options: OptionsType<SelectFieldOption<string>> = [
 const selectedOptions = [options[1]]
 const selectedValues = selectedOptions.map(({ value }) => value)
 
-describe('SelectField', () => {
+describe('MultiSelectField', () => {
   beforeEach(() => {
     useUIDMock.mockImplementation(() => selectId)
   })

@@ -1,5 +1,5 @@
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
-import { Figma } from '@icons-pack/react-simple-icons'
+import { SiFigma } from '@icons-pack/react-simple-icons'
 import React from 'react'
 import cn from 'classnames'
 
@@ -14,7 +14,7 @@ const title = 'Figma'
 const description =
   'Figma is a vector graphics editor and prototyping tool, with additional offline features enabled by desktop applications for macOS and Windows.'
 // Icon
-const icon = Figma
+const icon = SiFigma
 const iconLabel = 'Icon Figma'
 // Action
 const action = 'Cool!'

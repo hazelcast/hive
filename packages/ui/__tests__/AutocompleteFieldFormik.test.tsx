@@ -38,7 +38,7 @@ describe('AutocompleteFieldFormik', () => {
     )
 
     const wrapper = await mountAndCheckA11Y(<TestForm />)
-    const selectInstance = wrapper.find(Select).instance() as SelectInstance
+    const selectInstance = wrapper.find(Select)
 
     expect(formikBag.current?.values).toEqual({
       name: null,
@@ -47,7 +47,7 @@ describe('AutocompleteFieldFormik', () => {
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      selectInstance.props.onChange?.(options[1], { action: 'select-option' })
+      selectInstance.props().onChange?.(options[1], { action: 'select-option' })
     })
     wrapper.update()
 
@@ -58,7 +58,7 @@ describe('AutocompleteFieldFormik', () => {
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      selectInstance.props.onChange?.(options[0], { action: 'select-option' })
+      selectInstance.props().onChange?.(options[0], { action: 'select-option' })
     })
     wrapper.update()
 
@@ -83,14 +83,14 @@ describe('AutocompleteFieldFormik', () => {
     )
 
     const wrapper = await mountAndCheckA11Y(<TestForm />)
-    const selectInstance = wrapper.find(Select).instance() as SelectInstance
+    const selectInstance = wrapper.find(Select)
 
     expect(wrapper.find(Error).prop('error')).toBe(undefined)
 
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      selectInstance.props.onChange?.(options[1], { action: 'select-option' })
+      selectInstance.props().onChange?.(options[1], { action: 'select-option' })
     })
     wrapper.update()
 
@@ -123,12 +123,12 @@ describe('AutocompleteFieldFormik', () => {
     )
 
     const wrapper = await mountAndCheckA11Y(<TestForm />)
-    const selectInstance = wrapper.find(Select).instance() as SelectInstance
+    const selectInstance = wrapper.find(Select)
 
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      selectInstance.props.onChange?.(options[1], { action: 'select-option' })
+      selectInstance.props().onChange?.(options[1], { action: 'select-option' })
     })
     wrapper.update()
 

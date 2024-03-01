@@ -458,11 +458,11 @@ describe('Pagination', () => {
 
     expect(setPageSize).toHaveBeenCalledTimes(0)
 
-    const selectInstance = wrapper.find(Select).instance() as Select<SelectFieldOption<number>>
+    const selectInstance = wrapper.find(Select)
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      selectInstance.props.onChange?.({ value: 10, label: '10' }, { action: 'select-option' })
+      selectInstance.props().onChange?.({ value: 10, label: '10' }, { action: 'select-option' })
     })
     wrapper.update()
 
