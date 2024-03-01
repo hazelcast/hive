@@ -1,6 +1,5 @@
 import React from 'react'
 import { Clipboard, FolderPlus } from 'react-feather'
-import { SiGoogle } from '@icons-pack/react-simple-icons'
 import { Meta, Story } from '@storybook/react'
 
 import { Icon, IconProps } from '../src/Icon'
@@ -56,9 +55,4 @@ CustomColor.args = {
 export const FeatherIcon = Template.bind({})
 FeatherIcon.args = {
   icon: FolderPlus,
-}
-
-export const SimpleIcon = Template.bind({})
-SimpleIcon.args = {
-  icon: SiGoogle,
 }
