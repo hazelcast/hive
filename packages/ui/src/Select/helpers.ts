@@ -1,4 +1,4 @@
-import { GroupedOptionsType, OptionsType, GroupType } from 'react-select'
+import { Options, GroupBase } from 'react-select'
 
 import { canUseDOM } from '../utils/ssr'
 
@@ -11,15 +11,15 @@ export type SelectFieldOptionsMap<V> = {
   [key: string]: SelectFieldOption<V>
 }
 
-const isSimpleOption = <V>(option: GroupType<SelectFieldOption<V>> | SelectFieldOption<V>): option is SelectFieldOption<V> =>
+const isSimpleOption = <V>(option: GroupBase<SelectFieldOption<V>> | SelectFieldOption<V>): option is SelectFieldOption<V> =>
   !!(option as SelectFieldOption<V>).value
 
 export const getOptionsMap = <V extends string | number>(
-  options: OptionsType<SelectFieldOption<V>> | GroupedOptionsType<SelectFieldOption<V>>,
+  options: Options<SelectFieldOption<V>> | ReadonlyArray<GroupBase<SelectFieldOption<V>>>,
 ): SelectFieldOptionsMap<V> =>
   // need this type assertion because of the TS issue https://github.com/microsoft/TypeScript/issues/7294
-  (options as Array<GroupType<SelectFieldOption<V>> | SelectFieldOption<V>>).reduce(
-    (acc: SelectFieldOptionsMap<V>, optionOrGroup: GroupType<SelectFieldOption<V>> | SelectFieldOption<V>): SelectFieldOptionsMap<V> => {
+  (options as Array<GroupBase<SelectFieldOption<V>> | SelectFieldOption<V>>).reduce(
+    (acc: SelectFieldOptionsMap<V>, optionOrGroup: GroupBase<SelectFieldOption<V>> | SelectFieldOption<V>): SelectFieldOptionsMap<V> => {
       // if it's a simple non-group option
       if (isSimpleOption(optionOrGroup)) {
         acc[optionOrGroup.value] = optionOrGroup

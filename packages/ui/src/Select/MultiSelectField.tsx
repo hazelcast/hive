@@ -2,11 +2,12 @@ import React, { FocusEvent, InputHTMLAttributes, ReactElement, useCallback, useE
 import ReactSelect, {
   ActionMeta,
   components as rsComponents,
-  GroupedOptionsType,
   Props as ReactSelectProps,
-  ValueType,
-  OptionsType,
+  OnChangeValue,
+  Options,
   SelectComponentsConfig,
+  SelectInstance,
+  GroupBase,
 } from 'react-select'
 import ReactSelectCreatable from 'react-select/creatable'
 import { useUID } from 'react-uid'
@@ -32,7 +33,7 @@ const MultiValueLabel: typeof rsComponents.MultiValueLabel = ({ children }) => <
 const MultiValueRemove: typeof rsComponents.MultiValueRemove = (props) => {
   // We have to pass down the onClick
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,  @typescript-eslint/no-unsafe-assignment
-  const onClick: React.MouseEventHandler = props.innerProps.onClick
+  const onClick: React.MouseEventHandler<HTMLDivElement> | undefined = props.innerProps.onClick
 
   const handleMouseDown = (event: React.MouseEvent) => {
     // prevent opening the dropdown
@@ -40,7 +41,7 @@ const MultiValueRemove: typeof rsComponents.MultiValueRemove = (props) => {
     event.stopPropagation()
   }
 
-  const handleClick = (event: React.MouseEvent) => {
+  const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     event.button === 0 && onClick && onClick(event)
   }
 
@@ -73,11 +74,11 @@ export type MultiSelectFieldCoreStaticProps<V> = {
   error?: string
   value: V[]
   onChange: (newValue: V[]) => void
-  components?: Partial<SelectComponentsConfig<SelectFieldOption<V>, true>>
+  components?: Partial<SelectComponentsConfig<SelectFieldOption<V>, true, GroupBase<SelectFieldOption<V>>>>
 }
 
 export type MultiSelectFieldExtraProps<V> = {
-  options: GroupedOptionsType<SelectFieldOption<V>> | OptionsType<SelectFieldOption<V>>
+  options: ReadonlyArray<GroupBase<SelectFieldOption<V>>> | Options<SelectFieldOption<V>>
   // Since the user input is string, let's allow creatable only for string
   isCreatable?: V extends string ? boolean : false
   className?: string
@@ -89,7 +90,7 @@ export type MultiSelectFieldExtraProps<V> = {
   renderMenuFooter?: RenderMenuFooterFunction
   styles?: ReactSelectProps<SelectFieldOption<V>, true>['styles']
 } & DataTestProp &
-  Pick<InputHTMLAttributes<HTMLElement>, 'autoFocus' | 'disabled' | 'required' | 'placeholder'> &
+  Pick<InputHTMLAttributes<HTMLElement>, 'autoFocus' | 'disabled' | 'required' | 'placeholder' | 'aria-required'> &
   Pick<
     ReactSelectProps,
     | 'isSearchable'
@@ -159,17 +160,16 @@ export const MultiSelectField = <V extends string | number = number>(props: Mult
   )
 
   /** Recipe: https://react-select.com/advanced#controlled-props */
-  const selectRef = useRef<ReactSelect>()
+  const selectRef = useRef<SelectInstance<SelectFieldOption<V>, true>>(null)
   useEffect(() => {
     if (selectRef.current) {
       menuIsOpen ? selectRef.current.onMenuOpen() : selectRef.current.onMenuClose()
     }
   }, [menuIsOpen])
 
-  useCloseOnResize(selectRef)
+  useCloseOnResize<SelectFieldOption<V>, true>(selectRef)
 
   const selectProps: ReactSelectProps<SelectFieldOption<V>, true> = {
-    ref: selectRef,
     inputId: id,
     className: 'hz-select-field',
     classNamePrefix: 'hz-select-field',
@@ -185,7 +185,7 @@ export const MultiSelectField = <V extends string | number = number>(props: Mult
     name: name,
     value: selectedOptions,
     options,
-    onChange: onChangeWrapped as (value: ValueType<SelectFieldOption<V>, true>, action: ActionMeta<SelectFieldOption<V>>) => void,
+    onChange: onChangeWrapped as (value: OnChangeValue<SelectFieldOption<V>, true>, action: ActionMeta<SelectFieldOption<V>>) => void,
     placeholder,
     menuIsOpen,
     menuPlacement,
@@ -199,6 +199,8 @@ export const MultiSelectField = <V extends string | number = number>(props: Mult
     },
     formatGroupLabel,
     formatOptionLabel,
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     renderMenuFooter,
     ...rest,
   }
@@ -234,9 +236,9 @@ export const MultiSelectField = <V extends string | number = number>(props: Mult
       />
       <div className={styles.selectBlock}>
         {isCreatable ? (
-          <ReactSelectCreatable<SelectFieldOption<V>, true> {...selectProps} />
+          <ReactSelectCreatable<SelectFieldOption<V>, true> ref={selectRef} {...selectProps} />
         ) : (
-          <ReactSelect<SelectFieldOption<V>, true> {...selectProps} />
+          <ReactSelect<SelectFieldOption<V>, true> ref={selectRef} {...selectProps} />
         )}
       </div>
       <Error truncated error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />

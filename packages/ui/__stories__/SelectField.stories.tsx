@@ -2,7 +2,6 @@ import React, { ReactNode, useState } from 'react'
 import { logger } from '@hazelcast/services'
 import { Meta, Story } from '@storybook/react'
 import { Aperture } from 'react-feather'
-import { GroupedOptionsType } from 'react-select'
 import { Form, Formik } from 'formik'
 
 import { SelectField, SelectFieldProps } from '../src/Select/SelectField'
@@ -11,6 +10,7 @@ import { SelectFieldFormik } from '../src/Select/SelectFieldFormik'
 import { LONG_MULTIPLE_WORD_TEXT, LONG_ONE_WORD_TEXT } from './constants'
 
 import styles from '../src/Select/SelectField.module.scss'
+import { GroupBase } from 'react-select'
 
 const options: SelectFieldOption<string>[] = [
   { value: 'darth_vader', label: 'Darth Vader' },
@@ -170,7 +170,7 @@ WithTooltipHidden.args = {
   singleValueTooltipVisible: false,
 }
 
-const groupedOptions: GroupedOptionsType<SelectFieldOption<string>> = [
+const groupedOptions: ReadonlyArray<GroupBase<SelectFieldOption<string>>> = [
   {
     label: 'Dark Side',
     options: [

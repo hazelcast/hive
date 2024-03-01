@@ -2,7 +2,7 @@ import React, { createRef } from 'react'
 import { Formik, Form, FormikProps } from 'formik'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import { act } from 'react-dom/test-utils'
-import Select from 'react-select'
+import ReactSelect from 'react-select'
 
 import { MultiSelectFieldFormik } from '../../src/Select/MultiSelectFieldFormik'
 import { SelectFieldOption } from '../../src/Select/helpers'
@@ -38,7 +38,7 @@ describe('MultiSelectFieldFormik', () => {
     )
 
     const wrapper = await mountAndCheckA11Y(<TestForm />)
-    const selectInstance = wrapper.find(Select).instance() as Select
+    const selectInstance = wrapper.find(ReactSelect)
 
     expect(formikBag.current?.values).toEqual({
       names: [],
@@ -47,7 +47,7 @@ describe('MultiSelectFieldFormik', () => {
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      selectInstance.props.onChange?.([options[1]], { action: 'select-option' })
+      selectInstance.props().onChange?.([options[1]], { action: 'select-option' })
     })
     wrapper.update()
 
@@ -58,7 +58,7 @@ describe('MultiSelectFieldFormik', () => {
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      selectInstance.props.onChange?.([options[1], options[0]], { action: 'select-option' })
+      selectInstance.props().onChange?.([options[1], options[0]], { action: 'select-option' })
     })
     wrapper.update()
 
@@ -83,14 +83,14 @@ describe('MultiSelectFieldFormik', () => {
     )
 
     const wrapper = await mountAndCheckA11Y(<TestForm />)
-    const selectInstance = wrapper.find(Select).instance() as Select
+    const selectInstance = wrapper.find(ReactSelect)
 
     expect(wrapper.find(Error).prop('error')).toBe(undefined)
 
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      selectInstance.props.onChange?.([options[1]], { action: 'select-option' })
+      selectInstance.props().onChange?.([options[1]], { action: 'select-option' })
     })
     wrapper.update()
 
@@ -123,7 +123,7 @@ describe('MultiSelectFieldFormik', () => {
     )
 
     const wrapper = await mountAndCheckA11Y(<TestForm />)
-    const selectInstance = wrapper.find(Select).instance() as Select
+    const selectInstance = wrapper.find(ReactSelect)
 
     expect(formikBag.current?.values).toEqual({
       names: [],
@@ -132,7 +132,7 @@ describe('MultiSelectFieldFormik', () => {
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      selectInstance.props.onChange?.([options[1]], { action: 'select-option' })
+      selectInstance.props().onChange?.([options[1]], { action: 'select-option' })
     })
     wrapper.update()
 

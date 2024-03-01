@@ -1,7 +1,7 @@
 import React from 'react'
 import { useUID } from 'react-uid'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
-import ReactSelect, { OptionsType } from 'react-select'
+import ReactSelect, { Options } from 'react-select'
 import ReactSelectCreatable from 'react-select/creatable'
 
 import { SelectField } from '../../src/Select/SelectField'
@@ -21,7 +21,7 @@ const selectId = 'selectId'
 const selectName = 'selectName'
 const selectLabel = 'selectLabel'
 
-const options: OptionsType<SelectFieldOption<string>> = [
+const options: Options<SelectFieldOption<string>> = [
   { value: 'darth_vader', label: 'Darth Vader' },
   { value: 'luke_skywalker', label: 'Luke Skywalker' },
   { value: 'obi', label: 'Obi-Wan Kenobi' },

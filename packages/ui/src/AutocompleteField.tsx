@@ -1,5 +1,5 @@
 import React, { CSSProperties, FocusEvent, ReactNode, useMemo, useState } from 'react'
-import ReactSelect, { ActionMeta, components, ValueType } from 'react-select'
+import ReactSelect, { ActionMeta, components, OnChangeValue, FormatOptionLabelMeta, Props as ReactSelectProps } from 'react-select'
 import { useUID } from 'react-uid'
 import cn from 'classnames'
 import { Search, X } from 'react-feather'
@@ -7,7 +7,6 @@ import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 import styles from './AutocompleteField.module.scss'
 import { Error, errorId } from './Error'
 import { HelpProps } from './Help'
-import { FormatOptionLabelMeta, Props as ReactSelectProps } from 'react-select/src/Select'
 import { canUseDOM } from './utils/ssr'
 import { IconButton } from './IconButton'
 import { SelectFieldSize } from './Select/SelectField'
@@ -21,7 +20,7 @@ export type AutocompleteFieldOption = {
 export type RenderOptionFunction<O = AutocompleteFieldOption> = (
   highlightedLabelText: ReactNode,
   option: O extends AutocompleteFieldOption ? O : never,
-  labelMeta: FormatOptionLabelMeta<AutocompleteFieldOption, false>,
+  labelMeta: FormatOptionLabelMeta<AutocompleteFieldOption>,
 ) => ReactNode
 
 export type AutocompleteFieldProps = {
@@ -88,6 +87,8 @@ const DropdownIndicator: typeof components.DropdownIndicator = (props) => {
 // innerProps set event handling
 const ClearIndicator: typeof components.ClearIndicator = ({ innerProps }) => {
   // Visually impaired people will use the keyboard (backspace) to remove the value. We do not want to confuse them by allowing to focus this button.
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   return <IconButton {...innerProps} icon={X} ariaHidden kind="primary" size="medium" className={styles.clear} tabIndex={-1} />
 }
 
@@ -193,7 +194,7 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
   )
 
   const formatOptionLabelFn = React.useCallback(
-    (option: AutocompleteFieldOption, labelMeta: FormatOptionLabelMeta<AutocompleteFieldOption, false>) => {
+    (option: AutocompleteFieldOption, labelMeta: FormatOptionLabelMeta<AutocompleteFieldOption>) => {
       const { inputValue } = labelMeta
       let optionText: ReactNode = option.label
       if (inputValue) {
@@ -215,13 +216,15 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
     return menuPortalTarget
   }
 
-  const props: ReactSelectProps<AutocompleteFieldOption> = {
+  const props: ReactSelectProps<AutocompleteFieldOption, false> = {
     inputId: id,
     className: 'hz-autocomplete-field',
     classNamePrefix: 'hz-autocomplete-field',
     // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute
     'aria-errormessage': error && errorId(id),
     'aria-invalid': !!error,
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     'aria-required': required,
     error,
     isClearable: isClearable ?? false,
@@ -232,7 +235,7 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
     value: selectedOption,
     placeholder,
     options,
-    onChange: onChangeFn as (value: ValueType<AutocompleteFieldOption, false>, action: ActionMeta<AutocompleteFieldOption>) => void,
+    onChange: onChangeFn as (value: OnChangeValue<AutocompleteFieldOption, false>, action: ActionMeta<AutocompleteFieldOption>) => void,
     onFocus: onFocusFn,
     onBlur: onBlurFn,
     menuPortalTarget: getMenuContainer(menuPortalTarget),
@@ -273,11 +276,13 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
         labelClassName={labelClassName}
       />
       <div className={styles.selectBlock}>
-        <ReactSelect<AutocompleteFieldOption>
+        <ReactSelect<AutocompleteFieldOption, false>
           onInputChange={onInputChange}
           formatOptionLabel={formatOptionLabelFn}
           styles={{
             ...props.styles,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             singleValue: (base: CSSProperties) => ({
               ...base,
               ...props.styles?.singleValue,
