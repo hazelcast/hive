@@ -1,3 +1,4 @@
+import { ReactNode } from 'react'
 import { Options, GroupBase } from 'react-select'
 
 import { canUseDOM } from '../utils/ssr'
@@ -5,6 +6,7 @@ import { canUseDOM } from '../utils/ssr'
 export type SelectFieldOption<V> = {
   label: string
   value: V
+  trailingNote?: ReactNode
 }
 
 export type SelectFieldOptionsMap<V> = {

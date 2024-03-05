@@ -5,9 +5,10 @@ import cn from 'classnames'
 
 import { Icon } from '../Icon'
 import { IconButton } from '../IconButton'
+import { TruncatedText } from '../TruncatedText'
+import { SelectFieldOption } from './helpers'
 
 import styles from './Common.module.scss'
-import { TruncatedText } from '../TruncatedText'
 
 const DropdownIndicator: typeof rsComponents.DropdownIndicator = ({ selectProps }) => (
   <Icon
@@ -55,7 +56,10 @@ const MenuList: typeof rsComponents.MenuList = (props) => {
 
 const Option: typeof rsComponents.Option = (props) => (
   <rsComponents.Option {...props}>
-    <TruncatedText text={props.label} />
+    <div className={styles.valueContainer}>
+      <TruncatedText text={props.label} />
+      <span className={styles.trailingNote}>{(props.data as SelectFieldOption<string>)?.trailingNote}</span>
+    </div>
   </rsComponents.Option>
 )
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -64,7 +68,10 @@ const IndicatorSeparator: typeof rsComponents.IndicatorSeparator = () => null
 
 const SingleValue: typeof rsComponents.SingleValue = ({ children, ...props }) => (
   <rsComponents.SingleValue {...props}>
-    <TruncatedText text={children as string} />
+    <div className={styles.valueContainer}>
+      <TruncatedText text={children as string} />
+      <span className={styles.trailingNote}>{(props.data as SelectFieldOption<string>)?.trailingNote}</span>
+    </div>
   </rsComponents.SingleValue>
 )
 

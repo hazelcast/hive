@@ -54,3 +54,16 @@ $selectHorizontalPadding: c.$grid * 3;
     // color: c.$colorPrimary;
   }
 }
+
+.valueContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  .trailingNote {
+    flex-shrink: 0;
+    color: c.$colorTextSecondary;
+    margin-left: c.$grid * 2;
+  }
+}
