@@ -94,6 +94,16 @@ WithHelperText.args = {
   helperText: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
 }
 
+export const WithTrailingNote = Template.bind({})
+WithTrailingNote.args = {
+  options: [
+    { value: 'luke_skywalker', label: 'Luke Skywalker', trailingNote: 'Note' },
+    { value: 'custom', label: 'Customized Side Note', trailingNote: <span style={{ color: 'red', fontWeight: '600' }}>Custom Note</span> },
+    { value: 'one_word', label: LONG_ONE_WORD_TEXT, trailingNote: 'Note' },
+    { value: 'multiple_word', label: LONG_MULTIPLE_WORD_TEXT, trailingNote: 'Note' },
+  ],
+}
+
 export const Clearable = Template.bind({})
 Clearable.args = {
   isClearable: true,
