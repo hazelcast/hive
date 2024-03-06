@@ -100,6 +100,10 @@ $knobHorizontalOffset: math.max(c.$outlineWidth - c.$borderWidth, 0px);
     background-color: c.$colorNeutralLight;
     border-color: c.$colorNeutralLight;
     box-shadow: none;
+    color: c.$colorNeutral;
+    &::before {
+      background: c.$colorNeutral;
+    }
   }
 
   label.focus .toggleTrack,
@@ -110,6 +114,16 @@ $knobHorizontalOffset: math.max(c.$outlineWidth - c.$borderWidth, 0px);
   // track ON state
   input:checked + label .toggleTrack {
     background: $trackBgOn;
+  }
+
+  input:checked + label.disabled .toggleTrack {
+    background-color: c.$colorSuccessDark;
+    border-color: c.$colorNeutralLight;
+    box-shadow: none;
+    color: c.$colorNeutral;
+    &::before {
+      background-color: c.$colorNeutral;
+    }
   }
 
   // the `knob` OFF state
