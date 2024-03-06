@@ -84,6 +84,22 @@ $knobHorizontalOffset: math.max(c.$outlineWidth - c.$borderWidth, 0px);
     border: c.$borderWidth solid transparent;
     box-sizing: border-box;
     color: c.$colorNeutralWhite;
+
+    &::before {
+      content: '';
+      display: inline-block;
+      height: $knobRadius;
+      width: $knobRadius;
+      background: $knobBgOff;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      /* doiuse-disable calc */
+      right: calc(#{$width} - #{c.$borderWidth * 2} - #{$knobRadius} - #{$knobHorizontalOffset});
+      /* doiuse-enable calc */
+      transition: right c.$transitionTimeMedium ease-in;
+    }
   }
 
   // track states
@@ -101,6 +117,7 @@ $knobHorizontalOffset: math.max(c.$outlineWidth - c.$borderWidth, 0px);
     border-color: c.$colorNeutralLight;
     box-shadow: none;
     color: c.$colorNeutral;
+
     &::before {
       background: c.$colorNeutral;
     }
@@ -114,6 +131,11 @@ $knobHorizontalOffset: math.max(c.$outlineWidth - c.$borderWidth, 0px);
   // track ON state
   input:checked + label .toggleTrack {
     background: $trackBgOn;
+
+    &::before {
+      background: $knobBgOn;
+      right: $knobHorizontalOffset;
+    }
   }
 
   input:checked + label.disabled .toggleTrack {
@@ -121,32 +143,10 @@ $knobHorizontalOffset: math.max(c.$outlineWidth - c.$borderWidth, 0px);
     border-color: c.$colorNeutralLight;
     box-shadow: none;
     color: c.$colorNeutral;
+
     &::before {
       background-color: c.$colorNeutral;
     }
-  }
-
-  // the `knob` OFF state
-  .toggleTrack::before {
-    content: '';
-    display: inline-block;
-    height: $knobRadius;
-    width: $knobRadius;
-    background: $knobBgOff;
-    border-radius: 50%;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    /* doiuse-disable calc */
-    right: calc(#{$width} - #{c.$borderWidth * 2} - #{$knobRadius} - #{$knobHorizontalOffset});
-    /* doiuse-enable calc */
-    transition: right c.$transitionTimeMedium ease-in;
-  }
-
-  // knob ON state
-  input:checked + label .toggleTrack::before {
-    background: $knobBgOn;
-    right: $knobHorizontalOffset;
   }
 
   .toggleTrackText {
