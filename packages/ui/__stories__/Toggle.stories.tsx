@@ -32,7 +32,14 @@ export const Default = () => {
         <li>Checked: {checked ? 'True' : 'False'}</li>
         <li>Disabled: {disabled ? 'True' : 'False'}</li>
       </ul>
-      <button onClick={() => setDisabled(!disabled)}>{disabled ? `Enable` : `Disable`}</button>
+      <button
+        onClick={(e) => {
+          setDisabled(!disabled)
+          e.preventDefault()
+        }}
+      >
+        {disabled ? `Enable` : `Disable`}
+      </button>
     </>
   )
 }
