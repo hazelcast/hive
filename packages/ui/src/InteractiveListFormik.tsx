@@ -104,6 +104,7 @@ export const InteractiveListFormik = <V extends object>({
       setInputValue(value)
     },
     addItem: addItem,
+    getValue: () => inputValue,
   }))
 
   useEffect(() => {
