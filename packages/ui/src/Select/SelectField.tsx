@@ -59,7 +59,15 @@ export type SelectFieldExtraProps<V> = {
   Pick<InputHTMLAttributes<HTMLElement>, 'autoFocus' | 'disabled' | 'required' | 'placeholder' | 'aria-required'> &
   Pick<
     ReactSelectProps,
-    'isSearchable' | 'isClearable' | 'menuIsOpen' | 'menuPlacement' | 'closeMenuOnScroll' | 'noOptionsMessage' | 'inputValue'
+    | 'isSearchable'
+    | 'isClearable'
+    | 'menuIsOpen'
+    | 'menuPlacement'
+    | 'closeMenuOnScroll'
+    | 'noOptionsMessage'
+    | 'inputValue'
+    | 'menuShouldScrollIntoView'
+    | 'menuShouldBlockScroll'
   > &
   SelectFieldIconLeftProps &
   Omit<FieldHeaderProps, 'id'>
@@ -94,6 +102,7 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
     formatOptionLabel,
     renderMenuFooter,
     singleValueTooltipVisible = true,
+    menuShouldScrollIntoView = false,
     ...iconAndRest
   } = props
   const id = useUID()
@@ -175,6 +184,7 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     renderMenuFooter,
+    menuShouldScrollIntoView,
     ...rest,
   }
 
