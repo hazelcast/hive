@@ -30,7 +30,11 @@ export type InteractiveListCoreProps<V> = {
 
 export type InteractiveListProps<V> = InteractiveListExtraProps & InteractiveListCoreProps<V>
 
-export type InteractiveListInputRef = { setValue: (value: string) => void; addItem: () => Promise<string | undefined> }
+export type InteractiveListInputRef = {
+  setValue: (value: string) => void
+  addItem: () => Promise<string | undefined>
+  getValue: () => string
+}
 
 export type InteractiveListItemProps = {
   content: string
