@@ -113,6 +113,7 @@ export const WithCustomAddButton = () => {
 
   const submit = async (values: Values) => {
     try {
+      logger.log('value', inputRef.current?.getValue())
       await inputRef.current?.addItem()
       await schema.validate(values, { abortEarly: false })
     } catch (e) {
