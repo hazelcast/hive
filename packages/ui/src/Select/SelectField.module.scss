@@ -31,6 +31,7 @@ $selectGroupHeading: ':global .hz-select-field__group-heading';
 
   #{$selectContainer} {
     flex: 1 1 auto;
+    max-width: 100%;
 
     @include c.typographyBodySmall;
   }
