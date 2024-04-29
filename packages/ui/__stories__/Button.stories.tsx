@@ -49,6 +49,25 @@ const Template: ComponentStory<typeof Button> = ({ className, ...args }) => {
         <Button {...props} color="authSecondary" disabled />
         <Button {...props} variant="outlined" color="authSecondary" />
         <Button {...props} variant="text" color="authSecondary" />
+        <Button {...props} size="medium" />
+        <Button {...props} variant="outlined" size="medium" />
+        <Button {...props} variant="text" size="medium" />
+        <Button {...props} color="secondary" size="medium" />
+        <Button {...props} variant="outlined" color="secondary" size="medium" />
+        <Button {...props} variant="text" color="secondary" size="medium" />
+        <Button {...props} color="warning" size="medium" />
+        <Button {...props} variant="outlined" color="warning" size="medium" />
+        <Button {...props} variant="text" color="warning" size="medium" />
+        <Button {...props} color="brand" size="medium" />
+        <Button {...props} variant="outlined" color="brand" size="medium" />
+        <Button {...props} variant="text" color="brand" size="medium" />
+        <Button {...props} color="authPrimary" size="medium" />
+        <Button {...props} variant="outlined" color="authPrimary" size="medium" />
+        <Button {...props} variant="text" color="authPrimary" size="medium" />
+        <Button {...props} color="authSecondary" size="medium" />
+        <Button {...props} color="authSecondary" disabled size="medium" />
+        <Button {...props} variant="outlined" color="authSecondary" size="medium" />
+        <Button {...props} variant="text" color="authSecondary" size="medium" />
       </div>
     </div>
   )
