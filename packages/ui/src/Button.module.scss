@@ -214,6 +214,37 @@
         @include disabledButtonColor;
       }
     }
+
+    &AuthSecondary {
+      @include buttonColor(c.$authSecondary);
+
+      border-color: c.$colorNeutralWhite;
+
+      &:hover,
+      &.hover,
+      &:focus-visible,
+      &.focus {
+        @include buttonColor(lighten(c.$authSecondary, 10%));
+      }
+
+      &:active,
+      &.active {
+        @include buttonColor(darken(c.$authSecondary, 10%));
+      }
+
+      &.variantContained {
+        color: c.$colorNeutralWhite;
+      }
+
+      &.variantOutlined {
+        border-color: c.$authSecondary;
+      }
+
+      &:disabled {
+        color: c.$colorText;
+        background-color: c.$colorNeutralWhite;
+      }
+    }
   }
 
   &.variant {

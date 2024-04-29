@@ -45,6 +45,10 @@ const Template: ComponentStory<typeof Button> = ({ className, ...args }) => {
         <Button {...props} color="authPrimary" />
         <Button {...props} variant="outlined" color="authPrimary" />
         <Button {...props} variant="text" color="authPrimary" />
+        <Button {...props} color="authSecondary" />
+        <Button {...props} color="authSecondary" disabled />
+        <Button {...props} variant="outlined" color="authSecondary" />
+        <Button {...props} variant="text" color="authSecondary" />
         <Button {...props} size="medium" />
         <Button {...props} variant="outlined" size="medium" />
         <Button {...props} variant="text" size="medium" />
@@ -60,6 +64,10 @@ const Template: ComponentStory<typeof Button> = ({ className, ...args }) => {
         <Button {...props} color="authPrimary" size="medium" />
         <Button {...props} variant="outlined" color="authPrimary" size="medium" />
         <Button {...props} variant="text" color="authPrimary" size="medium" />
+        <Button {...props} color="authSecondary" size="medium" />
+        <Button {...props} color="authSecondary" disabled size="medium" />
+        <Button {...props} variant="outlined" color="authSecondary" size="medium" />
+        <Button {...props} variant="text" color="authSecondary" size="medium" />
       </div>
     </div>
   )

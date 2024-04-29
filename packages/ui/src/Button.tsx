@@ -14,7 +14,7 @@ import styles from './Button.module.scss'
 export type ButtonKind = 'primary' | 'secondary' | 'danger' | 'transparent'
 
 export type ButtonVariant = 'contained' | 'outlined' | 'text'
-export type ButtonColor = 'primary' | 'secondary' | 'warning' | 'brand' | 'authPrimary'
+export type ButtonColor = 'primary' | 'secondary' | 'warning' | 'brand' | 'authPrimary' | 'authSecondary'
 
 export type ButtonSize = 'medium' | 'small'
 
@@ -56,7 +56,7 @@ type ButtonNotDisabledProps = {
 }
 
 export type ButtonDisabledProps = {
-  disabledTooltip: string
+  disabledTooltip?: string
   disabled: boolean
   disabledTooltipVisible?: boolean
   disabledTooltipPlacement?: TooltipProps['placement']
