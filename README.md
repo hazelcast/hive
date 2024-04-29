@@ -28,7 +28,6 @@ Design system built with A11Y in mind. Developed as a [Lerna](https://lerna.js.o
   - [Run unit tests](#run-unit-tests)
   - [Run visual regression tests](#run-visual-regression-tests)
   - [Approve the updated for visual regression test screenshots](#approve-the-updated-for-visual-regression-test-screenshots)
-  - [Generate new screenshots for the new/updated components](#generate-new-screenshots-for-the-newupdated-components)
   - [Run all checks at once](#run-all-checks-at-once)
 - [Releasing a new version](#releasing-a-new-version)
 
@@ -181,23 +180,6 @@ pnpm run test:visual
 ```
 
 Now, if the test suite failed, we need to go to `packages/ui/.loki` and manually review the screenshots in the `current` folder and the diff in the `difference` folder. If we like what we see, we need to run `pnpm run test:visual:approve` in the `packages/ui` folder. It will update the reference screenshots.
-
-### Generate new screenshots for the new/updated components
-
-Go to `packages/ui` and run command for screenshot generation. The command builds storybook and updates screenshots.
-
-```
-cd packages/ui
-pnpm run generate-screenshots
-```
-
-In case you see an error in the console `error:0308010C:digital envelope routines`
-
-try to run first
-
-```shell
-export NODE_OPTIONS=--openssl-legacy-provider
-```
 
 ### Run all checks at once
 
