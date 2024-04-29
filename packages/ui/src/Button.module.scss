@@ -217,6 +217,7 @@
 
     &AuthSecondary {
       @include buttonColor(c.$authSecondary);
+
       border-color: c.$colorNeutralWhite;
 
       &:hover,
