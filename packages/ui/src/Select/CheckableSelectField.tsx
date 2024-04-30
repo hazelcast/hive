@@ -8,10 +8,12 @@ import { Link } from '../Link'
 import { SelectFieldOption } from './helpers'
 import { TextField } from '../TextField'
 import { HelpProps } from '../Help'
+import { Tooltip } from '../Tooltip'
+import { Checkbox } from '../Checkbox'
 import { useOpenCloseState } from '../hooks'
+import { TruncatedText } from '../TruncatedText'
 
 import styles from './CheckableSelectField.module.scss'
-import { TruncatedText } from '../TruncatedText'
 
 export type CheckableSelectFieldCoreStaticProps<V> = {
   name: string
@@ -40,6 +42,8 @@ export type CheckableSelectFieldExtraProps<V> = {
   noOptionsMessage?: string
   defaultOpen?: boolean
   id?: string
+  filterOptionsLabel?: string
+  filterOptions?: (candidate: SelectFieldOption<V>, input: string) => boolean
 }
 
 export type CheckableSelectProps<V> = CheckableSelectFieldCoreStaticProps<V> & CheckableSelectFieldExtraProps<V>
@@ -77,9 +81,12 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
     noneSelectedLabel = 'None selected',
     noOptionsMessage = 'No options',
     id: rootId,
+    filterOptions,
+    filterOptionsLabel,
   } = props
   const id = useUID()
   const { isOpen, toggle, close } = useOpenCloseState(defaultOpen)
+  const { isOpen: isCustomSearchEnabled, toggle: toggleCustomSearch } = useOpenCloseState(false)
   const [searchValue, setSearchValue] = useState('')
   const [forceUpdateToken, setForceUpdateToken] = useState(1)
   const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null)
@@ -97,8 +104,14 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
   const filteredOptions = useMemo(() => {
     const value = searchValue.toLowerCase()
 
-    return options.filter(({ label }) => label.toLowerCase().includes(value))
-  }, [options, searchValue])
+    return options.filter((option) => {
+      if (isCustomSearchEnabled && filterOptions) {
+        return filterOptions(option, value)
+      }
+
+      return option.label.toLowerCase().includes(value)
+    })
+  }, [options, searchValue, isCustomSearchEnabled, filterOptions])
 
   const getValueLabel = () => {
     if (placeholderMode === 'permanent') {
@@ -150,18 +163,27 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
         onUpdateLayout={() => setForceUpdateToken((token) => token + 1)}
       >
         <div className={styles.dropdown} data-test={`${dataTest}-dropdown`}>
-          <TextField
-            size={size}
-            iconSize="medium"
-            className={styles.search}
-            name="checkable-select-search"
-            data-test={`${dataTest}-search`}
-            onChange={(e) => setSearchValue(e.target.value)}
-            value={searchValue}
-            label=""
-            disabled={disabled}
-            placeholder={placeholder}
-          />
+          <div className={styles.search}>
+            <TextField
+              size={size}
+              iconSize="medium"
+              className={styles.searchField}
+              name="checkable-select-search"
+              data-test={`${dataTest}-search`}
+              onChange={(e) => setSearchValue(e.target.value)}
+              value={searchValue}
+              label=""
+              disabled={disabled}
+              placeholder={placeholder}
+            />
+            {filterOptions && (
+              <Tooltip content={filterOptionsLabel} zIndex={21}>
+                {(tooltipRef) => (
+                  <Checkbox ref={tooltipRef} checked={isCustomSearchEnabled} name="advanced search" onChange={toggleCustomSearch} />
+                )}
+              </Tooltip>
+            )}
+          </div>
           <div className={styles.options}>
             {filteredOptions.length > 0 ? (
               filteredOptions.map((option) => {

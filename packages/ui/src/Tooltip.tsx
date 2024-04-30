@@ -25,8 +25,6 @@ import { getPortalContainer, PortalContainer } from './utils/portal'
 
 import styles from './Tooltip.module.scss'
 
-const tooltipZIndex = 20
-
 const TooltipContext = createContext<{
   hide: () => void
   clearHideTimeout: () => void
@@ -47,14 +45,15 @@ export type TooltipProps = {
   hoverAbleTooltip?: boolean
   children: (
     ref: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
-    onMouseEnter?: MouseEventHandler<Element>,
-    onMouseLeave?: MouseEventHandler<Element>,
+    onMouseEnter?: MouseEventHandler,
+    onMouseLeave?: MouseEventHandler,
   ) => ReactNode
   popperRef?: MutableRefObject<PopperRef | undefined>
   updateToken?: ReactText | boolean
   tooltipContainer?: PortalContainer
   wordBreak?: CSSProperties['wordBreak']
   disabled?: boolean
+  zIndex?: number
 }
 
 /**
@@ -88,6 +87,7 @@ export const Tooltip: FC<TooltipProps> = ({
   tooltipContainer = 'body',
   hoverAbleTooltip = true,
   disabled = false,
+  zIndex = 20,
 }) => {
   const [isShown, setShown] = useState<boolean>(false)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
@@ -225,7 +225,7 @@ export const Tooltip: FC<TooltipProps> = ({
                   className={cn(styles.overlay, {
                     [styles.hidden]: !isTooltipVisible,
                   })}
-                  style={{ ...popper.styles.popper, ...{ zIndex: context ? tooltipZIndex + 1 : tooltipZIndex }, wordBreak }}
+                  style={{ ...popper.styles.popper, ...{ zIndex: context ? zIndex + 1 : zIndex }, wordBreak }}
                   data-test="tooltip-overlay"
                   aria-hidden
                   {...popper.attributes.popper}
