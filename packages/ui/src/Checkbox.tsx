@@ -28,6 +28,7 @@ export type CheckboxExtraProps = {
   required?: boolean
   className?: string
   classNameLabel?: string
+  'aria-label'?: string
   classNameCheckmark?: string
 }
 
@@ -60,6 +61,7 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>((props, ref) =
     disabled = false,
     required,
     'data-test': dataTest,
+    'aria-label': ariaLabel,
     onClick,
   } = props
   const inputRef = useRef<HTMLInputElement>(null)
@@ -94,6 +96,7 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>((props, ref) =
           ref={inputRef}
           id={id}
           name={name}
+          aria-label={ariaLabel}
           checked={!!checked}
           onChange={onChange}
           onBlur={onBlur}

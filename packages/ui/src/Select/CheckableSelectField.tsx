@@ -179,7 +179,14 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
             {filterOptions && (
               <Tooltip content={filterOptionsLabel} zIndex={21}>
                 {(tooltipRef) => (
-                  <Checkbox ref={tooltipRef} checked={isCustomSearchEnabled} name="advanced search" onChange={toggleCustomSearch} />
+                  <Checkbox
+                    ref={tooltipRef}
+                    aria-label="Custom search checkbox"
+                    checked={isCustomSearchEnabled}
+                    name="toggle custom search"
+                    onChange={toggleCustomSearch}
+                    data-test={`${dataTest}-toggle-custom-search`}
+                  />
                 )}
               </Tooltip>
             )}
