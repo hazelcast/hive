@@ -35,7 +35,14 @@
 }
 
 .search {
+  display: flex;
+  align-items: center;
+  gap: c.$grid * 2;
   margin-bottom: c.$grid * 2;
+
+  &Field {
+    flex-grow: 1;
+  }
 }
 
 .option {

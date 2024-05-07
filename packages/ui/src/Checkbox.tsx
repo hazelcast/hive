@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, FocusEvent, ReactElement, ReactText, useRef, MouseEvent } from 'react'
+import React, { ChangeEvent, FocusEvent, ReactElement, ReactText, useRef, MouseEvent, forwardRef } from 'react'
 import { Check, Minus } from 'react-feather'
 import { DataTestProp } from '@hazelcast/helpers'
 import { useUID } from 'react-uid'
@@ -28,6 +28,7 @@ export type CheckboxExtraProps = {
   required?: boolean
   className?: string
   classNameLabel?: string
+  'aria-label'?: string
   classNameCheckmark?: string
 }
 
@@ -43,7 +44,7 @@ type CheckboxProps = CheckboxCoreProps & CheckboxExtraProps & DataTestProp
  * - It's important to realise that we don't set checkbox value, but state (on/off). That is the main difference from other input types.
  * - They can have a special indeterminate state, that represents a '3rd' value, usually used in tree structures, etc.
  */
-export const Checkbox: FC<CheckboxProps> = (props) => {
+export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>((props, ref) => {
   const {
     checked,
     name,
@@ -60,14 +61,15 @@ export const Checkbox: FC<CheckboxProps> = (props) => {
     disabled = false,
     required,
     'data-test': dataTest,
+    'aria-label': ariaLabel,
     onClick,
   } = props
   const inputRef = useRef<HTMLInputElement>(null)
   const id = useUID()
 
   return (
-    <div className={classNames(className, { [styles.withError]: 'error' in props })} data-test={dataTest}>
-      {/* 
+    <div ref={ref} className={classNames(className, { [styles.withError]: 'error' in props })} data-test={dataTest}>
+      {/*
         We can only style forward elements based on input state (with ~ or +), has() is not supported yet.
         That's why we need to explicitly pass error/checked/disabled classes to the wrapper element.
       */}
@@ -94,6 +96,7 @@ export const Checkbox: FC<CheckboxProps> = (props) => {
           ref={inputRef}
           id={id}
           name={name}
+          aria-label={ariaLabel}
           checked={!!checked}
           onChange={onChange}
           onBlur={onBlur}
@@ -115,4 +118,6 @@ export const Checkbox: FC<CheckboxProps> = (props) => {
       <Error truncated error={error} className={styles.errorContainer} inputId={id} />
     </div>
   )
-}
+})
+
+Checkbox.displayName = 'Checkbox'

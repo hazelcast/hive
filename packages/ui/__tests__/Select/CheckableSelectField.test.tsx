@@ -1,6 +1,6 @@
 import React from 'react'
 import { useUID } from 'react-uid'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { mountAndCheckA11Y, simulateChange } from '@hazelcast/test-helpers'
 import { act } from 'react-dom/test-utils'
 
 import { CheckableSelectField } from '../../src/Select/CheckableSelectField'
@@ -305,5 +305,50 @@ describe('CheckableSelectField', () => {
 
     expect(wrapper.findDataTest('test-no-options-message').exists()).toBeTruthy()
     expect(wrapper.findDataTest('test-no-options-message').text()).toBe('There are no options')
+  })
+
+  it('Custom search', async () => {
+    let id = 0
+    const onChange = jest.fn()
+    const filterOptions = jest.fn()
+    useUIDMock.mockImplementation(() => {
+      id += 1
+      return id.toString()
+    })
+    const wrapper = await mountAndCheckA11Y(
+      <CheckableSelectField
+        defaultOpen
+        name={selectName}
+        label={selectLabel}
+        options={options}
+        value={[]}
+        id={'21313123'}
+        onChange={onChange}
+        data-test="test"
+        filterOptions={filterOptions}
+        noOptionsMessage="There are no options"
+      />,
+    )
+
+    const searchInput = wrapper.findDataTestFirst('test-search').find('input')
+
+    expect(searchInput).toBeTruthy()
+    act(() => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      simulateChange(searchInput, 'Luke')
+    })
+
+    expect(filterOptions).toHaveBeenCalledTimes(0)
+
+    act(() => {
+      wrapper.findDataTestFirst('test-toggle-custom-search').find('input').simulate('change')
+    })
+
+    act(() => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      simulateChange(searchInput, 'Luke2')
+    })
+
+    expect(filterOptions).toHaveBeenCalled()
   })
 })

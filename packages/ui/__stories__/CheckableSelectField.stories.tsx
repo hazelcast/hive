@@ -141,3 +141,18 @@ WithoutOptions.args = {
   options: [],
   defaultOpen: true,
 }
+
+export const CustomSearch = Template.bind({})
+CustomSearch.args = {
+  value: [],
+  options,
+  filterOptionsLabel: 'Custom negative search',
+  defaultOpen: true,
+  filterOptions: (candidate, input) => {
+    if (!input) {
+      return true
+    }
+
+    return !candidate.label.toLowerCase().includes(input)
+  },
+}
