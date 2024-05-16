@@ -50,7 +50,8 @@
     "start": "pnpm run --filter @hazelcast/ui storybook",
     "prepack": "pnpm run compile",
     "prepare": "husky install",
-    "publish-canary": "lerna publish --canary --preid next --dist-tag next --yes --no-verify-access --include-merged-tags"
+    "publish-canary": "lerna publish --canary --preid next --dist-tag next --yes --no-verify-access --include-merged-tags",
+    "publish-release": "lerna publish from-git --no-push --force-publish"
   },
   "pnpm": {
     "overrides": {
