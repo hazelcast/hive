@@ -195,35 +195,36 @@ Assuming you're on latest master and the build is alright (`pnpm run build` runs
 
 1. First we create a release branch for the next version locally (in this case v1.1.0):
 
-```
-git checkout -b release/v1.1.0
-```
+   ```
+   git checkout -b release/v1.1.0
+   ```
 
-We push this new branch to Github:
+   We push this new branch to Github:
 
-```
-git push -u origin release/v1.1.0
-```
+   ```
+   git push -u origin release/v1.1.0
+   ```
 
-2. Then we run `lerna version`:
+2. Then we run:
+
+   ```
+   pnpm exec lerna version 1.1.0
+   ```
+
    This updates the package versions (in package.json, package-lock.json), creates a commit with necessary tags and pushes to Github automatically.
 
-```
-pnpm exec lerna version 1.1.0
-```
-
-At this point you should create a pull request and merge the new version branch (v1.1.0) to master.
+   At this point you should create a pull request and merge the new version branch (v1.1.0) to master.
 
 3. Now, after merging this pull request, we have the latest version available on GitHub. And it will be automatically published to npm with the required tags and releases;
 
-Wait for a few seconds/minutes (depends on how busy npm is at the time), and you should see the latest version we just released in the list returned by:
+   Wait for a few seconds/minutes (depends on how busy npm is at the time), and you should see the latest version we just released in the list returned by:
 
-```
-pnpm view @hazelcast/ui versions
-```
+   ```
+   pnpm view @hazelcast/ui versions
+   ```
 
-If something went wrong and npm did not create a new release, then you can manually inform it about our new release:
+   If something went wrong and npm did not create a new release, then you can manually inform it about our new release:
 
-```
-pnpm exec lerna publish from-git
-```
+   ```
+   pnpm exec lerna publish from-git
+   ```
