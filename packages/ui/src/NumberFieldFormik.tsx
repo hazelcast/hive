@@ -11,6 +11,26 @@ export type NumberFieldFormikProps<V extends object> = NumberFieldExtraProps & {
   onChange?: (value?: number) => void
 }
 
+const changeNestedObjectValue = <V extends object>(oldValues: V, name: string, updatedValue: number | undefined) => {
+  const nameProps: string[] = name.split('.')
+  const newValues = {
+    ...oldValues,
+  }
+  nameProps.reduce((nestedValues: object, nextName: string, currentIndex) => {
+    if (currentIndex < nameProps.length - 1) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      return (nestedValues[nextName] as object) || {}
+    } else {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      nestedValues[nextName] = updatedValue
+      return nestedValues
+    }
+  }, newValues)
+  return newValues
+}
+
 export const NumberFieldFormik = <V extends object>({ name, validate, onChange, ...props }: NumberFieldFormikProps<V>): ReactElement => {
   const [{ value, onBlur }, meta, { setTouched }] = useField<number | undefined>({
     name,
@@ -28,10 +48,7 @@ export const NumberFieldFormik = <V extends object>({ name, validate, onChange, 
     setTouched(true, false)
     // Override default behavior by forcing undefined to be set on the state
     if (value === undefined) {
-      const newValues = {
-        ...formik.values,
-        [name]: undefined,
-      }
+      const newValues = changeNestedObjectValue(formik.values, name, value)
       formik.setValues({
         ...newValues,
       })
