@@ -110,6 +110,9 @@ WithoutIncAndDecButtons.args = {
 export const WrappedInFormik = () => {
   type Values = {
     ram: number
+    mapStore: {
+      ttl: number
+    }
   }
 
   const validateRAM = (value: number | undefined) => (value == undefined || value < 4 ? 'RAM is too low' : undefined)
@@ -118,6 +121,9 @@ export const WrappedInFormik = () => {
     <Formik<Values>
       initialValues={{
         ram: 0,
+        mapStore: {
+          ttl: 0,
+        },
       }}
       initialErrors={{
         ram: 'Server Error: Invalid RAM amount',
@@ -128,6 +134,14 @@ export const WrappedInFormik = () => {
         <Form>
           Values: {JSON.stringify(values)}
           <NumberFieldFormik<Values> name="ram" label="Name" validate={validateRAM} min={0} max={64} />
+          <NumberFieldFormik<Values>
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            name="mapStore.ttl"
+            label="Nested"
+            min={0}
+            max={64}
+          />
           <button type="submit">Submit</button>
         </Form>
       )}
