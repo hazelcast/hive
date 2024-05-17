@@ -2,6 +2,10 @@ name: publish release
 env:
   CI: true
   PNPM_CACHE_FOLDER: .pnpm-store
+  GIT_AUTHOR_NAME: GitHub Actions Bot
+  GIT_AUTHOR_EMAIL: <>
+  GIT_COMMITTER_NAME: GitHub Actions Bot
+  GIT_COMMITTER_EMAIL: <>
 # only trigger on pull request closed events
 on:
   pull_request:
@@ -94,6 +98,6 @@ jobs:
       - name: Set tag
         if: steps.check-release.outputs.match == 'true'
         run: |
-          npx lerna publish from-git --no-push --force-publish
+          pnpm run publish-release
           git tag --force ${{ steps.create_tag.outputs.tag }} -m "tag release ${{ steps.create_tag.outputs.tag }}"
           git push -f origin ${{ steps.create_tag.outputs.tag }}
