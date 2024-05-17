@@ -89,13 +89,14 @@ jobs:
         run: |
           tag=$(echo ${{ github.event.pull_request.head.ref }} | sed 's/release\///')
           echo ::set-output name=tag::$tag
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - uses: ./.github/actions/install
       - run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: Set tag
+      - name: Publish to npm
         if: steps.check-release.outputs.match == 'true'
         run: |
           pnpm run publish-release
