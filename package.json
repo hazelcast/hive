@@ -51,7 +51,7 @@
     "prepack": "pnpm run compile",
     "prepare": "husky install",
     "publish-canary": "lerna publish --canary --preid next --dist-tag next --yes --no-verify-access --include-merged-tags",
-    "publish-release": "lerna publish from-package --force-publish"
+    "publish-release": "lerna publish from-package --force-publish --yes"
   },
   "pnpm": {
     "overrides": {
