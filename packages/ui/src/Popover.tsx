@@ -107,11 +107,11 @@ export const Popover: FC<PopoverProps> = (props) => {
 
   const handleFocusIn = useCallback(
     (e: FocusEvent) => {
-      if (popperElement && !popperElement.contains(e.target as Node)) {
+      if (popperElement && !popperElement.contains(e.target as Node) && !anchorElement?.contains(e.target as Node)) {
         onClose()
       }
     },
-    [onClose, popperElement],
+    [onClose, popperElement, anchorElement],
   )
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
