@@ -8,8 +8,6 @@ import { Link } from '../Link'
 import { SelectFieldOption } from './helpers'
 import { TextField } from '../TextField'
 import { HelpProps } from '../Help'
-import { Tooltip } from '../Tooltip'
-import { Checkbox } from '../Checkbox'
 import { useOpenCloseState } from '../hooks'
 import { TruncatedText } from '../TruncatedText'
 
@@ -42,7 +40,10 @@ export type CheckableSelectFieldExtraProps<V> = {
   noOptionsMessage?: string
   defaultOpen?: boolean
   id?: string
-  filterOptionsLabel?: string
+  searchInputProps?: {
+    endAdornment?: ReactNode
+    startAdornment?: ReactNode
+  }
   filterOptions?: (candidate: SelectFieldOption<V>, input: string) => boolean
 }
 
@@ -82,11 +83,10 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
     noOptionsMessage = 'No options',
     id: rootId,
     filterOptions,
-    filterOptionsLabel,
+    searchInputProps = {},
   } = props
   const id = useUID()
   const { isOpen, toggle, close } = useOpenCloseState(defaultOpen)
-  const { isOpen: isCustomSearchEnabled, toggle: toggleCustomSearch } = useOpenCloseState(false)
   const [searchValue, setSearchValue] = useState('')
   const [forceUpdateToken, setForceUpdateToken] = useState(1)
   const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null)
@@ -105,13 +105,13 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
     const value = searchValue.toLowerCase()
 
     return options.filter((option) => {
-      if (isCustomSearchEnabled && filterOptions) {
+      if (filterOptions) {
         return filterOptions(option, value)
       }
 
       return option.label.toLowerCase().includes(value)
     })
-  }, [options, searchValue, isCustomSearchEnabled, filterOptions])
+  }, [options, searchValue, filterOptions])
 
   const getValueLabel = () => {
     if (placeholderMode === 'permanent') {
@@ -164,6 +164,7 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
       >
         <div className={styles.dropdown} data-test={`${dataTest}-dropdown`}>
           <div className={styles.search}>
+            {searchInputProps.startAdornment}
             <TextField
               size={size}
               iconSize="medium"
@@ -176,20 +177,7 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
               disabled={disabled}
               placeholder={placeholder}
             />
-            {filterOptions && (
-              <Tooltip content={filterOptionsLabel} zIndex={21}>
-                {(tooltipRef) => (
-                  <Checkbox
-                    ref={tooltipRef}
-                    aria-label="Custom search checkbox"
-                    checked={isCustomSearchEnabled}
-                    name="toggle custom search"
-                    onChange={toggleCustomSearch}
-                    data-test={`${dataTest}-toggle-custom-search`}
-                  />
-                )}
-              </Tooltip>
-            )}
+            {searchInputProps.endAdornment}
           </div>
           <div className={styles.options}>
             {filteredOptions.length > 0 ? (

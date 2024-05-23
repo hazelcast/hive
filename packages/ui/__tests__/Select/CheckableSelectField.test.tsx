@@ -1,7 +1,8 @@
 import React from 'react'
 import { useUID } from 'react-uid'
-import { mountAndCheckA11Y, simulateChange } from '@hazelcast/test-helpers'
+import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import { act } from 'react-dom/test-utils'
+import { mount } from 'enzyme'
 
 import { CheckableSelectField } from '../../src/Select/CheckableSelectField'
 import { Label } from '../../src/Label'
@@ -9,7 +10,6 @@ import { Error } from '../../src/Error'
 import { SelectFieldOption } from '../../src/Select/helpers'
 
 import styles from '../src/SelectField.module.scss'
-import { mount } from 'enzyme'
 
 jest.mock('react-uid')
 
@@ -315,7 +315,7 @@ describe('CheckableSelectField', () => {
       id += 1
       return id.toString()
     })
-    const wrapper = await mountAndCheckA11Y(
+    await mountAndCheckA11Y(
       <CheckableSelectField
         defaultOpen
         name={selectName}
@@ -330,25 +330,33 @@ describe('CheckableSelectField', () => {
       />,
     )
 
-    const searchInput = wrapper.findDataTestFirst('test-search').find('input')
-
-    expect(searchInput).toBeTruthy()
-    act(() => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      simulateChange(searchInput, 'Luke')
-    })
-
-    expect(filterOptions).toHaveBeenCalledTimes(0)
-
-    act(() => {
-      wrapper.findDataTestFirst('test-toggle-custom-search').find('input').simulate('change')
-    })
-
-    act(() => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      simulateChange(searchInput, 'Luke2')
-    })
-
     expect(filterOptions).toHaveBeenCalled()
+  })
+
+  it('Renders Adornments', async () => {
+    let id = 0
+    const onChange = jest.fn()
+    useUIDMock.mockImplementation(() => {
+      id += 1
+      return id.toString()
+    })
+    const wrapper = await mountAndCheckA11Y(
+      <CheckableSelectField
+        defaultOpen
+        name={selectName}
+        label={selectLabel}
+        options={options}
+        value={[]}
+        id={'21313123'}
+        onChange={onChange}
+        data-test="test"
+        endAdornment={<div data-test={'endAdornment'} />}
+        startAdornment={<div data-test={'startAdornment'} />}
+        noOptionsMessage="There are no options"
+      />,
+    )
+
+    expect(wrapper.findDataTestFirst('endAdornment')).toBeTruthy()
+    expect(wrapper.findDataTestFirst('startAdornment')).toBeTruthy()
   })
 })

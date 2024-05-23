@@ -2,11 +2,13 @@ import React, { useState } from 'react'
 import { logger } from '@hazelcast/services'
 import { Meta, Story } from '@storybook/react'
 import { Form, Formik } from 'formik'
+import { AlertTriangle, Info } from 'react-feather'
 
 import { CheckableSelectField, CheckableSelectProps } from '../src/Select/CheckableSelectField'
 import { SelectFieldOption } from '../src/Select/helpers'
 import { CheckableSelectFieldFormik } from '../src/Select/CheckableSelectFieldFormik'
 import { LONG_ONE_WORD_TEXT, LONG_MULTIPLE_WORD_TEXT } from './constants'
+import { Icon } from '../src/Icon'
 
 const options: SelectFieldOption<string>[] = [
   { value: 'darth_vader', label: 'Darth Vader' },
@@ -146,7 +148,6 @@ export const CustomSearch = Template.bind({})
 CustomSearch.args = {
   value: [],
   options,
-  filterOptionsLabel: 'Custom negative search',
   defaultOpen: true,
   filterOptions: (candidate, input) => {
     if (!input) {
@@ -154,5 +155,16 @@ CustomSearch.args = {
     }
 
     return !candidate.label.toLowerCase().includes(input)
+  },
+}
+
+export const WithSearchInputAdornments = Template.bind({})
+WithSearchInputAdornments.args = {
+  value: [],
+  options,
+  defaultOpen: true,
+  searchInputProps: {
+    endAdornment: <Icon icon={AlertTriangle} />,
+    startAdornment: <Icon icon={Info} />,
   },
 }
