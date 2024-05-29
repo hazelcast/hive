@@ -169,8 +169,8 @@ export const Tooltip: FC<TooltipProps> = ({
   )
 
   // Makes sure "visible" prop can override local "isShown" state
-  const isTooltipVisible = !disabled && (visibilityOverride || isShown)
-
+  const isTooltipVisible = typeof visibilityOverride === 'boolean' ? visibilityOverride : !disabled && isShown
+  
   // Update the tooltip's position (useful when resizing table columns)
   useLayoutEffect(() => {
     if (content) {
