@@ -151,6 +151,7 @@ Visible.args = {
 export const Disabled = Template.bind({})
 Disabled.args = {
   disabled: true,
+  visible: undefined,
   id: 'tooltip-story-disabled',
 }
 
