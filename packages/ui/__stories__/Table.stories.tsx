@@ -9,6 +9,7 @@ import { TextField } from '../src'
 
 import storyStyles from './TextField.stories.module.scss'
 import styles from './utils.scss'
+import { SortingRule } from 'react-table'
 
 export default {
   title: 'Components/Table',
@@ -130,6 +131,49 @@ export const WithControlledPagination = () => {
       }}
     />
   )
+}
+
+export const WithControlledSorting = () => {
+  const columns = useMemo(() => getColumns({}), [])
+
+  const [loading, setLoading] = useState<boolean>(false)
+  // We'll start our table with initial data
+  const [data, setData] = useState<Person[]>(bigDataSet.slice(0, 10))
+  // Since we don't have real server here, we'll fake total page count.
+  const fetchIdRef = useRef<number>(0)
+  const firstUpdate = useRef(true)
+
+  // This will get called when the table needs new data.
+  const onSortingChange = useCallback((sortBy: SortingRule<Person>[]) => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false
+      return
+    }
+    if (sortBy.length === 0) {
+      setData(bigDataSet)
+      return
+    }
+
+    // Give this fetch an ID
+    const fetchId = ++fetchIdRef.current
+
+    setLoading(true)
+
+    // Let's simulate server delay
+    setTimeout(() => {
+      // Only update the data if this is the latest fetch
+      if (fetchId === fetchIdRef.current) {
+        const { id, desc: isDescending } = sortBy[0]
+        const sortColumn = id as keyof Person
+        const newData = [...bigDataSet]
+        newData.sort((a, b) => (isDescending ? b[sortColumn] - a[sortColumn] : a[sortColumn] - b[sortColumn]))
+        setData(newData)
+        setLoading(false)
+      }
+    }, 750)
+  }, [])
+
+  return <Table columns={columns} data={data} loading={loading} manualSortBy onSortingChange={onSortingChange} />
 }
 
 export const WithGlobalSearch = () => {

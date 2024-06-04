@@ -29,6 +29,7 @@ import {
   useColumnOrder,
   useExpanded,
   TableInstance,
+  SortingRule,
 } from 'react-table'
 import { AlertTriangle, ChevronDown, ChevronUp } from 'react-feather'
 
@@ -176,6 +177,11 @@ export type ControlledPaginationProps = {
   onPaginationChange?: (paginationChangeProps: PaginationChangeProps) => void
 }
 
+export type ControlledSortingProps<D extends object> = {
+  manualSortBy?: boolean
+  onSortingChange?: (sortBy: SortingRule<D>[]) => void
+}
+
 type CustomTableRowClickProps<D extends object> =
   | {
       // When using `onRowClick` it's a good practice to also make one of the cells in the table interactive by providing a button, link or something else.
@@ -219,7 +225,11 @@ type CustomTableProps<D extends object> = {
 } & CustomTableRowClickProps<D> &
   DataTestProp
 
-export type TableProps<D extends object> = TableOptions<D> & ExtendedPaginationProps & ControlledPaginationProps & CustomTableProps<D>
+export type TableProps<D extends object> = TableOptions<D> &
+  ExtendedPaginationProps &
+  ControlledPaginationProps &
+  ControlledSortingProps<D> &
+  CustomTableProps<D>
 
 export type { ColumnType, RowType, CellType }
 
@@ -249,7 +259,9 @@ export const Table = <D extends object>({
   defaultColumn = column,
   disableSortBy,
   onPaginationChange,
+  onSortingChange,
   manualPagination,
+  manualSortBy,
   onRenderedContentChange,
   autoResetPage = false,
   hidePagination = false,
@@ -338,6 +350,7 @@ export const Table = <D extends object>({
       initialState,
       // Tell the usePagination hook that we'll handle our own data fetching
       manualPagination: manualPagination,
+      manualSortBy,
       // This means we'll also have to provide our own pageCount
       pageCount: controlledPageCount,
       autoResetPage,
@@ -372,7 +385,7 @@ export const Table = <D extends object>({
     previousPage,
     setPageSize,
     // Get the state from the instance
-    state: { pageIndex, pageSize, columnResizing, selectedRowIds },
+    state: { pageIndex, pageSize, sortBy, columnResizing, selectedRowIds },
     setGlobalFilter,
     setColumnOrder,
   } = tableInstance
@@ -437,6 +450,12 @@ export const Table = <D extends object>({
       onPaginationChangeDebounced({ pageIndex, pageSize })
     }
   }, [onPaginationChange, onPaginationChangeDebounced, pageIndex, pageSize])
+
+  useEffect(() => {
+    if (onSortingChange) {
+      onSortingChange(sortBy)
+    }
+  }, [sortBy, onSortingChange])
 
   // Debounce our `fetchData` call for 200ms.
   // We can use non-null assertion here since we're checking existence of `fetchData` in the `useEffect` below
