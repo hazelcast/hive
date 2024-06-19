@@ -104,19 +104,23 @@ export const TableContent = <D extends object>(props: TableContentProps<D>) => {
           )
         })
 
+        const expandedRow =
+          row.isExpanded && renderRowSubComponent ? (
+            <IgnoreKeys tabIndex={-1} className={styles.subRowWrapper} onContextMenu={handleOnContesxtMenu}>
+              {renderRowSubComponent(row)}
+            </IgnoreKeys>
+          ) : null
+
         if (getHref) {
           const href = getHref(row)
           if (href) {
             return (
-              <LinkRow
-                key={rowKey}
-                AnchorComponent={AnchorComponent}
-                {...restRowProps}
-                ariaRowIndex={row.index + 1 + cellIndexOffset}
-                href={href}
-              >
-                {cells}
-              </LinkRow>
+              <React.Fragment key={rowKey}>
+                <LinkRow AnchorComponent={AnchorComponent} {...restRowProps} ariaRowIndex={row.index + 1 + cellIndexOffset} href={href}>
+                  {cells}
+                </LinkRow>
+                {expandedRow}
+              </React.Fragment>
             )
           }
         }
@@ -136,13 +140,7 @@ export const TableContent = <D extends object>(props: TableContentProps<D>) => {
             >
               {cells}
             </Row>
-            {row.isExpanded
-              ? renderRowSubComponent && (
-                  <IgnoreKeys tabIndex={-1} className={styles.subRowWrapper} onContextMenu={handleOnContesxtMenu}>
-                    {renderRowSubComponent(row)}
-                  </IgnoreKeys>
-                )
-              : null}
+            {expandedRow}
           </React.Fragment>
         )
       })}
