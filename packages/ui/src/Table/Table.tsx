@@ -11,6 +11,7 @@ import React, {
   useMemo,
   ReactNode,
   useState,
+  MouseEvent,
 } from 'react'
 import cn from 'classnames'
 import { HotKeys, KeyMap } from 'react-hotkeys'
@@ -30,6 +31,7 @@ import {
   useExpanded,
   TableInstance,
   SortingRule,
+  TableExpandedToggleProps,
 } from 'react-table'
 import { AlertTriangle, ChevronDown, ChevronUp } from 'react-feather'
 
@@ -221,6 +223,7 @@ type CustomTableProps<D extends object> = {
   columnsOrdering?: boolean
   children?: (table: ReactElement, tableInstance: TableInstance<D>) => ReactElement
   renderRowSubComponent?: (props: RowType<D>) => ReactNode
+  canExpand?: (row: RowType<D>) => void
   onCopy?: (data: (string | undefined)[][]) => void
 } & CustomTableRowClickProps<D> &
   DataTestProp
@@ -294,6 +297,7 @@ export const Table = <D extends object>({
   renderRowSubComponent,
   autoResetExpanded = false,
   onCopy,
+  canExpand,
 }: TableProps<D>): ReactElement => {
   const getOncopy = useRefValue(onCopy)
   const [contextMenuAnchorEl, setContextMenuAnchorEl] = useState<HTMLDivElement | null>(null)
@@ -321,11 +325,30 @@ export const Table = <D extends object>({
           id: ROW_EXPANDER_COLUMN_ID,
           Header: () => <span role="contentinfo" aria-label="row-expander-column-header" />,
           Cell: ({ row }: { row: RowType<D> }) => {
-            return row.canExpand || renderRowSubComponent ? (
-              <div tabIndex={0} role="button" data-test="row-expander" className={styles.expander} {...row.getToggleRowExpandedProps()}>
-                <Icon icon={row.isExpanded ? ChevronUp : ChevronDown} ariaLabel="row-expander" />
-              </div>
-            ) : null
+            if ((row.canExpand || renderRowSubComponent) && (!canExpand || (canExpand && canExpand(row)))) {
+              const rowProps = row.getToggleRowExpandedProps() as TableExpandedToggleProps & {
+                onClick: (e: MouseEvent<HTMLElement>) => void
+              }
+
+              return (
+                // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+                <div
+                  tabIndex={0}
+                  role="button"
+                  data-test="row-expander"
+                  className={styles.expander}
+                  {...rowProps}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    rowProps.onClick(e)
+                  }}
+                >
+                  <Icon icon={row.isExpanded ? ChevronUp : ChevronDown} ariaLabel="row-expander" />
+                </div>
+              )
+            }
+
+            return null
           },
         },
         ...propColumns,
@@ -333,7 +356,7 @@ export const Table = <D extends object>({
     }
 
     return propColumns
-  }, [propColumns, data, renderRowSubComponent])
+  }, [propColumns, canExpand, data, renderRowSubComponent])
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const onPaginationChangeDebounced = useAsyncDebounce<(paginationChangeProps: PaginationChangeProps) => void>(onPaginationChange!, 200)
