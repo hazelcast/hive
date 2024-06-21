@@ -203,7 +203,7 @@ export const Pagination: FC<PaginationProps> = ({
               <Button
                 key={page}
                 type="button"
-                kind="transparent"
+                variant="text"
                 className={cn(styles.button, {
                   [styles.selected]: page === currentPage,
                 })}

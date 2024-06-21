@@ -44,6 +44,10 @@
 
       @include c.typographyBodySmall;
 
+      .outline {
+        display: none;
+      }
+
       .body {
         padding: 0 c.$grid * 2.5;
       }
@@ -56,10 +60,6 @@
       }
 
       &:focus-visible {
-        .outline {
-          visibility: hidden;
-        }
-
         color: c.$colorText;
         border-color: c.$colorAccessibilityOutline;
       }
