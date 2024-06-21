@@ -3,6 +3,7 @@ import { act } from 'react-dom/test-utils'
 import { simulateChange } from '@hazelcast/test-helpers'
 import { ChevronLeft, ChevronRight } from 'react-feather'
 import Select from 'react-select'
+import { mount, shallow } from 'enzyme'
 
 import { getShownItemsRange, GetShownItemsRangeParams, Pagination, PaginationProps, ShownItemsRange } from '../src/Pagination'
 import { IconButton, IconButtonProps } from '../src/IconButton'
@@ -12,8 +13,6 @@ import styles from '../src/Pagination.module.scss'
 import { NumberField, NumberFieldProps } from '../src/NumberField'
 import { Link, SelectField } from '../src'
 import { SelectFieldProps } from '../src/Select/SelectField'
-import { SelectFieldOption } from '../src/Select/helpers'
-import { mount, shallow } from 'enzyme'
 
 describe('helpers', () => {
   describe('getShownItemsRange', () => {
@@ -80,7 +79,7 @@ let canNextPage = true
 
 const buttonPropsBase: ButtonProps = {
   type: 'button',
-  kind: 'transparent',
+  variant: 'text',
   className: styles.button,
   bodyClassName: styles.body,
   outlineClassName: styles.outline,
