@@ -1,5 +1,5 @@
 import { DataTestProp } from '@hazelcast/helpers'
-import React, { FC, FocusEvent, ChangeEvent, InputHTMLAttributes, useCallback, useMemo, useState } from 'react'
+import React, { FC, FocusEvent, ChangeEvent, InputHTMLAttributes, useCallback, useMemo, useRef, useEffect } from 'react'
 import { PlusCircle, MinusCircle } from 'react-feather'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 import cn from 'classnames'
@@ -57,20 +57,22 @@ export const NumberField: FC<NumberFieldProps> = ({
   size,
   ...props
 }) => {
-  const [field, setField] = useState<HTMLInputElement | null>(null)
+  const field = useRef<HTMLInputElement>(null)
 
-  useIsomorphicLayoutEffect(() => {
-    if (field) {
-      const handleWheel = (e: WheelEvent) => {
-        const target = e.target as HTMLInputElement
-        target.blur()
-      }
-      field.addEventListener('wheel', handleWheel)
+  const handleWheel = useCallback((e: WheelEvent) => {
+    const target = e.target as HTMLInputElement
+    target.blur()
+  }, [])
+
+  useEffect(() => {
+    const current = field.current
+    if (current) {
+      current.addEventListener('wheel', handleWheel)
       return () => {
-        field.removeEventListener('wheel', handleWheel)
+        current.removeEventListener('wheel', handleWheel)
       }
     }
-  }, [field])
+  }, [handleWheel])
 
   useIsomorphicLayoutEffect(() => {
     if (min !== undefined && value !== undefined && value < min) {
@@ -220,7 +222,7 @@ export const NumberField: FC<NumberFieldProps> = ({
   return (
     <TextField
       {...props}
-      mRef={setField}
+      mRef={field}
       value={value}
       onChange={onChangeWrapped}
       type="number"

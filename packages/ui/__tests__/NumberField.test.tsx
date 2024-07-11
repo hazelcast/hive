@@ -36,6 +36,7 @@ describe('NumberField', () => {
       onBlur,
       onChange: expect.anything(),
       type: 'number',
+      mRef: expect.anything(),
       inputContainerChild: expect.anything(),
       inputContainerClassName: `${styles.inputContainer} ${styles.buttons}`,
       inputClassName: 'amidala',
