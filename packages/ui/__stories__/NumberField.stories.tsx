@@ -97,6 +97,11 @@ WithMinAndMax.args = {
   max: 44,
 }
 
+export const WithChangeOnScrollDisabled = Template.bind({})
+WithChangeOnScrollDisabled.args = {
+  disableChangeOnScroll: true,
+}
+
 export const WithHelperText = Template.bind({})
 WithHelperText.args = {
   helperText: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',

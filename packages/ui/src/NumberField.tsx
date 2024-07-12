@@ -23,6 +23,7 @@ export type NumberFieldExtraProps = Omit<TextFieldProps<'number'>, 'onChange' | 
   step?: number
   min?: number
   max?: number
+  disableChangeOnScroll?: boolean
   defaultValue?: number
   numberType?: 'int' | 'float'
   iconPosition?: 'separate' | 'together'
@@ -46,6 +47,7 @@ export const NumberField: FC<NumberFieldProps> = ({
   step = 1,
   min,
   max,
+  disableChangeOnScroll,
   value,
   numberType = 'int',
   iconPosition = 'together',
@@ -65,14 +67,16 @@ export const NumberField: FC<NumberFieldProps> = ({
   }, [])
 
   useEffect(() => {
-    const current = field.current
-    if (current) {
-      current.addEventListener('wheel', handleWheel)
-      return () => {
-        current.removeEventListener('wheel', handleWheel)
+    if (disableChangeOnScroll) {
+      const current = field.current
+      if (current) {
+        current.addEventListener('wheel', handleWheel)
+        return () => {
+          current.removeEventListener('wheel', handleWheel)
+        }
       }
     }
-  }, [handleWheel])
+  }, [disableChangeOnScroll, handleWheel])
 
   useIsomorphicLayoutEffect(() => {
     if (min !== undefined && value !== undefined && value < min) {
@@ -222,7 +226,7 @@ export const NumberField: FC<NumberFieldProps> = ({
   return (
     <TextField
       {...props}
-      mRef={field}
+      {...(disableChangeOnScroll ? { mRef: field } : {})}
       value={value}
       onChange={onChangeWrapped}
       type="number"
