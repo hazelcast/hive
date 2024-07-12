@@ -1,5 +1,5 @@
 import { DataTestProp } from '@hazelcast/helpers'
-import React, { FC, FocusEvent, ChangeEvent, InputHTMLAttributes, useCallback, useMemo } from 'react'
+import React, { FC, FocusEvent, ChangeEvent, InputHTMLAttributes, useCallback, useMemo, useRef, useEffect } from 'react'
 import { PlusCircle, MinusCircle } from 'react-feather'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 import cn from 'classnames'
@@ -23,6 +23,7 @@ export type NumberFieldExtraProps = Omit<TextFieldProps<'number'>, 'onChange' | 
   step?: number
   min?: number
   max?: number
+  disableChangeOnScroll?: boolean
   defaultValue?: number
   numberType?: 'int' | 'float'
   iconPosition?: 'separate' | 'together'
@@ -46,6 +47,7 @@ export const NumberField: FC<NumberFieldProps> = ({
   step = 1,
   min,
   max,
+  disableChangeOnScroll,
   value,
   numberType = 'int',
   iconPosition = 'together',
@@ -57,6 +59,25 @@ export const NumberField: FC<NumberFieldProps> = ({
   size,
   ...props
 }) => {
+  const field = useRef<HTMLInputElement>(null)
+
+  const handleWheel = useCallback((e: WheelEvent) => {
+    const target = e.target as HTMLInputElement
+    target.blur()
+  }, [])
+
+  useEffect(() => {
+    if (disableChangeOnScroll) {
+      const current = field.current
+      if (current) {
+        current.addEventListener('wheel', handleWheel)
+        return () => {
+          current.removeEventListener('wheel', handleWheel)
+        }
+      }
+    }
+  }, [disableChangeOnScroll, handleWheel])
+
   useIsomorphicLayoutEffect(() => {
     if (min !== undefined && value !== undefined && value < min) {
       onChange(min)
@@ -205,6 +226,7 @@ export const NumberField: FC<NumberFieldProps> = ({
   return (
     <TextField
       {...props}
+      {...(disableChangeOnScroll ? { mRef: field } : {})}
       value={value}
       onChange={onChangeWrapped}
       type="number"
