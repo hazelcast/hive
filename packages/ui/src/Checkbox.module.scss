@@ -9,11 +9,11 @@
   box-sizing: border-box;
   overflow: hidden;
 
+  @include c.typographyBodySmall;
+
   * {
     box-sizing: border-box;
   }
-
-  @include c.typographyBodySmall;
 
   // hide native checkbox
   input {

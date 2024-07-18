@@ -111,12 +111,6 @@ ul.markDescriptions {
     margin: $thumbWidth 0;
 
     input[type='range'] {
-      &::-webkit-slider-runnable-track,
-      &::-webkit-slider-thumb,
-      & {
-        appearance: none;
-      }
-
       z-index: c.$zIndex100;
       outline: none;
       background: none;
@@ -131,6 +125,12 @@ ul.markDescriptions {
       padding: 0;
       margin: 0;
       justify-self: center;
+
+      &::-webkit-slider-runnable-track,
+      &::-webkit-slider-thumb,
+      & {
+        appearance: none;
+      }
 
       // Style the track
       &::-webkit-slider-runnable-track {
