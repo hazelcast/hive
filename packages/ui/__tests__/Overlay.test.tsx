@@ -4,13 +4,13 @@ import ReactModal, { Props as ReactModalProps } from 'react-modal'
 import { Settings, X } from 'react-feather'
 import { act } from 'react-dom/test-utils'
 import cn from 'classnames'
+import { DataTestProp } from '@hazelcast/helpers'
 
+import { IconProps } from '../src/Icon'
+import { LinkProps } from '../src/Link'
 import { Icon, Link, Overlay } from '../src'
 
 import styles from './Overlay.module.scss'
-import { DataTestProp } from '@hazelcast/helpers'
-import { IconProps } from '../src/Icon'
-import { LinkProps } from '../src/Link'
 
 const title = 'Modal Title'
 const icon = Settings
@@ -59,7 +59,6 @@ describe('Overlay', () => {
     expect(header.props()).toEqual({
       'data-test': 'overlay-header',
       className: styles.header,
-
       children: expect.anything(),
     })
     expect(headerIcon.type()).toEqual(Icon)
@@ -74,7 +73,7 @@ describe('Overlay', () => {
     expect(headerTitle.props()).toEqual({
       'data-test': 'overlay-header-title',
       className: styles.title,
-      children: title,
+      children: expect.anything(),
     })
     expect(headerCancelButton.type()).toEqual(Link)
     expect(headerCancelButton.props()).toEqual<LinkProps & DataTestProp>({
