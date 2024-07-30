@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const doiuse = require('doiuse')
 
-const browsers = ['last 2 Chrome version', 'last 2 Firefox version', 'last 1 Safari version', 'last 1 Edge version', 'ie 11']
+const browsers = ['last 2 Chrome version', 'last 2 Firefox version', 'last 1 Safari version', 'last 1 Edge version']
 
 /*
  * EXPERIMENTAL: This postcss config is and should be only used

@@ -13,6 +13,7 @@ interface TruncatedTextProps {
   // Pass a new value to trigger a force re-render
   forceUpdateToken?: ReactText | boolean
   className?: string
+  multiline?: boolean
   tooltipVisible?: boolean
   hoverAbleTooltip?: boolean
   tooltipPlacement?: TooltipProps['placement']
@@ -25,6 +26,7 @@ export const TruncatedText: FC<TruncatedTextProps> = ({
   tooltipVisible,
   tooltipPlacement = 'top',
   hoverAbleTooltip,
+  multiline,
 }) => {
   const textRef = useRef<HTMLDivElement>(null)
   const [tooltip, setTooltip] = useState<ReactChild | undefined>()
@@ -38,7 +40,7 @@ export const TruncatedText: FC<TruncatedTextProps> = ({
     }
 
     // https://codepen.io/triple-j/pen/wadKQB
-    setTooltip(span.offsetWidth < span.scrollWidth ? text : undefined)
+    setTooltip(span.offsetWidth < span.scrollWidth || span.offsetHeight < span.scrollHeight ? text : undefined)
   }, [text, forceUpdateToken])
 
   return (
@@ -51,7 +53,7 @@ export const TruncatedText: FC<TruncatedTextProps> = ({
       hoverAbleTooltip={hoverAbleTooltip}
     >
       {(ref) => (
-        <div ref={mergeRefs([textRef, ref])} className={cn(styles.truncatedText, className)}>
+        <div ref={mergeRefs([textRef, ref])} className={cn(styles.truncatedText, { [styles.multiline]: multiline }, className)}>
           <span aria-labelledby={tooltip ? idTooltip : undefined}>{text}</span>
         </div>
       )}
