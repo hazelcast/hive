@@ -8,6 +8,7 @@ import { DataTestProp } from '@hazelcast/helpers'
 import { ButtonProps, ButtonTypeButtonProps } from './Button'
 import { Icon, IconProps } from './Icon'
 import { Link } from './Link'
+import { TruncatedText } from './TruncatedText'
 
 import styles from './Overlay.module.scss'
 
@@ -92,7 +93,7 @@ export const Overlay: FC<OverlayProps> = ({
           {icon && <Icon data-test="overlay-header-icon" className={styles.icon} size="medium" icon={icon} ariaHidden />}
           {title && (
             <h1 data-test="overlay-header-title" className={styles.title}>
-              {title}
+              <TruncatedText multiline text={title} />
             </h1>
           )}
           {headingContent}
