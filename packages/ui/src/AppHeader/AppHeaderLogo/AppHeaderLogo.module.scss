@@ -15,7 +15,8 @@
 
     &:focus {
       outline: none;
-      @include h.outlineSimple();
+
+      @include h.outlineSimple;
     }
 
     img {

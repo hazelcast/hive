@@ -6,18 +6,18 @@
   display: flex;
   flex-direction: column;
 
-  &:hover {
-    .favorite {
-      display: block;
-    }
-  }
-
   &.nested {
     padding-left: c.$grid * 14;
   }
 
   .favorite {
     display: none;
+  }
+
+  &:hover {
+    .favorite {
+      display: block;
+    }
   }
 }
 

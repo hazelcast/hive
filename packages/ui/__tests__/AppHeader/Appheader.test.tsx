@@ -1,14 +1,15 @@
-import React from 'react'
+import React, { ComponentType } from 'react'
 import { act } from 'react-dom/test-utils'
 import { userEvent } from '@testing-library/user-event'
 import { screen, render } from '@testing-library/react'
 
-import { Link } from '../../src/Link'
 import { AppHeader } from '../../src/AppHeader'
+
+const LinkComponent: ComponentType = ({ children }) => <>{children}</>
 
 describe('AppHeader', () => {
   it('renders basic version', () => {
-    render(<AppHeader name="Test App" logoProps={{ LinkComponent: Link as any }} />)
+    render(<AppHeader name="Test App" logoProps={{ LinkComponent }} />)
 
     expect(screen.queryByText('Test App')).toBeInTheDocument()
     expect(screen.queryByTestId('logo-link')).toBeInTheDocument()
@@ -18,7 +19,7 @@ describe('AppHeader', () => {
   })
 
   it('renders menu content', async () => {
-    render(<AppHeader name="Test App" logoProps={{ LinkComponent: Link as any }} menuContent={() => <span>Menu content</span>} />)
+    render(<AppHeader name="Test App" logoProps={{ LinkComponent }} menuContent={() => <span>Menu content</span>} />)
 
     expect(screen.queryByTestId('app-header-menu-toggle')).toBeInTheDocument()
     expect(screen.queryByText('Menu content')).not.toBeInTheDocument()
@@ -34,7 +35,7 @@ describe('AppHeader', () => {
     render(
       <AppHeader
         name="Test App"
-        logoProps={{ LinkComponent: Link as any }}
+        logoProps={{ LinkComponent }}
         clusterSelectProps={{
           clusterName: 'Cluster-1',
           clusterNames: ['Cluster-1', 'Cluster-2'],
