@@ -63,7 +63,7 @@
       justify-content: center;
       align-items: center;
       overflow: hidden;
-      min-height: c.$grid * 16;
+      flex-shrink: 0;
       margin-bottom: c.$grid * 9;
       padding: 0 c.$grid * 21; // close button width
 
