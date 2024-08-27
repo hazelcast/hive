@@ -87,7 +87,7 @@ Focused.args = {
 
 export const Active = Template.bind({})
 Active.args = {
-  className: styles.active,
+  active: true,
 }
 
 export const Disabled = Template.bind({})

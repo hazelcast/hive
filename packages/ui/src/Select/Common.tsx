@@ -54,12 +54,20 @@ const MenuList: typeof rsComponents.MenuList = (props) => {
   )
 }
 
+const ValueContainer: typeof rsComponents.ValueContainer = (props) => (
+  <rsComponents.ValueContainer className={styles.valueContainer} {...props}>
+    <TruncatedText text={props.children as string} />
+    <span
+      className={cn(styles.trailingNote, props.selectProps.classNamePrefix ? `${props.selectProps.classNamePrefix}__trailing-note` : '')}
+    >
+      {(props as unknown as { data: SelectFieldOption<string> }).data?.trailingNote}
+    </span>
+  </rsComponents.ValueContainer>
+)
+
 const Option: typeof rsComponents.Option = (props) => (
   <rsComponents.Option {...props}>
-    <div className={styles.valueContainer}>
-      <TruncatedText text={props.label} />
-      <span className={styles.trailingNote}>{(props.data as SelectFieldOption<string>)?.trailingNote}</span>
-    </div>
+    <ValueContainer {...props}>{props.label}</ValueContainer>
   </rsComponents.Option>
 )
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -68,10 +76,7 @@ const IndicatorSeparator: typeof rsComponents.IndicatorSeparator = () => null
 
 const SingleValue: typeof rsComponents.SingleValue = ({ children, ...props }) => (
   <rsComponents.SingleValue {...props}>
-    <div className={styles.valueContainer}>
-      <TruncatedText text={children as string} />
-      <span className={styles.trailingNote}>{(props.data as SelectFieldOption<string>)?.trailingNote}</span>
-    </div>
+    <ValueContainer {...props}>{children}</ValueContainer>
   </rsComponents.SingleValue>
 )
 

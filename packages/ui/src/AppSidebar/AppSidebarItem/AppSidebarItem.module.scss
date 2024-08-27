@@ -1,0 +1,53 @@
+@use '../../../styles/constants' as c;
+
+[class].root {
+  position: relative;
+  color: c.$colorNeutralLighter;
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    .favorite {
+      display: block;
+    }
+  }
+
+  &.nested {
+    padding-left: c.$grid * 14;
+  }
+
+  .favorite {
+    display: none;
+  }
+}
+
+[class].button {
+  overflow: hidden;
+  width: 100%;
+  height: c.$grid * 12;
+  text-decoration: none;
+  text-align: left;
+  padding: c.$grid c.$grid * 3.5;
+  color: c.$colorNeutralLighter;
+  border-radius: c.$borderRadius;
+
+  &:hover,
+  &.active {
+    text-decoration: none;
+    color: c.$brandColorText;
+    background-color: c.$brandAccent;
+  }
+
+  .content {
+    padding: 0;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: c.$grid * 4;
+    justify-content: left;
+  }
+
+  .adornment {
+    margin-left: auto;
+  }
+}

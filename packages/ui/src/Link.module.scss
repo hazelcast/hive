@@ -32,6 +32,10 @@
   &.secondary {
     color: c.$colorTextSecondary;
   }
+
+  &.contrast {
+    color: c.$colorNeutralLighter;
+  }
 }
 
 .link {

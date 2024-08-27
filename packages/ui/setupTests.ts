@@ -3,6 +3,10 @@ import '../../setupTests.base'
 import Enzyme, { ReactWrapper, ShallowWrapper } from 'enzyme'
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 import { unmountComponentAtNode } from 'react-dom'
+import { configure } from '@testing-library/react'
+import '@testing-library/jest-dom'
+
+configure({ testIdAttribute: 'data-test' })
 
 // https://github.com/cgood92/enzyme-cleanup/blob/master/index.js
 const attachments: HTMLElement[] = []

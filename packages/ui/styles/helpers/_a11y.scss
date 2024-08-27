@@ -36,3 +36,11 @@
   top: 1px;
   left: 1px;
 }
+
+@mixin focusOutlineSimple() {
+  &:focus-within {
+    outline: none;
+
+    @include outlineSimple;
+  }
+}

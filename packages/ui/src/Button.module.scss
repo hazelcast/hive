@@ -245,6 +245,36 @@
         background-color: c.$colorNeutralWhite;
       }
     }
+
+    &Light {
+      @include buttonColor(c.$colorNeutralLighter);
+
+      border-color: c.$colorNeutralLighter;
+
+      &:hover,
+      &.hover,
+      &:focus-visible,
+      &.focus {
+        @include buttonColor(lighten(c.$brandColorText, 10%));
+      }
+
+      &:active,
+      &.active {
+        @include buttonColor(c.$brandColorText);
+      }
+
+      &.variantContained {
+        color: c.$colorNeutralLighter;
+      }
+
+      &.variantOutlined {
+        border-color: c.$colorNeutralLighter;
+      }
+
+      &:disabled {
+        color: c.$colorNeutral;
+      }
+    }
   }
 
   &.variant {
@@ -281,7 +311,6 @@
     }
 
     &Text {
-      color: inherit;
       background: none;
 
       &:hover,

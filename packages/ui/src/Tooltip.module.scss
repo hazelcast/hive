@@ -9,6 +9,117 @@
 $tooltipArrowSize1-3: math.div(c.$tooltipArrowSize, 3);
 $tooltipArrowSize2-3: math.div(c.$tooltipArrowSize, 3) * 2;
 
+@mixin arrow($position, $color, $borderColor) {
+  @if $position == bottom {
+    > .arrow {
+      top: 0;
+
+      &::before,
+      &::after {
+        border-left: c.$tooltipArrowSize solid transparent;
+        border-right: c.$tooltipArrowSize solid transparent;
+        top: 0;
+        left: 50%;
+        margin-left: -(c.$tooltipArrowSize);
+      }
+
+      &::before {
+        border-bottom: c.$tooltipArrowSize solid $color;
+        margin-top: -(c.$tooltipArrowSize);
+      }
+
+      &::after {
+        border-bottom: c.$tooltipArrowSize solid $borderColor;
+        transform: translateY(-($tooltipArrowSize2-3));
+      }
+    }
+  } @else if $position == right {
+    > .arrow {
+      left: 0;
+
+      &::before,
+      &::after {
+        border-top: c.$tooltipArrowSize solid transparent;
+        border-bottom: c.$tooltipArrowSize solid transparent;
+        top: 50%;
+        left: 0;
+        margin-top: -(c.$tooltipArrowSize);
+      }
+
+      &::before {
+        border-right: c.$tooltipArrowSize solid $color;
+        margin-left: -(c.$tooltipArrowSize);
+      }
+
+      &::after {
+        border-right: c.$tooltipArrowSize solid $borderColor;
+        transform: translateX(-($tooltipArrowSize2-3));
+      }
+    }
+  } @else if $position == left {
+    > .arrow {
+      right: 0;
+
+      &::before,
+      &::after {
+        border-top: c.$tooltipArrowSize solid transparent;
+        border-bottom: c.$tooltipArrowSize solid transparent;
+        top: 50%;
+        left: 100%;
+        margin-top: -(c.$tooltipArrowSize);
+      }
+
+      &::before {
+        border-left: c.$tooltipArrowSize solid $color;
+      }
+
+      &::after {
+        border-left: c.$tooltipArrowSize solid $borderColor;
+        transform: translateX(-($tooltipArrowSize1-3));
+      }
+    }
+  } @else {
+    > .arrow {
+      bottom: 0;
+
+      &::before,
+      &::after {
+        border-left: c.$tooltipArrowSize solid transparent;
+        border-right: c.$tooltipArrowSize solid transparent;
+        top: 100%;
+        left: 50%;
+        margin-left: -(c.$tooltipArrowSize);
+      }
+
+      &::before {
+        border-top: c.$tooltipArrowSize solid $color;
+      }
+
+      &::after {
+        border-top: c.$tooltipArrowSize solid $borderColor;
+        transform: translateY(-($tooltipArrowSize1-3));
+      }
+    }
+  }
+}
+@mixin arrowPlacements($color: c.$colorNeutralLight, $borderColor: c.$colorNeutralLighter) {
+  &[data-popper-placement^='top'] {
+    @include arrow(top, $color, $borderColor);
+  }
+
+  &[data-popper-placement^='right'] {
+    @include arrow(right, $color, $borderColor);
+  }
+
+  &[data-popper-placement^='bottom'] {
+    @include arrow(bottom, $color, $borderColor);
+  }
+
+  &[data-popper-placement^='left'] {
+    @include arrow(left, $color, $borderColor);
+  }
+}
+
 .overlay {
   @include c.typographyBodySmall;
 
@@ -29,6 +140,14 @@ $tooltipArrowSize2-3: math.div(c.$tooltipArrowSize, 3) * 2;
     left: -99999px !important;
   }
 
+  &.dark {
+    border: none;
+    color: c.$brandColorText;
+    background-color: c.$brandAccent;
+
+    @include arrowPlacements(c.$brandAccent, transparent);
+  }
+
   > .arrow {
     position: absolute;
     z-index: c.$zIndex100;
@@ -43,101 +162,5 @@ $tooltipArrowSize2-3: math.div(c.$tooltipArrowSize, 3) * 2;
     }
   }
 
-  &[data-popper-placement^='top'] {
-    > .arrow {
-      bottom: 0;
-
-      &::before,
-      &::after {
-        border-left: c.$tooltipArrowSize solid transparent;
-        border-right: c.$tooltipArrowSize solid transparent;
-        top: 100%;
-        left: 50%;
-        margin-left: -(c.$tooltipArrowSize);
-      }
-
-      &::before {
-        border-top: c.$tooltipArrowSize solid c.$colorNeutralLight;
-      }
-
-      &::after {
-        border-top: c.$tooltipArrowSize solid c.$colorNeutralLighter;
-        transform: translateY(-($tooltipArrowSize1-3));
-      }
-    }
-  }
-
-  &[data-popper-placement^='right'] {
-    > .arrow {
-      left: 0;
-
-      &::before,
-      &::after {
-        border-top: c.$tooltipArrowSize solid transparent;
-        border-bottom: c.$tooltipArrowSize solid transparent;
-        top: 50%;
-        left: 0;
-        margin-top: -(c.$tooltipArrowSize);
-      }
-
-      &::before {
-        border-right: c.$tooltipArrowSize solid c.$colorNeutralLight;
-        margin-left: -(c.$tooltipArrowSize);
-      }
-
-      &::after {
-        border-right: c.$tooltipArrowSize solid c.$colorNeutralLighter;
-        transform: translateX(-($tooltipArrowSize2-3));
-      }
-    }
-  }
-
-  &[data-popper-placement^='bottom'] {
-    > .arrow {
-      top: 0;
-
-      &::before,
-      &::after {
-        border-left: c.$tooltipArrowSize solid transparent;
-        border-right: c.$tooltipArrowSize solid transparent;
-        top: 0;
-        left: 50%;
-        margin-left: -(c.$tooltipArrowSize);
-      }
-
-      &::before {
-        border-bottom: c.$tooltipArrowSize solid c.$colorNeutralLight;
-        margin-top: -(c.$tooltipArrowSize);
-      }
-
-      &::after {
-        border-bottom: c.$tooltipArrowSize solid c.$colorNeutralLighter;
-        transform: translateY(-($tooltipArrowSize2-3));
-      }
-    }
-  }
-
-  &[data-popper-placement^='left'] {
-    > .arrow {
-      right: 0;
-
-      &::before,
-      &::after {
-        border-top: c.$tooltipArrowSize solid transparent;
-        border-bottom: c.$tooltipArrowSize solid transparent;
-        top: 50%;
-        left: 100%;
-        margin-top: -(c.$tooltipArrowSize);
-      }
-
-      &::before {
-        border-left: c.$tooltipArrowSize solid c.$colorNeutralLight;
-      }
-
-      &::after {
-        border-left: c.$tooltipArrowSize solid c.$colorNeutralLighter;
-        transform: translateX(-($tooltipArrowSize1-3));
-      }
-    }
-  }
+  @include arrowPlacements();
 }
