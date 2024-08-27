@@ -102,6 +102,7 @@ $tooltipArrowSize2-3: math.div(c.$tooltipArrowSize, 3) * 2;
     }
   }
 }
+
 @mixin arrowPlacements($color: c.$colorNeutralLight, $borderColor: c.$colorNeutralLighter) {
   &[data-popper-placement^='top'] {
     @include arrow(top, $color, $borderColor);
@@ -162,5 +163,5 @@ $tooltipArrowSize2-3: math.div(c.$tooltipArrowSize, 3) * 2;
     }
   }
 
-  @include arrowPlacements();
+  @include arrowPlacements;
 }
