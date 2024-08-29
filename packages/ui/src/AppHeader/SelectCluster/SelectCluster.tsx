@@ -21,7 +21,7 @@ const getSafeValue = (
   if (!clusterName) {
     return {
       status: 'disconnected',
-      value: clusterName || 'Select Cluster',
+      value: 'Select Cluster',
     }
   }
 
@@ -42,12 +42,17 @@ export type SelectClusterProps = {
 export const SelectCluster: FC<SelectClusterProps> = ({ clusterVersions, clusterName, clusterNames, isReadOnly, onChange }) => {
   const options = useMemo(
     () =>
-      Object.entries(clusterVersions ?? {}).map(([clusterName, version]) => ({
-        label: clusterName,
-        value: clusterName,
-        trailingNote: version ? <span data-test="cluster-version">{version}</span> : <CenteredLoader size="small" />,
+      (clusterNames ?? []).map((name) => ({
+        label: name,
+        value: name,
+        trailingNote:
+          clusterVersions && clusterVersions[name] ? (
+            <span data-test="cluster-version">{clusterVersions[name]}</span>
+          ) : (
+            <CenteredLoader size="small" />
+          ),
       })),
-    [clusterVersions],
+    [clusterVersions, clusterNames],
   )
 
   const { status, value } = getSafeValue(clusterName, clusterNames)
