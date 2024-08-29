@@ -23,7 +23,7 @@ $selectFieldIndicators: ':global .hz-select-field__indicators';
       color: c.$colorTextSecondary;
       background-color: transparent;
 
-      #{$selectValueContainer},
+      #{$selectValue},
       #{$selectTrailingNote},
       #{$selectFieldIndicators} svg {
         color: c.$colorTextSecondary;

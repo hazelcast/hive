@@ -1,6 +1,6 @@
 @use '../../../styles/constants' as c;
 
-[class].root {
+.root {
   position: relative;
   color: c.$colorNeutralLighter;
   display: flex;
@@ -8,10 +8,36 @@
 
   &.nested {
     padding-left: c.$grid * 14;
+
+    .button {
+      color: c.$colorNeutralLight;
+    }
   }
 
   .favorite {
     display: none;
+  }
+
+  .status {
+    display: inline-flex;
+    width: c.$grid * 4;
+    height: c.$grid * 4;
+    border-radius: 50%;
+    background-color: c.$colorError;
+
+    &.available {
+      background-color: c.$colorSuccess;
+    }
+  }
+
+  &.collapsed {
+    .status {
+      width: c.$grid * 2;
+      height: c.$grid * 2;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
   }
 
   &:hover {
@@ -28,14 +54,21 @@
   text-decoration: none;
   text-align: left;
   padding: c.$grid c.$grid * 3.5;
-  color: c.$colorNeutralLighter;
   border-radius: c.$borderRadius;
+
+  .icon {
+    color: c.$colorNeutralLight;
+  }
 
   &:hover,
   &.active {
     text-decoration: none;
     color: c.$brandColorText;
     background-color: c.$brandAccent;
+
+    .icon {
+      color: c.$brandColorText;
+    }
   }
 
   .content {

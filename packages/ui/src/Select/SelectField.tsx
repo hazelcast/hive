@@ -49,7 +49,6 @@ export type SelectFieldExtraProps<V> = {
   className?: string
   placeholder?: string
   errorClassName?: string
-  disabledClassName?: string
   menuPortalTarget?: 'body' | 'self' | HTMLElement | null
   formatGroupLabel?: ReactSelectProps<SelectFieldOption<V>>['formatGroupLabel']
   formatOptionLabel?: ReactSelectProps<SelectFieldOption<V>>['formatOptionLabel']
@@ -83,7 +82,6 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
     disabled,
     error,
     errorClassName,
-    disabledClassName,
     helperText,
     isClearable = false,
     isCreatable,
@@ -201,7 +199,7 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
         // However, if it is the select itself, it will properly add necessary specificity level to the menu styles.
         styles.menuContainer,
         {
-          [styles.disabled]: cn(disabled, disabledClassName),
+          [styles.disabled]: disabled,
           [styles.hasError]: error,
           [styles.empty]: !value,
           [styles.hasIcon]: !!iconLeft,

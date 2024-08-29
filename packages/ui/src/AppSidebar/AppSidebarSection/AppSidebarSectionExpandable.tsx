@@ -23,7 +23,7 @@ export interface AppSidebarSectionExpandableProps {
 const kebabCase = (str: string) => str.toLowerCase().split(' ').join('-')
 
 export const AppSidebarSectionExpandable = ({ id, active, icon, title, ariaLabel, children }: AppSidebarSectionExpandableProps) => {
-  const { isOpen, toggle } = useContext(appSidebarContext)
+  const { isOpen, open: openSidebar } = useContext(appSidebarContext)
   const usePersistedMenuStorageState = createPersistedState<boolean>(`isOpen::${title}`)
 
   const [open, setOpen] = usePersistedMenuStorageState(false)
@@ -37,7 +37,8 @@ export const AppSidebarSectionExpandable = ({ id, active, icon, title, ariaLabel
 
   const handleClick = () => {
     if (!isOpen) {
-      toggle()
+      openSidebar()
+      setOpen(true)
     } else {
       setOpen(!open)
     }

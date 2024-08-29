@@ -2,8 +2,8 @@ import cn from 'classnames'
 import React, { FC, useMemo } from 'react'
 import { CheckCircle } from 'react-feather'
 
-import { Loader } from '../../Loader'
 import { SelectField } from '../../Select'
+import { CenteredLoader } from '../../CenteredLoader'
 
 import styles from './SelectCluster.module.scss'
 
@@ -45,7 +45,7 @@ export const SelectCluster: FC<SelectClusterProps> = ({ clusterVersions, cluster
       Object.entries(clusterVersions ?? {}).map(([clusterName, version]) => ({
         label: clusterName,
         value: clusterName,
-        trailingNote: version ? <span data-test="cluster-version">{version}</span> : <Loader size="small" />,
+        trailingNote: version ? <span data-test="cluster-version">{version}</span> : <CenteredLoader size="small" />,
       })),
     [clusterVersions],
   )

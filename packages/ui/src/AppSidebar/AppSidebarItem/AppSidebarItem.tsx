@@ -3,7 +3,7 @@ import cn from 'classnames'
 import { Icon as FeatherIcon } from 'react-feather'
 
 import { Icon } from '../../Icon'
-import { Button } from '../../Button'
+import { Button, ButtonColor } from '../../Button'
 import { Tooltip } from '../../Tooltip'
 import { appSidebarContext } from '../appSidebarContext'
 import { AppSidebarFavoriteButton } from '../AppSidebarFavoriteButton'
@@ -19,7 +19,9 @@ export type AppSidebarItemProps = {
   title: string
   className?: string
   active?: boolean
+  color?: ButtonColor
   onClick?: () => void
+  available?: boolean
   registrable?: boolean
   adornment?: ReactNode
   wrapper?: (props: { children: ReactElement | string }) => ReactElement
@@ -37,7 +39,9 @@ export const AppSidebarItem = ({
   disabled,
   disabledTooltip,
   onClick,
+  color = 'light',
   adornment,
+  available,
   registrable = true,
   'data-test': dataTest,
   wrapper: Wrapper = Component,
@@ -46,28 +50,33 @@ export const AppSidebarItem = ({
   const ctx = useContext(appSidebarSectionContext)
 
   return (
-    <div className={cn(styles.root, { [styles.nested]: !!ctx })} data-test={dataTest}>
+    <div className={cn(styles.root, { [styles.collapsed]: !isOpen, [styles.nested]: !!ctx })} data-test={dataTest}>
       {id && <AppSidebarFavoriteButton id={id} title={title} registrable={registrable} className={styles.favorite} />}
       <Wrapper>
         <Button
           variant="text"
-          color="light"
+          color={color}
           active={active}
           truncate={false}
           onClick={onClick}
           disabled={disabled as boolean}
           disabledTooltip={disabledTooltip}
           bodyClassName={styles.content}
-          className={cn(styles.button, { [styles.collapsed]: !isOpen, [styles.active]: active }, className)}
+          className={cn(styles.button, { [styles.active]: active }, className)}
         >
           <>
             {icon && (
               <Tooltip arrow={false} placement="right-start" color="dark" visible={isOpen ? false : undefined} content={iconAriaLabel}>
-                {(ref) => <Icon ref={ref} size="medium" icon={icon} ariaLabel={iconAriaLabel} />}
+                {(ref) => <Icon ref={ref} size="medium" icon={icon} ariaLabel={iconAriaLabel} className={styles.icon} />}
               </Tooltip>
             )}
             {title}
-            {adornment && <div className={styles.adornment}>{adornment}</div>}
+            {(adornment || available !== undefined) && (
+              <div className={styles.adornment}>
+                {adornment}
+                {available !== undefined && <span className={cn(styles.status, { [styles.available]: available })} />}
+              </div>
+            )}
           </>
         </Button>
       </Wrapper>

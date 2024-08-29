@@ -22,8 +22,15 @@ export default {
 } as Meta<TooltipProps>
 
 const Template: Story<TooltipProps> = (args) => (
-  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 320 }}>
+  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 380, height: 320 }}>
     <Tooltip {...args}>
+      {(ref) => (
+        <Button ref={ref} aria-labelledby={args.id} style={{ height: 80 }}>
+          This button has a tooltip
+        </Button>
+      )}
+    </Tooltip>
+    <Tooltip color="dark" {...args}>
       {(ref) => (
         <Button ref={ref} aria-labelledby={args.id} style={{ height: 80 }}>
           This button has a tooltip
@@ -176,87 +183,3 @@ export const WithTooltip: Story<TooltipProps> = () => (
     </Tooltip>
   </div>
 )
-
-export const DarkTopPlacement = Template.bind({})
-DarkTopPlacement.args = {
-  color: 'dark',
-  placement: 'top',
-  id: 'tooltip-story-top',
-}
-
-export const DarkTopStartPlacement = Template.bind({})
-DarkTopStartPlacement.args = {
-  color: 'dark',
-  placement: 'top-start',
-  id: 'tooltip-story-top-start',
-}
-
-export const DarkTopEndPlacement = Template.bind({})
-DarkTopEndPlacement.args = {
-  color: 'dark',
-  placement: 'top-end',
-  id: 'tooltip-story-top-end',
-}
-
-export const DarkBottomPlacement = Template.bind({})
-DarkBottomPlacement.args = {
-  color: 'dark',
-  placement: 'bottom',
-  id: 'tooltip-story-bottom',
-}
-
-export const DarkBottomStartPlacement = Template.bind({})
-DarkBottomStartPlacement.args = {
-  color: 'dark',
-  placement: 'bottom-start',
-  id: 'tooltip-story-bottom-start',
-}
-
-export const DarkBottomEndPlacement = Template.bind({})
-DarkBottomEndPlacement.args = {
-  color: 'dark',
-  placement: 'bottom-end',
-  id: 'tooltip-story-bottom-end',
-}
-
-export const DarkRightPlacement = Template.bind({})
-DarkRightPlacement.args = {
-  color: 'dark',
-  placement: 'right',
-  id: 'tooltip-story-right',
-}
-
-export const DarkRightStartPlacement = Template.bind({})
-DarkRightStartPlacement.args = {
-  color: 'dark',
-  placement: 'right-start',
-  id: 'tooltip-story-right-start',
-}
-
-export const DarkRightEndPlacement = Template.bind({})
-DarkRightEndPlacement.args = {
-  color: 'dark',
-  placement: 'right-end',
-  id: 'tooltip-story-right-end',
-}
-
-export const DarkLeftPlacement = Template.bind({})
-DarkLeftPlacement.args = {
-  color: 'dark',
-  placement: 'left',
-  id: 'tooltip-story-left',
-}
-
-export const DarkLeftStartPlacement = Template.bind({})
-DarkLeftStartPlacement.args = {
-  color: 'dark',
-  placement: 'left-start',
-  id: 'tooltip-story-left-start',
-}
-
-export const DarkLeftEndPlacement = Template.bind({})
-DarkLeftEndPlacement.args = {
-  color: 'dark',
-  placement: 'left-end',
-  id: 'tooltip-story-left-end',
-}

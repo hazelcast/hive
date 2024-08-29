@@ -8,6 +8,8 @@ export interface FavoriteItem {
 }
 export interface AppSidebarContext {
   isOpen: boolean
+  open: () => void
+  close: () => void
   toggle: () => void
   favorites: string[]
   unregisterFavorite: (id: string) => void
@@ -16,8 +18,10 @@ export interface AppSidebarContext {
   setFavorites: (cb: (value: string[]) => string[]) => void
 }
 export const appSidebarContext = createContext<AppSidebarContext>({
-  isOpen: true,
+  open: noOp,
+  close: noOp,
   toggle: noOp,
+  isOpen: true,
   favorites: [],
   setFavorites: () => [],
   registeredFavorites: {},

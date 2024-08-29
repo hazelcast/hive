@@ -264,15 +264,15 @@
       }
 
       &.variantContained {
-        color: c.$colorNeutralLighter;
-      }
+        color: c.$colorText;
 
-      &.variantOutlined {
-        border-color: c.$colorNeutralLighter;
+        &:disabled {
+          @include disabledButtonColor;
+        }
       }
 
       &:disabled {
-        color: c.$colorNeutral;
+        @include buttonColor(c.$colorNeutralLight);
       }
     }
   }

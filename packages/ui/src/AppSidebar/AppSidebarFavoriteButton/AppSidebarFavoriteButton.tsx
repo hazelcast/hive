@@ -1,4 +1,4 @@
-import React, { MouseEvent, useContext, useEffect, useMemo } from 'react'
+import React, { useContext, useEffect, useMemo } from 'react'
 import cn from 'classnames'
 import { Star } from 'react-feather'
 
@@ -18,9 +18,7 @@ export const AppSidebarFavoriteButton = ({ id, title, className, registrable }: 
   const { favorites, setFavorites, registerFavorite, unregisterFavorite } = useContext(appSidebarContext)
   const isFavoriteItem = useMemo(() => favorites.find((item) => item === id), [favorites, id])
 
-  const handleToggleFavorite = (e: MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
+  const handleToggleFavorite = () => {
     if (isFavoriteItem) {
       setFavorites((value) => value.filter((item) => item !== id))
     } else {

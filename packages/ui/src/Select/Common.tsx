@@ -55,19 +55,19 @@ const MenuList: typeof rsComponents.MenuList = (props) => {
 }
 
 const ValueContainer: typeof rsComponents.ValueContainer = (props) => (
-  <rsComponents.ValueContainer className={styles.valueContainer} {...props}>
+  <div className={cn(props.className, styles.valueContainer)}>
     <TruncatedText text={props.children as string} />
-    <span
-      className={cn(styles.trailingNote, props.selectProps.classNamePrefix ? `${props.selectProps.classNamePrefix}__trailing-note` : '')}
-    >
+    <span className={cn(styles.trailingNote, `${props.selectProps.classNamePrefix || ''}__trailing-note`)}>
       {(props as unknown as { data: SelectFieldOption<string> }).data?.trailingNote}
     </span>
-  </rsComponents.ValueContainer>
+  </div>
 )
 
 const Option: typeof rsComponents.Option = (props) => (
   <rsComponents.Option {...props}>
-    <ValueContainer {...props}>{props.label}</ValueContainer>
+    <ValueContainer {...props} className={`${props.selectProps.classNamePrefix || ''}__value-container`}>
+      {props.label}
+    </ValueContainer>
   </rsComponents.Option>
 )
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment

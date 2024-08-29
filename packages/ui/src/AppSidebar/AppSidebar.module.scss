@@ -41,11 +41,23 @@ $offset: c.$grid * 4;
     padding: $offset 0;
   }
 
+  .footer {
+    color: c.$colorNeutralLight;
+    text-align: center;
+    margin-top: auto;
+    padding: 0 c.$grid * 4 c.$grid * 2.5;
+    font-size: c.$fontSizeBodySmall;
+  }
+
   &.collapsed {
     width: $collapsedWidth;
 
     .content {
       max-width: calc($collapsedWidth - $offset * 1.5);
+    }
+
+    .footer {
+      padding: 0 c.$grid;
     }
   }
 }
