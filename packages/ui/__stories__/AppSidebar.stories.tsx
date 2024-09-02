@@ -2,19 +2,25 @@ import React from 'react'
 import { Story } from '@storybook/react'
 import { Disc, HardDrive, Wifi, Activity, Droplet, Airplay } from 'react-feather'
 
-import { AppSidebar, AppSidebarSection, AppSidebarMenuItemCounter, AppSidebarItem, AppSidebarProps } from '../src/AppSidebar'
+import {
+  AppSidebar,
+  AppSidebarSection,
+  AppSidebarMenuItemCounter,
+  AppSidebarItem,
+  AppSidebarProps,
+  AppSidebarFavorites,
+} from '../src/AppSidebar'
 
 export default {
   title: 'App/Sidebar',
   component: AppSidebar,
 }
 
-const Template: Story<AppSidebarProps> = (props) => (
+const Template: Story<Partial<AppSidebarProps>> = (props) => (
   <AppSidebar footer={<span>24/08/14 01:49 PM Ver. 5.5.0</span>} {...props}>
+    <AppSidebarFavorites>{({ items }) => items.map((item) => <AppSidebarItem key={item} id={item} title={item} />)}</AppSidebarFavorites>
     <AppSidebarSection active id="maps" title="Maps wan replication" ariaLabel="maps" icon={Disc}>
-      <a href="/">
-        <AppSidebarItem id="1" title="Test" active />
-      </a>
+      <AppSidebarItem id="1" title="Test" active wrapper={({ children }) => <a href="/">{children}</a>} />
       <AppSidebarItem title="Wan healthcheck replication" />
       <AppSidebarItem title="Test 2" />
     </AppSidebarSection>

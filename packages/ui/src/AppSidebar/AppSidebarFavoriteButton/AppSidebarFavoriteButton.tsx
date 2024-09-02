@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo } from 'react'
+import React, { useContext, useMemo } from 'react'
 import cn from 'classnames'
 import { Star } from 'react-feather'
 
@@ -9,13 +9,11 @@ import styles from './AppSidebarFavoriteButton.module.scss'
 
 export interface AppSidebarFavoriteButtonProps {
   id: string
-  title: string
   className?: string
-  registrable?: boolean
 }
 
-export const AppSidebarFavoriteButton = ({ id, title, className, registrable }: AppSidebarFavoriteButtonProps) => {
-  const { favorites, setFavorites, registerFavorite, unregisterFavorite } = useContext(appSidebarContext)
+export const AppSidebarFavoriteButton = ({ id, className }: AppSidebarFavoriteButtonProps) => {
+  const { favorites, setFavorites } = useContext(appSidebarContext)
   const isFavoriteItem = useMemo(() => favorites.find((item) => item === id), [favorites, id])
 
   const handleToggleFavorite = () => {
@@ -25,17 +23,6 @@ export const AppSidebarFavoriteButton = ({ id, title, className, registrable }: 
       setFavorites((value) => [...value, id])
     }
   }
-
-  useEffect(() => {
-    if (registrable) {
-      registerFavorite({ id, title })
-    }
-    return () => {
-      if (registrable) {
-        unregisterFavorite(id)
-      }
-    }
-  }, [registerFavorite, registrable, id, title, unregisterFavorite])
 
   return (
     <IconButton

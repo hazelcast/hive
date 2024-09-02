@@ -45,6 +45,7 @@ $offset: c.$grid * 4;
     color: c.$colorNeutralLight;
     text-align: center;
     margin-top: auto;
+    word-break: break-all;
     padding: 0 c.$grid * 4 c.$grid * 2.5;
     font-size: c.$fontSizeBodySmall;
   }

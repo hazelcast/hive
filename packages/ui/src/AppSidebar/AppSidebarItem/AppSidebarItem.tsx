@@ -3,8 +3,8 @@ import cn from 'classnames'
 import { Icon as FeatherIcon } from 'react-feather'
 
 import { Icon } from '../../Icon'
-import { Button, ButtonColor } from '../../Button'
 import { Tooltip } from '../../Tooltip'
+import { Button, ButtonColor } from '../../Button'
 import { appSidebarContext } from '../appSidebarContext'
 import { AppSidebarFavoriteButton } from '../AppSidebarFavoriteButton'
 import { appSidebarSectionContext } from '../AppSidebarSection/appSidebarSectionContext'
@@ -22,7 +22,6 @@ export type AppSidebarItemProps = {
   color?: ButtonColor
   onClick?: () => void
   available?: boolean
-  registrable?: boolean
   adornment?: ReactNode
   wrapper?: (props: { children: ReactElement | string }) => ReactElement
 } & DataTestProp &
@@ -42,7 +41,6 @@ export const AppSidebarItem = ({
   color = 'light',
   adornment,
   available,
-  registrable = true,
   'data-test': dataTest,
   wrapper: Wrapper = Component,
 }: AppSidebarItemProps) => {
@@ -51,7 +49,7 @@ export const AppSidebarItem = ({
 
   return (
     <div className={cn(styles.root, { [styles.collapsed]: !isOpen, [styles.nested]: !!ctx })} data-test={dataTest}>
-      {id && <AppSidebarFavoriteButton id={id} title={title} registrable={registrable} className={styles.favorite} />}
+      {id && ctx && <AppSidebarFavoriteButton id={id} className={styles.favorite} />}
       <Wrapper>
         <Button
           variant="text"

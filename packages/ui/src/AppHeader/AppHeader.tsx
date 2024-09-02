@@ -11,17 +11,19 @@ import styles from './AppHeader.module.scss'
 export interface AppHeaderProps {
   name: ReactNode
   className?: string
+  children?: ReactNode
   environment?: 'production'
   logoProps: AppHeaderLogoProps
   clusterSelectProps?: SelectClusterProps
   menuContent?: AppHeaderMenuProps['children']
 }
 
-export const AppHeader = ({ name, className, environment, clusterSelectProps, logoProps, menuContent }: AppHeaderProps) => (
+export const AppHeader = ({ name, className, children, environment, clusterSelectProps, logoProps, menuContent }: AppHeaderProps) => (
   <header className={cls(styles.root, className)}>
     <AppHeaderLogo {...logoProps} />
     <span className={styles.name}>{name}</span>
     {clusterSelectProps && <SelectCluster {...clusterSelectProps} />}
+    {children}
     {environment && <EnvironmentBadge environment={environment} />}
     <div className={styles.aside}>{menuContent && <AppHeaderMenu>{menuContent}</AppHeaderMenu>}</div>
   </header>
