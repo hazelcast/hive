@@ -1,9 +1,11 @@
 import React, { AnchorHTMLAttributes, ButtonHTMLAttributes, forwardRef, MouseEventHandler, MutableRefObject, ReactNode } from 'react'
 import { Icon as FeatherIcon } from 'react-feather'
 import cn from 'classnames'
-import { Icon } from './Icon'
-import styles from './Link.module.scss'
 import { DataTestProp } from '@hazelcast/helpers'
+
+import { Icon } from './Icon'
+
+import styles from './Link.module.scss'
 
 const sizes = {
   normal: styles.normal,
@@ -47,7 +49,7 @@ export type LinkRel =
 
 export type LinkProps = IconProps & {
   size?: keyof typeof sizes
-  kind?: 'primary' | 'secondary'
+  kind?: 'primary' | 'secondary' | 'contrast'
   children: ReactNode
   bold?: boolean
   // it's also required by next.js for <a> https://nextjs.org/docs/api-reference/next/link
@@ -114,6 +116,7 @@ export const Link = forwardRef<HTMLAnchorElement | HTMLButtonElement, LinkProps>
           // kind
           [styles.primary]: kind === 'primary',
           [styles.secondary]: kind === 'secondary',
+          [styles.contrast]: kind === 'contrast',
           // bold
           [styles.bold]: bold,
         },

@@ -1,0 +1,13 @@
+@use '../../../styles/constants' as c;
+
+.root {
+  display: inline-flex;
+  align-items: center;
+  gap: c.$grid * 2;
+  color: #000;
+  background: c.$colorError;
+  border-radius: c.$grid * 3.5;
+  padding: 0 c.$grid * 3;
+  height: c.$grid * 7;
+  text-transform: capitalize;
+}

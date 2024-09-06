@@ -22,8 +22,15 @@ export default {
 } as Meta<TooltipProps>
 
 const Template: Story<TooltipProps> = (args) => (
-  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 320 }}>
+  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 380, height: 320 }}>
     <Tooltip {...args}>
+      {(ref) => (
+        <Button ref={ref} aria-labelledby={args.id} style={{ height: 80 }}>
+          This button has a tooltip
+        </Button>
+      )}
+    </Tooltip>
+    <Tooltip color="dark" {...args}>
       {(ref) => (
         <Button ref={ref} aria-labelledby={args.id} style={{ height: 80 }}>
           This button has a tooltip

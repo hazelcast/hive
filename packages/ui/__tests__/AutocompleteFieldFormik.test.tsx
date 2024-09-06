@@ -2,7 +2,7 @@ import React, { createRef } from 'react'
 import { Formik, Form, FormikProps } from 'formik'
 import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import { act } from 'react-dom/test-utils'
-import Select, { SelectInstance } from 'react-select'
+import Select from 'react-select'
 
 import { AutocompleteFieldFormik } from '../src/AutocompleteFieldFormik'
 import { Error } from '../src/Error'

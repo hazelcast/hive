@@ -3,6 +3,11 @@ import '../../setupTests.base'
 import Enzyme, { ReactWrapper, ShallowWrapper } from 'enzyme'
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 import { unmountComponentAtNode } from 'react-dom'
+import { configure } from '@testing-library/react'
+import '@testing-library/jest-dom'
+import { queryHelpers } from '@testing-library/dom'
+
+configure({ testIdAttribute: 'data-test' })
 
 // https://github.com/cgood92/enzyme-cleanup/blob/master/index.js
 const attachments: HTMLElement[] = []
@@ -95,3 +100,12 @@ ShallowWrapper.prototype.findDataTest = function <T>(this: ShallowWrapper, dataT
 ShallowWrapper.prototype.existsDataTest = function (this: ShallowWrapper, dataTest: string) {
   return this.exists(`[data-test="${dataTest}"]`)
 }
+
+export const queryByLabel = queryHelpers.queryByAttribute.bind(null, 'aria-label') as (
+  element: HTMLElement | Document,
+  label: string,
+) => ReturnType<typeof queryHelpers.queryByAttribute>
+export const queryAllByLabel = queryHelpers.queryAllByAttribute.bind(null, 'aria-label') as (
+  element: HTMLElement | Document,
+  label: string,
+) => ReturnType<typeof queryHelpers.queryAllByAttribute>

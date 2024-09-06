@@ -17,7 +17,7 @@ import React, {
 } from 'react'
 import ReactDOM from 'react-dom'
 import { Placement } from '@popperjs/core'
-import { usePopper } from 'react-popper'
+import { Modifier, StrictModifierNames, usePopper } from 'react-popper'
 import cn from 'classnames'
 
 import { containsElement } from './hooks'
@@ -39,6 +39,8 @@ export type TooltipProps = {
   id?: string
   hideTimeoutDuration?: number
   offset?: number
+  arrow?: boolean
+  color?: 'dark'
   padding?: number
   placement?: Placement
   visible?: boolean
@@ -88,6 +90,8 @@ export const Tooltip: FC<TooltipProps> = ({
   hoverAbleTooltip = true,
   disabled = false,
   zIndex = 20,
+  arrow = true,
+  color,
 }) => {
   const [isShown, setShown] = useState<boolean>(false)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
@@ -112,23 +116,31 @@ export const Tooltip: FC<TooltipProps> = ({
   const [popperElement, setPopperElement] = useState<HTMLSpanElement | null>(null)
   const [arrowElement, setArrowElement] = useState<HTMLSpanElement | null>(null)
 
-  const popper = usePopper(referenceElement, popperElement, {
-    placement,
-    modifiers: [
-      {
-        name: 'arrow',
-        options: {
-          element: arrowElement,
-          padding,
-        },
-      },
+  const modifiers = useMemo(() => {
+    const result: Modifier<StrictModifierNames>[] = [
       {
         name: 'offset',
         options: {
           offset: [0, offset],
         },
       },
-    ],
+    ]
+
+    if (arrow) {
+      result.push({
+        name: 'arrow',
+        options: {
+          element: arrowElement,
+          padding,
+        },
+      })
+    }
+
+    return result
+  }, [arrow, padding, offset, arrowElement])
+  const popper = usePopper(referenceElement, popperElement, {
+    placement,
+    modifiers,
   })
 
   useImperativeHandle(popperRef, () => popper, [popper])
@@ -170,7 +182,7 @@ export const Tooltip: FC<TooltipProps> = ({
 
   // Makes sure "visible" prop can override local "isShown" state
   const isTooltipVisible = typeof visibilityOverride === 'boolean' ? visibilityOverride : !disabled && isShown
-  
+
   // Update the tooltip's position (useful when resizing table columns)
   useLayoutEffect(() => {
     if (content) {
@@ -223,6 +235,7 @@ export const Tooltip: FC<TooltipProps> = ({
                 <span
                   ref={setPopperElement}
                   className={cn(styles.overlay, {
+                    [styles.dark]: color === 'dark',
                     [styles.hidden]: !isTooltipVisible,
                   })}
                   style={{ ...popper.styles.popper, ...{ zIndex: context ? zIndex + 1 : zIndex }, wordBreak }}
@@ -231,13 +244,15 @@ export const Tooltip: FC<TooltipProps> = ({
                   {...popper.attributes.popper}
                 >
                   {content}
-                  <span
-                    ref={setArrowElement}
-                    className={styles.arrow}
-                    style={popper.styles.arrow}
-                    data-test="tooltip-arrow"
-                    {...popper.attributes.arrow}
-                  />
+                  {arrow && (
+                    <span
+                      ref={setArrowElement}
+                      className={styles.arrow}
+                      style={popper.styles.arrow}
+                      data-test="tooltip-arrow"
+                      {...popper.attributes.arrow}
+                    />
+                  )}
                 </span>
               </>,
               tooltipPortalContainer,

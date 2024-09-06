@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { Info, ChevronDown } from 'react-feather'
 import cn from 'classnames'
@@ -21,6 +21,10 @@ export default {
     children: 'Button',
   },
 } as ComponentMeta<typeof Button>
+
+const DarkBackground = ({ children }: { children: ReactNode }) => (
+  <span style={{ display: 'inline-block', background: '#000', padding: 4 }}>{children}</span>
+)
 
 const Template: ComponentStory<typeof Button> = ({ className, ...args }) => {
   const props = {
@@ -68,6 +72,15 @@ const Template: ComponentStory<typeof Button> = ({ className, ...args }) => {
         <Button {...props} color="authSecondary" disabled size="medium" />
         <Button {...props} variant="outlined" color="authSecondary" size="medium" />
         <Button {...props} variant="text" color="authSecondary" size="medium" />
+        <DarkBackground>
+          <Button {...props} color="light" />
+        </DarkBackground>
+        <DarkBackground>
+          <Button {...props} variant="outlined" color="light" />
+        </DarkBackground>
+        <DarkBackground>
+          <Button {...props} variant="text" color="light" />
+        </DarkBackground>
       </div>
     </div>
   )
@@ -87,7 +100,7 @@ Focused.args = {
 
 export const Active = Template.bind({})
 Active.args = {
-  className: styles.active,
+  active: true,
 }
 
 export const Disabled = Template.bind({})

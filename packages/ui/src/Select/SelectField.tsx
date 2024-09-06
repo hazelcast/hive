@@ -54,6 +54,7 @@ export type SelectFieldExtraProps<V> = {
   formatOptionLabel?: ReactSelectProps<SelectFieldOption<V>>['formatOptionLabel']
   renderMenuFooter?: RenderMenuFooterFunction
   styles?: ReactSelectProps<SelectFieldOption<V>>['styles']
+  classNames?: ReactSelectProps<SelectFieldOption<V>>['classNames']
   singleValueTooltipVisible?: boolean
 } & DataTestProp &
   Pick<InputHTMLAttributes<HTMLElement>, 'autoFocus' | 'disabled' | 'required' | 'placeholder' | 'aria-required'> &

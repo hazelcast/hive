@@ -55,7 +55,7 @@ $selectHorizontalPadding: c.$grid * 3;
   }
 }
 
-.valueContainer {
+[class].valueContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -14,7 +14,7 @@ import styles from './Button.module.scss'
 export type ButtonKind = 'primary' | 'secondary' | 'danger' | 'transparent'
 
 export type ButtonVariant = 'contained' | 'outlined' | 'text'
-export type ButtonColor = 'primary' | 'secondary' | 'warning' | 'brand' | 'authPrimary' | 'authSecondary'
+export type ButtonColor = 'primary' | 'secondary' | 'warning' | 'brand' | 'authPrimary' | 'authSecondary' | 'light'
 
 export type ButtonSize = 'medium' | 'small'
 
@@ -72,6 +72,7 @@ export type ButtonCommonProps = {
   kind?: ButtonKind
   children: string | ReactElement
   size?: ButtonSize
+  iconSize?: IconSize
   color?: ButtonColor
   capitalize?: boolean
   bodyClassName?: string
@@ -79,6 +80,8 @@ export type ButtonCommonProps = {
   outlineClassName?: string
   outline?: ButtonOutlineType
   tooltip?: string
+  active?: boolean
+  truncate?: boolean
 } & (ButtonDisabledProps | ButtonNotDisabledProps) &
   Pick<HTMLAttributes<HTMLAnchorElement | HTMLButtonElement>, 'className' | 'onClick' | 'tabIndex' | 'style'>
 
@@ -185,12 +188,15 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
       color = 'primary',
       tooltip,
       size = 'small',
+      active,
+      truncate = true,
+      iconSize: propIconSize,
       ...rest
     },
     ref,
   ) => {
     const tooltipId = useUID()
-    const iconSize: IconSize = size === 'medium' ? 'smallMedium' : 'small'
+    const iconSize: IconSize = propIconSize || (size === 'medium' ? 'smallMedium' : 'small')
     const relFinal = Array.isArray(rel) ? rel.join(' ') : rel
     const loadingAnimationOnRight = loading && iconRight && iconRightAriaLabel && !(iconLeft && iconLeftAriaLabel)
 
@@ -213,6 +219,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
                       [styles[`color${capitalizeFirstCharacter(color)}`]]: true,
                       [styles[`variant${capitalizeFirstCharacter(variant)}`]]: true,
                     }),
+                [styles.active]: active,
                 [styles[size]]: size !== 'small',
               },
               className,
@@ -238,16 +245,20 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
                   color={iconLeftColor}
                 />
               )}
-              <TruncatedText
-                text={capitalize && typeof children === 'string' ? children.toUpperCase() : children}
-                /*
+              {truncate ? (
+                <TruncatedText
+                  text={capitalize && typeof children === 'string' ? children.toUpperCase() : children}
+                  /*
                   If a button is disabled and text is long we don't want to show 2 popups.
                   1. In case a button is disabled and no `disabledTooltipVisible` is enforced, we just hide truncated popup.
                   2. In case a button is disabled and disabledTooltip is hidden with a false flag, there is a space to show
                   the truncated popup -> setting it to undefined will leave the default behaviour.
                 */
-                tooltipVisible={disabled && disabledTooltipVisible !== false ? false : undefined}
-              />
+                  tooltipVisible={disabled && disabledTooltipVisible !== false ? false : undefined}
+                />
+              ) : (
+                children
+              )}
               {loadingAnimationOnRight && <Loader className={styles.iconRight} size={iconSize} />}
               {!loadingAnimationOnRight && iconRight && iconRightAriaLabel && (
                 <Icon

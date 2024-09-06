@@ -1,0 +1,99 @@
+@use '../../../styles/constants' as c;
+@use '../../../styles/helpers' as h;
+
+$selectContainer: ':global .hz-select-field';
+$selectControl: ':global .hz-select-field__control';
+$selectValueContainer: ':global .hz-select-field__value-container';
+$selectTrailingNote: ':global .hz-select-field__trailing-note';
+$selectValue: ':global .hz-select-field__single-value';
+$selectMenuPortal: ':global .hz-select-field__menu-portal';
+$selectMenu: ':global .hz-select-field__menu';
+$selectMenuList: ':global .hz-select-field__menu-list';
+$selectMenuNotice: ':global .hz-select-field__menu-notice';
+$selectOption: ':global .hz-select-field__option';
+$selectGroup: ':global .hz-select-field__group';
+$selectGroupHeading: ':global .hz-select-field__group-heading';
+$selectFieldIndicators: ':global .hz-select-field__indicators';
+
+.select {
+  width: 260px;
+
+  &.disabled {
+    #{$selectControl} {
+      color: c.$colorTextSecondary;
+      background-color: transparent;
+
+      #{$selectValue},
+      #{$selectTrailingNote},
+      #{$selectFieldIndicators} svg {
+        color: c.$colorTextSecondary;
+      }
+    }
+  }
+
+  #{$selectControl} {
+    border: none;
+    background: none;
+    border-radius: unset;
+
+    #{$selectValueContainer},
+    #{$selectTrailingNote} {
+      color: c.$colorNeutralLighter;
+    }
+  }
+
+  #{$selectValue} {
+    color: c.$colorNeutralLighter;
+  }
+
+  #{$selectFieldIndicators} {
+    svg {
+      color: c.$colorNeutralLighter;
+    }
+  }
+
+  .selectIconLeftContainer {
+    box-sizing: content-box;
+
+    .selectIconLeft {
+      color: c.$colorSuccess;
+
+      &.disconnected {
+        color: c.$colorError;
+      }
+
+      &.disabled {
+        color: c.$colorTextSecondary;
+      }
+    }
+  }
+}
+
+.menuPortal {
+  #{$selectMenu} {
+    border: none;
+    background: c.$brandSecondary;
+    border-radius: 0 0 c.$borderRadius c.$borderRadius;
+  }
+
+  #{$selectOption} {
+    &:active {
+      background: none;
+    }
+
+    #{$selectValueContainer},
+    #{$selectTrailingNote} {
+      color: c.$colorNeutralLighter;
+    }
+
+    &--is-focused {
+      background: c.$brandAccent;
+      box-shadow: none;
+
+      #{$selectValueContainer},
+      #{$selectTrailingNote} {
+        color: c.$brandColorText;
+      }
+    }
+  }
+}
