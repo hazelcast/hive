@@ -1,6 +1,7 @@
 import React, { ReactElement, ReactNode, useContext } from 'react'
 import cn from 'classnames'
 import { Icon as FeatherIcon } from 'react-feather'
+import { DataTestProp } from '@hazelcast/helpers'
 
 import { Icon } from '../../Icon'
 import { Tooltip } from '../../Tooltip'
@@ -10,7 +11,6 @@ import { AppSidebarFavoriteButton } from '../AppSidebarFavoriteButton'
 import { appSidebarSectionContext } from '../AppSidebarSection/appSidebarSectionContext'
 
 import styles from './AppSidebarItem.module.scss'
-import { DataTestProp } from '@hazelcast/helpers'
 
 const Component = ({ children }: { children: ReactNode }) => <>{children}</>
 
@@ -60,6 +60,7 @@ export const AppSidebarItem = ({
           disabled={disabled as boolean}
           disabledTooltip={disabledTooltip}
           bodyClassName={styles.content}
+          data-test="sidebar-menu-item-title"
           className={cn(styles.button, { [styles.active]: active }, className)}
         >
           <>

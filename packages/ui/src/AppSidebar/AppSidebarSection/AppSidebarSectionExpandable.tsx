@@ -2,6 +2,7 @@ import React, { ReactNode, useContext, useEffect } from 'react'
 import cn from 'classnames'
 import { ChevronDown, ChevronUp, Icon as FeatherIcon } from 'react-feather'
 import createPersistedState from 'use-persisted-state'
+import { DataTestProp } from '@hazelcast/helpers'
 
 import { useRefValue } from '../../hooks'
 import { Icon, IconProps } from '../../Icon'
@@ -11,18 +12,26 @@ import { appSidebarSectionContext } from './appSidebarSectionContext'
 
 import styles from './AppSidebarSection.module.scss'
 
-export interface AppSidebarSectionExpandableProps {
+export type AppSidebarSectionExpandableProps = {
   id: string
   title: string
   active: boolean
   icon: FeatherIcon
   ariaLabel: string
   children: ReactNode
-}
+} & DataTestProp
 
 const kebabCase = (str: string) => str.toLowerCase().split(' ').join('-')
 
-export const AppSidebarSectionExpandable = ({ id, active, icon, title, ariaLabel, children }: AppSidebarSectionExpandableProps) => {
+export const AppSidebarSectionExpandable = ({
+  id,
+  active,
+  icon,
+  title,
+  ariaLabel,
+  children,
+  'data-test': dataTest = 'sidebar-menu-section-title',
+}: AppSidebarSectionExpandableProps) => {
   const { isOpen, open: openSidebar } = useContext(appSidebarContext)
   const usePersistedMenuStorageState = createPersistedState<boolean>(`isOpen::${title}`)
 
@@ -63,7 +72,7 @@ export const AppSidebarSectionExpandable = ({ id, active, icon, title, ariaLabel
         active={active}
         className={styles.toggle}
         adornment={<Icon data-test="sidebar-menu-section-chevron" size="medium" containerClassName={styles.icon} {...chevronButtonProps} />}
-        data-test="sidebar-menu-section-title"
+        data-test={dataTest}
       />
       {/* detect whether an item is in an expandable section or not. */}
       <appSidebarSectionContext.Provider value={{}}>
