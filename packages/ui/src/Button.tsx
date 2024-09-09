@@ -80,6 +80,7 @@ export type ButtonCommonProps = {
   outlineClassName?: string
   outline?: ButtonOutlineType
   tooltip?: string
+  tooltipColor?: TooltipProps['color']
   active?: boolean
   truncate?: boolean
 } & (ButtonDisabledProps | ButtonNotDisabledProps) &
@@ -191,6 +192,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
       active,
       truncate = true,
       iconSize: propIconSize,
+      tooltipColor,
       ...rest
     },
     ref,
@@ -203,6 +205,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
     return (
       <Tooltip
         id={tooltipId}
+        color={tooltipColor}
         content={disabled ? disabledTooltip : tooltip}
         visible={disabled && disabledTooltipVisible}
         placement={disabledTooltipPlacement}
