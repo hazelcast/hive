@@ -58,6 +58,7 @@ describe('Button', () => {
       id: expect.anything(),
       placement: undefined,
       visible: undefined,
+      color: undefined,
     })
     expect(wrapper.find('button').props()).toMatchObject({
       type: 'button',
