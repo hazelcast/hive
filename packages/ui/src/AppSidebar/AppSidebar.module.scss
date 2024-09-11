@@ -8,7 +8,9 @@ $offset: c.$grid * 4;
   width: $width;
   height: 100%;
   flex-shrink: 0;
+  display: flex;
   position: relative;
+  flex-direction: column;
   box-sizing: border-box;
   color: c.$colorNeutralLighter;
   background: c.$brandSecondary;
@@ -36,7 +38,7 @@ $offset: c.$grid * 4;
   }
 
   .content {
-    width: 86%;
+    width: 90%;
     margin: 0 auto;
     padding: $offset 0;
   }

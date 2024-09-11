@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext, useEffect } from 'react'
+import React, { ReactNode, useContext, useEffect, useRef } from 'react'
 import cn from 'classnames'
 import { ChevronDown, ChevronUp, Icon as FeatherIcon } from 'react-feather'
 import createPersistedState from 'use-persisted-state'
@@ -32,6 +32,8 @@ export const AppSidebarSectionExpandable = ({
   children,
   'data-test': dataTest = 'sidebar-menu-section-title',
 }: AppSidebarSectionExpandableProps) => {
+  const rootEl = useRef<HTMLElement>(null)
+  const clicked = useRef(false)
   const { isOpen, open: openSidebar } = useContext(appSidebarContext)
   const usePersistedMenuStorageState = createPersistedState<boolean>(`isOpen::${title}`)
 
@@ -48,8 +50,16 @@ export const AppSidebarSectionExpandable = ({
     if (!isOpen) {
       openSidebar()
       setOpen(true)
+      clicked.current = true
     } else {
       setOpen(!open)
+      clicked.current = false
+    }
+  }
+  const handleTransitionEnd = () => {
+    if (isOpen && active && rootEl.current && clicked.current) {
+      rootEl.current.scrollIntoView()
+      clicked.current = false
     }
   }
 
@@ -62,7 +72,7 @@ export const AppSidebarSectionExpandable = ({
   }, [getIsActive, getSetOpen])
 
   return (
-    <section data-test={`sidebar-menu-section-${kebabCase(id)}`}>
+    <section ref={rootEl} data-test={`sidebar-menu-section-${kebabCase(id)}`}>
       <AppSidebarItem
         title={title}
         aria-label={ariaLabel}
@@ -77,6 +87,7 @@ export const AppSidebarSectionExpandable = ({
       {/* detect whether an item is in an expandable section or not. */}
       <appSidebarSectionContext.Provider value={{}}>
         <div
+          onTransitionEnd={handleTransitionEnd}
           className={cn(styles.content, {
             [styles.transitionEnter]: isSectionOpen,
             [styles.transitionLeave]: !isSectionOpen,

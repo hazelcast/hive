@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, useContext } from 'react'
+import React, { ReactNode, useContext } from 'react'
 import cn from 'classnames'
 import { Icon as FeatherIcon } from 'react-feather'
 import { DataTestProp } from '@hazelcast/helpers'
@@ -12,8 +12,6 @@ import { appSidebarSectionContext } from '../AppSidebarSection/appSidebarSection
 
 import styles from './AppSidebarItem.module.scss'
 
-const Component = ({ children }: { children: ReactNode }) => <>{children}</>
-
 export type AppSidebarItemProps = {
   id?: string
   title: string
@@ -23,7 +21,6 @@ export type AppSidebarItemProps = {
   onClick?: () => void
   available?: boolean
   adornment?: ReactNode
-  wrapper?: (props: { children: ReactElement | string }) => ReactElement
 } & DataTestProp &
   ({ disabled?: never; disabledTooltip?: never } | { disabled: boolean; disabledTooltip: string }) &
   ({ icon?: never; iconAriaLabel?: never } | { icon: FeatherIcon; iconAriaLabel: string })
@@ -42,43 +39,41 @@ export const AppSidebarItem = ({
   adornment,
   available,
   'data-test': dataTest,
-  wrapper: Wrapper = Component,
 }: AppSidebarItemProps) => {
   const { isOpen } = useContext(appSidebarContext)
   const ctx = useContext(appSidebarSectionContext)
 
   return (
-    <div className={cn(styles.root, { [styles.collapsed]: !isOpen, [styles.nested]: !!ctx })} data-test={dataTest}>
-      {id && ctx && <AppSidebarFavoriteButton id={id} className={styles.favorite} />}
-      <Wrapper>
-        <Button
-          variant="text"
-          color={color}
-          active={active}
-          truncate={false}
-          onClick={onClick}
-          disabled={disabled as boolean}
-          disabledTooltip={disabledTooltip}
-          bodyClassName={styles.content}
-          data-test="sidebar-menu-item-title"
-          className={cn(styles.button, { [styles.active]: active }, className)}
-        >
-          <>
-            {icon && (
-              <Tooltip arrow={false} placement="right-start" color="dark" visible={isOpen ? false : undefined} content={iconAriaLabel}>
-                {(ref) => <Icon ref={ref} size="medium" icon={icon} ariaLabel={iconAriaLabel} className={styles.icon} />}
-              </Tooltip>
-            )}
-            {title}
-            {(adornment || available !== undefined) && (
-              <div className={styles.adornment}>
-                {adornment}
-                {available !== undefined && <span className={cn(styles.status, { [styles.available]: available })} />}
-              </div>
-            )}
-          </>
-        </Button>
-      </Wrapper>
-    </div>
+    <Tooltip arrow={false} placement="right-start" color="dark" visible={isOpen ? false : undefined} content={iconAriaLabel}>
+      {(ref) => (
+        <div ref={ref} className={cn(styles.root, { [styles.collapsed]: !isOpen, [styles.nested]: !!ctx })} data-test={dataTest}>
+          {id && ctx && <AppSidebarFavoriteButton id={id} className={styles.favorite} />}
+          <Button
+            variant="text"
+            color={color}
+            active={active}
+            truncate={false}
+            onClick={onClick}
+            outline="inset"
+            disabled={disabled as boolean}
+            disabledTooltip={disabledTooltip}
+            bodyClassName={styles.content}
+            data-test="sidebar-menu-item-title"
+            className={cn(styles.button, { [styles.active]: active }, className)}
+          >
+            <>
+              {icon && <Icon size="medium" icon={icon} ariaLabel={iconAriaLabel} className={styles.icon} />}
+              {title}
+              {(adornment || available !== undefined) && (
+                <div className={styles.adornment}>
+                  {adornment}
+                  {available !== undefined && <span className={cn(styles.status, { [styles.available]: available })} />}
+                </div>
+              )}
+            </>
+          </Button>
+        </div>
+      )}
+    </Tooltip>
   )
 }
