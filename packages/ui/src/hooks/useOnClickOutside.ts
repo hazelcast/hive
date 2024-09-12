@@ -1,9 +1,18 @@
 import { useCallback, useEffect } from 'react'
+
 import { useRefValue } from './useRefValue'
 
 type RefElement = HTMLElement | null | undefined
 
-export const containsElement = (target: RefElement, element: Node) => target?.contains(element)
+export const containsElement = (target: RefElement, element: EventTarget | HTMLElement | null | undefined) => {
+  if (isNode(element)) {
+    return target?.contains(element)
+  }
+
+  return false
+}
+
+const isNode = (element: EventTarget | null | undefined): element is Node => element != null && 'nodeType' in element
 
 export const useOnClickOutside = (
   active: boolean,
@@ -14,7 +23,7 @@ export const useOnClickOutside = (
 
   const listener = useCallback(
     (event: Event) => {
-      const element = event.target as Node
+      const element = event.target
 
       if (!containsElement(target, element) && !containsElement(excludeElement, element)) {
         getOutsideClickHandler()(event)

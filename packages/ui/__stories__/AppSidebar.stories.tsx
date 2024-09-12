@@ -20,7 +20,7 @@ const Template: Story<Partial<AppSidebarProps>> = (props) => (
   <AppSidebar footer={<span>24/08/14 01:49 PM Ver. 5.5.0</span>} {...props}>
     <AppSidebarFavorites>{({ items }) => items.map((item) => <AppSidebarItem key={item} id={item} title={item} />)}</AppSidebarFavorites>
     <AppSidebarSection active id="maps" title="Maps wan replication" ariaLabel="maps" icon={Disc}>
-      <AppSidebarItem id="1" title="Test" active wrapper={({ children }) => <a href="/">{children}</a>} />
+      <AppSidebarItem id="1" title="Test" active />
       <AppSidebarItem title="Wan healthcheck replication" />
       <AppSidebarItem title="Test 2" />
     </AppSidebarSection>

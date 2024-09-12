@@ -7,7 +7,7 @@
   flex-direction: column;
 
   &.nested {
-    padding-left: c.$grid * 14;
+    padding-left: c.$grid * 10;
 
     .button {
       color: c.$colorNeutralLight;
@@ -85,5 +85,8 @@
 
   .adornment {
     margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: c.$grid * 2;
   }
 }
