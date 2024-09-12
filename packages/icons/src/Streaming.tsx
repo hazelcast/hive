@@ -5,7 +5,7 @@ import { HazelcastIcon } from './types'
 export const Streaming: HazelcastIcon = ({ color = 'currentColor', size = 24, ...rest }) => (
   <svg width={size} height={size} viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg" {...rest}>
     <path d="M3.95837 14.25L6.33337 16.625L8.70837 14.25" stroke={color} strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M15.0416 13.4583L12.6666 11.0833L10.2916 13.4583" stroke="#041A3B" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M15.0416 13.4583L12.6666 11.0833L10.2916 13.4583" stroke={color} strokeLinecap="round" strokeLinejoin="round" />
     <path d="M6.33337 11.0833V16.625" stroke={color} strokeLinecap="round" strokeLinejoin="round" />
     <path d="M12.6666 16.625L12.6666 11.0833" stroke="#041A3B" strokeLinecap="round" strokeLinejoin="round" />
     <path
