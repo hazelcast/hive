@@ -33,9 +33,9 @@ $selectFieldIndicators: ':global .hz-select-field__indicators';
   }
 
   #{$selectControl} {
-    border: none;
     background: none;
-    border-radius: unset;
+    border-radius: c.$borderRadius;
+    border: 1px solid c.$colorTextSecondary;
 
     #{$selectInputContainer},
     #{$selectValueContainer},

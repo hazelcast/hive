@@ -141,6 +141,14 @@ $tooltipArrowSize2-3: math.div(c.$tooltipArrowSize, 3) * 2;
     left: -99999px !important;
   }
 
+  &.secondary {
+    border: none;
+    color: c.$colorNeutralWhite;
+    background-color: c.$colorTextSubdued;
+
+    @include arrowPlacements(c.$colorTextSubdued, transparent);
+  }
+
   &.dark {
     border: none;
     color: c.$brandColorText;
