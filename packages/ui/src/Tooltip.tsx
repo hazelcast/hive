@@ -40,7 +40,7 @@ export type TooltipProps = {
   hideTimeoutDuration?: number
   offset?: number
   arrow?: boolean
-  color?: 'dark'
+  color?: 'dark' | 'secondary'
   padding?: number
   placement?: Placement
   visible?: boolean
@@ -234,10 +234,13 @@ export const Tooltip: FC<TooltipProps> = ({
               <>
                 <span
                   ref={setPopperElement}
-                  className={cn(styles.overlay, {
-                    [styles.dark]: color === 'dark',
-                    [styles.hidden]: !isTooltipVisible,
-                  })}
+                  className={cn(
+                    styles.overlay,
+                    {
+                      [styles.hidden]: !isTooltipVisible,
+                    },
+                    color && [styles[color]],
+                  )}
                   style={{ ...popper.styles.popper, ...{ zIndex: context ? zIndex + 1 : zIndex }, wordBreak }}
                   data-test="tooltip-overlay"
                   aria-hidden
