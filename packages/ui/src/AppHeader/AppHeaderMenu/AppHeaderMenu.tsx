@@ -22,6 +22,7 @@ export const AppHeaderMenu = ({ children }: AppHeaderMenuProps) => {
         color="light"
         iconSize="medium"
         onClick={toggle}
+        capitalize={false}
         iconRight={MenuIcon}
         ref={setAnchorElement}
         data-test="app-header-menu-toggle"
