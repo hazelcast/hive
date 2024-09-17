@@ -8,11 +8,12 @@
   height: 59px;
   box-sizing: border-box;
   flex-direction: row;
+  font-size: c.$fontSizeBodySmall;
   width: 100%;
   padding: 0 c.$grid * 5;
   overflow-x: auto;
   flex-shrink: 0;
-  gap: c.$grid * 5;
+  gap: c.$grid * 7.5;
 }
 
 .name {
