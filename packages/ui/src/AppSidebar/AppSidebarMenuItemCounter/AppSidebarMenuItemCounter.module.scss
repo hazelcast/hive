@@ -12,6 +12,7 @@
   height: c.$grid * 4;
   padding: math.div(c.$grid, 2);
   font-size: c.$fontSizeBodyTiny;
+  margin-right: c.$grid * 1.5;
 
   &:hover {
     color: #353d49;
