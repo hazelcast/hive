@@ -21,6 +21,7 @@ export type AppSidebarItemProps = {
   onClick?: () => void
   available?: boolean
   adornment?: ReactNode
+  adornmentClassName?: string
 } & DataTestProp &
   ({ disabled?: never; disabledTooltip?: never } | { disabled: boolean; disabledTooltip: string }) &
   ({ icon?: never; iconAriaLabel?: never } | { icon: FeatherIcon; iconAriaLabel: string })
@@ -38,6 +39,7 @@ export const AppSidebarItem = ({
   color = 'light',
   adornment,
   available,
+  adornmentClassName,
   'data-test': dataTest,
 }: AppSidebarItemProps) => {
   const { isOpen } = useContext(appSidebarContext)
@@ -65,7 +67,7 @@ export const AppSidebarItem = ({
               {icon && <Icon size="medium" icon={icon} ariaLabel={iconAriaLabel} className={styles.icon} />}
               {title}
               {(adornment || available !== undefined) && (
-                <div className={styles.adornment}>
+                <div className={cn(styles.adornment, adornmentClassName)}>
                   {adornment}
                   {available !== undefined && <span className={cn(styles.status, { [styles.available]: available })} />}
                 </div>
