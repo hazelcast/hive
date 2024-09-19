@@ -1,6 +1,6 @@
 import React from 'react'
 import { Story } from '@storybook/react'
-import { Disc, HardDrive, Wifi, Activity, Droplet, Airplay } from 'react-feather'
+import { Disc, AlertTriangle, HardDrive, Wifi, Activity, Droplet, Airplay } from 'react-feather'
 
 import {
   AppSidebar,
@@ -10,6 +10,7 @@ import {
   AppSidebarProps,
   AppSidebarFavorites,
 } from '../src/AppSidebar'
+import { Icon } from '../src/Icon'
 
 export default {
   title: 'App/Sidebar',
@@ -24,9 +25,10 @@ const Template: Story<Partial<AppSidebarProps>> = (props) => (
       <AppSidebarItem title="Wan healthcheck replication" />
       <AppSidebarItem title="Test 2" />
     </AppSidebarSection>
-    <AppSidebarSection active={false} id="cluster" title="Cluster" ariaLabel="cluster" icon={HardDrive}>
+    <AppSidebarSection active id="cluster" title="Cluster" ariaLabel="cluster" icon={HardDrive}>
       <AppSidebarItem id="2" title="Cluster-1" adornment={<AppSidebarMenuItemCounter>13</AppSidebarMenuItemCounter>} />
       <AppSidebarItem title="Cluster-2" adornment={<AppSidebarMenuItemCounter>3</AppSidebarMenuItemCounter>} />
+      <AppSidebarItem title="Maps" adornment={<Icon size="small" icon={AlertTriangle} />} />
     </AppSidebarSection>
     <AppSidebarSection active={false} id="members" title="Memebers" ariaLabel="memebers" icon={Wifi}>
       <AppSidebarItem title="Cluster-1" adornment={<AppSidebarMenuItemCounter>13</AppSidebarMenuItemCounter>} />

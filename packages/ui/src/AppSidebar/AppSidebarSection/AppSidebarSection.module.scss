@@ -39,6 +39,10 @@ $sideBarMenuSectionTransitionMaxHeight: 1000px;
 
 .toggle {
   margin-bottom: c.$grid;
+
+  .adornment {
+    margin-right: -#{c.$grid * 1.5};
+  }
 }
 
 .transitionLeave {

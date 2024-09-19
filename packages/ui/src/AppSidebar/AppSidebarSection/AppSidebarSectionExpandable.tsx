@@ -81,6 +81,7 @@ export const AppSidebarSectionExpandable = ({
         onClick={handleClick}
         active={active}
         className={styles.toggle}
+        adornmentClassName={styles.adornment}
         adornment={<Icon data-test="sidebar-menu-section-chevron" size="medium" containerClassName={styles.icon} {...chevronButtonProps} />}
         data-test={dataTest}
       />
