@@ -59,8 +59,8 @@ importers:
         specifier: ^6.2.3
         version: 6.17.1
       css-loader:
-        specifier: ^7.1.2
-        version: 7.1.2(webpack@5.95.0)
+        specifier: ^6.11.0
+        version: 6.11.0(webpack@5.95.0)
       doctoc:
         specifier: ^2.1.0
         version: 2.2.1
@@ -309,7 +309,7 @@ importers:
         version: 6.5.16(eslint@8.35.0)(react-dom@17.0.2)(react@17.0.2)(typescript@4.9.5)
       '@storybook/preset-scss':
         specifier: ^1.0.3
-        version: 1.0.3(css-loader@7.1.2)(sass-loader@16.0.2)(style-loader@4.0.0)
+        version: 1.0.3(css-loader@6.11.0)(sass-loader@16.0.2)(style-loader@4.0.0)
       '@storybook/react':
         specifier: ^6.5.16
         version: 6.5.16(@babel/core@7.25.2)(@storybook/builder-webpack5@6.5.16)(@storybook/manager-webpack5@6.5.16)(eslint@8.35.0)(react-dom@17.0.2)(react@17.0.2)(require-from-string@2.0.2)(typescript@4.9.5)
@@ -448,7 +448,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/highlight': 7.24.7
-      picocolors: 1.0.1
+      picocolors: 1.1.0
     dev: true
 
   /@babel/compat-data@7.21.5:
@@ -598,7 +598,7 @@ packages:
       '@babel/compat-data': 7.21.5
       '@babel/core': 7.25.2
       '@babel/helper-validator-option': 7.21.0
-      browserslist: 4.23.3
+      browserslist: 4.21.5
       lru-cache: 5.1.1
       semver: 7.6.0
     dev: true
@@ -1011,7 +1011,7 @@ packages:
       '@babel/helper-validator-identifier': 7.24.7
       chalk: 2.4.2
       js-tokens: 4.0.0
-      picocolors: 1.0.1
+      picocolors: 1.1.0
     dev: true
 
   /@babel/parser@7.21.5:
@@ -3575,7 +3575,7 @@ packages:
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
       callsites: 3.1.0
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
     dev: true
 
   /@jest/test-result@29.7.0:
@@ -3593,7 +3593,7 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@jest/test-result': 29.7.0
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
       jest-haste-map: 29.7.0
       slash: 3.0.0
     dev: true
@@ -4513,7 +4513,7 @@ packages:
     resolution: {integrity: sha512-MFNDSJNgsLZIEBVZ0Q9w9K7o07j5N4o4yjtdz2uEpuCZlXGMuPENiRaFYk0vRqAA64qVuUQwC05g27fRtfUgnA==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
     dependencies:
-      postcss-selector-parser: 6.0.11
+      postcss-selector-parser: 6.1.2
     dev: true
 
   /@npmcli/run-script@4.1.7:
@@ -5823,14 +5823,14 @@ packages:
       core-js: 3.19.1
     dev: true
 
-  /@storybook/preset-scss@1.0.3(css-loader@7.1.2)(sass-loader@16.0.2)(style-loader@4.0.0):
+  /@storybook/preset-scss@1.0.3(css-loader@6.11.0)(sass-loader@16.0.2)(style-loader@4.0.0):
     resolution: {integrity: sha512-o9Iz6wxPeNENrQa2mKlsDKynBfqU2uWaRP80HeWp4TkGgf7/x3DVF2O7yi9N0x/PI1qzzTTpxlQ90D62XmpiTw==}
     peerDependencies:
       css-loader: '*'
       sass-loader: '*'
       style-loader: '*'
     dependencies:
-      css-loader: 7.1.2(webpack@5.95.0)
+      css-loader: 6.11.0(webpack@5.95.0)
       sass-loader: 16.0.2(sass@1.79.4)(webpack@5.95.0)
       style-loader: 4.0.0(webpack@5.95.0)
     dev: true
@@ -8446,7 +8446,7 @@ packages:
       chownr: 1.1.4
       figgy-pudding: 3.5.2
       glob: 7.1.6
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
       infer-owner: 1.0.4
       lru-cache: 5.1.1
       mississippi: 3.0.0
@@ -9458,7 +9458,7 @@ packages:
     resolution: {integrity: sha512-0Cbj7gyvFVApzpK/uhCtQ/9kE9UnYpxMzaq5nQQC/Dh4iaj5fxp7iEFIullrYwzj8nf0qnsI1Qsx34hAeAebvw==}
     engines: {node: '>=8'}
     dependencies:
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
       make-dir: 3.1.0
       nested-error-stacks: 2.1.0
       p-event: 4.2.0
@@ -9629,12 +9629,12 @@ packages:
       webpack: 5.95.0
     dev: true
 
-  /css-loader@7.1.2(webpack@5.95.0):
-    resolution: {integrity: sha512-6WvYYn7l/XEGN8Xu2vWFt9nVzrCn39vKyTEFf/ExEyoksJjjSZV/0/35XPlMbpnr6VGhZIUg5yJrL8tGfes/FA==}
-    engines: {node: '>= 18.12.0'}
+  /css-loader@6.11.0(webpack@5.95.0):
+    resolution: {integrity: sha512-CTJ+AEQJjq5NzLga5pE39qdiSV56F8ywCIsqNIRF0r7BDgWsN25aazToqAFg7ZrtA/U016xudB3ffgweORxX7g==}
+    engines: {node: '>= 12.13.0'}
     peerDependencies:
       '@rspack/core': 0.x || 1.x
-      webpack: ^5.27.0
+      webpack: ^5.0.0
     peerDependenciesMeta:
       '@rspack/core':
         optional: true
@@ -9682,7 +9682,7 @@ packages:
     engines: {node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0}
     dependencies:
       mdn-data: 2.0.30
-      source-map-js: 1.0.2
+      source-map-js: 1.2.1
     dev: true
 
   /css-what@5.1.0:
@@ -9951,7 +9951,7 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       globby: 11.1.0
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
       is-glob: 4.0.3
       is-path-cwd: 2.2.0
       is-path-inside: 3.0.3
@@ -10342,7 +10342,7 @@ packages:
     resolution: {integrity: sha512-Nv9m36S/vxpsI+Hc4/ZGRs0n9mXqSWGGq49zxb/cJfPAQMbUtttJAlNPS4AQzaBdw/pKskw5bMbekT/Y7W/Wlg==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
       memory-fs: 0.5.0
       tapable: 1.1.3
     dev: true
@@ -11564,7 +11564,7 @@ packages:
   /fs-extra@0.30.0:
     resolution: {integrity: sha512-UvSPKyhMn6LEd/WpUaV9C9t3zATuqoqfWc3QdPhPLb58prN9tqYPlPWi8Krxi44loBoUzlobqZ3+8tGpxxSzwA==}
     dependencies:
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
       jsonfile: 2.4.0
       klaw: 1.3.1
       path-is-absolute: 1.0.1
@@ -11611,7 +11611,7 @@ packages:
   /fs-write-stream-atomic@1.0.10:
     resolution: {integrity: sha512-gehEzmPn2nAwr39eay+x3X34Ra+M2QlVUTLhkXPjWdeO8RF9kszk116avgBJM3ZyNHgHXBNx+VmPaFC36k0PzA==}
     dependencies:
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
       iferr: 0.1.5
       imurmurhash: 0.1.4
       readable-stream: 2.3.7
@@ -13824,7 +13824,7 @@ packages:
     engines: {node: '>= 10.14.2'}
     dependencies:
       '@types/node': 16.18.13
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
     dev: true
 
   /jest-snapshot@29.7.0:
@@ -14130,7 +14130,7 @@ packages:
   /jsonfile@2.4.0:
     resolution: {integrity: sha512-PKllAqbgLgxHaj8TElYymKCAgrASebJrWpTnEkOaTowt23VKXXN0sUeriJ+eh7y6ufb/CC5ap11pz71/cM0hUw==}
     optionalDependencies:
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
     dev: true
 
   /jsonfile@6.1.0:
@@ -14138,7 +14138,7 @@ packages:
     dependencies:
       universalify: 2.0.0
     optionalDependencies:
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
     dev: true
 
   /jsonparse@1.3.1:
@@ -14212,7 +14212,7 @@ packages:
   /klaw@1.3.1:
     resolution: {integrity: sha512-TED5xi9gGQjGpNnvRWknrwAB1eL5GciPfVFOt3Vk1OJCVDQbzuSfrF3hkUQKlsgKrG1F+0t5W0m+Fje1jIt8rw==}
     optionalDependencies:
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
     dev: true
 
   /kleur@3.0.3:
@@ -14472,7 +14472,7 @@ packages:
     engines: {node: '>=0.10.0'}
     requiresBuild: true
     dependencies:
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
       parse-json: 2.2.0
       pify: 2.3.0
       pinkie-promise: 2.0.1
@@ -14484,7 +14484,7 @@ packages:
     resolution: {integrity: sha512-Kx8hMakjX03tiGTLAIdJ+lL0htKnXjEZN6hk/tozf/WOuYGdZBJrZ+rCJRbVCugsjB3jMLn9746NsQIf5VjBMw==}
     engines: {node: '>=4'}
     dependencies:
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
       parse-json: 4.0.0
       pify: 3.0.0
       strip-bom: 3.0.0
@@ -15882,6 +15882,7 @@ packages:
   /normalize-path@2.1.1:
     resolution: {integrity: sha512-3pKJwH184Xo/lnH6oyP1q2pMd7HcypqqmRs91/6/i2CGtWwIKGCkOOMTm/zXbgTEWHw1uNpNi/igc3ePOYHb6w==}
     engines: {node: '>=0.10.0'}
+    requiresBuild: true
     dependencies:
       remove-trailing-separator: 1.1.0
     dev: true
@@ -16881,7 +16882,7 @@ packages:
     engines: {node: '>=0.10.0'}
     requiresBuild: true
     dependencies:
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
       pify: 2.3.0
       pinkie-promise: 2.0.1
     dev: true
@@ -16920,10 +16921,6 @@ packages:
 
   /picocolors@0.2.1:
     resolution: {integrity: sha512-cMlDqaLEqfSaW8Z7N5Jw+lyIW869EzT73/F5lhtY9cLGoVxSXznfgfXMO0Z5K0o0Q2TkTXq+0KFsdnSe3jDViA==}
-    dev: true
-
-  /picocolors@1.0.0:
-    resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}
     dev: true
 
   /picocolors@1.0.1:
@@ -17144,7 +17141,7 @@ packages:
     dependencies:
       icss-utils: 4.1.1
       postcss: 8.4.47
-      postcss-selector-parser: 6.0.11
+      postcss-selector-parser: 6.1.2
       postcss-value-parser: 4.2.0
     dev: true
 
@@ -17156,7 +17153,7 @@ packages:
     dependencies:
       icss-utils: 5.1.0(postcss@8.4.47)
       postcss: 8.4.47
-      postcss-selector-parser: 6.0.11
+      postcss-selector-parser: 6.1.2
       postcss-value-parser: 4.2.0
     dev: true
 
@@ -17168,7 +17165,7 @@ packages:
     dependencies:
       icss-utils: 5.1.0(postcss@8.4.47)
       postcss: 8.4.47
-      postcss-selector-parser: 6.0.11
+      postcss-selector-parser: 6.1.2
       postcss-value-parser: 4.2.0
     dev: true
 
@@ -17177,7 +17174,7 @@ packages:
     engines: {node: '>= 6'}
     dependencies:
       postcss: 8.4.47
-      postcss-selector-parser: 6.0.11
+      postcss-selector-parser: 6.1.2
     dev: true
 
   /postcss-modules-scope@3.0.0(postcss@8.4.47):
@@ -17187,7 +17184,7 @@ packages:
       postcss: '>=8.4.31'
     dependencies:
       postcss: 8.4.47
-      postcss-selector-parser: 6.0.11
+      postcss-selector-parser: 6.1.2
     dev: true
 
   /postcss-modules-scope@3.2.0(postcss@8.4.47):
@@ -17197,7 +17194,7 @@ packages:
       postcss: '>=8.4.31'
     dependencies:
       postcss: 8.4.47
-      postcss-selector-parser: 6.0.11
+      postcss-selector-parser: 6.1.2
     dev: true
 
   /postcss-modules-values@3.0.0:
@@ -17248,14 +17245,6 @@ packages:
       postcss: '>=8.4.31'
     dependencies:
       postcss: 8.4.47
-    dev: true
-
-  /postcss-selector-parser@6.0.11:
-    resolution: {integrity: sha512-zbARubNdogI9j7WY4nQJBiNqQf3sLS3wCP4WfOidu+p28LofJqDH1tcXypGrcmMHhDk2t9wGhCsYe/+szLTy1g==}
-    engines: {node: '>=4'}
-    dependencies:
-      cssesc: 3.0.0
-      util-deprecate: 1.0.2
     dev: true
 
   /postcss-selector-parser@6.1.2:
@@ -18243,7 +18232,7 @@ packages:
     engines: {node: '>=0.10'}
     requiresBuild: true
     dependencies:
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
       micromatch: 3.1.10
       readable-stream: 2.3.7
     transitivePeerDependencies:
@@ -18453,6 +18442,7 @@ packages:
 
   /remove-trailing-separator@1.1.0:
     resolution: {integrity: sha512-/hS+Y0u3aOfIETiaiirUFwDBDzmXPvO+jAfKTitUngIPzdKc6Z0LoFjM/CK5PL4C+eKwHohlHAb6H0VFfmmUsw==}
+    requiresBuild: true
     dev: true
 
   /renderkid@2.0.7:
@@ -18753,7 +18743,7 @@ packages:
     dependencies:
       chokidar: 4.0.1
       immutable: 4.0.0
-      source-map-js: 1.0.2
+      source-map-js: 1.2.1
     dev: true
 
   /sax@1.2.1:
@@ -19191,11 +19181,6 @@ packages:
 
   /source-list-map@2.0.1:
     resolution: {integrity: sha512-qnQ7gVMxGNxsiL4lEuJwe/To8UnK7fAnmbGEEH8RpLouuKbeEm0lhbQVFIrNSuB+G7tVrAlVsZgETT5nljf+Iw==}
-    dev: true
-
-  /source-map-js@1.0.2:
-    resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}
-    engines: {node: '>=0.10.0'}
     dev: true
 
   /source-map-js@1.2.1:
@@ -20703,7 +20688,7 @@ packages:
     dependencies:
       browserslist: 4.21.5
       escalade: 3.1.1
-      picocolors: 1.0.0
+      picocolors: 1.1.0
     dev: true
 
   /update-browserslist-db@1.1.0(browserslist@4.23.3):
@@ -20714,7 +20699,7 @@ packages:
     dependencies:
       browserslist: 4.23.3
       escalade: 3.1.2
-      picocolors: 1.0.1
+      picocolors: 1.1.0
     dev: true
 
   /update-section@0.3.3:
@@ -20994,7 +20979,7 @@ packages:
   /watchpack@1.7.5:
     resolution: {integrity: sha512-9P3MWk6SrKjHsGkLT2KHXdQ/9SNkyoJbabxnKOoJepsvJjJG8uYTR3yTPxPQvNDI3w4Nz1xnE0TLHK4RIVe/MQ==}
     dependencies:
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
       neo-async: 2.6.2
     optionalDependencies:
       chokidar: 3.4.3
@@ -21008,7 +20993,7 @@ packages:
     engines: {node: '>=10.13.0'}
     dependencies:
       glob-to-regexp: 0.4.1
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
     dev: true
 
   /watchpack@2.4.2:
@@ -21336,7 +21321,7 @@ packages:
   /write-file-atomic@2.4.3:
     resolution: {integrity: sha512-GaETH5wwsX+GcnzhPgKcKjJ6M2Cq3/iZp1WyY/X1CSqrW+jVNM9Y7D8EC2sM4ZG/V8wZlSniJnCKWPmBYAucRQ==}
     dependencies:
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
       imurmurhash: 0.1.4
       signal-exit: 3.0.7
     dev: true
