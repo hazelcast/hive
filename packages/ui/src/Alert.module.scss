@@ -124,6 +124,7 @@
 
         &:hover,
         &.hover {
+          /* doiuse-disable text-decoration */
           text-decoration: underline solid;
         }
 

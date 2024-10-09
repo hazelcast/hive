@@ -1,8 +1,10 @@
+import { dirname, join } from 'path'
 const path = require('path')
 
 module.exports = {
-  stories: ['../**/*.stories.@(tsx|mdx)'],
+  stories: ['../**/*.@(mdx|stories.@(tsx))'],
   staticDirs: ['../assets', '../styles'],
+
   addons: [
     {
       name: '@storybook/preset-scss',
@@ -14,9 +16,12 @@ module.exports = {
         },
       },
     },
-    'storybook-addon-designs',
-    '@storybook/addon-docs',
+    getAbsolutePath('storybook-addon-designs'),
+    getAbsolutePath('@storybook/addon-docs'),
+    getAbsolutePath('@storybook/addon-mdx-gfm'),
+    getAbsolutePath('@storybook/addon-webpack5-compiler-babel'),
   ],
+
   webpackFinal: async (config) => {
     config.module.rules = [
       ...config.module.rules,
@@ -48,6 +53,7 @@ module.exports = {
 
     return config
   },
+
   typescript: {
     check: false,
     checkOptions: {},
@@ -57,7 +63,17 @@ module.exports = {
       propFilter: (prop) => (prop.parent ? !/node_modules/.test(prop.parent.fileName) : true),
     },
   },
-  core: {
-    builder: 'webpack5',
+
+  framework: {
+    name: getAbsolutePath('@storybook/react-webpack5'),
+    options: {},
   },
+
+  docs: {
+    autodocs: true,
+  },
+}
+
+function getAbsolutePath(value) {
+  return dirname(require.resolve(join(value, 'package.json')))
 }
