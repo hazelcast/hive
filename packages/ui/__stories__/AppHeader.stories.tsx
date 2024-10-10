@@ -118,3 +118,50 @@ export const WithoutMenu = () => {
     />
   )
 }
+
+export const WithoutMenuAndWithAsideContent = () => {
+  const [cluster, setCluster] = useState<string | null>(null)
+
+  return (
+    <AppHeaderComponent
+      name="Management Center"
+      clusterSelectProps={{
+        clusterName: cluster,
+        clusterNames: ['Cluster-1', 'Cluster-2'],
+        clusterVersions: { 'Cluster-1': '5.5', 'Cluster-2': '6.0', 'Cluster-3': '3.1.2' },
+        onChange: setCluster,
+      }}
+      logoProps={{
+        LinkComponent: ({ children, className }) => <span className={className}>{children}</span>,
+      }}
+      asideContent={<Button>Link</Button>}
+      menuContent={() => (
+        <>
+          <Button color="light" variant="text">
+            Item 1
+          </Button>
+        </>
+      )}
+    />
+  )
+}
+
+export const WithAsideContent = () => {
+  const [cluster, setCluster] = useState<string | null>(null)
+
+  return (
+    <AppHeaderComponent
+      name="Management Center"
+      clusterSelectProps={{
+        clusterName: cluster,
+        clusterNames: ['Cluster-1', 'Cluster-2'],
+        clusterVersions: { 'Cluster-1': '5.5', 'Cluster-2': '6.0', 'Cluster-3': '3.1.2' },
+        onChange: setCluster,
+      }}
+      asideContent={<Button>Link</Button>}
+      logoProps={{
+        LinkComponent: ({ children, className }) => <span className={className}>{children}</span>,
+      }}
+    />
+  )
+}

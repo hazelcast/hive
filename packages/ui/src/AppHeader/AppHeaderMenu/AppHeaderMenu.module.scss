@@ -1,5 +1,14 @@
 @use '../../../styles/constants' as c;
 
+.root {
+  display: flex;
+  align-items: center;
+}
+
+.separator {
+  border-left: 1px solid c.$colorNeutralLight;
+}
+
 .content {
   padding: c.$grid * 2;
   color: c.$colorNeutralLighter;

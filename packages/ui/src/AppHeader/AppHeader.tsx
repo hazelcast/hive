@@ -13,6 +13,7 @@ export interface AppHeaderProps extends DataTestProp {
   name: ReactNode
   className?: string
   children?: ReactNode
+  asideContent?: ReactNode
   environment?: 'production'
   logoProps: AppHeaderLogoProps
   clusterSelectProps?: SelectClusterProps
@@ -27,6 +28,7 @@ export const AppHeader = ({
   clusterSelectProps,
   logoProps,
   menuContent,
+  asideContent,
   'data-test': dataTest = 'app-header',
 }: AppHeaderProps) => (
   <header data-test={dataTest} className={cls(styles.root, className)}>
@@ -35,6 +37,9 @@ export const AppHeader = ({
     {clusterSelectProps && <SelectCluster {...clusterSelectProps} />}
     {children}
     {environment && <EnvironmentBadge environment={environment} />}
-    <div className={styles.aside}>{menuContent && <AppHeaderMenu>{menuContent}</AppHeaderMenu>}</div>
+    <div className={styles.aside}>
+      {asideContent}
+      {menuContent && <AppHeaderMenu separator={!!asideContent}>{menuContent}</AppHeaderMenu>}
+    </div>
   </header>
 )
