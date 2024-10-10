@@ -44,13 +44,6 @@ $lineHeightBodyTiny: normal !default;
   @return '';
 }
 
-@mixin typographyH1Hero($override: false) {
-  font-weight: $fontWeightHeadingRegular #{override($override)};
-  font-size: $fontSizeH4 #{override($override)};
-  letter-spacing: $letterSpacingH4 #{override($override)};
-  line-height: $lineHeightH4 #{override($override)};
-}
-
 @mixin typographyH1($override: false) {
   font-weight: $fontWeightHeadingRegular #{override($override)};
   font-size: $fontSizeH1 #{override($override)};

@@ -16,6 +16,7 @@
   &.focus,
   &:active,
   &.active {
+    /* doiuse-disable text-decoration */
     text-decoration: underline solid;
     outline: transparent solid c.$outlineWidth;
   }

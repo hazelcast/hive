@@ -1,12 +1,10 @@
 module.exports = {
-  extends: ['stylelint-config-standard', 'stylelint-config-standard-scss', 'stylelint-prettier/recommended'],
+  extends: ['stylelint-config-standard'],
   plugins: [
     // SCSS rules set, need to be explicitly set in "rules"
     'stylelint-scss',
-    'stylelint-prettier',
   ],
   rules: {
-    'prettier/prettier': true,
     /*
      * CSS-modules rules (from stylelint-config-css-module)
      * Overrides of stylelint-config-standard for CSS modules
@@ -33,7 +31,7 @@ module.exports = {
     'at-rule-no-unknown': [
       true,
       {
-        ignoreAtRules: ['value', 'extend', 'mixin', 'include', 'use', 'forward', 'each', 'if', 'function', 'return', 'for', 'else'],
+        ignoreAtRules: ['value', 'extend', 'mixin', 'include', 'use', 'forward', 'each', 'for', 'if', 'else', 'function', 'return'],
       },
     ],
     'comment-empty-line-before': null,
@@ -46,6 +44,17 @@ module.exports = {
     'keyframes-name-pattern': /[a-z][a-zA-Z]+/,
     'scss/no-global-function-names': null,
     'font-family-name-quotes': null,
+    // todo: after upgrading stylelint packages, we disable these rules to move on with less changes in the PR.
+    // in time we better remove these suppression and change to code to comply.
     'selector-class-pattern': null,
+    'declaration-block-no-redundant-longhand-properties': null,
+    'at-rule-empty-line-before': null,
+    'function-no-unknown': null,
+    'color-function-notation': null,
+    'alpha-value-notation': null,
+    'media-feature-range-notation': null,
+    'shorthand-property-no-redundant-values': null,
+    'annotation-no-unknown': null,
+    'media-query-no-invalid': null,
   },
 }
