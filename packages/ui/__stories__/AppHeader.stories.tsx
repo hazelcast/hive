@@ -135,13 +135,6 @@ export const WithoutMenuAndWithAsideContent = () => {
         LinkComponent: ({ children, className }) => <span className={className}>{children}</span>,
       }}
       asideContent={<Button>Link</Button>}
-      menuContent={() => (
-        <>
-          <Button color="light" variant="text">
-            Item 1
-          </Button>
-        </>
-      )}
     />
   )
 }
@@ -162,6 +155,13 @@ export const WithAsideContent = () => {
       logoProps={{
         LinkComponent: ({ children, className }) => <span className={className}>{children}</span>,
       }}
+      menuContent={() => (
+        <>
+          <Button color="light" variant="text">
+            Item 1
+          </Button>
+        </>
+      )}
     />
   )
 }
