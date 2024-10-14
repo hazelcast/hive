@@ -1,3 +1,4 @@
+@use 'sass:color';
 @use '../../styles/constants' as c;
 @use '../../styles/helpers' as h;
 
@@ -27,7 +28,7 @@
   }
 
   &.selected {
-    background: lighten((c.$colorPrimary), 30) !important;
+    background: color.adjust(c.$colorPrimary, $lightness: 30%) !important;
   }
 
   &:not(:last-of-type) {

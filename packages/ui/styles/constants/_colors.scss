@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 // https://zeroheight.com/11d0e6dac/p/594529--colors
 $colorPrimaryLight: #2d7de4 !default;
 $colorPrimary: #2160c0 !default;
@@ -8,16 +10,16 @@ $colorNeutralLight: #b7c1cb !default;
 $colorNeutral: #dbdbdb !default;
 $colorSuccess: #85da66 !default;
 $colorSuccessLight: #d5f0d1 !default;
-$colorSuccessDark: darken($colorSuccess, 10%) !default;
+$colorSuccessDark: color.adjust($colorSuccess, $lightness: -10%) !default;
 $colorInfo: #76e7e7 !default;
 $colorInfoLight: #d0f4f8 !default;
-$colorInfoDark: darken($colorInfo, 10%) !default;
+$colorInfoDark: color.adjust($colorInfo, $lightness: -10%) !default;
 $colorWarning: #ffec44 !default;
 $colorWarningLight: #f9f6c7 !default;
-$colorWarningDark: darken($colorWarning, 15%) !default;
+$colorWarningDark: color.adjust($colorWarning, $lightness: -15%) !default;
 $colorError: #dc084b !default;
 $colorErrorLight: #efb1c9 !default;
-$colorErrorDark: darken($colorError, 10%) !default;
+$colorErrorDark: color.adjust($colorError, $lightness: -10%) !default;
 $colorText: #061827 !default;
 $colorTextSecondary: #707482 !default;
 $colorTextSubdued: #69707d !default;

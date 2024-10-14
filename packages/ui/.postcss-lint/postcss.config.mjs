@@ -1,5 +1,6 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-const doiuse = require('doiuse')
+import doiuse from 'doiuse'
+import stylelint from 'stylelint'
+import postcssReporter from 'postcss-reporter'
 
 const browsers = ['last 2 Chrome version', 'last 2 Firefox version', 'last 1 Safari version', 'last 1 Edge version']
 
@@ -10,14 +11,12 @@ const browsers = ['last 2 Chrome version', 'last 2 Firefox version', 'last 1 Saf
  * Postcss-cli does not allow config argument override, what it does
  * allow is specifying an alternate config path, hence this location
  */
-module.exports = {
+export default {
   syntax: 'postcss-scss',
   plugins: [
-    // eslint-disable-next-line
-    require('stylelint'),
+    stylelint,
     doiuse({
       browsers,
-      //These problems are taken case of by 'autoprefixer'
       ignore: [
         // Autoprefixer takes care of flex
         'flexbox',
@@ -25,10 +24,12 @@ module.exports = {
         'outline',
         // The problem is "vmax", which doiuse can' detect
         'viewport-units',
+        // Rules are not compatible with scss
+        'css-nesting',
+        'css-when-else',
       ],
-      ignoreFiles: ['**/node_modules/**/*.css', '**/node_modules/**/*.scss', '**/coverage/**/*', '**/lib/**/*'],
+      ignoreFiles: ['**/lib/**', '**/storybook-static/**', '**/node_modules/**/*.css', '**/node_modules/**/*.scss'],
     }),
-    // eslint-disable-next-line
-    require('postcss-reporter')({ throwError: true }),
+    postcssReporter({ throwError: true }),
   ],
 }
