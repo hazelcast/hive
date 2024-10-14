@@ -256,7 +256,7 @@
       &.hover,
       &:focus-visible,
       &.focus {
-        @include buttonColor(lighten(c.$brandColorText, 10%));
+        @include buttonColor(color.adjust(c.$brandColorText, $lightness: 10%));
       }
 
       &:active,
