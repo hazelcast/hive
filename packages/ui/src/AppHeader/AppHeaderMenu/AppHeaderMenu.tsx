@@ -1,5 +1,6 @@
 import React, { ReactNode, useState } from 'react'
 import { Menu as MenuIcon } from 'react-feather'
+import cn from 'classnames'
 
 import { Button } from '../../Button'
 import { Popover } from '../../Popover'
@@ -8,15 +9,16 @@ import { useOpenCloseState } from '../../hooks'
 import styles from './AppHeaderMenu.module.scss'
 
 export interface AppHeaderMenuProps {
+  separator?: boolean
   children: (props: { onClose: () => void }) => ReactNode
 }
 
-export const AppHeaderMenu = ({ children }: AppHeaderMenuProps) => {
+export const AppHeaderMenu = ({ separator, children }: AppHeaderMenuProps) => {
   const [anchorElement, setAnchorElement] = useState<HTMLElement | null>()
   const { isOpen, toggle, close } = useOpenCloseState()
 
   return (
-    <>
+    <div className={cn(styles.root, { [styles.separator]: separator })}>
       <Button
         variant="text"
         color="light"
@@ -34,6 +36,6 @@ export const AppHeaderMenu = ({ children }: AppHeaderMenuProps) => {
       <Popover open={isOpen} anchorElement={anchorElement} onClose={close} className={styles.content}>
         {children({ onClose: close })}
       </Popover>
-    </>
+    </div>
   )
 }

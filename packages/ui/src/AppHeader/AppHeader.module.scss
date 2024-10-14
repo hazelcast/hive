@@ -22,5 +22,8 @@
 }
 
 .aside {
+  display: flex;
+  align-items: center;
   margin-left: auto;
+  gap: c.$grid * 4;
 }
