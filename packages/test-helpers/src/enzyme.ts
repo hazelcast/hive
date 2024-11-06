@@ -1,23 +1,11 @@
 import { MountRendererProps, mount as mountEnzyme, ReactWrapper } from 'enzyme'
-import { axe, JestAxe, toHaveNoViolations } from 'jest-axe'
+import { axe, toHaveNoViolations } from 'jest-axe'
 import { ReactElement } from 'react'
 import { act } from 'react-dom/test-utils'
 
-expect.extend(toHaveNoViolations)
+import { axeDefaultOptions, AxeOptions } from './axe'
 
-type AxeOptions = Parameters<JestAxe>[1]
-export const axeDefaultOptions: AxeOptions = {
-  rules: {
-    // We are testing small units. They might not contain landmarks
-    region: {
-      enabled: false,
-    },
-    // We are using chrome-off for SelectField
-    'autocomplete-valid': { enabled: false },
-    // TODO: Fix later
-    'aria-tooltip-name': { enabled: false },
-  },
-}
+expect.extend(toHaveNoViolations)
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let getAxeNodeDefault: (wrapper: ReactWrapper<any>) => Element = () => document.body
