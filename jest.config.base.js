@@ -1,7 +1,7 @@
 module.exports = {
   roots: ['<rootDir>'],
   testEnvironment: 'jsdom',
-  transformIgnorePatterns: ['node_modules/(?!@hazelcast)'],
+  transformIgnorePatterns: ['node_modules/(?!(\\.pnpm|@hazelcast))'],
   transform: {
     '\\.[jt]sx?$': 'babel-jest',
   },

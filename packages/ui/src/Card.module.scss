@@ -3,16 +3,51 @@
 .wrapper {
   $padding: c.$grid * 5;
 
-  padding: $padding;
-  border-radius: c.$borderRadius;
   background: c.$colorNeutralWhite;
-  border: c.$borderWidth solid c.$colorNeutral;
+
+  &.bordered {
+    padding: $padding;
+    border-radius: c.$borderRadius;
+    border: c.$borderWidth solid c.$colorNeutral;
+
+    .heading {
+      @include c.typographyH3;
+
+      display: flex;
+      align-items: center;
+      margin: 0;
+
+      .icon {
+        margin-right: c.$grid * 2.5;
+      }
+
+      .title {
+        margin: 0;
+        font-size: c.$fontSizeBodyNormal !important;
+        line-height: c.$lineHeightBodyNormal !important;
+
+        &.space {
+          margin-right: c.$grid * 2.5;
+        }
+      }
+    }
+
+    .content {
+      @include c.typographyBodyNormal;
+
+      margin-top: c.$grid * 4;
+      padding: 0;
+    }
+
+    .caption {
+      margin: (-$padding) (-$padding) $padding;
+    }
+  }
 
   .heading {
-    @include c.typographyH3;
-
     display: flex;
     align-items: center;
+    margin-bottom: c.$grid * 5;
 
     .icon {
       margin-right: c.$grid * 2.5;
@@ -20,8 +55,6 @@
 
     .title {
       margin: 0;
-      font-size: c.$fontSizeBodyNormal !important;
-      line-height: c.$lineHeightBodyNormal !important;
 
       &.space {
         margin-right: c.$grid * 2.5;
@@ -37,9 +70,8 @@
   }
 
   .content {
+    padding-top: c.$grid * 6;
     @include c.typographyBodyNormal;
-
-    margin-top: c.$grid * 4;
   }
 
   &.noTitle {
@@ -50,7 +82,7 @@
 
   .caption {
     display: flex;
-    margin: (-$padding) (-$padding) $padding;
+    margin-bottom: $padding;
 
     & > * {
       flex: 1;

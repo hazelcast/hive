@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react'
+import React, { ElementType, FC, ReactNode } from 'react'
 import cn from 'classnames'
 import { DataTestProp } from '@hazelcast/helpers'
 
@@ -10,8 +10,10 @@ export type CardProps = {
   headingIcon?: IconProps['icon']
   caption?: ReactNode
   title?: string
+  titleTagName?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
   headingContent?: ReactNode
   separator?: boolean
+  variant?: 'bordered' | 'default'
   children: ReactNode
   className?: string
   iconClassName?: string
@@ -19,6 +21,13 @@ export type CardProps = {
   contentClassName?: string
   headerClassName?: string
 } & DataTestProp
+
+interface TitleProps {
+  as: ElementType
+  className?: string
+  children?: ReactNode
+}
+const Title: FC<TitleProps> = ({ as: Tag, ...props }) => <Tag data-test="card-heading-title" {...props} />
 
 /**
  * ### Purpose
@@ -32,8 +41,10 @@ export const Card: FC<CardProps> = ({
   title,
   headingContent,
   separator = false,
+  variant = 'default',
   'data-test': dataTest,
   children,
+  titleTagName = 'h2',
   className,
   iconClassName,
   titleClassName,
@@ -41,15 +52,18 @@ export const Card: FC<CardProps> = ({
   headerClassName,
   caption,
 }) => (
-  <div data-test={dataTest ?? 'card-wrapper'} className={cn(styles.wrapper, { [styles.noTitle]: !title }, className)}>
+  <div
+    data-test={dataTest ?? 'card-wrapper'}
+    className={cn(styles.wrapper, { [styles.noTitle]: !title, [styles.bordered]: variant === 'bordered' }, className)}
+  >
     {caption && <div className={styles.caption}>{caption}</div>}
     {(title || headingContent || headingIcon) && (
       <div data-test="card-heading" className={cn(styles.heading, headerClassName)}>
         {headingIcon && <Icon data-test="card-heading-icon" icon={headingIcon} className={cn(styles.icon, iconClassName)} ariaHidden />}
         {title && (
-          <h3 data-test="card-heading-title" className={cn(styles.title, { [styles.space]: !!headingContent }, titleClassName)}>
+          <Title as={titleTagName} className={cn(styles.title, { [styles.space]: !!headingContent }, titleClassName)}>
             {title}
-          </h3>
+          </Title>
         )}
         {headingContent}
       </div>
