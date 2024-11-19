@@ -1,10 +1,8 @@
 import React from 'react'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { act } from 'react-dom/test-utils'
+import { mountAndCheckA11Y, axeDefaultOptions } from '@hazelcast/test-helpers'
 
 import { Card, Carousel } from '../src'
-
-import { axeDefaultOptions } from '@hazelcast/test-helpers/src'
-import { act } from 'react-dom/test-utils'
 
 describe('Carousel', () => {
   const contentCarousel = [<Card key={1}>Item1</Card>, <Card key={2}>Item2</Card>, <Card key={3}>Item3</Card>]

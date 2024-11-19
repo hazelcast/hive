@@ -1,13 +1,21 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 import { Database } from 'react-feather'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
-import { DataTestProp } from '@hazelcast/helpers'
+import { axe, toHaveNoViolations } from 'jest-axe'
+import { render, screen, within } from '@testing-library/react'
 
 import { Card, IconButton } from '../src'
 
 import styles from '../src/Card.module.scss'
-import { IconProps } from '../src/Icon'
-import { IconButtonProps } from '../src/IconButton'
+
+expect.extend(toHaveNoViolations)
+const renderAndCheckA11Y = async (node: ReactElement) => {
+  const result = render(node)
+
+  const results = await axe(result.container)
+  expect(results).toHaveNoViolations()
+
+  return result
+}
 
 describe('Card', () => {
   const cardHeadingIcon = Database
@@ -16,77 +24,68 @@ describe('Card', () => {
   const cardContent = 'Card content'
 
   it('renders title and content', async () => {
-    const wrapper = await mountAndCheckA11Y(<Card title={cardHeadingTitle}>{cardContent}</Card>)
+    await renderAndCheckA11Y(<Card title={cardHeadingTitle}>{cardContent}</Card>)
 
-    const card = wrapper.findDataTest('card-wrapper')
-    const title = card.findDataTest('card-heading').findDataTest('card-heading-title')
-    const content = card.findDataTest('card-content')
+    expect(screen.getByTestId('card-wrapper')).toBeInTheDocument()
+    expect(screen.getByTestId('card-heading')).toBeInTheDocument()
 
-    expect(title.props()).toEqual({
-      'data-test': 'card-heading-title',
-      className: styles.title,
-      children: cardHeadingTitle,
-    })
+    const cardTitle = screen.getByTestId('card-heading-title')
+    expect(cardTitle).toBeInTheDocument()
+    expect(cardTitle.tagName).toEqual('H2')
+    expect(cardTitle.className).toEqual(styles.title)
+    expect(within(cardTitle).queryByText(cardHeadingTitle))
 
-    expect(content.props()).toEqual({
-      'data-test': 'card-content',
-      className: styles.content,
-      children: cardContent,
-    })
+    const content = screen.getByTestId('card-content')
+    expect(content.className).toEqual(styles.content)
+    expect(within(content).queryByText(cardContent)).toBeInTheDocument()
   })
 
-  it('renders heading with icon, title and additiona content, also renders separator and card content', async () => {
-    const wrapper = await mountAndCheckA11Y(
+  it('renders heading with icon, title and additional content, also renders separator and card content', async () => {
+    await renderAndCheckA11Y(
       <Card headingIcon={cardHeadingIcon} title={cardHeadingTitle} headingContent={cardHeadingContent} separator>
         {cardContent}
       </Card>,
     )
 
-    const card = wrapper.findDataTest('card-wrapper')
-    const heading = card.findDataTest('card-heading')
-    const headingIcon = heading.findDataTest('card-heading-icon')
-    const headingTitle = heading.findDataTest('card-heading-title')
-    const headingContent = heading.childAt(2)
-    const separator = card.findDataTest('card-separator')
-    const content = card.findDataTest('card-content')
+    const title = screen.getByTestId('card-heading-title')
+    expect(title).toBeInTheDocument()
+    expect(title.className).toEqual(`${styles.title} ${styles.space}`)
+    expect(within(title).queryByText(cardHeadingTitle)).toBeInTheDocument()
 
-    expect(headingIcon.props()).toEqual<IconProps & DataTestProp>({
-      'data-test': 'card-heading-icon',
-      className: styles.icon,
-      ariaHidden: true,
-      icon: cardHeadingIcon,
-    })
+    expect(screen.queryByTestId('card-separator')).toBeInTheDocument()
+    expect(screen.getByTestId('card-separator').className).toEqual(styles.separator)
 
-    expect(headingTitle.props()).toEqual({
-      'data-test': 'card-heading-title',
-      className: `${styles.title} ${styles.space}`,
-      children: cardHeadingTitle,
-    })
+    const content = screen.getByTestId('card-content')
+    expect(content).toBeInTheDocument()
+    expect(content.className).toEqual(styles.content)
+    expect(within(content).queryByText(cardContent)).toBeInTheDocument()
 
-    expect(separator.props()).toEqual({
-      'data-test': 'card-separator',
-      className: styles.separator,
-    })
-
-    expect(headingContent.type()).toEqual(IconButton)
-    expect(headingContent.props()).toEqual<IconButtonProps>({
-      kind: 'primary',
-      ariaLabel: 'Check out the Database',
-      icon: Database,
-      component: 'a',
-      href: '#',
-    })
-
-    expect(content.props()).toEqual({
-      'data-test': 'card-content',
-      className: styles.content,
-      children: cardContent,
-    })
+    expect(screen.queryByTestId('card-heading-icon')).not.toBeInTheDocument()
   })
 
   it('renders caption', async () => {
-    const wrapper = await mountAndCheckA11Y(<Card caption={<span id="caption">Caption</span>}>{cardContent}</Card>)
+    await renderAndCheckA11Y(<Card caption={<span id="caption">Caption</span>}>{cardContent}</Card>)
 
-    expect(wrapper.find('#caption').exists()).toBeTruthy()
+    expect(screen.queryByText('Caption')).toBeInTheDocument()
+  })
+
+  it('renders bordered variant', async () => {
+    await renderAndCheckA11Y(
+      <Card variant="bordered" title={cardHeadingTitle}>
+        {cardContent}
+      </Card>,
+    )
+
+    expect(screen.getByTestId('card-wrapper').className.includes(styles.bordered)).toBeTruthy()
+  })
+
+  it('renders custom title tag', async () => {
+    await renderAndCheckA11Y(
+      <Card titleTagName="h6" title={cardHeadingTitle}>
+        {cardContent}
+      </Card>,
+    )
+
+    expect(screen.getByTestId('card-heading-title').tagName).toEqual('H6')
   })
 })

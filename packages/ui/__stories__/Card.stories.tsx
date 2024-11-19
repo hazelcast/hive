@@ -24,7 +24,12 @@ export default {
 } as Meta<CardProps>
 
 const Template: Story<CardProps> = (args) => {
-  return <Card {...args} />
+  return (
+    <>
+      <Card {...args} />
+      <Card variant="bordered" {...args} />
+    </>
+  )
 }
 
 export const Simple = Template.bind({})
