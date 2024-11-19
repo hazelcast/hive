@@ -44,6 +44,7 @@ export type TooltipProps = {
   padding?: number
   placement?: Placement
   visible?: boolean
+  className?: string
   hoverAbleTooltip?: boolean
   children: (
     ref: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
@@ -92,6 +93,7 @@ export const Tooltip: FC<TooltipProps> = ({
   zIndex = 20,
   arrow = true,
   color,
+  className,
 }) => {
   const [isShown, setShown] = useState<boolean>(false)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
@@ -226,7 +228,7 @@ export const Tooltip: FC<TooltipProps> = ({
 
       {content !== undefined && (
         <>
-          <span {...(id && { id })} className={styles.tooltipSr} role="tooltip" data-test="tooltip-sr">
+          <span {...(id && { id })} className={cn(styles.tooltipSr, className)} role="tooltip" data-test="tooltip-sr">
             {content}
           </span>
           {tooltipPortalContainer &&
@@ -240,6 +242,7 @@ export const Tooltip: FC<TooltipProps> = ({
                       [styles.hidden]: !isTooltipVisible,
                     },
                     color && [styles[color]],
+                    className,
                   )}
                   style={{ ...popper.styles.popper, ...{ zIndex: context ? zIndex + 1 : zIndex }, wordBreak }}
                   data-test="tooltip-overlay"

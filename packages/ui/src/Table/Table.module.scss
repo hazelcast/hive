@@ -4,6 +4,8 @@
 .container {
   display: block;
   overflow-x: auto;
+  border: c.$borderWidth solid #d4d4d4;
+  border-radius: c.$borderRadius;
 
   &.spaceBottom {
     margin-bottom: c.$grid * 2;

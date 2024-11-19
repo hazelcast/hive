@@ -1,30 +1,5 @@
 import { Person } from './utils'
 
-// Generated using namor: https://github.com/jsonmaur/namor,
-// with help of the following code:
-//
-// const newPerson = (id: number): Person => {
-//   const statusChance = Math.random()
-//   return {
-//     name: `${namor.generate({
-//       words: 1,
-//       saltLength: 0,
-//     })} ${namor.generate({
-//       words: 1,
-//       saltLength: 0,
-//       subset: 'manly',
-//     })}`,
-//     id: id,
-//     age: Math.floor((Math.random() + 0.01) * 40),
-//     visits: Math.floor(Math.random() * 100),
-//     status: statusChance > 0.66 ? 'relationship' : statusChance > 0.33 ? 'complicated' : 'single',
-//   }
-// }
-//
-// const makeData = (length: number): Person[] => range(1, length).map((id) => newPerson(id))
-//
-// makeData(1000)
-
 export const bigDataSet: Person[] = [
   {
     name: 'event strap',
