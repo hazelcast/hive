@@ -35,12 +35,6 @@
     @include c.typographyBodyNormal;
   }
 
-  &.noTitle {
-    .content {
-      margin-top: 0;
-    }
-  }
-
   .caption {
     display: flex;
     margin-bottom: $padding;
@@ -86,6 +80,13 @@
 
     .caption {
       margin: (-$padding) (-$padding) $padding;
+    }
+  }
+
+  &.noTitle {
+    .content {
+      margin-top: 0;
+      padding-top: 0;
     }
   }
 }
