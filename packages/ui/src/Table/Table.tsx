@@ -408,7 +408,7 @@ export const Table = <D extends object>({
     previousPage,
     setPageSize,
     // Get the state from the instance
-    state: { pageIndex, pageSize, sortBy, columnResizing, selectedRowIds },
+    state: { pageIndex, pageSize, sortBy, columnResizing, selectedRowIds, hiddenColumns },
     setGlobalFilter,
     setColumnOrder,
   } = tableInstance
@@ -528,6 +528,13 @@ export const Table = <D extends object>({
   const cellIndexOffset = pageSize * pageIndex + headerIndex
   // Total row count.
   const rowCount = data.length + headerIndex + (hasFooter ? 1 : 0)
+  const contentColumns = useMemo(() => {
+    if (!hiddenColumns || hiddenColumns.length === 0) {
+      return columns
+    }
+
+    return columns.filter((col) => hiddenColumns?.includes((col.id || col.Header) as string))
+  }, [columns, hiddenColumns])
 
   const content = (
     <>
@@ -591,7 +598,7 @@ export const Table = <D extends object>({
                   page={page}
                   onCopy={onCopy}
                   getHref={getHref}
-                  columns={columns}
+                  columns={contentColumns}
                   rootRef={setContextMenuAnchorEl}
                   {...columnsSelectionProps}
                   onRowClick={onRowClick}
