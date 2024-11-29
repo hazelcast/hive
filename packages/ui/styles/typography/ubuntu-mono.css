@@ -3,7 +3,7 @@
   font-style: normal;
   font-display: swap;
   font-weight: 400;
-  src: url('./fonts/UbuntuMono-Regular.ttf') format('ttf');
+  src: url('./fonts/UbuntuMono-Regular.woff2') format('woff2');
 }
 
 @font-face {
@@ -11,7 +11,7 @@
   font-style: italic;
   font-display: swap;
   font-weight: 400;
-  src: url('./fonts/UbuntuMono-Italic.ttf') format('ttf');
+  src: url('./fonts/UbuntuMono-Italic.woff2') format('woff2');
 }
 
 @font-face {
@@ -19,7 +19,7 @@
   font-style: normal;
   font-display: swap;
   font-weight: 500;
-  src: url('./fonts/UbuntuMono-Bold.ttf') format('ttf');
+  src: url('./fonts/UbuntuMono-Bold.woff2') format('woff2');
 }
 
 @font-face {
@@ -27,5 +27,5 @@
   font-style: italic;
   font-display: swap;
   font-weight: 500;
-  src: url('./fonts/UbuntuMono-BoldItalic.ttf') format('ttf');
+  src: url('./fonts/UbuntuMono-BoldItalic.woff2') format('woff2');
 }
