@@ -45,13 +45,6 @@ $padding: c.$grid * 5;
   }
 }
 
-.noTitle {
-  .content {
-    margin-top: 0;
-    padding-top: 0;
-  }
-}
-
 .bordered {
   padding: $padding;
   border-radius: c.$borderRadius;
@@ -88,5 +81,12 @@ $padding: c.$grid * 5;
 
   .caption {
     margin: (-$padding) (-$padding) $padding;
+  }
+}
+
+.noTitle {
+  .content {
+    margin-top: 0;
+    padding-top: 0;
   }
 }
