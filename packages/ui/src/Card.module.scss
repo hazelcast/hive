@@ -1,8 +1,8 @@
 @use '../styles/constants' as c;
 
-.wrapper {
-  $padding: c.$grid * 5;
+$padding: c.$grid * 5;
 
+.wrapper {
   background: c.$colorNeutralWhite;
 
   .heading {
@@ -35,12 +35,6 @@
     @include c.typographyBodyNormal;
   }
 
-  &.noTitle {
-    .content {
-      margin-top: 0;
-    }
-  }
-
   .caption {
     display: flex;
     margin-bottom: $padding;
@@ -49,43 +43,50 @@
       flex: 1;
     }
   }
+}
 
-  &.bordered {
-    padding: $padding;
-    border-radius: c.$borderRadius;
-    border: c.$borderWidth solid c.$colorNeutral;
+.bordered {
+  padding: $padding;
+  border-radius: c.$borderRadius;
+  border: c.$borderWidth solid c.$colorNeutral;
 
-    .heading {
-      @include c.typographyH3;
+  .heading {
+    @include c.typographyH3;
 
-      display: flex;
-      align-items: center;
+    display: flex;
+    align-items: center;
+    margin: 0;
+
+    .icon {
+      margin-right: c.$grid * 2.5;
+    }
+
+    .title {
       margin: 0;
+      font-size: c.$fontSizeBodyNormal !important;
+      line-height: c.$lineHeightBodyNormal !important;
 
-      .icon {
+      &.space {
         margin-right: c.$grid * 2.5;
       }
-
-      .title {
-        margin: 0;
-        font-size: c.$fontSizeBodyNormal !important;
-        line-height: c.$lineHeightBodyNormal !important;
-
-        &.space {
-          margin-right: c.$grid * 2.5;
-        }
-      }
     }
+  }
 
-    .content {
-      @include c.typographyBodyNormal;
+  .content {
+    @include c.typographyBodyNormal;
 
-      margin-top: c.$grid * 4;
-      padding: 0;
-    }
+    margin-top: c.$grid * 4;
+    padding: 0;
+  }
 
-    .caption {
-      margin: (-$padding) (-$padding) $padding;
-    }
+  .caption {
+    margin: (-$padding) (-$padding) $padding;
+  }
+}
+
+.noTitle {
+  .content {
+    margin-top: 0;
+    padding-top: 0;
   }
 }
