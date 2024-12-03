@@ -28,7 +28,6 @@ export const ContextMenu = ({ anchorElement, offset, items }: ContextMenuProps) 
   const handleContextMenuOpen = useCallback(
     (e: MouseEvent) => {
       if (!anchorElement || (!anchorElement.contains(e.target as Node) && e.target !== anchorElement)) {
-        //handleContextMenuClose()
         return
       }
       e.preventDefault()
