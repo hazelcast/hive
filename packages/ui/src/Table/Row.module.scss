@@ -1,13 +1,8 @@
 @use '../../styles/constants' as c;
 @use '../../styles/helpers' as h;
 
-@mixin rowBase {
-  background-color: c.$colorNeutralLighter;
-  margin-bottom: c.$grid * 1.25;
-}
-
 .row {
-  @include rowBase;
+  @include c.typographyBodySmall;
 
   &.clickable {
     cursor: pointer;
@@ -18,18 +13,17 @@
       // Do not remove outline for high-contrast modes
       // https://stackoverflow.com/a/52616313
       outline: c.$outlineWidth solid transparent;
-      background-color: c.$colorInfoLight;
+      background-color: #e2e7fa;
     }
 
     &:hover {
-      background-color: c.$colorInfoLight;
+      font-weight: bold;
+      background-color: #e2e7fa;
     }
   }
 }
 
 .linkRow {
-  @include rowBase;
-
   cursor: pointer;
 
   .link {
@@ -42,15 +36,12 @@
       // Do not remove outline for high-contrast modes
       // https://stackoverflow.com/a/52616313
       outline: c.$outlineWidth solid transparent;
-      background-color: c.$colorInfoLight;
+      background-color: #e2e7fa;
     }
 
     &:hover {
-      background-color: c.$colorInfoLight;
+      font-weight: bold;
+      background-color: #e2e7fa;
     }
   }
-}
-
-.headerRow {
-  margin-bottom: c.$grid * 1.25;
 }

@@ -15,6 +15,7 @@ interface TruncatedTextProps {
   className?: string
   multiline?: boolean
   tooltipVisible?: boolean
+  tooltipClassName?: string
   hoverAbleTooltip?: boolean
   tooltipPlacement?: TooltipProps['placement']
 }
@@ -27,6 +28,7 @@ export const TruncatedText: FC<TruncatedTextProps> = ({
   tooltipPlacement = 'top',
   hoverAbleTooltip,
   multiline,
+  tooltipClassName,
 }) => {
   const textRef = useRef<HTMLDivElement>(null)
   const [tooltip, setTooltip] = useState<ReactChild | undefined>()
@@ -48,6 +50,7 @@ export const TruncatedText: FC<TruncatedTextProps> = ({
       id={idTooltip}
       content={tooltip}
       visible={tooltipVisible}
+      className={tooltipClassName}
       placement={tooltipPlacement}
       updateToken={forceUpdateToken}
       hoverAbleTooltip={hoverAbleTooltip}

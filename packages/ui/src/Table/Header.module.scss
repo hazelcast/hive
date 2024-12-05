@@ -6,10 +6,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: c.$grid * 5;
+  width: 20px;
   height: 100%;
   top: 0;
-  right: -(c.$grid * 2.5);
+  right: -10px;
   z-index: c.$zIndex100;
   cursor: col-resize;
   user-select: none;
@@ -20,9 +20,9 @@
   /* doiuse-enable css-touch-action */
 
   .separator {
-    width: 2px;
-    height: 50%;
-    background: c.$colorNeutral;
+    width: 1px;
+    height: 100%;
+    background: c.$colorNeutralWhite;
   }
 
   .resizing,
@@ -37,10 +37,11 @@
   .th {
     display: flex;
     align-items: center;
-    height: c.$grid * 7.5;
+    height: c.$grid * 12;
     padding-left: c.$grid * 5;
     padding-right: c.$grid * 5;
     color: c.$colorText;
+    background: #e9f0f9;
 
     @include c.typographyBodySmall('bold');
     @include h.overflowEllipsis;
@@ -78,7 +79,7 @@
       }
 
       &:hover {
-        background-color: c.$colorNeutralLighter;
+        background-color: #ccdff5;
       }
     }
 

@@ -3,6 +3,8 @@ import { Cell as CellType, HeaderGroup, UseResizeColumnsState } from 'react-tabl
 
 import { TruncatedText } from '../TruncatedText'
 
+import styles from './Cell.module.scss'
+
 /**
  * Few notes about text truncation:
  * We try to enhance Header, Footer and Cell with text truncation and a tooltip using TruncatedText.
@@ -39,5 +41,5 @@ export const EnhancedCellRenderer = <D extends object>({ cell, hasCellRenderer, 
     return cell.render('Cell') as ReactElement
   }
 
-  return <TruncatedText text={cell.value} forceUpdateToken={columnResizing.isResizingColumn} />
+  return <TruncatedText text={cell.value} forceUpdateToken={columnResizing.isResizingColumn} tooltipClassName={styles.truncated} />
 }

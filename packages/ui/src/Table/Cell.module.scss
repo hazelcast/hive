@@ -6,13 +6,13 @@
   position: relative;
   display: flex;
   align-items: center;
-  height: c.$grid * 7.5;
+  height: c.$grid * 12;
   padding-right: c.$grid * 5;
   padding-left: c.$grid * 5;
   color: c.$colorText;
   background-color: inherit;
+  font-family: 'Ubuntu Mono', monospace;
 
-  @include c.typographyBodySmall;
   @include h.overflowEllipsis;
 
   &.alignLeft {
@@ -32,7 +32,7 @@
   }
 
   &:not(:last-of-type) {
-    border-right: c.$borderWidth solid c.$colorNeutral;
+    border-right: c.$borderWidth solid c.$colorNeutralWhite;
   }
 }
 
@@ -50,4 +50,8 @@
 
 .selectable {
   user-select: none;
+}
+
+.truncated {
+  font-family: 'Ubuntu Mono', monospace;
 }
