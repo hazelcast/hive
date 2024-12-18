@@ -47,29 +47,6 @@ afterEach(() => {
   cleanup()
 })
 
-// https://stackoverflow.com/questions/42213522/mocking-document-createrange-for-jest
-/* eslint-disable */
-document.createRange = () =>
-  ({
-    setStart: () => {},
-    setEnd: () => {},
-    getBoundingClientRect: () => {
-      return { right: 0 }
-    },
-    getClientRects: () => [],
-    createContextualFragment: jest.fn(),
-    commonAncestorContainer: {
-      nodeName: 'BODY',
-      ownerDocument: document,
-    },
-  } as any)
-document.getSelection = () =>
-  ({
-    addRange: () => {},
-    removeAllRanges: () => {},
-  } as any)
-/* eslint-enable */
-
 declare module 'enzyme' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface ReactWrapper<P> {

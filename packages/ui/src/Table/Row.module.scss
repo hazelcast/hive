@@ -3,6 +3,8 @@
 
 .row {
   @include c.typographyBodySmall;
+  display: flex;
+  width: 100%;
 
   &.clickable {
     cursor: pointer;

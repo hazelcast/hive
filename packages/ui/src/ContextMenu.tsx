@@ -38,6 +38,8 @@ export const ContextMenu = ({ anchorElement, offset, items }: ContextMenuProps) 
       let left = e.pageX + (currentOffset?.left ?? 0)
       let top = e.pageY + (currentOffset?.top ?? 0)
 
+      console.log(e.pageX)
+
       if (left + width > window.scrollX + document.documentElement.clientWidth) {
         left = window.scrollX + document.documentElement.clientWidth - width
       }

@@ -1,5 +1,5 @@
-import React, { ReactElement, ReactText } from 'react'
-import { Cell as CellType, HeaderGroup, UseResizeColumnsState } from 'react-table'
+import React from 'react'
+import { Cell as CellType, flexRender, HeaderContext } from '@tanstack/react-table'
 
 import { TruncatedText } from '../TruncatedText'
 
@@ -16,30 +16,25 @@ import styles from './Cell.module.scss'
  */
 
 export type EnhancedHeaderFooterRendererProps<D extends object> = {
-  column: HeaderGroup<D>
-  columnResizing: UseResizeColumnsState<D>['columnResizing']
-  type: 'Header' | 'Footer'
+  context: HeaderContext<D, unknown>
+  type: 'header' | 'footer'
 }
 
-export const EnhancedHeaderFooterRenderer = <D extends object>({ column, columnResizing, type }: EnhancedHeaderFooterRendererProps<D>) => {
-  const value = column[type]
+export const EnhancedHeaderFooterRenderer = <D extends object>({ context, type }: EnhancedHeaderFooterRendererProps<D>) => {
+  const value = context.column.columnDef[type]
+
   if (typeof value === 'string') {
-    return <TruncatedText text={value} forceUpdateToken={columnResizing.isResizingColumn} />
+    return <TruncatedText text={value} forceUpdateToken={context.column.getIsResizing()} />
   }
 
-  return column.render(type) as ReactElement
+  return <>{flexRender(value, context)}</>
 }
 
 export type EnhancedCellRendererProps<D extends object> = {
-  cell: CellType<D, ReactText>
-  hasCellRenderer: boolean
-  columnResizing: UseResizeColumnsState<D>['columnResizing']
+  cell: CellType<D, unknown>
+  columnResizing: boolean
 }
 
-export const EnhancedCellRenderer = <D extends object>({ cell, hasCellRenderer, columnResizing }: EnhancedCellRendererProps<D>) => {
-  if (hasCellRenderer) {
-    return cell.render('Cell') as ReactElement
-  }
-
-  return <TruncatedText text={cell.value} forceUpdateToken={columnResizing.isResizingColumn} tooltipClassName={styles.truncated} />
-}
+export const EnhancedCellRenderer = <D extends object>({ cell, columnResizing }: EnhancedCellRendererProps<D>) => (
+  <TruncatedText text={String(cell.getValue())} forceUpdateToken={columnResizing} tooltipClassName={styles.truncated} />
+)

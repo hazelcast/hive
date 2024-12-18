@@ -1,11 +1,11 @@
 import React, { ReactNode } from 'react'
-import { ChevronDown, ChevronUp } from 'react-feather'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { fireEvent, screen } from '@testing-library/react'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
 
-import { Icon, IconProps } from '../../src/Icon'
 import { Header, HeaderProps } from '../../src/Table/Header'
 
 import styles from '../../src/Table/Header.module.scss'
+import iconStyles from '../../src/Icon.module.scss'
 
 const Wrapper = ({ children, ...props }: { children: (props: Partial<HeaderProps>) => ReactNode } & object) => (
   <div role="table">
@@ -22,17 +22,17 @@ const headerPropsBase: HeaderProps = {
   isSortedDesc: false,
   canResize: false,
   isResizing: false,
-  getResizerProps: jest.fn() as HeaderProps['getResizerProps'],
+  resizeHandler: jest.fn() as HeaderProps['resizeHandler'],
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const expectedContainerProps: Record<string, any> = {
   'data-test': 'table-header-container',
   className: styles.container,
-  style: undefined,
+  style: null,
   role: 'columnheader',
-  'aria-colspan': undefined,
-  'aria-sort': undefined,
+  'aria-colspan': null,
+  'aria-sort': null,
   children: expect.anything(),
 }
 
@@ -40,17 +40,10 @@ const expectedContainerProps: Record<string, any> = {
 const expectedContentProps: Record<string, any> = {
   'data-test': 'table-header-content',
   className: `${styles.th} ${styles.alignLeft}`,
-  role: undefined,
-  onClick: undefined,
-  onKeyPress: undefined,
-  children: expect.anything(),
+  role: null,
+  style: null,
+  tabIndex: null,
   draggable: false,
-  onDragEnd: expect.anything(),
-  onDragEnter: undefined,
-  onDragLeave: undefined,
-  onDragOver: expect.anything(),
-  onDragStart: undefined,
-  onDrop: undefined,
 }
 
 describe('Header', () => {
@@ -88,25 +81,37 @@ describe('Header', () => {
       {
         ...expectedContainerProps,
         className: `${styles.container} testClassName`,
-        style: { width: 40 },
-        'aria-colspan': 1,
+        style: 'width: 40px;',
+        'aria-colspan': '1',
       },
-      { ...expectedContentProps, role: 'button', tabIndex: 0, onClick, onKeyPress: expect.anything() },
+      { ...expectedContentProps, role: 'button', tabIndex: '0', onClick, onKeyPress: expect.anything() },
     ],
   ]
 
   it.each(data)(
     'returns div with correct props for given Header props',
     async (headerProps, expectedContainerProps, expectedContentProps) => {
-      const wrapper = await mountAndCheckA11Y(<Wrapper>{() => <Header {...headerProps}>Header</Header>}</Wrapper>)
+      await renderAndCheckA11Y(<Wrapper>{() => <Header {...headerProps}>Header</Header>}</Wrapper>)
 
-      expect(wrapper.findDataTest('table-header-container').props()).toEqual(expectedContainerProps)
-      expect(wrapper.findDataTest('table-header-content').props()).toEqual(expectedContentProps)
+      const container = screen.getByTestId('table-header-container')
+
+      expect(container).toBeInTheDocument()
+      expect(container.getAttribute('class')).toBe(expectedContainerProps.className)
+      expect(container.getAttribute('style')).toBe(expectedContainerProps.style)
+      expect(container.getAttribute('role')).toBe(expectedContainerProps.role)
+      expect(container.getAttribute('aria-colspan')).toBe(expectedContainerProps['aria-colspan'])
+      expect(container.getAttribute('aria-sort')).toBe(expectedContainerProps['aria-sort'])
+
+      const content = screen.getByTestId('table-header-content')
+
+      expect(content).toBeInTheDocument()
+      expect(content.getAttribute('class')).toBe(expectedContentProps.className)
+      expect(content.getAttribute('tabindex')).toBe(expectedContentProps.tabIndex)
     },
   )
 
   it('renders ChevronDown Icon when sorting in descending order', async () => {
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <Wrapper>
         {() => (
           <Header {...headerPropsBase} canSort isSorted isSortedDesc>
@@ -116,16 +121,17 @@ describe('Header', () => {
       </Wrapper>,
     )
 
-    expect(wrapper.find(Icon).props()).toEqual<IconProps>({
-      className: `${styles.sortingIcon} ${styles.left} ${styles.isSorted}`,
-      icon: ChevronDown,
-      ariaLabel: 'Descending',
-      size: 'smallMedium',
-    })
+    expect(screen.getByTestId('chevron')).toBeInTheDocument()
+
+    const icon = screen.getByTestId('chevron').querySelector('svg')
+
+    expect(icon).toBeInTheDocument()
+    expect(icon!.getAttribute('class')).toBe(`${iconStyles.smallMedium} ${styles.sortingIcon} ${styles.left} ${styles.isSorted}`)
+    expect(icon!.getAttribute('aria-label')).toBe('Descending')
   })
 
   it('renders ChevronUp Icon when sorting in ascending order', async () => {
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <Wrapper>
         {() => (
           <Header {...headerPropsBase} canSort isSorted isSortedDesc={false}>
@@ -135,45 +141,50 @@ describe('Header', () => {
       </Wrapper>,
     )
 
-    expect(wrapper.find(Icon).props()).toEqual<IconProps>({
-      className: `${styles.sortingIcon} ${styles.left} ${styles.isSorted}`,
-      icon: ChevronUp,
-      ariaLabel: 'Ascending',
-      size: 'smallMedium',
-    })
+    expect(screen.getByTestId('chevron')).toBeInTheDocument()
+
+    const icon = screen.getByTestId('chevron').querySelector('svg')
+
+    expect(icon).toBeInTheDocument()
+    expect(icon!.getAttribute('class')).toBe(`${iconStyles.smallMedium} ${styles.sortingIcon} ${styles.left} ${styles.isSorted}`)
+    expect(icon!.getAttribute('aria-label')).toBe('Ascending')
   })
 
   it('renders resizer when resizing is enabled', async () => {
-    const getResizerProps = () => ({
-      testprop: 'testProp',
-    })
+    const resizeHandler = () => jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    const { rerender } = await renderAndCheckA11Y(
       <Wrapper>
         {(props) => (
-          <Header {...headerPropsBase} canResize getResizerProps={getResizerProps} {...props}>
+          <Header {...headerPropsBase} canResize resizeHandler={resizeHandler} {...props}>
             Header
           </Header>
         )}
       </Wrapper>,
     )
 
-    expect(wrapper.findDataTest('table-header-column-resizer-container').props()).toEqual({
-      'data-test': 'table-header-column-resizer-container',
-      className: `${styles.resizer}`,
-      testprop: 'testProp',
-      children: expect.anything(),
-    })
+    const resizerContainer = screen.getByTestId('table-header-column-resizer-container')
 
-    wrapper.setProps({ isResizing: true })
-    expect(wrapper.findDataTest('table-header-column-resizer').props()).toEqual({
-      'data-test': 'table-header-column-resizer',
-      className: `${styles.separator} ${styles.resizing}`,
-    })
+    expect(resizerContainer).toBeInTheDocument()
+    expect(resizerContainer.getAttribute('class')).toBe(styles.resizer)
+
+    rerender(
+      <Wrapper>
+        {(props) => (
+          <Header {...headerPropsBase} canResize resizeHandler={resizeHandler} {...props} isResizing>
+            Header
+          </Header>
+        )}
+      </Wrapper>,
+    )
+
+    const resizer = screen.getByTestId('table-header-column-resizer')
+    expect(resizer).toBeInTheDocument()
+    expect(resizer.getAttribute('class')).toBe(`resizer ${styles.separator} ${styles.resizing}`)
   })
 
   it('draggable attribute', async () => {
-    const wrapper = await mountAndCheckA11Y(
+    const { rerender } = await renderAndCheckA11Y(
       <Wrapper>
         {(props) => (
           <Header {...headerPropsBase} {...props}>
@@ -183,35 +194,50 @@ describe('Header', () => {
       </Wrapper>,
     )
 
-    expect(wrapper.findDataTest('table-header-content').prop('draggable')).toBeFalsy()
+    expect(screen.getByTestId('table-header-content').getAttribute('draggable')).toBe('false')
 
-    wrapper.setProps({
-      onDrop: jest.fn(),
-      onDragStart: jest.fn(),
-    })
+    rerender(
+      <Wrapper>
+        {(props) => (
+          <Header {...headerPropsBase} {...props} onDrop={jest.fn()} onDragStart={jest.fn()}>
+            Header
+          </Header>
+        )}
+      </Wrapper>,
+    )
 
-    expect(wrapper.findDataTest('table-header-content').prop('draggable')).toBeTruthy()
+    expect(screen.getByTestId('table-header-content').getAttribute('draggable')).toBe('true')
 
-    wrapper.setProps({
-      onDrop: undefined,
-      onDragStart: jest.fn(),
-    })
+    rerender(
+      <Wrapper>
+        {(props) => (
+          <Header {...headerPropsBase} {...props} onDragStart={jest.fn()}>
+            Header
+          </Header>
+        )}
+      </Wrapper>,
+    )
 
-    expect(wrapper.findDataTest('table-header-content').prop('draggable')).toBeFalsy()
+    expect(screen.getByTestId('table-header-content').getAttribute('draggable')).toBe('false')
 
-    wrapper.setProps({
-      onDrop: jest.fn(),
-      onDragStart: undefined,
-    })
+    rerender(
+      <Wrapper>
+        {(props) => (
+          <Header {...headerPropsBase} {...props} onDrop={jest.fn()}>
+            Header
+          </Header>
+        )}
+      </Wrapper>,
+    )
 
-    expect(wrapper.findDataTest('table-header-content').prop('draggable')).toBeFalsy()
+    expect(screen.getByTestId('table-header-content').getAttribute('draggable')).toBe('false')
   })
 
   it('calls onDragStart callback with correct data', async () => {
     const onDragStart = jest.fn()
     const onDrop = jest.fn()
     const setData = jest.fn()
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <Wrapper>
         {() => (
           <Header {...headerPropsBase} onDragStart={onDragStart} onDrop={onDrop}>
@@ -225,9 +251,9 @@ describe('Header', () => {
     expect(onDrop).toBeCalledTimes(0)
     expect(setData).toBeCalledTimes(0)
 
-    expect(wrapper.findDataTest('table-header-content').prop('draggable')).toBeTruthy()
+    expect(screen.getByTestId('table-header-content').getAttribute('draggable')).toBeTruthy()
 
-    wrapper.findDataTest('table-header-content').simulate('dragstart', {
+    fireEvent.dragStart(screen.getByTestId('table-header-content'), {
       dataTransfer: {
         setData,
       },

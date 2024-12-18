@@ -1,6 +1,5 @@
-import React, { FC, MouseEvent, RefObject, useEffect, useRef } from 'react'
+import React, { CSSProperties, FC, MouseEvent, RefObject, useEffect, useRef } from 'react'
 import { AlertTriangle } from 'react-feather'
-import { TableCellProps } from 'react-table'
 import { useUID } from 'react-uid'
 import cn from 'classnames'
 
@@ -47,10 +46,13 @@ export type CellProps = {
   warning?: string
   colSpan?: number
   cellId?: string
+  style?: CSSProperties
+  role?: string
+  className?: string
   selectionStartedRef?: RefObject<boolean>
   onMouseEnterSelection?: (id: string) => void
   onClickSelection?: (id: string, modifiers: { ctrl: boolean; shift: boolean }) => void
-} & Omit<TableCellProps, 'key'>
+}
 
 export const Cell: FC<CellProps> = ({
   align = 'left',
@@ -59,7 +61,7 @@ export const Cell: FC<CellProps> = ({
   children,
   style,
   className,
-  role,
+  role = 'cell',
   cellId,
   onClickSelection,
   selected,
@@ -93,7 +95,6 @@ export const Cell: FC<CellProps> = ({
 
   return (
     <>
-      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
       <div
         ref={rootRef}
         data-test="table-cell"

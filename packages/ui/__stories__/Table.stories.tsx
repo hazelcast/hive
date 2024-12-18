@@ -55,14 +55,14 @@ WithHiddenHeader.args = {
 export const WithClickableRows = Template.bind({})
 WithClickableRows.args = {
   onRowClick: (row) => {
-    logger.log(`You just clicked (or pressed) row: ${row.values.name as Person['name']}`)
+    logger.log(`You just clicked (or pressed) row: ${row.original.name}`)
   },
 }
 
 export const WithClickableAnchorRows = Template.bind({})
 WithClickableAnchorRows.args = {
   getHref: (row) => {
-    logger.log(`You just clicked (or pressed) row: ${row.values.name as Person['name']}. You can use row info to generate href!`)
+    logger.log(`You just clicked (or pressed) row: ${row.original.name}. You can use row info to generate href!`)
     return window.location.hash
   },
 }
@@ -166,14 +166,16 @@ export const WithControlledSorting = () => {
         const { id, desc: isDescending } = sortBy[0]
         const sortColumn = id as keyof Person
         const newData = [...bigDataSet]
-        newData.sort((a, b) => (isDescending ? b[sortColumn] - a[sortColumn] : a[sortColumn] - b[sortColumn]))
+        newData.sort((a, b) =>
+          isDescending ? Number(b[sortColumn]) - Number(a[sortColumn]) : Number(a[sortColumn]) - Number(b[sortColumn]),
+        )
         setData(newData)
         setLoading(false)
       }
     }, 750)
   }, [])
 
-  return <Table columns={columns} data={data} loading={loading} manualSortBy onSortingChange={onSortingChange} />
+  return <Table columns={columns} data={data} loading={loading} onSortingChange={onSortingChange} />
 }
 
 export const WithGlobalSearch = () => {
@@ -211,7 +213,7 @@ WithCustomRowAndCellProps.parameters = {
 }
 WithCustomRowAndCellProps.args = {
   getCustomRowProps: (row) => {
-    if (row.values.age < 15) {
+    if (row.original.age < 15) {
       return {
         style: {
           background: 'white',
@@ -221,7 +223,7 @@ WithCustomRowAndCellProps.args = {
     return {}
   },
   getCustomCellProps: (cell) => {
-    if (cell.row.values.age < 15) {
+    if (cell.row.original.age < 15) {
       if (cell.column.id === 'age') {
         return {
           warning: 'Younger than 15',

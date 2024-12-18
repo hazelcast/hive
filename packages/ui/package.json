@@ -51,6 +51,7 @@
     "@headlessui/react": "^1.4.2",
     "@icons-pack/react-simple-icons": "^9.3.0",
     "@popperjs/core": "^2.11.7",
+    "@tanstack/react-table": "^8.20.5",
     "@types/react-modal": "3.16.0",
     "@types/react-table": "^7.7.14",
     "classnames": "^2.3.2",
@@ -116,8 +117,10 @@
     "yup": "^0.32.11"
   },
   "peerDependencies": {
+    "@types/lodash": "^4.17.13",
     "@types/react": "^17 || ^18",
     "@types/react-dom": "^17 || ^18",
+    "lodash": "^4.17.21",
     "react": "^17 || ^18",
     "react-dom": "^17 || ^18"
   }

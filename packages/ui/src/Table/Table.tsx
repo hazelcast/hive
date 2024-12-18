@@ -1,4 +1,5 @@
 import { DataTestProp } from '@hazelcast/helpers'
+import debounce from 'lodash/debounce'
 import React, {
   AnchorHTMLAttributes,
   FC,
@@ -11,33 +12,23 @@ import React, {
   useMemo,
   ReactNode,
   useState,
-  MouseEvent,
 } from 'react'
 import cn from 'classnames'
 import { HotKeys, KeyMap } from 'react-hotkeys'
 import {
-  useTable,
-  usePagination,
-  TableOptions,
-  useSortBy,
-  Row as RowType,
-  Cell as CellType,
-  useAsyncDebounce,
-  useResizeColumns,
-  useFlexLayout,
-  Column as ColumnType,
-  useGlobalFilter,
-  useColumnOrder,
-  useExpanded,
-  TableInstance,
-  SortingRule,
-  TableExpandedToggleProps,
-} from 'react-table'
+  useReactTable,
+  getCoreRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  getExpandedRowModel,
+  getFilteredRowModel,
+  ColumnDef,
+} from '@tanstack/react-table'
 import { AlertTriangle, ChevronDown, ChevronUp } from 'react-feather'
 
 import { Pagination, PaginationProps } from '../Pagination'
 import { Cell, CellProps } from './Cell'
-import { EnhancedHeaderFooterRenderer } from './EnhancedRenderers'
+import { EnhancedCellRenderer, EnhancedHeaderFooterRenderer } from './EnhancedRenderers'
 import { Header } from './Header'
 import { HeaderRow, Row, RowProps } from './Row'
 import { Loader } from '../Loader'
@@ -48,111 +39,14 @@ import { TableContent } from './TableContent'
 import { ROW_EXPANDER_COLUMN_ID } from './constants'
 import { useColumnsSelection, ContextMenu } from './features/columnsSelection'
 import { useRefValue } from '../hooks'
+import { CellType, ColumnType, InitialState, RowType, SortingRule, TableState } from './types'
+import { getCellStyle, getColumnDef, getRowStyle, getTableInitialState, prepareRow } from './utils'
 
 import styles from './Table.module.scss'
 import styleConsts from '../../styles/constants/export.module.scss'
+import { useTrackTableState } from './useTrackTableState'
 
 export type { Accessor, Cell, Renderer, Row, CellProps, HeaderGroup, TableInstance, TableState } from 'react-table'
-export type Column<T extends object> = ColumnType<T> & {
-  canHide?: boolean // true by default
-}
-
-// Why do we need it: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react-table
-
-declare module 'react-table' {
-  // take this file as-is, or comment out the sections that don't apply to your plugin configuration
-  export interface TableOptions<
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    D extends object = {},
-  > extends UsePaginationOptions<D & UseExpandedRowProps<D>>,
-      UseSortByOptions<D>,
-      UseFiltersOptions<D>,
-      UseRowSelectOptions<D>,
-      UseGroupByOptions<D>,
-      UseExpandedOptions<D>,
-      // UseGlobalFiltersOptions<D>,
-      UseResizeColumnsOptions<D>,
-      // UseRowStateOptions<D>,
-
-      // note that having Record here allows you to add anything to the options, this matches the spirit of the
-      // underlying js library, but might be cleaner if it's replaced by a more specific type that matches your
-      // feature set, this is a safe default.
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      Record<string, any> {}
-
-  export interface Hooks<
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    D extends object = {},
-  > extends UseSortByHooks<D>,
-      UseRowSelectHooks<D>,
-      // UseExpandedHooks<D>,
-      UseGroupByHooks<D> {}
-
-  export interface TableInstance<
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    D extends object = {},
-  > extends UsePaginationInstanceProps<D>,
-      UseSortByInstanceProps<D>,
-      UseFiltersInstanceProps<D>,
-      UseRowSelectInstanceProps<D>,
-      // UseColumnOrderInstanceProps<D>,
-      // UseExpandedInstanceProps<D>,
-      // UseGlobalFiltersInstanceProps<D>,
-      // UseRowStateInstanceProps<D>,
-      UseGroupByInstanceProps<D> {}
-
-  export interface TableState<
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    D extends object = {},
-  > extends UsePaginationState<D>,
-      UseSortByState<D>,
-      UseFiltersState<D>,
-      UseRowSelectState<D>,
-      UseGroupByState<D>,
-      UseColumnOrderState<D>,
-      // UseExpandedState<D>,
-      // UseGlobalFiltersState<D>,
-      // UseRowStateState<D>,
-      UseResizeColumnsState<D> {}
-
-  export interface ColumnInterface<
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    D extends object = {},
-  > extends UseSortByColumnOptions<D>,
-      UseFiltersColumnOptions<D>,
-      UseGroupByColumnOptions<D>,
-      // UseGlobalFiltersColumnOptions<D>,
-      UseResizeColumnsColumnOptions<D> {
-    Footer?: string | Renderer<TableInstance<D>>
-    align?: 'left' | 'right' | 'center'
-  }
-
-  export interface ColumnInstance<
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    D extends object = {},
-  > extends UseSortByColumnProps<D>,
-      UseFiltersColumnProps<D>,
-      UseGroupByColumnProps<D>,
-      UseResizeColumnsColumnProps<D> {}
-
-  export interface Cell<
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    D extends object = {},
-    /* eslint-disable @typescript-eslint/no-unused-vars */
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    V = any,
-  > extends UseGroupByCellProps<D>,
-      UseRowStateCellProps<D> {}
-
-  export interface Row<
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    D extends object = {},
-  > extends UseGroupByRowProps<D>,
-      // UseExpandedRowProps<D>,
-      // UseRowSelectRowProps<D>,
-      UseRowSelectRowProps<D>,
-      UseExpandedRowProps<D> {}
-}
 
 export type PaginationOptions = Partial<Pick<PaginationProps, 'pageSizeOptions'>>
 
@@ -180,7 +74,6 @@ export type ControlledPaginationProps = {
 }
 
 export type ControlledSortingProps<D extends object> = {
-  manualSortBy?: boolean
   onSortingChange?: (sortBy: SortingRule<D>[]) => void
 }
 
@@ -221,27 +114,24 @@ type CustomTableProps<D extends object> = {
   onPageChange?: (newPage: number) => void
   onRowSelect?: (ids: string[]) => void
   columnsOrdering?: boolean
-  children?: (table: ReactElement, tableInstance: TableInstance<D>) => ReactElement
+  children?: (table: ReactElement) => ReactElement
   renderRowSubComponent?: (props: RowType<D>) => ReactNode
-  canExpand?: (row: RowType<D>) => void
+  canExpand?: (row: RowType<D>) => boolean
   onCopy?: (data: (string | undefined)[][]) => void
+  initialState?: InitialState
+  onStateChange?: (newState: TableState) => void
 } & CustomTableRowClickProps<D> &
   DataTestProp
 
-export type TableProps<D extends object> = TableOptions<D> &
-  ExtendedPaginationProps &
+export type TableProps<D extends object> = {
+  data: D[]
+  columns: ColumnType<D>[]
+  pageCount?: number
+  disableSortBy?: boolean
+} & ExtendedPaginationProps &
   ControlledPaginationProps &
   ControlledSortingProps<D> &
   CustomTableProps<D>
-
-export type { ColumnType, RowType, CellType }
-
-const column = {
-  // When using the useFlexLayout:
-  minWidth: Number(styleConsts.tableColumnMinWidth), // minWidth is only used as a limit for resizing
-  width: Number(styleConsts.tableColumnWidth), // width is used for both the flex-basis and flex-grow
-  maxWidth: Number(styleConsts.tableColumnMaxWidth), // maxWidth is only used as a limit for resizing
-}
 
 /**
  * ### Purpose
@@ -254,19 +144,15 @@ const column = {
  * - Is able to resize columns out of the box
  */
 // Inspiration here: https://react-table.tanstack.com/docs/examples/basic
-export const Table = <D extends object>({
+export const Table = <D extends { subRows?: D[] }>({
   'data-test': dataTest,
-  autoResetSortBy = false,
   columns: propColumns,
   data,
-  defaultColumn = column,
   disableSortBy,
   onPaginationChange,
   onSortingChange,
   manualPagination,
-  manualSortBy,
   onRenderedContentChange,
-  autoResetPage = false,
   hidePagination = false,
   pageCount: controlledPageCount,
   defaultPageSize = 10,
@@ -279,25 +165,22 @@ export const Table = <D extends object>({
   loading,
   noDataTitle = 'The table is empty',
   pageIndex: incomingPageIndex,
-  initialState = { pageIndex: incomingPageIndex || 0, pageSize: defaultPageSize },
+  initialState = { paginationOptions: { pageIndex: incomingPageIndex || 0, pageSize: defaultPageSize } },
   className = '',
   headerClassName = '',
   contentClassName = '',
   footerClassName = '',
   searchValue,
   hideHeader,
-  autoResetGlobalFilter = false,
   onPageChange,
   overlayLoading,
   onRowSelect,
   columnsOrdering = false,
-  autoResetResize = false,
-  autoResetSelectedRows = false,
   children,
   renderRowSubComponent,
-  autoResetExpanded = false,
   onCopy,
   canExpand,
+  onStateChange,
 }: TableProps<D>): ReactElement => {
   const getOncopy = useRefValue(onCopy)
   const [contextMenuAnchorEl, setContextMenuAnchorEl] = useState<HTMLDivElement | null>(null)
@@ -316,128 +199,130 @@ export const Table = <D extends object>({
 
     return result
   }, [onCopy])
-  const columns = useMemo<readonly Column<D>[]>(() => {
+  const columns = useMemo(() => {
     if (renderRowSubComponent || data.some((item) => 'subRows' in item)) {
-      return [
-        {
-          width: 60,
-          disableResizing: true,
-          id: ROW_EXPANDER_COLUMN_ID,
-          Header: () => <span role="contentinfo" aria-label="row-expander-column-header" />,
-          Cell: ({ row }: { row: RowType<D> }) => {
-            if ((row.canExpand || renderRowSubComponent) && (!canExpand || (canExpand && canExpand(row)))) {
-              const rowProps = row.getToggleRowExpandedProps() as TableExpandedToggleProps & {
-                onClick: (e: MouseEvent<HTMLElement>) => void
-              }
+      const expander: ColumnType<D> = {
+        width: 60,
+        disableResizing: true,
+        id: ROW_EXPANDER_COLUMN_ID,
+        Header: () => <span role="contentinfo" aria-label="row-expander-column-header" />,
+        Cell: ({ row }) => {
+          if (row.canExpand) {
+            return (
+              // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+              <div
+                tabIndex={0}
+                role="button"
+                data-test="row-expander"
+                aria-expanded={row.isExpanded}
+                className={styles.expander}
+                onClick={(e) => {
+                  e.preventDefault()
+                  row.getToggleExpandedHandler()()
+                }}
+              >
+                <Icon icon={row.isExpanded ? ChevronUp : ChevronDown} ariaLabel="row-expander" />
+              </div>
+            )
+          }
 
-              return (
-                // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-                <div
-                  tabIndex={0}
-                  role="button"
-                  data-test="row-expander"
-                  className={styles.expander}
-                  {...rowProps}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    rowProps.onClick(e)
-                  }}
-                >
-                  <Icon icon={row.isExpanded ? ChevronUp : ChevronDown} ariaLabel="row-expander" />
-                </div>
-              )
-            }
-
-            return null
-          },
+          return <>{null}</>
         },
-        ...propColumns,
-      ]
+      }
+
+      return [expander, ...propColumns].map(getColumnDef)
     }
 
-    return propColumns
-  }, [propColumns, canExpand, data, renderRowSubComponent])
+    return propColumns.map(getColumnDef)
+  }, [propColumns, data, renderRowSubComponent])
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const onPaginationChangeDebounced = useAsyncDebounce<(paginationChangeProps: PaginationChangeProps) => void>(onPaginationChange!, 200)
-
-  const tableInstance = useTable<D>(
-    {
-      columns,
-      data,
-      disableSortBy,
-      disableMultiSort: true,
-      // https://react-table.tanstack.com/docs/faq#how-do-i-stop-my-table-state-from-automatically-resetting-when-my-data-changes
-      autoResetSortBy,
-      // Pass our hoisted table state
-      initialState,
-      // Tell the usePagination hook that we'll handle our own data fetching
-      manualPagination: manualPagination,
-      manualSortBy,
-      // This means we'll also have to provide our own pageCount
-      pageCount: controlledPageCount,
-      autoResetPage,
-      defaultColumn,
-      autoResetGlobalFilter,
-      autoResetResize,
-      autoResetSelectedRows,
-      autoResetExpanded,
-      paginateExpandedRows: false,
-    },
-    useGlobalFilter,
-    useSortBy,
-    useExpanded,
-    usePagination,
-    useFlexLayout,
-    useResizeColumns,
-    useColumnOrder,
+  const defaultColumn: Partial<ColumnDef<D>> = useMemo(
+    () => ({
+      cell: (props) => <EnhancedCellRenderer cell={props.cell} columnResizing={props.column.getIsResizing()} />,
+      minSize: Number(styleConsts.tableColumnMinWidth), // minWidth is only used as a limit for resizing
+      size: Number(styleConsts.tableColumnWidth), // width is used for both the flex-basis and flex-grow
+      maxSize: Number(styleConsts.tableColumnMaxWidth), // maxWidth is only used as a limit for resizing
+    }),
+    [],
   )
+  const tableInstance = useReactTable<D>({
+    columns,
+    data,
+    enableSorting: !disableSortBy,
+    enableMultiSort: false,
+    // Pass our hoisted table state
+    initialState: getTableInitialState(initialState),
+    // Tell the usePagination hook that we'll handle our own data fetching
+    manualPagination: manualPagination,
+    // This means we'll also have to provide our own pageCount
+    pageCount: controlledPageCount,
+    defaultColumn,
+    columnResizeMode: 'onChange',
+    paginateExpandedRows: false,
+    getSubRows: (row) => row.subRows,
+    getRowCanExpand: (row) => !!renderRowSubComponent || (canExpand ? canExpand(prepareRow(row)) : row.subRows?.length > 0),
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getExpandedRowModel: getExpandedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+  })
 
   const {
-    getTableProps,
-    headerGroups,
-    footerGroups,
-    prepareRow,
-    page,
-    visibleColumns,
-    canPreviousPage,
-    canNextPage,
-    pageCount,
-    gotoPage,
+    getVisibleFlatColumns,
     nextPage,
+    setPageIndex: goToPage,
+    getRowCount,
+    getState,
     previousPage,
     setPageSize,
-    // Get the state from the instance
-    state: { pageIndex, pageSize, sortBy, columnResizing, selectedRowIds, hiddenColumns },
     setGlobalFilter,
     setColumnOrder,
+    getPageCount,
+    getCanNextPage,
+    getCanPreviousPage,
+    getFooterGroups,
   } = tableInstance
-
+  useTrackTableState(tableInstance, onStateChange)
+  const footerGroups = getFooterGroups()
+  const page = tableInstance.getPaginationRowModel().rows
+  const rowsPerPage = getRowCount()
+  const pageCount = getPageCount()
+  const {
+    sorting: sortBy,
+    columnSizing: columnResizing,
+    rowSelection: selectedRowIds,
+    pagination: { pageIndex, pageSize },
+  } = getState()
   // drag and drop
   const onDragStart = useCallback((e: DragEvent) => {
     draggedColumnRef.current = Number(e.dataTransfer.getData('text/plain'))
   }, [])
 
   const onDrop = useCallback(
-    (e: DragEvent, columnIndex: number) => {
+    (_, columnIndex: number) => {
       if (draggedColumnRef.current !== null && columnIndex !== draggedColumnRef.current) {
+        const visibleColumns = getVisibleFlatColumns()
         const newColumns = [...visibleColumns]
         newColumns[columnIndex] = visibleColumns[draggedColumnRef.current]
         newColumns[draggedColumnRef.current] = visibleColumns[columnIndex]
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-        setColumnOrder(newColumns.map(({ id, accessor }: Column<D>) => (id || accessor) as string))
+        setColumnOrder(newColumns.map(({ id }) => id))
       }
     },
-    [visibleColumns, setColumnOrder],
+    [getVisibleFlatColumns, setColumnOrder],
   )
 
   const columnsSelectionProps = useColumnsSelection({
-    rowsPerPage: page.length,
+    rowsPerPage,
     columnsPerRow: columns.length,
   })
   const { onEndSelection, getSelectedColumns, selectedColumnValuesRef } = columnsSelectionProps
 
+  const onPaginationChangeDebounced = useMemo(
+    () => (onPaginationChange ? debounce(onPaginationChange, 200) : undefined),
+    [onPaginationChange],
+  )
   const onKeyUp = useCallback(() => {
     const callback = getOncopy()
 
@@ -469,28 +354,28 @@ export const Table = <D extends object>({
 
   // Listen for changes in pagination and use the state to fetch new data. This is a recommended way to fetch new data: https://react-table.tanstack.com/docs/faq#how-can-i-use-the-table-state-to-fetch-new-data
   useEffect(() => {
-    if (onPaginationChange) {
+    if (onPaginationChangeDebounced) {
       onPaginationChangeDebounced({ pageIndex, pageSize })
     }
-  }, [onPaginationChange, onPaginationChangeDebounced, pageIndex, pageSize])
+  }, [onPaginationChangeDebounced, pageIndex, pageSize])
 
   useEffect(() => {
     if (onSortingChange) {
-      onSortingChange(sortBy)
+      onSortingChange(sortBy as SortingRule<D>[])
     }
   }, [sortBy, onSortingChange])
 
   // Debounce our `fetchData` call for 200ms.
-  // We can use non-null assertion here since we're checking existence of `fetchData` in the `useEffect` below
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const onRenderedContentChangeDebounced = useAsyncDebounce<(newPage: RowType<D>[]) => void>(onRenderedContentChange!, 200)
-
+  const onRenderedContentChangeDebounced = useMemo(
+    () => (onRenderedContentChange ? debounce(onRenderedContentChange, 200) : undefined),
+    [onRenderedContentChange],
+  )
   // Listen for changes in pagination and use the state to fetch new data. This is a recommended way to fetch new data: https://react-table.tanstack.com/docs/faq#how-can-i-use-the-table-state-to-fetch-new-data
   useEffect(() => {
-    if (onRenderedContentChange) {
-      onRenderedContentChangeDebounced(page)
+    if (onRenderedContentChangeDebounced) {
+      onRenderedContentChangeDebounced(page.map(prepareRow))
     }
-  }, [onRenderedContentChange, onRenderedContentChangeDebounced, page])
+  }, [onRenderedContentChangeDebounced, page])
 
   // Apply global filter when searchValue changes
   useEffect(() => {
@@ -501,15 +386,15 @@ export const Table = <D extends object>({
 
   useEffect(() => {
     if (pageCount < pageIndex + 1) {
-      gotoPage(pageCount - 1)
+      goToPage(pageCount - 1)
     }
-  }, [pageIndex, pageCount, gotoPage])
+  }, [pageIndex, pageCount, goToPage])
 
   useEffect(() => {
     if (incomingPageIndex !== undefined && incomingPageIndex !== previousIncomingPageIndex) {
-      gotoPage(incomingPageIndex)
+      goToPage(incomingPageIndex)
     }
-  }, [gotoPage, incomingPageIndex, previousIncomingPageIndex])
+  }, [goToPage, incomingPageIndex, previousIncomingPageIndex])
 
   useEffect(() => {
     if (onRowSelect) {
@@ -520,21 +405,15 @@ export const Table = <D extends object>({
   const hasData = data.length > 0
 
   // If at least one of the columns has footer then we display the footer row
-  const hasFooter = !loading && hasData && columns.some((col) => !!col.Footer)
+  const hasFooter = !loading && hasData && columns.some((col) => !!col.footer)
 
   // Header row has always aria-rowindex = 1.
   const headerIndex = 1
   // We're using this offset to display correct aria-rowindex when pagination is in action.
   const cellIndexOffset = pageSize * pageIndex + headerIndex
   // Total row count.
-  const rowCount = data.length + headerIndex + (hasFooter ? 1 : 0)
-  const contentColumns = useMemo(() => {
-    if (!hiddenColumns || hiddenColumns.length === 0) {
-      return columns
-    }
 
-    return columns.filter((col) => hiddenColumns?.includes((col.id || col.Header) as string))
-  }, [columns, hiddenColumns])
+  const rowCount = data.length + headerIndex + (hasFooter ? 1 : 0)
 
   const content = (
     <>
@@ -544,40 +423,44 @@ export const Table = <D extends object>({
             [styles.spaceBottom]: !hidePagination,
           })}
         >
-          <div data-test="table" {...getTableProps()} aria-rowcount={rowCount}>
+          <div data-test="table" role="table" aria-rowcount={rowCount}>
             {!hideHeader && (
               <div data-test="table-header-row-group" role="rowgroup" className={headerClassName}>
-                {headerGroups.map((headerGroup) => {
-                  const { key: headerGroupKey, ...restHeaderGroupProps } = headerGroup.getHeaderGroupProps()
+                {tableInstance.getHeaderGroups().map((headerGroup) => (
+                  <HeaderRow
+                    key={headerGroup.id}
+                    role="row"
+                    ariaRowIndex={headerIndex}
+                    style={getRowStyle({ totalSize: tableInstance.getTotalSize() })}
+                  >
+                    {headerGroup.headers.map((header, i) => {
+                      const canSort = header.column.getCanSort()
+                      const isDraggable = columnsOrdering && header.id !== 'expander'
 
-                  return (
-                    <HeaderRow key={headerGroupKey} {...restHeaderGroupProps} ariaRowIndex={headerIndex}>
-                      {headerGroup.headers.map((column, i) => {
-                        const { key: columnKey, ...restHeaderProps } = column.getHeaderProps(column.getSortByToggleProps())
-                        const isDraggable = columnsOrdering && column.id !== 'expander'
-
-                        return (
-                          <Header
-                            index={i}
-                            key={columnKey}
-                            align={column.align}
-                            canSort={column.canSort}
-                            isSorted={column.isSorted}
-                            isSortedDesc={column.isSortedDesc}
-                            canResize={column.canResize}
-                            isResizing={column.isResizing}
-                            getResizerProps={column.getResizerProps}
-                            onDrop={isDraggable ? onDrop : undefined}
-                            onDragStart={onDragStart}
-                            {...restHeaderProps}
-                          >
-                            <EnhancedHeaderFooterRenderer column={column} columnResizing={columnResizing} type="Header" />
-                          </Header>
-                        )
-                      })}
-                    </HeaderRow>
-                  )
-                })}
+                      return (
+                        <Header
+                          index={i}
+                          colSpan={1}
+                          key={header.id}
+                          role="columnheader"
+                          onDragStart={onDragStart}
+                          style={getCellStyle({ size: header.getSize(), minSize: header.column.columnDef.minSize || header.getSize() })}
+                          canSort={canSort}
+                          isSorted={!!header.column.getIsSorted()}
+                          isSortedDesc={sortBy[header.column.getSortIndex()]?.desc}
+                          canResize={header.column.getCanResize()}
+                          onDrop={isDraggable ? onDrop : undefined}
+                          resizeHandler={header.getResizeHandler()}
+                          isResizing={header.column.getIsResizing()}
+                          align={header.column.columnDef.meta?.align}
+                          onClick={canSort ? header.column.getToggleSortingHandler() : undefined}
+                        >
+                          <EnhancedHeaderFooterRenderer type="header" context={header.getContext()} />
+                        </Header>
+                      )
+                    })}
+                  </HeaderRow>
+                ))}
               </div>
             )}
             {!overlayLoading && loading ? (
@@ -598,11 +481,10 @@ export const Table = <D extends object>({
                   page={page}
                   onCopy={onCopy}
                   getHref={getHref}
-                  columns={contentColumns}
+                  totalSize={tableInstance.getTotalSize()}
                   rootRef={setContextMenuAnchorEl}
                   {...columnsSelectionProps}
                   onRowClick={onRowClick}
-                  prepareRow={prepareRow}
                   className={contentClassName}
                   columnResizing={columnResizing}
                   AnchorComponent={AnchorComponent}
@@ -628,16 +510,31 @@ export const Table = <D extends object>({
             {hasFooter && (
               <div data-test="table-footer-row-group" role="rowgroup" className={footerClassName}>
                 {footerGroups.map((group) => {
-                  const { key: footerGroupKey, ...restFooterGroupProps } = group.getFooterGroupProps()
+                  const { id: footerGroupKey } = group
                   return (
                     // Footer props getters do not provide role attributes
-                    <Row key={footerGroupKey} ariaRowIndex={rowCount} {...restFooterGroupProps} role="row">
+                    <Row
+                      key={footerGroupKey}
+                      ariaRowIndex={rowCount}
+                      style={getRowStyle({ totalSize: tableInstance.getTotalSize() })}
+                      role="row"
+                    >
                       {group.headers.map((column) => {
-                        const { key: footerKey, ...restFooterProps } = column.getFooterProps()
+                        const {
+                          id: footerKey,
+                          column: { columnDef },
+                        } = column
+
                         return (
                           // Footer props getters do not provide role attributes
-                          <Cell key={footerKey} {...restFooterProps} align={column.align} role="cell">
-                            <EnhancedHeaderFooterRenderer column={column} columnResizing={columnResizing} type="Footer" />
+                          <Cell
+                            key={footerKey}
+                            colSpan={1}
+                            align={columnDef.meta?.align}
+                            style={getCellStyle({ size: column.getSize(), maxSize: columnDef.maxSize, minSize: columnDef.minSize })}
+                            role="cell"
+                          >
+                            <EnhancedHeaderFooterRenderer context={column.getContext()} type="footer" />
                           </Cell>
                         )
                       })}
@@ -648,18 +545,17 @@ export const Table = <D extends object>({
             )}
           </div>
         </div>
-
         {!hidePagination && hasData && (
           <Pagination
             pageCount={pageCount}
             currentPage={pageIndex + 1}
-            canPreviousPage={canPreviousPage}
-            canNextPage={canNextPage}
+            canPreviousPage={getCanPreviousPage()}
+            canNextPage={getCanNextPage()}
             goToPage={(p) => {
               if (onPageChange) {
                 onPageChange(p - 1)
               } else {
-                gotoPage(p - 1)
+                goToPage(p - 1)
               }
             }}
             nextPage={() => {
@@ -688,7 +584,7 @@ export const Table = <D extends object>({
   )
 
   if (children) {
-    return children(content, tableInstance)
+    return children(content)
   }
 
   return content

@@ -228,6 +228,12 @@ importers:
       '@popperjs/core':
         specifier: ^2.11.7
         version: 2.11.7
+      '@tanstack/react-table':
+        specifier: ^8.20.5
+        version: 8.20.5(react-dom@17.0.2)(react@17.0.2)
+      '@types/lodash':
+        specifier: ^4.17.13
+        version: 4.17.13
       '@types/react-modal':
         specifier: 3.16.0
         version: 3.16.0
@@ -246,6 +252,9 @@ importers:
       formik:
         specifier: ^2.2.9
         version: 2.2.9(react@17.0.2)
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
       nuka-carousel:
         specifier: ^5.5.1
         version: 5.5.1(react-dom@17.0.2)(react@17.0.2)
@@ -5803,7 +5812,7 @@ packages:
       '@babel/preset-env': 7.21.4(@babel/core@7.21.4)
       '@babel/types': 7.21.5
       '@mdx-js/mdx': 1.6.22
-      '@types/lodash': 4.14.178
+      '@types/lodash': 4.17.13
       js-string-escape: 1.0.1
       loader-utils: 2.0.4
       lodash: 4.17.21
@@ -5822,7 +5831,7 @@ packages:
       '@babel/preset-env': 7.21.4(@babel/core@7.25.2)
       '@babel/types': 7.21.5
       '@mdx-js/mdx': 1.6.22
-      '@types/lodash': 4.14.178
+      '@types/lodash': 4.17.13
       js-string-escape: 1.0.1
       loader-utils: 2.0.4
       lodash: 4.17.21
@@ -6185,6 +6194,23 @@ packages:
       defer-to-connect: 2.0.1
     dev: true
 
+  /@tanstack/react-table@8.20.5(react-dom@17.0.2)(react@17.0.2):
+    resolution: {integrity: sha512-WEHopKw3znbUZ61s9i0+i9g8drmDo6asTWbrQh8Us63DAk/M0FkmIqERew6P71HI75ksZ2Pxyuf4vvKh9rAkiA==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      react: '>=16.8'
+      react-dom: '>=16.8'
+    dependencies:
+      '@tanstack/table-core': 8.20.5
+      react: 17.0.2
+      react-dom: 17.0.2(react@17.0.2)
+    dev: false
+
+  /@tanstack/table-core@8.20.5:
+    resolution: {integrity: sha512-P9dF7XbibHph2PFRz8gfBKEXEY/HJPOhym8CHmjF8y3q5mWpKx9xtZapXQUWCgkqvsK0R46Azuz+VaxD4Xl+Tg==}
+    engines: {node: '>=12'}
+    dev: false
+
   /@testing-library/dom@10.4.0:
     resolution: {integrity: sha512-pemlzrSESWbdAloYml3bAJMEfNh1Z7EduzqPKprCH5S341frlpYnUEW0H72dLxa6IsYr+mPno20GiSm+h9dEdQ==}
     engines: {node: '>=18'}
@@ -6454,9 +6480,8 @@ packages:
       '@types/node': 16.18.13
     dev: true
 
-  /@types/lodash@4.14.178:
-    resolution: {integrity: sha512-0d5Wd09ItQWH1qFbEyQ7oTQ3GZrMfth5JkbN3EvTKLXcHLRDSXeLnlvlOn0wvxVIwK5o2M8JzP/OWz7T3NRsbw==}
-    dev: true
+  /@types/lodash@4.17.13:
+    resolution: {integrity: sha512-lfx+dftrEZcdBPczf9d0Qv0x+j/rfNCMuC6OcfXmO8gkfeNAY88PgKUbvG56whcN23gc27yenwF6oJZXGFpYxg==}
 
   /@types/mdast@3.0.10:
     resolution: {integrity: sha512-W864tg/Osz1+9f4lrGTZpCSO5/z4608eUp19tbozkq2HJK6i3z1kT0H9tlADXuYIb1YYOBByU4Jsqkk75q48qA==}
@@ -9839,6 +9864,7 @@ packages:
   /decamelize@1.2.0:
     resolution: {integrity: sha512-z2S+W9X73hAUUki+N+9Za2lBlun89zigOyGrsax+KUQ6wKW4ZoWpEYBkGhQjwAjjDCkWxhY0VKEhk8wzY7F5cA==}
     engines: {node: '>=0.10.0'}
+    requiresBuild: true
     dev: true
 
   /decimal.js@10.4.3:
@@ -14928,6 +14954,7 @@ packages:
   /map-obj@1.0.1:
     resolution: {integrity: sha512-7N/q3lyZ+LVCp7PzuxrJr4KMbBE2hW7BT7YNia330OFxIf4d3r5zVpicP2650l7CPN6RM9zOJRl3NGpqSiw3Eg==}
     engines: {node: '>=0.10.0'}
+    requiresBuild: true
     dev: true
 
   /map-obj@4.1.0:
@@ -20280,6 +20307,7 @@ packages:
   /trim-newlines@3.0.1:
     resolution: {integrity: sha512-c1PTsA3tYrIsLGkJkzHF+w9F2EyxfXGo4UyJc4pFL++FMjnq0HJS69T3M7d//gKrFKwy429bouPescbjecU+Zw==}
     engines: {node: '>=8'}
+    requiresBuild: true
     dev: true
 
   /trim-trailing-lines@1.1.4:
@@ -21570,7 +21598,7 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       '@babel/runtime': 7.16.3
-      '@types/lodash': 4.14.178
+      '@types/lodash': 4.17.13
       lodash: 4.17.21
       lodash-es: 4.17.21
       nanoclone: 0.2.1
