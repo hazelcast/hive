@@ -67,6 +67,7 @@ export type TableState = {
 }
 
 declare module '@tanstack/react-table' {
+  // eslint-disable-next-line
   interface ColumnMeta<TData, TValue> {
     align?: 'center' | 'left' | 'right'
   }
