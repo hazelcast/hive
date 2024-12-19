@@ -9,7 +9,7 @@ import { TextField } from '../src'
 
 import storyStyles from './TextField.stories.module.scss'
 import styles from './utils.scss'
-import { SortingRule } from 'react-table'
+import { SortingRule } from '../lib/Table/types'
 
 export default {
   title: 'Components/Table',
@@ -164,7 +164,7 @@ export const WithControlledSorting = () => {
       // Only update the data if this is the latest fetch
       if (fetchId === fetchIdRef.current) {
         const { id, desc: isDescending } = sortBy[0]
-        const sortColumn = id as keyof Person
+        const sortColumn = id
         const newData = [...bigDataSet]
         newData.sort((a, b) =>
           isDescending ? Number(b[sortColumn]) - Number(a[sortColumn]) : Number(a[sortColumn]) - Number(b[sortColumn]),

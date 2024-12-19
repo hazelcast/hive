@@ -2,9 +2,9 @@ import { useEffect, useRef } from 'react'
 import { Table } from '@tanstack/react-table'
 
 import { useRefValue } from '../hooks'
-import { TableState } from './types'
+import { ColumnId, SortingRule, TableState } from './types'
 
-export const useTrackTableState = <D>(tableInstance: Table<D>, onChange?: (state: TableState) => void) => {
+export const useTrackTableState = <D extends object>(tableInstance: Table<D>, onChange?: (state: TableState<D>) => void) => {
   const {
     columnOrder,
     columnVisibility,
@@ -19,15 +19,15 @@ export const useTrackTableState = <D>(tableInstance: Table<D>, onChange?: (state
     const cb = getOnChange()
     if (cb && skippedInitialStateChangeRef.current) {
       cb({
-        sortBy: sorting,
+        sortBy: sorting as SortingRule<D>[],
         pageSize,
-        columnOrder,
+        columnOrder: columnOrder as ColumnId<D>[],
         columnResizing: {
-          columnWidths: columnSizing,
+          columnWidths: columnSizing as Record<ColumnId<D>, number>,
         },
-        hiddenColumns: Object.entries(columnVisibility).reduce<string[]>((res, [id, visible]) => {
+        hiddenColumns: Object.entries(columnVisibility).reduce<ColumnId<D>[]>((res, [id, visible]) => {
           if (!visible) {
-            return [...res, id]
+            return [...res, id as ColumnId<D>]
           }
 
           return res

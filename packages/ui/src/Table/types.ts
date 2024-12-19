@@ -9,6 +9,8 @@ export type CellProps<D extends object> = {
   row: RowType<D>
 }
 
+export type ColumnId<D extends object> = Extract<keyof D, string>
+
 export type Column = {
   id: string
 }
@@ -17,7 +19,7 @@ export type ColumnType<D extends object> = {
   minWidth?: number
   maxWidth?: number
   Footer?: string | ((props: HeaderProps<D>) => JSX.Element | string)
-  accessor?: Extract<keyof D, string> | ((data: D, index: number) => string | number | JSX.Element)
+  accessor?: ColumnId<D> | ((data: D, index: number) => string | number | JSX.Element)
   Cell?: string | ((props: CellProps<D>) => JSX.Element)
   canHide?: boolean // true by default
   align?: 'left' | 'center' | 'right'
@@ -48,7 +50,7 @@ export type CellType<D extends object> = {
 }
 
 export type SortingRule<D extends object> = {
-  id: Extract<keyof D, string>
+  id: ColumnId<D>
   desc?: boolean | undefined
 }
 
@@ -56,14 +58,14 @@ export type InitialState = {
   paginationOptions?: { pageIndex?: number; pageSize?: number }
 }
 
-export type TableState = {
-  hiddenColumns: string[]
-  columnOrder: string[]
+export type TableState<D extends object> = {
+  hiddenColumns: ColumnId<D>[]
+  columnOrder: ColumnId<D>[]
   pageSize: number
   columnResizing: {
-    columnWidths: Record<string, number>
+    columnWidths: Record<ColumnId<D>, number>
   }
-  sortBy: { id: string; desc: boolean }[]
+  sortBy: SortingRule<D>[]
 }
 
 declare module '@tanstack/react-table' {

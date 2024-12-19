@@ -199,7 +199,7 @@ describe('SelectField', () => {
 
     expect(wrapper.find(ReactSelect).exists()).toBe(true)
 
-    expect(wrapper.findDataTest('select-field-icon-left').props()).toEqual({
+    expect(wrapper.findDataTestFirst('select-field-icon-left').props()).toEqual({
       'data-test': 'select-field-icon-left',
       containerClassName: styles.iconLeftContainer,
       icon: iconLeft,
