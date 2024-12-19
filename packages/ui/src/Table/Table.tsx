@@ -46,8 +46,6 @@ import styles from './Table.module.scss'
 import styleConsts from '../../styles/constants/export.module.scss'
 import { useTrackTableState } from './useTrackTableState'
 
-export type { Accessor, Cell, Renderer, Row, CellProps, HeaderGroup, TableInstance, TableState } from 'react-table'
-
 export type PaginationOptions = Partial<Pick<PaginationProps, 'pageSizeOptions'>>
 
 /**
@@ -119,7 +117,7 @@ type CustomTableProps<D extends object> = {
   canExpand?: (row: RowType<D>) => boolean
   onCopy?: (data: (string | undefined)[][]) => void
   initialState?: InitialState
-  onStateChange?: (newState: TableState) => void
+  onStateChange?: (newState: TableState<D>) => void
 } & CustomTableRowClickProps<D> &
   DataTestProp
 
