@@ -1,5 +1,6 @@
 import React, { FC, forwardRef, SVGAttributes, SVGProps } from 'react'
 import cn from 'classnames'
+import { DataTestProp } from '@hazelcast/helpers'
 
 import styleConsts from '../styles/constants/export.module.scss'
 import styles from './Icon.module.scss'
@@ -39,7 +40,8 @@ export type IconProps = {
   containerClassName?: string
   bold?: boolean
   role?: string
-} & IconAriaProps
+} & IconAriaProps &
+  DataTestProp
 
 export const Icon = forwardRef<HTMLDivElement, IconProps>(
   (
@@ -54,6 +56,7 @@ export const Icon = forwardRef<HTMLDivElement, IconProps>(
       size = 'medium',
       bold = false,
       role = 'img',
+      'data-test': dataTest,
     },
     ref,
   ) => {
@@ -80,7 +83,7 @@ export const Icon = forwardRef<HTMLDivElement, IconProps>(
     }
 
     return (
-      <div className={cn(styles.iconContainer, containerClassName)} ref={ref}>
+      <div className={cn(styles.iconContainer, containerClassName)} data-test={dataTest} ref={ref}>
         <IconElement role={role} {...props} />
       </div>
     )

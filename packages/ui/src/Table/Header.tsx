@@ -1,6 +1,5 @@
-import React, { FC, useMemo, useCallback, MouseEvent, KeyboardEvent, AriaAttributes, DragEvent, useRef } from 'react'
+import React, { useMemo, useCallback, MouseEvent, KeyboardEvent, AriaAttributes, DragEvent, useRef, CSSProperties } from 'react'
 import { ChevronDown, ChevronUp, Menu } from 'react-feather'
-import { TableHeaderProps, TableResizerProps } from 'react-table'
 import cn from 'classnames'
 
 import { Icon } from '../Icon'
@@ -21,13 +20,18 @@ export type HeaderProps = {
   onClick?: (event: MouseEvent | KeyboardEvent) => void
   canResize: boolean
   isResizing: boolean
-  getResizerProps: (props?: Partial<TableResizerProps>) => TableResizerProps
+  size?: number
   index: number
+  style?: CSSProperties
+  role: string
+  className?: string
+  children?: React.ReactNode
+  resizeHandler: (e: unknown) => void
   onDragStart?: (e: DragEvent) => void
   onDrop?: (e: DragEvent, index: number) => void
-} & Omit<TableHeaderProps, 'key'>
+}
 
-export const Header: FC<HeaderProps> = ({
+export const Header = ({
   align = 'left',
   colSpan,
   children,
@@ -36,16 +40,17 @@ export const Header: FC<HeaderProps> = ({
   isSortedDesc,
   canResize,
   isResizing,
-  getResizerProps,
   onClick,
   style,
   className,
   role,
   index,
+  size,
   onDragStart,
   onDrop,
-}) => {
-  const rootRef = useRef<HTMLDivElement>(null)
+  resizeHandler,
+}: HeaderProps) => {
+  const rootRef = useRef<HTMLTableHeaderCellElement>(null)
   const isDragStarterRef = useRef(false)
   const counterRef = useRef(0)
 
@@ -58,6 +63,7 @@ export const Header: FC<HeaderProps> = ({
   const Chevron = useMemo(
     () => (
       <Icon
+        data-test="chevron"
         className={cn(styles.sortingIcon, {
           [styles.left]: align === 'left',
           [styles.right]: align === 'right',
@@ -79,7 +85,7 @@ export const Header: FC<HeaderProps> = ({
     />
   )
 
-  const onKeyPress = useCallback(
+  const onKeyDown = useCallback(
     (event: KeyboardEvent<HTMLDivElement>) => {
       event.preventDefault()
       if (keyIsOneOf(event, 'Enter') && onClick) {
@@ -92,7 +98,7 @@ export const Header: FC<HeaderProps> = ({
   const buttonRoleProps = {
     tabIndex: onClick ? 0 : undefined,
     role: onClick ? 'button' : undefined,
-    onKeyPress: onClick ? onKeyPress : undefined,
+    onKeyDown: onClick ? onKeyDown : undefined,
     onClick,
   }
 
@@ -101,7 +107,10 @@ export const Header: FC<HeaderProps> = ({
       ref={rootRef}
       data-test="table-header-container"
       className={cn(styles.container, className)}
-      style={style}
+      style={{
+        ...style,
+        ...(size != null ? { width: size } : {}),
+      }}
       role={role}
       aria-colspan={colSpan}
       aria-sort={ariaSort}
@@ -170,10 +179,16 @@ export const Header: FC<HeaderProps> = ({
         {draggable && (align === 'left' || align === 'center') && DraggableIcon}
       </div>
       {canResize && (
-        <div data-test="table-header-column-resizer-container" className={styles.resizer} {...getResizerProps()}>
+        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+        <div
+          data-test="table-header-column-resizer-container"
+          className={styles.resizer}
+          onMouseDown={resizeHandler}
+          onTouchStart={resizeHandler}
+        >
           <div
             data-test="table-header-column-resizer"
-            className={cn(styles.separator, {
+            className={cn('resizer', styles.separator, {
               [styles.resizing]: isResizing,
             })}
           />

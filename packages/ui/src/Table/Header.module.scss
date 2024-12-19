@@ -22,7 +22,6 @@
   .separator {
     width: 1px;
     height: 100%;
-    background: c.$colorNeutralWhite;
   }
 
   .resizing,
@@ -33,6 +32,11 @@
 
 .container {
   position: relative;
+  flex-grow: 1;
+  flex-basis: auto;
+  flex-shrink: 0;
+  background: #e9f0f9;
+  border-right: 1px solid c.$colorNeutralWhite;
 
   .th {
     display: flex;
@@ -41,7 +45,7 @@
     padding-left: c.$grid * 5;
     padding-right: c.$grid * 5;
     color: c.$colorText;
-    background: #e9f0f9;
+    box-sizing: border-box;
 
     @include c.typographyBodySmall('bold');
     @include h.overflowEllipsis;

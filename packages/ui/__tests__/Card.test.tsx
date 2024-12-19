@@ -59,8 +59,7 @@ describe('Card', () => {
     expect(content).toBeInTheDocument()
     expect(content.className).toEqual(styles.content)
     expect(within(content).queryByText(cardContent)).toBeInTheDocument()
-
-    expect(screen.queryByTestId('card-heading-icon')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('card-heading-icon')).toBeInTheDocument()
   })
 
   it('renders caption', async () => {

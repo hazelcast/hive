@@ -10,6 +10,7 @@ import { LinkRel, LinkTarget } from './Link'
 import { Loader } from './Loader'
 
 import styles from './Button.module.scss'
+import { DataTestProp } from '@hazelcast/helpers'
 
 export type ButtonKind = 'primary' | 'secondary' | 'danger' | 'transparent'
 
@@ -105,7 +106,11 @@ export type ButtonTypeButtonProps = {
 
 export type ButtonTypeProps = ButtonTypeAnchorProps | ButtonTypeButtonProps
 
-export type ButtonProps<T = ButtonTypeProps> = ButtonCommonProps & T & ButtonAccessibleIconLeftProps & ButtonAccessibleIconRightProps
+export type ButtonProps<T = ButtonTypeProps> = ButtonCommonProps &
+  T &
+  ButtonAccessibleIconLeftProps &
+  ButtonAccessibleIconRightProps &
+  DataTestProp
 
 const capitalizeFirstCharacter = (str: string) => `${str[0].toUpperCase()}${str.slice(1)}`
 

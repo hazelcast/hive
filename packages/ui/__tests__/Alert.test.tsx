@@ -75,7 +75,7 @@ describe('Alert', () => {
       expect(AlertElement.findDataTest('alert-content').props()).toMatchObject({
         children: content,
       })
-      expect(wrapper.findDataTest('alert-icon').props()).toMatchObject({
+      expect(wrapper.findDataTestFirst('alert-icon').props()).toMatchObject({
         icon,
         ariaLabel,
       })

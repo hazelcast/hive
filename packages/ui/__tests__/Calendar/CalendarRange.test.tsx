@@ -28,7 +28,7 @@ describe('CalendarRange', () => {
     })
 
     // Icon
-    expect(wrapper.findDataTest('calendar-range-icon').props()).toMatchObject({
+    expect(wrapper.findDataTestFirst('calendar-range-icon').props()).toMatchObject({
       icon: ArrowRight,
       ariaLabel: 'Arrow Right',
     })
@@ -72,7 +72,7 @@ describe('CalendarRange', () => {
     })
 
     // Icon
-    expect(wrapper.findDataTest('calendar-range-icon').props()).toMatchObject({
+    expect(wrapper.findDataTestFirst('calendar-range-icon').props()).toMatchObject({
       icon: ArrowRight,
       ariaLabel: 'Arrow Right',
     })

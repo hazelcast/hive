@@ -51,7 +51,7 @@ describe('Notification', () => {
     expect(wrapper.findDataTest('notification').props()).toMatchObject({
       className: cn(styles.notification, className),
     })
-    expect(wrapper.findDataTest('notification-icon').props()).toMatchObject({
+    expect(wrapper.findDataTestFirst('notification-icon').props()).toMatchObject({
       ariaLabel,
       icon,
     })
@@ -72,7 +72,7 @@ describe('Notification', () => {
     expect(wrapper.findDataTest('notification').props()).toMatchObject({
       className: cn(styles.notification, styles.success),
     })
-    expect(wrapper.findDataTest('notification-icon').props()).toMatchObject({
+    expect(wrapper.findDataTestFirst('notification-icon').props()).toMatchObject({
       ariaLabel: 'Check circle icon',
       icon: CheckCircle,
     })

@@ -1,25 +1,16 @@
-import { axeDefaultOptions, mountAndCheckA11Y } from '@hazelcast/test-helpers'
-import React, { PropsWithChildren } from 'react'
-import { act } from 'react-dom/test-utils'
-import { ChevronDown, ChevronUp } from 'react-feather'
+import React from 'react'
+import startCase from 'lodash/startCase'
+import { fireEvent, screen, within } from '@testing-library/react'
+import { userEvent } from '@testing-library/user-event'
+import { axeDefaultOptions, renderAndCheckA11Y } from '@hazelcast/test-helpers'
 
-import { getColumns, Person } from './utils'
+import { getColumns } from './utils'
 import { Table } from '../../src/Table/Table'
-import { HeaderRow, Row, RowProps } from '../../src/Table/Row'
-import { Header, HeaderProps } from '../../src/Table/Header'
-import { Cell, CellProps } from '../../src/Table/Cell'
-import {
-  EnhancedCellRenderer,
-  EnhancedCellRendererProps,
-  EnhancedHeaderFooterRenderer,
-  EnhancedHeaderFooterRendererProps,
-} from '../../src/Table/EnhancedRenderers'
-import { Pagination, PaginationProps } from '../../src/Pagination'
-import { Button } from '../../src/Button'
 import { bigDataSet, smallDataSet } from './consts'
-import { Icon } from '../../src/Icon'
 
 import cellStyles from '../../src/Table/Cell.module.scss'
+import headerStyles from '../../src/Table/Header.module.scss'
+import { act } from 'react-dom/test-utils'
 
 const rules = axeDefaultOptions?.rules ?? {}
 const axeOptions = {
@@ -34,312 +25,234 @@ describe('Table', () => {
   it('renders table and pagination with correct props', async () => {
     const columns = getColumns({})
 
-    const wrapper = await mountAndCheckA11Y(<Table data-test="table-test" columns={columns} data={smallDataSet} disableSortBy />, {
+    await renderAndCheckA11Y(<Table data-test="table-test" columns={columns} data={smallDataSet} disableSortBy />, {
       axeOptions,
     })
 
-    const tableWrapper = wrapper.findDataTest('table-test')
+    const tableWrapper = screen.queryByTestId('table-test')
 
-    const table = tableWrapper.findDataTest('table')
-    expect(table.props()).toMatchObject({
-      'data-test': 'table',
-      'aria-rowcount': smallDataSet.length + 1,
-      role: 'table',
-    })
+    const table = within(tableWrapper!).queryByTestId('table')
 
-    const headerRowGroup = table.findDataTest('table-header-row-group')
-    expect(headerRowGroup.props()).toMatchObject({
-      'data-test': 'table-header-row-group',
-      role: 'rowgroup',
-      className: '',
-    })
+    expect(table!.getAttribute('role')).toBe('table')
+    expect(table!.getAttribute('aria-rowcount')).toBe(String(smallDataSet.length + 1))
 
-    const headerRow = headerRowGroup.find(HeaderRow)
-    expect(headerRow.props()).toMatchObject<PropsWithChildren<RowProps>>({
-      ariaRowIndex: 1,
-      role: 'row',
-    })
+    const headerRowGroup = within(tableWrapper!).queryByTestId('table-header-row-group')
 
-    const headers = headerRowGroup.find(Header)
-    headers.forEach((header, i: number) => {
-      expect(header.props()).toMatchObject<PropsWithChildren<HeaderProps>>({
-        align: columns[i].align,
-        index: i,
-        canSort: false,
-        isSorted: false,
-        isSortedDesc: undefined,
-        canResize: true,
-        isResizing: false,
+    expect(headerRowGroup).toBeInTheDocument()
+    expect(headerRowGroup!.getAttribute('role')).toBe('rowgroup')
 
-        getResizerProps: expect.anything(),
-        onClick: undefined,
-        colSpan: 1,
-        role: 'columnheader',
+    const headerRow = within(headerRowGroup!).queryByTestId('table-header-row')
+
+    expect(headerRow).toBeInTheDocument()
+    expect(headerRow!.getAttribute('role')).toBe('row')
+    expect(headerRow!.getAttribute('aria-rowindex')).toBe('1')
+
+    within(headerRowGroup!)
+      .getAllByTestId('table-header-container')
+      .forEach((header, i: number) => {
+        const column = columns[i]
+        expect(header.getAttribute('role')).toBe('columnheader')
+        expect(header.getAttribute('aria-colspan')).toBe('1')
+
+        const content = within(header).queryByTestId('table-header-content')
+
+        expect(content).toBeInTheDocument()
+        expect(content!.getAttribute('class')?.includes(cellStyles[`align${startCase(column.align)}`])).toBeTruthy()
       })
 
-      expect(header.find(EnhancedHeaderFooterRenderer).props()).toMatchObject<EnhancedHeaderFooterRendererProps<Person>>({
-        type: 'Header',
-        // We ignore typescript error here since some props of `columnResizing` are in fact nullable as opposed
-        // to those described in @types/react-table.
-        // TODO: Remove once the types are correct
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        columnResizing: {
-          columnWidths: {},
-        },
-      })
-    })
+    const tableContent = within(tableWrapper!).queryByTestId('table-content')
 
-    const tableContent = table.findDataTest('table-content')
-    expect(tableContent.props()).toMatchObject({
-      'data-test': 'table-content',
-      className: 'content',
-    })
+    expect(tableContent).toBeInTheDocument()
+    expect(tableContent?.getAttribute('class')).toBe('content')
 
-    const cellRows = tableContent.find(Row)
+    const cellRows = within(tableContent!).queryAllByTestId('table-cell-row')
     cellRows.forEach((cellRow, i: number) => {
-      expect(cellRow.props()).toMatchObject<PropsWithChildren<RowProps>>({
-        // 1 for header row, 1 because we're indexing from 0
-        ariaRowIndex: i + 2,
-        role: 'row',
-      })
+      expect(cellRow.getAttribute('role')).toBe('row')
+      expect(cellRow.getAttribute('aria-rowindex')).toBe(String(i + 2))
 
-      const cells = cellRow.find(Cell)
+      const cells = within(cellRow).queryAllByTestId('table-cell')
+
       cells.forEach((cell, j) => {
-        expect(cell.props()).toMatchObject<PropsWithChildren<CellProps>>({
-          align: columns[j].align,
-          role: 'cell',
-        })
-
-        expect(cell.find(EnhancedCellRenderer).props()).toMatchObject<EnhancedCellRendererProps<Person>>({
-          hasCellRenderer: false,
-          // We ignore typescript error here since some props of `columnResizing` are in fact nullable as opposed
-          // to those described in @types/react-table.
-          // TODO: Remove once the types are correct
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          columnResizing: {
-            columnWidths: {},
-          },
-        })
+        const column = columns[j]
+        expect(cell.getAttribute('role')).toBe('cell')
+        if (column) {
+          expect(cell.getAttribute('class')?.includes(cellStyles[`align${startCase(column.align)}`])).toBeTruthy()
+        }
       })
     })
 
-    expect(tableWrapper.find(Pagination).props()).toMatchObject<PaginationProps>({
-      pageCount: 1,
-      currentPage: 1,
-      canPreviousPage: false,
-      canNextPage: false,
+    const pagination = within(tableWrapper!).queryByTestId('pagination')
 
-      goToPage: expect.anything(),
+    expect(pagination).toBeInTheDocument()
+    expect(within(pagination!).queryByTestId('pagination-buttons')).not.toBeInTheDocument()
+    expect(within(pagination!).queryByTestId('pagination-rows-per-page-select')).not.toBeInTheDocument()
 
-      nextPage: expect.anything(),
-
-      previousPage: expect.anything(),
-      pageSize: 10,
-
-      setPageSize: expect.anything(),
-      pageSizeOptions: [5, 10, 20],
-      numberOfItems: smallDataSet.length,
-    })
-
-    expect(wrapper.existsDataTest('table-no-data')).toBe(false)
-    expect(wrapper.findDataTest('table-loader-cell').exists()).toBe(false)
+    expect(screen.queryByTestId('table-no-data')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('table-loader-cell')).not.toBeInTheDocument()
   })
 
   it('renders table footer with correct props', async () => {
     const columns = getColumns({ withFooter: true })
 
-    const wrapper = await mountAndCheckA11Y(<Table data-test="table-test" columns={columns} data={smallDataSet} disableSortBy />, {
+    await renderAndCheckA11Y(<Table data-test="table-test" columns={columns} data={smallDataSet} disableSortBy />, {
       axeOptions,
     })
 
-    const footerRowGroup = wrapper.findDataTest('table-footer-row-group')
-    expect(footerRowGroup.props()).toEqual({
-      'data-test': 'table-footer-row-group',
-      role: 'rowgroup',
-      className: '',
+    const footerRowGroup = screen.queryByTestId('table-footer-row-group')
 
-      children: expect.anything(),
-    })
+    expect(footerRowGroup).toBeInTheDocument()
+    expect(footerRowGroup!.getAttribute('role')).toBe('rowgroup')
 
-    const footerRow = footerRowGroup.find(Row)
-    expect(footerRow.props()).toEqual<PropsWithChildren<RowProps>>({
-      ariaRowIndex: 12,
-      role: 'row',
+    const footerRow = within(footerRowGroup!).queryByTestId('table-cell-row')
 
-      style: expect.anything(),
+    expect(footerRow).toBeInTheDocument()
+    expect(footerRow!.getAttribute('role')).toBe('row')
+    expect(footerRow!.getAttribute('aria-rowindex')).toBe('12')
 
-      children: expect.anything(),
-    })
-
-    const cells = footerRow.find(Cell)
+    const cells = within(footerRow!).queryAllByTestId('table-cell')
     cells.forEach((footer, i) => {
-      expect(footer.props()).toEqual<PropsWithChildren<CellProps>>({
-        align: columns[i].align,
-        colSpan: 1,
-        role: 'cell',
-
-        style: expect.anything(),
-
-        children: expect.anything(),
-      })
-
-      expect(footer.find(EnhancedHeaderFooterRenderer).props()).toEqual<EnhancedHeaderFooterRendererProps<Person>>({
-        column: expect.anything(),
-        type: 'Footer',
-        // We ignore typescript error here since some props of `columnResizing` are in fact nullable as opposed
-        // to those described in @types/react-table.
-        // TODO: Remove once the types are correct
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        columnResizing: {
-          columnWidths: {},
-        },
-      })
+      expect(footer.getAttribute('role')).toBe('cell')
+      expect(footer.getAttribute('aria-colspan')).toBe('1')
+      expect(footer.getAttribute('class')?.includes(cellStyles[`align${startCase(columns[i].align)}`])).toBeTruthy()
     })
   })
 
   it('renders table without pagination', async () => {
     const columns = getColumns({})
 
-    const wrapper = await mountAndCheckA11Y(<Table data-test="table-test" columns={columns} data={smallDataSet} hidePagination />)
+    await renderAndCheckA11Y(<Table data-test="table-test" columns={columns} data={smallDataSet} hidePagination />)
 
-    expect(wrapper.findDataTest('table').exists()).toBe(true)
-    expect(wrapper.find(Pagination).exists()).toBe(false)
+    expect(screen.queryByTestId('table')).toBeInTheDocument()
+    expect(screen.queryByTestId('pagination')).not.toBeInTheDocument()
   })
 
   it('renders table with sorting capabilities', async () => {
     const columns = getColumns({})
 
-    const wrapper = await mountAndCheckA11Y(<Table data-test="table-test" columns={columns} data={smallDataSet} />, { axeOptions })
+    await renderAndCheckA11Y(<Table data-test="table-test" columns={columns} data={smallDataSet} />, { axeOptions })
 
-    const headers = wrapper.find(Header)
+    const headers = screen.queryAllByTestId('table-header-container')
 
-    headers.forEach((header, i) => {
+    for (const header of headers) {
+      const content = within(header).getByTestId('table-header-content')
       // Sorting enabled but not used
-      expect(header.prop('isSorted')).toBeFalsy()
-      expect(header.prop('isSortedDesc')).toBe(undefined)
-      expect(header.prop('canSort')).toBeTruthy()
+      expect(header.getAttribute('aria-sort')).toBe(null)
+      expect(content.getAttribute('class')?.includes(headerStyles.sortable)).toBeTruthy()
 
       // Let's sort!
-      header.findDataTest('table-header-content').simulate('click')
-      wrapper.update()
+      await act(async () => {
+        await userEvent.click(content)
+      })
 
-      expect(wrapper.find(Header).at(i).prop('isSorted')).toBeTruthy()
-      expect(wrapper.find(Header).at(i).prop('isSortedDesc')).toBeFalsy()
-      expect(wrapper.find(Header).at(i).prop('canSort')).toBeTruthy()
+      expect(header.getAttribute('aria-sort')).toBe('ascending')
+      expect(content.getAttribute('class')?.includes(headerStyles.sortable)).toBeTruthy()
 
       // Let's sort in descending order
-      header.findDataTest('table-header-content').simulate('click')
-      wrapper.update()
+      await act(async () => {
+        await userEvent.click(content)
+      })
 
-      expect(wrapper.find(Header).at(i).prop('isSorted')).toBeTruthy()
-      expect(wrapper.find(Header).at(i).prop('isSortedDesc')).toBeTruthy()
-      expect(wrapper.find(Header).at(i).prop('canSort')).toBeTruthy()
+      expect(header.getAttribute('aria-sort')).toBe('descending')
+      expect(content.getAttribute('class')?.includes(headerStyles.sortable)).toBeTruthy()
 
       // Back to default state
-      header.findDataTest('table-header-content').simulate('click')
-      wrapper.update()
-      expect(wrapper.find(Header).at(i).prop('isSorted')).toBeFalsy()
-      expect(wrapper.find(Header).at(i).prop('isSortedDesc')).toBe(undefined)
-      expect(wrapper.find(Header).at(i).prop('canSort')).toBeTruthy()
-    })
+      await act(async () => {
+        await userEvent.click(content)
+      })
+
+      expect(header.getAttribute('aria-sort')).toBe(null)
+      expect(content.getAttribute('class')?.includes(headerStyles.sortable)).toBeTruthy()
+    }
   })
 
   it('renders table without data', async () => {
     const columns = getColumns({ withFooter: true })
 
-    const wrapper = await mountAndCheckA11Y(<Table data-test="table-test" columns={columns} data={[]} hidePagination />)
+    await renderAndCheckA11Y(<Table data-test="table-test" columns={columns} data={[]} hidePagination />)
 
-    expect(wrapper.findDataTest('table').exists()).toBe(true)
-    expect(wrapper.findDataTest('table-footer-row-group').exists()).toBe(false)
-    expect(wrapper.existsDataTest('table-no-data')).toBe(true)
-    expect(wrapper.find(Pagination).exists()).toBeFalsy()
+    expect(screen.queryByTestId('table')).toBeInTheDocument()
+    expect(screen.queryByTestId('table-footer-row-group')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('table-no-data')).toBeInTheDocument()
+    expect(screen.queryByTestId('pagination')).not.toBeInTheDocument()
   })
 
   it('renders table with loader when data exists', async () => {
     const columns = getColumns({ withFooter: true })
 
-    const wrapper = await mountAndCheckA11Y(<Table loading data-test="table-test" columns={columns} data={smallDataSet} hidePagination />)
+    await renderAndCheckA11Y(<Table loading data-test="table-test" columns={columns} data={smallDataSet} hidePagination />)
 
-    expect(wrapper.findDataTest('table').exists()).toBe(true)
-    expect(wrapper.findDataTest('table-footer-row-group').exists()).toBe(false)
-    expect(wrapper.existsDataTest('table-no-data')).toBe(false)
-    expect(wrapper.findDataTest('table-loader-cell').exists()).toBe(true)
+    expect(screen.queryByTestId('table')).toBeInTheDocument()
+    expect(screen.queryByTestId('table-footer-row-group')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('table-no-data')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('pagination')).not.toBeInTheDocument()
   })
 
   it('renders table with loader when data not exists', async () => {
     const columns = getColumns({ withFooter: true })
 
-    const wrapper = await mountAndCheckA11Y(<Table loading data-test="table-test" columns={columns} data={[]} hidePagination />)
+    await renderAndCheckA11Y(<Table loading data-test="table-test" columns={columns} data={[]} hidePagination />)
 
-    expect(wrapper.findDataTest('table').exists()).toBe(true)
-    expect(wrapper.findDataTest('table-footer-row-group').exists()).toBe(false)
-    expect(wrapper.existsDataTest('table-no-data')).toBe(false)
-    expect(wrapper.findDataTest('table-loader-cell').exists()).toBe(true)
+    expect(screen.queryByTestId('table')).toBeInTheDocument()
+    expect(screen.queryByTestId('table-footer-row-group')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('table-no-data')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('pagination')).not.toBeInTheDocument()
   })
 
   it('renders table without header', async () => {
     const columns = getColumns({ withFooter: true })
 
-    const wrapper = await mountAndCheckA11Y(<Table hideHeader data-test="table-test" columns={columns} data={[]} hidePagination />)
+    await renderAndCheckA11Y(<Table hideHeader data-test="table-test" columns={columns} data={[]} hidePagination />)
 
-    expect(wrapper.findDataTest('table').exists()).toBe(true)
-    expect(wrapper.findDataTest('table-header-row-group').exists()).toBe(false)
+    expect(screen.queryByTestId('table')).toBeInTheDocument()
+    expect(screen.queryByTestId('table-header-row-group')).not.toBeInTheDocument()
   })
 
   it('Reset out of range pageIndex to last available page', async () => {
     const columns = getColumns({ withFooter: true })
 
-    const wrapper = await mountAndCheckA11Y(<Table data-test="table-test" columns={columns} data={bigDataSet} />)
+    const { rerender } = await renderAndCheckA11Y(<Table data-test="table-test" columns={columns} data={bigDataSet} />)
 
-    expect(wrapper.find(Pagination).prop('currentPage')).toBe(1)
+    expect(within(screen.getByTestId('table-content')).queryByText(bigDataSet[0].name)).toBeInTheDocument()
+    expect(within(screen.getByTestId('table-content')).queryByText(bigDataSet[10].name)).not.toBeInTheDocument()
 
-    act(() => {
-      wrapper.find(Pagination).find(Button).at(1).simulate('click')
-    })
-    wrapper.update()
+    await userEvent.click(screen.getByTestId('pagination-buttons-next-page'))
 
-    expect(wrapper.find(Pagination).prop('currentPage')).toBe(2)
+    expect(within(screen.getByTestId('table-content')).queryByText(bigDataSet[10].name)).toBeInTheDocument()
+    expect(within(screen.getByTestId('table-content')).queryByText(bigDataSet[0].name)).not.toBeInTheDocument()
 
-    wrapper.setProps({
-      data: smallDataSet,
-    })
-    wrapper.update()
+    rerender(<Table data-test="table-test" columns={columns} data={smallDataSet} />)
+    await act(async () => {})
 
-    expect(wrapper.find(Pagination).prop('currentPage')).toBe(1)
+    expect(within(screen.getByTestId('table-content')).queryByText(smallDataSet[0].name)).toBeInTheDocument()
+    expect(within(screen.getByTestId('table-content')).queryByText(bigDataSet[10].name)).not.toBeInTheDocument()
   })
 
   it('Controlled pagination', async () => {
     const columns = getColumns({ withFooter: true })
-    const onPageChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
-      <Table data-test="table-test" pageIndex={1} columns={columns} data={bigDataSet} onPageChange={onPageChange} />,
-    )
+    const { rerender } = await renderAndCheckA11Y(<Table data-test="table-test" pageIndex={1} columns={columns} data={bigDataSet} />)
 
-    expect(wrapper.find(Pagination).prop('currentPage')).toBe(2)
+    expect(within(screen.getByTestId('table-content')).queryByText(bigDataSet[0].name)).not.toBeInTheDocument()
+    expect(within(screen.getByTestId('table-content')).queryByText(bigDataSet[20].name)).not.toBeInTheDocument()
+    expect(within(screen.getByTestId('table-content')).queryByText(bigDataSet[10].name)).toBeInTheDocument()
 
-    act(() => {
-      wrapper.find(Pagination).find(Button).at(2).simulate('click')
-    })
-    wrapper.update()
+    await userEvent.click(screen.getByTestId('pagination-buttons-next-page'))
 
-    expect(wrapper.find(Pagination).prop('currentPage')).toBe(2)
+    expect(within(screen.getByTestId('table-content')).queryByText(bigDataSet[0].name)).not.toBeInTheDocument()
+    expect(within(screen.getByTestId('table-content')).queryByText(bigDataSet[20].name)).toBeInTheDocument()
+    expect(within(screen.getByTestId('table-content')).queryByText(bigDataSet[10].name)).not.toBeInTheDocument()
 
-    wrapper.setProps({
-      pageIndex: 2,
-    })
-    wrapper.update()
+    rerender(<Table data-test="table-test" pageIndex={2} columns={columns} data={bigDataSet} />)
 
-    expect(wrapper.find(Pagination).prop('currentPage')).toBe(3)
+    expect(within(screen.getByTestId('table-content')).queryByText(bigDataSet[10].name)).not.toBeInTheDocument()
+    expect(within(screen.getByTestId('table-content')).queryByText(bigDataSet[20].name)).toBeInTheDocument()
+    expect(within(screen.getByTestId('table-content')).queryByText(bigDataSet[30].name)).not.toBeInTheDocument()
   })
 
   it('SubRows', async () => {
     const columns = getColumns({ withFooter: true })
 
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <Table
         data-test="table-test"
         columns={columns}
@@ -347,24 +260,20 @@ describe('Table', () => {
       />,
     )
 
-    expect(wrapper.findDataTest('row-expander').length).toBe(1)
-    expect(wrapper.findDataTest('table-cell-row-group').findDataTest('table-cell-row').length).toBe(10)
+    expect(screen.getAllByTestId('row-expander').length).toBe(1)
+    expect(within(screen.getByTestId('table-cell-row-group')).getAllByTestId('table-cell-row').length).toBe(10)
+    expect(screen.getByTestId('row-expander').getAttribute('aria-expanded')).toBe('false')
 
-    expect(wrapper.findDataTest('row-expander').find(Icon).prop('icon')).toBe(ChevronDown)
+    await userEvent.click(screen.getByTestId('row-expander'))
 
-    act(() => {
-      wrapper.findDataTest('row-expander').simulate('click')
-    })
-    wrapper.update()
-
-    expect(wrapper.findDataTest('table-cell-row-group').findDataTest('table-cell-row').length).toBe(12)
-    expect(wrapper.findDataTest('row-expander').find(Icon).prop('icon')).toBe(ChevronUp)
+    expect(within(screen.getByTestId('table-cell-row-group')).getAllByTestId('table-cell-row').length).toBe(12)
+    expect(screen.getByTestId('row-expander').getAttribute('aria-expanded')).toBe('true')
   })
 
   it('Custom expandable content', async () => {
     const columns = getColumns({ withFooter: true })
 
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <Table
         data-test="table-test"
         columns={columns}
@@ -373,43 +282,35 @@ describe('Table', () => {
       />,
     )
 
-    expect(wrapper.findDataTest('row-expander').exists()).toBeTruthy()
-    expect(wrapper.findDataTest('custom-expandable-content').length).toBe(0)
+    expect(screen.getAllByTestId('row-expander').length).toBe(10)
+    expect(screen.queryByTestId('custom-expandable-content')).not.toBeInTheDocument()
 
-    act(() => {
-      wrapper.findDataTest('row-expander').at(0).simulate('click')
-    })
-    wrapper.update()
+    await userEvent.click(screen.getAllByTestId('row-expander')[0])
 
-    expect(wrapper.findDataTest('custom-expandable-content').length).toBe(1)
+    expect(screen.getAllByTestId('custom-expandable-content').length).toBe(1)
   })
 
   it('Columns selection', async () => {
     const columns = getColumns({})
     const onCopy = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(<Table data-test="table-test" columns={columns} data={smallDataSet} />)
+    const { rerender } = await renderAndCheckA11Y(<Table data-test="table-test" columns={columns} data={smallDataSet} />)
 
-    expect(wrapper.findDataTest('cell-copyable-popover').length).toBe(0)
+    expect(screen.queryAllByTestId('cell-copyable-popover').length).toBe(0)
 
-    act(() => {
-      wrapper.findDataTest('table-cell').at(0).simulate('mousedown', {})
-    })
-    wrapper.update()
+    fireEvent.mouseDown(screen.queryAllByTestId('table-cell')[0], {})
 
-    expect(wrapper.findDataTest('table-cell').at(0).prop('className')?.includes(cellStyles.selected)).toBeFalsy()
+    expect(screen.queryAllByTestId('table-cell')[0].getAttribute('class')?.includes(cellStyles.selected)).toBeFalsy()
 
-    wrapper.setProps({
-      onCopy,
-    })
-    wrapper.update()
+    rerender(<Table data-test="table-test" columns={columns} onCopy={onCopy} data={smallDataSet} />)
 
-    act(() => {
-      wrapper.findDataTest('table-cell').at(0).simulate('mousedown', {})
-    })
-    wrapper.update()
+    fireEvent.mouseDown(screen.queryAllByTestId('table-cell')[0], {})
 
-    expect(wrapper.findDataTest('table-cell').at(0).prop('className')?.includes(cellStyles.selected)).toBeTruthy()
-    expect(wrapper.findDataTest('cell-copyable-popover').length).toBe(1)
+    expect(screen.queryAllByTestId('table-cell')[0].getAttribute('class')?.includes(cellStyles.selected)).toBeTruthy()
+    expect(screen.queryAllByTestId('cell-copyable-popover').length).toBe(0)
+
+    fireEvent.doubleClick(screen.queryAllByTestId('table-cell')[0], {})
+
+    expect(screen.queryAllByTestId('cell-copyable-popover').length).toBe(1)
   })
 })

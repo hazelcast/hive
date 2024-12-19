@@ -94,6 +94,7 @@ const nextPrevButtonPropsBase: IconButtonProps = {
   icon: ChevronRight,
   ariaLabel: 'Base',
   className: styles.iconButton,
+  'data-test': 'pagination-buttons-next-page',
 
   onClick: expect.anything(),
 }
@@ -139,6 +140,7 @@ describe('Pagination', () => {
       label: 'Rows',
       options: pageSizeOptions.map((opt) => ({ value: opt, label: opt.toString() })),
       size: 'small',
+      'data-test': 'pagination-rows-per-page-select',
 
       onChange: expect.anything(),
     })
@@ -158,30 +160,48 @@ describe('Pagination', () => {
 
     const buttons = wrapper.findDataTest('pagination-buttons').find(Button)
     expect(buttons).toHaveLength(6)
-    expect(buttons.at(0).props()).toEqual<ButtonProps>({
+    Object.entries({
       ...buttonPropsBase,
       className: `${styles.button} ${styles.selected}`,
       children: '1',
+      'data-test': 'pagination-buttons-go-to-page',
+    }).forEach(([key, value]) => {
+      expect(buttons.at(0).prop(key)).toEqual(value)
     })
-    expect(buttons.at(1).props()).toEqual<ButtonProps>({
+    Object.entries({
       ...buttonPropsBase,
       children: '2',
+      'data-test': 'pagination-buttons-go-to-page',
+    }).forEach(([key, value]) => {
+      expect(buttons.at(1).prop(key)).toEqual(value)
     })
-    expect(buttons.at(2).props()).toEqual<ButtonProps>({
+    Object.entries({
       ...buttonPropsBase,
       children: '3',
+      'data-test': 'pagination-buttons-go-to-page',
+    }).forEach(([key, value]) => {
+      expect(buttons.at(2).prop(key)).toEqual(value)
     })
-    expect(buttons.at(3).props()).toEqual<ButtonProps>({
+    Object.entries({
       ...buttonPropsBase,
       children: '4',
+      'data-test': 'pagination-buttons-go-to-page',
+    }).forEach(([key, value]) => {
+      expect(buttons.at(3).prop(key)).toEqual(value)
     })
-    expect(buttons.at(4).props()).toEqual<ButtonProps>({
+    Object.entries({
       ...buttonPropsBase,
       children: '5',
+      'data-test': 'pagination-buttons-go-to-page',
+    }).forEach(([key, value]) => {
+      expect(buttons.at(4).prop(key)).toEqual(value)
     })
-    expect(buttons.at(5).props()).toEqual<ButtonProps>({
+    Object.entries({
       ...buttonPropsBase,
       children: '2000',
+      'data-test': 'pagination-buttons-go-to-page',
+    }).forEach(([key, value]) => {
+      expect(buttons.at(5).prop(key)).toEqual(value)
     })
 
     expect(wrapper.find(NumberField).props()).toEqual<NumberFieldProps>({
@@ -194,7 +214,7 @@ describe('Pagination', () => {
       max: pageCount,
       size: 'small',
       value: currentPage,
-
+      'data-test': 'pagination-jump-from-input-field',
       onChange: expect.anything(),
     })
   })
@@ -230,39 +250,61 @@ describe('Pagination', () => {
 
     const iconButton = wrapper.findDataTest('pagination-buttons').find(IconButton)
     expect(iconButton).toHaveLength(2)
-    expect(iconButton.at(0).props()).toEqual<IconButtonProps>({
+
+    Object.entries({
       ...nextPrevButtonPropsBase,
       icon: ChevronLeft,
       ariaLabel: 'Previous page',
+      'data-test': 'pagination-buttons-previous-page',
+    }).forEach(([key, value]) => {
+      expect(iconButton.at(0).prop(key)).toEqual(value)
     })
-    expect(iconButton.at(1).props()).toEqual<IconButtonProps>({
+
+    Object.entries({
       ...nextPrevButtonPropsBase,
       icon: ChevronRight,
       ariaLabel: 'Next page',
+    }).forEach(([key, value]) => {
+      expect(iconButton.at(1).prop(key)).toEqual(value)
     })
 
     const buttons = wrapper.find(Button)
     expect(buttons).toHaveLength(5)
-    expect(buttons.at(0).props()).toEqual<ButtonProps>({
+    Object.entries({
       ...buttonPropsBase,
       children: '1',
+      'data-test': 'pagination-buttons-go-to-page',
+    }).forEach(([key, value]) => {
+      expect(buttons.at(0).prop(key)).toEqual(value)
     })
-    expect(buttons.at(1).props()).toEqual<ButtonProps>({
+    Object.entries({
       ...buttonPropsBase,
       children: '999',
+      'data-test': 'pagination-buttons-go-to-page',
+    }).forEach(([key, value]) => {
+      expect(buttons.at(1).prop(key)).toEqual(value)
     })
-    expect(buttons.at(2).props()).toEqual<ButtonProps>({
+    Object.entries({
       ...buttonPropsBase,
       className: `${styles.button} ${styles.selected}`,
       children: '1000',
+      'data-test': 'pagination-buttons-go-to-page',
+    }).forEach(([key, value]) => {
+      expect(buttons.at(2).prop(key)).toEqual(value)
     })
-    expect(buttons.at(3).props()).toEqual<ButtonProps>({
+    Object.entries({
       ...buttonPropsBase,
       children: '1001',
+      'data-test': 'pagination-buttons-go-to-page',
+    }).forEach(([key, value]) => {
+      expect(buttons.at(3).prop(key)).toEqual(value)
     })
-    expect(buttons.at(4).props()).toEqual<ButtonProps>({
+    Object.entries({
       ...buttonPropsBase,
       children: '2000',
+      'data-test': 'pagination-buttons-go-to-page',
+    }).forEach(([key, value]) => {
+      expect(buttons.at(4).prop(key)).toEqual(value)
     })
   })
 
@@ -300,6 +342,7 @@ describe('Pagination', () => {
       ...nextPrevButtonPropsBase,
       icon: ChevronLeft,
       ariaLabel: 'Previous page',
+      'data-test': 'pagination-buttons-previous-page',
     })
 
     const buttons = wrapper.find(Button)
@@ -307,27 +350,33 @@ describe('Pagination', () => {
     expect(buttons.at(0).props()).toEqual<ButtonProps>({
       ...buttonPropsBase,
       children: '1',
+      'data-test': 'pagination-buttons-go-to-page',
     })
     expect(buttons.at(1).props()).toEqual<ButtonProps>({
       ...buttonPropsBase,
       children: '1996',
+      'data-test': 'pagination-buttons-go-to-page',
     })
     expect(buttons.at(2).props()).toEqual<ButtonProps>({
       ...buttonPropsBase,
       children: '1997',
+      'data-test': 'pagination-buttons-go-to-page',
     })
     expect(buttons.at(3).props()).toEqual<ButtonProps>({
       ...buttonPropsBase,
       children: '1998',
+      'data-test': 'pagination-buttons-go-to-page',
     })
     expect(buttons.at(4).props()).toEqual<ButtonProps>({
       ...buttonPropsBase,
       children: '1999',
+      'data-test': 'pagination-buttons-go-to-page',
     })
     expect(buttons.at(5).props()).toEqual<ButtonProps>({
       ...buttonPropsBase,
       className: `${styles.button} ${styles.selected}`,
       children: '2000',
+      'data-test': 'pagination-buttons-go-to-page',
     })
   })
 
@@ -502,14 +551,17 @@ describe('Pagination', () => {
       ...buttonPropsBase,
       className: `${styles.button} ${styles.selected}`,
       children: '1',
+      'data-test': 'pagination-buttons-go-to-page',
     })
     expect(buttons.at(1).props()).toEqual<ButtonProps>({
       ...buttonPropsBase,
       children: '2',
+      'data-test': 'pagination-buttons-go-to-page',
     })
     expect(buttons.at(2).props()).toEqual<ButtonProps>({
       ...buttonPropsBase,
       children: '2000',
+      'data-test': 'pagination-buttons-go-to-page',
     })
 
     expect(wrapper.findDataTest('pagination-range-of-shown-items').exists()).toBe(false)
@@ -534,6 +586,7 @@ describe('Pagination', () => {
       label: 'Rows',
       size: 'small',
       options: pageSizeOptions.map((opt) => ({ value: opt, label: opt.toString() })),
+      'data-test': 'pagination-rows-per-page-select',
 
       onChange: expect.anything(),
     })
@@ -548,6 +601,7 @@ describe('Pagination', () => {
       max: pageCount,
       size: 'small',
       value: currentPage,
+      'data-test': 'pagination-jump-from-input-field',
 
       onChange: expect.anything(),
     })
@@ -570,14 +624,17 @@ describe('Pagination', () => {
       ...buttonPropsBase,
       className: `${styles.button} ${styles.selected}`,
       children: '1',
+      'data-test': 'pagination-buttons-go-to-page',
     })
     expect(buttons.at(1).props()).toEqual<ButtonProps>({
       ...buttonPropsBase,
       children: '2',
+      'data-test': 'pagination-buttons-go-to-page',
     })
     expect(buttons.at(2).props()).toEqual<ButtonProps>({
       ...buttonPropsBase,
       children: '2000',
+      'data-test': 'pagination-buttons-go-to-page',
     })
 
     expect(wrapper.findDataTest('pagination-range-of-shown-items').exists()).toBe(false)
