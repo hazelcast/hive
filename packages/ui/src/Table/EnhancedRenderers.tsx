@@ -36,5 +36,5 @@ export type EnhancedCellRendererProps<D extends object> = {
 }
 
 export const EnhancedCellRenderer = <D extends object>({ cell, columnResizing }: EnhancedCellRendererProps<D>) => (
-  <TruncatedText text={String(cell.getValue())} forceUpdateToken={columnResizing} tooltipClassName={styles.truncated} />
+  <TruncatedText text={cell.renderValue() as string} forceUpdateToken={columnResizing} tooltipClassName={styles.truncated} />
 )

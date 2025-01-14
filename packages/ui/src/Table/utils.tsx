@@ -1,23 +1,57 @@
 import { CSSProperties } from 'react'
-import { ColumnDef, Row as TableRow, InitialTableState } from '@tanstack/react-table'
+import { ColumnDef, Row as TableRow, InitialTableState, HeaderContext, Cell, Column as TableColumn } from '@tanstack/react-table'
 
-import { ColumnType, InitialState, RowType } from './types'
+import { CellType, ColumnType, HeaderProps, InitialState, RowData, RowType, Column } from './tableTypes'
 
-export const prepareRow = <D extends object>({
+export const prepareRow = <D extends RowData>({
   getCanExpand,
   getIsExpanded,
   getToggleExpandedHandler,
   original,
   subRows,
+  id,
+  index,
 }: TableRow<D>): RowType<D> => ({
-  canExpand: getCanExpand(),
-  isExpanded: getIsExpanded(),
+  id,
+  getCanExpand,
+  getIsExpanded,
   getToggleExpandedHandler,
   original,
+  index,
   subRows: subRows.map(prepareRow),
 })
 
-export const getColumnDef = <D extends object>({
+export const prepareColumn = <D extends RowData>({ id, columns, getIndex, getCanHide, getIsVisible }: TableColumn<D>): Column<D> => ({
+  id,
+  index: getIndex(),
+  canHide: getCanHide(),
+  hidden: !getIsVisible(),
+  columns: columns.map(prepareColumn),
+})
+
+export const prepareCell = <D extends RowData, V = unknown>({ getValue, row, column }: Cell<D, V>): CellType<D, V> => ({
+  column: prepareColumn(column),
+  value: getValue(),
+  row: prepareRow(row),
+})
+
+const getRendererProps = <D extends RowData>(props: HeaderContext<D, unknown>) => {
+  const rendererProps: HeaderProps<D> = {
+    rows: [],
+    data: [],
+  }
+
+  props.table.getRowModel().rows.forEach((row) => {
+    const item = prepareRow(row)
+
+    rendererProps.rows.push(item)
+    rendererProps.data.push(item.original)
+  })
+
+  return rendererProps
+}
+
+export const getColumnDef = <D extends RowData>({
   id,
   width: size,
   minWidth: minSize,
@@ -26,6 +60,8 @@ export const getColumnDef = <D extends object>({
   Footer,
   Cell,
   align,
+  filterable,
+  disableSortBy,
   disableResizing,
   canHide: enableHiding,
   sortType: sortingFn,
@@ -33,8 +69,8 @@ export const getColumnDef = <D extends object>({
 }: ColumnType<D>): ColumnDef<D> => {
   const commonDef: Omit<ColumnDef<D>, 'accessorFn' | 'accessorKey'> = {
     id,
-    header: typeof Header === 'function' ? (props) => Header({ rows: props.table.getRowModel().rows.map(prepareRow) }) : Header,
-    footer: typeof Footer === 'function' ? (props) => Footer({ rows: props.table.getRowModel().rows.map(prepareRow) }) : Footer,
+    header: typeof Header === 'function' ? (props) => Header(getRendererProps(props)) : Header,
+    footer: typeof Footer === 'function' ? (props) => Footer(getRendererProps(props)) : Footer,
     enableHiding,
     sortDescFirst: false,
     enableSorting: true,
@@ -42,32 +78,43 @@ export const getColumnDef = <D extends object>({
     enableResizing: !disableResizing,
   }
 
-  if (size) {
+  if (size != undefined) {
     commonDef.size = size
   }
 
-  if (minSize) {
+  if (minSize != undefined) {
     commonDef.minSize = minSize
   }
 
-  if (maxSize) {
+  if (maxSize !== undefined) {
     commonDef.maxSize = maxSize
   }
 
-  if (sortingFn) {
+  if (sortingFn != undefined) {
     commonDef.sortingFn = (rowA, rowB) => sortingFn(prepareRow(rowA), prepareRow(rowB))
   }
 
-  if (Cell) {
-    commonDef.cell = typeof Cell === 'function' ? (props) => Cell({ column: props.column, row: prepareRow(props.row) }) : Cell
+  if (Cell != undefined) {
+    commonDef.cell =
+      typeof Cell === 'function'
+        ? (props) => Cell({ column: prepareColumn(props.column), row: prepareRow(props.row), value: props.getValue() })
+        : Cell
   }
 
-  if (accessor) {
+  if (filterable !== undefined) {
+    commonDef.enableColumnFilter = filterable
+  }
+
+  if (disableSortBy !== undefined) {
+    commonDef.enableSorting = !disableSortBy
+  }
+
+  if (accessor != undefined) {
     if (typeof accessor === 'function') {
       return {
         id: '',
         ...commonDef,
-        accessorFn: accessor,
+        accessorFn: (value) => accessor(value),
       }
     }
 
@@ -80,7 +127,29 @@ export const getColumnDef = <D extends object>({
   return commonDef as ColumnDef<D>
 }
 
-export const getTableInitialState = ({ paginationOptions: pagination }: InitialState): InitialTableState => ({ pagination })
+const getColumnVisibility = (hiddenColumns?: string[]) => {
+  const result: Record<string, boolean> = {}
+
+  hiddenColumns?.forEach((column) => {
+    result[column] = false
+  })
+
+  return result
+}
+
+export const getTableInitialState = ({
+  hiddenColumns,
+  columnOrder,
+  sortBy,
+  columnResizing,
+  paginationOptions: pagination,
+}: InitialState): InitialTableState => ({
+  pagination,
+  columnOrder,
+  columnSizing: columnResizing?.columnWidths ?? {},
+  columnVisibility: getColumnVisibility(hiddenColumns),
+  sorting: sortBy?.map(({ id, desc }) => ({ id, desc: !!desc })) ?? [],
+})
 
 export const getCellStyle = ({ size, minSize, maxSize }: { size: number; minSize?: number; maxSize?: number }): CSSProperties => {
   // fix unit tests console error "`NaN` is an invalid value"

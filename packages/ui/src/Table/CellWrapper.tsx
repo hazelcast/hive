@@ -3,8 +3,9 @@ import { Cell, flexRender } from '@tanstack/react-table'
 
 import { ROW_EXPANDER_COLUMN_ID } from './constants'
 import { CellProps, Cell as TableCell } from './Cell'
+import { RowData } from './tableTypes'
 
-export type CellWrapperProps<D extends object> = CellProps & {
+export type CellWrapperProps<D extends RowData> = CellProps & {
   cell: Cell<D, unknown>
   selectable?: boolean
   style: CSSProperties

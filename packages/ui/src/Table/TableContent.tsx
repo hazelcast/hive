@@ -5,15 +5,15 @@ import { Row as TableRow, ColumnSizingState } from '@tanstack/react-table'
 
 import { Loader } from '../Loader'
 import { CellProps } from './Cell'
-import { getCellStyle, getRowStyle, prepareRow } from './utils'
+import { getCellStyle, getRowStyle, prepareCell, prepareRow } from './utils'
 import { CellWrapper } from './CellWrapper'
-import { CellType, RowType } from './types'
+import { CellType, RowData, RowType } from './tableTypes'
 import { LinkRow, Row, RowProps } from './Row'
 import { isCellSelected, useColumnsSelection } from './features/columnsSelection'
 
 import styles from './TableContent.module.scss'
 
-export type TableContentProps<D extends object> = {
+export type TableContentProps<D extends RowData> = {
   loading?: boolean
   page: TableRow<D>[]
   className?: string
@@ -33,7 +33,7 @@ export type TableContentProps<D extends object> = {
   AnchorComponent?: FC<AnchorHTMLAttributes<HTMLAnchorElement>>
 } & ReturnType<typeof useColumnsSelection>
 
-export const TableContent = <D extends object>(props: TableContentProps<D>) => {
+export const TableContent = <D extends RowData>(props: TableContentProps<D>) => {
   const {
     rootRef,
     page,
@@ -80,12 +80,7 @@ export const TableContent = <D extends object>(props: TableContentProps<D>) => {
           const { id: cellKey, ...restCellProps } = cell
           const cellId = `${rowIndex}:${i}`
           const selected = isCellSelected(cellId, selectedColumns)
-          const { style: cellStyle = {}, ...customProps } = getCustomCellProps
-            ? getCustomCellProps({
-                column: cell.column,
-                row: prepareRow(cell.row),
-              })
-            : {}
+          const { style: cellStyle = {}, ...customProps } = getCustomCellProps ? getCustomCellProps(prepareCell(cell)) : {}
 
           return (
             <CellWrapper

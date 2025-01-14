@@ -23,6 +23,7 @@ import {
   getExpandedRowModel,
   getFilteredRowModel,
   ColumnDef,
+  Row as TableRow,
 } from '@tanstack/react-table'
 import { AlertTriangle, ChevronDown, ChevronUp } from 'react-feather'
 
@@ -39,14 +40,15 @@ import { TableContent } from './TableContent'
 import { ROW_EXPANDER_COLUMN_ID } from './constants'
 import { useColumnsSelection, ContextMenu } from './features/columnsSelection'
 import { useRefValue } from '../hooks'
-import { CellType, ColumnType, InitialState, RowType, SortingRule, TableState } from './types'
+import { useTrackTableState } from './useTrackTableState'
+import { CellType, ColumnType, InitialState, RowData, RowType, SortingRule, TableState } from './tableTypes'
 import { getCellStyle, getColumnDef, getRowStyle, getTableInitialState, prepareRow } from './utils'
 
 import styles from './Table.module.scss'
 import styleConsts from '../../styles/constants/export.module.scss'
-import { useTrackTableState } from './useTrackTableState'
 
 export type PaginationOptions = Partial<Pick<PaginationProps, 'pageSizeOptions'>>
+export * from './tableTypes'
 
 /**
  * `defaultPageSize` should be one of the values in `pageSizeOptions`.
@@ -71,11 +73,11 @@ export type ControlledPaginationProps = {
   onPaginationChange?: (paginationChangeProps: PaginationChangeProps) => void
 }
 
-export type ControlledSortingProps<D extends object> = {
-  onSortingChange?: (sortBy: SortingRule<D>[]) => void
+export type ControlledSortingProps = {
+  onSortingChange?: (sortBy: SortingRule[]) => void
 }
 
-type CustomTableRowClickProps<D extends object> =
+type CustomTableRowClickProps<D extends RowData> =
   | {
       // When using `onRowClick` it's a good practice to also make one of the cells in the table interactive by providing a button, link or something else.
       // An example can be found in `ClickableRowsWithNameLink` story in Table.stories.tsx
@@ -91,8 +93,9 @@ type CustomTableRowClickProps<D extends object> =
       AnchorComponent?: FC<AnchorHTMLAttributes<HTMLAnchorElement>>
     }
 
-type CustomTableProps<D extends object> = {
+type CustomTableProps<D extends RowData> = {
   loading?: boolean
+  tableId?: string
   overlayLoading?: boolean
   className?: string
   hideHeader?: boolean
@@ -107,7 +110,6 @@ type CustomTableProps<D extends object> = {
   // Custom props getter for Cell
   getCustomCellProps?: (cellInfo: CellType<D>) => CellProps
   onRenderedContentChange?: (newPage: RowType<D>[]) => void
-  autoResetGlobalFilter?: boolean
   pageIndex?: number
   onPageChange?: (newPage: number) => void
   onRowSelect?: (ids: string[]) => void
@@ -117,18 +119,19 @@ type CustomTableProps<D extends object> = {
   canExpand?: (row: RowType<D>) => boolean
   onCopy?: (data: (string | undefined)[][]) => void
   initialState?: InitialState
-  onStateChange?: (newState: TableState<D>) => void
+  onStateChange?: ((newState: TableState) => void) | null
 } & CustomTableRowClickProps<D> &
   DataTestProp
 
-export type TableProps<D extends object> = {
+export type TableProps<D extends RowData> = {
   data: D[]
   columns: ColumnType<D>[]
   pageCount?: number
   disableSortBy?: boolean
+  pageSize?: number
 } & ExtendedPaginationProps &
   ControlledPaginationProps &
-  ControlledSortingProps<D> &
+  ControlledSortingProps &
   CustomTableProps<D>
 
 /**
@@ -142,7 +145,7 @@ export type TableProps<D extends object> = {
  * - Is able to resize columns out of the box
  */
 // Inspiration here: https://react-table.tanstack.com/docs/examples/basic
-export const Table = <D extends { subRows?: D[] }>({
+export const Table = <D extends RowData & { subRows?: D[] }>({
   'data-test': dataTest,
   columns: propColumns,
   data,
@@ -181,6 +184,8 @@ export const Table = <D extends { subRows?: D[] }>({
   onStateChange,
 }: TableProps<D>): ReactElement => {
   const getOncopy = useRefValue(onCopy)
+  const getCanExpand = useRefValue(canExpand)
+  const getRenderRowSubComponent = useRefValue(renderRowSubComponent)
   const [contextMenuAnchorEl, setContextMenuAnchorEl] = useState<HTMLDivElement | null>(null)
   const draggedColumnRef = useRef<number | null>(null)
   const previousIncomingPageIndex = usePrevious(incomingPageIndex)
@@ -197,7 +202,7 @@ export const Table = <D extends { subRows?: D[] }>({
 
     return result
   }, [onCopy])
-  const columns = useMemo(() => {
+  const columns = useMemo<ColumnDef<D>[]>(() => {
     if (renderRowSubComponent || data.some((item) => 'subRows' in item)) {
       const expander: ColumnType<D> = {
         width: 60,
@@ -205,21 +210,21 @@ export const Table = <D extends { subRows?: D[] }>({
         id: ROW_EXPANDER_COLUMN_ID,
         Header: () => <span role="contentinfo" aria-label="row-expander-column-header" />,
         Cell: ({ row }) => {
-          if (row.canExpand) {
+          if (row.getCanExpand()) {
             return (
               // eslint-disable-next-line jsx-a11y/click-events-have-key-events
               <div
                 tabIndex={0}
                 role="button"
                 data-test="row-expander"
-                aria-expanded={row.isExpanded}
+                aria-expanded={row.getIsExpanded()}
                 className={styles.expander}
                 onClick={(e) => {
                   e.preventDefault()
                   row.getToggleExpandedHandler()()
                 }}
               >
-                <Icon icon={row.isExpanded ? ChevronUp : ChevronDown} ariaLabel="row-expander" />
+                <Icon icon={row.getIsExpanded() ? ChevronUp : ChevronDown} ariaLabel="row-expander" />
               </div>
             )
           }
@@ -243,13 +248,14 @@ export const Table = <D extends { subRows?: D[] }>({
     }),
     [],
   )
+  const tableInitialState = useMemo(() => getTableInitialState(initialState), [initialState])
   const tableInstance = useReactTable<D>({
     columns,
     data,
     enableSorting: !disableSortBy,
     enableMultiSort: false,
     // Pass our hoisted table state
-    initialState: getTableInitialState(initialState),
+    initialState: tableInitialState,
     // Tell the usePagination hook that we'll handle our own data fetching
     manualPagination: manualPagination,
     // This means we'll also have to provide our own pageCount
@@ -257,8 +263,22 @@ export const Table = <D extends { subRows?: D[] }>({
     defaultColumn,
     columnResizeMode: 'onChange',
     paginateExpandedRows: false,
-    getSubRows: (row) => row.subRows,
-    getRowCanExpand: (row) => !!renderRowSubComponent || (canExpand ? canExpand(prepareRow(row)) : row.subRows?.length > 0),
+    getSubRows: (row) => row.subRows as D[],
+    getRowCanExpand: useCallback(
+      (row: TableRow<D>) => {
+        if (!getRenderRowSubComponent() && !row.subRows) {
+          return false
+        }
+
+        const cb = getCanExpand()
+        if (cb) {
+          return cb(prepareRow(row))
+        }
+
+        return true
+      },
+      [getCanExpand, getRenderRowSubComponent],
+    ),
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -359,7 +379,7 @@ export const Table = <D extends { subRows?: D[] }>({
 
   useEffect(() => {
     if (onSortingChange) {
-      onSortingChange(sortBy as SortingRule<D>[])
+      onSortingChange(sortBy)
     }
   }, [sortBy, onSortingChange])
 

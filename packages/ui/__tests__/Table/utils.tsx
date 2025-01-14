@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, useMemo } from 'react'
 
 import { Link } from '../../src/Link'
-import { CellType, ColumnType } from '../../src/Table/types'
+import { CellType, ColumnType } from '../../src/Table/tableTypes'
 
 export type Person = {
   name: string
@@ -27,7 +27,7 @@ const NameCell = (props: PropsWithChildren<CellType<Person>>) => (
 export const getColumns = ({ withFooter = false, withNameLink = false }: GetColumns): ColumnType<Person>[] => [
   {
     Header: 'ID',
-    accessor: 'id',
+    accessor: ({ id }) => <span>{id}</span>,
     ...(withFooter && { Footer: 'ID' }),
   },
   {

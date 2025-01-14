@@ -6,10 +6,10 @@ import { PaginationChangeProps, Table, TableProps } from '../src/Table/Table'
 import { getColumns, Person } from '../__tests__/Table/utils'
 import { bigDataSet, smallDataSet, smallDataSetWithSubRows } from '../__tests__/Table/consts'
 import { TextField } from '../src'
+import { SortingRule } from '../src/Table/tableTypes'
 
 import storyStyles from './TextField.stories.module.scss'
 import styles from './utils.scss'
-import { SortingRule } from '../lib/Table/types'
 
 export default {
   title: 'Components/Table',
@@ -63,7 +63,7 @@ export const WithClickableAnchorRows = Template.bind({})
 WithClickableAnchorRows.args = {
   getHref: (row) => {
     logger.log(`You just clicked (or pressed) row: ${row.original.name}. You can use row info to generate href!`)
-    return window.location.hash
+    return `#${row.id}`
   },
 }
 
@@ -144,7 +144,7 @@ export const WithControlledSorting = () => {
   const firstUpdate = useRef(true)
 
   // This will get called when the table needs new data.
-  const onSortingChange = useCallback((sortBy: SortingRule<Person>[]) => {
+  const onSortingChange = useCallback((sortBy: SortingRule[]) => {
     if (firstUpdate.current) {
       firstUpdate.current = false
       return
@@ -164,7 +164,7 @@ export const WithControlledSorting = () => {
       // Only update the data if this is the latest fetch
       if (fetchId === fetchIdRef.current) {
         const { id, desc: isDescending } = sortBy[0]
-        const sortColumn = id
+        const sortColumn = id as keyof Person
         const newData = [...bigDataSet]
         newData.sort((a, b) =>
           isDescending ? Number(b[sortColumn]) - Number(a[sortColumn]) : Number(a[sortColumn]) - Number(b[sortColumn]),
@@ -199,6 +199,7 @@ export const WithGlobalSearch = () => {
 
 export const WithCustomStyles = Template.bind({})
 WithCustomStyles.args = {
+  columns: getColumns({ withFooter: true }),
   contentClassName: styles.customTableContent,
   headerClassName: styles.customTableHeader,
   footerClassName: styles.customTableFooter,

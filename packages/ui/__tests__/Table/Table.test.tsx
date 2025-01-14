@@ -1,5 +1,6 @@
 import React from 'react'
 import startCase from 'lodash/startCase'
+import { act } from 'react-dom/test-utils'
 import { fireEvent, screen, within } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
 import { axeDefaultOptions, renderAndCheckA11Y } from '@hazelcast/test-helpers'
@@ -10,7 +11,6 @@ import { bigDataSet, smallDataSet } from './consts'
 
 import cellStyles from '../../src/Table/Cell.module.scss'
 import headerStyles from '../../src/Table/Header.module.scss'
-import { act } from 'react-dom/test-utils'
 
 const rules = axeDefaultOptions?.rules ?? {}
 const axeOptions = {
@@ -312,5 +312,82 @@ describe('Table', () => {
     fireEvent.doubleClick(screen.queryAllByTestId('table-cell')[0], {})
 
     expect(screen.queryAllByTestId('cell-copyable-popover').length).toBe(1)
+  })
+
+  describe('Initial state', () => {
+    it('hidden columns', async () => {
+      const columns = getColumns({})
+
+      const { rerender, unmount } = await renderAndCheckA11Y(<Table data-test="table-test" columns={columns} data={smallDataSet} />)
+
+      expect(screen.queryByRole('cell', { name: smallDataSet[0].name })).toBeInTheDocument()
+
+      unmount()
+      rerender(
+        <Table
+          data-test="table-test"
+          columns={columns}
+          data={smallDataSet}
+          initialState={{
+            hiddenColumns: ['name'],
+          }}
+        />,
+      )
+
+      expect(screen.queryByRole('cell', { name: smallDataSet[0].name })).not.toBeInTheDocument()
+    })
+  })
+
+  it('columns order', async () => {
+    const rowData = smallDataSet[0]
+    const initialRowName = `${rowData.id} ${rowData.name} ${rowData.age} ${rowData.visits} ${rowData.status}`
+    const reorderedRowName = `${rowData.name} ${rowData.id} ${rowData.age} ${rowData.status} ${rowData.visits}`
+
+    const { rerender, unmount } = await renderAndCheckA11Y(<Table data-test="table-test" columns={getColumns({})} data={smallDataSet} />)
+
+    expect(screen.queryByRole('row', { name: initialRowName })).toBeInTheDocument()
+    expect(screen.queryByRole('row', { name: reorderedRowName })).not.toBeInTheDocument()
+
+    unmount()
+    rerender(
+      <Table
+        data-test="table-test"
+        columns={getColumns({})}
+        data={smallDataSet}
+        initialState={{
+          columnOrder: ['name', 'ID', 'age', 'status', 'visits'],
+        }}
+      />,
+    )
+
+    expect(screen.queryByRole('row', { name: initialRowName })).not.toBeInTheDocument()
+    expect(screen.queryByRole('row', { name: reorderedRowName })).toBeInTheDocument()
+  })
+
+  it('sorting', async () => {
+    const { rerender, unmount, container } = await renderAndCheckA11Y(
+      <Table data-test="table-test" columns={getColumns({})} data={smallDataSet} />,
+    )
+
+    expect(container.querySelector('[aria-sort="ascending"]')).not.toBeInTheDocument()
+
+    unmount()
+    rerender(
+      <Table
+        data-test="table-test"
+        columns={getColumns({})}
+        data={smallDataSet}
+        initialState={{
+          sortBy: [
+            {
+              id: 'name',
+            },
+          ],
+        }}
+      />,
+    )
+
+    expect(container.querySelector('[aria-sort="ascending"]')).toBeInTheDocument()
+    expect(within(container.querySelector('[aria-sort="ascending"]')!).queryByText('Name')).toBeInTheDocument()
   })
 })
