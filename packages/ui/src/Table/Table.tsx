@@ -263,7 +263,7 @@ export const Table = <D extends RowData & { subRows?: D[] }>({
     defaultColumn,
     columnResizeMode: 'onChange',
     paginateExpandedRows: false,
-    getSubRows: (row) => row.subRows as D[],
+    getSubRows: useCallback((row: D) => row.subRows, []),
     getRowCanExpand: useCallback(
       (row: TableRow<D>) => {
         if (!getRenderRowSubComponent() && !row.subRows) {
@@ -275,7 +275,7 @@ export const Table = <D extends RowData & { subRows?: D[] }>({
           return cb(prepareRow(row))
         }
 
-        return true
+        return row.subRows?.length > 0
       },
       [getCanExpand, getRenderRowSubComponent],
     ),
