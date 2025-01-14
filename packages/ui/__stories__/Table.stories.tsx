@@ -238,7 +238,7 @@ WithCustomRowAndCellProps.args = {
           color: '#707482',
         },
       }
-    } else if (cell.column.id === 'id') {
+    } else if (cell.column.id === 'ID') {
       return {
         style: {
           borderLeft: '0.25rem solid limegreen',
