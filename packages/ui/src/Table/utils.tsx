@@ -153,12 +153,15 @@ export const getTableInitialState = ({
   sorting: sortBy?.map(({ id, desc }) => ({ id, desc: !!desc })) ?? [],
 })
 
-export const getCellStyle = ({ size, minSize, maxSize }: { size: number; minSize?: number; maxSize?: number }): CSSProperties => {
-  // fix unit tests console error "`NaN` is an invalid value"
-  const width = isNaN(size) ? 0 : size
-  const minWidth = minSize && isNaN(minSize) ? 0 : minSize
-  const maxWidth = maxSize && isNaN(maxSize) ? 0 : maxSize
-
+export const getCellStyle = ({
+  size: width,
+  minSize: minWidth,
+  maxSize: maxWidth,
+}: {
+  size: number
+  minSize?: number
+  maxSize?: number
+}): CSSProperties => {
   const style: CSSProperties = {
     width,
     minWidth: minWidth || width,

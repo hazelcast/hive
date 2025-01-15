@@ -21,6 +21,22 @@ const axeOptions = {
   },
 }
 
+jest.mock('../../src/Table/utils', () => ({
+  ...jest.requireActual('../../src/Table/utils'),
+  getCellStyle: () => {
+    const width = '100px'
+    const minWidth = '100px'
+    const maxWidth = '100px'
+    return {
+      width,
+      minWidth: minWidth || width,
+      flex: `${width} 0 auto`,
+      boxSizing: 'border-box',
+      maxWidth,
+    }
+  },
+}))
+
 describe('Table', () => {
   it('renders table and pagination with correct props', async () => {
     const columns = getColumns({})
@@ -336,58 +352,58 @@ describe('Table', () => {
 
       expect(screen.queryByRole('cell', { name: smallDataSet[0].name })).not.toBeInTheDocument()
     })
-  })
 
-  it('columns order', async () => {
-    const rowData = smallDataSet[0]
-    const initialRowName = `${rowData.id} ${rowData.name} ${rowData.age} ${rowData.visits} ${rowData.status}`
-    const reorderedRowName = `${rowData.name} ${rowData.id} ${rowData.age} ${rowData.status} ${rowData.visits}`
+    it('columns order', async () => {
+      const rowData = smallDataSet[0]
+      const initialRowName = `${rowData.id} ${rowData.name} ${rowData.age} ${rowData.visits} ${rowData.status}`
+      const reorderedRowName = `${rowData.name} ${rowData.id} ${rowData.age} ${rowData.status} ${rowData.visits}`
 
-    const { rerender, unmount } = await renderAndCheckA11Y(<Table data-test="table-test" columns={getColumns({})} data={smallDataSet} />)
+      const { rerender, unmount } = await renderAndCheckA11Y(<Table data-test="table-test" columns={getColumns({})} data={smallDataSet} />)
 
-    expect(screen.queryByRole('row', { name: initialRowName })).toBeInTheDocument()
-    expect(screen.queryByRole('row', { name: reorderedRowName })).not.toBeInTheDocument()
+      expect(screen.queryByRole('row', { name: initialRowName })).toBeInTheDocument()
+      expect(screen.queryByRole('row', { name: reorderedRowName })).not.toBeInTheDocument()
 
-    unmount()
-    rerender(
-      <Table
-        data-test="table-test"
-        columns={getColumns({})}
-        data={smallDataSet}
-        initialState={{
-          columnOrder: ['name', 'ID', 'age', 'status', 'visits'],
-        }}
-      />,
-    )
+      unmount()
+      rerender(
+        <Table
+          data-test="table-test"
+          columns={getColumns({})}
+          data={smallDataSet}
+          initialState={{
+            columnOrder: ['name', 'ID', 'age', 'status', 'visits'],
+          }}
+        />,
+      )
 
-    expect(screen.queryByRole('row', { name: initialRowName })).not.toBeInTheDocument()
-    expect(screen.queryByRole('row', { name: reorderedRowName })).toBeInTheDocument()
-  })
+      expect(screen.queryByRole('row', { name: initialRowName })).not.toBeInTheDocument()
+      expect(screen.queryByRole('row', { name: reorderedRowName })).toBeInTheDocument()
+    })
 
-  it('sorting', async () => {
-    const { rerender, unmount, container } = await renderAndCheckA11Y(
-      <Table data-test="table-test" columns={getColumns({})} data={smallDataSet} />,
-    )
+    it('sorting', async () => {
+      const { rerender, unmount, container } = await renderAndCheckA11Y(
+        <Table data-test="table-test" columns={getColumns({})} data={smallDataSet} />,
+      )
 
-    expect(container.querySelector('[aria-sort="ascending"]')).not.toBeInTheDocument()
+      expect(container.querySelector('[aria-sort="ascending"]')).not.toBeInTheDocument()
 
-    unmount()
-    rerender(
-      <Table
-        data-test="table-test"
-        columns={getColumns({})}
-        data={smallDataSet}
-        initialState={{
-          sortBy: [
-            {
-              id: 'name',
-            },
-          ],
-        }}
-      />,
-    )
+      unmount()
+      rerender(
+        <Table
+          data-test="table-test"
+          columns={getColumns({})}
+          data={smallDataSet}
+          initialState={{
+            sortBy: [
+              {
+                id: 'name',
+              },
+            ],
+          }}
+        />,
+      )
 
-    expect(container.querySelector('[aria-sort="ascending"]')).toBeInTheDocument()
-    expect(within(container.querySelector('[aria-sort="ascending"]')!).queryByText('Name')).toBeInTheDocument()
+      expect(container.querySelector('[aria-sort="ascending"]')).toBeInTheDocument()
+      expect(within(container.querySelector('[aria-sort="ascending"]')!).queryByText('Name')).toBeInTheDocument()
+    })
   })
 })

@@ -308,10 +308,12 @@ export const Table = <D extends RowData & { subRows?: D[] }>({
   const pageCount = getPageCount()
   const {
     sorting: sortBy,
+    columnOrder,
     columnSizing: columnResizing,
     rowSelection: selectedRowIds,
     pagination: { pageIndex, pageSize },
   } = getState()
+  const getColumnOrder = useRefValue(columnOrder)
   // drag and drop
   const onDragStart = useCallback((e: DragEvent) => {
     draggedColumnRef.current = Number(e.dataTransfer.getData('text/plain'))
@@ -320,15 +322,15 @@ export const Table = <D extends RowData & { subRows?: D[] }>({
   const onDrop = useCallback(
     (_, columnIndex: number) => {
       if (draggedColumnRef.current !== null && columnIndex !== draggedColumnRef.current) {
-        const visibleColumns = getVisibleFlatColumns()
+        const visibleColumns = getColumnOrder() || getVisibleFlatColumns().map(({ id }) => id)
         const newColumns = [...visibleColumns]
         newColumns[columnIndex] = visibleColumns[draggedColumnRef.current]
         newColumns[draggedColumnRef.current] = visibleColumns[columnIndex]
 
-        setColumnOrder(newColumns.map(({ id }) => id))
+        setColumnOrder(newColumns)
       }
     },
-    [getVisibleFlatColumns, setColumnOrder],
+    [getColumnOrder, getVisibleFlatColumns, setColumnOrder],
   )
 
   const columnsSelectionProps = useColumnsSelection({
