@@ -266,13 +266,13 @@ export const Table = <D extends RowData & { subRows?: D[] }>({
     getSubRows: useCallback((row: D) => row.subRows, []),
     getRowCanExpand: useCallback(
       (row: TableRow<D>) => {
-        if (getRenderRowSubComponent()) {
-          return true
-        }
-
         const cb = getCanExpand()
         if (cb) {
           return cb(prepareRow(row))
+        }
+
+        if (getRenderRowSubComponent()) {
+          return true
         }
 
         return row.subRows?.length > 0
