@@ -11,6 +11,7 @@ export const prepareRow = <D extends RowData>({
   subRows,
   id,
   index,
+  getValue,
 }: TableRow<D>): RowType<D> => ({
   id,
   getCanExpand,
@@ -18,6 +19,7 @@ export const prepareRow = <D extends RowData>({
   getToggleExpandedHandler,
   original,
   index,
+  getValue,
   subRows: subRows.map(prepareRow),
 })
 

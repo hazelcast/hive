@@ -60,6 +60,7 @@ export type RowType<D extends RowData, K = any> = {
   original: D
   subRows: RowType<D, K>[]
   index: number
+  getValue: <T = K>(columnId: string) => T
 }
 
 export type CellType<D extends RowData, V = any> = {

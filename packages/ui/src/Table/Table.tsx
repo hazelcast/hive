@@ -266,8 +266,8 @@ export const Table = <D extends RowData & { subRows?: D[] }>({
     getSubRows: useCallback((row: D) => row.subRows, []),
     getRowCanExpand: useCallback(
       (row: TableRow<D>) => {
-        if (!getRenderRowSubComponent() && !row.subRows) {
-          return false
+        if (getRenderRowSubComponent()) {
+          return true
         }
 
         const cb = getCanExpand()
