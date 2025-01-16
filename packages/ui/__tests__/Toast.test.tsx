@@ -47,7 +47,7 @@ describe('Toast', () => {
     expect(AlertElement.exists()).toBeTruthy()
     expect(AlertElement.findDataTest('toast-content').text()).toBe(content)
 
-    expect(wrapper.findDataTest('toast-icon').props()).toMatchObject({
+    expect(wrapper.findDataTestFirst('toast-icon').props()).toMatchObject({
       icon,
       ariaLabel,
     })

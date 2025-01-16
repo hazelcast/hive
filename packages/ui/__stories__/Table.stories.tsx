@@ -6,10 +6,10 @@ import { PaginationChangeProps, Table, TableProps } from '../src/Table/Table'
 import { getColumns, Person } from '../__tests__/Table/utils'
 import { bigDataSet, smallDataSet, smallDataSetWithSubRows } from '../__tests__/Table/consts'
 import { TextField } from '../src'
+import { SortingRule } from '../src/Table/tableTypes'
 
 import storyStyles from './TextField.stories.module.scss'
 import styles from './utils.scss'
-import { SortingRule } from 'react-table'
 
 export default {
   title: 'Components/Table',
@@ -55,15 +55,15 @@ WithHiddenHeader.args = {
 export const WithClickableRows = Template.bind({})
 WithClickableRows.args = {
   onRowClick: (row) => {
-    logger.log(`You just clicked (or pressed) row: ${row.values.name as Person['name']}`)
+    logger.log(`You just clicked (or pressed) row: ${row.original.name}`)
   },
 }
 
 export const WithClickableAnchorRows = Template.bind({})
 WithClickableAnchorRows.args = {
   getHref: (row) => {
-    logger.log(`You just clicked (or pressed) row: ${row.values.name as Person['name']}. You can use row info to generate href!`)
-    return window.location.hash
+    logger.log(`You just clicked (or pressed) row: ${row.original.name}. You can use row info to generate href!`)
+    return `#${row.id}`
   },
 }
 
@@ -144,7 +144,7 @@ export const WithControlledSorting = () => {
   const firstUpdate = useRef(true)
 
   // This will get called when the table needs new data.
-  const onSortingChange = useCallback((sortBy: SortingRule<Person>[]) => {
+  const onSortingChange = useCallback((sortBy: SortingRule[]) => {
     if (firstUpdate.current) {
       firstUpdate.current = false
       return
@@ -166,14 +166,16 @@ export const WithControlledSorting = () => {
         const { id, desc: isDescending } = sortBy[0]
         const sortColumn = id as keyof Person
         const newData = [...bigDataSet]
-        newData.sort((a, b) => (isDescending ? b[sortColumn] - a[sortColumn] : a[sortColumn] - b[sortColumn]))
+        newData.sort((a, b) =>
+          isDescending ? Number(b[sortColumn]) - Number(a[sortColumn]) : Number(a[sortColumn]) - Number(b[sortColumn]),
+        )
         setData(newData)
         setLoading(false)
       }
     }, 750)
   }, [])
 
-  return <Table columns={columns} data={data} loading={loading} manualSortBy onSortingChange={onSortingChange} />
+  return <Table columns={columns} data={data} loading={loading} onSortingChange={onSortingChange} />
 }
 
 export const WithGlobalSearch = () => {
@@ -197,6 +199,7 @@ export const WithGlobalSearch = () => {
 
 export const WithCustomStyles = Template.bind({})
 WithCustomStyles.args = {
+  columns: getColumns({ withFooter: true }),
   contentClassName: styles.customTableContent,
   headerClassName: styles.customTableHeader,
   footerClassName: styles.customTableFooter,
@@ -211,7 +214,7 @@ WithCustomRowAndCellProps.parameters = {
 }
 WithCustomRowAndCellProps.args = {
   getCustomRowProps: (row) => {
-    if (row.values.age < 15) {
+    if (row.original.age < 15) {
       return {
         style: {
           background: 'white',
@@ -221,7 +224,7 @@ WithCustomRowAndCellProps.args = {
     return {}
   },
   getCustomCellProps: (cell) => {
-    if (cell.row.values.age < 15) {
+    if (cell.row.original.age < 15) {
       if (cell.column.id === 'age') {
         return {
           warning: 'Younger than 15',
@@ -235,7 +238,7 @@ WithCustomRowAndCellProps.args = {
           color: '#707482',
         },
       }
-    } else if (cell.column.id === 'id') {
+    } else if (cell.column.id === 'ID') {
       return {
         style: {
           borderLeft: '0.25rem solid limegreen',

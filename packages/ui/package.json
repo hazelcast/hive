@@ -51,8 +51,8 @@
     "@headlessui/react": "^1.4.2",
     "@icons-pack/react-simple-icons": "^9.3.0",
     "@popperjs/core": "^2.11.7",
+    "@tanstack/react-table": "^8.20.5",
     "@types/react-modal": "3.16.0",
-    "@types/react-table": "^7.7.14",
     "classnames": "^2.3.2",
     "date-fns": "^2.29.3",
     "dequal": "^2.0.3",
@@ -68,7 +68,6 @@
     "react-resize-aware": "3.1.1",
     "react-select": "^5.8.0",
     "react-simple-timefield": "^3.3.1",
-    "react-table": "^7.8.0",
     "react-uid": "^2.3.2",
     "react-use": "^17.4.0",
     "use-deep-compare": "^1.1.0",
@@ -116,8 +115,10 @@
     "yup": "^0.32.11"
   },
   "peerDependencies": {
+    "@types/lodash": "^4.17.13",
     "@types/react": "^17 || ^18",
     "@types/react-dom": "^17 || ^18",
+    "lodash": "^4.17.21",
     "react": "^17 || ^18",
     "react-dom": "^17 || ^18"
   }

@@ -1,32 +1,21 @@
-import React, { RefObject, useEffect } from 'react'
-import { ColumnInterface, ColumnInterfaceBasedOnValue, Cell, UseResizeColumnsState } from 'react-table'
+import React, { CSSProperties, RefObject, useEffect } from 'react'
+import { Cell, flexRender } from '@tanstack/react-table'
 
 import { ROW_EXPANDER_COLUMN_ID } from './constants'
 import { CellProps, Cell as TableCell } from './Cell'
-import { EnhancedCellRenderer } from './EnhancedRenderers'
+import { RowData } from './tableTypes'
 
-export type CellWrapperProps<D extends object> = CellProps & {
-  cell: Cell<D>
+export type CellWrapperProps<D extends RowData> = CellProps & {
+  cell: Cell<D, unknown>
   selectable?: boolean
-  column?: ColumnInterface<D> & ColumnInterfaceBasedOnValue
+  style: CSSProperties
   selectedColumnValuesRef?: RefObject<(string | undefined)[][]>
-  columnResizing: UseResizeColumnsState<D>['columnResizing']
 }
 
 export const CellWrapper = <D extends object>(props: CellWrapperProps<D>) => {
-  const {
-    selectable,
-    column,
-    cell,
-    columnResizing,
-    selectedColumnValuesRef,
-    onClickSelection,
-    onMouseEnterSelection,
-    selectionStartedRef,
-    ...rest
-  } = props
+  const { selectable, cell, selectedColumnValuesRef, onClickSelection, onMouseEnterSelection, selectionStartedRef, ...rest } = props
 
-  const isSelectable = selectable && column?.id !== ROW_EXPANDER_COLUMN_ID
+  const isSelectable = selectable && cell.column?.id !== ROW_EXPANDER_COLUMN_ID
 
   useEffect(() => {
     if (rest.cellId) {
@@ -36,7 +25,7 @@ export const CellWrapper = <D extends object>(props: CellWrapperProps<D>) => {
         if (rest.selected) {
           const row = selectedColumnValuesRef.current[Number(rowIndex)]
           if (row) {
-            row[Number(cellIndex)] = typeof cell.value !== 'object' ? String(cell.value) : ''
+            row[Number(cellIndex)] = typeof cell.getValue() !== 'object' ? String(cell.getValue()) : ''
           }
         } else {
           if (selectedColumnValuesRef.current[Number(rowIndex)] && selectedColumnValuesRef.current[Number(rowIndex)][Number(cellIndex)]) {
@@ -47,12 +36,6 @@ export const CellWrapper = <D extends object>(props: CellWrapperProps<D>) => {
     }
   }, [rest, cell, selectedColumnValuesRef])
 
-  const content = column ? (
-    <EnhancedCellRenderer cell={cell} hasCellRenderer={!!column.Cell} columnResizing={columnResizing} />
-  ) : (
-    cell.render('Cell')
-  )
-
   return (
     <TableCell
       onClickSelection={isSelectable ? onClickSelection : undefined}
@@ -60,7 +43,7 @@ export const CellWrapper = <D extends object>(props: CellWrapperProps<D>) => {
       onMouseEnterSelection={isSelectable ? onMouseEnterSelection : undefined}
       {...rest}
     >
-      {content}
+      {flexRender(cell.column.columnDef.cell, cell.getContext())}
     </TableCell>
   )
 }

@@ -1,49 +1,48 @@
 import cn from 'classnames'
 import { HotKeys, IgnoreKeys } from 'react-hotkeys'
 import React, { AnchorHTMLAttributes, FC, LegacyRef, MutableRefObject, ReactNode, useCallback, MouseEvent } from 'react'
-import { Cell as CellType, ColumnInterfaceBasedOnValue, Row as RowType, Column, UseResizeColumnsState } from 'react-table'
+import { Row as TableRow, ColumnSizingState } from '@tanstack/react-table'
 
 import { Loader } from '../Loader'
 import { CellProps } from './Cell'
+import { getCellStyle, getRowStyle, prepareCell, prepareRow } from './utils'
 import { CellWrapper } from './CellWrapper'
+import { CellType, RowData, RowType } from './tableTypes'
 import { LinkRow, Row, RowProps } from './Row'
 import { isCellSelected, useColumnsSelection } from './features/columnsSelection'
 
 import styles from './TableContent.module.scss'
 
-export type TableContentProps<D extends object> = {
+export type TableContentProps<D extends RowData> = {
   loading?: boolean
-  page: RowType<D>[]
+  page: TableRow<D>[]
   className?: string
   rootRef?: LegacyRef<HTMLDivElement>
   cellIndexOffset: number
   overlayLoading?: boolean
   onEndSelection: () => void
-  columns: readonly Column<D>[]
   onCopy?: (value: string[][]) => void
-  prepareRow: (row: RowType<D>) => void
   onRowClick?: (row: RowType<D>) => void
+  totalSize: number
   selectionStartedRef: MutableRefObject<boolean>
   getHref?: (row: RowType<D>) => string | undefined
   getCustomRowProps?: (row: RowType<D>) => RowProps
-  renderRowSubComponent?: (props: RowType<D>) => ReactNode
   getCustomCellProps?: (cellInfo: CellType<D>) => CellProps
-  columnResizing: UseResizeColumnsState<D>['columnResizing']
+  renderRowSubComponent?: (props: RowType<D>) => ReactNode
+  columnResizing: ColumnSizingState
   AnchorComponent?: FC<AnchorHTMLAttributes<HTMLAnchorElement>>
 } & ReturnType<typeof useColumnsSelection>
 
-export const TableContent = <D extends object>(props: TableContentProps<D>) => {
+export const TableContent = <D extends RowData>(props: TableContentProps<D>) => {
   const {
     rootRef,
     page,
     onCopy,
-    columns,
     getHref,
     loading,
     className,
-    prepareRow,
+    totalSize,
     onRowClick,
-    columnResizing,
     overlayLoading,
     onEndSelection,
     AnchorComponent,
@@ -58,7 +57,7 @@ export const TableContent = <D extends object>(props: TableContentProps<D>) => {
     selectedColumnValuesRef,
   } = props
 
-  const handleOnContesxtMenu = useCallback((e: MouseEvent<HotKeys>) => {
+  const handleOnContextMenu = useCallback((e: MouseEvent<HotKeys>) => {
     // disable table custom context menu
     e.stopPropagation()
   }, [])
@@ -76,47 +75,57 @@ export const TableContent = <D extends object>(props: TableContentProps<D>) => {
       }}
     >
       {page.map((row, rowIndex) => {
-        prepareRow(row)
-        const { key: rowKey, ...restRowProps } = row.getRowProps(getCustomRowProps?.(row))
-        const cells = row.cells.map((cell, i) => {
-          const { key: cellKey, ...restCellProps } = cell.getCellProps(getCustomCellProps?.(cell))
-          // We don't want to use cell.column.Cell as that is a ColumnInstance which already has a cell renderer
-          const column = columns[i] as ColumnInterfaceBasedOnValue<D>
+        const { id: rowKey, ...restRowProps } = row
+        const cells = row.getVisibleCells().map((cell, i) => {
+          const { id: cellKey, ...restCellProps } = cell
           const cellId = `${rowIndex}:${i}`
           const selected = isCellSelected(cellId, selectedColumns)
+          const { style: cellStyle = {}, ...customProps } = getCustomCellProps ? getCustomCellProps(prepareCell(cell)) : {}
 
           return (
             <CellWrapper
               cell={cell}
+              style={{
+                ...cellStyle,
+                ...getCellStyle({
+                  size: restCellProps.column.getSize(),
+                  minSize: restCellProps.column.columnDef.minSize || restCellProps.column.getSize(),
+                }),
+              }}
+              role="cell"
               key={cellKey}
               cellId={cellId}
-              column={column}
               selected={selected}
               selectable={!!onCopy}
-              align={cell.column.align}
-              columnResizing={columnResizing}
               onClickSelection={onClickSelection}
+              align={cell.column.columnDef.meta?.align}
               selectionStartedRef={selectionStartedRef}
               onMouseEnterSelection={onMouseEnterSelection}
               selectedColumnValuesRef={selectedColumnValuesRef}
-              {...restCellProps}
+              {...customProps}
             />
           )
         })
 
         const expandedRow =
-          row.isExpanded && renderRowSubComponent ? (
-            <IgnoreKeys tabIndex={-1} className={styles.subRowWrapper} onContextMenu={handleOnContesxtMenu}>
-              {renderRowSubComponent(row)}
+          row.getIsExpanded() && renderRowSubComponent ? (
+            <IgnoreKeys tabIndex={-1} className={styles.subRowWrapper} onContextMenu={handleOnContextMenu}>
+              {renderRowSubComponent(prepareRow(row))}
             </IgnoreKeys>
           ) : null
 
         if (getHref) {
-          const href = getHref(row)
+          const href = getHref(prepareRow(row))
           if (href) {
             return (
               <React.Fragment key={rowKey}>
-                <LinkRow AnchorComponent={AnchorComponent} {...restRowProps} ariaRowIndex={row.index + 1 + cellIndexOffset} href={href}>
+                <LinkRow
+                  role="row"
+                  AnchorComponent={AnchorComponent}
+                  {...restRowProps}
+                  ariaRowIndex={row.index + 1 + cellIndexOffset}
+                  href={href}
+                >
                   {cells}
                 </LinkRow>
                 {expandedRow}
@@ -128,12 +137,15 @@ export const TableContent = <D extends object>(props: TableContentProps<D>) => {
         return (
           <React.Fragment key={rowKey}>
             <Row
+              role="row"
               {...restRowProps}
+              style={getRowStyle({ totalSize })}
+              {...(getCustomRowProps ? getCustomRowProps(prepareRow(row)) : {})}
               ariaRowIndex={row.index + 1 + cellIndexOffset}
               onClick={
                 onRowClick
                   ? () => {
-                      onRowClick(row)
+                      onRowClick(prepareRow(row))
                     }
                   : undefined
               }

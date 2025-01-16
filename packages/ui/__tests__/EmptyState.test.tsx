@@ -31,7 +31,7 @@ describe('EmptyState', () => {
     )
 
     expect(wrapper.findDataTest('empty-state-container').prop('className')).toBe(cn(styles.container))
-    expect(wrapper.findDataTest('empty-state-icon').props()).toMatchObject({
+    expect(wrapper.findDataTestFirst('empty-state-icon').props()).toMatchObject({
       icon,
       ariaLabel: iconLabel,
       size: 'large',
@@ -59,7 +59,7 @@ describe('EmptyState', () => {
     )
 
     expect(wrapper.findDataTest('empty-state-container').prop('className')).toBe(cn(styles.container))
-    expect(wrapper.findDataTest('empty-state-icon').props()).toMatchObject({
+    expect(wrapper.findDataTestFirst('empty-state-icon').props()).toMatchObject({
       icon,
       ariaLabel: iconLabel,
       size: 'large',
@@ -80,7 +80,7 @@ describe('EmptyState', () => {
     )
 
     expect(wrapper.findDataTest('empty-state-container').prop('className')).toBe(cn(styles.container, styles.large))
-    expect(wrapper.findDataTest('empty-state-icon').props()).toMatchObject({
+    expect(wrapper.findDataTestFirst('empty-state-icon').props()).toMatchObject({
       icon,
       ariaLabel: iconLabel,
       size: 'xlarge',
@@ -108,7 +108,7 @@ describe('EmptyState', () => {
     )
 
     expect(wrapper.findDataTest('empty-state-container').prop('className')).toBe(cn(styles.container, styles.horizontal))
-    expect(wrapper.findDataTest('empty-state-icon').props()).toMatchObject({
+    expect(wrapper.findDataTestFirst('empty-state-icon').props()).toMatchObject({
       icon,
       ariaLabel: iconLabel,
       size: 'large',

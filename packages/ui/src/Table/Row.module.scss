@@ -1,8 +1,14 @@
 @use '../../styles/constants' as c;
 @use '../../styles/helpers' as h;
 
+@mixin rowBase {
+  display: flex;
+  width: 100%;
+}
+
 .row {
   @include c.typographyBodySmall;
+  @include rowBase;
 
   &.clickable {
     cursor: pointer;
@@ -25,10 +31,12 @@
 
 .linkRow {
   cursor: pointer;
+  @include rowBase;
 
   .link {
     text-decoration: none;
     background-color: inherit;
+    @include rowBase;
 
     &:focus-visible {
       @include h.outlineSimple;

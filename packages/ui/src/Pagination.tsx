@@ -132,6 +132,7 @@ export const Pagination: FC<PaginationProps> = ({
         onChange={onChangeWrapped}
         isSearchable={false}
         size="small"
+        data-test="pagination-rows-per-page-select"
       />
     ),
     [rowsPerPageOptions, pageSize, onChangeWrapped],
@@ -144,7 +145,7 @@ export const Pagination: FC<PaginationProps> = ({
   const PageJumpForm = useMemo(() => {
     if (pageCount > 1) {
       return (
-        <div className={styles.pageJumpForm}>
+        <div data-test="pagination-jump-from" className={styles.pageJumpForm}>
           <NumberField
             showIconButtons={false}
             inputContainerClassName={styles.inputContainer}
@@ -155,9 +156,10 @@ export const Pagination: FC<PaginationProps> = ({
             max={pageCount}
             size="small"
             value={currentPageValue}
+            data-test="pagination-jump-from-input-field"
             onChange={setCurrentPageValue}
           />
-          <Link size="small" component="button" type="submit" onClick={submitPageJump}>
+          <Link data-test="pagination-jump-from-button" size="small" component="button" type="submit" onClick={submitPageJump}>
             Go
           </Link>
         </div>
@@ -179,6 +181,7 @@ export const Pagination: FC<PaginationProps> = ({
                   ariaLabel="Previous page"
                   className={styles.iconButton}
                   onClick={previousPage}
+                  data-test="pagination-buttons-previous-page"
                 />
               ) : null
             }
@@ -191,12 +194,17 @@ export const Pagination: FC<PaginationProps> = ({
                   ariaLabel="Next page"
                   className={styles.iconButton}
                   onClick={nextPage}
+                  data-test="pagination-buttons-next-page"
                 />
               ) : null
             }
 
             if (page === 'ellipsis') {
-              return <span key={`ellipsis-${i}`}>&ndash;</span>
+              return (
+                <span data-test="pagination-buttons-ellipsis" key={`ellipsis-${i}`}>
+                  &ndash;
+                </span>
+              )
             }
 
             return (
@@ -204,6 +212,7 @@ export const Pagination: FC<PaginationProps> = ({
                 key={page}
                 type="button"
                 variant="text"
+                data-test="pagination-buttons-go-to-page"
                 className={cn(styles.button, {
                   [styles.selected]: page === currentPage,
                 })}
@@ -226,7 +235,7 @@ export const Pagination: FC<PaginationProps> = ({
   const [moreOptions, setMoreOptions] = useState<boolean>(false)
 
   return (
-    <div ref={containerWidthRef} className={styles.container}>
+    <div data-test="pagination" ref={containerWidthRef} className={styles.container}>
       {displaySmall && moreOptions && !isSimpleView ? (
         <>
           {PageJumpForm}

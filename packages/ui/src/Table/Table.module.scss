@@ -17,6 +17,10 @@
 }
 
 .expander {
+  &:hover {
+    cursor: pointer;
+  }
+
   &:focus-visible {
     @include h.outlineSimple;
   }

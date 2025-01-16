@@ -1,6 +1,7 @@
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
 import React, { PropsWithChildren } from 'react'
 import { act } from 'react-dom/test-utils'
+import { fireEvent, screen } from '@testing-library/react'
 
 import { HeaderRow, HeaderRowProps, LinkRow, LinkRowProps, Row, RowProps } from '../../src/Table/Row'
 
@@ -17,12 +18,11 @@ describe('Row', () => {
       {
         'data-test': rowDataTest,
         className: styles.row,
-        role: undefined,
-        tabIndex: undefined,
-        onClick: undefined,
-        onKeyPress: undefined,
-        'aria-rowindex': undefined,
-        style: undefined,
+        role: null,
+        tabIndex: null,
+        ariaRowIndex: null,
+        'aria-rowindex': null,
+        style: null,
         children: 'Row',
       },
     ],
@@ -39,26 +39,28 @@ describe('Row', () => {
         'data-test': rowDataTest,
         className: `${styles.row} ${styles.clickable} testClassName`,
         role: 'row',
-        'aria-rowindex': 1,
-        tabIndex: 0,
-
-        onClick: expect.anything(),
-
-        onKeyPress: expect.anything(),
-        style: { width: 40 },
+        'aria-rowindex': '1',
+        tabIndex: '0',
+        style: 'width: 40px;',
         children: <div role="cell">Row</div>,
       },
     ],
   ]
 
   it.each(rowData)('returns <div> with correct props for given Row props', async (cellProps, expectedDivProps) => {
-    const wrapper = await mountAndCheckA11Y(
-      <div role={cellProps.role === 'row' ? 'table' : undefined}>
+    await renderAndCheckA11Y(
+      <div data-test="wrapper" role={cellProps.role === 'row' ? 'table' : undefined}>
         <Row {...cellProps} />
       </div>,
     )
+    const row = screen.getByTestId(rowDataTest)
 
-    expect(wrapper.findDataTest(rowDataTest).props()).toEqual(expectedDivProps)
+    expect(row).toBeInTheDocument()
+    expect(row.getAttribute('role')).toBe(expectedDivProps.role)
+    expect(row.getAttribute('class')).toBe(expectedDivProps.className)
+    expect(row.getAttribute('aria-rowIndex')).toBe(expectedDivProps['aria-rowindex'])
+    expect(row.getAttribute('tabindex')).toBe(expectedDivProps.tabIndex)
+    expect(row.getAttribute('style')).toBe(expectedDivProps.style)
   })
 
   const linkRowData: [PropsWithChildren<LinkRowProps>, AnyProps, AnyProps][] = [
@@ -67,12 +69,12 @@ describe('Row', () => {
       {
         'data-test': rowDataTest,
         className: styles.linkRow,
-        role: undefined,
-        'aria-rowindex': undefined,
+        role: null,
+        'aria-rowindex': null,
         'aria-owns': '1',
         children: expect.anything(),
       },
-      { className: styles.link, id: '1', style: undefined, href: 'testHref', children: 'Row' },
+      { className: styles.link, id: '1', style: null, href: 'testHref', children: 'Row' },
     ],
     [
       {
@@ -91,7 +93,7 @@ describe('Row', () => {
         'aria-owns': '2',
         children: expect.anything(),
       },
-      { className: styles.link, id: '2', style: { width: 40 }, href: 'testHref', children: 'Row' },
+      { className: styles.link, id: '2', style: 'width: 40px;', href: 'testHref', children: 'Row' },
     ],
   ]
 
@@ -99,76 +101,83 @@ describe('Row', () => {
   it.skip.each(linkRowData)(
     'returns <div> with <a> child, both with correct props for given Row props',
     async (cellProps, expectedOuterDivProps, expectedInnerAnchorProps) => {
-      const wrapper = await mountAndCheckA11Y(<LinkRow {...cellProps} />)
+      await renderAndCheckA11Y(<LinkRow {...cellProps} />)
 
-      expect(wrapper.findDataTest(rowDataTest).props()).toEqual(expectedOuterDivProps)
-      expect(wrapper.findDataTest(rowDataTest).find('a').props()).toEqual(expectedInnerAnchorProps)
+      const row = screen.getByTestId(rowDataTest)
+
+      expect(row).toBeInTheDocument()
+      expect(row.getAttribute('role')).toBe(expectedOuterDivProps.role)
+      expect(row.getAttribute('class')).toBe(expectedOuterDivProps.className)
+      expect(row.getAttribute('aria-rowIndex')).toBe(expectedOuterDivProps['aria-rowindex'])
+      expect(row.getAttribute('style')).toBe(expectedOuterDivProps.style)
+
+      const link = row.querySelector('a')
+
+      expect(link).toBeInTheDocument()
+      if (link) {
+        expect(link.getAttribute('href')).toBe(expectedInnerAnchorProps.href)
+        expect(link.getAttribute('class')).toBe(expectedInnerAnchorProps.className)
+        expect(link.getAttribute('style')).toBe(expectedInnerAnchorProps.style)
+      }
     },
   )
 
   it('Should call onClick on Enter key press', async () => {
     const onClick = jest.fn()
-    const wrapper = await mountAndCheckA11Y(<Row onClick={onClick} />)
+    await renderAndCheckA11Y(<Row onClick={onClick} />)
 
     expect(onClick).toBeCalledTimes(0)
 
     act(() => {
-      const onKeyPress = wrapper.findDataTest('table-cell-row').prop('onKeyPress') as (event: {
-        preventDefault: () => void
-        key: string
-      }) => void
-      onKeyPress({ preventDefault: () => null, key: 'Tab' })
+      fireEvent.keyDown(screen.getByTestId('table-cell-row'), { key: 'Tab' })
     })
-    wrapper.update()
 
     expect(onClick).toBeCalledTimes(0)
 
     act(() => {
-      const onKeyPress = wrapper.findDataTest('table-cell-row').prop('onKeyPress') as (event: {
-        preventDefault: () => void
-        key: string
-      }) => void
-      onKeyPress({ preventDefault: () => null, key: 'Enter' })
+      fireEvent.keyDown(screen.getByTestId('table-cell-row'), { key: 'Enter' })
     })
-    wrapper.update()
 
     expect(onClick).toBeCalledTimes(1)
   })
 })
 
 const headerRowDataTest = 'table-header-row'
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const expectedHeaderRowElementProps: AnyProps = {
   'data-test': headerRowDataTest,
-  className: styles.headerRow,
-  style: undefined,
+  className: styles.row,
+  style: null,
   role: 'row',
-  'aria-rowindex': undefined,
-  children: expect.anything(),
+  'aria-rowindex': null,
 }
 
 describe('HeaderRow', () => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const data: [PropsWithChildren<HeaderRowProps>, AnyProps][] = [
     [{ role: 'row', children: <div role="cell" /> }, expectedHeaderRowElementProps],
     [
-      { ariaRowIndex: 1, role: 'row', style: { width: 40 }, className: 'testClassName', children: <div role="cell">Header Row</div> },
+      { ariaRowIndex: 1, role: 'row', style: { width: 40 }, className: 'testClassName', children: <div role="cell" /> },
       {
         ...expectedHeaderRowElementProps,
-        className: `${styles.headerRow} testClassName`,
-        style: { width: 40 },
-        'aria-rowindex': 1,
+        className: `${styles.row} testClassName`,
+        style: 'width: 40px;',
+        'aria-rowindex': '1',
       },
     ],
   ]
 
   it.each(data)('returns <div> with correct props for given HeaderRow props', async (cellProps, expectedElementProps) => {
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <div role="table">
         <HeaderRow {...cellProps} />
       </div>,
     )
 
-    expect(wrapper.findDataTest(headerRowDataTest).props()).toEqual(expectedElementProps)
+    const row = screen.getByTestId(headerRowDataTest)
+
+    expect(row).toBeInTheDocument()
+    expect(row.getAttribute('role')).toBe(expectedElementProps.role)
+    expect(row.getAttribute('class')).toBe(expectedElementProps.className)
+    expect(row.getAttribute('aria-rowIndex')).toBe(expectedElementProps['aria-rowindex'])
+    expect(row.getAttribute('style')).toBe(expectedElementProps.style)
   })
 })

@@ -1,8 +1,7 @@
 import React, { PropsWithChildren, useMemo } from 'react'
-import { CellProps } from 'react-table'
 
 import { Link } from '../../src/Link'
-import { Column } from '../../src/Table/Table'
+import { CellType, ColumnType } from '../../src/Table/tableTypes'
 
 export type Person = {
   name: string
@@ -19,16 +18,16 @@ export type GetColumns = {
   canHide?: boolean
 }
 
-const NameCell = (row: PropsWithChildren<CellProps<Person, string>>) => (
+const NameCell = (props: PropsWithChildren<CellType<Person>>) => (
   <Link href="https://hazelcast.com/" size="small">
-    {row.value}
+    {props}
   </Link>
 )
 
-export const getColumns = ({ withFooter = false, withNameLink = false }: GetColumns): Column<Person>[] => [
+export const getColumns = ({ withFooter = false, withNameLink = false }: GetColumns): ColumnType<Person>[] => [
   {
     Header: 'ID',
-    accessor: 'id',
+    accessor: ({ id }) => <span>{id}</span>,
     ...(withFooter && { Footer: 'ID' }),
   },
   {
@@ -43,7 +42,7 @@ export const getColumns = ({ withFooter = false, withNameLink = false }: GetColu
     accessor: 'age',
     ...(withFooter && {
       Footer: (info) => {
-        const total = useMemo(() => info.rows.reduce((sum, row) => (row.values.age as Person['age']) + sum, 0), [info.rows])
+        const total = useMemo(() => info.rows.reduce((sum, row) => row.original.age + sum, 0), [info.rows])
         return `Average Age: ${total / info.rows.length}`
       },
     }),
@@ -54,7 +53,7 @@ export const getColumns = ({ withFooter = false, withNameLink = false }: GetColu
     accessor: 'visits',
     ...(withFooter && {
       Footer: (info) => {
-        const total = useMemo(() => info.rows.reduce((sum, row) => (row.values.visits as Person['visits']) + sum, 0), [info.rows])
+        const total = useMemo(() => info.rows.reduce((sum, row) => row.original.visits + sum, 0), [info.rows])
         return `Total: ${total}`
       },
     }),
@@ -66,8 +65,8 @@ export const getColumns = ({ withFooter = false, withNameLink = false }: GetColu
     ...(withFooter && { Footer: 'Status' }),
     sortType: (rowA, rowB) => {
       const sortBy: Person['status'][] = ['single', 'complicated', 'relationship']
-      const indexOfStatusA = sortBy.indexOf(rowA.values.status as Person['status'])
-      const indexOfStatusB = sortBy.indexOf(rowB.values.status as Person['status'])
+      const indexOfStatusA = sortBy.indexOf(rowA.original.status)
+      const indexOfStatusB = sortBy.indexOf(rowB.original.status)
 
       if (indexOfStatusA > indexOfStatusB) {
         return -1

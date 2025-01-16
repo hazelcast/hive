@@ -5,12 +5,16 @@
 .td {
   position: relative;
   display: flex;
+  box-sizing: border-box;
   align-items: center;
   height: c.$grid * 12;
   padding-right: c.$grid * 5;
   padding-left: c.$grid * 5;
   color: c.$colorText;
   background-color: inherit;
+  flex-grow: 1;
+  flex-basis: auto;
+  flex-shrink: 0;
   font-family: 'Ubuntu Mono', monospace;
 
   @include h.overflowEllipsis;

@@ -98,7 +98,7 @@ describe('Modal', () => {
       onRequestClose: onClose,
     })
 
-    expect(wrapper.findDataTest('modal-header-icon').props()).toMatchObject({
+    expect(wrapper.findDataTestFirst('modal-header-icon').props()).toMatchObject({
       icon: CloudLightning,
       ariaLabel: iconAriaLabel,
     })
