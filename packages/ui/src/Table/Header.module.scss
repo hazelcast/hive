@@ -35,7 +35,7 @@
   flex-grow: 1;
   flex-basis: auto;
   flex-shrink: 0;
-  background: #e9f0f9;
+  background: c.$colorNeutralGray;
   border-right: 1px solid c.$colorNeutralWhite;
 
   .th {
@@ -83,7 +83,7 @@
       }
 
       &:hover {
-        background-color: #ccdff5;
+        background-color: c.$colorNeutralGrayDarker;
       }
     }
 

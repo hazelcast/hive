@@ -193,18 +193,18 @@
     }
 
     &AuthPrimary {
-      @include buttonColor(c.$authPrimary);
+      @include buttonColor(c.$colorBrandPrimary);
 
       &:hover,
       &.hover,
       &:focus-visible,
       &.focus {
-        @include buttonColor(color.adjust(c.$authPrimary, $lightness: 10%));
+        @include buttonColor(color.adjust(c.$colorBrandPrimary, $lightness: 10%));
       }
 
       &:active,
       &.active {
-        @include buttonColor(color.adjust(c.$authPrimary, $lightness: -10%));
+        @include buttonColor(color.adjust(c.$colorBrandPrimary, $lightness: -10%));
       }
 
       &.variantContained {
@@ -217,7 +217,7 @@
     }
 
     &AuthSecondary {
-      @include buttonColor(c.$authSecondary);
+      @include buttonColor(c.$colorAuthSecondary);
 
       border-color: c.$colorNeutralWhite;
 
@@ -225,12 +225,12 @@
       &.hover,
       &:focus-visible,
       &.focus {
-        @include buttonColor(color.adjust(c.$authSecondary, $lightness: 10%));
+        @include buttonColor(color.adjust(c.$colorAuthSecondary, $lightness: 10%));
       }
 
       &:active,
       &.active {
-        @include buttonColor(color.adjust(c.$authSecondary, $lightness: -10%));
+        @include buttonColor(color.adjust(c.$colorAuthSecondary, $lightness: -10%));
       }
 
       &.variantContained {
@@ -238,7 +238,7 @@
       }
 
       &.variantOutlined {
-        border-color: c.$authSecondary;
+        border-color: c.$colorAuthSecondary;
       }
 
       &:disabled {
@@ -256,12 +256,12 @@
       &.hover,
       &:focus-visible,
       &.focus {
-        @include buttonColor(color.adjust(c.$brandColorText, $lightness: 10%));
+        @include buttonColor(color.adjust(c.$colorBrandText, $lightness: 10%));
       }
 
       &:active,
       &.active {
-        @include buttonColor(c.$brandColorText);
+        @include buttonColor(c.$colorBrandText);
       }
 
       &.variantContained {

@@ -66,11 +66,11 @@
   &:hover,
   &.active {
     text-decoration: none;
-    color: c.$brandColorText;
-    background-color: c.$brandAccent;
+    color: c.$colorBrandText;
+    background-color: c.$colorBrandAccent;
 
     .icon {
-      color: c.$brandColorText;
+      color: c.$colorBrandText;
     }
   }
 
