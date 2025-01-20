@@ -1,7 +1,7 @@
 @use '../constants' as c;
 
 @mixin textGradient() {
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
