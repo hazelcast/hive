@@ -1,12 +1,10 @@
 @use '../constants' as c;
 
 @mixin textGradient() {
-  @supports (background-clip: text) {
-    /* doiuse-disable background-clip-text */
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    /* doiuse-enable background-clip-text */
-  }
+  /* doiuse-disable background-clip-text */
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* doiuse-enable background-clip-text */
 }
 
 @mixin gradientLime($angle: 270deg) {
