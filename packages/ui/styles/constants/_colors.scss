@@ -1,36 +1,54 @@
-@use 'sass:color';
-
-// https://zeroheight.com/11d0e6dac/p/594529--colors
+// https://www.figma.com/design/uGTDLFJEVy4dCNIhlmTPRw/%F0%9F%90%9D-HIVE-3.0?node-id=1061-4605&p=f&t=7sJDCVUY4O5jNXma-0
 $colorPrimaryLight: #2d7de4 !default;
 $colorPrimary: #2160c0 !default;
 $colorPrimaryDark: #003b87 !default;
+
 $colorNeutralWhite: #fff !default;
-$colorNeutralLighter: #fafafa !default;
-$colorNeutralLight: #b7c1cb !default;
+
+$colorNeutralGray: #e9f0f9 !default;
+$colorNeutralGrayDarker: #ccdff5 !default;
+
 $colorNeutral: #dbdbdb !default;
+$colorNeutralLight: #b7c1cb !default;
+$colorNeutralLighter: #fafafa !default;
+
 $colorSuccess: #85da66 !default;
 $colorSuccessLight: #d5f0d1 !default;
-$colorSuccessDark: color.adjust($colorSuccess, $lightness: -10%) !default;
+$colorSuccessDark: #64d03c !default;
+$colorSuccessDarkest: #3b7044 !default;
+
 $colorInfo: #76e7e7 !default;
 $colorInfoLight: #d0f4f8 !default;
-$colorInfoDark: color.adjust($colorInfo, $lightness: -10%) !default;
+$colorInfoDark: #4adfdf !default;
+$colorInfoDarkest: #006585 !default;
+
 $colorWarning: #ffec44 !default;
 $colorWarningLight: #f9f6c7 !default;
-$colorWarningDark: color.adjust($colorWarning, $lightness: -15%) !default;
+$colorWarningDark: #f6dd00 !default;
+$colorWarningDarkest: #8b5d00 !default;
+
 $colorError: #dc084b !default;
 $colorErrorLight: #efb1c9 !default;
-$colorErrorDark: color.adjust($colorError, $lightness: -10%) !default;
+$colorErrorDark: #8f001d !default;
+
 $colorText: #061827 !default;
 $colorTextSecondary: #707482 !default;
-$colorTextSubdued: #69707d !default;
-$brandColorText: #10a4b3 !default;
+$colorTextSubdued: $colorTextSecondary !default;
+
 $colorOverlayBackground: #f0f6ff !default;
 $colorAccessibilityOutline: #74f !default;
+
 $colorBrand: #00bac6 !default;
-$colorShadow: rgb(53 61 73 / 20%) !default;
-$colorMenuDark: #333 !default;
-$brandPrimary: #c6ff3a !default;
-$authPrimary: $brandPrimary !default;
-$authSecondary: #0b2b39 !default;
-$brandSecondary: #061727 !default;
-$brandAccent: #122d45 !default;
+$colorBrandText: #10a4b3 !default;
+$colorShadow: $colorNeutral !default;
+
+$colorMenuDark: $colorText !default;
+$colorAuthSecondary: #0b2b39 !default;
+
+$colorBrandPrimary: #c6ff3a !default;
+$colorBrandSecondary: #061727 !default;
+$colorBrandAccent: #122d45 !default;
+$colorBrandOcean: #0080a9 !default;
+$colorBrandRaspberry: #c91268 !default;
+$colorBrandCarrot: #f5911e !default;
+$colorBrandBlueberry: #0019fe !default;

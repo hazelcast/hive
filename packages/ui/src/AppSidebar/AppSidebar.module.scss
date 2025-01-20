@@ -13,7 +13,7 @@ $offset: c.$grid * 4;
   flex-direction: column;
   box-sizing: border-box;
   color: c.$colorNeutralLighter;
-  background: c.$brandSecondary;
+  background: c.$colorBrandSecondary;
   transition: 200ms width;
 
   * {

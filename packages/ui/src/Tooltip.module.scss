@@ -151,10 +151,10 @@ $tooltipArrowSize2-3: math.div(c.$tooltipArrowSize, 3) * 2;
 
   &.dark {
     border: none;
-    color: c.$brandColorText;
-    background-color: c.$brandAccent;
+    color: c.$colorBrandText;
+    background-color: c.$colorBrandAccent;
 
-    @include arrowPlacements(c.$brandAccent, transparent);
+    @include arrowPlacements(c.$colorBrandAccent, transparent);
   }
 
   > .arrow {

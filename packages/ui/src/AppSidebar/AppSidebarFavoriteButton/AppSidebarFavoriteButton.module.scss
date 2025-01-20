@@ -5,12 +5,12 @@
   top: 50%;
   z-index: 1;
   left: c.$grid * 3;
-  color: c.$brandColorText;
+  color: c.$colorBrandText;
   transform: translateY(-50%);
 
   &.isFilled {
     svg {
-      fill: c.$brandColorText;
+      fill: c.$colorBrandText;
     }
   }
 }

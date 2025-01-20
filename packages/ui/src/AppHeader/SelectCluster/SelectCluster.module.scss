@@ -74,7 +74,7 @@ $selectFieldIndicators: ':global .hz-select-field__indicators';
 .menuPortal {
   #{$selectMenu} {
     border: none;
-    background: c.$brandSecondary;
+    background: c.$colorBrandSecondary;
     border-radius: 0 0 c.$borderRadius c.$borderRadius;
   }
 
@@ -89,12 +89,12 @@ $selectFieldIndicators: ':global .hz-select-field__indicators';
     }
 
     &--is-focused {
-      background: c.$brandAccent;
+      background: c.$colorBrandAccent;
       box-shadow: none;
 
       #{$selectValueContainer},
       #{$selectTrailingNote} {
-        color: c.$brandColorText;
+        color: c.$colorBrandText;
       }
     }
   }

@@ -1,0 +1,64 @@
+@use '../../styles/helpers' as h;
+
+.root {
+  padding: 40px;
+  margin: 0 auto;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+
+.item {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
+.name {
+  width: 140px;
+}
+
+.preview {
+  flex-grow: 1;
+  height: 100px;
+}
+
+.gradientCitrus {
+  .bg {
+    @include h.gradientCitrus;
+  }
+
+  .text {
+    @include h.textGradientCitrus();
+  }
+}
+
+.gradientLime {
+  .bg {
+    @include h.gradientLime;
+  }
+
+  .text {
+    @include h.textGradientLime();
+  }
+}
+
+.gradientOcean {
+  .bg {
+    @include h.gradientOcean;
+  }
+
+  .text {
+    @include h.textGradientOcean();
+  }
+}
+
+.gradientSea {
+  .bg {
+    @include h.gradientSea;
+  }
+
+  .text {
+    @include h.textGradientSea();
+  }
+}
