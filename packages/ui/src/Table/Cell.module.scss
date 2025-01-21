@@ -7,7 +7,7 @@
   display: flex;
   box-sizing: border-box;
   align-items: center;
-  height: c.$grid * 10;
+  height: c.$grid * 8;
   padding-right: c.$grid * 5;
   padding-left: c.$grid * 5;
   color: c.$colorText;
@@ -41,7 +41,7 @@
 }
 
 .warningIcon {
-  color: c.$colorWarningLight;
+  color: c.$colorWarningDark;
 
   &.left {
     margin-left: c.$grid * 2;
