@@ -1,11 +1,44 @@
 @use '../constants' as c;
 
-@mixin gradientLime {
-  background: c.$authPrimary;
-  background: linear-gradient(270deg, c.$authPrimary 0%, #00b8b8 100%);
+@mixin textGradient() {
+  /* doiuse-disable background-clip-text */
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* doiuse-enable background-clip-text */
 }
 
-@mixin gradientOcean {
-  background: c.$colorText;
-  background: linear-gradient(270deg, #0c6f8e 0%, #1b2939 100%);
+@mixin gradientLime($angle: 270deg) {
+  background: linear-gradient($angle, c.$colorBrandPrimary, #00b8b8);
+}
+
+@mixin textGradientLime($angle: 0deg) {
+  @include gradientLime($angle);
+  @include textGradient;
+}
+
+@mixin gradientOcean($angle: 171deg) {
+  background: linear-gradient($angle, c.$colorText 0%, #116884 89%);
+}
+
+@mixin textGradientOcean($angle: 0deg) {
+  @include gradientOcean($angle);
+  @include textGradient;
+}
+
+@mixin gradientSea($angle: 270deg) {
+  background: linear-gradient($angle, #0c6f8e, #08d1d1);
+}
+
+@mixin textGradientSea($angle: 0deg) {
+  @include gradientSea($angle);
+  @include textGradient;
+}
+
+@mixin gradientCitrus($angle: 90deg) {
+  background: linear-gradient($angle, c.$colorBrandRaspberry, c.$colorBrandCarrot);
+}
+
+@mixin textGradientCitrus($angle: 0deg) {
+  @include gradientCitrus($angle);
+  @include textGradient;
 }
