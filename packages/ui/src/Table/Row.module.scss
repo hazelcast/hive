@@ -4,6 +4,10 @@
 @mixin rowBase {
   display: flex;
   width: 100%;
+
+  &:nth-child(even) {
+    background-color: c.$colorNeutralLighter;
+  }
 }
 
 .row {
