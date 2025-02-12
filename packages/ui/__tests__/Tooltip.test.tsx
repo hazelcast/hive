@@ -1,13 +1,15 @@
 import React from 'react'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
 import cn from 'classnames'
+import { screen } from '@testing-library/react'
 
 import { Tooltip } from '../src/Tooltip'
+
 import styles from '../src/Tooltip.module.scss'
 
 describe('Tooltip', () => {
   it('Renders correctly if "content" property is defined.', async () => {
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <Tooltip id="tooltip-test" content="Tooltip content">
         {(ref) => (
           <button ref={ref} data-test="tooltip-reference">
@@ -17,26 +19,24 @@ describe('Tooltip', () => {
       </Tooltip>,
     )
 
-    const tooltipOverlay = wrapper.findDataTest('tooltip-overlay')
+    const tooltipOverlay = screen.queryByTestId('tooltip-overlay')
 
-    expect(wrapper.findDataTest('tooltip-reference').exists()).toBeTruthy()
+    expect(screen.queryByTestId('tooltip-reference')).toBeInTheDocument()
+    expect(tooltipOverlay).toBeInTheDocument()
+    expect(tooltipOverlay).toHaveTextContent('Tooltip content')
+    expect(tooltipOverlay).toHaveAttribute('aria-hidden', 'true')
+    expect(tooltipOverlay).toHaveClass(cn(styles.overlay, styles.hidden))
 
-    expect(tooltipOverlay.exists()).toBeTruthy()
-    expect(tooltipOverlay.text()).toEqual('Tooltip content')
-    expect(tooltipOverlay.props()).toMatchObject({
-      className: cn(styles.overlay, styles.hidden),
-      'aria-hidden': true,
-    })
+    const tooltipSr = screen.queryByTestId('tooltip-sr')
 
-    expect(wrapper.findDataTest('tooltip-sr').props()).toMatchObject({
-      id: 'tooltip-test',
-      className: styles.tooltipSr,
-      role: 'tooltip',
-    })
+    expect(tooltipSr).toBeInTheDocument()
+    expect(tooltipSr).toHaveRole('tooltip')
+    expect(tooltipSr).toHaveAttribute('id', 'tooltip-test')
+    expect(tooltipSr).toHaveClass(styles.tooltipSr)
   })
 
   it('Does not render tooltip if "content" property is not defined.', async () => {
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <Tooltip content={undefined}>
         {(ref) => (
           <button ref={ref} data-test="tooltip-reference">
@@ -46,11 +46,11 @@ describe('Tooltip', () => {
       </Tooltip>,
     )
 
-    expect(wrapper.findDataTest('tooltip-overlay').exists()).toBeFalsy()
+    expect(screen.queryByTestId('tooltip-overlay')).not.toBeInTheDocument()
   })
 
   it('Shows tooltip overlay by default if "visible" prop is true.', async () => {
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <Tooltip content="Tooltip content" visible>
         {(ref) => (
           <button ref={ref} data-test="tooltip-reference">
@@ -60,6 +60,6 @@ describe('Tooltip', () => {
       </Tooltip>,
     )
 
-    expect(wrapper.findDataTest('tooltip-overlay').hasClass(styles.hidden)).toBeFalsy()
+    expect(screen.queryByTestId('tooltip-overlay')).not.toHaveClass(styles.hidden)
   })
 })

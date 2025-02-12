@@ -114,7 +114,7 @@ export const highlightOptionText = (labelText: string, inputValue: string | unde
 }
 
 export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
-  'data-test': dataTest,
+  'data-test': dataTest = 'autocomplete-field',
   className,
   disabled,
   error,
@@ -271,6 +271,7 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
         label={label}
         id={id}
         size={size}
+        data-test={dataTest}
         helperText={helperText}
         showAriaLabel={showAriaLabel}
         labelClassName={labelClassName}
@@ -292,7 +293,7 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
           {...props}
         />
       </div>
-      <Error truncated error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
+      <Error data-test={`${dataTest}-error`} truncated error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
     </div>
   )
 }

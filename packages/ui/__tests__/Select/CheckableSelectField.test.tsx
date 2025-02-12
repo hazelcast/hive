@@ -1,12 +1,10 @@
 import React from 'react'
 import { useUID } from 'react-uid'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
-import { act } from 'react-dom/test-utils'
-import { mount } from 'enzyme'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
+import { render, screen, within } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 import { CheckableSelectField } from '../../src/Select/CheckableSelectField'
-import { Label } from '../../src/Label'
-import { Error } from '../../src/Error'
 import { SelectFieldOption } from '../../src/Select/helpers'
 
 import styles from '../src/SelectField.module.scss'
@@ -39,7 +37,7 @@ describe('CheckableSelectField', () => {
   it('Renders Error with error message', async () => {
     const selectError = 'Dark side'
 
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <CheckableSelectField
         name={selectName}
         label={selectLabel}
@@ -51,18 +49,16 @@ describe('CheckableSelectField', () => {
       />,
     )
 
-    expect(wrapper.find(Label).props()).toEqual({
-      id: selectId,
-      label: selectLabel,
-      variant: 'primary',
-      className: `${styles.label} ${styles.small}`,
-    })
+    const label = screen.queryByText(selectLabel)
+    expect(label).toHaveAttribute('for', selectId)
+    expect(label).toHaveClass(`${styles.label} ${styles.small}`)
 
-    expect(wrapper.find(Error).exists()).toBeTruthy()
+    const error = screen.getByRole('alert')
+    expect(within(error).queryByText(selectError)).toBeInTheDocument()
   })
 
   it('Renders with isDisabled=true prop', async () => {
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <CheckableSelectField
         name={selectName}
         label={selectLabel}
@@ -74,26 +70,16 @@ describe('CheckableSelectField', () => {
       />,
     )
 
-    expect(wrapper.find(Label).props()).toEqual({
-      id: selectId,
-      label: selectLabel,
-      variant: 'primary',
-      className: `${styles.label} ${styles.small}`,
-    })
+    const label = screen.queryByText(selectLabel)
+    expect(label).toHaveAttribute('for', selectId)
+    expect(label).toHaveClass(`${styles.label} ${styles.small}`)
 
-    expect(wrapper.findDataTest('test-opener').at(0).prop('disabled')).toBeTruthy()
-
-    expect(wrapper.find(Error).props()).toEqual({
-      error: undefined,
-      className: styles.errorContainer,
-      inputId: selectId,
-      truncated: true,
-      tooltipPlacement: 'top',
-    })
+    expect(within(screen.getByTestId('test-opener')).queryByRole('textbox')).toHaveAttribute('disabled')
+    expect(screen.getByTestId('test-opener-error')).toHaveTextContent('')
   })
 
   it('Hides Label', () => {
-    const wrapper = mount(
+    render(
       <CheckableSelectField
         name={selectName}
         label={selectLabel}
@@ -105,22 +91,13 @@ describe('CheckableSelectField', () => {
       />,
     )
 
-    expect(wrapper.find(Label).exists()).toBe(false)
-
-    expect(wrapper.findDataTest('test-opener').exists()).toBe(true)
-
-    expect(wrapper.find(Error).props()).toEqual({
-      error: undefined,
-      className: styles.errorContainer,
-      inputId: selectId,
-      truncated: true,
-      tooltipPlacement: 'top',
-    })
+    expect(screen.queryByRole('label')).not.toBeInTheDocument()
+    expect(screen.getByTestId('test-opener-error')).toHaveTextContent('')
   })
 
   it('Toggles value', async () => {
     const onChange = jest.fn()
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <CheckableSelectField
         name={selectName}
         label={selectLabel}
@@ -133,30 +110,13 @@ describe('CheckableSelectField', () => {
 
     expect(onChange).toBeCalledTimes(0)
 
-    wrapper.findDataTest('test-opener').find('input').simulate('click')
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      wrapper.update()
-    })
-
-    act(() => {
-      wrapper.findDataTestFirst('test-select-all').simulate('click')
-    })
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      wrapper.update()
-    })
+    await userEvent.click(within(screen.getByTestId('test-opener')).getByRole('textbox'))
+    await userEvent.click(screen.getByTestId('test-select-all'))
 
     expect(onChange).toBeCalledTimes(1)
     expect(onChange).toBeCalledWith(options.map(({ value }) => value))
 
-    act(() => {
-      wrapper.findDataTestFirst('test-select-none').simulate('click')
-    })
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      wrapper.update()
-    })
+    await userEvent.click(screen.getByTestId('test-select-none'))
 
     expect(onChange).toBeCalledTimes(2)
     expect(onChange).toBeCalledWith([])
@@ -164,29 +124,14 @@ describe('CheckableSelectField', () => {
 
   it('Options are checkable', async () => {
     const onChange = jest.fn()
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <CheckableSelectField name={selectName} label={selectLabel} options={options} value={[]} onChange={onChange} data-test="test" />,
     )
 
     expect(onChange).toBeCalledTimes(0)
 
-    // We need the `async` call here to wait for processing of the asynchronous 'change'
-    // eslint-disable-next-line @typescript-eslint/require-await
-    // await act(async () => {
-    wrapper.findDataTest('test-opener').find('input').simulate('click')
-    // })
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      wrapper.update()
-    })
-
-    act(() => {
-      wrapper.findDataTest('test-option').at(0).simulate('click')
-    })
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      wrapper.update()
-    })
+    await userEvent.click(within(screen.getByTestId('test-opener')).getByRole('textbox'))
+    await userEvent.click(screen.queryAllByTestId('test-option')[0])
 
     expect(onChange).toBeCalledTimes(1)
     expect(onChange).toBeCalledWith([options[0].value])
@@ -194,7 +139,7 @@ describe('CheckableSelectField', () => {
 
   it('Can not be opened when disabled', async () => {
     const onChange = jest.fn()
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <CheckableSelectField
         disabled
         name={selectName}
@@ -208,20 +153,14 @@ describe('CheckableSelectField', () => {
 
     expect(onChange).toBeCalledTimes(0)
 
-    act(() => {
-      wrapper.findDataTest('test-opener').at(0).simulate('click')
-    })
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      wrapper.update()
-    })
+    await userEvent.click(within(screen.getByTestId('test-opener')).getByRole('textbox'))
 
-    expect(wrapper.findDataTest('test-dropdown').exists()).toBeFalsy()
+    expect(screen.queryByTestId('test-dropdown')).not.toBeInTheDocument()
   })
 
   it('"None selected" value when nothing is selected', async () => {
     const onChange = jest.fn()
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <CheckableSelectField
         disabled
         name={selectName}
@@ -233,12 +172,12 @@ describe('CheckableSelectField', () => {
       />,
     )
 
-    expect(wrapper.findDataTest('test-opener').at(0).prop('value')).toBe('None selected')
+    expect(within(screen.getByTestId('test-opener')).getByRole('textbox')).toHaveAttribute('value', 'None selected')
   })
 
   it('"2 selected" value when 2 items are selected', async () => {
     const onChange = jest.fn()
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <CheckableSelectField
         disabled
         name={selectName}
@@ -250,12 +189,12 @@ describe('CheckableSelectField', () => {
       />,
     )
 
-    expect(wrapper.findDataTest('test-opener').at(0).prop('value')).toBe('2 selected')
+    expect(within(screen.getByTestId('test-opener')).getByRole('textbox')).toHaveAttribute('value', '2 selected')
   })
 
   it('"All selected" value when 2 items are selected', async () => {
     const onChange = jest.fn()
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <CheckableSelectField
         disabled
         name={selectName}
@@ -267,12 +206,12 @@ describe('CheckableSelectField', () => {
       />,
     )
 
-    expect(wrapper.findDataTest('test-opener').at(0).prop('value')).toBe('All selected')
+    expect(within(screen.getByTestId('test-opener')).getByRole('textbox')).toHaveAttribute('value', 'All selected')
   })
 
   it('"All selected" value when 2 items are selected', async () => {
     const onChange = jest.fn()
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <CheckableSelectField
         disabled
         name={selectName}
@@ -284,12 +223,12 @@ describe('CheckableSelectField', () => {
       />,
     )
 
-    expect(wrapper.findDataTest('test-opener').at(0).prop('value')).toBe('All selected')
+    expect(within(screen.getByTestId('test-opener')).getByRole('textbox')).toHaveAttribute('value', 'All selected')
   })
 
   it('Without options', async () => {
     const onChange = jest.fn()
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <CheckableSelectField
         defaultOpen
         name={selectName}
@@ -303,8 +242,7 @@ describe('CheckableSelectField', () => {
       />,
     )
 
-    expect(wrapper.findDataTest('test-no-options-message').exists()).toBeTruthy()
-    expect(wrapper.findDataTest('test-no-options-message').text()).toBe('There are no options')
+    expect(screen.queryByText('There are no options')).toBeInTheDocument()
   })
 
   it('Custom search', async () => {
@@ -315,7 +253,7 @@ describe('CheckableSelectField', () => {
       id += 1
       return id.toString()
     })
-    await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <CheckableSelectField
         defaultOpen
         name={selectName}
@@ -340,7 +278,7 @@ describe('CheckableSelectField', () => {
       id += 1
       return id.toString()
     })
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <CheckableSelectField
         defaultOpen
         name={selectName}
@@ -350,13 +288,16 @@ describe('CheckableSelectField', () => {
         id={'21313123'}
         onChange={onChange}
         data-test="test"
-        endAdornment={<div data-test={'endAdornment'} />}
-        startAdornment={<div data-test={'startAdornment'} />}
+        searchInputProps={{
+          endAdornment: <div data-test="endAdornment" />,
+          startAdornment: <div data-test="startAdornment" />,
+        }}
         noOptionsMessage="There are no options"
       />,
     )
 
-    expect(wrapper.findDataTestFirst('endAdornment')).toBeTruthy()
-    expect(wrapper.findDataTestFirst('startAdornment')).toBeTruthy()
+    expect(screen.queryByTestId('test-dropdown')).toBeInTheDocument()
+    expect(screen.queryByTestId('endAdornment')).toBeInTheDocument()
+    expect(screen.queryByTestId('startAdornment')).toBeInTheDocument()
   })
 })

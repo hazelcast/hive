@@ -30,17 +30,17 @@ export type RadioGroupProps = RadioGroupExtraProps & RadioGroupCoreProps
  * You can use RadioGroup in order to group radios buttons into logical cells and provide corresponding error if needed.
  */
 export const RadioGroup: FC<RadioGroupProps> = (props) => {
-  const { radioGroupClassName, error, children, className, name, onChange, inline = false, 'data-test': dataTest } = props
+  const { radioGroupClassName, error, children, className, name, onChange, inline = false, 'data-test': dataTest = 'radio-group' } = props
   const id = useUID()
   const errorIdString: string | undefined = error && errorId(id)
 
   const providerValue = useMemo(() => ({ name, errorId: errorIdString, onChange }), [name, errorIdString, onChange])
 
   return (
-    <div className={classNames(className, { [styles.withError]: 'error' in props })} data-test={dataTest}>
+    <div className={classNames(className, { [styles.withError]: 'error' in props })} data-test={`${dataTest}-wrapper`}>
       <div
         role="radiogroup"
-        data-test="radio-group"
+        data-test={dataTest}
         className={classNames(
           {
             [styles.inline]: inline,

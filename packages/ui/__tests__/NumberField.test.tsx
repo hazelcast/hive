@@ -1,21 +1,20 @@
 import React from 'react'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
-import { MinusCircle, PlusCircle } from 'react-feather'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
+import { screen, render, fireEvent } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
-import { NumberField } from '../src/NumberField'
-import { TextField } from '../src/TextField'
-import { IconButton } from '../src/IconButton'
+import { NumberField } from '../src'
 
 import styles from '../src/NumberField.module.scss'
-import { act } from 'react-dom/test-utils'
-import { shallow } from 'enzyme'
+import iconStyles from '../src/Icon.module.scss'
+import iconButtonStyles from '../src/IconButton.module.scss'
 
 describe('NumberField', () => {
   it('renders the default with correct props', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <NumberField
         name="name"
         value={42}
@@ -28,47 +27,31 @@ describe('NumberField', () => {
       />,
     )
 
-    expect(wrapper.find(TextField).props()).toEqual({
-      label: 'Wisest jedi',
-      placeholder: 'Enter the name',
-      value: 42,
-      name: 'name',
-      onBlur,
-      onChange: expect.anything(),
-      type: 'number',
-      inputContainerChild: expect.anything(),
-      inputContainerClassName: `${styles.inputContainer} ${styles.buttons}`,
-      inputClassName: 'amidala',
-      className: 'padme',
-    })
+    expect(screen.getByTestId('number-field')).toHaveClass('padme')
+    expect(screen.queryByText('Wisest jedi')).toBeInTheDocument()
 
-    expect(wrapper.find(IconButton).at(0).props()).toEqual({
-      size: 'smallMedium',
-      icon: MinusCircle,
-      ariaLabel: 'Decrement',
-      'data-test': 'number-field-decrement',
-      className: styles.decrement,
-      onClick: expect.anything(),
-      kind: 'transparent',
-      type: 'button',
-    })
-    expect(wrapper.find(IconButton).at(1).props()).toEqual({
-      size: 'smallMedium',
-      icon: PlusCircle,
-      ariaLabel: 'Increment',
-      'data-test': 'number-field-increment',
-      className: styles.increment,
-      onClick: expect.anything(),
-      kind: 'transparent',
-      type: 'button',
-    })
+    const input = container.querySelector('input')
+
+    expect(input).toBeInTheDocument()
+    expect(input).toHaveAttribute('value', '42')
+    expect(input).toHaveAttribute('type', 'number')
+    expect(input).toHaveAttribute('placeholder', 'Enter the name')
+    expect(input).toHaveClass('amidala')
+    expect(input?.parentNode).toHaveClass(`${styles.inputContainer} ${styles.buttons}`)
+
+    const decrementButton = screen.getByTestId('number-field-decrement')
+    expect(decrementButton).toHaveAttribute('aria-label', 'Decrement')
+    expect(decrementButton).toHaveAttribute('type', 'button')
+    expect(decrementButton).toHaveClass(styles.decrement)
+    expect(decrementButton).toHaveClass(iconButtonStyles.transparent)
+    expect(decrementButton.querySelector('svg')).toHaveClass(iconStyles.smallMedium)
   })
 
   it('Renders correctly without the label prop', () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = shallow(
+    render(
       <NumberField
         name="name"
         value={42}
@@ -80,18 +63,18 @@ describe('NumberField', () => {
       />,
     )
 
-    expect(wrapper.existsDataTest('label-data-test')).toBeFalsy()
+    expect(screen.queryByTestId('label-data-test')).not.toBeInTheDocument()
   })
   it('onDecrement works', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <NumberField name="name" value={42} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
     )
 
     expect(onChange).toBeCalledTimes(0)
-    wrapper.find(IconButton).at(0).simulate('click')
+    await userEvent.click(screen.getByTestId('number-field-decrement'))
     expect(onChange).toBeCalledTimes(1)
     expect(onChange).toBeCalledWith(41)
   })
@@ -100,12 +83,12 @@ describe('NumberField', () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <NumberField name="name" value={42} step={10} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
     )
 
     expect(onChange).toBeCalledTimes(0)
-    wrapper.find(IconButton).at(0).simulate('click')
+    await userEvent.click(screen.getByTestId('number-field-decrement'))
     expect(onChange).toBeCalledTimes(1)
     expect(onChange).toBeCalledWith(32)
   })
@@ -114,7 +97,7 @@ describe('NumberField', () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <NumberField
         name="name"
         numberType="float"
@@ -128,7 +111,7 @@ describe('NumberField', () => {
     )
 
     expect(onChange).toBeCalledTimes(0)
-    wrapper.find(IconButton).at(0).simulate('click')
+    await userEvent.click(screen.getByTestId('number-field-decrement'))
     expect(onChange).toBeCalledTimes(1)
     expect(onChange).toBeCalledWith(42.1)
   })
@@ -137,12 +120,12 @@ describe('NumberField', () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <NumberField name="name" value={42} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
     )
 
     expect(onChange).toBeCalledTimes(0)
-    wrapper.find(IconButton).at(1).simulate('click')
+    await userEvent.click(screen.getByTestId('number-field-increment'))
     expect(onChange).toBeCalledTimes(1)
     expect(onChange).toBeCalledWith(43)
   })
@@ -151,12 +134,12 @@ describe('NumberField', () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <NumberField name="name" value={42} step={10} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
     )
 
     expect(onChange).toBeCalledTimes(0)
-    wrapper.find(IconButton).at(1).simulate('click')
+    await userEvent.click(screen.getByTestId('number-field-increment'))
     expect(onChange).toBeCalledTimes(1)
     expect(onChange).toBeCalledWith(52)
   })
@@ -165,7 +148,7 @@ describe('NumberField', () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <NumberField
         name="name"
         numberType="float"
@@ -179,7 +162,7 @@ describe('NumberField', () => {
     )
 
     expect(onChange).toBeCalledTimes(0)
-    wrapper.find(IconButton).at(1).simulate('click')
+    await userEvent.click(screen.getByTestId('number-field-increment'))
     expect(onChange).toBeCalledTimes(1)
     expect(onChange).toBeCalledWith(42.5)
   })
@@ -188,7 +171,7 @@ describe('NumberField', () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <NumberField
         name="name"
         value={42}
@@ -201,74 +184,65 @@ describe('NumberField', () => {
       />,
     )
 
-    expect(wrapper.find(IconButton).at(0).props()).toEqual({
-      size: 'smallMedium',
-      icon: MinusCircle,
-      ariaLabel: '-1',
-      'data-test': 'number-field-decrement',
-      className: styles.decrement,
-      onClick: expect.anything(),
-      disabled: undefined,
-      kind: 'transparent',
-      type: 'button',
-    })
-    expect(wrapper.find(IconButton).at(1).props()).toEqual({
-      size: 'smallMedium',
-      icon: PlusCircle,
-      ariaLabel: '+1',
-      'data-test': 'number-field-increment',
-      className: styles.increment,
-      onClick: expect.anything(),
-      disabled: undefined,
-      kind: 'transparent',
-      type: 'button',
-    })
+    const decrementButton = screen.getByTestId('number-field-decrement')
+    expect(decrementButton).toHaveAttribute('aria-label', '-1')
+    expect(decrementButton).toHaveAttribute('type', 'button')
+    expect(decrementButton).toHaveClass(styles.decrement)
+    expect(decrementButton).toHaveClass(iconButtonStyles.transparent)
+    expect(decrementButton.querySelector('svg')).toHaveClass(iconStyles.smallMedium)
+
+    const incrementButton = screen.getByTestId('number-field-increment')
+    expect(incrementButton).toHaveAttribute('aria-label', '+1')
+    expect(incrementButton).toHaveAttribute('type', 'button')
+    expect(incrementButton).toHaveClass(styles.increment)
+    expect(incrementButton).toHaveClass(iconButtonStyles.transparent)
+    expect(incrementButton.querySelector('svg')).toHaveClass(iconStyles.smallMedium)
   })
 
   it('onDecrement can be disabled', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <NumberField name="name" value={42} min={42} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
     )
 
-    expect(wrapper.find(IconButton).at(0).prop('disabled')).toBe(true)
+    expect(screen.getByTestId('number-field-decrement')).toHaveAttribute('disabled')
   })
 
   it('onIncrement can be disabled', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <NumberField name="name" value={42} max={42} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
     )
 
-    expect(wrapper.find(IconButton).at(1).prop('disabled')).toBe(true)
+    expect(screen.getByTestId('number-field-increment')).toHaveAttribute('disabled')
   })
 
   it('onIncrement and onDecrement are disabled if input is disabled', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <NumberField name="name" value={42} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} disabled />,
     )
 
-    expect(wrapper.find(IconButton).at(0).prop('disabled')).toBe(true)
-    expect(wrapper.find(IconButton).at(1).prop('disabled')).toBe(true)
+    expect(screen.getByTestId('number-field-increment')).toHaveAttribute('disabled')
+    expect(screen.getByTestId('number-field-decrement')).toHaveAttribute('disabled')
   })
 
   it('onIncrement and onDecrement are disabled if value is undefined', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <NumberField name="name" placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
     )
 
-    expect(wrapper.find(IconButton).at(0).prop('disabled')).toBe(true)
-    expect(wrapper.find(IconButton).at(1).prop('disabled')).toBe(true)
+    expect(screen.getByTestId('number-field-increment')).toHaveAttribute('disabled')
+    expect(screen.getByTestId('number-field-decrement')).toHaveAttribute('disabled')
   })
 
   it('the initial value is adjusted if it is less than min', async () => {
@@ -277,7 +251,7 @@ describe('NumberField', () => {
 
     expect(onChange).toBeCalledTimes(0)
 
-    await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <NumberField name="name" value={42} min={43} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
     )
 
@@ -291,7 +265,7 @@ describe('NumberField', () => {
 
     expect(onChange).toBeCalledTimes(0)
 
-    await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <NumberField name="name" value={42} max={41} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
     )
 
@@ -305,13 +279,11 @@ describe('NumberField', () => {
 
     expect(onChange).toBeCalledTimes(0)
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <NumberField name="name" value={42} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
     )
 
-    act(() => {
-      wrapper.find('input').simulate('change', { target: { value: '100' } })
-    })
+    fireEvent.change(container.querySelector('input')!, { target: { value: 100 } })
 
     expect(onChange).toBeCalledTimes(1)
     expect(onChange).toBeCalledWith(100)
@@ -323,13 +295,11 @@ describe('NumberField', () => {
 
     expect(onChange).toBeCalledTimes(0)
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <NumberField name="name" value={42} max={43} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
     )
 
-    act(() => {
-      wrapper.find('input').simulate('change', { target: { value: '100' } })
-    })
+    fireEvent.change(container.querySelector('input')!, { target: { value: 100 } })
 
     expect(onChange).toBeCalledTimes(1)
     expect(onChange).toBeCalledWith(43)
@@ -341,13 +311,11 @@ describe('NumberField', () => {
 
     expect(onChange).toBeCalledTimes(0)
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <NumberField name="name" value={42} min={39} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
     )
 
-    act(() => {
-      wrapper.find('input').simulate('change', { target: { value: '12' } })
-    })
+    fireEvent.change(container.querySelector('input')!, { target: { value: 12 } })
 
     expect(onChange).toBeCalledTimes(1)
     expect(onChange).toBeCalledWith(39)
@@ -359,16 +327,14 @@ describe('NumberField', () => {
 
     expect(onChange).toBeCalledTimes(0)
 
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <NumberField name="name" min={39} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
     )
 
-    const incrementButton = wrapper.findDataTest('number-field-increment').at(0)
-    expect(incrementButton.props().disabled).toBeFalsy()
+    const incrementButton = screen.getByTestId('number-field-increment')
+    expect(incrementButton).not.toHaveAttribute('disabled')
 
-    act(() => {
-      incrementButton.simulate('click')
-    })
+    await userEvent.click(incrementButton)
 
     expect(onChange).toBeCalledWith(39)
   })
@@ -377,16 +343,14 @@ describe('NumberField', () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <NumberField name="name" placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
     )
 
-    const incrementButton = wrapper.findDataTest('number-field-increment').at(0)
-    expect(incrementButton.props().disabled).toBeTruthy()
+    const incrementButton = screen.getByTestId('number-field-increment')
+    expect(incrementButton).toHaveAttribute('disabled')
 
-    act(() => {
-      incrementButton.simulate('click')
-    })
+    await userEvent.click(incrementButton)
 
     expect(onChange).toBeCalledTimes(0)
   })

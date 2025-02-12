@@ -1,7 +1,6 @@
 import React, { FC, useCallback, MouseEvent, KeyboardEvent, ReactNode } from 'react'
 import cn from 'classnames'
 
-import { Icon, IconProps } from '../Icon'
 import { useTabContext, getTabId, getPanelId } from './TabContext'
 import { keyIsOneOf } from '../utils/keyboard'
 
@@ -19,30 +18,10 @@ export type ButtonTabProps = {
 
 type TabTypeProps = AnchorTabProps | ButtonTabProps
 
-type TabLabelProps =
-  | {
-      /** @deprecated The property should not be used */
-      label: string
-      icon: IconProps['icon']
-      iconAriaLabel: string
-      children?: never
-      ariaLabel?: never
-    }
-  | {
-      /** @deprecated The property should not be used */
-      label: string
-      icon?: never
-      iconAriaLabel?: never
-      children?: never
-      ariaLabel?: never
-    }
-  | {
-      label?: never
-      icon?: never
-      iconAriaLabel?: never
-      children: ReactNode
-      ariaLabel: string
-    }
+type TabLabelProps = {
+  children: ReactNode
+  ariaLabel?: string
+}
 
 export type TabCommonProps = {
   value: number
@@ -62,23 +41,8 @@ export type TabProps<T = TabTypeProps> = TabCommonProps & T & TabLabelProps
  * More info - https://www.w3.org/TR/wai-aria-practices/#kbd_selection_follows_focus
  *
  */
-export const Tab: FC<TabProps> = ({
-  component: Component = 'button',
-  /**
-   * @deprecated The property should not be used
-   */
-  label,
-  value,
-  href,
-  onClick,
-  /** @deprecated The property should not be used */
-  icon,
-  /** @deprecated The property should not be used */
-  iconAriaLabel,
-  children,
-  ariaLabel,
-  className,
-}) => {
+
+export const Tab: FC<TabProps> = ({ component: Component = 'button', value, href, onClick, children, ariaLabel, className }) => {
   const { onChange, value: activeValue, idPrefix, fullWidth } = useTabContext()
   const selected = value === activeValue
 
@@ -121,17 +85,9 @@ export const Tab: FC<TabProps> = ({
       onKeyPress={onKeyPress}
       onClick={handleClick}
       {...(Component === 'a' && !selected && { href })}
-      aria-label={label ?? ariaLabel}
+      aria-label={ariaLabel}
     >
-      {children
-        ? children
-        : (icon && iconAriaLabel && (
-            <span>
-              <Icon icon={icon} ariaLabel={iconAriaLabel} className={styles.icon} />
-              {label}
-            </span>
-          )) ??
-          label}
+      {children}
     </Component>
   )
 }

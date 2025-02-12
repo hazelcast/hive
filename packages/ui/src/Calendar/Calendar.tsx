@@ -2,13 +2,14 @@ import React, { FC, useMemo } from 'react'
 import cn from 'classnames'
 import { createPortal } from 'react-dom'
 import DatePicker, { ReactDatePickerProps } from 'react-datepicker'
+import { DataTestProp } from '@hazelcast/helpers'
 
 import { CalendarInput } from './components/CalendarInput'
 import { CalendarHeader } from './components/CalendarHeader'
 import { CalendarTime } from './components/CalendarTime'
+import { getPortalContainer, PortalContainer } from '../utils/portal'
 
 import styles from './Calendar.module.scss'
-import { getPortalContainer, PortalContainer } from '../utils/portal'
 
 const DATE_FORMAT = 'yyyy-MM-dd'
 const TIME_FORMAT = 'HH:mm'
@@ -45,7 +46,8 @@ export type CalendarProps = {
   container?: PortalContainer
   inPortal?: boolean // prevents creating its own portal
   dateFormat?: string
-} & Omit<ReactDatePickerProps, 'value' | 'onChange' | 'dateFormat'>
+} & Omit<ReactDatePickerProps, 'value' | 'onChange' | 'dateFormat'> &
+  DataTestProp
 
 export const Calendar: FC<CalendarProps> = ({
   calendarClassName,
@@ -61,6 +63,7 @@ export const Calendar: FC<CalendarProps> = ({
   inPortal = false,
   dateFormat = DATE_FORMAT,
   timeFormat = TIME_FORMAT,
+  'data-test': dataTest = 'calendar',
   ...props
 }) => {
   const PopperContainer = useMemo(() => CalendarPopperContainer(getPortalContainer(container), inPortal), [container, inPortal])
@@ -77,14 +80,15 @@ export const Calendar: FC<CalendarProps> = ({
     >
       <DatePicker
         {...props}
+        data-test={dataTest}
         calendarClassName={cn(styles.calendar, calendarClassName)}
         className={className}
         /*
          * Note: The library instantiates the component using React.cloneElement
          * Source: https://github.com/Hacker0x01/react-datepicker/blob/master/src/index.jsx#L926
          */
-        customInput={<CalendarInput label={inputLabel} textFieldSize={size} className={inputClassName} />}
-        customTimeInput={<CalendarTime />}
+        customInput={<CalendarInput data-test={`${dataTest}-input`} label={inputLabel} textFieldSize={size} className={inputClassName} />}
+        customTimeInput={<CalendarTime data-test={`${dataTest}-time`} />}
         dateFormat={showTimeInput ? `${dateFormat} ${timeFormat}` : dateFormat}
         onChange={onDateChange}
         popperContainer={PopperContainer}

@@ -1,10 +1,10 @@
 import React, { createRef } from 'react'
 import { Formik, Form, FormikProps } from 'formik'
-import { mountAndCheckA11Y, simulateBlur, simulateChange } from '@hazelcast/test-helpers'
-import { act } from 'react-dom/test-utils'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
+import { act, fireEvent, within } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 import { PasswordFieldFormik } from '../src/PasswordFieldFormik'
-import { Error } from '../src/Error'
 
 describe('PasswordFieldFormik', () => {
   it('can be used in a form', async () => {
@@ -30,19 +30,17 @@ describe('PasswordFieldFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
+    const { container } = await renderAndCheckA11Y(<TestForm />)
 
     expect(formikBag.current?.values).toEqual({
       password: '',
     })
 
-    // We need the `async` call here to wait for processing of the asynchronous 'change'
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      simulateChange(wrapper.find('input'), 'yoda')
-    })
-    wrapper.update()
+    const input = container.querySelector('input')!
+
+    expect(input).toBeInTheDocument()
+
+    await act(() => userEvent.type(input, 'yoda'))
 
     expect(formikBag.current?.values).toEqual({
       password: 'yoda',
@@ -53,7 +51,7 @@ describe('PasswordFieldFormik', () => {
     // We need the `async` call here to wait for processing of the asynchronous 'submit'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      wrapper.find('form').simulate('submit')
+      fireEvent.submit(container.querySelector('form')!)
     })
 
     expect(onSubmit).toBeCalledTimes(1)
@@ -88,31 +86,27 @@ describe('PasswordFieldFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
+    const { container } = await renderAndCheckA11Y(<TestForm />)
 
-    expect(wrapper.find(Error).prop('error')).toBe('Dark side 1')
+    expect(within(container).queryByText('Dark side 1')).toBeInTheDocument()
 
-    // We need the `async` call here to wait for processing of the asynchronous 'change'
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      simulateChange(wrapper.find('input'), 'yoda')
-    })
-    wrapper.update()
+    const input = container.querySelector('input')!
+
+    expect(input).toBeInTheDocument()
+
+    await act(() => userEvent.type(input, 'yoda'))
 
     // Before `blur` the input is not dirty yet
-    expect(wrapper.find(Error).prop('error')).toBe(undefined)
+    expect(within(container).queryByText('Dark side 1')).not.toBeInTheDocument()
 
     // We need the `async` call here to wait for processing of the asynchronous 'blur'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      simulateBlur(wrapper.find('input'))
+      fireEvent.blur(input)
     })
-    wrapper.update()
 
     // The error is displayed only when the input becomes dirty
-    expect(wrapper.find(Error).prop('error')).toBe('Dark side 2')
+    expect(within(container).queryByText('Dark side 2')).toBeInTheDocument()
   })
 
   it('Calls onChange callback', async () => {
@@ -139,15 +133,17 @@ describe('PasswordFieldFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
+    const { container } = await renderAndCheckA11Y(<TestForm />)
+
+    const input = container.querySelector('input')!
+
+    expect(input).toBeInTheDocument()
 
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      simulateChange(wrapper.find('input'), 'yoda')
+      fireEvent.change(input, { target: { value: 'yoda' } })
     })
-    wrapper.update()
 
     expect(onCnange).toBeCalledTimes(1)
     expect(onCnange).toBeCalledWith('yoda')

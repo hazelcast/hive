@@ -1,13 +1,13 @@
-import { act } from 'react-dom/test-utils'
 import React from 'react'
+import { fireEvent, screen, within } from '@testing-library/react'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
 
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
-
-import { AlertCircle, AlertTriangle, CheckCircle, Clipboard, Info } from 'react-feather'
-import { ToastIconDescriptor, ToastType } from '../src/Toast'
+import { Clipboard } from 'react-feather'
+import { ToastType } from '../src/Toast'
 import { Alert, AlertActionButton, AlertActionLink } from '../src/Alert'
 
 import styles from '../src/Alert.module.scss'
+import userEvent from '@testing-library/user-event'
 
 const title = 'Alert Title'
 const content = 'Alert Content'
@@ -24,98 +24,54 @@ const AlertAction2: AlertActionLink = {
   text: 'Link',
   href: '#',
   target: '_blank',
-  rel: ['nofollow'],
+  rel: 'nofollow',
 }
 
 describe('Alert', () => {
-  const alertBasicTestData: [ToastType, ToastIconDescriptor, string][] = [
-    [
-      'success',
-      {
-        icon: CheckCircle,
-        ariaLabel: 'Check circle icon',
-      },
-      styles.success,
-    ],
-    [
-      'info',
-      {
-        icon: Info,
-        ariaLabel: 'Info circle icon',
-      },
-      styles.info,
-    ],
-    [
-      'warning',
-      {
-        icon: AlertTriangle,
-        ariaLabel: 'Warning triangle icon',
-      },
-      styles.warning,
-    ],
-    [
-      'critical',
-      {
-        icon: AlertCircle,
-        ariaLabel: 'Info critical circle icon',
-      },
-      styles.critical,
-    ],
+  const alertBasicTestData: [ToastType, string, string][] = [
+    ['success', 'Check circle icon', styles.success],
+    ['info', 'Info circle icon', styles.info],
+    ['warning', 'Warning triangle icon', styles.warning],
+    ['critical', 'Info critical circle icon', styles.critical],
   ]
 
-  it.each(alertBasicTestData)(
-    'Renders %s Alert with correct className, icon, title and content',
-    async (type, { icon, ariaLabel }, className) => {
-      const wrapper = await mountAndCheckA11Y(<Alert type={type} title={title} content={content} closeToast={noOp} />)
+  it.each(alertBasicTestData)('Renders %s Alert with correct className, icon, title and content', async (type, ariaLabel, className) => {
+    await renderAndCheckA11Y(<Alert type={type} title={title} content={content} closeToast={noOp} />)
 
-      const AlertElement = wrapper.find(Alert)
-
-      expect(AlertElement.findDataTest('alert').prop('className')).toBe(`alert ${className}`)
-      expect(AlertElement.findDataTest('alert-title').text()).toBe(title)
-      expect(AlertElement.findDataTest('alert-content').props()).toMatchObject({
-        children: content,
-      })
-      expect(wrapper.findDataTestFirst('alert-icon').props()).toMatchObject({
-        icon,
-        ariaLabel,
-      })
-      expect(wrapper.findDataTest('alert-close').exists()).toBeTruthy()
-      expect(wrapper.findDataTest('alert-actions').exists()).toBeFalsy()
-    },
-  )
+    expect(screen.getByTestId('alert')).toHaveClass(`alert ${className}`)
+    expect(screen.getByTestId('alert-title')).toHaveTextContent(title)
+    expect(screen.queryByText(content)).toBeInTheDocument()
+    expect(within(screen.getByTestId('alert-icon')).queryByLabelText(ariaLabel)).toBeInTheDocument()
+    expect(screen.queryByTestId('alert-close')).toBeInTheDocument()
+    expect(screen.queryByTestId('alert-actions')).not.toBeInTheDocument()
+  })
 
   it('Correct props are passed to an underlying Link Action component', async () => {
-    const wrapper = await mountAndCheckA11Y(<Alert type="success" title={title} content={content} actions={[AlertAction2]} />)
+    await renderAndCheckA11Y(<Alert type="success" title={title} content={content} actions={[AlertAction2]} />)
 
-    expect(wrapper.findDataTest('alert-actions').children().props()).toMatchObject({
-      href: AlertAction2.href,
-      target: AlertAction2.target,
-      rel: AlertAction2.rel,
-    })
+    const link = screen.getByTestId('alert-actions').querySelector('a')
+    expect(link).toBeInTheDocument()
+    expect(link).toHaveAttribute('href', AlertAction2.href)
+    expect(link).toHaveAttribute('rel', AlertAction2.rel)
+    expect(link).toHaveAttribute('target', AlertAction2.target)
   })
 
   it('Correct props are passed to an underlying Button Action component', async () => {
-    const wrapper = await mountAndCheckA11Y(<Alert type="success" title={title} content={content} actions={[AlertAction1]} />)
+    await renderAndCheckA11Y(<Alert type="success" title={title} content={content} actions={[AlertAction1]} />)
 
-    expect(wrapper.findDataTest('alert-actions').children().props()).toMatchObject({
-      children: AlertAction1.text,
-      onClick: AlertAction1.onClick,
-      iconLeft: AlertAction1.icon,
-      iconLeftAriaLabel: AlertAction1.ariaLabel,
-    })
+    const actions = screen.getByTestId('alert-actions')
+    expect(within(actions).queryByText(AlertAction1.text)).toBeInTheDocument()
+    expect(within(actions).queryByLabelText(AlertAction1.ariaLabel)).toBeInTheDocument()
   })
 
   it('Close button calls closeToast prop handler', async () => {
     const closeToast = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(<Alert type="success" title={title} content={content} closeToast={closeToast} />)
+    await renderAndCheckA11Y(<Alert type="success" title={title} content={content} closeToast={closeToast} />)
 
     expect(closeToast).toHaveBeenCalledTimes(0)
 
-    act(() => {
-      wrapper.findDataTest('alert-close').at(1).simulate('click')
-    })
-    wrapper.update()
+    await userEvent.click(screen.getByTestId('alert-close'))
 
     expect(closeToast).toHaveBeenCalledTimes(1)
   })
@@ -126,52 +82,39 @@ describe('Alert', () => {
   ]
 
   it.each(alertActionsTestData)('Renders correct text properties for Alert with %s', async (_, actions) => {
-    const wrapper = await mountAndCheckA11Y(<Alert type="success" title={title} content={content} closeToast={noOp} actions={actions} />)
+    await renderAndCheckA11Y(<Alert type="success" title={title} content={content} closeToast={noOp} actions={actions} />)
 
-    wrapper
-      .findDataTest('alert-actions')
-      .children()
-      .forEach((child, cI) => {
-        expect(child.props()).toHaveProperty('children', actions[cI].text)
-      })
+    actions.forEach((action) => {
+      expect(screen.queryByText(action.text)).toBeInTheDocument()
+    })
   })
 
   it('Renders only text content with an empty array passed as "actions" property', async () => {
-    const wrapper = await mountAndCheckA11Y(<Alert type="success" title={title} content={content} closeToast={noOp} actions={[]} />)
-    const textContent = wrapper.findDataTest('alert-body').text()
-    expect(textContent).toBe(content)
+    await renderAndCheckA11Y(<Alert type="success" title={title} content={content} closeToast={noOp} actions={[]} />)
+
+    expect(screen.getByTestId('alert-body')).toHaveTextContent(content)
   })
 
   it('Alert.closeToast called after simulating Escape key', async () => {
     const closeToast = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(<Alert type="success" title={title} content={content} closeToast={closeToast} />)
+    await renderAndCheckA11Y(<Alert type="success" title={title} content={content} closeToast={closeToast} />)
 
     expect(closeToast).toHaveBeenCalledTimes(0)
 
-    act(() => {
-      const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })
-      document.dispatchEvent(event)
-    })
-    wrapper.update()
+    fireEvent.keyDown(document.body, { key: 'Escape', charCode: 13 })
 
     expect(closeToast).toHaveBeenCalledTimes(1)
   })
 
-  it('Alert.dismissableByEscKey = false means no Esc key handling', async () => {
+  it('Alert.dismissibleByEscKey = false means no Esc key handling', async () => {
     const closeToast = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
-      <Alert type="success" dismissableByEscKey={false} title={title} content={content} closeToast={closeToast} />,
-    )
+    await renderAndCheckA11Y(<Alert type="success" dismissableByEscKey={false} title={title} content={content} closeToast={closeToast} />)
 
     expect(closeToast).toHaveBeenCalledTimes(0)
 
-    act(() => {
-      const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })
-      document.dispatchEvent(event)
-    })
-    wrapper.update()
+    fireEvent.keyDown(document.body, { key: 'Escape', charCode: 13 })
 
     expect(closeToast).toHaveBeenCalledTimes(0)
   })

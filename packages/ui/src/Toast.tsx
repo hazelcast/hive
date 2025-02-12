@@ -1,8 +1,9 @@
 import React, { FC, ReactNode, useCallback } from 'react'
 import cn from 'classnames'
 import { AlertTriangle, CheckCircle, AlertCircle, Info, Icon as IconType, X } from 'react-feather'
-
+import { DataTestProp } from '@hazelcast/helpers'
 import useKey from 'react-use/lib/useKey'
+
 import { escKeyFilterPredicate } from './utils/keyboard'
 import { IconButton } from './IconButton'
 import { Icon } from './Icon'
@@ -41,7 +42,7 @@ export type ToastProps = {
   dismissableByEscKey?: boolean
   closeToast?: (e?: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void
   className?: string
-}
+} & DataTestProp
 
 /**
  * ### Purpose
@@ -53,7 +54,14 @@ export type ToastProps = {
  * ### Note
  * The toast is designed to be integrated with https://fkhadra.github.io/react-toastify/introduction/
  */
-export const Toast: FC<ToastProps> = ({ type, content, dismissableByEscKey = true, closeToast, className }) => {
+export const Toast: FC<ToastProps> = ({
+  type,
+  content,
+  dismissableByEscKey = true,
+  closeToast,
+  className,
+  'data-test': dataTest = 'toast',
+}) => {
   const { icon, ariaLabel } = ToastIcon[type]
 
   const closeByEsc = useCallback(
@@ -70,6 +78,7 @@ export const Toast: FC<ToastProps> = ({ type, content, dismissableByEscKey = tru
 
   return (
     <div
+      data-test={dataTest}
       className={cn(
         styles.toast,
         {
@@ -81,13 +90,13 @@ export const Toast: FC<ToastProps> = ({ type, content, dismissableByEscKey = tru
         className,
       )}
     >
-      <Icon data-test="toast-icon" ariaLabel={ariaLabel} icon={icon} className={styles.icon} />
-      <div data-test="toast-content" className={styles.content}>
+      <Icon data-test={`${dataTest}-icon`} ariaLabel={ariaLabel} icon={icon} className={styles.icon} />
+      <div data-test={`${dataTest}-content`} className={styles.content}>
         {content}
       </div>
       {closeToast && (
         <IconButton
-          data-test="toast-close"
+          data-test={`${dataTest}-close`}
           kind="transparent"
           className={styles.close}
           ariaLabel="Close icon"

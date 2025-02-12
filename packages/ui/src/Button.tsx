@@ -12,8 +12,6 @@ import { Loader } from './Loader'
 import styles from './Button.module.scss'
 import { DataTestProp } from '@hazelcast/helpers'
 
-export type ButtonKind = 'primary' | 'secondary' | 'danger' | 'transparent'
-
 export type ButtonVariant = 'contained' | 'outlined' | 'text'
 export type ButtonColor = 'primary' | 'secondary' | 'warning' | 'brand' | 'authPrimary' | 'authSecondary' | 'light'
 
@@ -67,10 +65,6 @@ export type ButtonOutlineType = 'outline' | 'inset'
 
 // Common props for all button "kinds"
 export type ButtonCommonProps = {
-  /**
-   * @deprecated Use variant + color instead
-   */
-  kind?: ButtonKind
   children: string | ReactElement
   size?: ButtonSize
   iconSize?: IconSize
@@ -114,32 +108,6 @@ export type ButtonProps<T = ButtonTypeProps> = ButtonCommonProps &
 
 const capitalizeFirstCharacter = (str: string) => `${str[0].toUpperCase()}${str.slice(1)}`
 
-const resolveButtonKindStyles = (kind: ButtonKind): Record<string, true> => {
-  switch (kind) {
-    case 'secondary':
-      return {
-        [styles.colorPrimary]: true,
-        [styles.variantOutlined]: true,
-      }
-    case 'transparent':
-      return {
-        [styles.colorPrimary]: true,
-        [styles.variantText]: true,
-      }
-    case 'danger': {
-      return {
-        [styles.colorSecondary]: true,
-        [styles.variantContained]: true,
-      }
-    }
-    default:
-      return {
-        [styles.colorPrimary]: true,
-        [styles.variantContained]: true,
-      }
-  }
-}
-
 /**
  * ### Purpose
  * Make it clear what users should do to continue with their main flow by using buttons to highlight the main actions they can take.
@@ -163,7 +131,6 @@ const resolveButtonKindStyles = (kind: ButtonKind): Record<string, true> => {
 export const Button = forwardRef<HTMLElement, ButtonProps>(
   (
     {
-      kind,
       component: Component = 'button',
       className,
       bodyClassName,
@@ -221,12 +188,8 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
             className={cn(
               styles.button,
               {
-                ...(kind !== undefined
-                  ? resolveButtonKindStyles(kind)
-                  : {
-                      [styles[`color${capitalizeFirstCharacter(color)}`]]: true,
-                      [styles[`variant${capitalizeFirstCharacter(variant)}`]]: true,
-                    }),
+                [styles[`color${capitalizeFirstCharacter(color)}`]]: true,
+                [styles[`variant${capitalizeFirstCharacter(variant)}`]]: true,
                 [styles.active]: active,
                 [styles[size]]: size !== 'small',
               },

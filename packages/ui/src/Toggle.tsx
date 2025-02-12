@@ -40,7 +40,7 @@ export const Toggle: FC<ToggleProps> = (props) => {
     disabled,
     className,
     classNameLabel,
-    'data-test': dataTest,
+    'data-test': dataTest = 'toggle',
   } = props
   const id = useUID()
 
@@ -72,16 +72,22 @@ export const Toggle: FC<ToggleProps> = (props) => {
         )}
         htmlFor={id}
       >
-        {label && <span className={styles.labelText}>{label}</span>}
+        {label && (
+          <span className={styles.labelText} data-test={`${dataTest}-label`}>
+            {label}
+          </span>
+        )}
         {/* actual element to render */}
         <span className={styles.toggleTrack}>
-          <span className={styles.toggleTrackText}>{checked ? 'ON' : 'OFF'}</span>
+          <span className={styles.toggleTrackText} data-test={`${dataTest}-state`}>
+            {checked ? 'ON' : 'OFF'}
+          </span>
         </span>
       </label>
 
-      {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} />}
+      {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} data-test={`${dataTest}-helperText`} />}
 
-      <Error truncated error={error} className={styles.errorContainer} inputId={id} />
+      <Error data-test={`${dataTest}-error`} truncated error={error} className={styles.errorContainer} inputId={id} />
     </div>
   )
 }

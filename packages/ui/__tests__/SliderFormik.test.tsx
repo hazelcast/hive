@@ -1,7 +1,7 @@
 import React, { createRef } from 'react'
 import { Form, Formik, FormikProps } from 'formik'
-import { mountAndCheckA11Y, simulateChange } from '@hazelcast/test-helpers'
-import { act } from 'react-dom/test-utils'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
+import { act, fireEvent } from '@testing-library/react'
 
 import { SliderFormik } from '../src/SliderFormik'
 
@@ -29,17 +29,15 @@ describe('SliderFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
+    const { container } = await renderAndCheckA11Y(<TestForm />)
 
     expect(formikBag.current?.values).toEqual({
       ram: 42,
     })
 
-    // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      simulateChange(wrapper.find('input'), 30)
+      fireEvent.change(container.querySelector('input')!, { target: { value: 30 } })
     })
 
     expect(formikBag.current?.values).toEqual({

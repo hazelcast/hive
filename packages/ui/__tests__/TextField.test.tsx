@@ -1,15 +1,13 @@
 import React, { useState } from 'react'
-import { act } from 'react-dom/test-utils'
-import { mountAndCheckA11Y, simulateChange } from '@hazelcast/test-helpers'
+import { act, fireEvent, screen } from '@testing-library/react'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
 import { useUID } from 'react-uid'
+import userEvent from '@testing-library/user-event'
 
 import { TextField } from '../src/TextField'
-import { Label } from '../src/Label'
-import { Error, errorId } from '../src/Error'
-import { Help, helpTooltipId } from '../src/Help'
-import { Tooltip } from '../src/Tooltip'
 
 import styles from '../src/TextField.module.scss'
+import labelStyles from '../src/Label.module.scss'
 
 jest.mock('react-uid')
 
@@ -25,7 +23,7 @@ describe('TextField', () => {
     const onChange = jest.fn()
     const onKeyPress = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <TextField
         name="name"
         value="Yoda"
@@ -37,75 +35,85 @@ describe('TextField', () => {
       />,
     )
 
-    expect(wrapper.find(Label).props()).toEqual({
-      id: 'republic',
-      label: 'Wisest jedi',
-      variant: 'primary',
-      className: styles.label,
-    })
+    const label = screen.queryByTestId('text-field-header-label')!
 
-    expect(wrapper.find('input').props()).toEqual({
-      type: 'text',
-      id: 'republic',
-      value: 'Yoda',
-      name: 'name',
-      onChange,
-      onBlur,
-      onKeyPress,
-      'aria-invalid': false,
-      'aria-required': undefined,
-      'aria-describedby': undefined,
-      'aria-errormessage': undefined,
-      className: '',
-      disabled: undefined,
-      placeholder: 'Enter the name',
-    })
+    expect(label).toBeInTheDocument()
+    expect(label).toHaveAttribute('for', 'republic')
+    expect(label).toHaveClass(styles.label)
+    expect(label).toHaveClass(labelStyles.primary)
+    expect(label).toHaveTextContent('Wisest jedi')
 
-    expect(wrapper.find(Error).props()).toEqual({
-      error: undefined,
-      className: styles.errorContainer,
-      inputId: 'republic',
-      truncated: true,
-      tooltipPlacement: 'top',
-    })
+    const input = container.querySelector('input')!
 
-    expect(wrapper.find(Help).exists()).toBeFalsy()
+    expect(input).toBeInTheDocument()
+    expect(input).toHaveAttribute('type', 'text')
+    expect(input).toHaveAttribute('id', 'republic')
+    expect(input).toHaveAttribute('value', 'Yoda')
+    expect(input).toHaveAttribute('name', 'name')
+    expect(input).toHaveAttribute('placeholder', 'Enter the name')
+    expect(input).toHaveAttribute('aria-invalid', 'false')
+    expect(input).not.toHaveAttribute('aria-required')
+    expect(input).not.toHaveAttribute('aria-describedby')
+    expect(input).not.toHaveAttribute('aria-errormessage')
+    expect(input).not.toHaveAttribute('disabled')
+    expect(input).not.toHaveClass()
+
+    const errorEl = screen.getByTestId('text-field-error')!
+
+    expect(errorEl).toBeInTheDocument()
+    expect(errorEl).toHaveAttribute('id', 'republic-error')
+    expect(errorEl).toHaveClass(styles.errorContainer)
+    expect(errorEl).toHaveTextContent('')
+
+    expect(screen.queryByTestId('ext-field-header-helperText')).not.toBeInTheDocument()
   })
 
   it('onChange works', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
+    const Wrapper = () => {
+      const [value, setValue] = useState('')
+      return (
+        <TextField
+          name="name"
+          value={value}
+          placeholder="Enter the name"
+          label="Wisest jedi"
+          onBlur={onBlur}
+          onChange={(e) => {
+            setValue(e.target.value)
+            onChange(e)
+          }}
+        />
+      )
+    }
 
-    const wrapper = await mountAndCheckA11Y(
-      <TextField name="name" value="Yoda" placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
-    )
+    const { container } = await renderAndCheckA11Y(<Wrapper />)
 
     expect(onChange).toBeCalledTimes(0)
 
-    let event: object
-    act(() => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      event = simulateChange(wrapper.find('input'), 'Luke')
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      fireEvent.change(container.querySelector('input')!, { target: { value: 'Luke' } })
     })
 
     expect(onChange).toBeCalledTimes(1)
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    expect(onChange.mock.calls[0][0]).toMatchObject(event!)
+    expect(onChange.mock.calls[0][0]).toMatchObject({ target: { value: 'Luke' } })
   })
 
   it('onBlur works', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <TextField name="name" value="Yoda" placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
     )
 
     expect(onBlur).toBeCalledTimes(0)
 
-    const input = wrapper.find('input')
-    act(() => {
-      input.simulate('blur')
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      fireEvent.blur(container.querySelector('input')!)
     })
 
     expect(onBlur).toBeCalledTimes(1)
@@ -115,7 +123,7 @@ describe('TextField', () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <TextField
         name="name"
         value="Yoda"
@@ -127,49 +135,49 @@ describe('TextField', () => {
       />,
     )
 
-    expect(wrapper.find(Label).props()).toEqual({
-      id: 'republic',
-      label: 'Wisest jedi',
-      variant: 'primary',
-      className: styles.label,
-    })
+    const label = screen.queryByTestId('text-field-header-label')!
 
-    expect(wrapper.find('input').props()).toEqual({
-      type: 'text',
-      id: 'republic',
-      value: 'Yoda',
-      name: 'name',
-      onChange,
-      onBlur,
-      'aria-invalid': false,
-      'aria-required': undefined,
-      'aria-describedby': helpTooltipId('republic'),
-      'aria-errormessage': undefined,
-      className: '',
-      disabled: undefined,
-      placeholder: 'Enter the name',
-    })
+    expect(label).toBeInTheDocument()
+    expect(label).toHaveAttribute('for', 'republic')
+    expect(label).toHaveClass(styles.label)
+    expect(label).toHaveClass(labelStyles.primary)
+    expect(label).toHaveTextContent('Wisest jedi')
 
-    expect(wrapper.find(Error).props()).toEqual({
-      error: undefined,
-      className: styles.errorContainer,
-      inputId: 'republic',
-      truncated: true,
-      tooltipPlacement: 'top',
-    })
+    const input = container.querySelector('input')!
 
-    expect(wrapper.find(Help).props()).toEqual({
-      parentId: 'republic',
-      helperText: 'A long time ago in a galaxy far, far away....',
-      className: styles.helperText,
-    })
+    expect(input).toBeInTheDocument()
+    expect(input).toHaveAttribute('type', 'text')
+    expect(input).toHaveAttribute('id', 'republic')
+    expect(input).toHaveAttribute('value', 'Yoda')
+    expect(input).toHaveAttribute('name', 'name')
+    expect(input).toHaveAttribute('placeholder', 'Enter the name')
+    expect(input).toHaveAttribute('aria-invalid', 'false')
+    expect(input).not.toHaveAttribute('aria-required')
+    expect(input).toHaveAttribute('aria-describedby', 'republic-help')
+    expect(input).not.toHaveAttribute('aria-errormessage')
+    expect(input).not.toHaveAttribute('disabled')
+    expect(input).not.toHaveClass()
+
+    const errorEl = screen.getByTestId('text-field-error')!
+
+    expect(errorEl).toBeInTheDocument()
+    expect(errorEl).toHaveAttribute('id', 'republic-error')
+    expect(errorEl).toHaveClass(styles.errorContainer)
+    expect(errorEl).toHaveTextContent('')
+
+    const helperEl = screen.queryByTestId('text-field-header-helperText')!
+
+    expect(helperEl).toBeInTheDocument()
+    expect(helperEl).toHaveClass(styles.helperText)
+    expect(screen.queryByTestId('tooltip-sr')).toHaveAttribute('id', 'republic-help')
+    expect(screen.queryByTestId('tooltip-overlay')).toHaveTextContent('A long time ago in a galaxy far, far away....')
   })
 
   it('Renders error with correct props', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <TextField
         name="name"
         value="Yoda"
@@ -181,122 +189,119 @@ describe('TextField', () => {
       />,
     )
 
-    expect(wrapper.find(Label).props()).toEqual({
-      id: 'republic',
-      label: 'Wisest jedi',
-      variant: 'primary',
-      className: styles.label,
-    })
+    const label = screen.queryByTestId('text-field-header-label')!
 
-    expect(wrapper.find('input').props()).toEqual({
-      type: 'text',
-      id: 'republic',
-      value: 'Yoda',
-      name: 'name',
-      onChange,
-      onBlur,
-      'aria-invalid': true,
-      'aria-required': undefined,
-      'aria-describedby': undefined,
-      'aria-errormessage': errorId('republic'),
-      className: '',
-      disabled: undefined,
-      placeholder: 'Enter the name',
-    })
+    expect(label).toBeInTheDocument()
+    expect(label).toHaveAttribute('for', 'republic')
+    expect(label).toHaveClass(styles.label)
+    expect(label).toHaveClass(labelStyles.primary)
+    expect(label).toHaveTextContent('Wisest jedi')
 
-    expect(wrapper.find(Error).props()).toEqual({
-      error: 'Dark side',
-      className: styles.errorContainer,
-      inputId: 'republic',
-      truncated: true,
-      tooltipPlacement: 'top',
-    })
+    const input = container.querySelector('input')!
 
-    expect(wrapper.find(Help).exists()).toBeFalsy()
+    expect(input).toBeInTheDocument()
+    expect(input).toHaveAttribute('type', 'text')
+    expect(input).toHaveAttribute('id', 'republic')
+    expect(input).toHaveAttribute('value', 'Yoda')
+    expect(input).toHaveAttribute('name', 'name')
+    expect(input).toHaveAttribute('placeholder', 'Enter the name')
+    expect(input).toHaveAttribute('aria-invalid', 'true')
+    expect(input).not.toHaveAttribute('aria-required')
+    expect(input).not.toHaveAttribute('aria-describedby')
+    expect(input).toHaveAttribute('aria-errormessage', 'republic-error')
+    expect(input).not.toHaveAttribute('disabled')
+    expect(input).not.toHaveClass()
+
+    const errorEl = screen.getByTestId('text-field-error')!
+
+    expect(errorEl).toBeInTheDocument()
+    expect(errorEl).toHaveAttribute('id', 'republic-error')
+    expect(errorEl).toHaveClass(styles.errorContainer)
+    expect(errorEl).toHaveTextContent('Dark side')
+
+    expect(screen.queryByTestId('ext-field-header-helperText')).not.toBeInTheDocument()
   })
 
   it('Renders required with correct props', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <TextField name="name" value="Yoda" placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} required />,
     )
 
-    expect(wrapper.find(Label).props()).toEqual({
-      id: 'republic',
-      label: 'Wisest jedi',
-      variant: 'primary',
-      className: styles.label,
-    })
+    const label = screen.queryByTestId('text-field-header-label')!
 
-    expect(wrapper.find('input').props()).toEqual({
-      type: 'text',
-      id: 'republic',
-      value: 'Yoda',
-      name: 'name',
-      onChange,
-      onBlur,
-      'aria-invalid': false,
-      'aria-required': true,
-      'aria-describedby': undefined,
-      'aria-errormessage': undefined,
-      className: '',
-      disabled: undefined,
-      placeholder: 'Enter the name',
-    })
+    expect(label).toBeInTheDocument()
+    expect(label).toHaveAttribute('for', 'republic')
+    expect(label).toHaveClass(styles.label)
+    expect(label).toHaveClass(labelStyles.primary)
+    expect(label).toHaveTextContent('Wisest jedi')
 
-    expect(wrapper.find(Error).props()).toEqual({
-      error: undefined,
-      className: styles.errorContainer,
-      inputId: 'republic',
-      truncated: true,
-      tooltipPlacement: 'top',
-    })
+    const input = container.querySelector('input')!
 
-    expect(wrapper.find(Help).exists()).toBeFalsy()
+    expect(input).toBeInTheDocument()
+    expect(input).toHaveAttribute('type', 'text')
+    expect(input).toHaveAttribute('id', 'republic')
+    expect(input).toHaveAttribute('value', 'Yoda')
+    expect(input).toHaveAttribute('name', 'name')
+    expect(input).toHaveAttribute('placeholder', 'Enter the name')
+    expect(input).toHaveAttribute('aria-invalid', 'false')
+    expect(input).toHaveAttribute('aria-required')
+    expect(input).not.toHaveAttribute('aria-describedby')
+    expect(input).not.toHaveAttribute('aria-errormessage')
+    expect(input).not.toHaveAttribute('disabled')
+    expect(input).not.toHaveClass()
+
+    const errorEl = screen.getByTestId('text-field-error')!
+
+    expect(errorEl).toBeInTheDocument()
+    expect(errorEl).toHaveAttribute('id', 'republic-error')
+    expect(errorEl).toHaveClass(styles.errorContainer)
+    expect(errorEl).toHaveTextContent('')
+
+    expect(screen.queryByTestId('ext-field-header-helperText')).not.toBeInTheDocument()
   })
 
   it('Renders disabled with correct props', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <TextField name="name" value="Yoda" placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} disabled />,
     )
 
-    expect(wrapper.find(Label).props()).toEqual({
-      id: 'republic',
-      label: 'Wisest jedi',
-      variant: 'primary',
-      className: styles.label,
-    })
+    const label = screen.queryByTestId('text-field-header-label')!
 
-    expect(wrapper.find('input').props()).toEqual({
-      type: 'text',
-      id: 'republic',
-      value: 'Yoda',
-      name: 'name',
-      onChange,
-      onBlur,
-      'aria-invalid': false,
-      'aria-required': undefined,
-      'aria-describedby': undefined,
-      'aria-errormessage': undefined,
-      className: '',
-      disabled: true,
-      placeholder: 'Enter the name',
-    })
+    expect(label).toBeInTheDocument()
+    expect(label).toHaveAttribute('for', 'republic')
+    expect(label).toHaveClass(styles.label)
+    expect(label).toHaveClass(labelStyles.primary)
+    expect(label).toHaveTextContent('Wisest jedi')
 
-    expect(wrapper.find(Error).props()).toEqual({
-      error: undefined,
-      className: styles.errorContainer,
-      inputId: 'republic',
-      truncated: true,
-      tooltipPlacement: 'top',
-    })
+    const input = container.querySelector('input')!
 
-    expect(wrapper.find(Help).exists()).toBeFalsy()
+    expect(input).toBeInTheDocument()
+    expect(input).toHaveAttribute('type', 'text')
+    expect(input).toHaveAttribute('id', 'republic')
+    expect(input).toHaveAttribute('value', 'Yoda')
+    expect(input).toHaveAttribute('name', 'name')
+    expect(input).toHaveAttribute('placeholder', 'Enter the name')
+    expect(input).toHaveAttribute('aria-invalid', 'false')
+    expect(input).not.toHaveAttribute('aria-required')
+    expect(input).not.toHaveAttribute('aria-describedby')
+    expect(input).not.toHaveAttribute('aria-errormessage')
+    expect(input).toHaveAttribute('disabled')
+    expect(input).not.toHaveClass()
+
+    const errorEl = screen.getByTestId('text-field-error')!
+
+    expect(errorEl).toBeInTheDocument()
+    expect(errorEl).toHaveAttribute('id', 'republic-error')
+    expect(errorEl).toHaveClass(styles.errorContainer)
+    expect(errorEl).toHaveTextContent('')
+
+    expect(screen.queryByTestId('ext-field-header-helperText')).not.toBeInTheDocument()
   })
 
   it('Renders inputContainerChild', async () => {
@@ -304,7 +309,7 @@ describe('TextField', () => {
     const onChange = jest.fn()
     const InputContainerChild = <div className="r2d2" />
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <TextField
         name="name"
         value="Yoda"
@@ -316,7 +321,7 @@ describe('TextField', () => {
       />,
     )
 
-    expect(wrapper.find(`.${styles.inputContainer}`).find('.r2d2').exists()).toBeTruthy()
+    expect(container.querySelector(`.${styles.inputContainer} .r2d2`)).toBeInTheDocument()
   })
 
   it('Should clear field', async () => {
@@ -338,36 +343,12 @@ describe('TextField', () => {
         />
       )
     }
-    const wrapper = await mountAndCheckA11Y(<Wrapper />)
+    const { container } = await renderAndCheckA11Y(<Wrapper />)
 
-    expect(wrapper.findDataTest('test').find('input').prop('value')).toBe('Yoda')
+    expect(container.querySelector('input')).toHaveAttribute('value', 'Yoda')
 
-    act(() => {
-      wrapper.findDataTest('test-clear').find('button').simulate('click')
-    })
-    wrapper.update()
+    await act(() => userEvent.click(screen.getByTestId('test-clear')))
 
-    expect(wrapper.findDataTest('test').find('input').prop('value')).toBe('')
-  })
-
-  it('Error tooltip placement can be adjusted', async () => {
-    const wrapper = await mountAndCheckA11Y(
-      <TextField
-        data-test="test"
-        name="name"
-        label="Wisest jedi"
-        placeholder="Enter the name"
-        error="Error"
-        onChange={jest.fn()}
-        clearable
-      />,
-    )
-
-    expect(wrapper.find(Error).exists()).toBeTruthy()
-    expect(wrapper.find(Error).find(Tooltip).prop('placement')).toBe('top')
-    wrapper.setProps({ errorTooltipPlacement: 'bottom' })
-    wrapper.update()
-
-    expect(wrapper.find(Error).find(Tooltip).prop('placement')).toBe('bottom')
+    expect(container.querySelector('input')).toHaveAttribute('value', '')
   })
 })

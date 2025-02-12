@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
 import { useUID } from 'react-uid'
-import sliderClasses from '../src/Slider.module.scss'
+import { act, screen, fireEvent } from '@testing-library/react'
 
 import { getMarkMetadata, Slider, SliderValue } from '../src/Slider'
+import { testAttribute } from './helpers'
+
+import sliderClasses from '../src/Slider.module.scss'
 
 jest.mock('react-uid')
 const useUIDMock = useUID as jest.Mock<ReturnType<typeof useUID>>
@@ -15,63 +18,71 @@ describe('Slider', () => {
 
   it('Renders single value slider, checks that the number of inputs is correct', async () => {
     const onChange = jest.fn()
-    const wrapper = await mountAndCheckA11Y(<Slider name="ram" label="RAM" value={4} min={0} max={10} onChange={onChange} />)
+    const { container } = await renderAndCheckA11Y(<Slider name="ram" label="RAM" value={4} min={0} max={10} onChange={onChange} />)
 
-    expect(wrapper.find('input[type="range"]').length).toEqual(1)
+    expect(container.querySelectorAll('input[type="range"]').length).toEqual(1)
   })
   it('Renders range slider, checks that the number of inputs is correct', async () => {
     const onChange = jest.fn()
-    const wrapper = await mountAndCheckA11Y(<Slider name="ram" label="RAM" value={[1, 4]} min={0} max={10} onChange={onChange} />)
+    const { container } = await renderAndCheckA11Y(<Slider name="ram" label="RAM" value={[1, 4]} min={0} max={10} onChange={onChange} />)
 
-    expect(wrapper.find('input[type="range"]').length).toEqual(2)
+    expect(container.querySelectorAll('input[type="range"]')).toHaveLength(2)
   })
   it('Renders single value slider, checks that correct props are passed', async () => {
     const onChange = jest.fn()
-    const wrapper = await mountAndCheckA11Y(<Slider name="ram" label="RAM" value={4} min={1} max={100} onChange={onChange} disabled />)
-    expect(wrapper.find('input').props()).toEqual({
-      'aria-errormessage': undefined,
-      'aria-invalid': false,
-      'aria-labelledby': 'uuidtest',
-      'aria-valuemax': 100,
-      'aria-valuemin': 1,
-      'aria-valuenow': 4,
-      id: 'uuidtest',
-      name: 'ram',
-      className: undefined,
-      disabled: true,
-      max: 100,
-      min: 1,
-      // This is an internal component function
+    const { container } = await renderAndCheckA11Y(
+      <Slider name="ram" label="RAM" value={4} min={1} max={100} onChange={onChange} disabled />,
+    )
 
-      onChange: expect.any(Function),
-      step: 1,
-      type: 'range',
-      value: 4,
-    })
+    const input = container.querySelector('input')!
+
+    expect(input).toBeInTheDocument()
+    testAttribute(input, 'aria-errormessage')
+    testAttribute(input, 'type', 'range')
+    testAttribute(input, 'aria-invalid', 'false')
+    testAttribute(input, 'aria-labelledby', 'uuidtest')
+    testAttribute(input, 'aria-valuemax', '100')
+    testAttribute(input, 'aria-valuemin', '1')
+    testAttribute(input, 'aria-valuenow', '4')
+    testAttribute(input, 'id', 'uuidtest')
+    testAttribute(input, 'name', 'ram')
+    testAttribute(input, 'min', '1')
+    testAttribute(input, 'max', '100')
+    testAttribute(input, 'value', '4')
+    testAttribute(input, 'step', '1')
+    testAttribute(input, 'disabled', '')
   })
 
   it('Renders multivalue slider, checks that aria-valuemin and aria-valuemax are correctly set', async () => {
     const onChange = jest.fn()
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <Slider name="ram" label="RAM" value={[4, 10]} min={1} max={100} onChange={onChange} disabled />,
     )
+    const inputs = container.querySelectorAll('input')
+
+    expect(inputs).toHaveLength(2)
     // check for aria-valuenow values
-    expect(wrapper.find('input').at(0).props()).toHaveProperty('aria-valuenow', 4)
-    expect(wrapper.find('input').at(1).props()).toHaveProperty('aria-valuenow', 10)
+    testAttribute(inputs[0], 'aria-valuenow', '4')
+    testAttribute(inputs[1], 'aria-valuenow', '10')
     // check for aria-valuemin values
-    expect(wrapper.find('input').at(0).props()).toHaveProperty('aria-valuemin', 1)
-    expect(wrapper.find('input').at(1).props()).toHaveProperty('aria-valuemin', 4)
+    testAttribute(inputs[0], 'aria-valuemin', '1')
+    testAttribute(inputs[1], 'aria-valuemin', '4')
     // check for aria-valuemax values
-    expect(wrapper.find('input').at(0).props()).toHaveProperty('aria-valuemax', 10)
-    expect(wrapper.find('input').at(1).props()).toHaveProperty('aria-valuemax', 100)
+    testAttribute(inputs[0], 'aria-valuemax', '10')
+    testAttribute(inputs[1], 'aria-valuemax', '100')
   })
 
   it('Renders range slider, checks that the number can be changed', async () => {
     const onChange = jest.fn()
-    const wrapper = await mountAndCheckA11Y(<Slider name="ram" label="RAM" value={1} min={0} max={10} onChange={onChange} />)
+    const { container } = await renderAndCheckA11Y(<Slider name="ram" label="RAM" value={1} min={0} max={10} onChange={onChange} />)
 
-    wrapper.find('input').simulate('change', 20)
-    wrapper.update()
+    expect(onChange).toBeCalledTimes(0)
+
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      fireEvent.change(container.querySelector('input')!, { target: { value: '20' } })
+    })
+
     expect(onChange).toBeCalledTimes(1)
   })
 
@@ -91,11 +102,11 @@ describe('Slider', () => {
       events[event] = undefined
     })
 
-    const wrapper = await mountAndCheckA11Y(<Slider name="ram" label="RAM" value={1} min={0} max={10} onChange={onChange} />)
+    const { container } = await renderAndCheckA11Y(<Slider name="ram" label="RAM" value={1} min={0} max={10} onChange={onChange} />)
 
     expect(onChange).toBeCalledTimes(0)
 
-    events['click']({ offsetX: 100, target: wrapper.find("div[role='group']").instance() })
+    events['click']({ offsetX: 100, target: container.querySelector("div[role='group']") })
 
     expect(onChange).toBeCalledTimes(1)
     expect(onChange).toBeCalledWith(5, expect.anything())
@@ -118,11 +129,11 @@ describe('Slider', () => {
       events[event] = undefined
     })
 
-    const wrapper = await mountAndCheckA11Y(<Slider name="ram" label="RAM" value={[3, 9]} min={0} max={10} onChange={onChange} />)
+    const { container } = await renderAndCheckA11Y(<Slider name="ram" label="RAM" value={[3, 9]} min={0} max={10} onChange={onChange} />)
 
     expect(onChange).toBeCalledTimes(0)
 
-    events['click']({ offsetX: 100, target: wrapper.find("div[role='group']").instance() })
+    events['click']({ offsetX: 100, target: container.querySelector("div[role='group']") })
 
     expect(onChange).toBeCalledTimes(1)
     expect(onChange).toBeCalledWith([5, 9], expect.anything())
@@ -130,7 +141,7 @@ describe('Slider', () => {
 
   it('Renders slider with marks, check that marks are rendered', async () => {
     const onChange = jest.fn()
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <Slider
         name="ram"
         label="RAM"
@@ -150,16 +161,16 @@ describe('Slider', () => {
         ]}
       />,
     )
-    expect(wrapper.find("ul[data-test='marks']").exists()).toBeTruthy()
-    expect(wrapper.find("ul[data-test='mark-descriptions']").exists()).toBeTruthy()
+    expect(container.querySelector("ul[data-test='marks']")).toBeInTheDocument()
+    expect(container.querySelector("ul[data-test='mark-descriptions']")).toBeInTheDocument()
 
-    expect(wrapper.find("ul[data-test='marks'] li").length).toEqual(2)
-    expect(wrapper.find("ul[data-test='mark-descriptions'] li").length).toEqual(2)
+    expect(container.querySelectorAll("ul[data-test='marks'] li")).toHaveLength(2)
+    expect(container.querySelectorAll("ul[data-test='mark-descriptions'] li")).toHaveLength(2)
   })
 
   it('Renders slider with marks, check that value indicator is hidden & mark is highlighted when value is equal to one of the marks', async () => {
     const onChange = jest.fn()
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <Slider
         name="ram"
         label="RAM"
@@ -179,43 +190,48 @@ describe('Slider', () => {
         ]}
       />,
     )
-    expect(wrapper.findDataTest('slider-first-value-indicator').exists()).toBeFalsy()
-    expect(wrapper.findDataTest('slider-second-value-indicator').exists()).toBeTruthy()
-    expect(wrapper.findDataTest('mark-description-4').hasClass(sliderClasses.activeMarkDescription)).toBeTruthy()
-    expect(wrapper.findDataTest('mark-description-20').hasClass(sliderClasses.activeMarkDescription)).toBeFalsy()
+
+    expect(screen.queryByTestId('slider-first-value-indicator')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('slider-second-value-indicator')).toBeInTheDocument()
+    expect(screen.queryByTestId('mark-description-4')).toHaveClass(sliderClasses.activeMarkDescription)
+    expect(screen.queryByTestId('mark-description-20')).not.toHaveClass(sliderClasses.activeMarkDescription)
   })
 
   it('Renders slider without marks, check that marks are not rendered', async () => {
     const onChange = jest.fn()
-    const wrapper = await mountAndCheckA11Y(<Slider name="ram" label="RAM" value={4} min={1} max={100} onChange={onChange} />)
-    expect(wrapper.find("ul[data-test='marks']").exists()).toBeFalsy()
-    expect(wrapper.find("ul[data-test='mark-descriptions']").exists()).toBeFalsy()
+    const { container } = await renderAndCheckA11Y(<Slider name="ram" label="RAM" value={4} min={1} max={100} onChange={onChange} />)
+
+    expect(container.querySelector("ul[data-test='marks']")).not.toBeInTheDocument()
+    expect(container.querySelector("ul[data-test='mark-descriptions']")).not.toBeInTheDocument()
   })
 
   it('Renders slider, check that the first value indicator is present, the second one is hidden', async () => {
     const onChange = jest.fn()
-    const wrapper = await mountAndCheckA11Y(<Slider name="ram" label="RAM" value={4} min={1} max={100} onChange={onChange} />)
-    expect(wrapper.findDataTest('slider-first-value-indicator').exists()).toBeTruthy()
-    expect(wrapper.findDataTest('slider-second-value-indicator').exists()).toBeFalsy()
-    expect(wrapper.findDataTest('slider-first-value-indicator').text()).toEqual('4')
+    await renderAndCheckA11Y(<Slider name="ram" label="RAM" value={4} min={1} max={100} onChange={onChange} />)
+
+    expect(screen.queryByTestId('slider-first-value-indicator')).toBeInTheDocument()
+    expect(screen.queryByTestId('slider-second-value-indicator')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('slider-first-value-indicator')).toHaveTextContent('4')
   })
 
   it('Renders range slider, check that both value indicators are present', async () => {
     const onChange = jest.fn()
-    const wrapper = await mountAndCheckA11Y(<Slider name="ram" label="RAM" value={[4, 10]} min={1} max={100} onChange={onChange} />)
-    expect(wrapper.findDataTest('slider-first-value-indicator').exists()).toBeTruthy()
-    expect(wrapper.findDataTest('slider-second-value-indicator').exists()).toBeTruthy()
-    expect(wrapper.findDataTest('slider-first-value-indicator').text()).toEqual('4')
-    expect(wrapper.findDataTest('slider-second-value-indicator').text()).toEqual('10')
+    await renderAndCheckA11Y(<Slider name="ram" label="RAM" value={[4, 10]} min={1} max={100} onChange={onChange} />)
+
+    expect(screen.queryByTestId('slider-first-value-indicator')).toBeInTheDocument()
+    expect(screen.queryByTestId('slider-second-value-indicator')).toBeInTheDocument()
+    expect(screen.queryByTestId('slider-first-value-indicator')).toHaveTextContent('4')
+    expect(screen.queryByTestId('slider-second-value-indicator')).toHaveTextContent('10')
   })
 
   it('Renders range slider, check that both value indicators are correct when providing a formatter function', async () => {
     const onChange = jest.fn()
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <Slider name="ram" label="RAM" value={[4, 10]} min={1} max={100} onChange={onChange} formatCurrentValue={(x) => `${x} RAM`} />,
     )
-    expect(wrapper.findDataTest('slider-first-value-indicator').text()).toEqual('4 RAM')
-    expect(wrapper.findDataTest('slider-second-value-indicator').text()).toEqual('10 RAM')
+
+    expect(screen.queryByTestId('slider-first-value-indicator')).toHaveTextContent('4 RAM')
+    expect(screen.queryByTestId('slider-second-value-indicator')).toHaveTextContent('10 RAM')
   })
 
   it('Adjust new value to min and max values', async () => {
@@ -224,27 +240,26 @@ describe('Slider', () => {
 
       return <Slider name="ram" label="RAM" value={value} min={1} max={100} onChange={setValue} formatCurrentValue={(x) => `${x} RAM`} />
     }
-    const wrapper = await mountAndCheckA11Y(<Wrapper />)
-    expect(wrapper.findDataTest('slider-first-value-indicator').text()).toEqual('4 RAM')
-    expect(wrapper.findDataTest('slider-second-value-indicator').text()).toEqual('10 RAM')
+    const { container } = await renderAndCheckA11Y(<Wrapper />)
 
-    wrapper
-      .find('input')
-      .at(0)
-      .simulate('change', { target: { value: '0' } })
-    wrapper.update()
+    expect(screen.queryByTestId('slider-first-value-indicator')).toHaveTextContent('4 RAM')
+    expect(screen.queryByTestId('slider-second-value-indicator')).toHaveTextContent('10 RAM')
 
-    expect(wrapper.findDataTest('slider-first-value-indicator').text()).toEqual('1 RAM')
-    expect(wrapper.findDataTest('slider-second-value-indicator').text()).toEqual('10 RAM')
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      fireEvent.change(container.querySelector('input')!, { target: { value: '0' } })
+    })
 
-    wrapper
-      .find('input')
-      .at(1)
-      .simulate('change', { target: { value: '1000' } })
-    wrapper.update()
+    expect(screen.queryByTestId('slider-first-value-indicator')).toHaveTextContent('1 RAM')
+    expect(screen.queryByTestId('slider-second-value-indicator')).toHaveTextContent('10 RAM')
 
-    expect(wrapper.findDataTest('slider-first-value-indicator').text()).toEqual('1 RAM')
-    expect(wrapper.findDataTest('slider-second-value-indicator').text()).toEqual('100 RAM')
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      fireEvent.change(container.querySelectorAll('input')[1]!, { target: { value: '1000' } })
+    })
+
+    expect(screen.queryByTestId('slider-first-value-indicator')).toHaveTextContent('1 RAM')
+    expect(screen.queryByTestId('slider-second-value-indicator')).toHaveTextContent('100 RAM')
   })
 })
 

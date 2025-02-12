@@ -89,6 +89,7 @@ export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
       tooltip,
       tooltipPlacement,
       tooltipVisible,
+      'data-test': dataTest = 'icon-button',
       ...rest
     },
     ref,
@@ -122,11 +123,22 @@ export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
             rel={Component === 'a' ? relFinal : undefined}
             target={Component === 'a' ? target : undefined}
             type={Component === 'button' ? type : undefined}
+            data-test={dataTest}
             {...rest}
           >
             <span className={styles.body} ref={mergeRefs([ref, tooltipRef])}>
               {loading && <Loader role={loaderRole} size={size} />}
-              {!loading && <Icon role={iconRole} className={iconClassName} color={iconColor} icon={icon} size={size} ariaHidden />}
+              {!loading && (
+                <Icon
+                  role={iconRole}
+                  className={iconClassName}
+                  color={iconColor}
+                  data-test={`${dataTest}-icon`}
+                  icon={icon}
+                  size={size}
+                  ariaHidden
+                />
+              )}
             </span>
           </Component>
         )}

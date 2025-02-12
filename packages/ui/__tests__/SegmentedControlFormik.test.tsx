@@ -1,11 +1,11 @@
 import React, { createRef } from 'react'
 import { Formik, Form, FormikProps } from 'formik'
-import { axeDefaultOptions, mountAndCheckA11Y } from '@hazelcast/test-helpers'
-import { act } from 'react-dom/test-utils'
+import { axeDefaultOptions, renderAndCheckA11Y } from '@hazelcast/test-helpers'
+import { act, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 import { SegmentedControlFormik } from '../src/SegmentedControlFormik'
-import { SegmentedControl, SegmentedControlOption } from '../src/SegmentedControl'
-import { RadioGroup } from '@headlessui/react'
+import { SegmentedControlOption } from '../src/SegmentedControl'
 
 const swCharacters = {
   darth_vader: 'Darth Vader',
@@ -45,7 +45,7 @@ describe('SegmentedControlFormik', () => {
       </Formik>
     )
     const rules = axeDefaultOptions?.rules ?? {}
-    const wrapper = await mountAndCheckA11Y(<TestForm />, {
+    await renderAndCheckA11Y(<TestForm />, {
       axeOptions: {
         rules: {
           ...rules,
@@ -59,12 +59,7 @@ describe('SegmentedControlFormik', () => {
       character: 'luke_skywalker',
     })
 
-    // We need the `async` call here to wait for processing of the asynchronous 'change'
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      wrapper.find(SegmentedControl).find(RadioGroup.Option).at(2).simulate('click')
-    })
-    wrapper.update()
+    await act(() => userEvent.click(screen.getByTestId(`segmented-${swCharactersOptions[2].value}`)))
 
     expect(formikBag.current?.values).toEqual({
       character: 'obi',

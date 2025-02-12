@@ -1,10 +1,8 @@
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
 import React, { PropsWithChildren } from 'react'
-import { AlertTriangle } from 'react-feather'
 import { useUID } from 'react-uid'
+import { screen, within } from '@testing-library/react'
 
-import { Tooltip, TooltipProps } from '../../src/Tooltip'
-import { Icon, IconProps } from '../../src/Icon'
 import { Cell, CellProps, CellWarning, CellWarningProps } from '../../src/Table/Cell'
 
 import styles from '../../src/Table/Cell.module.scss'
@@ -27,33 +25,15 @@ describe('CellWarning', () => {
 
   const aligns: CellWarningProps['align'][] = ['left', 'right']
   it.each(aligns)('renders children with correct props for %s align ', async (align) => {
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <div>
         <CellWarning align={align} warning="testWarning" />
       </div>,
     )
 
-    const tooltip = wrapper.find(Tooltip)
-    expect(tooltip.props()).toEqual<TooltipProps>({
-      id: iconId,
-      content: 'testWarning',
-
-      children: expect.anything(),
-    })
-
-    const cellWarningContent = wrapper.findDataTest('cell-warning-content')
-    expect(cellWarningContent.props()).toEqual({
-      'data-test': 'cell-warning-content',
-      className: `${styles.warningIcon} ${styles[align]}`,
-
-      children: expect.anything(),
-    })
-
-    expect(cellWarningContent.find(Icon).props()).toEqual<IconProps>({
-      icon: AlertTriangle,
-      ariaLabelledBy: iconId,
-      size: 'small',
-    })
+    const cellWarningContent = screen.getByTestId('cell-warning-content')
+    expect(cellWarningContent).toHaveClass(`${styles.warningIcon} ${styles[align]}`)
+    expect(within(cellWarningContent).queryByTestId('cell-warning-content-icon')).toBeInTheDocument()
   })
 })
 
@@ -70,10 +50,6 @@ describe('Cell', () => {
     role: 'cell',
     'aria-colspan': undefined,
     'aria-sort': undefined,
-    onClick: undefined,
-    onKeyPress: undefined,
-
-    children: expect.anything(),
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -103,27 +79,49 @@ describe('Cell', () => {
   ]
 
   it.each(data)('returns div with correct props for given Cell props', async (cellProps, expectedProps) => {
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <Wrapper>
         <Cell {...cellProps}>Cell</Cell>
       </Wrapper>,
     )
 
-    expect(wrapper.findDataTest('table-cell').props()).toEqual(expectedProps)
+    const cell = screen.getByTestId('table-cell')
+    expect(cell).toHaveClass(expectedProps.className as string)
+    if (expectedProps.style) {
+      expect(cell).toHaveAttribute('style')
+    } else {
+      expect(cell).not.toHaveAttribute('style')
+    }
+    expect(cell).toHaveRole(expectedProps.role as string)
+    if (expectedProps['aria-colspan'] != null) {
+      expect(cell).toHaveAttribute('aria-colspan', String(expectedProps['aria-colspan']))
+    } else {
+      expect(cell).not.toHaveAttribute('aria-colspan')
+    }
+    if (expectedProps['aria-sort']) {
+      expect(cell).toHaveAttribute('aria-sort', expectedProps['aria-sort'] as string)
+    } else {
+      expect(cell).not.toHaveAttribute('aria-sort')
+    }
   })
 
   it('renders CellWarning when warning prop is defined', async () => {
     const warning = 'testWarning'
 
-    const wrapper = await mountAndCheckA11Y(
+    const { rerender } = await renderAndCheckA11Y(
       <Wrapper>
         <Cell {...cellPropsBase} warning={warning} />
       </Wrapper>,
     )
 
-    expect(wrapper.find(CellWarning).props()).toEqual<CellWarningProps>({
-      warning: warning,
-      align: 'left',
-    })
+    expect(screen.queryByTestId('cell-warning-content')).toBeInTheDocument()
+
+    rerender(
+      <Wrapper>
+        <Cell {...cellPropsBase} />
+      </Wrapper>,
+    )
+
+    expect(screen.queryByTestId('cell-warning-content')).not.toBeInTheDocument()
   })
 })

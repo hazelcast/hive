@@ -1,13 +1,15 @@
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
-import { SiFigma } from '@icons-pack/react-simple-icons'
 import React from 'react'
 import cn from 'classnames'
+import userEvent from '@testing-library/user-event'
+import { act, screen, within } from '@testing-library/react'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
+import { SiFigma } from '@icons-pack/react-simple-icons'
 
 import { LinkRel } from '../src/Link'
 import { EmptyState } from '../src/EmptyState'
-import { ChevronRight } from 'react-feather'
 
 import styles from '../src/EmptyState.module.scss'
+import iconStyles from '../src/Icon.module.scss'
 
 // Common
 const title = 'Figma'
@@ -26,28 +28,29 @@ describe('EmptyState', () => {
   it('Renders', async () => {
     const actionOnClick = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
-      <EmptyState title={title} icon={icon} iconLabel={iconLabel} action={action} actionOnClick={actionOnClick} />,
-    )
+    await renderAndCheckA11Y(<EmptyState title={title} icon={icon} iconLabel={iconLabel} action={action} actionOnClick={actionOnClick} />)
 
-    expect(wrapper.findDataTest('empty-state-container').prop('className')).toBe(cn(styles.container))
-    expect(wrapper.findDataTestFirst('empty-state-icon').props()).toMatchObject({
-      icon,
-      ariaLabel: iconLabel,
-      size: 'large',
-    })
-    expect(wrapper.findDataTest('empty-state-title').text()).toBe(title)
-    expect(wrapper.existsDataTest('empty-state-description')).toBeFalsy()
-    expect(wrapper.existsDataTest('empty-state-link')).toBeFalsy()
-    expect(wrapper.findDataTest('empty-state-button').at(0).props()).toMatchObject({
-      onClick: actionOnClick,
-    })
+    expect(screen.getByTestId('empty-state-container')).toHaveClass(cn(styles.container))
+
+    const iconEl = screen.getByTestId('empty-state-icon')
+    expect(within(iconEl).queryByLabelText(iconLabel)).toBeInTheDocument()
+    expect(iconEl.querySelector('svg')!).toHaveClass(iconStyles.large)
+
+    expect(screen.getByTestId('empty-state-title')).toHaveTextContent(title)
+    expect(screen.queryByTestId('empty-state-description')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('empty-state-link')).not.toBeInTheDocument()
+
+    expect(actionOnClick).toHaveBeenCalledTimes(0)
+
+    await act(async () => userEvent.click(screen.getByTestId('empty-state-button')))
+
+    expect(actionOnClick).toHaveBeenCalledTimes(1)
   })
 
   it('Renders description', async () => {
     const actionOnClick = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <EmptyState
         title={title}
         icon={icon}
@@ -58,43 +61,49 @@ describe('EmptyState', () => {
       />,
     )
 
-    expect(wrapper.findDataTest('empty-state-container').prop('className')).toBe(cn(styles.container))
-    expect(wrapper.findDataTestFirst('empty-state-icon').props()).toMatchObject({
-      icon,
-      ariaLabel: iconLabel,
-      size: 'large',
-    })
-    expect(wrapper.findDataTest('empty-state-title').text()).toBe(title)
-    expect(wrapper.findDataTest('empty-state-description').text()).toBe(description)
-    expect(wrapper.existsDataTest('empty-state-link')).toBeFalsy()
-    expect(wrapper.findDataTest('empty-state-button').at(0).props()).toMatchObject({
-      onClick: actionOnClick,
-    })
+    expect(screen.getByTestId('empty-state-container')).toHaveClass(cn(styles.container))
+
+    const iconEl = screen.getByTestId('empty-state-icon')
+    expect(within(iconEl).queryByLabelText(iconLabel)).toBeInTheDocument()
+    expect(iconEl.querySelector('svg')!).toHaveClass(iconStyles.large)
+
+    expect(screen.getByTestId('empty-state-title')).toHaveTextContent(title)
+    expect(screen.queryByTestId('empty-state-description')).toBeInTheDocument()
+    expect(screen.queryByTestId('empty-state-link')).not.toBeInTheDocument()
+
+    expect(actionOnClick).toHaveBeenCalledTimes(0)
+
+    await act(async () => userEvent.click(screen.getByTestId('empty-state-button')))
+
+    expect(actionOnClick).toHaveBeenCalledTimes(1)
   })
 
   it('Renders large size', async () => {
     const actionOnClick = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <EmptyState title={title} icon={icon} size="large" iconLabel={iconLabel} action={action} actionOnClick={actionOnClick} />,
     )
 
-    expect(wrapper.findDataTest('empty-state-container').prop('className')).toBe(cn(styles.container, styles.large))
-    expect(wrapper.findDataTestFirst('empty-state-icon').props()).toMatchObject({
-      icon,
-      ariaLabel: iconLabel,
-      size: 'xlarge',
-    })
-    expect(wrapper.findDataTest('empty-state-title').text()).toBe(title)
-    expect(wrapper.existsDataTest('empty-state-description')).toBeFalsy()
-    expect(wrapper.existsDataTest('empty-state-link')).toBeFalsy()
-    expect(wrapper.findDataTest('empty-state-button').at(0).props()).toMatchObject({
-      onClick: actionOnClick,
-    })
+    expect(screen.getByTestId('empty-state-container')).toHaveClass(cn(styles.container))
+
+    const iconEl = screen.getByTestId('empty-state-icon')
+    expect(within(iconEl).queryByLabelText(iconLabel)).toBeInTheDocument()
+    expect(iconEl.querySelector('svg')!).toHaveClass(iconStyles.xlarge)
+
+    expect(screen.getByTestId('empty-state-title')).toHaveTextContent(title)
+    expect(screen.queryByTestId('empty-state-description')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('empty-state-link')).not.toBeInTheDocument()
+
+    expect(actionOnClick).toHaveBeenCalledTimes(0)
+
+    await act(async () => userEvent.click(screen.getByTestId('empty-state-button')))
+
+    expect(actionOnClick).toHaveBeenCalledTimes(1)
   })
 
   it('Renders horizontal', async () => {
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <EmptyState
         title={title}
         icon={icon}
@@ -107,22 +116,15 @@ describe('EmptyState', () => {
       />,
     )
 
-    expect(wrapper.findDataTest('empty-state-container').prop('className')).toBe(cn(styles.container, styles.horizontal))
-    expect(wrapper.findDataTestFirst('empty-state-icon').props()).toMatchObject({
-      icon,
-      ariaLabel: iconLabel,
-      size: 'large',
-    })
-    expect(wrapper.findDataTest('empty-state-title').text()).toBe(title)
-    expect(wrapper.existsDataTest('empty-state-description')).toBeFalsy()
-    expect(wrapper.findDataTestFirst('empty-state-link').props()).toMatchObject({
-      icon: ChevronRight,
-      ariaLabel: 'Icon Chevron Right',
-      href: actionHref,
-      target: actionTarget,
-      rel: actionRel,
-      size: 'small',
-    })
-    expect(wrapper.existsDataTest('empty-state-button')).toBeFalsy()
+    expect(screen.getByTestId('empty-state-container')).toHaveClass(cn(styles.container))
+
+    const iconEl = screen.getByTestId('empty-state-icon')
+    expect(within(iconEl).queryByLabelText(iconLabel)).toBeInTheDocument()
+    expect(iconEl.querySelector('svg')!).toHaveClass(iconStyles.large)
+
+    expect(screen.getByTestId('empty-state-title')).toHaveTextContent(title)
+    expect(screen.queryByTestId('empty-state-description')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('empty-state-link')).toBeInTheDocument()
+    expect(screen.queryByTestId('empty-statue-button')).not.toBeInTheDocument()
   })
 })

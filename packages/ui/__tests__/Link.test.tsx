@@ -1,200 +1,181 @@
 import React from 'react'
 import cn from 'classnames'
 import { ChevronRight } from 'react-feather'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
+import { screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 import { Link } from '../src/Link'
-import { Icon } from '../src/Icon'
+import { testAttribute, testClass, testContent } from './helpers'
 
 import styles from '../src/Link.module.scss'
+import iconStyles from '../src/Icon.module.scss'
 
 describe('Link', () => {
   it('Renders normal Link with correct props', async () => {
-    const wrapper = await mountAndCheckA11Y(<Link href="https://hazelcast.com/">Normal Text Link</Link>)
+    await renderAndCheckA11Y(<Link href="https://hazelcast.com/">Normal Text Link</Link>)
 
-    const anchor = wrapper.find('a')
-    expect(anchor.props()).toEqual({
-      className: cn(styles.link, styles.normal, styles.primary),
-      href: 'https://hazelcast.com/',
-      rel: 'noopener',
-      target: '_self',
-      'data-test': 'link',
-      children: ['Normal Text Link', undefined],
-      onClick: undefined,
-    })
+    const link = screen.queryByTestId('link')
+
+    expect(link).toBeInTheDocument()
+    testAttribute(link, 'href', 'https://hazelcast.com/')
+    testAttribute(link, 'rel', 'noopener')
+    testAttribute(link, 'target', '_self')
+    testContent(link, 'Normal Text Link')
   })
 
   it('Renders normal Link with Icon with correct props', async () => {
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <Link icon={ChevronRight} ariaLabel="Chevron right" href="https://hazelcast.com/">
         Normal Text Link with Icon
       </Link>,
     )
 
-    const anchor = wrapper.find('a')
-    expect(anchor.props()).toMatchObject({
-      className: cn(styles.link, styles.normal, styles.primary),
-      href: 'https://hazelcast.com/',
-      rel: 'noopener',
-      target: '_self',
-    })
+    const link = screen.queryByTestId('link')
 
-    expect(anchor.text()).toBe('Normal Text Link with Icon')
-    expect(anchor.find(Icon).props()).toEqual({
-      icon: ChevronRight,
-      ariaLabel: 'Chevron right',
-      size: 'medium',
-      bold: false,
-    })
+    expect(link).toBeInTheDocument()
+    testAttribute(link, 'href', 'https://hazelcast.com/')
+    testAttribute(link, 'rel', 'noopener')
+    testAttribute(link, 'target', '_self')
+    testContent(link, 'Normal Text Link')
+    testClass(link, cn(styles.link, styles.normal, styles.primary))
+
+    expect(screen.getByLabelText('Chevron right')).toHaveClass(iconStyles.medium)
   })
 
   it('Renders small Link with correct props', async () => {
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <Link size="small" href="https://hazelcast.com/">
         Small Link
       </Link>,
     )
 
-    const anchor = wrapper.find('a')
-    expect(anchor.props()).toEqual({
-      className: cn(styles.link, styles.small, styles.primary),
-      href: 'https://hazelcast.com/',
-      rel: 'noopener',
-      target: '_self',
-      'data-test': 'link',
-      children: ['Small Link', undefined],
-      onClick: undefined,
-    })
+    const link = screen.queryByTestId('link')
+
+    expect(link).toBeInTheDocument()
+    testAttribute(link, 'href', 'https://hazelcast.com/')
+    testAttribute(link, 'rel', 'noopener')
+    testAttribute(link, 'target', '_self')
+    testContent(link, 'Small Link')
+    testClass(link, cn(styles.link, styles.small, styles.primary))
   })
 
   it('Renders small Link with Icon with correct props', async () => {
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <Link size="small" icon={ChevronRight} ariaLabel="Chevron right" href="https://hazelcast.com/">
         Small Text Link with Icon
       </Link>,
     )
 
-    const anchor = wrapper.find('a')
-    expect(anchor.props()).toMatchObject({
-      className: cn(styles.link, styles.small, styles.primary),
-      href: 'https://hazelcast.com/',
-      rel: 'noopener',
-      target: '_self',
-      onClick: undefined,
-    })
+    const link = screen.queryByTestId('link')
 
-    expect(anchor.text()).toBe('Small Text Link with Icon')
-    expect(anchor.find(Icon).props()).toEqual({
-      icon: ChevronRight,
-      ariaLabel: 'Chevron right',
-      size: 'small',
-      bold: false,
-    })
+    expect(link).toBeInTheDocument()
+    testAttribute(link, 'href', 'https://hazelcast.com/')
+    testAttribute(link, 'rel', 'noopener')
+    testAttribute(link, 'target', '_self')
+    testContent(link, 'Small Text Link with Icon')
+    testClass(link, cn(styles.link, styles.small, styles.primary))
+
+    expect(screen.getByLabelText('Chevron right')).toHaveClass(iconStyles.small)
   })
 
   it('Renders bold Link with correct props', async () => {
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <Link bold href="https://hazelcast.com/">
         Bold Link
       </Link>,
     )
 
-    const anchor = wrapper.find('a')
-    expect(anchor.props()).toEqual({
-      className: cn(styles.link, styles.normal, styles.primary, styles.bold),
-      href: 'https://hazelcast.com/',
-      rel: 'noopener',
-      target: '_self',
-      'data-test': 'link',
-      children: ['Bold Link', undefined],
-      onClick: undefined,
-    })
+    const link = screen.queryByTestId('link')
+
+    expect(link).toBeInTheDocument()
+    testAttribute(link, 'href', 'https://hazelcast.com/')
+    testAttribute(link, 'rel', 'noopener')
+    testAttribute(link, 'target', '_self')
+    testContent(link, 'Bold Link')
+    testClass(link, cn(styles.link, styles.bold, styles.primary))
   })
 
   it('Renders bold Link with Icon with correct props', async () => {
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <Link bold icon={ChevronRight} ariaLabel="Chevron right" href="https://hazelcast.com/">
         Bold Text Link with Icon
       </Link>,
     )
 
-    const anchor = wrapper.find('a')
-    expect(anchor.props()).toMatchObject({
-      className: cn(styles.link, styles.normal, styles.primary, styles.bold),
-      href: 'https://hazelcast.com/',
-      rel: 'noopener',
-      target: '_self',
-      onClick: undefined,
-    })
+    const link = screen.queryByTestId('link')
 
-    expect(anchor.text()).toBe('Bold Text Link with Icon')
-    expect(anchor.find(Icon).props()).toEqual({
-      icon: ChevronRight,
-      ariaLabel: 'Chevron right',
-      bold: true,
-      size: 'medium',
-    })
+    expect(link).toBeInTheDocument()
+    testAttribute(link, 'href', 'https://hazelcast.com/')
+    testAttribute(link, 'rel', 'noopener')
+    testAttribute(link, 'target', '_self')
+    testContent(link, 'Bold Text Link with Icon')
+    testClass(link, cn(styles.link, styles.bold, styles.primary))
+    expect(screen.getByLabelText('Chevron right')).toHaveClass(iconStyles.medium)
   })
 
   it('Renders a secondary normal Link with correct props', async () => {
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <Link kind="secondary" href="https://hazelcast.com/">
         Normal Text Link
       </Link>,
     )
 
-    const anchor = wrapper.find('a')
-    expect(anchor.props()).toEqual({
-      className: cn(styles.link, styles.normal, styles.secondary),
-      href: 'https://hazelcast.com/',
-      rel: 'noopener',
-      target: '_self',
-      'data-test': 'link',
-      children: ['Normal Text Link', undefined],
-    })
+    const link = screen.queryByTestId('link')
+
+    expect(link).toBeInTheDocument()
+    testAttribute(link, 'href', 'https://hazelcast.com/')
+    testAttribute(link, 'rel', 'noopener')
+    testAttribute(link, 'target', '_self')
+    testContent(link, 'Normal Text Link')
+    testClass(link, cn(styles.link, styles.normal, styles.secondary))
   })
 
   it('Allows custom rel and target', async () => {
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <Link href="https://hazelcast.com/" rel={['help', 'noreferrer']} target="_parent">
         Normal Text Link
       </Link>,
     )
 
-    const anchor = wrapper.find('a')
-    expect(anchor.props()).toEqual({
-      className: cn(styles.link, styles.normal, styles.primary),
-      href: 'https://hazelcast.com/',
-      rel: 'help noreferrer',
-      target: '_parent',
-      'data-test': 'link',
-      children: ['Normal Text Link', undefined],
-    })
+    const link = screen.queryByTestId('link')
+
+    expect(link).toBeInTheDocument()
+    testAttribute(link, 'href', 'https://hazelcast.com/')
+    testAttribute(link, 'rel', 'help noreferrer')
+    testAttribute(link, 'target', '_parent')
+    testContent(link, 'Normal Text Link')
+    testClass(link, cn(styles.link, styles.normal, styles.primary))
   })
 
   it('Renders Link with button semantics', async () => {
     const onClick = jest.fn()
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <Link component="button" onClick={onClick}>
         Normal Text Link
       </Link>,
     )
 
-    expect(wrapper.find('button').exists()).toBe(true)
-    expect(wrapper.find('a').exists()).toBe(false)
+    expect(container.querySelector('a')).not.toBeInTheDocument()
+    expect(container.querySelector('button')).toBeInTheDocument()
   })
 
   it('Renders Link with button semantics, proper props are passed to a button', async () => {
     const onClick = jest.fn()
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <Link component="button" onClick={onClick}>
         Normal Text Link
       </Link>,
     )
 
-    const props = wrapper.find('button').props()
-    expect(props).toHaveProperty('onClick', onClick)
-    expect(props).not.toHaveProperty('rel')
-    expect(props).not.toHaveProperty('target')
+    expect(onClick).toHaveBeenCalledTimes(0)
+
+    const button = container.querySelector('button') as HTMLElement
+    expect(button).not.toHaveAttribute('rel')
+    expect(button).not.toHaveAttribute('target')
+
+    await userEvent.click(button)
+
+    expect(onClick).toHaveBeenCalledTimes(1)
   })
 })

@@ -1,7 +1,8 @@
 import React from 'react'
-import { act } from 'react-dom/test-utils'
+import { act, within, screen, fireEvent } from '@testing-library/react'
 import { AlertTriangle, CheckCircle, Info, AlertCircle } from 'react-feather'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
+import userEvent from '@testing-library/user-event'
 
 import { Toast, ToastType, ToastIconDescriptor } from '../src/Toast'
 
@@ -39,31 +40,29 @@ describe('Toast', () => {
     ],
   ]
 
-  it.each(toastBasicTestData)('Renders %s Toast with correct icon and content', async (type, { icon, ariaLabel }) => {
-    const wrapper = await mountAndCheckA11Y(<Toast type={type} content={content} />)
+  it.each(toastBasicTestData)('Renders %s Toast with correct icon and content', async (type, { ariaLabel }) => {
+    await renderAndCheckA11Y(<Toast type={type} content={content} />)
 
-    const AlertElement = wrapper.find(Toast)
+    const AlertElement = screen.queryByTestId('toast')!
 
-    expect(AlertElement.exists()).toBeTruthy()
-    expect(AlertElement.findDataTest('toast-content').text()).toBe(content)
+    expect(AlertElement).toBeInTheDocument()
+    expect(within(AlertElement).queryByTestId('toast-content')).toHaveTextContent(content)
 
-    expect(wrapper.findDataTestFirst('toast-icon').props()).toMatchObject({
-      icon,
-      ariaLabel,
-    })
+    const iconEl = screen.queryByTestId('toast-icon')!
+
+    expect(iconEl).toBeInTheDocument()
+    expect(iconEl.querySelector('svg')).toHaveAttribute('aria-label', ariaLabel)
   })
 
   it('Renders X as a close button when onClose is passed', async () => {
     const closeToast = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(<Toast type="success" content={content} closeToast={closeToast} />)
+    await renderAndCheckA11Y(<Toast type="success" content={content} closeToast={closeToast} />)
 
-    expect(wrapper.findDataTest('toast-close').exists()).toBeTruthy()
+    expect(screen.queryByTestId('toast-close')).toBeInTheDocument()
     expect(closeToast).toBeCalledTimes(0)
 
-    act(() => {
-      wrapper.findDataTest('toast-close').at(1).simulate('click')
-    })
+    await act(() => userEvent.click(screen.getByTestId('toast-close')))
 
     expect(closeToast).toBeCalledTimes(1)
   })
@@ -71,7 +70,7 @@ describe('Toast', () => {
   it('Toast.closeToast called after simulating Escape key', async () => {
     const closeToast = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(<Toast type="success" content={content} closeToast={closeToast} />)
+    await renderAndCheckA11Y(<Toast type="success" content={content} closeToast={closeToast} />)
 
     expect(closeToast).toHaveBeenCalledTimes(0)
 
@@ -79,7 +78,6 @@ describe('Toast', () => {
       const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })
       document.dispatchEvent(event)
     })
-    wrapper.update()
 
     expect(closeToast).toHaveBeenCalledTimes(1)
   })
@@ -87,15 +85,14 @@ describe('Toast', () => {
   it('Toast.dismissableByEscKey = false means no Esc key handling', async () => {
     const closeToast = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(<Toast type="success" content={content} dismissableByEscKey={false} closeToast={closeToast} />)
+    await renderAndCheckA11Y(<Toast type="success" content={content} dismissableByEscKey={false} closeToast={closeToast} />)
 
     expect(closeToast).toHaveBeenCalledTimes(0)
 
-    act(() => {
-      const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })
-      document.dispatchEvent(event)
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      fireEvent.keyDown(document, { key: 'Escape', bubbles: true })
     })
-    wrapper.update()
 
     expect(closeToast).toHaveBeenCalledTimes(0)
   })
@@ -104,7 +101,7 @@ describe('Toast', () => {
     const closeToast1 = jest.fn()
     const closeToast2 = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <div>
         <Toast type="success" content={content} closeToast={closeToast1} />
         <Toast type="info" content={content} closeToast={closeToast2} />
@@ -115,22 +112,20 @@ describe('Toast', () => {
     expect(closeToast2).toHaveBeenCalledTimes(0)
 
     // first press
-    act(() => {
-      const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })
-      document.dispatchEvent(event)
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      fireEvent.keyDown(document, { key: 'Escape', bubbles: true })
     })
-    wrapper.update()
 
     // first in first out
     expect(closeToast1).toHaveBeenCalledTimes(1)
     expect(closeToast2).toHaveBeenCalledTimes(0)
 
     // second press
-    act(() => {
-      const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })
-      document.dispatchEvent(event)
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      fireEvent.keyDown(document, { key: 'Escape', bubbles: true })
     })
-    wrapper.update()
 
     expect(closeToast1).toHaveBeenCalledTimes(1)
     expect(closeToast2).toHaveBeenCalledTimes(1)

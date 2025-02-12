@@ -1,9 +1,8 @@
 import React from 'react'
-import { axeDefaultOptions, mountAndCheckA11Y } from '@hazelcast/test-helpers'
-import { RadioGroup } from '@headlessui/react'
+import { axeDefaultOptions, renderAndCheckA11Y } from '@hazelcast/test-helpers'
+import { render, screen, within } from '@testing-library/react'
 
 import { SegmentedControl, SegmentedControlOption } from '../src/SegmentedControl'
-import { shallow } from 'enzyme'
 
 const swCharacters = {
   darth_vader: 'Darth Vader',
@@ -26,7 +25,7 @@ describe('SegmentedControl', () => {
     const onChange = jest.fn()
 
     const rules = axeDefaultOptions?.rules ?? {}
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <SegmentedControl<SWCharacters> label={label} value={checked.value} onChange={onChange} options={swCharactersOptions} />,
       {
         axeOptions: {
@@ -39,28 +38,24 @@ describe('SegmentedControl', () => {
       },
     )
 
-    const radioGroup = wrapper.find(RadioGroup)
-    const radioGroupLabel = radioGroup.find(RadioGroup.Label).first()
-    const radioGroupOptions = radioGroup.find(RadioGroup.Option)
+    const radioGroup = screen.getByTestId('segmented')
+    const radioGroupLabel = within(radioGroup).getByTestId('segmented-label')
+    const radioGroupOptions = within(radioGroup).getAllByRole('radio')
 
-    expect(wrapper.find(RadioGroup).props()).toMatchObject({
-      value: checked.value,
-      onChange,
-    })
-    expect(radioGroupLabel.text()).toBe(label)
+    expect(radioGroupLabel).toHaveTextContent(label)
 
     radioGroupOptions.forEach((option, i) => {
-      const { value, label } = swCharactersOptions[i]
-      expect(option.prop('value')).toBe(value)
-      expect(option.find(RadioGroup.Label).text()).toBe(label)
+      const { label } = swCharactersOptions[i]
+
+      expect(within(option).queryByText(label)).toBeInTheDocument()
     })
   })
 
   it('Renders correctly without label prop', () => {
     const checked = swCharactersOptions[0]
     const onChange = jest.fn()
-    const wrapper = shallow(<SegmentedControl<SWCharacters> value={checked.value} onChange={onChange} options={swCharactersOptions} />)
+    render(<SegmentedControl<SWCharacters> value={checked.value} onChange={onChange} options={swCharactersOptions} />)
 
-    expect(wrapper.existsDataTest('label-data-test')).toBeFalsy()
+    expect(screen.queryByTestId('label-data-test')).not.toBeInTheDocument()
   })
 })

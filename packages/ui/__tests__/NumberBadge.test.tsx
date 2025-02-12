@@ -1,21 +1,23 @@
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import React from 'react'
+import { screen } from '@testing-library/react'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
+
 import { NumberBadge } from '../src/NumberBadge'
 
 describe('NumberBadge', () => {
   it('Renders number lower than 100', async () => {
     const number = 99
 
-    const wrapper = await mountAndCheckA11Y(<NumberBadge number={number} />)
+    await renderAndCheckA11Y(<NumberBadge number={number} />)
 
-    expect(wrapper.findDataTest('number-badge').text()).toBe(number.toString())
+    expect(screen.getByTestId('number-badge')).toHaveTextContent(number.toString())
   })
 
   it('Renders formatted number higher than 99', async () => {
     const number = 100
 
-    const wrapper = await mountAndCheckA11Y(<NumberBadge number={number} />)
+    await renderAndCheckA11Y(<NumberBadge number={number} />)
 
-    expect(wrapper.findDataTest('number-badge').text()).toBe('+99')
+    expect(screen.getByTestId('number-badge')).toHaveTextContent('+99')
   })
 })

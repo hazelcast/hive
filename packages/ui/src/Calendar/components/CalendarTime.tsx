@@ -1,5 +1,6 @@
 import React, { ChangeEvent, FC, useCallback, useEffect, useState } from 'react'
 import { format, parse } from 'date-fns'
+import { DataTestProp } from '@hazelcast/helpers'
 
 import { Button } from '../../Button'
 import { timePoints } from '../helpers/consts'
@@ -14,9 +15,9 @@ export type CalendarTimeInternalProps = {
   date: Date
   onChange: (timeString: string) => void
   value: string
-}
+} & DataTestProp
 
-export const CalendarTimeInternal: FC<CalendarTimeInternalProps> = ({ date, value, onChange }) => {
+export const CalendarTimeInternal: FC<CalendarTimeInternalProps> = ({ date, value, onChange, 'data-test': dataTest = 'calendar-time' }) => {
   const [time, setTime] = useState(value)
   const [timeInputError, setTimeInputError] = useState<string | undefined>()
 
@@ -80,8 +81,8 @@ export const CalendarTimeInternal: FC<CalendarTimeInternalProps> = ({ date, valu
   )
 
   return (
-    <div data-test="calendar-time" className={styles.container}>
-      <div data-test="calendar-time-header" className={styles.header}>
+    <div data-test={dataTest} className={styles.container}>
+      <div data-test={`${dataTest}-header`} className={styles.header}>
         <TimeField
           showAriaLabel
           size="small"
@@ -89,11 +90,12 @@ export const CalendarTimeInternal: FC<CalendarTimeInternalProps> = ({ date, valu
           error={timeInputError}
           name="time"
           value={time.toString()}
+          data-test={`${dataTest}-input`}
           inputClassName={styles.timeInput}
           onChange={handleTimeInputChange}
         />
       </div>
-      <div data-test="calendar-time-timePoints" className={styles.timePoints}>
+      <div data-test={`${dataTest}-timePoints`} className={styles.timePoints}>
         {timePoints.map((tP) => (
           <Button className={styles.timePoint} bodyClassName={styles.timePointBody} key={tP} variant="text" onClick={handleDateClick(tP)}>
             {tP}
@@ -110,7 +112,7 @@ export const CalendarTimeInternal: FC<CalendarTimeInternalProps> = ({ date, valu
  * We need to accept the props as unknown and cast them in place
  * Otherwise "Calendar.customTimeInput" would require us to pass them explicitly
  */
-export type CalendarTimeProps = unknown
+export type CalendarTimeProps = unknown & Required<DataTestProp>
 
 export const CalendarTime: FC<CalendarTimeProps> = (props) => {
   // Note: Cast the "unknown" props to the actual type

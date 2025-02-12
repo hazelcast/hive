@@ -1,5 +1,6 @@
 import React, { ReactElement, useCallback, useMemo } from 'react'
 import { useField } from 'formik'
+import { DataTestProp } from '@hazelcast/helpers'
 
 import { MultiSelectField, MultiSelectFieldExtraProps } from './MultiSelectField'
 import { FieldValidatorGeneric, formikTouchAndUpdate, getFieldError } from '../utils/formik'
@@ -9,7 +10,7 @@ export type MultiSelectFieldFormikProps<V extends object, OV = string> = MultiSe
   name: ExtractKeysOfValueType<V, OV[]>
   validate?: FieldValidatorGeneric<OV[]>
   onChange?: (value: OV[]) => void
-}
+} & DataTestProp
 
 export const MultiSelectFieldFormik = <V extends object, OV extends string | number = string>({
   name,

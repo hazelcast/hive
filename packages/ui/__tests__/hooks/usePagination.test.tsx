@@ -1,4 +1,5 @@
-import { testHook, getHookRes } from '@hazelcast/test-helpers'
+import { renderHook } from '@testing-library/react-hooks'
+
 import { getZeroSiblingCountItems, PaginationItem, usePagination, UsePaginationProps } from '../../src/hooks/usePagination'
 
 describe('usePagination', () => {
@@ -36,10 +37,9 @@ describe('usePagination', () => {
   ]
 
   it.each(data)('for %p returns %p', (hookArgs, expectedHookRes) => {
-    const { spyHookRes } = testHook(() => usePagination(hookArgs))
-    const items = getHookRes(spyHookRes)
+    const { result } = renderHook(() => usePagination(hookArgs))
 
-    expect(items).toEqual(expectedHookRes)
+    expect(result.current).toEqual(expectedHookRes)
   })
 
   const zeroSiblingCountData: [UsePaginationProps['pageCount'], UsePaginationProps['currentPage'], PaginationItem[]][] = [

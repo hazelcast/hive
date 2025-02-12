@@ -1,17 +1,15 @@
 import React from 'react'
 import { useUID } from 'react-uid'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
-import ReactSelect, { Options } from 'react-select'
-import ReactSelectCreatable from 'react-select/creatable'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
+import { Options } from 'react-select'
+import { screen, within } from '@testing-library/react'
+import { Aperture } from 'react-feather'
 
 import { SelectField } from '../../src/Select/SelectField'
-import { Label } from '../../src/Label'
-import { Error, errorId } from '../../src/Error'
+import { errorId } from '../../src/Error'
 import { SelectFieldOption } from '../../src/Select/helpers'
-import { IconButton } from '../../src/IconButton'
 
 import styles from '../src/SelectField.module.scss'
-import { Aperture, X } from 'react-feather'
 
 jest.mock('react-uid')
 
@@ -39,40 +37,46 @@ describe('SelectField', () => {
   })
 
   it('Renders child components with correct props', async () => {
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <SelectField name={selectName} label={selectLabel} options={options} value={selectedValue} onChange={jest.fn()} />,
     )
 
-    expect(wrapper.find(Label).props()).toEqual({
-      id: selectId,
-      label: selectLabel,
-      className: styles.label,
-    })
+    const label = screen.queryByTestId('select-field-label')!
 
-    expect(wrapper.find(ReactSelect).props()).toMatchObject({
-      inputId: selectId,
-      name: selectName,
-      isClearable: false,
-      options: options,
-      value: selectedOption,
-      isSearchable: true,
-      'aria-invalid': false,
-      'aria-required': undefined,
-      'aria-errormessage': undefined,
-      isDisabled: undefined,
-    })
-    expect(wrapper.find(Error).props()).toEqual({
-      error: undefined,
-      className: styles.errorContainer,
-      inputId: selectId,
-      truncated: true,
-    })
+    expect(label).toBeInTheDocument()
+    expect(label).toHaveAttribute('for', selectId)
+    expect(label).toHaveTextContent(selectLabel)
+    expect(label).toHaveClass(styles.label)
+
+    const select = screen.queryByTestId('select-field')!
+
+    expect(select).toBeInTheDocument()
+
+    const input = select.querySelector('.hz-select-field__input')
+
+    expect(input).toBeInTheDocument()
+    expect(input).toHaveAttribute('id', selectId)
+    expect(input).not.toHaveAttribute('disabled')
+    expect(input).toHaveAttribute('aria-invalid', 'false')
+    expect(input).not.toHaveAttribute('aria-required')
+    expect(input).not.toHaveAttribute('aria-errormessage')
+
+    const valueContainer = select.querySelector('.hz-select-field__value-container') as HTMLElement
+
+    expect(valueContainer).toBeInTheDocument()
+    expect(within(valueContainer).queryByText(selectedOption.label)).toBeInTheDocument()
+
+    const error = screen.queryByTestId('select-field-error')!
+
+    expect(error).toBeInTheDocument()
+    expect(error).toHaveTextContent('')
+    expect(error).toHaveAttribute('id', errorId(selectId))
   })
 
   it('Renders Error with error message and ReactSelect with [aria-invalid]=true and `aria-errormessage` with correct id', async () => {
     const selectError = 'Dark side'
 
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <SelectField
         name={selectName}
         label={selectLabel}
@@ -83,103 +87,158 @@ describe('SelectField', () => {
       />,
     )
 
-    expect(wrapper.find(Label).props()).toEqual({
-      id: selectId,
-      label: selectLabel,
-      className: styles.label,
-    })
+    const label = screen.queryByTestId('select-field-label')!
 
-    expect(wrapper.find(ReactSelect).props()).toMatchObject({
-      'aria-invalid': true,
-      'aria-errormessage': errorId(selectId),
-    })
+    expect(label).toBeInTheDocument()
+    expect(label).toHaveAttribute('for', selectId)
+    expect(label).toHaveTextContent(selectLabel)
+    expect(label).toHaveClass(styles.label)
 
-    expect(wrapper.find(Error).props()).toEqual({
-      error: selectError,
-      className: styles.errorContainer,
-      inputId: selectId,
-      truncated: true,
-    })
+    const select = screen.queryByTestId('select-field')!
+
+    expect(select).toBeInTheDocument()
+
+    const input = select.querySelector('.hz-select-field__input')
+
+    expect(input).toBeInTheDocument()
+    expect(input).toHaveAttribute('id', selectId)
+    expect(input).not.toHaveAttribute('disabled')
+    expect(input).toHaveAttribute('aria-invalid', 'true')
+    expect(input).not.toHaveAttribute('aria-required')
+    expect(input).toHaveAttribute('aria-errormessage', errorId(selectId))
+
+    const valueContainer = select.querySelector('.hz-select-field__value-container') as HTMLElement
+
+    expect(valueContainer).toBeInTheDocument()
+    expect(within(valueContainer).queryByText(selectedOption.label)).toBeInTheDocument()
+
+    const error = screen.queryByTestId('select-field-error')!
+
+    expect(error).toBeInTheDocument()
+    expect(error).toHaveTextContent(selectError)
+    expect(error).toHaveAttribute('id', errorId(selectId))
   })
 
   it('Renders ReactSelect with aria-required attribute', async () => {
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <SelectField name={selectName} label={selectLabel} options={options} value={selectedValue} onChange={jest.fn()} required />,
     )
 
-    expect(wrapper.find(Label).props()).toEqual({
-      id: selectId,
-      label: selectLabel,
-      className: styles.label,
-    })
+    const label = screen.queryByTestId('select-field-label')!
 
-    expect(wrapper.find(ReactSelect).props()).toMatchObject({
-      'aria-required': true,
-    })
+    expect(label).toBeInTheDocument()
+    expect(label).toHaveAttribute('for', selectId)
+    expect(label).toHaveTextContent(selectLabel)
+    expect(label).toHaveClass(styles.label)
 
-    expect(wrapper.find(Error).props()).toEqual({
-      error: undefined,
-      className: styles.errorContainer,
-      inputId: selectId,
-      truncated: true,
-    })
+    const select = screen.queryByTestId('select-field')!
+
+    expect(select).toBeInTheDocument()
+
+    const input = select.querySelector('.hz-select-field__input')
+
+    expect(input).toBeInTheDocument()
+    expect(input).toHaveAttribute('id', selectId)
+    expect(input).not.toHaveAttribute('disabled')
+    expect(input).toHaveAttribute('aria-invalid', 'false')
+    expect(input).not.toHaveAttribute('aria-required')
+    expect(input).not.toHaveAttribute('aria-errormessage')
+
+    const valueContainer = select.querySelector('.hz-select-field__value-container') as HTMLElement
+
+    expect(valueContainer).toBeInTheDocument()
+    expect(within(valueContainer).queryByText(selectedOption.label)).toBeInTheDocument()
+
+    const error = screen.queryByTestId('select-field-error')!
+
+    expect(error).toBeInTheDocument()
+    expect(error).toHaveTextContent('')
+    expect(error).toHaveAttribute('id', errorId(selectId))
   })
 
   it('Renders ReactSelect with isDisabled=true prop', async () => {
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <SelectField name={selectName} label={selectLabel} onChange={jest.fn()} options={options} value={selectedValue} disabled />,
     )
 
-    expect(wrapper.find(Label).props()).toEqual({
-      id: selectId,
-      label: selectLabel,
-      className: styles.label,
-    })
+    const label = screen.queryByTestId('select-field-label')!
 
-    expect(wrapper.find(ReactSelect).props()).toMatchObject({
-      isDisabled: true,
-    })
+    expect(label).toBeInTheDocument()
+    expect(label).toHaveAttribute('for', selectId)
+    expect(label).toHaveTextContent(selectLabel)
+    expect(label).toHaveClass(styles.label)
 
-    expect(wrapper.find(Error).props()).toEqual({
-      error: undefined,
-      className: styles.errorContainer,
-      inputId: selectId,
-      truncated: true,
-    })
+    const select = screen.queryByTestId('select-field')!
+
+    expect(select).toBeInTheDocument()
+
+    const input = select.querySelector('.hz-select-field__input')
+
+    expect(input).toBeInTheDocument()
+    expect(input).toHaveAttribute('id', selectId)
+    expect(input).toHaveAttribute('disabled')
+    expect(input).toHaveAttribute('aria-invalid', 'false')
+    expect(input).not.toHaveAttribute('aria-required')
+    expect(input).not.toHaveAttribute('aria-errormessage')
+
+    const valueContainer = select.querySelector('.hz-select-field__value-container') as HTMLElement
+
+    expect(valueContainer).toBeInTheDocument()
+    expect(within(valueContainer).queryByText(selectedOption.label)).toBeInTheDocument()
+
+    const error = screen.queryByTestId('select-field-error')!
+
+    expect(error).toBeInTheDocument()
+    expect(error).toHaveTextContent('')
+    expect(error).toHaveAttribute('id', errorId(selectId))
   })
 
   it('Renders ReactSelect with isClearable=true prop', async () => {
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <SelectField name={selectName} label={selectLabel} value={selectedValue} onChange={onChange} options={options} isClearable />,
     )
 
-    expect(wrapper.find(Label).props()).toEqual({
-      id: selectId,
-      label: selectLabel,
-      className: styles.label,
-    })
+    const label = screen.queryByTestId('select-field-label')!
 
-    expect(wrapper.find(ReactSelect).props()).toMatchObject({
-      isClearable: true,
-    })
+    expect(label).toBeInTheDocument()
+    expect(label).toHaveAttribute('for', selectId)
+    expect(label).toHaveTextContent(selectLabel)
+    expect(label).toHaveClass(styles.label)
 
-    expect(wrapper.find(Error).props()).toEqual({
-      error: undefined,
-      className: styles.errorContainer,
-      inputId: selectId,
-      truncated: true,
-    })
+    const select = screen.queryByTestId('select-field')!
 
-    expect(wrapper.find(IconButton).prop('icon')).toBe(X)
+    expect(select).toBeInTheDocument()
+
+    const input = select.querySelector('.hz-select-field__input')
+
+    expect(input).toBeInTheDocument()
+    expect(input).toHaveAttribute('id', selectId)
+    expect(input).not.toHaveAttribute('disabled')
+    expect(input).toHaveAttribute('aria-invalid', 'false')
+    expect(input).not.toHaveAttribute('aria-required')
+    expect(input).not.toHaveAttribute('aria-errormessage')
+
+    const valueContainer = select.querySelector('.hz-select-field__value-container') as HTMLElement
+
+    expect(valueContainer).toBeInTheDocument()
+    expect(within(valueContainer).queryByText(selectedOption.label)).toBeInTheDocument()
+
+    const error = screen.queryByTestId('select-field-error')!
+
+    expect(error).toBeInTheDocument()
+    expect(error).toHaveTextContent('')
+    expect(error).toHaveAttribute('id', errorId(selectId))
+
+    expect(container.querySelector('.hz-select-field__indicators [data-test="icon-button"]')).toBeInTheDocument()
   })
 
   it('Renders left icon', async () => {
     const iconLeft = Aperture
     const iconLeftAriaLabel = 'Aperture'
 
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <SelectField
         name={selectName}
         label={selectLabel}
@@ -191,79 +250,87 @@ describe('SelectField', () => {
       />,
     )
 
-    expect(wrapper.find(Label).props()).toEqual({
-      id: selectId,
-      label: selectLabel,
-      className: styles.label,
-    })
+    const label = screen.queryByTestId('select-field-label')!
 
-    expect(wrapper.find(ReactSelect).exists()).toBe(true)
+    expect(label).toBeInTheDocument()
+    expect(label).toHaveAttribute('for', selectId)
+    expect(label).toHaveTextContent(selectLabel)
+    expect(label).toHaveClass(styles.label)
 
-    expect(wrapper.findDataTestFirst('select-field-icon-left').props()).toEqual({
-      'data-test': 'select-field-icon-left',
-      containerClassName: styles.iconLeftContainer,
-      icon: iconLeft,
-      size: 'medium',
-      ariaLabel: iconLeftAriaLabel,
-      className: styles.iconLeft,
-    })
+    expect(screen.queryByTestId('select-field')).toBeInTheDocument()
 
-    expect(wrapper.find(Error).props()).toEqual({
-      error: undefined,
-      className: styles.errorContainer,
-      inputId: selectId,
-      truncated: true,
-    })
+    const leftIcon = screen.queryByTestId('select-field-icon-left')!
+
+    expect(leftIcon).toBeInTheDocument()
+    expect(leftIcon).toHaveClass(styles.iconLeftContainer)
+
+    const icon = leftIcon.querySelector('svg')
+
+    expect(icon).toBeInTheDocument()
+    expect(icon).toHaveAttribute('aria-label', iconLeftAriaLabel)
+    expect(icon).toHaveClass(styles.iconLeft)
+
+    const error = screen.queryByTestId('select-field-error')!
+
+    expect(error).toBeInTheDocument()
+    expect(error).toHaveTextContent('')
+    expect(error).toHaveClass(styles.errorContainer)
+    expect(error).toHaveAttribute('id', errorId(selectId))
   })
 
   it('Hides Label', async () => {
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <SelectField name={selectName} label={selectLabel} onChange={jest.fn()} options={options} value={selectedValue} showAriaLabel />,
     )
 
-    expect(wrapper.find(Label).exists()).toBe(false)
+    expect(screen.queryByTestId('select-field-label')).not.toBeInTheDocument()
 
-    expect(wrapper.find(ReactSelect).exists()).toBe(true)
+    expect(screen.queryByTestId('select-field')).toBeInTheDocument()
 
-    expect(wrapper.find(Error).props()).toEqual({
-      error: undefined,
-      className: styles.errorContainer,
-      inputId: selectId,
-      truncated: true,
-    })
+    const error = screen.queryByTestId('select-field-error')!
+
+    expect(error).toBeInTheDocument()
+    expect(error).toHaveTextContent('')
+    expect(error).toHaveClass(styles.errorContainer)
+    expect(error).toHaveAttribute('id', errorId(selectId))
   })
 
   it('Renders ReactSelectCreatable with correct props', async () => {
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <SelectField name={selectName} label={selectLabel} value={selectedValue} onChange={onChange} options={options} isCreatable />,
     )
 
-    expect(wrapper.find(Label).props()).toEqual({
-      id: selectId,
-      label: selectLabel,
-      className: styles.label,
-    })
+    const label = screen.queryByTestId('select-field-label')!
 
-    expect(wrapper.find(ReactSelectCreatable).props()).toMatchObject({
-      isClearable: false,
-      isSearchable: true,
-      inputId: selectId,
-      name: selectName,
-      options: options,
-      value: selectedOption,
-      'aria-invalid': false,
-      'aria-required': undefined,
-      'aria-errormessage': undefined,
-      isDisabled: undefined,
-    })
+    expect(label).toBeInTheDocument()
+    expect(label).toHaveAttribute('for', selectId)
+    expect(label).toHaveTextContent(selectLabel)
+    expect(label).toHaveClass(styles.label)
 
-    expect(wrapper.find(Error).props()).toEqual({
-      error: undefined,
-      className: styles.errorContainer,
-      inputId: selectId,
-      truncated: true,
-    })
+    const select = screen.queryByTestId('select-field')!
+
+    expect(select).toBeInTheDocument()
+
+    const input = select.querySelector('.hz-select-field__input')
+
+    expect(input).toBeInTheDocument()
+    expect(input).toHaveAttribute('id', selectId)
+    expect(input).not.toHaveAttribute('disabled')
+    expect(input).toHaveAttribute('aria-invalid', 'false')
+    expect(input).not.toHaveAttribute('aria-required')
+    expect(input).not.toHaveAttribute('aria-errormessage')
+
+    const valueContainer = select.querySelector('.hz-select-field__value-container') as HTMLElement
+
+    expect(valueContainer).toBeInTheDocument()
+    expect(within(valueContainer).queryByText(selectedOption.label)).toBeInTheDocument()
+
+    const error = screen.queryByTestId('select-field-error')!
+
+    expect(error).toBeInTheDocument()
+    expect(error).toHaveTextContent('')
+    expect(error).toHaveAttribute('id', errorId(selectId))
   })
 })

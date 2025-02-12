@@ -1,9 +1,8 @@
-import { mountAndCheckA11Y, simulateChange } from '@hazelcast/test-helpers'
-import React from 'react'
-import { act } from 'react-dom/test-utils'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
+import React, { useState } from 'react'
+import { act, screen, fireEvent } from '@testing-library/react'
 import { useUID } from 'react-uid'
 
-import { Error, errorId, Label } from '../src'
 import { TimeField } from '../src/TimeField'
 
 const id = 'id'
@@ -24,62 +23,83 @@ describe('TimeField', () => {
     const onChange = jest.fn()
     const onBlur = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(<TimeField name={name} onChange={onChange} onBlur={onBlur} value={value} label={label} />)
+    const { container } = await renderAndCheckA11Y(
+      <TimeField name={name} onChange={onChange} onBlur={onBlur} value={value} label={label} />,
+    )
 
-    expect(wrapper.find(Label).props()).toMatchObject({
-      id: 'id',
-      label,
-    })
+    const labelEl = screen.queryByTestId('time-field-header-label')!
 
-    expect(wrapper.find('input').props()).toMatchObject({
-      type: 'text',
-      id,
-      value,
-      name,
-      onChange: expect.anything(),
-      onBlur,
-      'aria-invalid': false,
-      'aria-required': undefined,
-      'aria-errormessage': undefined,
-      disabled: undefined,
-    })
+    expect(labelEl).toBeInTheDocument()
+    expect(labelEl).toHaveAttribute('for', 'id')
+    expect(labelEl).toHaveTextContent(label)
 
-    expect(wrapper.find(Error).props()).toMatchObject({
-      error: undefined,
-      inputId: id,
-    })
+    const input = container.querySelector('input')!
+
+    expect(input).toBeInTheDocument()
+    expect(input).toHaveAttribute('type', 'text')
+    expect(input).toHaveAttribute('id', 'id')
+    expect(input).toHaveAttribute('value', '10:00')
+    expect(input).toHaveAttribute('name', 'time')
+    expect(input).toHaveAttribute('aria-invalid', 'false')
+    expect(input).not.toHaveAttribute('aria-required')
+    expect(input).not.toHaveAttribute('aria-describedby')
+    expect(input).not.toHaveAttribute('aria-errormessage')
+    expect(input).not.toHaveAttribute('disabled')
+    expect(input).not.toHaveClass()
+
+    const errorEl = screen.getByTestId('time-field-error')!
+
+    expect(errorEl).toBeInTheDocument()
+    expect(errorEl).toHaveAttribute('id', 'id-error')
+    expect(errorEl).toHaveTextContent('')
   })
 
   it('onChange works', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
+    const Wrapper = () => {
+      const [inputValue, setInputValue] = useState(value)
 
-    const wrapper = await mountAndCheckA11Y(<TimeField name={name} onChange={onChange} onBlur={onBlur} value={value} label={label} />)
+      return (
+        <TimeField
+          name={name}
+          onChange={(e) => {
+            setInputValue(e.target.value)
+            onChange(e)
+          }}
+          onBlur={onBlur}
+          value={inputValue}
+          label={label}
+        />
+      )
+    }
+
+    const { container } = await renderAndCheckA11Y(<Wrapper />)
 
     expect(onChange).toBeCalledTimes(0)
 
-    let event: object
-    act(() => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      event = simulateChange(wrapper.find('input'), 'Luke')
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      fireEvent.change(container.querySelector('input')!, { target: { value: '11:00' } })
     })
 
     expect(onChange).toBeCalledTimes(1)
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    expect(onChange.mock.calls[0][0]).toMatchObject(event!)
+    expect(onChange.mock.calls[0][0]).toMatchObject({ target: { value: '11:00' } })
   })
 
   it('onBlur works', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(<TimeField name={name} onChange={onChange} onBlur={onBlur} value={value} label={label} />)
+    const { container } = await renderAndCheckA11Y(
+      <TimeField name={name} onChange={onChange} onBlur={onBlur} value={value} label={label} />,
+    )
 
     expect(onBlur).toBeCalledTimes(0)
 
-    const input = wrapper.find('input')
-    act(() => {
-      input.simulate('blur')
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      fireEvent.blur(container.querySelector('input')!)
     })
 
     expect(onBlur).toBeCalledTimes(1)
@@ -90,95 +110,104 @@ describe('TimeField', () => {
     const onChange = jest.fn()
     const error = 'Oops'
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <TimeField name={name} onChange={onChange} onBlur={onBlur} value={value} label={label} error={error} />,
     )
 
-    expect(wrapper.find(Label).props()).toMatchObject({
-      id,
-      label,
-    })
+    const labelEl = screen.queryByTestId('time-field-header-label')!
 
-    expect(wrapper.find('input').props()).toMatchObject({
-      type: 'text',
-      id,
-      value,
-      name,
-      onChange: expect.anything(),
-      onBlur,
-      'aria-invalid': true,
-      'aria-required': undefined,
-      'aria-errormessage': errorId(id),
-      disabled: undefined,
-    })
+    expect(labelEl).toBeInTheDocument()
+    expect(labelEl).toHaveAttribute('for', 'id')
+    expect(labelEl).toHaveTextContent(label)
 
-    expect(wrapper.find(Error).props()).toMatchObject({
-      error,
-      inputId: id,
-    })
+    const input = container.querySelector('input')!
+
+    expect(input).toBeInTheDocument()
+    expect(input).toHaveAttribute('type', 'text')
+    expect(input).toHaveAttribute('id', 'id')
+    expect(input).toHaveAttribute('value', '10:00')
+    expect(input).toHaveAttribute('name', 'time')
+    expect(input).toHaveAttribute('aria-invalid', 'true')
+    expect(input).not.toHaveAttribute('aria-required')
+    expect(input).not.toHaveAttribute('aria-describedby')
+    expect(input).toHaveAttribute('aria-errormessage', 'id-error')
+    expect(input).not.toHaveAttribute('disabled')
+    expect(input).not.toHaveClass()
+
+    const errorEl = screen.getByTestId('time-field-error')!
+
+    expect(errorEl).toBeInTheDocument()
+    expect(errorEl).toHaveAttribute('id', 'id-error')
+    expect(errorEl).toHaveTextContent('Oops')
   })
 
   it('Renders required with correct props', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <TimeField name={name} onChange={onChange} onBlur={onBlur} value={value} label={label} required />,
     )
 
-    expect(wrapper.find(Label).props()).toMatchObject({
-      id,
-      label,
-    })
+    const labelEl = screen.queryByTestId('time-field-header-label')!
 
-    expect(wrapper.find('input').props()).toMatchObject({
-      type: 'text',
-      id,
-      value,
-      name,
-      onChange: expect.anything(),
-      onBlur,
-      'aria-invalid': false,
-      'aria-required': true,
-      'aria-errormessage': undefined,
-      disabled: undefined,
-    })
+    expect(labelEl).toBeInTheDocument()
+    expect(labelEl).toHaveAttribute('for', 'id')
+    expect(labelEl).toHaveTextContent(label)
 
-    expect(wrapper.find(Error).props()).toMatchObject({
-      error: undefined,
-      inputId: id,
-    })
+    const input = container.querySelector('input')!
+
+    expect(input).toBeInTheDocument()
+    expect(input).toHaveAttribute('type', 'text')
+    expect(input).toHaveAttribute('id', 'id')
+    expect(input).toHaveAttribute('value', '10:00')
+    expect(input).toHaveAttribute('name', 'time')
+    expect(input).toHaveAttribute('aria-invalid', 'false')
+    expect(input).toHaveAttribute('aria-required', 'true')
+    expect(input).not.toHaveAttribute('aria-describedby')
+    expect(input).not.toHaveAttribute('aria-errormessage')
+    expect(input).not.toHaveAttribute('disabled')
+    expect(input).not.toHaveClass()
+
+    const errorEl = screen.getByTestId('time-field-error')!
+
+    expect(errorEl).toBeInTheDocument()
+    expect(errorEl).toHaveAttribute('id', 'id-error')
+    expect(errorEl).toHaveTextContent('')
   })
 
   it('Renders disabled with correct props', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <TimeField name={name} onChange={onChange} onBlur={onBlur} value={value} label={label} disabled />,
     )
 
-    expect(wrapper.find(Label).props()).toMatchObject({
-      id,
-      label,
-    })
+    const labelEl = screen.queryByTestId('time-field-header-label')!
 
-    expect(wrapper.find('input').props()).toMatchObject({
-      type: 'text',
-      id,
-      value,
-      name,
-      onChange: expect.anything(),
-      onBlur,
-      'aria-invalid': false,
-      'aria-required': undefined,
-      'aria-errormessage': undefined,
-      disabled: true,
-    })
+    expect(labelEl).toBeInTheDocument()
+    expect(labelEl).toHaveAttribute('for', 'id')
+    expect(labelEl).toHaveTextContent(label)
 
-    expect(wrapper.find(Error).props()).toMatchObject({
-      error: undefined,
-      inputId: id,
-    })
+    const input = container.querySelector('input')!
+
+    expect(input).toBeInTheDocument()
+    expect(input).toHaveAttribute('type', 'text')
+    expect(input).toHaveAttribute('id', 'id')
+    expect(input).toHaveAttribute('value', '10:00')
+    expect(input).toHaveAttribute('name', 'time')
+    expect(input).toHaveAttribute('aria-invalid', 'false')
+    expect(input).not.toHaveAttribute('aria-required')
+    expect(input).not.toHaveAttribute('aria-describedby')
+    expect(input).not.toHaveAttribute('aria-errormessage')
+    expect(input).toHaveAttribute('disabled')
+    expect(input).not.toHaveClass()
+
+    const errorEl = screen.getByTestId('time-field-error')!
+
+    expect(errorEl).toBeInTheDocument()
+    expect(errorEl).toHaveAttribute('id', 'id-error')
+    expect(errorEl).toHaveTextContent('')
   })
 })

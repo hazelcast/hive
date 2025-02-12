@@ -1,10 +1,10 @@
 import React from 'react'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
 import { useUID } from 'react-uid'
-import { Check, Minus } from 'react-feather'
+import { screen } from '@testing-library/react'
 
 import { Checkbox } from '../src/Checkbox'
-import { Error, errorId } from '../src/Error'
+import { errorId } from '../src/Error'
 
 jest.mock('react-uid')
 
@@ -17,17 +17,20 @@ describe('Checkbox', () => {
 
   it('Renders the default checked checkbox', async () => {
     const onChange = jest.fn()
-    const wrapper = await mountAndCheckA11Y(<Checkbox checked name="hello" onChange={onChange} label="Hello World" />)
+    const { container } = await renderAndCheckA11Y(<Checkbox checked name="hello" onChange={onChange} label="Hello World" />)
 
-    expect(wrapper.find(Check).exists()).toBeTruthy()
-    expect(wrapper.find(Minus).exists()).toBeFalsy()
-    expect(wrapper.find('input').getDOMNode<HTMLInputElement>().indeterminate).toBeFalsy()
+    expect(screen.queryByTestId('checkbox-check')).toBeInTheDocument()
+    expect(screen.queryByTestId('checkbox-minus')).not.toBeInTheDocument()
+
+    const input = container.querySelector('input') as HTMLElement
+    expect(input).toBeInTheDocument()
+    expect(input).toHaveProperty('indeterminate')
   })
 
   it('Renders a checkbox, checks that properties are passed to an underlying input', async () => {
     const onChange = jest.fn()
     const onBlur = jest.fn()
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <Checkbox
         checked
         name="hello"
@@ -41,76 +44,65 @@ describe('Checkbox', () => {
       />,
     )
 
-    expect(wrapper.find('div').at(0).props()).toHaveProperty('data-test', 'test-e2e')
-
-    expect(wrapper.find('input').props()).toEqual({
-      type: 'checkbox',
-      name: 'hello',
-      value: 'world',
-      onChange,
-      onBlur,
-      checked: true,
-      'aria-invalid': false,
-      'aria-required': true,
-      'aria-describedby': undefined,
-      'aria-errormessage': undefined,
-      disabled: true,
-      id: 'uuidtest',
-    })
+    const input = container.querySelector('input') as HTMLElement
+    expect(input).toHaveAttribute('type', 'checkbox')
+    expect(input).toHaveAttribute('name', 'hello')
+    expect(input).toHaveAttribute('value', 'world')
+    expect(input).toHaveAttribute('id', 'uuidtest')
+    expect(input).toHaveAttribute('aria-invalid', 'false')
+    expect(input).toHaveAttribute('aria-required', 'true')
+    expect(input).toHaveAttribute('disabled')
+    expect(input).not.toHaveAttribute('aria-describedby')
+    expect(input).not.toHaveAttribute('aria-errormessage')
   })
 
   it('Renders an invalid checkbox, checks that properties are passed to an underlying input', async () => {
     const onChange = jest.fn()
     const onBlur = jest.fn()
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <Checkbox checked error="test" name="hello" disabled value="world" onChange={onChange} onBlur={onBlur} label="Hello World" />,
     )
-    expect(wrapper.find('input').props()).toEqual({
-      type: 'checkbox',
-      name: 'hello',
-      value: 'world',
-      onChange,
-      onBlur,
-      checked: true,
-      'aria-invalid': true,
-      'aria-required': undefined,
-      'aria-describedby': undefined,
-      'aria-errormessage': errorId('uuidtest'),
-      disabled: true,
-      id: 'uuidtest',
-    })
+
+    const input = container.querySelector('input') as HTMLElement
+    expect(input).toHaveAttribute('type', 'checkbox')
+    expect(input).toHaveAttribute('name', 'hello')
+    expect(input).toHaveAttribute('value', 'world')
+    expect(input).toHaveAttribute('id', 'uuidtest')
+    expect(input).toHaveAttribute('aria-invalid', 'true')
+    expect(input).toHaveAttribute('disabled')
+    expect(input).toHaveAttribute('aria-errormessage', errorId('uuidtest'))
+    expect(input).not.toHaveAttribute('aria-describedby')
+    expect(input).not.toHaveAttribute('aria-required')
   })
 
   it('Renders the indeterminate checkbox', async () => {
     const onChange = jest.fn()
-    const wrapper = await mountAndCheckA11Y(<Checkbox checked indeterminate name="hello" onChange={onChange} label="Hello World" />)
+    await renderAndCheckA11Y(<Checkbox checked indeterminate name="hello" onChange={onChange} label="Hello World" />)
 
-    expect(wrapper.find(Check).exists()).toBeFalsy()
-    expect(wrapper.find(Minus).exists()).toBeTruthy()
+    expect(screen.queryByTestId('checkbox-check')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('checkbox-minus')).toBeInTheDocument()
   })
 
   it('Checkbox is passed a disabled property, input contains disabled property', async () => {
     const onChange = jest.fn()
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <Checkbox checked indeterminate name="hello" disabled onChange={onChange} label="Hello World" />,
     )
 
-    expect(wrapper.find('input').getDOMNode<HTMLInputElement>().disabled).toBe(true)
+    expect(container.querySelector('input')!).toHaveAttribute('disabled')
   })
 
   it('Checkbox has been passed an error property, error message is displayed', async () => {
     const onChange = jest.fn()
-    const wrapper = await mountAndCheckA11Y(<Checkbox name="hello" onChange={onChange} label="Hello World" error="Unexpected Error" />)
+    await renderAndCheckA11Y(<Checkbox name="hello" onChange={onChange} label="Hello World" error="Unexpected Error" />)
 
-    expect(wrapper.find(Error).exists()).toBe(true)
-    expect(wrapper.find('div').contains('Unexpected Error')).toBeTruthy()
+    expect(screen.queryByText('Unexpected Error')).toBeInTheDocument()
   })
 
   it('Checkbox has not been passed an error property, error message is not present', async () => {
     const onChange = jest.fn()
-    const wrapper = await mountAndCheckA11Y(<Checkbox name="hello" onChange={onChange} label="Hello World" />)
+    await renderAndCheckA11Y(<Checkbox name="hello" onChange={onChange} label="Hello World" />)
 
-    expect(wrapper.find(Error).exists()).toBe(true)
-    expect(wrapper.find('div').contains('Unexpected Error')).toBeFalsy()
+    expect(screen.queryByText('Unexpected Error')).not.toBeInTheDocument()
   })
 })

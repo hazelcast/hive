@@ -1,7 +1,7 @@
 import React from 'react'
 import { Formik, Form } from 'formik'
-import { mountAndCheckA11Y, simulateChange } from '@hazelcast/test-helpers'
-import { act } from 'react-dom/test-utils'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
+import { act, fireEvent } from '@testing-library/react'
 
 import { TextFieldFormik } from '../src'
 
@@ -26,14 +26,14 @@ describe('TextFieldFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
+    const { container } = await renderAndCheckA11Y(<TestForm />)
 
     expect(onSubmit).toBeCalledTimes(0)
 
     // We need the `async` call here to wait for processing of the asynchronous 'submit'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      wrapper.find('form').simulate('submit')
+      fireEvent.submit(container.querySelector('form')!)
     })
 
     expect(onSubmit).toBeCalledTimes(1)
@@ -66,13 +66,13 @@ describe('TextFieldFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
+    const { container } = await renderAndCheckA11Y(<TestForm />)
 
     // We need the `async` call here to wait for processing of the asynchronous 'submit'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      simulateChange(wrapper.find('input'), 'new value')
+      fireEvent.change(container.querySelector('input')!, { target: { value: 'new value' } })
     })
 
     expect(onChange).toBeCalledTimes(1)

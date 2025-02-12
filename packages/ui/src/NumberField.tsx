@@ -57,6 +57,7 @@ export const NumberField: FC<NumberFieldProps> = ({
   onChange,
   disabled,
   size,
+  'data-test': dataTest = 'number-field',
   ...props
 }) => {
   const field = useRef<HTMLInputElement>(null)
@@ -171,7 +172,7 @@ export const NumberField: FC<NumberFieldProps> = ({
           })}
           onClick={onDecrement}
           kind="transparent"
-          data-test="number-field-decrement"
+          data-test={`${dataTest}-decrement`}
           type="button"
           {...decrementDisabledProps}
         />
@@ -184,7 +185,7 @@ export const NumberField: FC<NumberFieldProps> = ({
           })}
           onClick={onIncrement}
           kind="transparent"
-          data-test="number-field-increment"
+          data-test={`${dataTest}-increment`}
           type="button"
           {...incrementDisabledProps}
         />
@@ -192,16 +193,17 @@ export const NumberField: FC<NumberFieldProps> = ({
     )
   }, [
     showIconButtons,
-    onIncrement,
-    onDecrement,
-    decrementIconAriaLabel,
-    incrementIconAriaLabel,
     value,
-    disabled,
     min,
+    disabled,
     max,
     size,
+    decrementIconAriaLabel,
     iconPosition,
+    onDecrement,
+    dataTest,
+    incrementIconAriaLabel,
+    onIncrement,
   ])
 
   const onChangeWrapped = useCallback(
@@ -228,6 +230,7 @@ export const NumberField: FC<NumberFieldProps> = ({
       {...props}
       {...(disableChangeOnScroll ? { mRef: field } : {})}
       value={value}
+      data-test={dataTest}
       onChange={onChangeWrapped}
       type="number"
       inputContainerChild={overlay}

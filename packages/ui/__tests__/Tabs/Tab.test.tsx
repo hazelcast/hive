@@ -1,9 +1,9 @@
-import React, { ButtonHTMLAttributes } from 'react'
+import React from 'react'
 import cn from 'classnames'
 import { useUID } from 'react-uid'
-import { Settings } from 'react-feather'
-import { act } from 'react-dom/test-utils'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { screen, fireEvent } from '@testing-library/react'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
+import userEvent from '@testing-library/user-event'
 
 import { getPanelId, getTabId, TabContextProvider, TabContextProviderControlled } from '../../src/Tabs/TabContext'
 import { Tab } from '../../src/Tabs/Tab'
@@ -25,8 +25,12 @@ const ariaLabel = 'testAriaLabel'
 const tabsComponent = (
   <TabContextProvider>
     <TabList ariaLabel={ariaLabel}>
-      <Tab data-test="tab1" label="Tab 1" value={0} />
-      <Tab data-test="tab2" label="Tab 2" value={1} />
+      <Tab value={0} ariaLabel="Tab 1">
+        Tab 1
+      </Tab>
+      <Tab ariaLabel="Tab 2" value={1}>
+        Tab 2
+      </Tab>
     </TabList>
     <TabPanel value={0}>Panel 1</TabPanel>
     <TabPanel value={1}>Panel 2</TabPanel>
@@ -39,61 +43,34 @@ describe('Tab', () => {
   })
 
   it('renders button with correct props', async () => {
-    const wrapper = await mountAndCheckA11Y(tabsComponent)
+    await renderAndCheckA11Y(tabsComponent)
 
-    expect(wrapper.findDataTest('tab2').find('button').props()).toEqual<ButtonHTMLAttributes<HTMLButtonElement>>({
-      className: styles.tab,
-      role: 'tab',
-      id: getTabId(testId, '1'),
-      'aria-controls': getPanelId(testId, '1'),
-      'aria-selected': false,
-      'aria-label': 'Tab 2',
-      tabIndex: -1,
-      children: 'Tab 2',
-
-      onClick: expect.anything(),
-
-      onKeyPress: expect.anything(),
-    })
+    const tab = screen.getByText('Tab 2')
+    expect(tab).toHaveRole('tab')
+    expect(tab).toHaveAttribute('id', getTabId(testId, '1'))
+    expect(tab).toHaveAttribute('aria-controls', getPanelId(testId, '1'))
+    expect(tab).toHaveAttribute('aria-label', 'Tab 2')
+    expect(tab).toHaveAttribute('tabIndex', '-1')
+    expect(tab).toHaveClass(styles.tab)
   })
 
   it('renders selected button with correct props', async () => {
-    const wrapper = await mountAndCheckA11Y(tabsComponent)
+    await renderAndCheckA11Y(tabsComponent)
 
-    expect(wrapper.findDataTest('tab1').find('button').props()).toEqual<ButtonHTMLAttributes<HTMLButtonElement>>({
-      className: cn(styles.tab, styles.selected),
-      role: 'tab',
-      id: getTabId(testId, '0'),
-      'aria-controls': getPanelId(testId, '0'),
-      'aria-selected': true,
-      'aria-label': 'Tab 1',
-      tabIndex: 0,
-      children: 'Tab 1',
-
-      onKeyPress: expect.anything(),
-
-      onClick: expect.anything(),
-    })
-  })
-
-  it('renders icon with correct props', async () => {
-    const wrapper = await mountAndCheckA11Y(
-      <TabContextProvider>
-        <TabList ariaLabel={ariaLabel}>
-          <Tab data-test="tab1" label="Tab 1" value={0} icon={Settings} iconAriaLabel="Settings" />
-        </TabList>
-        <TabPanel value={0}>Panel 1</TabPanel>
-      </TabContextProvider>,
-    )
-
-    expect(wrapper.find(Settings).exists()).toBeTruthy()
+    const tab = screen.getByText('Tab 1')
+    expect(tab).toHaveRole('tab')
+    expect(tab).toHaveAttribute('id', getTabId(testId, '0'))
+    expect(tab).toHaveAttribute('aria-controls', getPanelId(testId, '0'))
+    expect(tab).toHaveAttribute('aria-label', 'Tab 1')
+    expect(tab).toHaveAttribute('tabIndex', '0')
+    expect(tab).toHaveClass(cn(styles.tab, styles.selected))
   })
 
   it('renders custom tab name correct props', async () => {
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <TabContextProvider>
         <TabList ariaLabel={ariaLabel}>
-          <Tab data-test="tab1" value={0} ariaLabel="Tab 1">
+          <Tab value={0} ariaLabel="Tab 1">
             Tab<b key="">1</b>
           </Tab>
         </TabList>
@@ -101,18 +78,14 @@ describe('Tab', () => {
       </TabContextProvider>,
     )
 
-    expect(wrapper.findDataTest('tab1').find('button').props()).toEqual<ButtonHTMLAttributes<HTMLButtonElement>>({
-      className: cn(styles.tab, styles.selected),
-      role: 'tab',
-      id: getTabId(testId, '0'),
-      'aria-controls': getPanelId(testId, '0'),
-      'aria-selected': true,
-      'aria-label': 'Tab 1',
-      tabIndex: 0,
-      children: ['Tab', <b key="">1</b>],
-      onKeyPress: expect.anything(),
-      onClick: expect.anything(),
-    })
+    const tab = screen.getByLabelText('Tab 1')
+    expect(tab).toHaveRole('tab')
+    expect(tab).toHaveAttribute('id', getTabId(testId, '0'))
+    expect(tab).toHaveAttribute('aria-controls', getPanelId(testId, '0'))
+    expect(tab).toHaveAttribute('aria-label', 'Tab 1')
+    expect(tab).toHaveAttribute('tabIndex', '0')
+    expect(tab).toHaveTextContent('Tab1')
+    expect(tab).toHaveClass(cn(styles.tab, styles.selected))
   })
 
   it('fires onChange with correct parameter on click, Enter press and Space press', async () => {
@@ -122,49 +95,41 @@ describe('Tab', () => {
       onChange,
     }
 
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <TabContextProviderControlled {...contextValues}>
         <TabList ariaLabel={ariaLabel}>
-          <Tab data-test="tab1" label="Tab 1" value={0} />
-          <Tab data-test="tab2" label="Tab 2" value={1} />
+          <Tab ariaLabel="Tab 1" value={0}>
+            Tab 1
+          </Tab>
+          <Tab ariaLabel="Tab 2" value={1}>
+            Tab 2
+          </Tab>
         </TabList>
         <TabPanel value={0}>Panel 1</TabPanel>
         <TabPanel value={1}>Panel 2</TabPanel>
       </TabContextProviderControlled>,
     )
 
-    const button = wrapper.findDataTest('tab2')
+    const button = screen.getByText('Tab 2')
 
-    // We do not use any of the event's props
-    act(() => {
-      button.simulate('click')
-    })
-    wrapper.update()
+    await userEvent.click(button)
+
     expect(onChange).toHaveBeenCalledTimes(1)
     // Parameter is the value
     expect(onChange).toHaveBeenLastCalledWith(1)
 
-    act(() => {
-      button.simulate('keypress', { key: 'Enter' })
-    })
-    wrapper.update()
+    fireEvent.keyPress(button, { key: 'Enter', charCode: 13 })
     expect(onChange).toHaveBeenCalledTimes(2)
     // Parameter is the value
     expect(onChange).toHaveBeenLastCalledWith(1)
 
-    act(() => {
-      button.simulate('keypress', { key: 'Space' })
-    })
-    wrapper.update()
+    fireEvent.keyPress(button, { key: 'Space', charCode: 32 })
     expect(onChange).toHaveBeenCalledTimes(3)
     // Parameter is the value
     expect(onChange).toHaveBeenLastCalledWith(1)
 
     // Do nothing if you press anything apart from Enter and Space
-    act(() => {
-      button.simulate('keypress', { key: 'Esc' })
-    })
-    wrapper.update()
+    fireEvent.keyPress(button, { key: 'Esc' })
     expect(onChange).toHaveBeenCalledTimes(3)
     // Parameter is the value
     expect(onChange).toHaveBeenLastCalledWith(1)
@@ -177,25 +142,40 @@ describe('Tab', () => {
       onChange,
     }
 
-    const wrapper = await mountAndCheckA11Y(
+    const { rerender } = await renderAndCheckA11Y(
       <TabContextProviderControlled {...contextValues}>
         <TabList ariaLabel={ariaLabel}>
-          <Tab data-test="tab1" label="Tab 1" component="a" href="/href-1" value={0} />
-          <Tab data-test="tab2" label="Tab 2" component="a" href="/href-2" value={1} />
+          <Tab component="a" href="/href-1" value={0}>
+            Tab 1
+          </Tab>
+          <Tab component="a" href="/href-2" value={1}>
+            Tab 2
+          </Tab>
         </TabList>
         <TabPanel value={0}>Panel 1</TabPanel>
         <TabPanel value={1}>Panel 2</TabPanel>
       </TabContextProviderControlled>,
     )
 
-    expect(wrapper.findDataTest('tab1').find('a').prop('href')).toBeFalsy()
-    expect(wrapper.findDataTest('tab2').find('a').prop('href')).toBe('/href-2')
+    expect(screen.getByText('Tab 1')).not.toHaveAttribute('href')
+    expect(screen.getByText('Tab 2')).toHaveAttribute('href', '/href-2')
 
-    wrapper.setProps({
-      value: 1,
-    })
+    rerender(
+      <TabContextProviderControlled {...contextValues} value={1}>
+        <TabList ariaLabel={ariaLabel}>
+          <Tab component="a" href="/href-1" value={0}>
+            Tab 1
+          </Tab>
+          <Tab component="a" href="/href-2" value={1}>
+            Tab 2
+          </Tab>
+        </TabList>
+        <TabPanel value={0}>Panel 1</TabPanel>
+        <TabPanel value={1}>Panel 2</TabPanel>
+      </TabContextProviderControlled>,
+    )
 
-    expect(wrapper.findDataTest('tab1').find('a').prop('href')).toBe('/href-1')
-    expect(wrapper.findDataTest('tab2').find('a').prop('href')).toBeFalsy()
+    expect(screen.getByText('Tab 1')).toHaveAttribute('href', '/href-1')
+    expect(screen.getByText('Tab 2')).not.toHaveAttribute('href')
   })
 })

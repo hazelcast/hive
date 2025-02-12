@@ -1,16 +1,12 @@
 import React from 'react'
 import { useUID } from 'react-uid'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
-import ReactSelect from 'react-select'
-import { X } from 'react-feather'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
+import { render, screen, within } from '@testing-library/react'
 
 import { getSelectedOptionFromValue, AutocompleteField, AutocompleteFieldOption, highlightOptionText } from '../src/AutocompleteField'
-import { Label } from '../src/Label'
-import { Error, errorId } from '../src/Error'
-import { IconButton } from '../src/IconButton'
+import { errorId } from '../src/Error'
 
 import styles from '../src/AutocompleteField.module.scss'
-import { shallow } from 'enzyme'
 
 jest.mock('react-uid')
 
@@ -34,202 +30,232 @@ describe('AutocompleteField', () => {
 
   it('Renders the default with correct props', async () => {
     const onChange = jest.fn()
+    const selectValue = 'selectValue0'
 
-    const wrapper = await mountAndCheckA11Y(
-      <AutocompleteField name={selectName} label={selectLabel} options={selectOptions} value="selectValue0" onChange={onChange} />,
+    await renderAndCheckA11Y(
+      <AutocompleteField name={selectName} label={selectLabel} options={selectOptions} value={selectValue} onChange={onChange} />,
     )
 
-    expect(wrapper.find(Label).props()).toEqual({
-      id: selectId,
-      label: selectLabel,
-      className: styles.label,
-    })
+    const label = screen.queryByTestId('autocomplete-field-label')!
 
-    expect(wrapper.find(ReactSelect).props()).toMatchObject({
-      inputId: selectId,
-      name: selectName,
-      'aria-invalid': false,
-      'aria-required': undefined,
-      'aria-errormessage': undefined,
-      isClearable: false,
-      isDisabled: undefined,
-      isMulti: false,
-      isSearchable: true,
-      options: selectOptions,
-      value: selectValue,
-    })
-    expect(wrapper.findDataTest('select-field-icons-left').exists()).toBe(false)
-    expect(wrapper.find(Error).props()).toEqual({
-      error: undefined,
-      className: styles.errorContainer,
-      inputId: selectId,
-      truncated: true,
-    })
+    expect(label).toBeInTheDocument()
+    expect(label).toHaveAttribute('for', selectId)
+    expect(label).toHaveTextContent(selectLabel)
+    expect(label).toHaveClass(styles.label)
+
+    const select = screen.queryByTestId('autocomplete-field')!
+
+    expect(select).toBeInTheDocument()
+
+    const input = select.querySelector('.hz-autocomplete-field__input')
+
+    expect(input).toBeInTheDocument()
+    expect(input).toHaveAttribute('id', selectId)
+    expect(input).not.toHaveAttribute('disabled')
+    expect(input).toHaveAttribute('aria-invalid', 'false')
+    expect(input).not.toHaveAttribute('aria-required')
+    expect(input).not.toHaveAttribute('aria-errormessage')
+
+    const valueContainer = select.querySelector('.hz-autocomplete-field__value-container') as HTMLElement
+
+    expect(valueContainer).toBeInTheDocument()
+    expect(within(valueContainer).queryByText(selectValue)).toBeInTheDocument()
+
+    const error = screen.queryByTestId('autocomplete-field-error')!
+
+    expect(error).toBeInTheDocument()
+    expect(error).toHaveTextContent('')
+    expect(error).toHaveClass(styles.errorContainer)
+    expect(error).toHaveAttribute('id', errorId(selectId))
   })
 
   it('Renders correctly without label prop', () => {
     const onChange = jest.fn()
 
-    const wrapper = shallow(<AutocompleteField name={selectName} options={selectOptions} value="selectValue0" onChange={onChange} />)
+    render(<AutocompleteField name={selectName} options={selectOptions} value="selectValue0" onChange={onChange} />)
 
-    expect(wrapper.existsDataTest('label-data-test')).toBeFalsy()
+    expect(screen.queryByTestId('autocomplete-field-label')).not.toBeInTheDocument()
   })
 
   it('Renders error with correct props', async () => {
     const selectError = 'selectError'
     const onChange = jest.fn()
+    const selectValue = 'selectValue0'
 
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <AutocompleteField
         name={selectName}
         label={selectLabel}
         options={selectOptions}
-        value="selectValue0"
+        value={selectValue}
         onChange={onChange}
         error={selectError}
       />,
     )
 
-    expect(wrapper.find(Label).props()).toEqual({
-      id: selectId,
-      label: selectLabel,
-      className: styles.label,
-    })
+    const label = screen.queryByTestId('autocomplete-field-label')!
 
-    expect(wrapper.find(ReactSelect).props()).toMatchObject({
-      inputId: selectId,
-      name: selectName,
-      'aria-invalid': true,
-      'aria-required': undefined,
-      'aria-errormessage': errorId(selectId),
-      isClearable: false,
-      isDisabled: undefined,
-      isMulti: false,
-      isSearchable: true,
-      options: selectOptions,
-      value: selectValue,
-    })
+    expect(label).toBeInTheDocument()
+    expect(label).toHaveAttribute('for', selectId)
+    expect(label).toHaveTextContent(selectLabel)
+    expect(label).toHaveClass(styles.label)
 
-    expect(wrapper.find(Error).props()).toEqual({
-      error: selectError,
-      className: styles.errorContainer,
-      inputId: selectId,
-      truncated: true,
-    })
+    const select = screen.queryByTestId('autocomplete-field')!
+
+    expect(select).toBeInTheDocument()
+
+    const input = select.querySelector('.hz-autocomplete-field__input')
+
+    expect(input).toBeInTheDocument()
+    expect(input).toHaveAttribute('id', selectId)
+    expect(input).not.toHaveAttribute('disabled')
+    expect(input).toHaveAttribute('aria-invalid', 'true')
+    expect(input).not.toHaveAttribute('aria-required')
+    expect(input).toHaveAttribute('aria-errormessage', errorId(selectId))
+
+    const valueContainer = select.querySelector('.hz-autocomplete-field__value-container') as HTMLElement
+
+    expect(valueContainer).toBeInTheDocument()
+    expect(within(valueContainer).queryByText(selectValue)).toBeInTheDocument()
+
+    const error = screen.queryByTestId('autocomplete-field-error')!
+
+    expect(error).toBeInTheDocument()
+    expect(error).toHaveTextContent(selectError)
+    expect(error).toHaveClass(styles.errorContainer)
+    expect(error).toHaveAttribute('id', errorId(selectId))
   })
 
   it('Renders required with correct props', async () => {
     const onChange = jest.fn()
+    const selectValue = 'selectValue0'
 
-    const wrapper = await mountAndCheckA11Y(
-      <AutocompleteField name={selectName} label={selectLabel} options={selectOptions} value="selectValue0" onChange={onChange} required />,
+    await renderAndCheckA11Y(
+      <AutocompleteField name={selectName} label={selectLabel} options={selectOptions} value={selectValue} onChange={onChange} required />,
     )
 
-    expect(wrapper.find(Label).props()).toEqual({
-      id: selectId,
-      label: selectLabel,
-      className: styles.label,
-    })
+    const label = screen.queryByTestId('autocomplete-field-label')!
 
-    expect(wrapper.find(ReactSelect).props()).toMatchObject({
-      inputId: selectId,
-      name: selectName,
-      'aria-invalid': false,
-      'aria-required': true,
-      'aria-errormessage': undefined,
-      isClearable: false,
-      isDisabled: undefined,
-      isMulti: false,
-      isSearchable: true,
-      options: selectOptions,
-      value: selectValue,
-    })
+    expect(label).toBeInTheDocument()
+    expect(label).toHaveAttribute('for', selectId)
+    expect(label).toHaveTextContent(selectLabel)
+    expect(label).toHaveClass(styles.label)
 
-    expect(wrapper.find(Error).props()).toEqual({
-      error: undefined,
-      className: styles.errorContainer,
-      inputId: selectId,
-      truncated: true,
-    })
+    const select = screen.queryByTestId('autocomplete-field')!
+
+    expect(select).toBeInTheDocument()
+
+    const input = select.querySelector('.hz-autocomplete-field__input')
+
+    expect(input).toBeInTheDocument()
+    expect(input).toHaveAttribute('id', selectId)
+    expect(input).not.toHaveAttribute('disabled')
+    expect(input).toHaveAttribute('aria-invalid', 'false')
+    expect(input).not.toHaveAttribute('aria-required')
+    expect(input).not.toHaveAttribute('aria-errormessage')
+
+    const valueContainer = select.querySelector('.hz-autocomplete-field__value-container') as HTMLElement
+
+    expect(valueContainer).toBeInTheDocument()
+    expect(within(valueContainer).queryByText(selectValue)).toBeInTheDocument()
+
+    const error = screen.queryByTestId('autocomplete-field-error')!
+
+    expect(error).toBeInTheDocument()
+    expect(error).toHaveTextContent('')
+    expect(error).toHaveClass(styles.errorContainer)
+    expect(error).toHaveAttribute('id', errorId(selectId))
   })
 
   it('Renders disabled with correct props', async () => {
     const onChange = jest.fn()
+    const selectValue = 'selectValue0'
 
-    const wrapper = await mountAndCheckA11Y(
-      <AutocompleteField name={selectName} label={selectLabel} value="selectValue0" onChange={onChange} options={selectOptions} disabled />,
+    await renderAndCheckA11Y(
+      <AutocompleteField name={selectName} label={selectLabel} value={selectValue} onChange={onChange} options={selectOptions} disabled />,
     )
 
-    expect(wrapper.find(Label).props()).toEqual({
-      id: selectId,
-      label: selectLabel,
-      className: styles.label,
-    })
+    const label = screen.queryByTestId('autocomplete-field-label')!
 
-    expect(wrapper.find(ReactSelect).props()).toMatchObject({
-      inputId: selectId,
-      name: selectName,
-      'aria-invalid': false,
-      'aria-required': undefined,
-      'aria-errormessage': undefined,
-      isClearable: false,
-      isDisabled: true,
-      isMulti: false,
-      isSearchable: true,
-      options: selectOptions,
-      value: selectValue,
-    })
+    expect(label).toBeInTheDocument()
+    expect(label).toHaveAttribute('for', selectId)
+    expect(label).toHaveTextContent(selectLabel)
+    expect(label).toHaveClass(styles.label)
 
-    expect(wrapper.find(Error).props()).toEqual({
-      error: undefined,
-      className: styles.errorContainer,
-      inputId: selectId,
-      truncated: true,
-    })
+    const select = screen.queryByTestId('autocomplete-field')!
+
+    expect(select).toBeInTheDocument()
+
+    const input = select.querySelector('.hz-autocomplete-field__input')
+
+    expect(input).toBeInTheDocument()
+    expect(input).toHaveAttribute('id', selectId)
+    expect(input).toHaveAttribute('disabled')
+    expect(input).toHaveAttribute('aria-invalid', 'false')
+    expect(input).not.toHaveAttribute('aria-required')
+    expect(input).not.toHaveAttribute('aria-errormessage')
+
+    const valueContainer = select.querySelector('.hz-autocomplete-field__value-container') as HTMLElement
+
+    expect(valueContainer).toBeInTheDocument()
+    expect(within(valueContainer).queryByText(selectValue)).toBeInTheDocument()
+
+    const error = screen.queryByTestId('autocomplete-field-error')!
+
+    expect(error).toBeInTheDocument()
+    expect(error).toHaveTextContent('')
+    expect(error).toHaveClass(styles.errorContainer)
+    expect(error).toHaveAttribute('id', errorId(selectId))
   })
 
   it('Renders clearable with correct props', async () => {
     const onChange = jest.fn()
+    const selectValue = 'selectValue0'
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <AutocompleteField
         name={selectName}
         label={selectLabel}
-        value="selectValue0"
+        value={selectValue}
         onChange={onChange}
         options={selectOptions}
         isClearable
       />,
     )
 
-    expect(wrapper.find(Label).props()).toEqual({
-      id: selectId,
-      label: selectLabel,
-      className: styles.label,
-    })
+    const label = screen.queryByTestId('autocomplete-field-label')!
 
-    expect(wrapper.find(ReactSelect).props()).toMatchObject({
-      inputId: selectId,
-      name: selectName,
-      'aria-invalid': false,
-      'aria-required': undefined,
-      'aria-errormessage': undefined,
-      isClearable: true,
-      isDisabled: undefined,
-      isMulti: false,
-      isSearchable: true,
-      options: selectOptions,
-      value: selectValue,
-    })
+    expect(label).toBeInTheDocument()
+    expect(label).toHaveAttribute('for', selectId)
+    expect(label).toHaveTextContent(selectLabel)
+    expect(label).toHaveClass(styles.label)
 
-    expect(wrapper.find(Error).props()).toEqual({
-      error: undefined,
-      className: styles.errorContainer,
-      inputId: selectId,
-      truncated: true,
-    })
+    const select = screen.queryByTestId('autocomplete-field')!
 
-    expect(wrapper.find(IconButton).prop('icon')).toBe(X)
+    expect(select).toBeInTheDocument()
+
+    const input = select.querySelector('.hz-autocomplete-field__input')
+
+    expect(input).toBeInTheDocument()
+    expect(input).toHaveAttribute('id', selectId)
+    expect(input).not.toHaveAttribute('disabled')
+    expect(input).toHaveAttribute('aria-invalid', 'false')
+    expect(input).not.toHaveAttribute('aria-required')
+    expect(input).not.toHaveAttribute('aria-errormessage')
+
+    const valueContainer = select.querySelector('.hz-autocomplete-field__value-container') as HTMLElement
+
+    expect(valueContainer).toBeInTheDocument()
+    expect(within(valueContainer).queryByText(selectValue)).toBeInTheDocument()
+
+    const error = screen.queryByTestId('autocomplete-field-error')!
+
+    expect(error).toBeInTheDocument()
+    expect(error).toHaveTextContent('')
+    expect(error).toHaveClass(styles.errorContainer)
+    expect(error).toHaveAttribute('id', errorId(selectId))
+
+    expect(container.querySelector('.hz-autocomplete-field__indicators [data-test="icon-button"]')).toBeInTheDocument()
   })
 })
 
@@ -237,9 +263,9 @@ describe('AutocompleteField - highlightOptionText', () => {
   it('Highlights matched chars in options', async () => {
     const optionText = highlightOptionText('Dart Vader', 'va')
 
-    const wrapper = await mountAndCheckA11Y(<>{optionText}</>)
-    expect(wrapper.exists('.hz-autocomplete-field__matched-option-text')).toBe(true)
-    expect(wrapper.find('.hz-autocomplete-field__matched-option-text').text()).toBe('Va')
+    const { container } = await renderAndCheckA11Y(<>{optionText}</>)
+    expect(container.querySelector('.hz-autocomplete-field__matched-option-text')).toBeInTheDocument()
+    expect(container.querySelector('.hz-autocomplete-field__matched-option-text')).toHaveTextContent('Va')
   })
 })
 

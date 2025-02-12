@@ -1,8 +1,8 @@
-import { mount } from 'enzyme'
-import ReactModal from 'react-modal'
 import React from 'react'
+import ReactModal from 'react-modal'
+import { render, screen } from '@testing-library/react'
+
 import { Dialog, DIALOG_AFFIRMATION_DEFAULT } from '../src/Dialog'
-import { Modal } from '../src/Modal'
 
 const dialogAction = 'Action'
 const dialogAffirmation = 'Dialog affirmation'
@@ -17,32 +17,19 @@ describe('Dialog', () => {
     const onClose = jest.fn()
     const actionOnConfirm = jest.fn()
 
-    const wrapper = mount(
+    render(
       <Dialog isOpen consequences={dialogConsequences} onClose={onClose} actionChildren={dialogAction} actionOnConfirm={actionOnConfirm} />,
     )
 
-    expect(wrapper.find(Modal).props()).toMatchObject({
-      isOpen: true,
-      title: DIALOG_AFFIRMATION_DEFAULT,
-      onClose,
-      actions: [
-        {
-          children: dialogAction,
-          kind: 'primary',
-          onClick: actionOnConfirm,
-        },
-      ],
-    })
-
-    expect(wrapper.findDataTest('modal-header-title').text()).toEqual(DIALOG_AFFIRMATION_DEFAULT)
-    expect(wrapper.findDataTest('modal-content').text()).toEqual(dialogConsequences)
+    expect(screen.getByTestId('modal-header-title')).toHaveTextContent(DIALOG_AFFIRMATION_DEFAULT)
+    expect(screen.getByTestId('modal-content')).toHaveTextContent(dialogConsequences)
   })
 
   it('Renders custom affirmation clause', () => {
     const onClose = jest.fn()
     const actionOnConfirm = jest.fn()
 
-    const wrapper = mount(
+    render(
       <Dialog
         isOpen
         affirmation={dialogAffirmation}
@@ -53,28 +40,15 @@ describe('Dialog', () => {
       />,
     )
 
-    expect(wrapper.find(Modal).props()).toMatchObject({
-      isOpen: true,
-      title: dialogAffirmation,
-      onClose,
-      actions: [
-        {
-          children: dialogAction,
-          kind: 'primary',
-          onClick: actionOnConfirm,
-        },
-      ],
-    })
-
-    expect(wrapper.findDataTest('modal-header-title').text()).toEqual(dialogAffirmation)
-    expect(wrapper.findDataTest('modal-content').text()).toEqual(dialogConsequences)
+    expect(screen.getByTestId('modal-header-title')).toHaveTextContent(dialogAffirmation)
+    expect(screen.getByTestId('modal-content')).toHaveTextContent(dialogConsequences)
   })
 
   it("Auto-focuses confirmation action, in case it's not dangerous", () => {
     const onClose = jest.fn()
     const actionOnConfirm = jest.fn()
 
-    const wrapper = mount(
+    render(
       <Dialog
         isOpen
         affirmation={dialogAffirmation}
@@ -85,28 +59,14 @@ describe('Dialog', () => {
       />,
     )
 
-    expect(wrapper.find(Modal).props()).toMatchObject({
-      isOpen: true,
-      title: dialogAffirmation,
-      onClose,
-      actions: [
-        {
-          children: dialogAction,
-          kind: 'primary',
-          onClick: actionOnConfirm,
-        },
-      ],
-    })
-
-    expect(wrapper.findDataTest('modal-button-action').at(0).is(':focus')).toBe(true)
-    expect(wrapper.findDataTest('modal-button-cancel').at(0).is(':focus')).toBe(false)
+    expect(document.activeElement).toEqual(screen.getByTestId('modal-button-action'))
   })
 
   it('Auto-focuses Cancel action, in case confirmation action is dangerous', () => {
     const onClose = jest.fn()
     const actionOnConfirm = jest.fn()
 
-    const wrapper = mount(
+    render(
       <Dialog
         isOpen
         affirmation={dialogAffirmation}
@@ -118,20 +78,6 @@ describe('Dialog', () => {
       />,
     )
 
-    expect(wrapper.find(Modal).props()).toMatchObject({
-      isOpen: true,
-      title: dialogAffirmation,
-      onClose,
-      actions: [
-        {
-          children: dialogAction,
-          kind: 'danger',
-          onClick: actionOnConfirm,
-        },
-      ],
-    })
-
-    expect(wrapper.findDataTest('modal-button-action').at(0).is(':focus')).toBe(false)
-    expect(wrapper.findDataTest('modal-button-cancel').at(0).is(':focus')).toBe(true)
+    expect(document.activeElement).toEqual(screen.getByTestId('modal-button-cancel'))
   })
 })

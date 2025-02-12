@@ -261,6 +261,7 @@ export const Pagination: FC<PaginationProps> = ({
           kind="primary"
           icon={moreOptions ? ArrowLeft : Settings}
           ariaLabel={moreOptions ? 'Show Pages' : 'More Options'}
+          data-test="pagination-controls-toggle"
           className={styles.iconButton}
           onClick={() => {
             setMoreOptions(!moreOptions)

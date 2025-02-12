@@ -42,7 +42,7 @@ export const Radio: FC<RadioProps> = ({
   helperText,
   disabled = false,
   checked,
-  'data-test': dataTest,
+  'data-test': dataTest = 'radio-input',
   renderCheckmark,
 }) => {
   const id = useUID()
@@ -72,7 +72,7 @@ export const Radio: FC<RadioProps> = ({
         That's why we need to explicitly pass error/checked/disabled classes to the wrapper element.
       */}
       {label !== undefined && (
-        <div className={styles.name} data-test="radio-input-label">
+        <div className={styles.name} data-test={`${dataTest}-label`}>
           <TruncatedText text={label} />
         </div>
       )}
@@ -90,7 +90,7 @@ export const Radio: FC<RadioProps> = ({
         {...errorProps}
       />
       {renderCheckmark ? renderCheckmark() : <span className={styles.checkmark} />}
-      {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} />}
+      {helperText && <Help data-test={`${dataTest}-helper-text`} parentId={id} helperText={helperText} className={styles.helperText} />}
     </label>
   )
 }
