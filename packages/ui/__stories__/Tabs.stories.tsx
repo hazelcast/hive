@@ -115,12 +115,15 @@ export const WithIcons = () => (
     <TabList ariaLabel="Tabs Story">
       <Tab ariaLabel="Tab 1" value={0}>
         <Icon icon={Info} ariaLabel="Info" />
+        Tab 1
       </Tab>
       <Tab ariaLabel="Tab 2" value={1}>
         <Icon icon={PenTool} ariaLabel="PenTool" />
+        Tab 2
       </Tab>
       <Tab ariaLabel="Tab 3" value={2}>
         <Icon icon={Settings} ariaLabel="Settings" />
+        Tab 3
       </Tab>
     </TabList>
     <TabPanel value={0}>
