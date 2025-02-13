@@ -1,6 +1,7 @@
 import React, { CSSProperties, FC, ReactElement } from 'react'
 import { HelpCircle } from 'react-feather'
 import cn from 'classnames'
+import { DataTestProp } from '@hazelcast/helpers'
 
 import { Icon, IconSize } from './Icon'
 import { Tooltip, TooltipProps } from './Tooltip'
@@ -10,7 +11,7 @@ import styles from './Help.module.scss'
 
 export const helpTooltipId = (inputId: string): string => `${inputId}-help`
 
-export interface HelpProps {
+export interface HelpProps extends DataTestProp {
   parentId: string
   helperText: string | ReactElement
   placement?: TooltipProps['placement']
@@ -28,13 +29,14 @@ export const Help: FC<HelpProps> = ({
   tooltipWordBreak,
   popperRef,
   size = 'small',
+  'data-test': dataTest = 'help',
 }) => {
   const tooltipId = helpTooltipId(parentId)
 
   return (
     <Tooltip placement={placement} content={helperText} id={tooltipId} popperRef={popperRef} wordBreak={tooltipWordBreak}>
       {(ref) => (
-        <div ref={ref} className={cn(styles.container, className)}>
+        <div ref={ref} data-test={dataTest} className={cn(styles.container, className)}>
           <Icon
             ariaLabel="Help"
             aria-describedby={tooltipId}

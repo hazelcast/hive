@@ -1,10 +1,9 @@
 import React, { createRef } from 'react'
 import { Form, Formik, FormikProps } from 'formik'
-import { mountAndCheckA11Y, simulateChange } from '@hazelcast/test-helpers'
-import { act } from 'react-dom/test-utils'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
+import { act, screen, fireEvent } from '@testing-library/react'
 
 import { NumberFieldFormik } from '../src/NumberFieldFormik'
-import { NumberField } from '../src/NumberField'
 
 describe('NumberFieldFormik', () => {
   it('can be used in a form', async () => {
@@ -30,52 +29,41 @@ describe('NumberFieldFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
+    const { container } = await renderAndCheckA11Y(<TestForm />)
 
     expect(formikBag.current?.values).toEqual({
       name: 42,
     })
-
-    // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      simulateChange(wrapper.find('input'), '56')
+      fireEvent.change(container.querySelector('input')!, { target: { value: 56 } })
     })
-    wrapper.update()
 
     expect(formikBag.current?.values).toEqual({
       name: 56,
     })
-
-    // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      wrapper.findDataTest('number-field-decrement').at(0).simulate('click')
+      fireEvent.click(screen.getByTestId('number-field-decrement'))
     })
-    wrapper.update()
 
     expect(formikBag.current?.values).toEqual({
       name: 55,
     })
 
-    // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      wrapper.findDataTest('number-field-increment').at(0).simulate('click')
+      fireEvent.click(screen.getByTestId('number-field-increment'))
     })
-    wrapper.update()
-
     expect(formikBag.current?.values).toEqual({
       name: 56,
     })
 
     expect(onSubmit).toBeCalledTimes(0)
 
-    // We need the `async` call here to wait for processing of the asynchronous 'submit'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      wrapper.find('form').simulate('submit')
+      fireEvent.submit(container.querySelector('form')!)
     })
 
     expect(onSubmit).toBeCalledTimes(1)
@@ -112,33 +100,29 @@ describe('NumberFieldFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
+    const { container } = await renderAndCheckA11Y(<TestForm />)
 
-    expect(wrapper.find(NumberField).prop('error')).toBe('Dark side')
+    expect(screen.queryByText('Dark side')).toBeInTheDocument()
 
-    // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      simulateChange(wrapper.find('input'), 56)
+      fireEvent.change(container.querySelector('input')!, { target: { value: 56 } })
     })
 
-    expect(wrapper.update().find(NumberField).prop('error')).toBe('Client side validation')
+    expect(screen.queryByText('Client side validation')).toBeInTheDocument()
 
     // the error should remain if the user clears the input (undefined is set as the value in this case)
     // and submits the form. Handles the issue https://github.com/formium/formik/issues/2332
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      simulateChange(wrapper.find('input'), '')
+      fireEvent.change(container.querySelector('input')!, { target: { value: '' } })
     })
-
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      wrapper.find('form').simulate('submit')
+      fireEvent.submit(container.querySelector('form')!)
     })
 
-    expect(wrapper.update().find(NumberField).prop('error')).toBe('Client side validation')
+    expect(screen.queryByText('Client side validation')).toBeInTheDocument()
   })
 
   it('Calls onChange callback', async () => {
@@ -162,15 +146,13 @@ describe('NumberFieldFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
+    const { container } = await renderAndCheckA11Y(<TestForm />)
 
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      simulateChange(wrapper.find('input'), '56')
+      fireEvent.change(container.querySelector('input')!, { target: { value: '56' } })
     })
-    wrapper.update()
 
     expect(onChange).toBeCalledTimes(1)
     expect(onChange).toBeCalledWith(56)

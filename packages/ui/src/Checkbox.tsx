@@ -60,7 +60,7 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>((props, ref) =
     error,
     disabled = false,
     required,
-    'data-test': dataTest,
+    'data-test': dataTest = 'checkbox',
     'aria-label': ariaLabel,
     onClick,
   } = props
@@ -109,9 +109,9 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>((props, ref) =
           aria-errormessage={error && errorId(id)}
         />
         {indeterminate ? (
-          <Minus className={classNames(styles.checkmark, classNameCheckmark)} />
+          <Minus data-test={`${dataTest}-minus`} className={classNames(styles.checkmark, classNameCheckmark)} />
         ) : (
-          <Check className={classNames(styles.checkmark, classNameCheckmark)} />
+          <Check data-test={`${dataTest}-check`} className={classNames(styles.checkmark, classNameCheckmark)} />
         )}
         {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} />}
       </label>

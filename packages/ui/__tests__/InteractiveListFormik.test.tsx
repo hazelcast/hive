@@ -1,12 +1,13 @@
 import React, { createRef } from 'react'
 import { Form, Formik, FormikProps } from 'formik'
-import { mountAndCheckA11Y, simulateChange } from '@hazelcast/test-helpers'
-import { act } from 'react-dom/test-utils'
-
-import { Button, IconButton, InteractiveListFormik, InteractiveListItem, TextField } from '../src'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
+import { act, fireEvent, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { List } from 'react-feather'
 import * as Yup from 'yup'
+
 import { InteractiveListInputRef } from '../src/InteractiveList'
+import { Button, InteractiveListFormik } from '../src'
 
 describe('InteractiveListFormik', () => {
   it('can be used in a form', async () => {
@@ -32,23 +33,14 @@ describe('InteractiveListFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
+    const { container } = await renderAndCheckA11Y(<TestForm />)
 
     expect(formikBag.current?.values).toEqual({
       ipAddresses: ['1.2.3.4'],
     })
 
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      simulateChange(wrapper.find('input'), '127.0.0.1')
-    })
-
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      wrapper.findDataTest('interactive-list-add-button').at(0).simulate('click')
-    })
-    wrapper.update()
+    await act(async () => userEvent.type(container.querySelector('input')!, '127.0.0.1'))
+    await act(async () => userEvent.click(screen.getByTestId('interactive-list-add-button')))
 
     expect(formikBag.current?.values).toEqual({
       ipAddresses: ['1.2.3.4', '127.0.0.1'],
@@ -56,7 +48,7 @@ describe('InteractiveListFormik', () => {
 
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      wrapper.find('form').simulate('submit')
+      fireEvent.submit(container.querySelector('form')!)
     })
 
     expect(onSubmit).toBeCalledTimes(1)
@@ -93,18 +85,14 @@ describe('InteractiveListFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
+    await renderAndCheckA11Y(<TestForm />)
 
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
       inputRef.current?.setValue('127.0.0.1')
     })
 
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      wrapper.findDataTest('interactive-list-add-button').at(0).simulate('click')
-    })
-    wrapper.update()
+    await act(async () => userEvent.click(screen.getByTestId('interactive-list-add-button')))
 
     expect(formikBag.current?.values).toEqual({
       ipAddresses: ['1.2.3.4', '127.0.0.1'],
@@ -134,25 +122,16 @@ describe('InteractiveListFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
+    const { container } = await renderAndCheckA11Y(<TestForm />)
 
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      simulateChange(wrapper.find('input'), '127.0.0.1')
-    })
-
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      wrapper.findDataTest('interactive-list-add-button').at(0).simulate('click')
-    })
-    wrapper.update()
+    await act(async () => userEvent.type(container.querySelector('input')!, '127.0.0.1'))
+    await act(async () => userEvent.click(screen.getByTestId('interactive-list-add-button')))
 
     expect(formikBag.current?.values).toEqual({
       ipAddresses: ['1.2.3.4', '127.0.0.1'],
     })
 
-    expect(wrapper.find(InteractiveListItem).at(1).prop('content')).toBe('127.0.0.1')
+    expect(screen.queryAllByTestId('interactive-list-item')[1]).toHaveTextContent('127.0.0.1')
   })
 
   it('the inline error for an input is shown', async () => {
@@ -178,35 +157,24 @@ describe('InteractiveListFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
+    const { container } = await renderAndCheckA11Y(<TestForm />)
 
-    // eslint-disable-next-line @typescript-eslint/require-await
+    expect(screen.queryByText('You need to provide a unique value')).not.toBeInTheDocument()
+
+    await act(async () => userEvent.type(container.querySelector('input')!, '1.2.3.4'))
+    await act(async () => userEvent.click(screen.getByTestId('interactive-list-add-button')))
+
+    expect(screen.queryByText('You need to provide a unique value')).toBeInTheDocument()
+
+    expect(screen.queryByText('You need to provide a non empty value')).not.toBeInTheDocument()
+
     await act(async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      simulateChange(wrapper.find('input'), '1.2.3.4')
+      await userEvent.clear(container.querySelector('input')!)
+      await userEvent.type(container.querySelector('input')!, ' ')
     })
+    await act(async () => userEvent.click(screen.getByTestId('interactive-list-add-button')))
 
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      wrapper.findDataTest('interactive-list-add-button').at(0).simulate('click')
-    })
-    wrapper.update()
-
-    expect(wrapper.find(TextField).prop('error')).toBe('You need to provide a unique value')
-
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      simulateChange(wrapper.find('input'), ' ')
-    })
-
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      wrapper.findDataTest('interactive-list-add-button').at(0).simulate('click')
-    })
-    wrapper.update()
-
-    expect(wrapper.find(TextField).prop('error')).toBe('You need to provide a non empty value')
+    expect(screen.queryByText('You need to provide a non empty value')).toBeInTheDocument()
 
     expect(formikBag.current?.values).toEqual({
       ipAddresses: ['1.2.3.4'],
@@ -243,16 +211,15 @@ describe('InteractiveListFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
+    const { container } = await renderAndCheckA11Y(<TestForm />)
 
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      wrapper.find('form').simulate('submit')
+      fireEvent.submit(container.querySelector('form')!)
     })
-    wrapper.update()
     expect(onSubmit).toBeCalledTimes(0)
 
-    expect(wrapper.find(TextField).prop('error')).toBe('Need at least 2 IP Addresses')
+    expect(screen.queryByText('Need at least 2 IP Addresses')).toBeInTheDocument()
   })
 
   it('Should remove item', async () => {
@@ -285,18 +252,14 @@ describe('InteractiveListFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
+    const { container } = await renderAndCheckA11Y(<TestForm />)
 
-    act(() => {
-      wrapper.find(InteractiveListItem).at(0).find(IconButton).simulate('click')
-    })
-    wrapper.update()
+    await act(async () => userEvent.click(screen.getAllByLabelText('Remove Item')[0]))
 
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      wrapper.find('form').simulate('submit')
+      fireEvent.submit(container.querySelector('form')!)
     })
-    wrapper.update()
     expect(onSubmit).toBeCalledTimes(1)
 
     expect(formikBag.current?.values).toEqual({
@@ -334,34 +297,21 @@ describe('InteractiveListFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
+    const { container } = await renderAndCheckA11Y(<TestForm />)
+
+    await act(async () => userEvent.type(container.querySelector('input')!, '127.0.0.1'))
 
     act(() => {
-      wrapper
-        .find(TextField)
-        .find('input')
-        .simulate('change', {
-          target: {
-            value: '127.0.0.1',
-          },
-        })
-    })
-    wrapper.update()
-
-    act(() => {
-      const onKeyPress = wrapper.find(TextField).prop('onKeyPress') as (event: { key: string; preventDefault: () => void }) => void
-      onKeyPress({
+      fireEvent.keyPress(container.querySelector('input')!, {
         key: 'Enter',
-        preventDefault: () => null,
+        charCode: 13,
       })
     })
-    wrapper.update()
 
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      wrapper.find('form').simulate('submit')
+      fireEvent.submit(container.querySelector('form')!)
     })
-    wrapper.update()
     expect(onSubmit).toBeCalledTimes(1)
 
     expect(formikBag.current?.values).toEqual({

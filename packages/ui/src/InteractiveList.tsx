@@ -1,13 +1,16 @@
 import React, { FocusEvent } from 'react'
-import { TextField, TextFieldExtraProps } from './TextField'
-import { IconButton } from './IconButton'
 import { Plus, X } from 'react-feather'
-import styles from './InteractiveList.module.scss'
 import { useUID } from 'react-uid'
+import cn from 'classnames'
+import { DataTestProp } from '@hazelcast/helpers'
+
+import { IconButton } from './IconButton'
 import { Error, errorId } from './Error'
 import { ExtractKeysOfValueType } from './utils/types'
 import { FieldHeaderProps } from './FieldHeader'
-import cn from 'classnames'
+import { TextField, TextFieldExtraProps } from './TextField'
+
+import styles from './InteractiveList.module.scss'
 
 export type InteractiveListExtraProps = {
   children?: React.ReactNode | React.ReactNode[]
@@ -26,7 +29,8 @@ export type InteractiveListCoreProps<V> = {
   setInputValue: (val: string) => void
   onAddItem: () => Promise<string | undefined>
   onRemoveItem: (idx: number) => boolean
-} & InteractiveListExtraProps
+} & InteractiveListExtraProps &
+  DataTestProp
 
 export type InteractiveListProps<V> = InteractiveListExtraProps & InteractiveListCoreProps<V>
 
@@ -41,9 +45,9 @@ export type InteractiveListItemProps = {
   error?: string
   idx: number
   onRemoveItem: (idx: number) => boolean
-}
+} & DataTestProp
 
-export const InteractiveListItem = ({ onRemoveItem, content, error, idx }: InteractiveListItemProps) => {
+export const InteractiveListItem = ({ onRemoveItem, content, error, idx, 'data-test': dataTest }: InteractiveListItemProps) => {
   const id = useUID()
   const errorProps = error
     ? {
@@ -54,7 +58,7 @@ export const InteractiveListItem = ({ onRemoveItem, content, error, idx }: Inter
 
   return (
     <>
-      <div className={styles.content}>
+      <div data-test={dataTest} className={styles.content}>
         <span id={id} {...errorProps}>
           {content}
         </span>{' '}
@@ -96,12 +100,13 @@ export const InteractiveList = <V,>({
   iconClassName,
   itemClassName,
   listClassName,
+  'data-test': dataTest = 'interactive-list',
 }: InteractiveListProps<V>) => {
   const id = useUID()
 
   return (
     <>
-      <div className={cn(styles.inputRow, className)}>
+      <div data-test={dataTest} className={cn(styles.inputRow, className)}>
         <TextField
           id={id}
           type={type}
@@ -126,7 +131,7 @@ export const InteractiveList = <V,>({
           }}
         >
           <IconButton
-            data-test="interactive-list-add-button"
+            data-test={`${dataTest}-add-button`}
             kind="transparent"
             ariaLabel="Add Icon"
             icon={Plus}
@@ -144,6 +149,7 @@ export const InteractiveList = <V,>({
               onRemoveItem={onRemoveItem}
               idx={idx}
               content={str}
+              data-test={`${dataTest}-item`}
               error={typeof error === 'object' && error[idx] ? error[idx] : undefined}
             />
           </li>

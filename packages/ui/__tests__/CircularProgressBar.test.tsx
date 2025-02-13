@@ -1,5 +1,6 @@
 import React from 'react'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
+import { screen, within } from '@testing-library/react'
 
 import { CircularProgressBar, innerStrokeWidth, outerStrokeWidth, size } from '../src/CircularProgressBar'
 
@@ -16,68 +17,46 @@ describe('CircularProgressBar', () => {
     const strokeLength = (circumference / 360) * (360 - cut)
     const progressDashoffset = (strokeLength / 100) * (100 - progress)
 
-    const wrapper = await mountAndCheckA11Y(
-      <CircularProgressBar progress={progress} rotate={rotate} cut={cut} initialAnimation text={`${progress}%`} />,
-    )
+    await renderAndCheckA11Y(<CircularProgressBar progress={progress} rotate={rotate} cut={cut} initialAnimation text={`${progress}%`} />)
 
-    const container = wrapper.findDataTest('cpb-container')
-    const svg = container.findDataTest('cpb-svg')
-    const backgroundOuterCircle = svg.findDataTest('cpb-background-outer-circle')
-    const backgroundInnerCircle = svg.findDataTest('cpb-background-inner-circle')
-    const progressCircle = svg.findDataTest('cpb-progress-circle')
-    const text = container.findDataTest('cpb-text')
+    const container = screen.getByTestId('cpb-container')
+    const svg = within(container).getByTestId('cpb-svg')
+    const backgroundOuterCircle = within(svg).getByTestId('cpb-background-outer-circle')
+    const backgroundInnerCircle = within(svg).getByTestId('cpb-background-inner-circle')
+    const progressCircle = within(svg).getByTestId('cpb-progress-circle')
+    const text = within(container).getByTestId('cpb-text')
 
-    expect(container.props()).toEqual({
-      'data-test': 'cpb-container',
-      className: styles.container,
-      style: {
-        width: size,
-        height: size,
-      },
-      children: expect.anything(),
-    })
-    expect(svg.props()).toEqual({
-      'data-test': 'cpb-svg',
-      width: size,
-      height: size,
-      style: {
-        transform: `rotate(${rotate}deg)`,
-      },
-      children: expect.anything(),
-    })
-    expect(backgroundOuterCircle.props()).toEqual({
-      'data-test': 'cpb-background-outer-circle',
-      className: styles.backgroundOuterCircle,
-      cx: center,
-      cy: center,
-      r: radius,
-      strokeWidth: outerStrokeWidth,
-      strokeDasharray: strokeLength,
-    })
-    expect(backgroundInnerCircle.props()).toEqual({
-      'data-test': 'cpb-background-inner-circle',
-      className: styles.backgroundInnerCircle,
-      cx: center,
-      cy: center,
-      r: radius,
-      strokeWidth: innerStrokeWidth,
-      strokeDasharray: strokeLength,
-    })
-    expect(progressCircle.props()).toEqual({
-      'data-test': 'cpb-progress-circle',
-      className: styles.progressCircle,
-      cx: center,
-      cy: center,
-      r: radius,
-      strokeWidth: outerStrokeWidth,
-      strokeDasharray: `${strokeLength}, ${circumference}`,
-      strokeDashoffset: progressDashoffset,
-    })
-    expect(text.props()).toEqual({
-      'data-test': 'cpb-text',
-      className: styles.indicator,
-      children: `${progress}%`,
-    })
+    expect(container).toHaveClass(styles.container)
+    expect(container).toHaveStyle(`width: ${size}px; height: ${size}px;`)
+
+    expect(svg).toHaveAttribute('width', String(size))
+    expect(svg).toHaveAttribute('height', String(size))
+    expect(svg).toHaveStyle(`transform: rotate(${rotate}deg)`)
+
+    expect(backgroundOuterCircle).toHaveClass(styles.backgroundOuterCircle)
+    expect(backgroundOuterCircle).toHaveAttribute('cx', center.toString())
+    expect(backgroundOuterCircle).toHaveAttribute('cy', center.toString())
+    expect(backgroundOuterCircle).toHaveAttribute('r', radius.toString())
+    expect(backgroundOuterCircle).toHaveAttribute('stroke-width', outerStrokeWidth.toString())
+    expect(backgroundOuterCircle).toHaveAttribute('stroke-dasharray', strokeLength.toString())
+
+    expect(backgroundInnerCircle).toHaveClass(styles.backgroundInnerCircle)
+    expect(backgroundInnerCircle).toHaveAttribute('cx', center.toString())
+    expect(backgroundInnerCircle).toHaveAttribute('cy', center.toString())
+    expect(backgroundInnerCircle).toHaveAttribute('r', radius.toString())
+    expect(backgroundInnerCircle).toHaveAttribute('stroke-width', innerStrokeWidth.toString())
+    expect(backgroundInnerCircle).toHaveAttribute('stroke-dasharray', strokeLength.toString())
+
+    expect(progressCircle).toHaveClass(styles.progressCircle)
+    expect(progressCircle).toHaveAttribute('cx', center.toString())
+    expect(progressCircle).toHaveAttribute('cy', center.toString())
+    expect(progressCircle).toHaveAttribute('r', radius.toString())
+    expect(progressCircle).toHaveAttribute('stroke-width', outerStrokeWidth.toString())
+    expect(progressCircle).toHaveAttribute('stroke-dashoffset', progressDashoffset.toString())
+    expect(progressCircle).toHaveAttribute('stroke-dasharray', `${strokeLength}, ${circumference}`)
+
+    expect(text).toHaveTextContent(`${progress}%`)
+    expect(text).toHaveClass(styles.indicator)
   })
 
   it('Renders elements with correct default props', async () => {
@@ -87,65 +66,45 @@ describe('CircularProgressBar', () => {
     const circumference = 2 * Math.PI * radius
     const strokeLength = (circumference / 360) * 360
     const progressDashoffset = (strokeLength / 100) * (100 - progress)
-    const wrapper = await mountAndCheckA11Y(<CircularProgressBar progress={progress} text={`${progress}%`} />)
+    await renderAndCheckA11Y(<CircularProgressBar progress={progress} text={`${progress}%`} />)
 
-    const container = wrapper.findDataTest('cpb-container')
-    const svg = container.findDataTest('cpb-svg')
-    const backgroundOuterCircle = svg.findDataTest('cpb-background-outer-circle')
-    const backgroundInnerCircle = svg.findDataTest('cpb-background-inner-circle')
-    const progressCircle = svg.findDataTest('cpb-progress-circle')
-    const text = container.findDataTest('cpb-text')
+    const container = screen.getByTestId('cpb-container')
+    const svg = within(container).getByTestId('cpb-svg')
+    const backgroundOuterCircle = within(svg).getByTestId('cpb-background-outer-circle')
+    const backgroundInnerCircle = within(svg).getByTestId('cpb-background-inner-circle')
+    const progressCircle = within(svg).getByTestId('cpb-progress-circle')
+    const text = within(container).getByTestId('cpb-text')
 
-    expect(container.props()).toEqual({
-      'data-test': 'cpb-container',
-      className: styles.container,
-      style: {
-        width: size,
-        height: size,
-      },
-      children: expect.anything(),
-    })
-    expect(svg.props()).toEqual({
-      'data-test': 'cpb-svg',
-      width: size,
-      height: size,
-      style: {
-        transform: 'rotate(0deg)',
-      },
-      children: expect.anything(),
-    })
-    expect(backgroundOuterCircle.props()).toEqual({
-      'data-test': 'cpb-background-outer-circle',
-      className: styles.backgroundOuterCircle,
-      cx: center,
-      cy: center,
-      r: radius,
-      strokeWidth: outerStrokeWidth,
-      strokeDasharray: strokeLength,
-    })
-    expect(backgroundInnerCircle.props()).toEqual({
-      'data-test': 'cpb-background-inner-circle',
-      className: styles.backgroundInnerCircle,
-      cx: center,
-      cy: center,
-      r: radius,
-      strokeWidth: innerStrokeWidth,
-      strokeDasharray: strokeLength,
-    })
-    expect(progressCircle.props()).toEqual({
-      'data-test': 'cpb-progress-circle',
-      className: styles.progressCircle,
-      cx: center,
-      cy: center,
-      r: radius,
-      strokeWidth: outerStrokeWidth,
-      strokeDasharray: `${strokeLength}, ${circumference}`,
-      strokeDashoffset: progressDashoffset,
-    })
-    expect(text.props()).toEqual({
-      'data-test': 'cpb-text',
-      className: styles.indicator,
-      children: `${progress}%`,
-    })
+    expect(container).toHaveClass(styles.container)
+    expect(container).toHaveStyle(`width: ${size}px; height: ${size}px;`)
+
+    expect(svg).toHaveAttribute('width', String(size))
+    expect(svg).toHaveAttribute('height', String(size))
+    expect(svg).toHaveStyle(`transform: rotate(0deg)`)
+
+    expect(backgroundOuterCircle).toHaveClass(styles.backgroundOuterCircle)
+    expect(backgroundOuterCircle).toHaveAttribute('cx', center.toString())
+    expect(backgroundOuterCircle).toHaveAttribute('cy', center.toString())
+    expect(backgroundOuterCircle).toHaveAttribute('r', radius.toString())
+    expect(backgroundOuterCircle).toHaveAttribute('stroke-width', outerStrokeWidth.toString())
+    expect(backgroundOuterCircle).toHaveAttribute('stroke-dasharray', strokeLength.toString())
+
+    expect(backgroundInnerCircle).toHaveClass(styles.backgroundInnerCircle)
+    expect(backgroundInnerCircle).toHaveAttribute('cx', center.toString())
+    expect(backgroundInnerCircle).toHaveAttribute('cy', center.toString())
+    expect(backgroundInnerCircle).toHaveAttribute('r', radius.toString())
+    expect(backgroundInnerCircle).toHaveAttribute('stroke-width', innerStrokeWidth.toString())
+    expect(backgroundInnerCircle).toHaveAttribute('stroke-dasharray', strokeLength.toString())
+
+    expect(progressCircle).toHaveClass(styles.progressCircle)
+    expect(progressCircle).toHaveAttribute('cx', center.toString())
+    expect(progressCircle).toHaveAttribute('cy', center.toString())
+    expect(progressCircle).toHaveAttribute('r', radius.toString())
+    expect(progressCircle).toHaveAttribute('stroke-width', outerStrokeWidth.toString())
+    expect(progressCircle).toHaveAttribute('stroke-dashoffset', progressDashoffset.toString())
+    expect(progressCircle).toHaveAttribute('stroke-dasharray', `${strokeLength}, ${circumference}`)
+
+    expect(text).toHaveTextContent(`${progress}%`)
+    expect(text).toHaveClass(styles.indicator)
   })
 })

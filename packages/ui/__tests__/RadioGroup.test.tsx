@@ -1,28 +1,33 @@
 import React from 'react'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
+import { act } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 import { Radio } from '../src/Radio'
 import { RadioGroup } from '../src/RadioGroup'
-import { act } from 'react-dom/test-utils'
+import { testAttribute } from './helpers'
 
 describe('RadioGroup', () => {
   it('Radio is passed a disabled property, input contains disabled property', async () => {
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <RadioGroup name="hello" onChange={onChange}>
         <Radio checked value="hello" disabled label="World" />
         <Radio value="world" label="World" />
       </RadioGroup>,
     )
 
-    expect(wrapper.find("input[value='hello']").getDOMNode<HTMLInputElement>().disabled).toBe(true)
+    const input = container.querySelector("input[value='hello']")!
+
+    expect(input).toBeInTheDocument()
+    testAttribute(input, 'disabled', '')
   })
 
   it('Radio is passed onChange handler, this handler is invoked', async () => {
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <RadioGroup name="hello" onChange={onChange}>
         <Radio checked value="hello" disabled label="World" />
         <Radio value="world" label="World" />
@@ -31,9 +36,11 @@ describe('RadioGroup', () => {
 
     expect(onChange).toBeCalledTimes(0)
 
-    act(() => {
-      wrapper.find("input[value='world']").simulate('change')
-    })
+    const input = container.querySelector("input[value='world']")!
+
+    expect(input).toBeInTheDocument()
+
+    await act(() => userEvent.click(input))
 
     expect(onChange).toBeCalledTimes(1)
   })

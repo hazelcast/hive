@@ -26,10 +26,10 @@ import { useCloseOnResize } from '../hooks/useCloseOnResize'
 import styles from './SelectField.module.scss'
 import multiStyles from './MultiSelectField.module.scss'
 
-// Self styled version of the MultiValue/Label
+// Self-styled version of the MultiValue/Label
 const MultiValueLabel: typeof rsComponents.MultiValueLabel = ({ children }) => <div className={multiStyles.multiValueLabel}>{children}</div>
 
-// Self styled version of the MultiValue/Remove button
+// Self-styled version of the MultiValue/Remove button
 const MultiValueRemove: typeof rsComponents.MultiValueRemove = (props) => {
   // We have to pass down the onClick
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,  @typescript-eslint/no-unsafe-assignment
@@ -109,7 +109,7 @@ export type MultiSelectProps<V> = MultiSelectFieldCoreStaticProps<V> & MultiSele
 
 export const MultiSelectField = <V extends string | number = number>(props: MultiSelectProps<V>): ReactElement<MultiSelectProps<V>> => {
   const {
-    'data-test': dataTest,
+    'data-test': dataTest = 'multi-select-field',
     className,
     disabled,
     error,
@@ -127,7 +127,6 @@ export const MultiSelectField = <V extends string | number = number>(props: Mult
     onChange,
     options,
     placeholder,
-    required,
     value,
     formatGroupLabel,
     formatOptionLabel,
@@ -177,7 +176,6 @@ export const MultiSelectField = <V extends string | number = number>(props: Mult
     // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute
     'aria-errormessage': error && errorId(id),
     'aria-invalid': !!error,
-    'aria-required': required,
     isDisabled: disabled,
     isSearchable: isSearchable,
     isClearable: true,
@@ -241,7 +239,7 @@ export const MultiSelectField = <V extends string | number = number>(props: Mult
           <ReactSelect<SelectFieldOption<V>, true> ref={selectRef} {...selectProps} />
         )}
       </div>
-      <Error truncated error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
+      <Error data-test={`${dataTest}-error`} truncated error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
     </div>
   )
 }

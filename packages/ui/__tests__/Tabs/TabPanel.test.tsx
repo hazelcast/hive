@@ -1,7 +1,8 @@
 import React from 'react'
 import { useUID } from 'react-uid'
 import cn from 'classnames'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
+import { screen } from '@testing-library/react'
 
 import { getPanelId, getTabId, TabContextProvider } from '../../src/Tabs/TabContext'
 import { TabPanel } from '../../src/Tabs/TabPanel'
@@ -23,8 +24,8 @@ const ariaLabel = 'testAriaLabel'
 const tabsComponent = (
   <TabContextProvider>
     <TabList ariaLabel={ariaLabel}>
-      <Tab label="Tab 1" value={0} />
-      <Tab label="Tab 2" value={1} />
+      <Tab value={0}>Tab 1</Tab>
+      <Tab value={1}>Tab 2</Tab>
     </TabList>
     <TabPanel data-test="tabPanel1" value={0}>
       Panel 1
@@ -41,24 +42,20 @@ describe('TabPanel', () => {
   })
 
   it('shows selected panel', async () => {
-    const wrapper = await mountAndCheckA11Y(tabsComponent)
+    await renderAndCheckA11Y(tabsComponent)
 
-    const panel1 = wrapper.findDataTest('tabPanel1').find('div')
-    expect(panel1.props()).toEqual({
-      className: styles.tabPanel,
-      role: 'tabpanel',
-      id: getPanelId(testId, '0'),
-      'aria-labelledby': getTabId(testId, '0'),
-      children: 'Panel 1',
-    })
+    const panel1 = screen.getByTestId('tabPanel1')
+    expect(panel1).toHaveRole('tabpanel')
+    expect(panel1).toHaveClass(styles.tabPanel)
+    expect(panel1).toHaveAttribute('aria-labelledby', getTabId(testId, '0'))
+    expect(panel1).toHaveAttribute('id', getPanelId(testId, '0'))
+    expect(panel1).toHaveTextContent('Panel 1')
 
-    const panel2 = wrapper.findDataTest('tabPanel2').find('div')
-    expect(panel2.props()).toEqual({
-      className: cn(styles.tabPanel, styles.hidden),
-      role: 'tabpanel',
-      id: getPanelId(testId, '1'),
-      'aria-labelledby': getTabId(testId, '1'),
-      children: null,
-    })
+    const panel2 = screen.getByTestId('tabPanel2')
+    expect(panel2).toHaveRole('tabpanel')
+    expect(panel2).toHaveClass(cn(styles.tabPanel, styles.hidden))
+    expect(panel2).toHaveAttribute('aria-labelledby', getTabId(testId, '1'))
+    expect(panel2).toHaveAttribute('id', getPanelId(testId, '1'))
+    expect(panel2.children).toHaveLength(0)
   })
 })

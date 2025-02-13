@@ -77,7 +77,7 @@ export type SelectFieldProps<V> = SelectFieldCoreStaticProps<V> & SelectFieldExt
 
 export const SelectField = <V extends string | number = string>(props: SelectFieldProps<V>): ReactElement<SelectFieldProps<V>> => {
   const {
-    'data-test': dataTest,
+    'data-test': dataTest = 'select-field',
     className,
     disabled,
     error,
@@ -213,6 +213,7 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
         label={label}
         id={id}
         size={size}
+        data-test={dataTest}
         helperText={helperText}
         showAriaLabel={showAriaLabel}
         labelClassName={labelClassName}
@@ -224,7 +225,7 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
             icon={iconLeft}
             size={size}
             ariaLabel={iconLeftAriaLabel}
-            data-test="select-field-icon-left"
+            data-test={`${dataTest}-icon-left`}
             className={cn(styles.iconLeft, iconLeftClassName)}
           />
         )}
@@ -234,7 +235,7 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
           <ReactSelect<SelectFieldOption<V>> ref={selectRef} {...selectProps} />
         )}
       </div>
-      <Error truncated error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
+      <Error data-test={`${dataTest}-error`} truncated error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
     </div>
   )
 }

@@ -17,19 +17,20 @@ export type CellWarningProps = {
 
 export const CellWarning: FC<CellWarningProps> = ({ align, warning }) => {
   const id = useUID()
+  const dataTest = 'cell-warning-content'
 
   return (
     <Tooltip id={id} content={warning}>
       {(tooltipRef) => (
         <div
-          data-test="cell-warning-content"
+          data-test={dataTest}
           ref={tooltipRef}
           className={cn(styles.warningIcon, {
             [styles.left]: align === 'left',
             [styles.right]: align === 'right',
           })}
         >
-          <Icon icon={AlertTriangle} ariaLabelledBy={id} size="small" />
+          <Icon data-test={`${dataTest}-icon`} icon={AlertTriangle} ariaLabelledBy={id} size="small" />
         </div>
       )}
     </Tooltip>

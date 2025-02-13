@@ -1,8 +1,9 @@
 import React from 'react'
-import { getFixedTimezoneDate, mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { getFixedTimezoneDate, renderAndCheckA11Y } from '@hazelcast/test-helpers'
+import { act, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+
 import { CalendarHeader, CalendarHeaderProps } from '../../../src/Calendar/components/CalendarHeader'
-import { ChevronLeft, ChevronRight } from 'react-feather'
-import { act } from 'react-dom/test-utils'
 
 // Equivalent to `2021-02-08T09:00:00.000Z`
 const timestamp = 1612774800000
@@ -34,19 +35,11 @@ describe('CalendarHeader', () => {
       decreaseMonth,
     }
 
-    const wrapper = await mountAndCheckA11Y(<CalendarHeader {...props} />)
+    await renderAndCheckA11Y(<CalendarHeader {...props} />)
 
-    expect(wrapper.existsDataTest('date-picker-header')).toBeTruthy()
-    expect(wrapper.findDataTest('date-picker-header-icon-previous').at(0).props()).toMatchObject({
-      icon: ChevronLeft,
-      ariaLabel: 'Previous month',
-      onClick: decreaseMonth,
-    })
-    expect(wrapper.findDataTest('date-picker-header-icon-next').at(0).props()).toMatchObject({
-      icon: ChevronRight,
-      ariaLabel: 'Next month',
-      onClick: increaseMonth,
-    })
+    expect(screen.queryByTestId('date-picker-header')).toBeInTheDocument()
+    expect(screen.queryByLabelText('Previous month')).toBeInTheDocument()
+    expect(screen.queryByLabelText('Next month')).toBeInTheDocument()
   })
 
   it('Decrease month handler is called when "Previous" is pressed', async () => {
@@ -61,15 +54,12 @@ describe('CalendarHeader', () => {
       decreaseMonth,
     }
 
-    const wrapper = await mountAndCheckA11Y(<CalendarHeader {...props} />)
+    await renderAndCheckA11Y(<CalendarHeader {...props} />)
 
     expect(decreaseMonth).toHaveBeenCalledTimes(0)
     expect(increaseMonth).toHaveBeenCalledTimes(0)
 
-    act(() => {
-      wrapper.findDataTest('date-picker-header-icon-previous').at(0).simulate('click')
-    })
-    wrapper.update()
+    await act(() => userEvent.click(screen.getByTestId('date-picker-header-icon-previous')))
 
     expect(decreaseMonth).toHaveBeenCalledTimes(1)
     expect(increaseMonth).toHaveBeenCalledTimes(0)
@@ -87,15 +77,12 @@ describe('CalendarHeader', () => {
       decreaseMonth,
     }
 
-    const wrapper = await mountAndCheckA11Y(<CalendarHeader {...props} />)
+    await renderAndCheckA11Y(<CalendarHeader {...props} />)
 
     expect(decreaseMonth).toHaveBeenCalledTimes(0)
     expect(increaseMonth).toHaveBeenCalledTimes(0)
 
-    act(() => {
-      wrapper.findDataTest('date-picker-header-icon-next').at(0).simulate('click')
-    })
-    wrapper.update()
+    await act(() => userEvent.click(screen.getByTestId('date-picker-header-icon-next')))
 
     expect(decreaseMonth).toHaveBeenCalledTimes(0)
     expect(increaseMonth).toHaveBeenCalledTimes(1)

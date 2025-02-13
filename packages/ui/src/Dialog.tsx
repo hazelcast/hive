@@ -50,28 +50,30 @@ export const Dialog: FC<DialogProps> = ({
   actionOnConfirm,
   ...rest
 }) => {
-  const actions: ModalProps['actions'] = useMemo(
-    () =>
+  const actions = useMemo(() => {
+    const props: ModalProps['actions'] =
       actionChildren && actionOnConfirm
         ? [
             {
               autoFocus: !actionDangerous,
-              kind: actionDangerous ? 'danger' : 'primary',
-              ...(actionDisabled &&
-                actionDisabledTooltip ? {
-                  disabled: actionDisabled,
-                  disabledTooltip: actionDisabledTooltip,
-                }:{
-                disabled: undefined,
-                disabledTooltip: undefined
-              }),
+              color: actionDangerous ? 'secondary' : 'primary',
+              ...(actionDisabled && actionDisabledTooltip
+                ? {
+                    disabled: actionDisabled,
+                    disabledTooltip: actionDisabledTooltip,
+                  }
+                : {
+                    disabled: undefined,
+                    disabledTooltip: undefined,
+                  }),
               onClick: actionOnConfirm,
               children: actionChildren,
             },
           ]
-        : [],
-    [actionDangerous, actionDisabled, actionDisabledTooltip, actionOnConfirm, actionChildren],
-  )
+        : []
+
+    return props
+  }, [actionDangerous, actionDisabled, actionDisabledTooltip, actionOnConfirm, actionChildren])
 
   return (
     <Modal

@@ -1,8 +1,10 @@
-import { jestFnControlledPromise, mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { jestFnControlledPromise, renderAndCheckA11Y } from '@hazelcast/test-helpers'
 import React from 'react'
-import { act } from 'react-dom/test-utils'
+import { act, fireEvent } from '@testing-library/react'
 
+import { testAttribute } from './helpers'
 import { ExecutionHistoryState, Terminal } from '../src/Terminal'
+
 import styles from '../src/Terminal.module.scss'
 
 const history: ExecutionHistoryState[] = [
@@ -18,85 +20,83 @@ const history: ExecutionHistoryState[] = [
 
 describe('Terminal', () => {
   it('renders Terminal with history and input', async () => {
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <Terminal initialExecutionHistory={history} onExecute={jest.fn()} welcomeMessage="Hello" initialCommand="Luke" />,
     )
 
-    expect(wrapper.findWhere((item) => item.hasClass(styles.welcome)).text()).toBe('Hello')
+    expect(container.querySelector(`.${styles.welcome}`)).toHaveTextContent('Hello')
 
-    const historyWrapper = wrapper.findWhere((item) => item.hasClass(styles.history))
+    const historyWrapper = container.querySelector(`.${styles.history}`)!
 
-    expect(historyWrapper.children().length).toBe(4)
+    expect(historyWrapper.children).toHaveLength(4)
 
-    const command0 = historyWrapper.childAt(0)
-    expect(command0.find('input').prop('value')).toBe('test1')
+    const command0 = historyWrapper.children[0]
+    testAttribute(command0.querySelector('input'), 'value', 'test1')
 
-    const command0Res = historyWrapper.childAt(1)
-    expect(command0Res.childAt(0).text()).toBe('testRes1-1')
-    expect(command0Res.childAt(1).text()).toBe('testRes1-2')
+    const command0Res = historyWrapper.children[1]
+    expect(command0Res.children[0]).toHaveTextContent('testRes1-1')
+    expect(command0Res.children[1]).toHaveTextContent('testRes1-2')
 
-    const command1 = historyWrapper.childAt(2)
-    expect(command1.find('input').prop('value')).toBe('testError')
+    const command1 = historyWrapper.children[2]
+    testAttribute(command1.querySelector('input'), 'value', 'testError')
 
-    const command1Res = historyWrapper.childAt(3)
-    expect(command1Res.text()).toBe('testErrorRes')
+    const command1Res = historyWrapper.children[3]
+    expect(command1Res).toHaveTextContent('testErrorRes')
 
-    const currentCommandInput = wrapper.findWhere((item) => item.hasClass(styles.currentCommand)).find('input')
+    const currentCommandInput = container.querySelector(`.${styles.currentCommand} input`)
 
-    expect(currentCommandInput.prop('value')).toBe('Luke')
+    testAttribute(currentCommandInput, 'value', 'Luke')
 
-    expect(wrapper.findWhere((item) => item.hasClass(styles.loading)).exists()).toBeFalsy()
+    expect(container.querySelector(`.${styles.loading}`)).not.toBeInTheDocument()
   })
 
   it('executes commands', async () => {
     const controlledPromise = jestFnControlledPromise()
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <Terminal initialExecutionHistory={history} onExecute={controlledPromise.fn} initialCommand="Luke" />,
     )
 
-    expect(wrapper.findWhere((item) => item.hasClass(styles.history)).children().length).toBe(4)
+    expect(container.querySelector(`.${styles.history}`)!.children).toHaveLength(4)
 
-    expect(wrapper.findWhere((item) => item.hasClass(styles.loading)).exists()).toBeFalsy()
+    expect(container.querySelector(`.${styles.loading}`)).not.toBeInTheDocument()
 
-    const currentCommandInputBefore = wrapper.findWhere((item) => item.hasClass(styles.currentCommand)).find('input')
+    const currentCommandInputBefore = container.querySelector(`.${styles.currentCommand} input`)!
 
-    expect(currentCommandInputBefore.prop('disabled')).toBeFalsy()
-    expect(currentCommandInputBefore.prop('value')).toBe('Luke')
+    testAttribute(currentCommandInputBefore, 'disabled')
+    testAttribute(currentCommandInputBefore, 'value', 'Luke')
 
-    act(() => {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion,@typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-argument
-      currentCommandInputBefore.prop('onKeyUp')!({ key: 'Enter' } as any)
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      fireEvent.keyUp(currentCommandInputBefore, { key: 'Enter', charCode: 13 })
     })
-    wrapper.update()
 
-    expect(wrapper.findWhere((item) => item.hasClass(styles.loading)).exists()).toBeTruthy()
+    expect(container.querySelector(`.${styles.loading}`)).toBeInTheDocument()
 
-    const currentCommandInputInProgress = wrapper.findWhere((item) => item.hasClass(styles.currentCommand)).find('input')
+    const currentCommandInputInProgress = container.querySelector(`.${styles.currentCommand} input`)!
 
-    expect(currentCommandInputInProgress.prop('disabled')).toBeTruthy()
-    expect(currentCommandInputInProgress.prop('value')).toBe('Luke')
+    testAttribute(currentCommandInputInProgress, 'disabled', '')
+    testAttribute(currentCommandInputInProgress, 'value', 'Luke')
 
     await act(async () => {
       controlledPromise.resolve(['lukeRes'])
       await controlledPromise.promise
     })
-    wrapper.update()
 
-    expect(wrapper.findWhere((item) => item.hasClass(styles.loading)).exists()).toBeFalsy()
+    expect(container.querySelector(`.${styles.loading}`)).not.toBeInTheDocument()
 
-    const currentCommandInputInAfter = wrapper.findWhere((item) => item.hasClass(styles.currentCommand)).find('input')
+    const currentCommandInputInAfter = container.querySelector(`.${styles.currentCommand} input`)!
 
-    expect(currentCommandInputInAfter.prop('disabled')).toBeFalsy()
-    expect(currentCommandInputInAfter.prop('value')).toBe('')
+    testAttribute(currentCommandInputInAfter, 'disabled')
+    testAttribute(currentCommandInputInAfter, 'value', '')
 
-    expect(wrapper.findWhere((item) => item.hasClass(styles.history)).children().length).toBe(6)
+    expect(container.querySelector(`.${styles.history}`)!.children).toHaveLength(6)
 
-    const historyWrapper = wrapper.findWhere((item) => item.hasClass(styles.history))
-    const lastCommand = historyWrapper.childAt(4)
-    expect(lastCommand.find('input').prop('value')).toBe('Luke')
+    const historyWrapper = container.querySelector(`.${styles.history}`)!
+    const lastCommand = historyWrapper.children[4]
+    testAttribute(lastCommand.querySelector('input'), 'value', 'Luke')
 
-    const lastCommandRes = historyWrapper.childAt(5)
-    expect(lastCommandRes.text()).toBe('lukeRes')
+    const lastCommandRes = historyWrapper.children[5]
+    expect(lastCommandRes).toHaveTextContent('lukeRes')
   })
 })

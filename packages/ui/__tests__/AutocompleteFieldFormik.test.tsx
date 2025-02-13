@@ -1,11 +1,10 @@
 import React, { createRef } from 'react'
 import { Formik, Form, FormikProps } from 'formik'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
-import { act } from 'react-dom/test-utils'
-import Select from 'react-select'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
+import { act, fireEvent, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 import { AutocompleteFieldFormik } from '../src/AutocompleteFieldFormik'
-import { Error } from '../src/Error'
 import { AutocompleteFieldOption } from '../src/AutocompleteField'
 
 const options: AutocompleteFieldOption[] = [
@@ -37,8 +36,7 @@ describe('AutocompleteFieldFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
-    const selectInstance = wrapper.find(Select)
+    const { container } = await renderAndCheckA11Y(<TestForm />)
 
     expect(formikBag.current?.values).toEqual({
       name: null,
@@ -47,9 +45,9 @@ describe('AutocompleteFieldFormik', () => {
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      selectInstance.props().onChange?.(options[1], { action: 'select-option' })
+      fireEvent.mouseDown(container.querySelector('.hz-autocomplete-field__indicators')!, { button: 0 })
     })
-    wrapper.update()
+    await act(() => userEvent.click(screen.getByRole('option', { name: options[1].label })))
 
     expect(formikBag.current?.values).toEqual({
       name: options[1].value,
@@ -58,9 +56,9 @@ describe('AutocompleteFieldFormik', () => {
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      selectInstance.props().onChange?.(options[0], { action: 'select-option' })
+      fireEvent.mouseDown(container.querySelector('.hz-autocomplete-field__indicators')!, { button: 0 })
     })
-    wrapper.update()
+    await act(() => userEvent.click(screen.getByRole('option', { name: options[0].label })))
 
     expect(formikBag.current?.values).toEqual({
       name: options[0].value,
@@ -82,20 +80,18 @@ describe('AutocompleteFieldFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
-    const selectInstance = wrapper.find(Select)
+    const { container } = await renderAndCheckA11Y(<TestForm />)
 
-    expect(wrapper.find(Error).prop('error')).toBe(undefined)
+    expect(screen.queryByTestId('autocomplete-field-error')).toHaveTextContent('')
 
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      selectInstance.props().onChange?.(options[1], { action: 'select-option' })
+      fireEvent.mouseDown(container.querySelector('.hz-autocomplete-field__indicators')!, { button: 0 })
     })
-    wrapper.update()
+    await act(() => userEvent.click(screen.getByRole('option', { name: options[1].label })))
 
-    // The error is displayed only when the input becomes dirty
-    expect(wrapper.find(Error).prop('error')).toBe('error')
+    expect(screen.queryByTestId('autocomplete-field-error')).toHaveTextContent('error')
   })
 
   it('Calls onChange callback', async () => {
@@ -122,15 +118,14 @@ describe('AutocompleteFieldFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
-    const selectInstance = wrapper.find(Select)
+    const { container } = await renderAndCheckA11Y(<TestForm />)
 
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      selectInstance.props().onChange?.(options[1], { action: 'select-option' })
+      fireEvent.mouseDown(container.querySelector('.hz-autocomplete-field__indicators')!, { button: 0 })
     })
-    wrapper.update()
+    await act(() => userEvent.click(screen.getByRole('option', { name: options[1].label })))
 
     expect(onChange).toBeCalledTimes(1)
     expect(onChange).toBeCalledWith(options[1].value)

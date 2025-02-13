@@ -1,11 +1,10 @@
 import { getFixedTimezoneDate } from '@hazelcast/test-helpers'
 import React from 'react'
-import { act } from 'react-dom/test-utils'
+import { render, act, screen, fireEvent } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+
 import { CalendarTimeInternal } from '../../../src/Calendar/components/CalendarTime'
-import { TimeField } from '../../../src/TimeField'
 import { timePoints } from '../../../src/Calendar/helpers/consts'
-import { Button } from '../../../src'
-import { mount, shallow } from 'enzyme'
 
 // Equivalent to `2021-02-08T09:00:00.000Z`
 const timestamp = 1612774800000
@@ -16,66 +15,63 @@ describe('CalendarTime', () => {
   it('Renders', () => {
     const onChange = jest.fn()
 
-    const wrapper = shallow(<CalendarTimeInternal date={date} onChange={onChange} value={value} />)
+    render(<CalendarTimeInternal date={date} onChange={onChange} value={value} />)
 
     // Time input
-    expect(wrapper.find(TimeField).props()).toMatchObject({
-      name: 'time',
-      value,
-    })
+    const timeField = screen.queryByTestId('calendar-time-input')!
+
+    expect(timeField).toBeInTheDocument()
+
+    const input = timeField.querySelector('input')!
+
+    expect(input).toBeInTheDocument()
+    expect(input).toHaveAttribute('name', 'time')
+    expect(input).toHaveAttribute('value', '09:00')
 
     // Time point buttons
-    const timePointsData = wrapper
-      .findDataTest('calendar-time-timePoints')
-      .children()
-      .map((child) => child.text())
+    const timePointsData = [...screen.queryByTestId('calendar-time-timePoints')!.children].map((item) => item.textContent)!
     expect(timePointsData).toStrictEqual(timePoints)
   })
 
-  it('Change handler is called on Time Input change', () => {
+  it('Change handler is called on Time Input change', async () => {
     const onChange = jest.fn()
 
-    const wrapper = mount(<CalendarTimeInternal date={date} onChange={onChange} value={value} />)
+    const { container } = render(<CalendarTimeInternal date={date} onChange={onChange} value={value} />)
 
     // Time input
-    expect(wrapper.find(TimeField).props()).toMatchObject({
-      name: 'time',
-      value,
-    })
+    const input = container.querySelector('input')!
+
+    expect(input).toBeInTheDocument()
+    expect(input).toHaveAttribute('name', 'time')
+    expect(input).toHaveAttribute('value', '09:00')
 
     expect(onChange).toHaveBeenCalledTimes(0)
 
-    act(() => {
-      wrapper
-        .find(TimeField)
-        .find('input')
-        .simulate('change', { target: { value: '11:00' } })
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      fireEvent.change(input, { target: { value: '11:00' } })
     })
-    wrapper.update()
 
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenCalledWith('11:00')
   })
 
-  it('Change handler is called on time point press', () => {
+  it('Change handler is called on time point press', async () => {
     const onChange = jest.fn()
 
-    const wrapper = shallow(<CalendarTimeInternal date={date} onChange={onChange} value={value} />)
+    render(<CalendarTimeInternal date={date} onChange={onChange} value={value} />)
 
     // Time points
-    expect(wrapper.existsDataTest('calendar-time-timePoints'))
+    expect(screen.queryByTestId('calendar-time-timePoints')).toBeInTheDocument()
 
     expect(onChange).toHaveBeenCalledTimes(0)
 
     // Grab a "random" button
-    const ninthTimePointButton = wrapper.findDataTest('calendar-time-timePoints').find(Button).at(9)
+    const ninthTimePointButton = screen.queryByTestId('calendar-time-timePoints')!.children[9]
 
-    expect(ninthTimePointButton.text()).toBe('02:15')
+    expect(ninthTimePointButton).toHaveTextContent('02:15')
 
-    act(() => {
-      ninthTimePointButton.simulate('click')
-    })
-    wrapper.update()
+    await act(() => userEvent.click(ninthTimePointButton))
 
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenCalledWith('02:15')

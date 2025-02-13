@@ -1,5 +1,5 @@
 import React from 'react'
-import { mount } from 'enzyme'
+import { render } from '@testing-library/react'
 
 import { SimpleTable } from '../src'
 
@@ -7,7 +7,7 @@ import styles from '../src/SimpleTable.module.scss'
 
 describe('SimpleTable', () => {
   it('Renders default table', () => {
-    const wrapper = mount(
+    const { container } = render(
       <SimpleTable>
         <SimpleTable.Body>
           <SimpleTable.Row>
@@ -17,6 +17,6 @@ describe('SimpleTable', () => {
       </SimpleTable>,
     )
 
-    expect(wrapper.find(`.${styles.root}`).exists()).toBeTruthy()
+    expect(container.querySelector(`.${styles.root}`)).toBeInTheDocument()
   })
 })

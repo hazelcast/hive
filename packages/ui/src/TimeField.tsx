@@ -28,7 +28,7 @@ export type TypeFieldProps = TimeFieldCoreProps & TimeFieldExtraProps & DataTest
 
 export const TimeField: FC<TypeFieldProps> = (props) => {
   const {
-    'data-test': dataTest,
+    'data-test': dataTest = 'time-field',
     className,
     disabled,
     error,
@@ -53,7 +53,7 @@ export const TimeField: FC<TypeFieldProps> = (props) => {
   const id = explicitId ?? autoId
 
   return (
-    <div data-test={dataTest} className={cn(styles.container, className)}>
+    <div className={cn(styles.container, className)}>
       <SimpleTimeField
         showSeconds={seconds}
         input={
@@ -72,6 +72,7 @@ export const TimeField: FC<TypeFieldProps> = (props) => {
             disabled={disabled}
             showAriaLabel={showAriaLabel}
             helperText={helperText}
+            data-test={dataTest}
             {...rest}
           />
         }

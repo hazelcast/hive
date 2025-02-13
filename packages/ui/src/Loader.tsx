@@ -1,5 +1,6 @@
 import React, { FC, SVGAttributes } from 'react'
 import cn from 'classnames'
+import { DataTestProp } from '@hazelcast/helpers'
 
 import { IconSize } from './Icon'
 
@@ -12,15 +13,25 @@ export type LoaderProps = {
   children?: never
   ariaLabel?: string
   role?: string
-} & Pick<SVGAttributes<SVGElement>, 'aria-hidden'>
+} & Pick<SVGAttributes<SVGElement>, 'aria-hidden'> &
+  DataTestProp
 
-export const Loader: FC<LoaderProps> = ({ className, size = 'medium', kind = 'inherit', role = 'img', ariaLabel, ...props }) => (
+export const Loader: FC<LoaderProps> = ({
+  className,
+  size = 'medium',
+  kind = 'inherit',
+  role = 'img',
+  ariaLabel,
+  'data-test': dataTest = 'loader',
+  ...props
+}) => (
   // https://github.com/feathericons/feather/blob/a718a7e9c39447202f703783336e8ba1c8e32405/icons/loader.svg#L1
   // We cannot use it directly as it has `line` elements not in a sequential order
   // And we need the sequential order to easily calculate animation delay
   <svg
     xmlns="http://www.w3.org/2000/svg"
     role={role}
+    data-test={dataTest}
     className={cn(
       styles.loader,
       {

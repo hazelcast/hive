@@ -51,7 +51,7 @@ export type ModalProps = {
  * - To close the Modal, use "Cancel" button in the footer, "X" button in the header, press "Esc" key or click anywhere on the "blanket".
  */
 export const Modal: FC<ModalProps> = ({
-  'data-test': dataTest,
+  'data-test': dataTest = 'modal',
   actions,
   hideActions = false,
   autoFocus = true,
@@ -77,7 +77,6 @@ export const Modal: FC<ModalProps> = ({
       portalClassName={styles.portal}
       className={cn(styles.modal, className)}
       contentLabel={title}
-      data-test={dataTest}
       onRequestClose={onClose}
       overlayClassName={cn(styles.overlay, overlayClassName)}
       shouldCloseOnEsc={closable}
@@ -94,9 +93,9 @@ export const Modal: FC<ModalProps> = ({
             {title}
           </h3>
           {closable && showCloseButton && (
-            // Note: Mostly a Dialog use-case. We want it to be closable but we don't want to show an X button in the corner.
+            // Note: Mostly a Dialog use-case. We want it to be closable, but we don't want to show an X button in the corner.
             <div className={styles.close}>
-              <IconButton data-test="modal-button-close" kind="transparent" ariaLabel="Close icon" icon={X} onClick={onClose} />
+              <IconButton data-test={`${dataTest}-button-close`} kind="transparent" ariaLabel="Close icon" icon={X} onClick={onClose} />
             </div>
           )}
         </div>

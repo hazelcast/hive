@@ -1,6 +1,7 @@
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
 import React from 'react'
 import { Info, CheckCircle, AlertTriangle, AlertCircle } from 'react-feather'
+import { screen, within } from '@testing-library/react'
 
 import { Badge, BadgeType, BadgeSize, BadgeIconDescriptor } from '../src/Badge'
 
@@ -10,10 +11,10 @@ const badgeContent = 'Badge Text'
 
 describe('Badge', () => {
   it('Renders Badge with all necessary components', async () => {
-    const wrapper = await mountAndCheckA11Y(<Badge type="neutral" size="normal" content={badgeContent} />)
+    await renderAndCheckA11Y(<Badge type="neutral" size="normal" content={badgeContent} />)
 
-    expect(wrapper.findDataTestFirst('badge-icon').prop('size')).toBe('medium')
-    expect(wrapper.findDataTest('badge-content').text()).toBe(badgeContent)
+    expect(screen.getByTestId('badge-icon').querySelector('svg')).toHaveClass('medium')
+    expect(screen.getByTestId('badge-content')).toHaveTextContent(badgeContent)
   })
 
   const typeTestData: [BadgeType, string, BadgeIconDescriptor][] = [
@@ -59,15 +60,12 @@ describe('Badge', () => {
     ],
   ]
 
-  it.each(typeTestData)('Renders correct styles for %s Badge type', async (type, className, { icon, ariaLabel }) => {
-    const wrapper = await mountAndCheckA11Y(<Badge type={type} size="small" content={badgeContent} />)
+  it.each(typeTestData)('Renders correct styles for %s Badge type', async (type, className, { ariaLabel }) => {
+    await renderAndCheckA11Y(<Badge type={type} size="small" content={badgeContent} />)
 
-    expect(wrapper.findDataTest('badge-container').prop('className')).toContain(className)
-    expect(wrapper.findDataTestFirst('badge-icon').props()).toMatchObject({
-      ariaLabel,
-      icon,
-      size: 'small',
-    })
+    expect(screen.getByTestId('badge-container')).toHaveClass(className)
+    expect(within(screen.getByTestId('badge-icon')).queryByLabelText(ariaLabel)).toBeInTheDocument()
+    expect(screen.getByTestId('badge-icon').querySelector('svg')).toHaveClass('small')
   })
 
   const sizeTestData: [BadgeSize, string][] = [
@@ -76,8 +74,8 @@ describe('Badge', () => {
   ]
 
   it.each(sizeTestData)('Renders correct styles for %s Badge size', async (size, className) => {
-    const wrapper = await mountAndCheckA11Y(<Badge type="neutral" size={size} content={badgeContent} />)
+    await renderAndCheckA11Y(<Badge type="neutral" size={size} content={badgeContent} />)
 
-    expect(wrapper.findDataTest('badge-container').prop('className')).toContain(className)
+    expect(screen.getByTestId('badge-container')).toHaveClass(className)
   })
 })

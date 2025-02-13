@@ -1,11 +1,14 @@
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
 import React from 'react'
 import cn from 'classnames'
-import { AlertTriangle, CheckCircle, AlertCircle, Info, ChevronRight } from 'react-feather'
+import userEvent from '@testing-library/user-event'
+import { screen, within } from '@testing-library/react'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
+import { AlertTriangle, CheckCircle, AlertCircle, Info } from 'react-feather'
 
 import { Notification, NotificationType, NotificationIconDescriptor } from '../src/Notification'
 
 import styles from './Notification.module.scss'
+import linkStyles from '../src/Link.module.scss'
 
 const text = 'Lorem ipsum dolor sit amet'
 
@@ -45,63 +48,50 @@ describe('Notification', () => {
     ],
   ]
 
-  it.each(typeTestData)('Renders all necessary components for type %s', async (type, className, { icon, ariaLabel }) => {
-    const wrapper = await mountAndCheckA11Y(<Notification type={type}>{text}</Notification>)
+  it.each(typeTestData)('Renders all necessary components for type %s', async (type, className, { ariaLabel }) => {
+    await renderAndCheckA11Y(<Notification type={type}>{text}</Notification>)
 
-    expect(wrapper.findDataTest('notification').props()).toMatchObject({
-      className: cn(styles.notification, className),
-    })
-    expect(wrapper.findDataTestFirst('notification-icon').props()).toMatchObject({
-      ariaLabel,
-      icon,
-    })
-    expect(wrapper.findDataTest('notification-content').text()).toBe(text)
-    expect(wrapper.findDataTest('notification-link').exists()).toBeFalsy()
+    expect(screen.getByTestId('notification')).toHaveClass(cn(styles.notification, className))
+    expect(screen.queryByLabelText(ariaLabel)).toBeInTheDocument()
+    expect(screen.queryByTestId('notification-content')).toHaveTextContent(text)
+    expect(screen.queryByTestId('notification-link')).not.toBeInTheDocument()
   })
 
   it('Renders link', async () => {
     const link = '/'
     const linkHref = 'href'
 
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <Notification type="success" link={link} linkHref={linkHref}>
         {text}
       </Notification>,
     )
 
-    expect(wrapper.findDataTest('notification').props()).toMatchObject({
-      className: cn(styles.notification, styles.success),
-    })
-    expect(wrapper.findDataTestFirst('notification-icon').props()).toMatchObject({
-      ariaLabel: 'Check circle icon',
-      icon: CheckCircle,
-    })
-    expect(wrapper.findDataTest('notification-content').text()).toBe(text)
-    expect(wrapper.findDataTestFirst('notification-link').props()).toMatchObject({
-      component: 'a',
-      size: 'small',
-      href: linkHref,
-      icon: ChevronRight,
-      ariaLabel: 'Icon chevron right',
-      bold: true,
-    })
-    expect(wrapper.findDataTestFirst('notification-link').text()).toBe(link)
+    expect(screen.getByTestId('notification')).toHaveClass(cn(styles.notification, styles.success))
+    expect(screen.queryByLabelText('Check circle icon')).toBeInTheDocument()
+    expect(screen.queryByTestId('notification-content')).toHaveTextContent(text)
+
+    const linkEl = screen.getByTestId('notification-link')
+    expect(linkEl).toHaveClass(linkStyles.small)
+    expect(linkEl).toHaveClass(linkStyles.bold)
+    expect(linkEl).toHaveAttribute('href', linkHref)
+    expect(linkEl).toHaveTextContent(link)
+    expect(within(linkEl).queryByLabelText('Icon chevron right')).toBeInTheDocument()
   })
 
   it('Renders close button and calls onClose when callback is passed', async () => {
     const onClose = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <Notification type="success" onClose={onClose}>
         {text}
       </Notification>,
     )
 
-    const closeButton = wrapper.findDataTestFirst('notification-close')
-    expect(closeButton.exists()).toBeTruthy()
+    const closeButton = screen.getByTestId('notification-close')
 
     expect(onClose).toBeCalledTimes(0)
-    closeButton.simulate('click')
+    await userEvent.click(closeButton)
     expect(onClose).toBeCalledTimes(1)
   })
 })

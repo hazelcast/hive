@@ -1,5 +1,6 @@
 import React, { FC, ChangeEvent, InputHTMLAttributes, forwardRef } from 'react'
 import { Calendar } from 'react-feather'
+import { DataTestProp } from '@hazelcast/helpers'
 
 import { TextField } from '../../TextField'
 import { CalendarSize } from '../Calendar'
@@ -7,15 +8,16 @@ import { CalendarSize } from '../Calendar'
 export type CalendarInputInternalProps = {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
 } & CalendarInputExtraProps &
-  Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'>
+  Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> &
+  Required<DataTestProp>
 
 export const CalendarInputInternal = forwardRef<HTMLInputElement, CalendarInputInternalProps>(
-  ({ className, value, onChange, label, textFieldSize, ...props }, ref) => (
+  ({ className, value, onChange, label, textFieldSize, 'data-test': dataTest, ...props }, ref) => (
     <TextField<'text'>
       {...props}
       mRef={ref}
       size={textFieldSize}
-      data-test="calendar-input"
+      data-test={dataTest}
       value={value?.toString()}
       onChange={onChange}
       inputContainerClassName={className}

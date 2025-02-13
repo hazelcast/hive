@@ -42,6 +42,7 @@ export const PasswordField: FC<PasswordFieldProps> = ({
   disabled,
   initiallyVisible = false,
   hideToggle = false,
+  'data-test': dataTest = 'password-field',
   ...props
 }) => {
   const [visible, setVisible] = useState(initiallyVisible)
@@ -69,16 +70,17 @@ export const PasswordField: FC<PasswordFieldProps> = ({
         className={styles.toggle}
         onClick={() => setVisible((prev) => !prev)}
         kind="primary"
-        data-test="password-field-toggle"
+        data-test={`${dataTest}-toggle`}
         type="button"
         {...disabledProps}
       />
     )
-  }, [visible, hideToggle, hideIconLabel, showIconLabel, disabled])
+  }, [visible, dataTest, hideToggle, hideIconLabel, showIconLabel, disabled])
 
   return (
     <TextField
       {...props}
+      data-test={dataTest}
       type={visible ? 'text' : 'password'}
       inputContainerChild={overlay}
       inputContainerClassName={cls(styles.inputContainer, { [styles.withoutToggle]: hideToggle })}

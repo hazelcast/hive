@@ -49,7 +49,7 @@ export const TextArea: FC<TextAreaProps> = (props) => {
     resizable = true,
     helperText,
     size = 'medium',
-    'data-test': dataTest,
+    'data-test': dataTest = 'textarea',
     ...htmlAttrs
   } = props
   const id = useUID()
@@ -76,7 +76,7 @@ export const TextArea: FC<TextAreaProps> = (props) => {
         className,
       )}
     >
-      <FieldHeader data-test="textarea" label={label} id={id} helperText={helperText} labelClassName={labelClassName} size={size} />
+      <FieldHeader data-test={dataTest} label={label} id={id} helperText={helperText} labelClassName={labelClassName} size={size} />
       <div className={styles.textAreaContainer}>
         <div className={styles.textAreaWrapper}>
           <textarea
@@ -103,7 +103,7 @@ export const TextArea: FC<TextAreaProps> = (props) => {
           {helperText && resizeListener}
         </div>
       </div>
-      <Error truncated error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
+      <Error data-test={`${dataTest}-error`} truncated error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
     </div>
   )
 }

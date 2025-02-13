@@ -1,7 +1,8 @@
 import React, { createRef } from 'react'
 import { Formik, Form, FormikProps } from 'formik'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
-import { act } from 'react-dom/test-utils'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
+import { act, screen, within } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 import { SelectFieldOption } from '../../src/Select/helpers'
 import { CheckableSelectFieldFormik } from '../../src'
@@ -35,23 +36,14 @@ describe('CheckableSelectFieldFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
+    await renderAndCheckA11Y(<TestForm />)
 
     expect(formikBag.current?.values).toEqual({
       names: [],
     })
 
-    // act(() => {
-    wrapper.findDataTest('test-opener').find('input').simulate('click')
-    // })
-    wrapper.update()
-
-    // We need the `async` call here to wait for processing of the asynchronous 'change'
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      wrapper.findDataTest('test-option').at(1).simulate('click')
-    })
-    wrapper.update()
+    await userEvent.click(within(screen.getByTestId('test-opener')).getByRole('textbox'))
+    await act(() => userEvent.click(screen.queryAllByTestId('test-option')[1]))
 
     expect(formikBag.current?.values).toEqual({
       names: [options[1].value],
@@ -73,24 +65,14 @@ describe('CheckableSelectFieldFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
+    await renderAndCheckA11Y(<TestForm />)
 
-    expect(wrapper.findDataTest('test-opener').find('input').prop('error')).toBe(undefined)
+    expect(screen.getByTestId('test-opener-error')).toHaveTextContent('')
 
-    // act(() => {
-    wrapper.findDataTest('test-opener').find('input').simulate('click')
-    // })
-    wrapper.update()
+    await userEvent.click(within(screen.getByTestId('test-opener')).getByRole('textbox'))
+    await act(() => userEvent.click(screen.queryAllByTestId('test-option')[1]))
 
-    // We need the `async` call here to wait for processing of the asynchronous 'change'
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      wrapper.findDataTest('test-option').at(1).simulate('click')
-    })
-    wrapper.update()
-
-    // The error is displayed only when the input becomes dirty
-    expect(wrapper.findDataTest('test-opener').at(0).prop('error')).toBe('error')
+    expect(screen.getByTestId('test-opener-error')).toHaveTextContent('error')
   })
 
   it('Calls onChange callback', async () => {
@@ -117,23 +99,14 @@ describe('CheckableSelectFieldFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
+    await renderAndCheckA11Y(<TestForm />)
 
     expect(formikBag.current?.values).toEqual({
       names: [],
     })
 
-    // act(() => {
-    wrapper.findDataTest('test-opener').find('input').simulate('click')
-    // })
-    wrapper.update()
-
-    // We need the `async` call here to wait for processing of the asynchronous 'change'
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      wrapper.findDataTest('test-option').at(1).simulate('click')
-    })
-    wrapper.update()
+    await userEvent.click(within(screen.getByTestId('test-opener')).getByRole('textbox'))
+    await act(() => userEvent.click(screen.queryAllByTestId('test-option')[1]))
 
     expect(onChange).toBeCalledTimes(1)
     expect(onChange).toBeCalledWith([options[1].value])

@@ -1,11 +1,10 @@
-import React from 'react'
-import { act } from 'react-dom/test-utils'
-import { mountAndCheckA11Y, simulateChange } from '@hazelcast/test-helpers'
+import React, { useState } from 'react'
+import { act, screen, fireEvent } from '@testing-library/react'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
 import { useUID } from 'react-uid'
 
 import { TextArea } from '../src/TextArea'
-import { Error, errorId } from '../src/Error'
-import { Label } from '../src/Label'
+import { errorId } from '../src/Error'
 
 import styles from '../src/TextArea.module.scss'
 
@@ -29,7 +28,7 @@ describe('TextArea', () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <TextArea
         name={inputName}
         value={inputValue}
@@ -41,67 +40,76 @@ describe('TextArea', () => {
       />,
     )
 
-    expect(wrapper.find(Label).props()).toMatchObject({
-      id: inputId,
-      label: inputLabel,
-    })
+    const label = screen.queryByTestId('textarea-label')!
 
-    expect(wrapper.find('textarea').props()).toEqual({
-      id: inputId,
-      value: inputValue,
-      name: inputName,
-      onChange,
-      onBlur,
-      'aria-invalid': false,
-      'aria-required': undefined,
-      'aria-describedby': undefined,
-      'aria-errormessage': undefined,
-      disabled: undefined,
-      placeholder: inputPlaceholder,
-      required: undefined,
-      className: '',
-      rows: 5,
-    })
+    expect(label).toBeInTheDocument()
+    expect(label).toHaveAttribute('for', inputId)
+    expect(label).toHaveTextContent(inputLabel)
 
-    expect(wrapper.find(Error).props()).toEqual({
-      error: undefined,
-      className: styles.errorContainer,
-      inputId: inputId,
-      truncated: true,
-    })
+    const textarea = container.querySelector('textarea')!
+
+    expect(textarea).toBeInTheDocument()
+    expect(textarea).toHaveProperty('value', inputValue)
+    expect(textarea).toHaveAttribute('placeholder', inputPlaceholder)
+    expect(textarea).toHaveAttribute('id', inputId)
+    expect(textarea).toHaveAttribute('name', inputName)
+    expect(textarea).toHaveAttribute('aria-invalid', 'false')
+    expect(textarea).not.toHaveAttribute('aria-required')
+    expect(textarea).not.toHaveAttribute('aria-describedby')
+    expect(textarea).not.toHaveAttribute('aria-errormessage')
+    expect(textarea).not.toHaveAttribute('required')
+    expect(textarea).not.toHaveAttribute('disabled')
+    expect(textarea).toHaveAttribute('rows', '5')
+
+    const error = screen.getByTestId('textarea-error')!
+
+    expect(error).toBeInTheDocument()
+    expect(error).toHaveAttribute('id', errorId(inputId))
+    expect(error).toHaveClass(styles.errorContainer)
+    expect(error).toHaveTextContent('')
   })
 
   it('onChange works', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
+    const Wrapper = () => {
+      const [value, setValue] = useState(inputValue)
 
-    const wrapper = await mountAndCheckA11Y(
-      <TextArea
-        name={inputName}
-        value={inputValue}
-        placeholder={inputPlaceholder}
-        label={inputLabel}
-        onBlur={onBlur}
-        onChange={onChange}
-      />,
-    )
+      return (
+        <TextArea
+          name={inputName}
+          value={value}
+          placeholder={inputPlaceholder}
+          label={inputLabel}
+          onBlur={onBlur}
+          onChange={(e) => {
+            setValue(e.target.value)
+            onChange(e)
+          }}
+        />
+      )
+    }
+
+    const { container } = await renderAndCheckA11Y(<Wrapper />)
 
     expect(onChange).toBeCalledTimes(0)
 
-    act(() => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      simulateChange(wrapper.find('textarea'), 'value')
+    const textarea = container.querySelector('textarea')!
+
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      fireEvent.change(container.querySelector('textarea')!, { target: { value: 'value' } })
     })
 
     expect(onChange).toBeCalledTimes(1)
-    expect(onChange.mock.calls[0][0]).toMatchObject({ target: { value: 'value' } })
+    expect(textarea.value).toBe('value')
   })
 
   it('onBlur works', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <TextArea
         name={inputName}
         value={inputValue}
@@ -114,8 +122,9 @@ describe('TextArea', () => {
 
     expect(onBlur).toBeCalledTimes(0)
 
-    act(() => {
-      wrapper.find('textarea').simulate('blur')
+    // eslint-disable-next-line @typescript-eslint/require-await
+    await act(async () => {
+      fireEvent.blur(container.querySelector('textarea')!)
     })
 
     expect(onBlur).toBeCalledTimes(1)
@@ -126,7 +135,7 @@ describe('TextArea', () => {
     const onChange = jest.fn()
     const error = 'error'
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <TextArea
         error={error}
         name={inputName}
@@ -138,40 +147,40 @@ describe('TextArea', () => {
       />,
     )
 
-    expect(wrapper.find(Label).props()).toMatchObject({
-      id: inputId,
-      label: inputLabel,
-    })
+    const label = screen.queryByTestId('textarea-label')!
 
-    expect(wrapper.find('textarea').props()).toEqual({
-      id: inputId,
-      value: inputValue,
-      name: inputName,
-      onChange,
-      onBlur,
-      'aria-invalid': true,
-      'aria-required': undefined,
-      'aria-describedby': undefined,
-      'aria-errormessage': errorId(inputId),
-      disabled: undefined,
-      placeholder: inputPlaceholder,
-      required: undefined,
-      className: '',
-    })
+    expect(label).toBeInTheDocument()
+    expect(label).toHaveAttribute('for', inputId)
+    expect(label).toHaveTextContent(inputLabel)
 
-    expect(wrapper.find(Error).props()).toEqual({
-      error,
-      className: styles.errorContainer,
-      inputId: inputId,
-      truncated: true,
-    })
+    const textarea = container.querySelector('textarea')!
+
+    expect(textarea).toBeInTheDocument()
+    expect(textarea).toHaveProperty('value', inputValue)
+    expect(textarea).toHaveAttribute('placeholder', inputPlaceholder)
+    expect(textarea).toHaveAttribute('id', inputId)
+    expect(textarea).toHaveAttribute('name', inputName)
+    expect(textarea).toHaveAttribute('aria-invalid', 'true')
+    expect(textarea).not.toHaveAttribute('aria-required')
+    expect(textarea).not.toHaveAttribute('aria-describedby')
+    expect(textarea).toHaveAttribute('aria-errormessage', 'inputId-error')
+    expect(textarea).not.toHaveAttribute('required')
+    expect(textarea).not.toHaveAttribute('disabled')
+    expect(textarea).not.toHaveAttribute('rows')
+
+    const errorEl = screen.getByTestId('textarea-error')!
+
+    expect(errorEl).toBeInTheDocument()
+    expect(errorEl).toHaveAttribute('id', errorId(inputId))
+    expect(errorEl).toHaveClass(styles.errorContainer)
+    expect(errorEl).toHaveTextContent(error)
   })
 
   it('Renders required with correct props', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <TextArea
         name={inputName}
         value={inputValue}
@@ -183,40 +192,40 @@ describe('TextArea', () => {
       />,
     )
 
-    expect(wrapper.find(Label).props()).toMatchObject({
-      id: inputId,
-      label: inputLabel,
-    })
+    const label = screen.queryByTestId('textarea-label')!
 
-    expect(wrapper.find('textarea').props()).toEqual({
-      id: inputId,
-      className: '',
-      value: inputValue,
-      name: inputName,
-      required: true,
-      onChange,
-      onBlur,
-      'aria-invalid': false,
-      'aria-required': true,
-      'aria-describedby': undefined,
-      'aria-errormessage': undefined,
-      disabled: undefined,
-      placeholder: inputPlaceholder,
-    })
+    expect(label).toBeInTheDocument()
+    expect(label).toHaveAttribute('for', inputId)
+    expect(label).toHaveTextContent(inputLabel)
 
-    expect(wrapper.find(Error).props()).toEqual({
-      error: undefined,
-      className: styles.errorContainer,
-      inputId: inputId,
-      truncated: true,
-    })
+    const textarea = container.querySelector('textarea')!
+
+    expect(textarea).toBeInTheDocument()
+    expect(textarea).toHaveProperty('value', inputValue)
+    expect(textarea).toHaveAttribute('placeholder', inputPlaceholder)
+    expect(textarea).toHaveAttribute('id', inputId)
+    expect(textarea).toHaveAttribute('name', inputName)
+    expect(textarea).toHaveAttribute('aria-invalid', 'false')
+    expect(textarea).toHaveAttribute('aria-required', 'true')
+    expect(textarea).not.toHaveAttribute('aria-describedby')
+    expect(textarea).not.toHaveAttribute('aria-errormessage')
+    expect(textarea).toHaveAttribute('required')
+    expect(textarea).not.toHaveAttribute('disabled')
+    expect(textarea).not.toHaveAttribute('rows')
+
+    const error = screen.getByTestId('textarea-error')!
+
+    expect(error).toBeInTheDocument()
+    expect(error).toHaveAttribute('id', errorId(inputId))
+    expect(error).toHaveClass(styles.errorContainer)
+    expect(error).toHaveTextContent('')
   })
 
   it('Renders disabled with correct props', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <TextArea
         name={inputName}
         value={inputValue}
@@ -228,40 +237,40 @@ describe('TextArea', () => {
       />,
     )
 
-    expect(wrapper.find(Label).props()).toMatchObject({
-      id: inputId,
-      label: inputLabel,
-    })
+    const label = screen.queryByTestId('textarea-label')!
 
-    expect(wrapper.find('textarea').props()).toEqual({
-      id: inputId,
-      className: '',
-      value: inputValue,
-      name: inputName,
-      required: undefined,
-      onChange,
-      onBlur,
-      'aria-invalid': false,
-      'aria-required': undefined,
-      'aria-describedby': undefined,
-      'aria-errormessage': undefined,
-      disabled: true,
-      placeholder: inputPlaceholder,
-    })
+    expect(label).toBeInTheDocument()
+    expect(label).toHaveAttribute('for', inputId)
+    expect(label).toHaveTextContent(inputLabel)
 
-    expect(wrapper.find(Error).props()).toEqual({
-      error: undefined,
-      className: styles.errorContainer,
-      inputId: inputId,
-      truncated: true,
-    })
+    const textarea = container.querySelector('textarea')!
+
+    expect(textarea).toBeInTheDocument()
+    expect(textarea).toHaveProperty('value', inputValue)
+    expect(textarea).toHaveAttribute('placeholder', inputPlaceholder)
+    expect(textarea).toHaveAttribute('id', inputId)
+    expect(textarea).toHaveAttribute('name', inputName)
+    expect(textarea).toHaveAttribute('aria-invalid', 'false')
+    expect(textarea).not.toHaveAttribute('aria-required')
+    expect(textarea).not.toHaveAttribute('aria-describedby')
+    expect(textarea).not.toHaveAttribute('aria-errormessage')
+    expect(textarea).not.toHaveAttribute('required')
+    expect(textarea).toHaveAttribute('disabled')
+    expect(textarea).not.toHaveAttribute('rows')
+
+    const errorEl = screen.getByTestId('textarea-error')!
+
+    expect(errorEl).toBeInTheDocument()
+    expect(errorEl).toHaveTextContent('')
+    expect(errorEl).toHaveAttribute('id', errorId(inputId))
+    expect(errorEl).toHaveClass(styles.errorContainer)
   })
 
   it('Renders helperText', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <TextArea
         name={inputName}
         value={inputValue}
@@ -273,9 +282,10 @@ describe('TextArea', () => {
       />,
     )
 
-    expect(wrapper.findDataTest('textarea-helperText').props()).toMatchObject({
-      parentId: inputId,
-      helperText,
-    })
+    const helperEl = screen.queryByTestId('textarea-helperText')!
+
+    expect(helperEl).toBeInTheDocument()
+    expect(screen.queryByTestId('tooltip-sr')).toHaveAttribute('id', 'inputId-help')
+    expect(screen.queryByTestId('tooltip-overlay')).toHaveTextContent(helperText)
   })
 })

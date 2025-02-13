@@ -82,7 +82,7 @@ export type TextFieldProps<T extends TextFieldTypes> = TextFieldCoreProps<T> & T
  *
  * ### General Info
  * - Text Field is available in 2 variations: `small` (height of 30 px) and `medium` (height of 40 px). The use depends mainly on the space in UI.
- * - All of the variations can be either with the label, or without label.
+ * - All the variations can be either with the label, or without label.
  * - Standard label alignment is left-aligned with the field underneath.
  * - If needed, you can use icon on the left side or on the right side inside the Text Input (e.g. Eye icon to show / hide password).
  *
@@ -91,7 +91,7 @@ export type TextFieldProps<T extends TextFieldTypes> = TextFieldCoreProps<T> & T
  */
 const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, ref?: Ref<HTMLInputElement>) => {
   const {
-    'data-test': dataTest,
+    'data-test': dataTest = 'text-field',
     ariaLabel,
     className,
     disabled,
@@ -167,6 +167,7 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
         helperText={helperText}
         showAriaLabel={showAriaLabel}
         labelClassName={labelClassName}
+        data-test={`${dataTest}-header`}
         helperTextTooltipWordBreak={helperTextTooltipWordBreak}
       />
       <div className={styles.inputBlock}>
@@ -183,7 +184,7 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
             readOnly={readOnly}
             onKeyPress={onKeyPress}
             onClick={onClick}
-            aria-label={showAriaLabel ? ariaLabel : undefined}
+            aria-label={showAriaLabel ? ariaLabel || label : undefined}
             // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute
             aria-invalid={!!error}
             aria-required={required}
@@ -233,6 +234,7 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
         truncated
         inputId={id}
         error={error}
+        data-test={`${dataTest}-error`}
         tooltipPlacement={errorTooltipPlacement}
         className={cn(styles.errorContainer, errorClassName)}
       />

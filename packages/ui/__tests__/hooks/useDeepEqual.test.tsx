@@ -1,4 +1,5 @@
-import { getHookRes, testHook } from '@hazelcast/test-helpers'
+import { renderHook } from '@testing-library/react-hooks'
+
 import { useDeepEqual } from '../../src/hooks/useDeepEqual'
 
 describe('useDeepEqual', () => {
@@ -6,8 +7,8 @@ describe('useDeepEqual', () => {
   const value = { name: 'Mykola' }
 
   it('returns value if the args are deep equal', () => {
-    const { spyHookRes } = testHook(() => useDeepEqual(value, defaultValue))
-    const result = getHookRes(spyHookRes)
-    expect(result).toEqual(value)
+    const { result } = renderHook(() => useDeepEqual(value, defaultValue))
+
+    expect(result.current).toEqual(value)
   })
 })

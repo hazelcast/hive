@@ -6,6 +6,7 @@ import { TabContextProvider, TabContextProviderControlled } from '../src/Tabs/Ta
 import { TabList } from '../src/Tabs/TabList'
 import { AnchorTabProps, ButtonTabProps, Tab } from '../src/Tabs/Tab'
 import { TabPanel } from '../src/Tabs/TabPanel'
+import { Icon } from '../src/Icon'
 
 type Args = {
   fullWidth: boolean
@@ -38,9 +39,15 @@ const Template: Story<Args> = (args) => {
   return (
     <TabContextProvider fullWidth={args.fullWidth}>
       <TabList ariaLabel="Tabs Story">
-        <Tab label="Tab 1" value={0} {...tabProps} />
-        <Tab label="Tab 2" value={1} {...tabProps} />
-        <Tab label="Tab 3" value={2} {...tabProps} />
+        <Tab ariaLabel="Tab 1" value={0} {...tabProps}>
+          Tab 1
+        </Tab>
+        <Tab ariaLabel="Tab 2" value={1} {...tabProps}>
+          Tab 2
+        </Tab>
+        <Tab ariaLabel="Tab 3" value={2} {...tabProps}>
+          Tab 3
+        </Tab>
       </TabList>
       <TabPanel value={0}>
         <p>Panel 1</p>
@@ -79,9 +86,15 @@ export const Controlled = () => {
       <p>Active Tab: {value + 1}</p>
       <TabContextProviderControlled value={value} onChange={setValue}>
         <TabList ariaLabel="Tabs Story">
-          <Tab label="Tab 1" value={0} />
-          <Tab label="Tab 2" value={1} />
-          <Tab label="Tab 3" value={2} />
+          <Tab ariaLabel="Tab 1" value={0}>
+            Tab 1
+          </Tab>
+          <Tab ariaLabel="Tab 2" value={1}>
+            Tab 2
+          </Tab>
+          <Tab ariaLabel="Tab 3" value={2}>
+            Tab 3
+          </Tab>
         </TabList>
         <TabPanel value={0}>
           <p>Panel 1</p>
@@ -100,9 +113,18 @@ export const Controlled = () => {
 export const WithIcons = () => (
   <TabContextProvider>
     <TabList ariaLabel="Tabs Story">
-      <Tab label="Tab 1" value={0} icon={Info} iconAriaLabel="Info" />
-      <Tab label="Tab 2" value={1} icon={PenTool} iconAriaLabel="PenTool" />
-      <Tab label="Tab 3" value={2} icon={Settings} iconAriaLabel="Settings" />
+      <Tab ariaLabel="Tab 1" value={0}>
+        <Icon icon={Info} ariaLabel="Info" />
+        Tab 1
+      </Tab>
+      <Tab ariaLabel="Tab 2" value={1}>
+        <Icon icon={PenTool} ariaLabel="PenTool" />
+        Tab 2
+      </Tab>
+      <Tab ariaLabel="Tab 3" value={2}>
+        <Icon icon={Settings} ariaLabel="Settings" />
+        Tab 3
+      </Tab>
     </TabList>
     <TabPanel value={0}>
       <p>Panel 1</p>

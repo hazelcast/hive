@@ -1,6 +1,7 @@
-import { getFixedTimezoneDate, mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { getFixedTimezoneDate, renderAndCheckA11Y } from '@hazelcast/test-helpers'
 import React from 'react'
-import { ArrowRight } from 'react-feather'
+import { screen, within } from '@testing-library/react'
+
 import { CalendarRange } from '../../src/Calendar/CalendarRange'
 
 // Equivalent to `2021-02-08T09:00:00.000Z`
@@ -12,44 +13,36 @@ describe('CalendarRange', () => {
     const onStartDateChange = jest.fn()
     const onEndDateChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <CalendarRange startDate={date} onStartDateChange={onStartDateChange} endDate={date} onEndDateChange={onEndDateChange} />,
     )
 
     // Start
-    expect(wrapper.findDataTest('calendar-range-start').at(0).props()).toMatchObject({
-      date,
-      onDateChange: onStartDateChange,
-      selectsStart: true,
-      startDate: date,
-      endDate: date,
-      inputLabel: 'From',
-      open: undefined,
-    })
+    const start = screen.getByTestId('calendar-range-start-input')!
+
+    expect(start).toBeInTheDocument()
+    expect(within(start).queryByText('From')).toBeInTheDocument()
+    expect(within(start).queryByDisplayValue('2021-02-08')).toBeInTheDocument()
 
     // Icon
-    expect(wrapper.findDataTestFirst('calendar-range-icon').props()).toMatchObject({
-      icon: ArrowRight,
-      ariaLabel: 'Arrow Right',
-    })
+    const icon = screen.queryByTestId('calendar-range-icon')!
+
+    expect(icon).toBeInTheDocument()
+    expect(icon.querySelector('svg')).toHaveAttribute('aria-label', 'Arrow Right')
 
     // End
-    expect(wrapper.findDataTest('calendar-range-end').at(0).props()).toMatchObject({
-      date,
-      onDateChange: onEndDateChange,
-      startDate: date,
-      endDate: date,
-      minDate: date,
-      inputLabel: 'To',
-      open: undefined,
-    })
+    const end = screen.queryByTestId('calendar-range-end-input')!
+
+    expect(end).toBeInTheDocument()
+    expect(within(end).queryByText('To')).toBeInTheDocument()
+    expect(within(end).queryByDisplayValue('2021-02-08')).toBeInTheDocument()
   })
 
   it('Renders with time inputs', async () => {
     const onStartDateChange = jest.fn()
     const onEndDateChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <CalendarRange
         startDate={date}
         onStartDateChange={onStartDateChange}
@@ -60,34 +53,23 @@ describe('CalendarRange', () => {
     )
 
     // Start
-    expect(wrapper.findDataTest('calendar-range-start').at(0).props()).toMatchObject({
-      date,
-      onDateChange: onStartDateChange,
-      selectsStart: true,
-      startDate: date,
-      endDate: date,
-      inputLabel: 'From',
-      showTimeInput: true,
-      open: undefined,
-    })
+    const start = screen.getByTestId('calendar-range-start-input')!
+
+    expect(start).toBeInTheDocument()
+    expect(within(start).queryByText('From')).toBeInTheDocument()
+    expect(within(start).queryByDisplayValue('2021-02-08 12:00')).toBeInTheDocument()
 
     // Icon
-    expect(wrapper.findDataTestFirst('calendar-range-icon').props()).toMatchObject({
-      icon: ArrowRight,
-      ariaLabel: 'Arrow Right',
-    })
+    const icon = screen.queryByTestId('calendar-range-icon')!
+
+    expect(icon).toBeInTheDocument()
+    expect(icon.querySelector('svg')).toHaveAttribute('aria-label', 'Arrow Right')
 
     // End
-    expect(wrapper.findDataTest('calendar-range-end').at(0).props()).toMatchObject({
-      date,
-      onDateChange: onEndDateChange,
-      selectsEnd: true,
-      startDate: date,
-      endDate: date,
-      minDate: date,
-      inputLabel: 'To',
-      showTimeInput: true,
-      open: undefined,
-    })
+    const end = screen.queryByTestId('calendar-range-end-input')!
+
+    expect(end).toBeInTheDocument()
+    expect(within(end).queryByText('To')).toBeInTheDocument()
+    expect(within(start).queryByDisplayValue('2021-02-08 12:00')).toBeInTheDocument()
   })
 })

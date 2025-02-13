@@ -9,8 +9,8 @@ import { OverlayProps } from '../src/Overlay'
 const content = (
   <TabContextProvider>
     <TabList ariaLabel="Settings Tabs" className={styles.tablist}>
-      <Tab label="My Account" value={0} />
-      <Tab label="Billing" value={1} />
+      <Tab value={0}>My Account</Tab>
+      <Tab value={1}>Billing</Tab>
     </TabList>
     <TabPanel value={0}>
       <Card title="Account Information">

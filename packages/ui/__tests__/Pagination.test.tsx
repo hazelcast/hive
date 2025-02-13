@@ -1,18 +1,10 @@
 import React from 'react'
-import { act } from 'react-dom/test-utils'
-import { simulateChange } from '@hazelcast/test-helpers'
-import { ChevronLeft, ChevronRight } from 'react-feather'
-import Select from 'react-select'
-import { mount, shallow } from 'enzyme'
+import { act, fireEvent, render, screen, within } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 import { getShownItemsRange, GetShownItemsRangeParams, Pagination, PaginationProps, ShownItemsRange } from '../src/Pagination'
-import { IconButton, IconButtonProps } from '../src/IconButton'
-import { Button, ButtonProps } from '../src/Button'
 
 import styles from '../src/Pagination.module.scss'
-import { NumberField, NumberFieldProps } from '../src/NumberField'
-import { Link, SelectField } from '../src'
-import { SelectFieldProps } from '../src/Select/SelectField'
 
 describe('helpers', () => {
   describe('getShownItemsRange', () => {
@@ -77,28 +69,6 @@ let currentPage = 1
 let canPreviousPage = true
 let canNextPage = true
 
-const buttonPropsBase: ButtonProps = {
-  type: 'button',
-  variant: 'text',
-  className: styles.button,
-  bodyClassName: styles.body,
-  outlineClassName: styles.outline,
-  capitalize: false,
-
-  onClick: expect.anything(),
-  children: 'Base',
-}
-
-const nextPrevButtonPropsBase: IconButtonProps = {
-  kind: 'primary',
-  icon: ChevronRight,
-  ariaLabel: 'Base',
-  className: styles.iconButton,
-  'data-test': 'pagination-buttons-next-page',
-
-  onClick: expect.anything(),
-}
-
 describe('Pagination', () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -113,7 +83,7 @@ describe('Pagination', () => {
     canPreviousPage = currentPage !== 1
     canNextPage = currentPage !== pageCount
 
-    const wrapper = shallow(
+    render(
       <Pagination
         pageCount={pageCount}
         currentPage={currentPage}
@@ -131,92 +101,85 @@ describe('Pagination', () => {
       />,
     )
 
-    expect(wrapper.find(SelectField).props()).toEqual<SelectFieldProps<number>>({
-      className: styles.rowsPerPage,
-      labelClassName: styles.label,
-      name: 'rowsPerPage',
-      value: pageSize,
-      isSearchable: false,
-      label: 'Rows',
-      options: pageSizeOptions.map((opt) => ({ value: opt, label: opt.toString() })),
-      size: 'small',
-      'data-test': 'pagination-rows-per-page-select',
+    const label = screen.queryByTestId('pagination-rows-per-page-select-label')!
 
-      onChange: expect.anything(),
-    })
+    expect(label).toBeInTheDocument()
+    expect(label).toHaveTextContent('Rows')
+    expect(label).toHaveClass(styles.label)
 
-    expect(wrapper.findDataTest('pagination-range-of-shown-items').props()).toEqual({
-      'data-test': 'pagination-range-of-shown-items',
-      className: styles.shownItems,
-      children: '1 – 5 of 10000',
-    })
+    const select = screen.queryByTestId('pagination-rows-per-page-select')!
 
-    const iconButton = wrapper.findDataTest('pagination-buttons').find(IconButton)
-    expect(iconButton.props()).toEqual<IconButtonProps>({
-      ...nextPrevButtonPropsBase,
-      icon: ChevronRight,
-      ariaLabel: 'Next page',
-    })
+    expect(select).toBeInTheDocument()
 
-    const buttons = wrapper.findDataTest('pagination-buttons').find(Button)
+    const input = select.querySelector('input')
+
+    expect(input).toBeInTheDocument()
+    expect(input).not.toHaveAttribute('disabled')
+    expect(input).toHaveAttribute('aria-invalid', 'false')
+    expect(input).not.toHaveAttribute('aria-required')
+    expect(input).not.toHaveAttribute('aria-errormessage')
+
+    const valueContainer = select.querySelector('.hz-select-field__value-container') as HTMLElement
+
+    expect(valueContainer).toBeInTheDocument()
+    expect(within(valueContainer).queryByText(pageSize)).toBeInTheDocument()
+
+    const error = screen.queryByTestId('pagination-rows-per-page-select-error')!
+
+    expect(error).toBeInTheDocument()
+    expect(error).toHaveTextContent('')
+
+    const rangeOfShownItems = screen.queryByTestId('pagination-range-of-shown-items')!
+
+    expect(rangeOfShownItems).toBeInTheDocument()
+    expect(rangeOfShownItems).toHaveTextContent('1 – 5 of 10000')
+
+    const nextPageButton = screen.queryByTestId('pagination-buttons-next-page')!
+
+    expect(nextPageButton).toBeInTheDocument()
+    expect(nextPageButton).toHaveClass(styles.iconButton)
+    expect(nextPageButton).toHaveAttribute('aria-label', 'Next page')
+
+    expect(screen.queryByTestId('pagination-buttons-previous-page')).not.toBeInTheDocument()
+
+    const buttons = screen.getAllByTestId('pagination-buttons-go-to-page')
     expect(buttons).toHaveLength(6)
-    Object.entries({
-      ...buttonPropsBase,
-      className: `${styles.button} ${styles.selected}`,
-      children: '1',
-      'data-test': 'pagination-buttons-go-to-page',
-    }).forEach(([key, value]) => {
-      expect(buttons.at(0).prop(key)).toEqual(value)
-    })
-    Object.entries({
-      ...buttonPropsBase,
-      children: '2',
-      'data-test': 'pagination-buttons-go-to-page',
-    }).forEach(([key, value]) => {
-      expect(buttons.at(1).prop(key)).toEqual(value)
-    })
-    Object.entries({
-      ...buttonPropsBase,
-      children: '3',
-      'data-test': 'pagination-buttons-go-to-page',
-    }).forEach(([key, value]) => {
-      expect(buttons.at(2).prop(key)).toEqual(value)
-    })
-    Object.entries({
-      ...buttonPropsBase,
-      children: '4',
-      'data-test': 'pagination-buttons-go-to-page',
-    }).forEach(([key, value]) => {
-      expect(buttons.at(3).prop(key)).toEqual(value)
-    })
-    Object.entries({
-      ...buttonPropsBase,
-      children: '5',
-      'data-test': 'pagination-buttons-go-to-page',
-    }).forEach(([key, value]) => {
-      expect(buttons.at(4).prop(key)).toEqual(value)
-    })
-    Object.entries({
-      ...buttonPropsBase,
-      children: '2000',
-      'data-test': 'pagination-buttons-go-to-page',
-    }).forEach(([key, value]) => {
-      expect(buttons.at(5).prop(key)).toEqual(value)
-    })
 
-    expect(wrapper.find(NumberField).props()).toEqual<NumberFieldProps>({
-      inputContainerClassName: styles.inputContainer,
-      name: 'page',
-      label: 'Go to page',
-      showAriaLabel: true,
-      showIconButtons: false,
-      min: 1,
-      max: pageCount,
-      size: 'small',
-      value: currentPage,
-      'data-test': 'pagination-jump-from-input-field',
-      onChange: expect.anything(),
-    })
+    expect(buttons[0]).toHaveClass(`${styles.button} ${styles.selected}`)
+    expect(buttons[0]).toHaveTextContent('1')
+    expect(buttons[0]).toHaveAttribute('type', 'button')
+
+    expect(buttons[1]).toHaveClass(styles.button)
+    expect(buttons[1]).toHaveTextContent('2')
+    expect(buttons[1]).toHaveAttribute('type', 'button')
+
+    expect(buttons[2]).toHaveClass(styles.button)
+    expect(buttons[2]).toHaveTextContent('3')
+    expect(buttons[2]).toHaveAttribute('type', 'button')
+
+    expect(buttons[3]).toHaveClass(styles.button)
+    expect(buttons[3]).toHaveTextContent('4')
+    expect(buttons[3]).toHaveAttribute('type', 'button')
+
+    expect(buttons[4]).toHaveClass(styles.button)
+    expect(buttons[4]).toHaveTextContent('5')
+    expect(buttons[4]).toHaveAttribute('type', 'button')
+
+    expect(buttons[5]).toHaveClass(styles.button)
+    expect(buttons[5]).toHaveTextContent('2000')
+    expect(buttons[5]).toHaveAttribute('type', 'button')
+
+    const numberField = screen.queryByTestId('pagination-jump-from-input-field')!
+
+    expect(numberField).toBeInTheDocument()
+
+    const numberFieldInput = numberField.querySelector('input')
+
+    expect(numberFieldInput).toBeInTheDocument()
+    expect(numberFieldInput).toHaveAttribute('value', '1')
+    expect(numberFieldInput).toHaveAttribute('type', 'number')
+    expect(numberFieldInput).toHaveAttribute('aria-label', 'Go to page')
+    expect(numberFieldInput).not.toHaveAttribute('placeholder')
   })
 
   it('renders correct buttons when current page is somewhere in the middle', () => {
@@ -224,7 +187,7 @@ describe('Pagination', () => {
     canPreviousPage = currentPage !== 1
     canNextPage = currentPage !== pageCount
 
-    const wrapper = shallow(
+    render(
       <Pagination
         pageCount={pageCount}
         currentPage={currentPage}
@@ -242,70 +205,45 @@ describe('Pagination', () => {
       />,
     )
 
-    expect(wrapper.findDataTest('pagination-range-of-shown-items').props()).toEqual({
-      'data-test': 'pagination-range-of-shown-items',
-      className: styles.shownItems,
-      children: '4996 – 5000 of 10000',
-    })
+    const rangeOfShownItems = screen.queryByTestId('pagination-range-of-shown-items')!
 
-    const iconButton = wrapper.findDataTest('pagination-buttons').find(IconButton)
-    expect(iconButton).toHaveLength(2)
+    expect(rangeOfShownItems).toBeInTheDocument()
+    expect(rangeOfShownItems).toHaveTextContent('4996 – 5000 of 10000')
 
-    Object.entries({
-      ...nextPrevButtonPropsBase,
-      icon: ChevronLeft,
-      ariaLabel: 'Previous page',
-      'data-test': 'pagination-buttons-previous-page',
-    }).forEach(([key, value]) => {
-      expect(iconButton.at(0).prop(key)).toEqual(value)
-    })
+    const nextPageButton = screen.getByTestId('pagination-buttons-next-page')!
 
-    Object.entries({
-      ...nextPrevButtonPropsBase,
-      icon: ChevronRight,
-      ariaLabel: 'Next page',
-    }).forEach(([key, value]) => {
-      expect(iconButton.at(1).prop(key)).toEqual(value)
-    })
+    expect(nextPageButton).toBeInTheDocument()
+    expect(nextPageButton).toHaveClass(styles.iconButton)
+    expect(nextPageButton).toHaveAttribute('aria-label', 'Next page')
 
-    const buttons = wrapper.find(Button)
+    const prevPageButton = screen.queryByTestId('pagination-buttons-previous-page')!
+
+    expect(prevPageButton).toBeInTheDocument()
+    expect(prevPageButton).toHaveClass(styles.iconButton)
+    expect(prevPageButton).toHaveAttribute('aria-label', 'Previous page')
+
+    const buttons = screen.getAllByTestId('pagination-buttons-go-to-page')
     expect(buttons).toHaveLength(5)
-    Object.entries({
-      ...buttonPropsBase,
-      children: '1',
-      'data-test': 'pagination-buttons-go-to-page',
-    }).forEach(([key, value]) => {
-      expect(buttons.at(0).prop(key)).toEqual(value)
-    })
-    Object.entries({
-      ...buttonPropsBase,
-      children: '999',
-      'data-test': 'pagination-buttons-go-to-page',
-    }).forEach(([key, value]) => {
-      expect(buttons.at(1).prop(key)).toEqual(value)
-    })
-    Object.entries({
-      ...buttonPropsBase,
-      className: `${styles.button} ${styles.selected}`,
-      children: '1000',
-      'data-test': 'pagination-buttons-go-to-page',
-    }).forEach(([key, value]) => {
-      expect(buttons.at(2).prop(key)).toEqual(value)
-    })
-    Object.entries({
-      ...buttonPropsBase,
-      children: '1001',
-      'data-test': 'pagination-buttons-go-to-page',
-    }).forEach(([key, value]) => {
-      expect(buttons.at(3).prop(key)).toEqual(value)
-    })
-    Object.entries({
-      ...buttonPropsBase,
-      children: '2000',
-      'data-test': 'pagination-buttons-go-to-page',
-    }).forEach(([key, value]) => {
-      expect(buttons.at(4).prop(key)).toEqual(value)
-    })
+
+    expect(buttons[0]).toHaveClass(styles.button)
+    expect(buttons[0]).toHaveTextContent('1')
+    expect(buttons[0]).toHaveAttribute('type', 'button')
+
+    expect(buttons[1]).toHaveClass(styles.button)
+    expect(buttons[1]).toHaveTextContent('999')
+    expect(buttons[1]).toHaveAttribute('type', 'button')
+
+    expect(buttons[2]).toHaveClass(`${styles.button} ${styles.selected}`)
+    expect(buttons[2]).toHaveTextContent('1000')
+    expect(buttons[2]).toHaveAttribute('type', 'button')
+
+    expect(buttons[3]).toHaveClass(styles.button)
+    expect(buttons[3]).toHaveTextContent('1001')
+    expect(buttons[3]).toHaveAttribute('type', 'button')
+
+    expect(buttons[4]).toHaveClass(styles.button)
+    expect(buttons[4]).toHaveTextContent('2000')
+    expect(buttons[4]).toHaveAttribute('type', 'button')
   })
 
   it('renders correct buttons when current page is the last page', () => {
@@ -313,7 +251,7 @@ describe('Pagination', () => {
     canPreviousPage = currentPage !== 1
     canNextPage = currentPage !== pageCount
 
-    const wrapper = shallow(
+    render(
       <Pagination
         pageCount={pageCount}
         currentPage={currentPage}
@@ -331,61 +269,53 @@ describe('Pagination', () => {
       />,
     )
 
-    expect(wrapper.findDataTest('pagination-range-of-shown-items').props()).toEqual({
-      'data-test': 'pagination-range-of-shown-items',
-      className: styles.shownItems,
-      children: '9996 – 10000 of 10000',
-    })
+    const rangeOfShownItems = screen.queryByTestId('pagination-range-of-shown-items')!
 
-    const iconButton = wrapper.findDataTest('pagination-buttons').find(IconButton)
-    expect(iconButton.props()).toEqual<IconButtonProps>({
-      ...nextPrevButtonPropsBase,
-      icon: ChevronLeft,
-      ariaLabel: 'Previous page',
-      'data-test': 'pagination-buttons-previous-page',
-    })
+    expect(rangeOfShownItems).toBeInTheDocument()
+    expect(rangeOfShownItems).toHaveTextContent('9996 – 10000 of 10000')
 
-    const buttons = wrapper.find(Button)
+    expect(screen.queryByTestId('pagination-buttons-next-page')).not.toBeInTheDocument()
+
+    const prevPageButton = screen.getByTestId('pagination-buttons-previous-page')!
+
+    expect(prevPageButton).toBeInTheDocument()
+    expect(prevPageButton).toHaveClass(styles.iconButton)
+    expect(prevPageButton).toHaveAttribute('aria-label', 'Previous page')
+
+    const buttons = screen.getAllByTestId('pagination-buttons-go-to-page')
     expect(buttons).toHaveLength(6)
-    expect(buttons.at(0).props()).toEqual<ButtonProps>({
-      ...buttonPropsBase,
-      children: '1',
-      'data-test': 'pagination-buttons-go-to-page',
-    })
-    expect(buttons.at(1).props()).toEqual<ButtonProps>({
-      ...buttonPropsBase,
-      children: '1996',
-      'data-test': 'pagination-buttons-go-to-page',
-    })
-    expect(buttons.at(2).props()).toEqual<ButtonProps>({
-      ...buttonPropsBase,
-      children: '1997',
-      'data-test': 'pagination-buttons-go-to-page',
-    })
-    expect(buttons.at(3).props()).toEqual<ButtonProps>({
-      ...buttonPropsBase,
-      children: '1998',
-      'data-test': 'pagination-buttons-go-to-page',
-    })
-    expect(buttons.at(4).props()).toEqual<ButtonProps>({
-      ...buttonPropsBase,
-      children: '1999',
-      'data-test': 'pagination-buttons-go-to-page',
-    })
-    expect(buttons.at(5).props()).toEqual<ButtonProps>({
-      ...buttonPropsBase,
-      className: `${styles.button} ${styles.selected}`,
-      children: '2000',
-      'data-test': 'pagination-buttons-go-to-page',
-    })
+
+    expect(buttons[0]).toHaveClass(styles.button)
+    expect(buttons[0]).toHaveTextContent('1')
+    expect(buttons[0]).toHaveAttribute('type', 'button')
+
+    expect(buttons[1]).toHaveClass(styles.button)
+    expect(buttons[1]).toHaveTextContent('1996')
+    expect(buttons[1]).toHaveAttribute('type', 'button')
+
+    expect(buttons[2]).toHaveClass(styles.button)
+    expect(buttons[2]).toHaveTextContent('1997')
+    expect(buttons[2]).toHaveAttribute('type', 'button')
+
+    expect(buttons[3]).toHaveClass(styles.button)
+    expect(buttons[3]).toHaveTextContent('1998')
+    expect(buttons[3]).toHaveAttribute('type', 'button')
+
+    expect(buttons[4]).toHaveClass(styles.button)
+    expect(buttons[4]).toHaveTextContent('1999')
+    expect(buttons[4]).toHaveAttribute('type', 'button')
+
+    expect(buttons[5]).toHaveClass(`${styles.button} ${styles.selected}`)
+    expect(buttons[5]).toHaveTextContent('2000')
+    expect(buttons[5]).toHaveAttribute('type', 'button')
   })
 
-  it('changes pages correctly', () => {
+  it('changes pages correctly', async () => {
     currentPage = 10
     canPreviousPage = currentPage !== 1
     canNextPage = currentPage !== pageCount
 
-    const wrapper = shallow(
+    render(
       <Pagination
         pageCount={pageCount}
         currentPage={currentPage}
@@ -403,34 +333,38 @@ describe('Pagination', () => {
       />,
     )
 
-    const iconButtons = wrapper.findDataTest('pagination-buttons').find(IconButton)
-
-    const buttons = wrapper.findDataTest('pagination-buttons').find(Button)
+    const prevPageButton = screen.getByTestId('pagination-buttons-previous-page')
+    const nextvPageButton = screen.getByTestId('pagination-buttons-next-page')
+    const buttons = screen.getAllByTestId('pagination-buttons-go-to-page')
     expect(previousPage).toHaveBeenCalledTimes(0)
     expect(nextPage).toHaveBeenCalledTimes(0)
     expect(goToPage).toHaveBeenCalledTimes(0)
 
     // Let's click on `Previous` button
-    iconButtons.at(0).simulate('click')
+    await act(() => userEvent.click(prevPageButton))
     expect(previousPage).toHaveBeenCalledTimes(1)
     // Let's click on `Next` button
-    iconButtons.at(1).simulate('click')
+    await act(() => userEvent.click(nextvPageButton))
     expect(nextPage).toHaveBeenCalledTimes(1)
 
     // Let's click on page buttons
-    buttons.at(0).simulate('click')
+    await act(() => userEvent.click(buttons[0]))
     expect(goToPage).toHaveBeenCalledTimes(1)
     expect(goToPage).toHaveBeenCalledWith<Parameters<typeof goToPage>>(1)
-    buttons.at(1).simulate('click')
+
+    await act(() => userEvent.click(buttons[1]))
     expect(goToPage).toHaveBeenCalledTimes(2)
     expect(goToPage).toHaveBeenCalledWith<Parameters<typeof goToPage>>(9)
-    buttons.at(2).simulate('click')
+
+    await act(() => userEvent.click(buttons[2]))
     expect(goToPage).toHaveBeenCalledTimes(3)
     expect(goToPage).toHaveBeenCalledWith<Parameters<typeof goToPage>>(10)
-    buttons.at(3).simulate('click')
+
+    await act(() => userEvent.click(buttons[3]))
     expect(goToPage).toHaveBeenCalledTimes(4)
     expect(goToPage).toHaveBeenCalledWith<Parameters<typeof goToPage>>(11)
-    buttons.at(4).simulate('click')
+
+    await act(() => userEvent.click(buttons[4]))
     expect(goToPage).toHaveBeenCalledTimes(5)
     expect(goToPage).toHaveBeenCalledWith<Parameters<typeof goToPage>>(2000)
 
@@ -443,7 +377,7 @@ describe('Pagination', () => {
     canPreviousPage = currentPage !== 1
     canNextPage = currentPage !== pageCount
 
-    const wrapper = mount(
+    render(
       <Pagination
         pageCount={pageCount}
         currentPage={currentPage}
@@ -466,16 +400,12 @@ describe('Pagination', () => {
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      simulateChange(wrapper.find(NumberField).find('input'), 42)
+      fireEvent.change(screen.getByTestId('pagination-jump-from-input-field').querySelector('input')!, { target: { value: '42' } })
     })
-    wrapper.update()
 
     // We need the `async` call here to wait for processing of the asynchronous 'submit'
     // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      wrapper.find(Link).simulate('click')
-    })
+    await act(() => userEvent.click(screen.getByTestId('pagination-jump-from-button')))
 
     expect(goToPage).toHaveBeenCalledTimes(1)
     expect(goToPage).toHaveBeenCalledWith<Parameters<typeof goToPage>>(42)
@@ -486,7 +416,7 @@ describe('Pagination', () => {
     canPreviousPage = currentPage !== 1
     canNextPage = currentPage !== pageCount
 
-    const wrapper = mount(
+    const { container } = render(
       <Pagination
         pageCount={pageCount}
         currentPage={currentPage}
@@ -506,24 +436,23 @@ describe('Pagination', () => {
 
     expect(setPageSize).toHaveBeenCalledTimes(0)
 
-    const selectInstance = wrapper.find(Select)
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      selectInstance.props().onChange?.({ value: 10, label: '10' }, { action: 'select-option' })
+      fireEvent.mouseDown(container.querySelector('.hz-select-field__indicators')!, { button: 0 })
     })
-    wrapper.update()
+    await act(() => userEvent.click(screen.getByRole('option', { name: '10' })))
 
     expect(setPageSize).toHaveBeenCalledTimes(1)
     expect(setPageSize).toHaveBeenCalledWith(10)
   })
 
-  it('renders small version of pagination', () => {
+  it('renders small version of pagination', async () => {
     currentPage = 1
     canPreviousPage = currentPage !== 1
     canNextPage = currentPage !== pageCount
 
-    const wrapper = shallow(
+    render(
       <Pagination
         pageCount={pageCount}
         currentPage={currentPage}
@@ -539,105 +468,95 @@ describe('Pagination', () => {
       />,
     )
 
-    expect(wrapper.findDataTest('pagination-buttons').find(IconButton).props()).toEqual<IconButtonProps>({
-      ...nextPrevButtonPropsBase,
-      icon: ChevronRight,
-      ariaLabel: 'Next page',
-    })
+    let nextPageButton = screen.queryByTestId('pagination-buttons-next-page')!
 
-    let buttons = wrapper.findDataTest('pagination-buttons').find(Button)
+    expect(nextPageButton).toBeInTheDocument()
+    expect(nextPageButton).toHaveClass(styles.iconButton)
+    expect(nextPageButton).toHaveAttribute('aria-label', 'Next page')
+
+    let buttons = screen.queryAllByTestId('pagination-buttons-go-to-page')
     expect(buttons).toHaveLength(3)
-    expect(buttons.at(0).props()).toEqual<ButtonProps>({
-      ...buttonPropsBase,
-      className: `${styles.button} ${styles.selected}`,
-      children: '1',
-      'data-test': 'pagination-buttons-go-to-page',
-    })
-    expect(buttons.at(1).props()).toEqual<ButtonProps>({
-      ...buttonPropsBase,
-      children: '2',
-      'data-test': 'pagination-buttons-go-to-page',
-    })
-    expect(buttons.at(2).props()).toEqual<ButtonProps>({
-      ...buttonPropsBase,
-      children: '2000',
-      'data-test': 'pagination-buttons-go-to-page',
-    })
+    expect(buttons[0]).toHaveClass(`${styles.button} ${styles.selected}`)
+    expect(buttons[0]).toHaveTextContent('1')
+    expect(buttons[0]).toHaveAttribute('type', 'button')
 
-    expect(wrapper.findDataTest('pagination-range-of-shown-items').exists()).toBe(false)
-    expect(wrapper.find(SelectField).exists()).toBe(false)
+    expect(buttons[1]).toHaveClass(styles.button)
+    expect(buttons[1]).toHaveTextContent('2')
+    expect(buttons[1]).toHaveAttribute('type', 'button')
+
+    expect(buttons[2]).toHaveClass(styles.button)
+    expect(buttons[2]).toHaveTextContent('2000')
+    expect(buttons[2]).toHaveAttribute('type', 'button')
+
+    expect(screen.queryByTestId('pagination-range-of-shown-items')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('pagination-rows-per-page-select')).not.toBeInTheDocument()
 
     // Show more options
-    act(() => {
-      wrapper.find(IconButton).at(1).simulate('click')
-    })
-    wrapper.update()
+    await act(() => userEvent.click(screen.getByTestId('pagination-controls-toggle')))
 
-    expect(wrapper.findDataTest('pagination-buttons').exists()).toBe(false)
+    expect(screen.queryByTestId('pagination-buttons')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('pagination-buttons-next-page')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('pagination-range-of-shown-items')).not.toBeInTheDocument()
 
-    expect(wrapper.findDataTest('pagination-range-of-shown-items').exists()).toBe(false)
+    const select = screen.queryByTestId('pagination-rows-per-page-select')!
 
-    expect(wrapper.find(SelectField).props()).toEqual<SelectFieldProps<number>>({
-      className: styles.rowsPerPage,
-      labelClassName: styles.label,
-      name: 'rowsPerPage',
-      value: pageSize,
-      isSearchable: false,
-      label: 'Rows',
-      size: 'small',
-      options: pageSizeOptions.map((opt) => ({ value: opt, label: opt.toString() })),
-      'data-test': 'pagination-rows-per-page-select',
+    expect(select).toBeInTheDocument()
 
-      onChange: expect.anything(),
-    })
+    const input = select.querySelector('input')
 
-    expect(wrapper.find(NumberField).props()).toEqual<NumberFieldProps>({
-      inputContainerClassName: styles.inputContainer,
-      name: 'page',
-      label: 'Go to page',
-      showAriaLabel: true,
-      showIconButtons: false,
-      min: 1,
-      max: pageCount,
-      size: 'small',
-      value: currentPage,
-      'data-test': 'pagination-jump-from-input-field',
+    expect(input).toBeInTheDocument()
+    expect(input).not.toHaveAttribute('disabled')
+    expect(input).toHaveAttribute('aria-invalid', 'false')
+    expect(input).not.toHaveAttribute('aria-required')
+    expect(input).not.toHaveAttribute('aria-errormessage')
 
-      onChange: expect.anything(),
-    })
+    const valueContainer = select.querySelector('.hz-select-field__value-container') as HTMLElement
+
+    expect(valueContainer).toBeInTheDocument()
+    expect(within(valueContainer).queryByText(pageSize)).toBeInTheDocument()
+
+    const error = screen.queryByTestId('pagination-rows-per-page-select-error')!
+
+    expect(error).toBeInTheDocument()
+    expect(error).toHaveTextContent('')
+
+    const numberField = screen.queryByTestId('pagination-jump-from-input-field')!
+
+    expect(numberField).toBeInTheDocument()
+
+    const numberFieldInput = numberField.querySelector('input')
+
+    expect(numberFieldInput).toBeInTheDocument()
+    expect(numberFieldInput).toHaveAttribute('value', '1')
+    expect(numberFieldInput).toHaveAttribute('type', 'number')
+    expect(numberFieldInput).toHaveAttribute('aria-label', 'Go to page')
+    expect(numberFieldInput).not.toHaveAttribute('placeholder')
 
     // Back to pagination buttons
-    act(() => {
-      wrapper.find(IconButton).simulate('click')
-    })
-    wrapper.update()
+    await act(() => userEvent.click(screen.getByTestId('pagination-controls-toggle')))
 
-    expect(wrapper.findDataTest('pagination-buttons').find(IconButton).props()).toEqual<IconButtonProps>({
-      ...nextPrevButtonPropsBase,
-      icon: ChevronRight,
-      ariaLabel: 'Next page',
-    })
+    nextPageButton = screen.queryByTestId('pagination-buttons-next-page')!
 
-    buttons = wrapper.findDataTest('pagination-buttons').find(Button)
+    expect(nextPageButton).toBeInTheDocument()
+    expect(nextPageButton).toHaveClass(styles.iconButton)
+    expect(nextPageButton).toHaveAttribute('aria-label', 'Next page')
+
+    buttons = screen.queryAllByTestId('pagination-buttons-go-to-page')
     expect(buttons).toHaveLength(3)
-    expect(buttons.at(0).props()).toEqual<ButtonProps>({
-      ...buttonPropsBase,
-      className: `${styles.button} ${styles.selected}`,
-      children: '1',
-      'data-test': 'pagination-buttons-go-to-page',
-    })
-    expect(buttons.at(1).props()).toEqual<ButtonProps>({
-      ...buttonPropsBase,
-      children: '2',
-      'data-test': 'pagination-buttons-go-to-page',
-    })
-    expect(buttons.at(2).props()).toEqual<ButtonProps>({
-      ...buttonPropsBase,
-      children: '2000',
-      'data-test': 'pagination-buttons-go-to-page',
-    })
+    expect(buttons).toHaveLength(3)
+    expect(buttons[0]).toHaveClass(`${styles.button} ${styles.selected}`)
+    expect(buttons[0]).toHaveTextContent('1')
+    expect(buttons[0]).toHaveAttribute('type', 'button')
 
-    expect(wrapper.findDataTest('pagination-range-of-shown-items').exists()).toBe(false)
-    expect(wrapper.find(SelectField).exists()).toBe(false)
+    expect(buttons[1]).toHaveClass(styles.button)
+    expect(buttons[1]).toHaveTextContent('2')
+    expect(buttons[1]).toHaveAttribute('type', 'button')
+
+    expect(buttons[2]).toHaveClass(styles.button)
+    expect(buttons[2]).toHaveTextContent('2000')
+    expect(buttons[2]).toHaveAttribute('type', 'button')
+
+    expect(screen.queryByTestId('pagination-range-of-shown-items')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('pagination-rows-per-page-select')).not.toBeInTheDocument()
   })
 })

@@ -1,13 +1,16 @@
 import React from 'react'
 import { X } from 'react-feather'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
 import cn from 'classnames'
 import { useUID } from 'react-uid'
+import { screen, within } from '@testing-library/react'
 
-import { Loader, Tooltip, IconButton, Icon } from '../src'
-
-import styles from '../src/IconButton.module.scss'
 import { IconButtonKind } from '../src/IconButton'
+import { IconButton } from '../src'
+import { testAttribute, testClass } from './helpers'
+
+import iconStyles from '../src/Icon.module.scss'
+import styles from '../src/IconButton.module.scss'
 
 jest.mock('react-uid')
 
@@ -27,90 +30,80 @@ describe('IconButton', () => {
   ]
 
   it.each(buttonKindTestData)('Renders Button with correct className which corresponds to button kind', async (kind, className) => {
-    const wrapper = await mountAndCheckA11Y(<IconButton kind={kind} icon={X} ariaLabel={ariaLabel} />)
+    const { container } = await renderAndCheckA11Y(<IconButton kind={kind} icon={X} ariaLabel={ariaLabel} />)
 
-    expect(wrapper.find('button').prop('className')).toBe(cn(styles.iconButton, className))
+    expect(container.querySelector('button')).toHaveClass(cn(styles.iconButton, className))
   })
 
   it('Renders button with proper aria-label', async () => {
-    const wrapper = await mountAndCheckA11Y(<IconButton kind="primary" icon={X} ariaLabel={ariaLabel} />)
+    await renderAndCheckA11Y(<IconButton kind="primary" icon={X} ariaLabel={ariaLabel} />)
 
-    expect(wrapper.find('button').prop('aria-label')).toBe(ariaLabel)
-
-    expect(wrapper.find(Icon).props()).toEqual({
-      icon: X,
-      size: undefined,
-      ariaHidden: true,
-    })
+    expect(screen.queryByLabelText(ariaLabel)).toBeInTheDocument()
   })
 
   it('Renders icon with proper size and iconClassName', async () => {
-    const wrapper = await mountAndCheckA11Y(<IconButton kind="primary" icon={X} ariaLabel={ariaLabel} size="xlarge" iconClassName="yoda" />)
+    const { container } = await renderAndCheckA11Y(
+      <IconButton kind="primary" icon={X} ariaLabel={ariaLabel} size="xlarge" iconClassName="yoda" />,
+    )
 
-    expect(wrapper.find(Icon).props()).toEqual({
-      icon: X,
-      size: 'xlarge',
-      ariaHidden: true,
-      className: 'yoda',
-    })
+    const icon = container.querySelector('svg')
+
+    expect(icon).toBeInTheDocument()
+
+    testAttribute(icon, 'aria-hidden', 'true')
+    testClass(icon, `yoda ${iconStyles.xlarge}`)
   })
 
   it('Renders loading button', async () => {
-    const wrapper = await mountAndCheckA11Y(<IconButton kind="primary" icon={X} ariaLabel={ariaLabel} loading />)
+    const { container } = await renderAndCheckA11Y(<IconButton kind="primary" icon={X} ariaLabel={ariaLabel} loading />)
 
-    expect(wrapper.find('button').prop('disabled')).toBe(true)
-    expect(wrapper.find(Tooltip).at(0).props()).toMatchObject({
-      content: undefined,
-    })
-    expect(wrapper.exists(Loader)).toBeTruthy()
-    expect(wrapper.exists(Icon)).toBeFalsy()
+    expect(container.querySelector('button')!).toHaveAttribute('disabled')
+    expect(screen.queryByTestId('tooltip-overlay')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('loader')).toBeInTheDocument()
+    expect(screen.queryByTestId('icon-button-icon')).not.toBeInTheDocument()
   })
 
   it('Renders disabled button with a disabled tooltip', async () => {
     const disabledTooltip = 'Disabled tooltip'
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <IconButton kind="primary" icon={X} ariaLabel={ariaLabel} disabled disabledTooltip={disabledTooltip} />,
     )
 
-    expect(wrapper.find('button').prop('disabled')).toBe(true)
-    expect(wrapper.find(Tooltip).at(0).props()).toMatchObject({
-      content: disabledTooltip,
-    })
-    expect(wrapper.exists(Loader)).toBeFalsy()
-    expect(wrapper.exists(Icon)).toBeTruthy()
+    expect(container.querySelector('button')!).toHaveAttribute('disabled')
+    expect(within(screen.getByTestId('tooltip-overlay')).queryByText(disabledTooltip)).toBeInTheDocument()
+    expect(screen.queryByTestId('loader')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('icon-button-icon')).toBeInTheDocument()
   })
 
   it('Renders disabled loading button with a disabled tooltip', async () => {
     const disabledTooltip = 'Disabled tooltip'
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <IconButton kind="primary" icon={X} ariaLabel={ariaLabel} disabled disabledTooltip={disabledTooltip} loading />,
     )
 
-    expect(wrapper.find('button').prop('disabled')).toBe(true)
-    expect(wrapper.find(Tooltip).at(0).props()).toMatchObject({
-      content: disabledTooltip,
-    })
-    expect(wrapper.exists(Loader)).toBeTruthy()
-    expect(wrapper.exists(Icon)).toBeFalsy()
+    expect(container.querySelector('button')!).toHaveAttribute('disabled')
+    expect(within(screen.getByTestId('tooltip-overlay')).queryByText(disabledTooltip)).toBeInTheDocument()
+    expect(screen.queryByTestId('loader')).toBeInTheDocument()
+    expect(screen.queryByTestId('icon-button-icon')).not.toBeInTheDocument()
   })
 
   it('Renders disabled loading button with a disabled tooltip and combined aria-labelledby', async () => {
     const disabledTooltip = 'Disabled tooltip'
     const ariaLabelledBy = 'darth'
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <IconButton kind="primary" icon={X} ariaLabelledBy={ariaLabelledBy} disabled disabledTooltip={disabledTooltip} />,
     )
 
-    expect(wrapper.find('button').prop('aria-labelledby')).toBe(`${ariaLabelledBy} ${id}`)
+    expect(container.querySelector('button')!).toHaveAttribute('aria-labelledby', `${ariaLabelledBy} ${id}`)
   })
 
   it('Renders button with a link semantics', async () => {
     const onClick = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <IconButton
         kind="primary"
         component="a"
@@ -123,28 +116,21 @@ describe('IconButton', () => {
       />,
     )
 
-    expect(wrapper.find('button').exists()).toBe(false)
+    expect(container.querySelector('button')).not.toBeInTheDocument()
+    const link = container.querySelector('a')
 
-    expect(wrapper.find('a').props()).toMatchObject({
-      href: '#',
-      onClick,
-      rel: 'noopener noreferrer',
-      target: '_blank',
-      type: undefined,
-      'aria-label': ariaLabel,
-    })
+    expect(link).toBeInTheDocument()
+    testAttribute(link, 'href', '#')
+    testAttribute(link, 'target', '_blank')
+    testAttribute(link, 'aria-label', ariaLabel)
+    testAttribute(link, 'rel', 'noopener noreferrer')
   })
 
   it('Renders with a tooltip', async () => {
     const tooltip = 'Tooltip'
 
-    const wrapper = await mountAndCheckA11Y(
-      <IconButton kind="primary" icon={X} ariaLabel={ariaLabel} tooltip={tooltip} tooltipPlacement="bottom" />,
-    )
+    await renderAndCheckA11Y(<IconButton kind="primary" icon={X} ariaLabel={ariaLabel} tooltip={tooltip} tooltipPlacement="bottom" />)
 
-    expect(wrapper.find(Tooltip).at(0).props()).toMatchObject({
-      content: tooltip,
-      placement: 'bottom',
-    })
+    expect(within(screen.getByTestId('tooltip-overlay')).queryByText(tooltip)).toBeInTheDocument()
   })
 })

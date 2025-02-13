@@ -1,32 +1,35 @@
 import React from 'react'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
+import { screen } from '@testing-library/react'
 
 import { Popover } from '../src/Popover'
 
 describe('Popover', () => {
   it('Shows popover by default if "open" prop is true', async () => {
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <Popover open data-test="popover-test" onClose={jest.fn()}>
         <div data-test="popover-test-content">Content</div>
       </Popover>,
     )
 
-    expect(wrapper.children().findDataTest('popover-test').exists()).toBeTruthy()
+    expect(screen.queryByTestId('popover-test')).toBeInTheDocument()
   })
 
   it('Should react on open property', async () => {
-    const wrapper = await mountAndCheckA11Y(
+    const { rerender } = await renderAndCheckA11Y(
       <Popover open={false} data-test="popover-test" onClose={jest.fn()}>
         <div data-test="popover-test-content">Content</div>
       </Popover>,
     )
 
-    expect(wrapper.children().findDataTest('popover-test').exists()).toBeFalsy()
+    expect(screen.queryByTestId('popover-test')).not.toBeInTheDocument()
 
-    wrapper.setProps({
-      open: true,
-    })
+    rerender(
+      <Popover open data-test="popover-test" onClose={jest.fn()}>
+        <div data-test="popover-test-content">Content</div>
+      </Popover>,
+    )
 
-    expect(wrapper.children().findDataTest('popover-test').exists()).toBeTruthy()
+    expect(screen.queryByTestId('popover-test')).toBeInTheDocument()
   })
 })

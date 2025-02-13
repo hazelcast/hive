@@ -1,20 +1,21 @@
 import React from 'react'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
-import { Eye, EyeOff } from 'react-feather'
-import { act } from 'react-dom/test-utils'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
+import { act, within, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
+import { testAttribute, testClass } from './helpers'
 import { PasswordField } from '../src/PasswordField'
-import { TextField } from '../src/TextField'
-import { IconButton } from '../src/IconButton'
 
+import iconStyles from '../src/Icon.module.scss'
 import styles from '../src/PasswordField.module.scss'
+import iconButtonStyles from '../src/IconButton.module.scss'
 
 describe('PasswordField', () => {
   it('renders the default with correct props', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <PasswordField
         name="name"
         value="password"
@@ -27,69 +28,67 @@ describe('PasswordField', () => {
       />,
     )
 
-    expect(wrapper.find(TextField).props()).toEqual({
-      label: 'Wisest jedi',
-      placeholder: 'Enter the name',
-      value: 'password',
-      name: 'name',
-      onBlur,
+    const input = container.querySelector('input') as HTMLInputElement
 
-      onChange: expect.anything(),
-      type: 'password',
+    expect(input).toBeInTheDocument()
 
-      inputContainerChild: expect.anything(),
-      inputContainerClassName: styles.inputContainer,
-      inputClassName: 'amidala',
-      className: 'padme',
-    })
+    testAttribute(input, 'placeholder', 'Enter the name')
+    testAttribute(input, 'value', 'password')
+    testAttribute(input, 'name', 'name')
+    testClass(input, 'amidala')
+    testClass(input.parentNode, styles.inputContainer)
+    testClass(screen.getByTestId('password-field'), 'padme')
+    expect(within(container).queryByText('Wisest jedi')).toBeInTheDocument()
 
-    expect(wrapper.find(IconButton).props()).toEqual({
-      size: 'small',
-      icon: Eye,
-      ariaLabel: 'Show password',
-      'data-test': 'password-field-toggle',
-      className: styles.toggle,
+    const toggle = within(container).queryByTestId('password-field-toggle')
 
-      onClick: expect.anything(),
-      disabled: undefined,
-      kind: 'primary',
-      type: 'button',
-    })
+    expect(toggle).toBeInTheDocument()
+    testAttribute(toggle, 'aria-label', 'Show password')
+    testAttribute(toggle, 'type', 'button')
+    testAttribute(toggle, 'disabled')
+    testClass(toggle, styles.toggle)
+    testClass(toggle, iconButtonStyles.primary)
+
+    const icon = toggle!.querySelector('svg')
+
+    expect(icon).toBeInTheDocument()
+    testClass(icon, iconStyles.small)
   })
 
   it('visibility toggle works', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <PasswordField name="name" value="password" placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
     )
 
-    expect(wrapper.find(TextField).prop('type')).toBe('password')
-    expect(wrapper.find(IconButton).prop('icon')).toBe(Eye)
+    const toggle = within(container).queryByTestId('password-field-toggle')
 
-    act(() => {
-      wrapper.find(IconButton).simulate('click')
-    })
-    wrapper.update()
+    expect(toggle).toBeInTheDocument()
 
-    expect(wrapper.find(TextField).prop('type')).toBe('text')
-    expect(wrapper.find(IconButton).prop('icon')).toBe(EyeOff)
+    const input = container.querySelector('input')
 
-    act(() => {
-      wrapper.find(IconButton).simulate('click')
-    })
-    wrapper.update()
+    expect(input).toBeInTheDocument()
+    testAttribute(input, 'type', 'password')
+    testAttribute(toggle, 'aria-label', 'Show password')
 
-    expect(wrapper.find(TextField).prop('type')).toBe('password')
-    expect(wrapper.find(IconButton).prop('icon')).toBe(Eye)
+    await act(() => userEvent.click(toggle!))
+
+    testAttribute(input, 'type', 'text')
+    testAttribute(toggle, 'aria-label', 'Hide password')
+
+    await act(() => userEvent.click(toggle!))
+
+    testAttribute(input, 'type', 'password')
+    testAttribute(toggle, 'aria-label', 'Show password')
   })
 
   it('provides overrides for visibility toggle aria labels', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <PasswordField
         name="name"
         value="password"
@@ -102,28 +101,25 @@ describe('PasswordField', () => {
       />,
     )
 
-    expect(wrapper.find(IconButton).prop('ariaLabel')).toBe('Show death star')
+    const toggle = within(container).queryByTestId('password-field-toggle')
 
-    act(() => {
-      wrapper.find(IconButton).simulate('click')
-    })
-    wrapper.update()
+    expect(toggle).toBeInTheDocument()
+    testAttribute(toggle, 'aria-label', 'Show death star')
 
-    expect(wrapper.find(IconButton).prop('ariaLabel')).toBe('Hide death star')
+    await act(() => userEvent.click(toggle!))
 
-    act(() => {
-      wrapper.find(IconButton).simulate('click')
-    })
-    wrapper.update()
+    testAttribute(toggle, 'aria-label', 'Hide death star')
 
-    expect(wrapper.find(IconButton).prop('ariaLabel')).toBe('Show death star')
+    await act(() => userEvent.click(toggle!))
+
+    testAttribute(toggle, 'aria-label', 'Show death star')
   })
 
   it('visibility toggle is disabled if input is disabled', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <PasswordField
         name="name"
         value="password"
@@ -135,14 +131,17 @@ describe('PasswordField', () => {
       />,
     )
 
-    expect(wrapper.find(IconButton).prop('disabled')).toBe(true)
+    const toggle = within(container).queryByTestId('password-field-toggle')
+
+    expect(toggle).toBeInTheDocument()
+    testAttribute(toggle, 'disabled', '')
   })
 
   it('hides toggle button', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    const { container } = await renderAndCheckA11Y(
       <PasswordField
         name="name"
         value="password"
@@ -155,6 +154,8 @@ describe('PasswordField', () => {
       />,
     )
 
-    expect(wrapper.findDataTestFirst('password-field-toggle').exists()).toBeFalsy()
+    const toggle = within(container).queryByTestId('password-field-toggle')
+
+    expect(toggle).not.toBeInTheDocument()
   })
 })

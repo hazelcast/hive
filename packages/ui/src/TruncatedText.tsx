@@ -3,12 +3,13 @@ import mergeRefs from 'react-merge-refs'
 import cn from 'classnames'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 import { useUID } from 'react-uid'
+import { DataTestProp } from '@hazelcast/helpers'
 
 import { Tooltip, TooltipProps } from './Tooltip'
 
 import styles from './TruncatedText.module.scss'
 
-interface TruncatedTextProps {
+interface TruncatedTextProps extends DataTestProp {
   text: ReactText | ((...arg: unknown[]) => string) | ReactElement
   // Pass a new value to trigger a force re-render
   forceUpdateToken?: ReactText | boolean
@@ -29,6 +30,7 @@ export const TruncatedText: FC<TruncatedTextProps> = ({
   hoverAbleTooltip,
   multiline,
   tooltipClassName,
+  'data-test': dataTest,
 }) => {
   const textRef = useRef<HTMLDivElement>(null)
   const [tooltip, setTooltip] = useState<ReactChild | undefined>()
@@ -57,7 +59,9 @@ export const TruncatedText: FC<TruncatedTextProps> = ({
     >
       {(ref) => (
         <div ref={mergeRefs([textRef, ref])} className={cn(styles.truncatedText, { [styles.multiline]: multiline }, className)}>
-          <span aria-labelledby={tooltip ? idTooltip : undefined}>{text}</span>
+          <span data-test={dataTest} aria-labelledby={tooltip ? idTooltip : undefined}>
+            {text}
+          </span>
         </div>
       )}
     </Tooltip>

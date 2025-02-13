@@ -1,12 +1,12 @@
 import React from 'react'
 import { useUID } from 'react-uid'
-import { getHookRes, mountAndCheckA11Y, testHook } from '@hazelcast/test-helpers'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
+import { renderHook } from '@testing-library/react-hooks'
 
 import {
   getTabId,
   getPanelId,
   useTabContext,
-  TabContextProvider,
   TabContextValue,
   tabContextDefaultValue,
   TabContextProviderControlled,
@@ -42,57 +42,41 @@ describe('TabContext', () => {
 
   describe('useTabContext', () => {
     it('returns default values', () => {
-      const { spyHookRes } = testHook(useTabContext)
+      const { result } = renderHook(useTabContext)
 
-      expect(getHookRes(spyHookRes)).toBe<TabContextValue>(tabContextDefaultValue)
+      expect(result.current).toBe<TabContextValue>(tabContextDefaultValue)
     })
   })
 
-  describe('Provider components', () => {
-    describe('TabContextProvider', () => {
-      it('renders TabContextProviderControlled', async () => {
-        const children = 'testChildren'
+  describe('TabContextProviderControlled', () => {
+    it('provides context values', async () => {
+      const contextValues = {
+        value: 2,
+        onChange: jest.fn(),
+        children: 'testChildren',
+      }
 
-        const wrapper = await mountAndCheckA11Y(<TabContextProvider>{children}</TabContextProvider>)
+      const ConsumerComponent = ({
+        expectedValues: { value, idPrefix },
+      }: {
+        expectedValues: TabContextProviderControlledProps & { idPrefix: string }
+      }) => {
+        const values = useTabContext()
 
-        expect(wrapper.find(TabContextProviderControlled).props()).toEqual<TabContextProviderControlledProps>({
+        expect(values).toEqual<TabContextValue>({
           onChange: expect.anything(),
-          value: 0,
-          children,
+          value,
+          idPrefix,
         })
-      })
-    })
 
-    describe('TabContextProviderControlled', () => {
-      it('provides context values', async () => {
-        const contextValues = {
-          value: 2,
-          onChange: jest.fn(),
-          children: 'testChildren',
-        }
+        return null
+      }
 
-        const ConsumerComponent = ({
-          expectedValues: { value, idPrefix },
-        }: {
-          expectedValues: TabContextProviderControlledProps & { idPrefix: string }
-        }) => {
-          const values = useTabContext()
-
-          expect(values).toEqual<TabContextValue>({
-            onChange: expect.anything(),
-            value,
-            idPrefix,
-          })
-
-          return null
-        }
-
-        await mountAndCheckA11Y(
-          <TabContextProviderControlled {...contextValues}>
-            <ConsumerComponent expectedValues={{ ...contextValues, idPrefix: testId }} />
-          </TabContextProviderControlled>,
-        )
-      })
+      await renderAndCheckA11Y(
+        <TabContextProviderControlled {...contextValues}>
+          <ConsumerComponent expectedValues={{ ...contextValues, idPrefix: testId }} />
+        </TabContextProviderControlled>,
+      )
     })
   })
 })

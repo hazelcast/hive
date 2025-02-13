@@ -1,15 +1,12 @@
 import React from 'react'
 import { useUID } from 'react-uid'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
-import ReactSelect, { Options } from 'react-select'
-import ReactSelectCreatable from 'react-select/creatable'
-import { X } from 'react-feather'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
+import { screen, within } from '@testing-library/react'
+import { Options } from 'react-select'
 
 import { MultiSelectField } from '../../src/Select/MultiSelectField'
-import { Label } from '../../src/Label'
-import { Error, errorId } from '../../src/Error'
-import { IconButton } from '../../src/IconButton'
-import { SelectFieldOption } from '../../src/Select/helpers'
+import { errorId } from '../../src/Error'
+import { getOptionsMap, SelectFieldOption } from '../../src/Select/helpers'
 
 import styles from '../src/SelectField.module.scss'
 
@@ -39,43 +36,36 @@ describe('MultiSelectField', () => {
   })
 
   it('Renders child components with correct props', async () => {
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <MultiSelectField name={selectName} label={selectLabel} options={options} value={selectedValues} onChange={jest.fn()} />,
     )
 
-    expect(wrapper.find(Label).props()).toEqual({
-      id: selectId,
-      label: selectLabel,
-      className: styles.label,
-    })
+    const label = screen.queryByText(selectLabel)
+    expect(label).toHaveAttribute('for', selectId)
+    expect(label).toHaveClass(styles.label)
 
-    expect(wrapper.find(ReactSelect).props()).toMatchObject({
-      inputId: selectId,
-      name: selectName,
-      isClearable: true,
-      isMulti: true,
-      options: options,
-      value: selectedOptions,
-      isSearchable: true,
-      'aria-invalid': false,
-      'aria-required': undefined,
-      'aria-errormessage': undefined,
-      isDisabled: undefined,
-    })
-    expect(wrapper.find(Error).props()).toEqual({
-      error: undefined,
-      className: styles.errorContainer,
-      inputId: selectId,
-      truncated: true,
-    })
+    expect(screen.getByTestId('multi-select-field-error')).toHaveTextContent('')
 
-    expect(wrapper.find(IconButton).prop('icon')).toBe(X)
+    const root = screen.getByTestId('multi-select-field')
+    const valueContainer = root.querySelector('.hz-select-field__value-container')
+    const input = root.querySelector('.hz-select-field__input')
+
+    expect(valueContainer).toBeInTheDocument()
+    expect(input).toBeInTheDocument()
+    expect(input).toHaveAttribute('aria-invalid', 'false')
+    expect(input).not.toHaveAttribute('aria-errormessage')
+
+    const optionsMap = getOptionsMap(options)
+
+    selectedValues.forEach((value) => {
+      expect(within(valueContainer as HTMLElement).queryByText(optionsMap[value].label)).toBeInTheDocument()
+    })
   })
 
   it('Renders Error with error message and ReactSelect with [aria-invalid]=true and `aria-errormessage` with correct id', async () => {
     const selectError = 'Dark side'
 
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <MultiSelectField
         name={selectName}
         label={selectLabel}
@@ -86,73 +76,58 @@ describe('MultiSelectField', () => {
       />,
     )
 
-    expect(wrapper.find(Label).props()).toEqual({
-      id: selectId,
-      label: selectLabel,
-      className: styles.label,
-    })
+    const root = screen.getByTestId('multi-select-field')
+    const label = screen.queryByText(selectLabel)
+    expect(label).toHaveAttribute('for', selectId)
+    expect(label).toHaveClass(styles.label)
 
-    expect(wrapper.find(ReactSelect).props()).toMatchObject({
-      'aria-invalid': true,
-      'aria-errormessage': errorId(selectId),
-    })
+    const input = root.querySelector('.hz-select-field__input')
 
-    expect(wrapper.find(Error).props()).toEqual({
-      error: selectError,
-      className: styles.errorContainer,
-      inputId: selectId,
-      truncated: true,
-    })
+    expect(input).toBeInTheDocument()
+    expect(input).toHaveAttribute('aria-invalid', 'true')
+    expect(input).toHaveAttribute('aria-errormessage', errorId(selectId))
+
+    expect(screen.getByTestId('multi-select-field-error')).toHaveTextContent(selectError)
   })
 
   it('Renders ReactSelect with aria-required attribute', async () => {
-    const wrapper = await mountAndCheckA11Y(
-      <MultiSelectField name={selectName} label={selectLabel} options={options} value={selectedValues} onChange={jest.fn()} required />,
+    await renderAndCheckA11Y(
+      <MultiSelectField name={selectName} label={selectLabel} options={options} value={[]} onChange={jest.fn()} required />,
     )
 
-    expect(wrapper.find(Label).props()).toEqual({
-      id: selectId,
-      label: selectLabel,
-      className: styles.label,
-    })
+    const label = screen.queryByText(selectLabel)
+    expect(label).toHaveAttribute('for', selectId)
+    expect(label).toHaveClass(styles.label)
 
-    expect(wrapper.find(ReactSelect).props()).toMatchObject({
-      'aria-required': true,
-    })
+    const root = screen.getByTestId('multi-select-field')
+    const input = root.querySelector('.hz-select-field__input')
 
-    expect(wrapper.find(Error).props()).toEqual({
-      error: undefined,
-      className: styles.errorContainer,
-      inputId: selectId,
-      truncated: true,
-    })
+    expect(input).toBeInTheDocument()
+    expect(input).toHaveAttribute('aria-required')
+
+    expect(screen.getByTestId('multi-select-field-error')).toHaveTextContent('')
   })
 
   it('Renders ReactSelect with isDisabled=true prop', async () => {
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <MultiSelectField name={selectName} label={selectLabel} onChange={jest.fn()} options={options} value={selectedValues} disabled />,
     )
 
-    expect(wrapper.find(Label).props()).toEqual({
-      id: selectId,
-      label: selectLabel,
-      className: styles.label,
-    })
+    const label = screen.queryByText(selectLabel)
+    expect(label).toHaveAttribute('for', selectId)
+    expect(label).toHaveClass(styles.label)
 
-    expect(wrapper.find(ReactSelect).props()).toMatchObject({
-      isDisabled: true,
-    })
+    const root = screen.getByTestId('multi-select-field')
+    const input = root.querySelector('.hz-select-field__input')
 
-    expect(wrapper.find(Error).props()).toEqual({
-      error: undefined,
-      className: styles.errorContainer,
-      inputId: selectId,
-      truncated: true,
-    })
+    expect(input).toBeInTheDocument()
+    expect(input).toHaveAttribute('disabled')
+
+    expect(screen.getByTestId('multi-select-field-error')).toHaveTextContent('')
   })
 
   it('Hides Label', async () => {
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <MultiSelectField
         name={selectName}
         label={selectLabel}
@@ -163,50 +138,29 @@ describe('MultiSelectField', () => {
       />,
     )
 
-    expect(wrapper.find(Label).exists()).toBe(false)
-
-    expect(wrapper.find(ReactSelect).exists()).toBe(true)
-
-    expect(wrapper.find(Error).props()).toEqual({
-      error: undefined,
-      className: styles.errorContainer,
-      inputId: selectId,
-      truncated: true,
-    })
+    expect(screen.queryByText(selectLabel)).not.toBeInTheDocument()
   })
 
   it('Renders ReactSelectCreatable with correct props', async () => {
     const onChange = jest.fn()
 
-    const wrapper = await mountAndCheckA11Y(
+    await renderAndCheckA11Y(
       <MultiSelectField name={selectName} label={selectLabel} value={selectedValues} onChange={onChange} options={options} isCreatable />,
     )
 
-    expect(wrapper.find(Label).props()).toEqual({
-      id: selectId,
-      label: selectLabel,
-      className: styles.label,
-    })
+    const label = screen.queryByText(selectLabel)
+    expect(label).toHaveAttribute('for', selectId)
+    expect(label).toHaveClass(styles.label)
 
-    expect(wrapper.find(ReactSelectCreatable).props()).toMatchObject({
-      isMulti: true,
-      isClearable: true,
-      isSearchable: true,
-      inputId: selectId,
-      name: selectName,
-      options: options,
-      value: selectedOptions,
-      'aria-invalid': false,
-      'aria-required': undefined,
-      'aria-errormessage': undefined,
-      isDisabled: undefined,
-    })
+    expect(screen.getByTestId('multi-select-field-error')).toHaveTextContent('')
 
-    expect(wrapper.find(Error).props()).toEqual({
-      error: undefined,
-      className: styles.errorContainer,
-      inputId: selectId,
-      truncated: true,
-    })
+    const root = screen.getByTestId('multi-select-field')
+    const valueContainer = root.querySelector('.hz-select-field__value-container')
+    const input = root.querySelector('.hz-select-field__input')
+
+    expect(valueContainer).toBeInTheDocument()
+    expect(input).toBeInTheDocument()
+    expect(input).toHaveAttribute('aria-invalid', 'false')
+    expect(input).not.toHaveAttribute('aria-errormessage')
   })
 })

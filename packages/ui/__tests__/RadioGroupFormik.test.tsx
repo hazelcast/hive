@@ -1,7 +1,9 @@
 import React from 'react'
 import { Form, Formik } from 'formik'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
-import { act } from 'react-dom/test-utils'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
+import { act, fireEvent, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+
 import { RadioGroupFieldFormik } from '../src/RadioGroupFormik'
 import { RadioFieldFormik } from '../src/RadioFormik'
 
@@ -31,13 +33,13 @@ describe('RadioGroupFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
+    const { container } = await renderAndCheckA11Y(<TestForm />)
 
     expect(onSubmit).toBeCalledTimes(0)
-    // eslint-disable-next-line @typescript-eslint/require-await
+
     await act(async () => {
-      wrapper.find("input[value='aragorn']").simulate('change')
-      wrapper.find('form').simulate('submit')
+      await userEvent.click(container.querySelector("input[value='aragorn']")!)
+      fireEvent.submit(container.querySelector('form')!)
     })
 
     expect(onSubmit).toBeCalledTimes(1)
@@ -78,18 +80,14 @@ describe('RadioGroupFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
+    const { container } = await renderAndCheckA11Y(<TestForm />)
 
-    expect(wrapper.find('div').contains('Server Error: Invalid name')).toBeTruthy()
+    expect(screen.queryByText('Server Error: Invalid name')).toBeInTheDocument()
 
     // let's click other valid option
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      wrapper.find("input[value='gandalf']").simulate('change')
-    })
+    await act(async () => userEvent.click(container.querySelector("input[value='gandalf']")!))
 
-    wrapper.update()
-    expect(wrapper.find('div').contains('Server Error: Invalid name')).toBeFalsy()
+    expect(screen.queryByText('Server Error: Invalid name')).not.toBeInTheDocument()
   })
 
   it("Server validation throws an error, DOM element contains a client's error once it's invalid again", async () => {
@@ -122,24 +120,19 @@ describe('RadioGroupFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
+    const { container } = await renderAndCheckA11Y(<TestForm />)
 
-    expect(wrapper.find('div').contains('Server Error: Invalid name')).toBeTruthy()
+    expect(screen.queryByText('Server Error: Invalid name')).toBeInTheDocument()
+    expect(screen.queryByText('Aragorn is stronger!')).not.toBeInTheDocument()
 
     // let's click other valid option
-    // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      wrapper.find("input[value='gandalf']").simulate('change')
-    })
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      wrapper.find("input[value='gandalf']").simulate('blur')
+      await userEvent.click(container.querySelector("input[value='gandalf']")!)
+      fireEvent.blur(container.querySelector("input[value='gandalf']")!)
     })
 
-    wrapper.update()
-
-    expect(wrapper.find('div').contains('Server Error: Invalid name')).toBeFalsy()
-    expect(wrapper.find('div').contains('Aragorn is stronger!')).toBeTruthy()
+    expect(screen.queryByText('Server Error: Invalid name')).not.toBeInTheDocument()
+    expect(screen.queryByText('Aragorn is stronger!')).toBeInTheDocument()
   })
 
   it('Calls onChange callback', async () => {
@@ -168,12 +161,9 @@ describe('RadioGroupFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
+    const { container } = await renderAndCheckA11Y(<TestForm />)
 
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      wrapper.find("input[value='aragorn']").simulate('change')
-    })
+    await act(() => userEvent.click(container.querySelector("input[value='aragorn']")!))
 
     expect(onChange).toBeCalledTimes(1)
     expect(onChange).toBeCalledWith('aragorn')

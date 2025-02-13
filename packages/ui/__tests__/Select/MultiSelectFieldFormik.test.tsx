@@ -1,12 +1,11 @@
 import React, { createRef } from 'react'
 import { Formik, Form, FormikProps } from 'formik'
-import { mountAndCheckA11Y } from '@hazelcast/test-helpers'
-import { act } from 'react-dom/test-utils'
-import ReactSelect from 'react-select'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
+import userEvent from '@testing-library/user-event'
+import { screen, act, fireEvent } from '@testing-library/react'
 
 import { MultiSelectFieldFormik } from '../../src/Select/MultiSelectFieldFormik'
 import { SelectFieldOption } from '../../src/Select/helpers'
-import { Error } from '../../src/Error'
 
 const options: SelectFieldOption<string>[] = [
   { value: 'selectValue0', label: 'selectValue0' },
@@ -37,19 +36,17 @@ describe('MultiSelectFieldFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
-    const selectInstance = wrapper.find(ReactSelect)
+    const { container } = await renderAndCheckA11Y(<TestForm />)
 
     expect(formikBag.current?.values).toEqual({
       names: [],
     })
 
-    // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      selectInstance.props().onChange?.([options[1]], { action: 'select-option' })
+      fireEvent.mouseDown(container.querySelector('.hz-select-field__indicators')!, { button: 0 })
     })
-    wrapper.update()
+    await act(() => userEvent.click(screen.getByRole('option', { name: options[1].label })))
 
     expect(formikBag.current?.values).toEqual({
       names: [options[1].value],
@@ -58,9 +55,9 @@ describe('MultiSelectFieldFormik', () => {
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      selectInstance.props().onChange?.([options[1], options[0]], { action: 'select-option' })
+      fireEvent.mouseDown(container.querySelector('.hz-select-field__indicators')!, { button: 0 })
     })
-    wrapper.update()
+    await act(() => userEvent.click(screen.getByRole('option', { name: options[0].label })))
 
     expect(formikBag.current?.values).toEqual({
       names: [options[1].value, options[0].value],
@@ -82,20 +79,18 @@ describe('MultiSelectFieldFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
-    const selectInstance = wrapper.find(ReactSelect)
+    const { container } = await renderAndCheckA11Y(<TestForm />)
 
-    expect(wrapper.find(Error).prop('error')).toBe(undefined)
+    expect(screen.queryByTestId('multi-select-field-error')).toHaveTextContent('')
 
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      selectInstance.props().onChange?.([options[1]], { action: 'select-option' })
+      fireEvent.mouseDown(container.querySelector('.hz-select-field__indicators')!, { button: 0 })
     })
-    wrapper.update()
+    await act(() => userEvent.click(screen.getByRole('option', { name: options[1].label })))
 
-    // The error is displayed only when the input becomes dirty
-    expect(wrapper.find(Error).prop('error')).toBe('error')
+    expect(screen.queryByTestId('multi-select-field-error')).toHaveTextContent('error')
   })
 
   it('Calls onChange callback', async () => {
@@ -122,8 +117,7 @@ describe('MultiSelectFieldFormik', () => {
       </Formik>
     )
 
-    const wrapper = await mountAndCheckA11Y(<TestForm />)
-    const selectInstance = wrapper.find(ReactSelect)
+    const { container } = await renderAndCheckA11Y(<TestForm />)
 
     expect(formikBag.current?.values).toEqual({
       names: [],
@@ -132,9 +126,9 @@ describe('MultiSelectFieldFormik', () => {
     // We need the `async` call here to wait for processing of the asynchronous 'change'
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      selectInstance.props().onChange?.([options[1]], { action: 'select-option' })
+      fireEvent.mouseDown(container.querySelector('.hz-select-field__indicators')!, { button: 0 })
     })
-    wrapper.update()
+    await act(() => userEvent.click(screen.getByRole('option', { name: options[1].label })))
 
     expect(onChange).toBeCalledTimes(1)
     expect(onChange).toBeCalledWith([options[1].value])

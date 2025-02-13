@@ -1,12 +1,14 @@
-import { mount } from 'enzyme'
+import { render, screen, act, within } from '@testing-library/react'
 import ReactModal from 'react-modal'
-import { CloudLightning, X } from 'react-feather'
+import { CloudLightning } from 'react-feather'
 import React from 'react'
+import userEvent from '@testing-library/user-event'
+
 import { Modal } from '../src/Modal'
-import { act } from 'react-dom/test-utils'
+
+import styles from '../src/Modal.module.scss'
 
 const modalTitle = 'Modal Title'
-const modalAction = 'Action'
 const ModalContent = () => <div>Content</div>
 const children = 'Action'
 
@@ -19,7 +21,7 @@ describe('Modal', () => {
     const onClose = jest.fn()
     const onClick = jest.fn()
 
-    const wrapper = mount(
+    render(
       <Modal
         isOpen
         title={modalTitle}
@@ -35,43 +37,13 @@ describe('Modal', () => {
       </Modal>,
     )
 
-    expect(wrapper.find(ReactModal).props()).toMatchObject({
-      ariaHideApp: true,
-      preventScroll: false,
-      role: 'dialog',
-      shouldCloseOnEsc: true,
-      shouldCloseOnOverlayClick: true,
-      shouldFocusAfterRender: false,
-      shouldReturnFocusAfterClose: true,
-      contentLabel: modalTitle,
-      isOpen: true,
-      onRequestClose: onClose,
-    })
-
-    expect(wrapper.findDataTest('modal-header-title').text()).toBe(modalTitle)
-    expect(wrapper.findDataTest('modal-button-close').at(0).props()).toStrictEqual({
-      kind: 'transparent',
-      ariaLabel: 'Close icon',
-      icon: X,
-      onClick: onClose,
-      'data-test': 'modal-button-close',
-    })
-
-    expect(wrapper.findDataTest('modal-content').find(ModalContent).exists()).toBeTruthy()
-
-    expect(wrapper.findDataTest('modal-footer').children()).toHaveLength(2)
-    expect(wrapper.findDataTest('modal-button-cancel').at(0).props()).toStrictEqual({
-      variant: 'outlined',
-      onClick: onClose,
-      children: 'Cancel',
-      'data-test': 'modal-button-cancel',
-      autoFocus: true,
-    })
-    expect(wrapper.findDataTest('modal-button-action').at(0).props()).toStrictEqual({
-      onClick: onClick,
-      children: modalAction,
-      'data-test': 'modal-button-action',
-    })
+    expect(screen.queryByRole('dialog', { hidden: true })).toBeInTheDocument()
+    expect(screen.queryByText(modalTitle)).toBeInTheDocument()
+    expect(screen.queryByLabelText('Close icon')).toBeInTheDocument()
+    expect(screen.queryByTestId('modal-content')).toBeInTheDocument()
+    expect(screen.queryByTestId('modal-footer')).toBeInTheDocument()
+    expect(screen.queryByTestId('modal-button-cancel')).toBeInTheDocument()
+    expect(screen.queryByTestId('modal-button-action')).toBeInTheDocument()
   })
 
   it('Renders header icon', () => {
@@ -79,166 +51,102 @@ describe('Modal', () => {
     const icon = CloudLightning
     const iconAriaLabel = 'Icon Cloud'
 
-    const wrapper = mount(
+    render(
       <Modal isOpen onClose={onClose} title={modalTitle} icon={icon} iconAriaLabel={iconAriaLabel}>
         <ModalContent />
       </Modal>,
     )
 
-    expect(wrapper.find(ReactModal).props()).toMatchObject({
-      ariaHideApp: true,
-      preventScroll: false,
-      role: 'dialog',
-      shouldCloseOnEsc: true,
-      shouldCloseOnOverlayClick: true,
-      shouldFocusAfterRender: false,
-      shouldReturnFocusAfterClose: true,
-      contentLabel: modalTitle,
-      isOpen: true,
-      onRequestClose: onClose,
-    })
-
-    expect(wrapper.findDataTestFirst('modal-header-icon').props()).toMatchObject({
-      icon: CloudLightning,
-      ariaLabel: iconAriaLabel,
-    })
-    expect(wrapper.findDataTest('modal-header-title').text()).toBe(modalTitle)
-    expect(wrapper.findDataTest('modal-button-close').at(0).props()).toStrictEqual({
-      kind: 'transparent',
-      ariaLabel: 'Close icon',
-      icon: X,
-      onClick: onClose,
-      'data-test': 'modal-button-close',
-    })
-
-    expect(wrapper.findDataTest('modal-content').find(ModalContent).exists()).toBeTruthy()
+    expect(within(screen.getByTestId('modal-header')).queryByLabelText(iconAriaLabel)).toBeInTheDocument()
   })
 
   it('Does not render anything when isOpen is false', () => {
     const onClose = jest.fn()
 
-    const wrapper = mount(
+    render(
       <Modal isOpen={false} onClose={onClose} title={modalTitle}>
         <ModalContent />
       </Modal>,
     )
 
-    expect(wrapper.find(ReactModal).props()).toMatchObject({
-      ariaHideApp: true,
-      preventScroll: false,
-      role: 'dialog',
-      shouldCloseOnEsc: true,
-      shouldCloseOnOverlayClick: true,
-      shouldFocusAfterRender: false,
-      shouldReturnFocusAfterClose: true,
-      contentLabel: modalTitle,
-      isOpen: false,
-      onRequestClose: onClose,
-    })
-    expect(wrapper.find('modal-content').exists()).toBeFalsy()
+    expect(screen.queryByRole('dialog', { hidden: true })).not.toBeInTheDocument()
+    expect(screen.queryByText(modalTitle)).not.toBeInTheDocument()
+    expect(screen.queryByLabelText('Close icon')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('modal-content')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('modal-footer')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('modal-button-cancel')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('modal-button-action')).not.toBeInTheDocument()
   })
 
-  it('Can be closed via top-right close button', () => {
+  it('Can be closed via top-right close button', async () => {
     const onClose = jest.fn()
 
-    const wrapper = mount(
+    render(
       <Modal isOpen title={modalTitle} onClose={onClose}>
         <ModalContent />
       </Modal>,
     )
 
-    expect(wrapper.findDataTest('modal-button-close').exists()).toBeTruthy()
+    expect(screen.queryByLabelText('Close icon')).toBeInTheDocument()
     expect(onClose).toHaveBeenCalledTimes(0)
 
-    act(() => {
-      wrapper.findDataTest('modal-button-close').at(1).simulate('click')
-    })
-    wrapper.update()
+    await act(async () => userEvent.click(screen.getByLabelText('Close icon')))
 
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 
-  it('Can be closed via footer Cancel button', () => {
+  it('Can be closed via footer Cancel button', async () => {
     const onClose = jest.fn()
 
-    const wrapper = mount(
+    render(
       <Modal isOpen title={modalTitle} onClose={onClose}>
         <ModalContent />
       </Modal>,
     )
 
-    expect(wrapper.findDataTest('modal-button-cancel').exists()).toBeTruthy()
+    expect(screen.queryByTestId('modal-button-cancel')).toBeInTheDocument()
     expect(onClose).toHaveBeenCalledTimes(0)
 
-    act(() => {
-      wrapper.findDataTest('modal-button-cancel').at(1).simulate('click')
-    })
-    wrapper.update()
+    await act(async () => userEvent.click(screen.getByTestId('modal-button-cancel')))
 
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 
-  it('Sets shouldCloseOnEsc and shouldCloseOnOverlayClick to false, when closable is false', () => {
+  it('Sets shouldCloseOnEsc and shouldCloseOnOverlayClick to false, when closable is false', async () => {
     const onClose = jest.fn()
 
-    const wrapper = mount(
+    render(
       <Modal isOpen title={modalTitle} onClose={onClose} closable={false}>
         <ModalContent />
       </Modal>,
     )
 
-    expect(wrapper.find(ReactModal).props()).toMatchObject({
-      ariaHideApp: true,
-      preventScroll: false,
-      role: 'dialog',
-      shouldCloseOnEsc: false,
-      shouldCloseOnOverlayClick: false,
-      shouldFocusAfterRender: false,
-      shouldReturnFocusAfterClose: true,
-      contentLabel: modalTitle,
-      isOpen: true,
-      onRequestClose: onClose,
-    })
+    expect(onClose).toHaveBeenCalledTimes(0)
+    expect(document.body.querySelector(`.${styles.overlay}`)).toBeInTheDocument()
+
+    await act(() => userEvent.click(document.body.querySelector(`.${styles.overlay}`)!))
+
+    expect(onClose).toHaveBeenCalledTimes(0)
   })
 
   it('Renders footer with only Cancel button, which is defensively auto-focused by default.', () => {
     const onClose = jest.fn()
 
-    const wrapper = mount(
+    render(
       <Modal isOpen title={modalTitle} onClose={onClose}>
         <ModalContent />
       </Modal>,
     )
 
-    expect(wrapper.find(ReactModal).props()).toMatchObject({
-      ariaHideApp: true,
-      preventScroll: false,
-      role: 'dialog',
-      shouldCloseOnEsc: true,
-      shouldCloseOnOverlayClick: true,
-      shouldFocusAfterRender: false,
-      shouldReturnFocusAfterClose: true,
-      contentLabel: modalTitle,
-      isOpen: true,
-      onRequestClose: onClose,
-    })
-
-    expect(wrapper.findDataTest('modal-footer').children()).toHaveLength(1)
-    expect(wrapper.findDataTest('modal-button-cancel').at(0).props()).toStrictEqual({
-      variant: 'outlined',
-      onClick: onClose,
-      children: 'Cancel',
-      'data-test': 'modal-button-cancel',
-      autoFocus: true,
-    })
-    expect(wrapper.findDataTest('modal-button-cancel').at(0).is(':focus')).toBe(true)
+    expect(screen.queryByTestId('modal-footer')).toBeInTheDocument()
+    expect(document.activeElement).toEqual(screen.queryByTestId('modal-button-cancel'))
   })
 
   it('Renders footer with Action and Cancel buttons when actions are passed', () => {
     const onClose = jest.fn()
     const onClick = jest.fn()
 
-    const wrapper = mount(
+    render(
       <Modal
         isOpen
         title={modalTitle}
@@ -254,40 +162,16 @@ describe('Modal', () => {
       </Modal>,
     )
 
-    expect(wrapper.find(ReactModal).props()).toMatchObject({
-      ariaHideApp: true,
-      preventScroll: false,
-      role: 'dialog',
-      shouldCloseOnEsc: true,
-      shouldCloseOnOverlayClick: true,
-      shouldFocusAfterRender: false,
-      shouldReturnFocusAfterClose: true,
-      contentLabel: modalTitle,
-      isOpen: true,
-      onRequestClose: onClose,
-    })
-
-    expect(wrapper.findDataTest('modal-footer').children()).toHaveLength(2)
-    expect(wrapper.findDataTest('modal-button-cancel').at(0).props()).toStrictEqual({
-      variant: 'outlined',
-      onClick: onClose,
-      children: 'Cancel',
-      'data-test': 'modal-button-cancel',
-      autoFocus: true,
-    })
-    expect(wrapper.findDataTest('modal-button-cancel').at(0).is(':focus')).toBe(true)
-    expect(wrapper.findDataTest('modal-button-action').at(0).props()).toStrictEqual({
-      onClick: onClick,
-      children: modalAction,
-      'data-test': 'modal-button-action',
-    })
+    expect(screen.queryByTestId('modal-footer')).toBeInTheDocument()
+    expect(screen.queryByTestId('modal-button-cancel')).toBeInTheDocument()
+    expect(screen.queryByTestId('modal-button-action')).toBeInTheDocument()
   })
 
   it('Hides footer with Actions', () => {
     const onClose = jest.fn()
     const onClick = jest.fn()
 
-    const wrapper = mount(
+    render(
       <Modal
         isOpen
         title={modalTitle}
@@ -304,27 +188,14 @@ describe('Modal', () => {
       </Modal>,
     )
 
-    expect(wrapper.find(ReactModal).props()).toMatchObject({
-      ariaHideApp: true,
-      preventScroll: false,
-      role: 'dialog',
-      shouldCloseOnEsc: true,
-      shouldCloseOnOverlayClick: true,
-      shouldFocusAfterRender: false,
-      shouldReturnFocusAfterClose: true,
-      contentLabel: modalTitle,
-      isOpen: true,
-      onRequestClose: onClose,
-    })
-
-    expect(wrapper.findDataTest('modal-footer').exists()).toBe(false)
+    expect(screen.queryByTestId('modal-footer')).not.toBeInTheDocument()
   })
 
   it('When "autoFocus" is passed to an action, the action is focused. This disables autoFocus on Cancel button.', () => {
     const onClose = jest.fn()
     const onClick = jest.fn()
 
-    const wrapper = mount(
+    render(
       <Modal
         isOpen
         title={modalTitle}
@@ -341,35 +212,8 @@ describe('Modal', () => {
       </Modal>,
     )
 
-    expect(wrapper.find(ReactModal).props()).toMatchObject({
-      ariaHideApp: true,
-      preventScroll: false,
-      role: 'dialog',
-      shouldCloseOnEsc: true,
-      shouldCloseOnOverlayClick: true,
-      shouldFocusAfterRender: false,
-      shouldReturnFocusAfterClose: true,
-      contentLabel: modalTitle,
-      isOpen: true,
-      onRequestClose: onClose,
-    })
-
-    expect(wrapper.findDataTest('modal-footer').children()).toHaveLength(2)
-    expect(wrapper.findDataTest('modal-button-cancel').at(0).props()).toStrictEqual({
-      variant: 'outlined',
-      onClick: onClose,
-      children: 'Cancel',
-      'data-test': 'modal-button-cancel',
-      autoFocus: false,
-    })
-    expect(wrapper.findDataTest('modal-button-cancel').at(0).is(':focus')).toBe(false)
-    expect(wrapper.findDataTest('modal-button-action').at(0).props()).toStrictEqual({
-      onClick: onClick,
-      children: modalAction,
-      'data-test': 'modal-button-action',
-      autoFocus: true,
-    })
-    expect(wrapper.findDataTest('modal-button-action').at(0).is(':focus')).toBe(true)
+    expect(screen.getByTestId('modal-footer').children).toHaveLength(2)
+    expect(document.activeElement).toEqual(screen.getByTestId('modal-button-action'))
   })
 
   it('Modal child element can be auto-focused when modal "autoFocus" is false', () => {
@@ -377,7 +221,7 @@ describe('Modal', () => {
     const onClick = jest.fn()
     const modalChildren = <input data-test="test-input" type="text" autoFocus />
 
-    const wrapper = mount(
+    render(
       <Modal
         autoFocus={false}
         isOpen
@@ -394,35 +238,7 @@ describe('Modal', () => {
       </Modal>,
     )
 
-    expect(wrapper.find(ReactModal).props()).toMatchObject({
-      ariaHideApp: true,
-      preventScroll: false,
-      role: 'dialog',
-      shouldCloseOnEsc: true,
-      shouldCloseOnOverlayClick: true,
-      shouldFocusAfterRender: false,
-      shouldReturnFocusAfterClose: true,
-      contentLabel: modalTitle,
-      isOpen: true,
-      onRequestClose: onClose,
-    })
-
-    expect(wrapper.findDataTest('modal-footer').children()).toHaveLength(2)
-    expect(wrapper.findDataTest('modal-button-cancel').at(0).props()).toStrictEqual({
-      variant: 'outlined',
-      onClick: onClose,
-      children: 'Cancel',
-      'data-test': 'modal-button-cancel',
-      autoFocus: false,
-    })
-    expect(wrapper.findDataTest('modal-button-cancel').at(0).is(':focus')).toBe(false)
-    expect(wrapper.findDataTest('modal-button-action').at(0).props()).toStrictEqual({
-      onClick: onClick,
-      children: modalAction,
-      'data-test': 'modal-button-action',
-    })
-    expect(wrapper.findDataTest('modal-button-action').at(0).is(':focus')).toBe(false)
-
-    expect(wrapper.findDataTest('test-input').is(':focus')).toBe(true)
+    expect(screen.getByTestId('modal-footer').children).toHaveLength(2)
+    expect(document.activeElement).toEqual(screen.getByTestId('test-input'))
   })
 })
