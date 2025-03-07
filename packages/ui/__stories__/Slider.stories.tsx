@@ -7,7 +7,7 @@ import { Slider } from '../src/Slider'
 import { SliderFormik } from '../src/SliderFormik'
 import { Button } from '../src/Button'
 
-import utilStyles from './utils.scss'
+import utilStyles from './utils.module.scss'
 import styles from '../src/Slider.module.scss'
 
 export default {

@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState, ReactChild, ReactText, ReactElement } from 'react'
+import React, { FC, useRef, useState, ReactNode } from 'react'
 import mergeRefs from 'react-merge-refs'
 import cn from 'classnames'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
@@ -10,9 +10,9 @@ import { Tooltip, TooltipProps } from './Tooltip'
 import styles from './TruncatedText.module.scss'
 
 interface TruncatedTextProps extends DataTestProp {
-  text: ReactText | ((...arg: unknown[]) => string) | ReactElement
+  text: ReactNode
   // Pass a new value to trigger a force re-render
-  forceUpdateToken?: ReactText | boolean
+  forceUpdateToken?: string | number | boolean
   className?: string
   multiline?: boolean
   tooltipVisible?: boolean
@@ -33,7 +33,7 @@ export const TruncatedText: FC<TruncatedTextProps> = ({
   'data-test': dataTest,
 }) => {
   const textRef = useRef<HTMLDivElement>(null)
-  const [tooltip, setTooltip] = useState<ReactChild | undefined>()
+  const [tooltip, setTooltip] = useState<ReactNode | undefined>()
   const idTooltip = useUID()
 
   useIsomorphicLayoutEffect(() => {

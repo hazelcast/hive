@@ -86,11 +86,9 @@ export const NumberField: FC<NumberFieldProps> = ({
     if (max !== undefined && value !== undefined && value > max) {
       onChange(max)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [min, max])
 
   const onDecrement = useCallback(() => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     let newValue = value! - step
     if (min !== undefined && newValue < min) {
       newValue = min
@@ -104,7 +102,6 @@ export const NumberField: FC<NumberFieldProps> = ({
     if (value === undefined && min !== undefined) {
       newValue = min
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       newValue = value! + step
     }
 

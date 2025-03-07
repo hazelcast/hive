@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { logger } from '@hazelcast/services'
-import { Meta, Story } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react'
 
 import { PaginationChangeProps, Table, TableProps } from '../src/Table/Table'
 import { getColumns, Person } from '../__tests__/Table/utils'
@@ -9,7 +9,7 @@ import { TextField } from '../src'
 import { SortingRule } from '../src/Table/tableTypes'
 
 import storyStyles from './TextField.stories.module.scss'
-import styles from './utils.scss'
+import styles from './utils.module.scss'
 
 export default {
   title: 'Components/Table',
@@ -28,54 +28,62 @@ export default {
   },
 } as Meta<TableProps<Person>>
 
-const Template: Story<TableProps<Person>> = (args) => <Table {...args} />
+type Story = StoryObj<TableProps<Person>>
 
-export const Default = Template.bind({})
+export const Default: Story = {}
 
-export const Empty = Template.bind({})
-Empty.args = {
-  data: [],
-}
-
-export const Loading = Template.bind({})
-Loading.args = {
-  loading: true,
-}
-
-export const WithFooter = Template.bind({})
-WithFooter.args = {
-  columns: getColumns({ withFooter: true }),
-}
-
-export const WithHiddenHeader = Template.bind({})
-WithHiddenHeader.args = {
-  hideHeader: true,
-}
-
-export const WithClickableRows = Template.bind({})
-WithClickableRows.args = {
-  onRowClick: (row) => {
-    logger.log(`You just clicked (or pressed) row: ${row.original.name}`)
+export const Empty: Story = {
+  args: {
+    data: [],
   },
 }
 
-export const WithClickableAnchorRows = Template.bind({})
-WithClickableAnchorRows.args = {
-  getHref: (row) => {
-    logger.log(`You just clicked (or pressed) row: ${row.original.name}. You can use row info to generate href!`)
-    return `#${row.id}`
+export const Loading: Story = {
+  args: {
+    loading: true,
   },
 }
 
-export const Sortable = Template.bind({})
-Sortable.args = {
-  disableSortBy: false,
+export const WithFooter: Story = {
+  args: {
+    columns: getColumns({ withFooter: true }),
+  },
 }
 
-export const WithUncontrolledPagination = Template.bind({})
-WithUncontrolledPagination.args = {
-  data: bigDataSet.slice(0, 15),
-  hidePagination: false,
+export const WithHiddenHeader: Story = {
+  args: {
+    hideHeader: true,
+  },
+}
+
+export const WithClickableRows: Story = {
+  args: {
+    onRowClick: (row) => {
+      logger.log(`You just clicked (or pressed) row: ${row.original.name}`)
+    },
+  },
+}
+
+export const WithClickableAnchorRows: Story = {
+  args: {
+    getHref: (row) => {
+      logger.log(`You just clicked (or pressed) row: ${row.original.name}. You can use row info to generate href!`)
+      return `#${row.id}`
+    },
+  },
+}
+
+export const Sortable: Story = {
+  args: {
+    disableSortBy: false,
+  },
+}
+
+export const WithUncontrolledPagination: Story = {
+  args: {
+    data: bigDataSet.slice(0, 15),
+    hidePagination: false,
+  },
 }
 
 export const WithControlledPagination = () => {
@@ -197,84 +205,84 @@ export const WithGlobalSearch = () => {
   )
 }
 
-export const WithCustomStyles = Template.bind({})
-WithCustomStyles.args = {
-  columns: getColumns({ withFooter: true }),
-  contentClassName: styles.customTableContent,
-  headerClassName: styles.customTableHeader,
-  footerClassName: styles.customTableFooter,
+export const WithCustomStyles: Story = {
+  args: {
+    columns: getColumns({ withFooter: true }),
+    contentClassName: styles.customTableContent,
+    headerClassName: styles.customTableHeader,
+    footerClassName: styles.customTableFooter,
+  },
 }
 
-export const WithCustomRowAndCellProps = Template.bind({})
-WithCustomRowAndCellProps.parameters = {
-  design: {
-    type: 'figma',
-    url: 'https://www.figma.com/file/Xs8yIZDwJ6tw1bMn1lB95Y/Clients-Filtering?node-id=130%3A307',
+export const WithCustomRowAndCellProps: Story = {
+  parameters: {
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/Xs8yIZDwJ6tw1bMn1lB95Y/Clients-Filtering?node-id=130%3A307',
+    },
   },
-}
-WithCustomRowAndCellProps.args = {
-  getCustomRowProps: (row) => {
-    if (row.original.age < 15) {
-      return {
-        style: {
-          background: 'white',
-        },
-      }
-    }
-    return {}
-  },
-  getCustomCellProps: (cell) => {
-    if (cell.row.original.age < 15) {
-      if (cell.column.id === 'age') {
+  args: {
+    getCustomRowProps: (row) => {
+      if (row.original.age < 15) {
         return {
-          warning: 'Younger than 15',
+          style: {
+            background: 'white',
+          },
+        }
+      }
+      return {}
+    },
+    getCustomCellProps: (cell) => {
+      if (cell.row.original.age < 15) {
+        if (cell.column.id === 'age') {
+          return {
+            warning: 'Younger than 15',
+            style: {
+              color: '#707482',
+            },
+          }
+        }
+        return {
           style: {
             color: '#707482',
           },
         }
+      } else if (cell.column.id === 'ID') {
+        return {
+          style: {
+            borderLeft: '0.25rem solid limegreen',
+            paddingLeft: '1rem',
+          },
+        }
       }
-      return {
-        style: {
-          color: '#707482',
-        },
-      }
-    } else if (cell.column.id === 'ID') {
-      return {
-        style: {
-          borderLeft: '0.25rem solid limegreen',
-          paddingLeft: '1rem',
-        },
-      }
-    }
-    return {}
+      return {}
+    },
   },
 }
 
-export const WithColumnsSelection: Story<TableProps<Person>> = ({ columns, ...args }) => {
-  return <Table columns={columns} {...args} />
-}
-WithColumnsSelection.args = {
-  onCopy: (value) => logger.log(value),
-}
-
-export const WithColumnsOrdering: Story<TableProps<Person>> = ({ columns, ...args }) => {
-  return <Table columnsOrdering columns={columns} {...args} />
-}
-WithColumnsOrdering.args = {
-  disableSortBy: false,
+export const WithColumnsSelection: Story = {
+  args: {
+    columns: getColumns({ withFooter: true }),
+    onCopy: (value) => logger.log(value),
+  },
 }
 
-export const WithExpandableRows: Story<TableProps<Person>> = ({ columns, ...args }) => {
-  return <Table columns={columns} {...args} />
-}
-WithExpandableRows.args = {
-  data: smallDataSetWithSubRows,
+export const WithColumnsOrdering: Story = {
+  args: {
+    disableSortBy: false,
+    columnsOrdering: true,
+  },
 }
 
-export const WithExpandableRowsAndCustomContent: Story<TableProps<Person>> = ({ columns, ...args }) => {
-  return <Table columns={columns} {...args} />
+export const WithExpandableRows: Story = {
+  args: {
+    data: smallDataSetWithSubRows,
+  },
 }
-WithExpandableRowsAndCustomContent.args = {
-  data: smallDataSet,
-  renderRowSubComponent: ({ original }) => <div>Sub row #{original.id}</div>,
+
+export const WithExpandableRowsAndCustomContent: Story = {
+  args: {
+    data: smallDataSet,
+    renderRowSubComponent: ({ original }) => <div>Sub row #{original.id}</div>,
+  },
 }

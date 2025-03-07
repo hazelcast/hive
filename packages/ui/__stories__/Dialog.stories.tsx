@@ -4,7 +4,7 @@ import { useUID } from 'react-uid'
 
 import { Dialog, DialogProps } from '../src/Dialog'
 
-import utilsStyles from './utils.scss'
+import utilsStyles from './utils.module.scss'
 
 export default {
   title: 'Components/Dialog',

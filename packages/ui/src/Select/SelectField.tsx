@@ -127,7 +127,7 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
    * 3. A created option is selected
    */
   const selectedOption = useMemo<SelectFieldOption<V> | null>(
-    () => (value === null ? null : optionsMap[value] ?? { value: value, label: value }),
+    () => (value === null ? null : (optionsMap[value] ?? { value: value, label: value })),
     [optionsMap, value],
   )
 
@@ -182,7 +182,7 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
     components: innerComponents,
     formatGroupLabel,
     formatOptionLabel,
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+
     // @ts-ignore
     renderMenuFooter,
     menuShouldScrollIntoView,

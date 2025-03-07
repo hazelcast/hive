@@ -1,4 +1,4 @@
-import React, { FC, ReactChild } from 'react'
+import React, { FC, ReactNode } from 'react'
 import cn from 'classnames'
 import { ChevronRight } from 'react-feather'
 
@@ -46,8 +46,8 @@ type EmptyStateAction =
     }
 
 export type EmptyStateProps = {
-  title: ReactChild
-  description?: ReactChild
+  title: ReactNode
+  description?: ReactNode
   icon: IconProps['icon']
   iconLabel: string
   className?: string

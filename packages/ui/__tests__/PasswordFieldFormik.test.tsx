@@ -40,7 +40,7 @@ describe('PasswordFieldFormik', () => {
 
     expect(input).toBeInTheDocument()
 
-    await act(() => userEvent.type(input, 'yoda'))
+    await userEvent.type(input, 'yoda')
 
     expect(formikBag.current?.values).toEqual({
       password: 'yoda',
@@ -49,7 +49,7 @@ describe('PasswordFieldFormik', () => {
     expect(onSubmit).toBeCalledTimes(0)
 
     // We need the `async` call here to wait for processing of the asynchronous 'submit'
-    // eslint-disable-next-line @typescript-eslint/require-await
+
     await act(async () => {
       fireEvent.submit(container.querySelector('form')!)
     })
@@ -94,13 +94,13 @@ describe('PasswordFieldFormik', () => {
 
     expect(input).toBeInTheDocument()
 
-    await act(() => userEvent.type(input, 'yoda'))
+    await userEvent.type(input, 'yoda')
 
     // Before `blur` the input is not dirty yet
     expect(within(container).queryByText('Dark side 1')).not.toBeInTheDocument()
 
     // We need the `async` call here to wait for processing of the asynchronous 'blur'
-    // eslint-disable-next-line @typescript-eslint/require-await
+
     await act(async () => {
       fireEvent.blur(input)
     })
@@ -140,7 +140,7 @@ describe('PasswordFieldFormik', () => {
     expect(input).toBeInTheDocument()
 
     // We need the `async` call here to wait for processing of the asynchronous 'change'
-    // eslint-disable-next-line @typescript-eslint/require-await
+
     await act(async () => {
       fireEvent.change(input, { target: { value: 'yoda' } })
     })

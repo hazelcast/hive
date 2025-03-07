@@ -18,11 +18,9 @@ const changeNestedObjectValue = <V extends object>(oldValues: V, name: string, u
   }
   nameProps.reduce((nestedValues: object, nextName: string, currentIndex) => {
     if (currentIndex < nameProps.length - 1) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       return (nestedValues[nextName] as object) || {}
     } else {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       nestedValues[nextName] = updatedValue
       return nestedValues

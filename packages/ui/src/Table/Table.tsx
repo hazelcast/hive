@@ -3,7 +3,6 @@ import debounce from 'lodash/debounce'
 import React, {
   AnchorHTMLAttributes,
   FC,
-  ReactChild,
   ReactElement,
   useCallback,
   useEffect,
@@ -14,7 +13,7 @@ import React, {
   useState,
 } from 'react'
 import cn from 'classnames'
-import { HotKeys, KeyMap } from 'react-hotkeys'
+import HotKeys from 'react-hot-keys'
 import {
   useReactTable,
   getCoreRowModel,
@@ -104,7 +103,7 @@ type CustomTableProps<D extends RowData> = {
   paginationClassName?: string
   footerClassName?: string
   contentClassName?: string
-  noDataTitle?: ReactChild
+  noDataTitle?: ReactNode
   // Custom props getter for Row
   getCustomRowProps?: (rowInfo: RowType<D>) => RowProps
   // Custom props getter for Cell
@@ -189,19 +188,7 @@ export const Table = <D extends RowData & { subRows?: D[] }>({
   const [contextMenuAnchorEl, setContextMenuAnchorEl] = useState<HTMLDivElement | null>(null)
   const draggedColumnRef = useRef<number | null>(null)
   const previousIncomingPageIndex = usePrevious(incomingPageIndex)
-  // Debounce our `fetchData` call for 200ms.
-  // We can use non-null assertion here since we're checking existence of `fetchData` in the `useEffect` below
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 
-  const commands = useMemo<KeyMap>(() => {
-    const result: KeyMap = {}
-
-    if (onCopy) {
-      result.copy = ['ctrl+c', 'command+c']
-    }
-
-    return result
-  }, [onCopy])
   const columns = useMemo<ColumnDef<D>[]>(() => {
     if (renderRowSubComponent || data.some((item) => 'subRows' in item)) {
       const expander: ColumnType<D> = {
@@ -212,7 +199,6 @@ export const Table = <D extends RowData & { subRows?: D[] }>({
         Cell: ({ row }) => {
           if (row.getCanExpand()) {
             return (
-              // eslint-disable-next-line jsx-a11y/click-events-have-key-events
               <div
                 tabIndex={0}
                 role="button"
@@ -320,7 +306,7 @@ export const Table = <D extends RowData & { subRows?: D[] }>({
   }, [])
 
   const onDrop = useCallback(
-    (_, columnIndex: number) => {
+    (_: DragEvent, columnIndex: number) => {
       if (draggedColumnRef.current !== null && columnIndex !== draggedColumnRef.current) {
         const visibleColumns = getColumnOrder() || getVisibleFlatColumns().map(({ id }) => id)
         const newColumns = [...visibleColumns]
@@ -354,15 +340,6 @@ export const Table = <D extends RowData & { subRows?: D[] }>({
       }
     }
   }, [getOncopy, getSelectedColumns, selectedColumnValuesRef])
-  const hotKeysHandlers = useMemo(
-    () => ({
-      copy: (e?: KeyboardEvent) => {
-        e?.preventDefault()
-        onKeyUp()
-      },
-    }),
-    [onKeyUp],
-  )
 
   useEffect(() => {
     return () => {
@@ -490,29 +467,25 @@ export const Table = <D extends RowData & { subRows?: D[] }>({
                 </Cell>
               </Row>
             ) : hasData ? (
-              <HotKeys
-                role="rowgroup"
-                data-test="table-cell-row-group"
-                keyMap={commands}
-                handlers={hotKeysHandlers}
-                className={styles.hotKeys}
-              >
-                <TableContent
-                  page={page}
-                  onCopy={onCopy}
-                  getHref={getHref}
-                  totalSize={tableInstance.getTotalSize()}
-                  rootRef={setContextMenuAnchorEl}
-                  {...columnsSelectionProps}
-                  onRowClick={onRowClick}
-                  className={contentClassName}
-                  columnResizing={columnResizing}
-                  AnchorComponent={AnchorComponent}
-                  cellIndexOffset={cellIndexOffset}
-                  getCustomRowProps={getCustomRowProps}
-                  getCustomCellProps={getCustomCellProps}
-                  renderRowSubComponent={renderRowSubComponent}
-                />
+              <HotKeys keyName="ctrl+c, command+c" onKeyUp={onKeyUp}>
+                <div data-test="table-cell-row-group" className={styles.hotKeys}>
+                  <TableContent
+                    page={page}
+                    onCopy={onCopy}
+                    getHref={getHref}
+                    totalSize={tableInstance.getTotalSize()}
+                    rootRef={setContextMenuAnchorEl}
+                    {...columnsSelectionProps}
+                    onRowClick={onRowClick}
+                    className={contentClassName}
+                    columnResizing={columnResizing}
+                    AnchorComponent={AnchorComponent}
+                    cellIndexOffset={cellIndexOffset}
+                    getCustomRowProps={getCustomRowProps}
+                    getCustomCellProps={getCustomCellProps}
+                    renderRowSubComponent={renderRowSubComponent}
+                  />
+                </div>
               </HotKeys>
             ) : (
               <div role="row">

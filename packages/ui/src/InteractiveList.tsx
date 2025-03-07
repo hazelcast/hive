@@ -122,7 +122,6 @@ export const InteractiveList = <V,>({
           onChange={({ target: { value } }) => {
             setInputValue(value)
           }}
-          /* eslint-disable-next-line @typescript-eslint/no-misused-promises */
           onKeyPress={async (e) => {
             if (e.key === 'Enter') {
               e.preventDefault()

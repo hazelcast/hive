@@ -96,7 +96,6 @@ describe('TextArea', () => {
 
     const textarea = container.querySelector('textarea')!
 
-    // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
       fireEvent.change(container.querySelector('textarea')!, { target: { value: 'value' } })
     })
@@ -122,7 +121,6 @@ describe('TextArea', () => {
 
     expect(onBlur).toBeCalledTimes(0)
 
-    // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
       fireEvent.blur(container.querySelector('textarea')!)
     })

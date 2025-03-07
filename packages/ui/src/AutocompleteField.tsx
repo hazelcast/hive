@@ -87,7 +87,7 @@ const DropdownIndicator: typeof components.DropdownIndicator = (props) => {
 // innerProps set event handling
 const ClearIndicator: typeof components.ClearIndicator = ({ innerProps }) => {
   // Visually impaired people will use the keyboard (backspace) to remove the value. We do not want to confuse them by allowing to focus this button.
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+
   // @ts-ignore
   return <IconButton {...innerProps} icon={X} ariaHidden kind="primary" size="medium" className={styles.clear} tabIndex={-1} />
 }
@@ -154,10 +154,13 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
 
   const optionsMap = React.useMemo(
     () =>
-      options.reduce((acc, option) => {
-        acc[`${option.value}`] = option
-        return acc
-      }, {} as { [key: string]: AutocompleteFieldOption }),
+      options.reduce(
+        (acc, option) => {
+          acc[`${option.value}`] = option
+          return acc
+        },
+        {} as { [key: string]: AutocompleteFieldOption },
+      ),
     [options],
   )
 
@@ -223,7 +226,7 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
     // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute
     'aria-errormessage': error && errorId(id),
     'aria-invalid': !!error,
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+
     // @ts-ignore
     'aria-required': required,
     error,
@@ -282,7 +285,7 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
           formatOptionLabel={formatOptionLabelFn}
           styles={{
             ...props.styles,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+
             // @ts-ignore
             singleValue: (base: CSSProperties) => ({
               ...base,

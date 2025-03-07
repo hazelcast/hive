@@ -5,7 +5,7 @@ import { axe, JestAxe, toHaveNoViolations } from 'jest-axe'
 expect.extend(toHaveNoViolations)
 
 type AxeOptions = Parameters<JestAxe>[1]
-const axeDefaultOptions: AxeOptions = {
+export const axeDefaultOptions: AxeOptions = {
   rules: {
     // We are testing small units. They might not contain landmarks
     region: {

@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, MouseEvent, RefObject, useEffect, useRef } from 'react'
+import React, { CSSProperties, FC, PropsWithChildren, MouseEvent, RefObject, useEffect, useRef } from 'react'
 import { AlertTriangle } from 'react-feather'
 import { useUID } from 'react-uid'
 import cn from 'classnames'
@@ -55,7 +55,7 @@ export type CellProps = {
   onClickSelection?: (id: string, modifiers: { ctrl: boolean; shift: boolean }) => void
 }
 
-export const Cell: FC<CellProps> = ({
+export const Cell = ({
   align = 'left',
   warning,
   colSpan,
@@ -68,7 +68,7 @@ export const Cell: FC<CellProps> = ({
   selected,
   onMouseEnterSelection,
   selectionStartedRef,
-}) => {
+}: PropsWithChildren<CellProps>) => {
   const rootRef = useRef(null)
   const { isOpen, open, close } = useOpenCloseState()
   const handleClick = (e: MouseEvent) => {

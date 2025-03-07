@@ -1,5 +1,4 @@
 import React from 'react'
-import { Story } from '@storybook/react'
 import { Disc, AlertTriangle, HardDrive, Wifi, Activity, Droplet, Airplay } from 'react-feather'
 
 import {
@@ -17,7 +16,7 @@ export default {
   component: AppSidebar,
 }
 
-const Template: Story<Partial<AppSidebarProps>> = (props) => (
+const Template = (props: AppSidebarProps) => (
   <AppSidebar footer={<span>24/08/14 01:49 PM Ver. 5.5.0</span>} {...props}>
     <AppSidebarFavorites>{({ items }) => items.map((item) => <AppSidebarItem key={item} id={item} title={item} />)}</AppSidebarFavorites>
     <AppSidebarSection active id="maps" title="Maps wan replication" ariaLabel="maps" icon={Disc}>

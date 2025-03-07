@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { PropsWithChildren } from 'react'
 
-export const MdxDocsPage: React.FC = ({ children }) => (
+export const MdxDocsPage = ({ children }: PropsWithChildren) => (
   <article
     style={{
       fontFamily: 'Open Sans',

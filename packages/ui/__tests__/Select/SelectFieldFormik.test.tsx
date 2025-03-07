@@ -42,22 +42,22 @@ describe('SelectFieldFormik', () => {
       name: null,
     })
     // We need the `async` call here to wait for processing of the asynchronous 'change'
-    // eslint-disable-next-line @typescript-eslint/require-await
+
     await act(async () => {
       fireEvent.mouseDown(container.querySelector('.hz-select-field__indicators')!, { button: 0 })
     })
-    await act(() => userEvent.click(screen.getByRole('option', { name: options[1].label })))
+    await userEvent.click(screen.getByRole('option', { name: options[1].label }))
 
     expect(formikBag.current?.values).toEqual({
       name: options[1].value,
     })
 
     // We need the `async` call here to wait for processing of the asynchronous 'change'
-    // eslint-disable-next-line @typescript-eslint/require-await
+
     await act(async () => {
       fireEvent.mouseDown(container.querySelector('.hz-select-field__indicators')!, { button: 0 })
     })
-    await act(() => userEvent.click(screen.getByRole('option', { name: options[0].label })))
+    await userEvent.click(screen.getByRole('option', { name: options[0].label }))
 
     expect(formikBag.current?.values).toEqual({
       name: options[0].value,
@@ -84,11 +84,11 @@ describe('SelectFieldFormik', () => {
     expect(screen.queryByTestId('select-field-error')).toHaveTextContent('')
 
     // We need the `async` call here to wait for processing of the asynchronous 'change'
-    // eslint-disable-next-line @typescript-eslint/require-await
+
     await act(async () => {
       fireEvent.mouseDown(container.querySelector('.hz-select-field__indicators')!, { button: 0 })
     })
-    await act(() => userEvent.click(screen.getByRole('option', { name: options[1].label })))
+    await userEvent.click(screen.getByRole('option', { name: options[1].label }))
 
     expect(screen.queryByTestId('select-field-error')).toHaveTextContent('error')
   })
@@ -110,11 +110,11 @@ describe('SelectFieldFormik', () => {
     const { container } = await renderAndCheckA11Y(<TestForm />)
 
     // We need the `async` call here to wait for processing of the asynchronous 'change'
-    // eslint-disable-next-line @typescript-eslint/require-await
+
     await act(async () => {
       fireEvent.mouseDown(container.querySelector('.hz-select-field__indicators')!, { button: 0 })
     })
-    await act(() => userEvent.click(screen.getByRole('option', { name: options[1].label })))
+    await userEvent.click(screen.getByRole('option', { name: options[1].label }))
 
     expect(onChange).toBeCalledTimes(1)
     expect(onChange).toBeCalledWith(options[1].value)

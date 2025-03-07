@@ -1,7 +1,7 @@
 import React from 'react'
 import { useUID } from 'react-uid'
 import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
-import { renderHook } from '@testing-library/react-hooks'
+import { renderHook } from '@testing-library/react'
 
 import {
   getTabId,

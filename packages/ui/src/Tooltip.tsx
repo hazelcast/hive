@@ -5,7 +5,6 @@ import React, {
   useState,
   useImperativeHandle,
   MutableRefObject,
-  ReactText,
   useLayoutEffect,
   createContext,
   useContext,
@@ -16,8 +15,7 @@ import React, {
   CSSProperties,
 } from 'react'
 import ReactDOM from 'react-dom'
-import { Placement } from '@popperjs/core'
-import { Modifier, StrictModifierNames, usePopper } from 'react-popper'
+import { Placement, createPopper, Instance } from '@popperjs/core'
 import cn from 'classnames'
 
 import { containsElement } from './hooks'
@@ -32,7 +30,7 @@ const TooltipContext = createContext<{
   referenceElement: HTMLSpanElement | null
 } | null>(null)
 
-export type PopperRef = ReturnType<typeof usePopper>
+export type PopperRef = Instance
 
 export type TooltipProps = {
   content: ReactNode
@@ -46,13 +44,9 @@ export type TooltipProps = {
   visible?: boolean
   className?: string
   hoverAbleTooltip?: boolean
-  children: (
-    ref: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
-    onMouseEnter?: MouseEventHandler,
-    onMouseLeave?: MouseEventHandler,
-  ) => ReactNode
+  children: (ref: (el: HTMLElement | null) => void, onMouseEnter?: MouseEventHandler, onMouseLeave?: MouseEventHandler) => ReactNode
   popperRef?: MutableRefObject<PopperRef | undefined>
-  updateToken?: ReactText | boolean
+  updateToken?: string | number | boolean
   tooltipContainer?: PortalContainer
   wordBreak?: CSSProperties['wordBreak']
   disabled?: boolean
@@ -110,42 +104,44 @@ export const Tooltip: FC<TooltipProps> = ({
     }
   }, [context])
 
-  /*
-   * We're using useState instead of useRef because react-popper package has some issues with useRef:
-   * https://github.com/popperjs/react-popper/issues/241#issuecomment-591411605
-   */
-  const [referenceElement, setReferenceElement] = useState<HTMLElement | null>(null)
-  const [popperElement, setPopperElement] = useState<HTMLSpanElement | null>(null)
-  const [arrowElement, setArrowElement] = useState<HTMLSpanElement | null>(null)
+  const referenceElement = useRef<HTMLElement | null>(null)
+  const popperElement = useRef<HTMLSpanElement | null>(null)
+  const arrowElement = useRef<HTMLSpanElement | null>(null)
 
-  const modifiers = useMemo(() => {
-    const result: Modifier<StrictModifierNames>[] = [
-      {
-        name: 'offset',
-        options: {
-          offset: [0, offset],
-        },
-      },
-    ]
+  const popper = useRef<Instance>()
 
-    if (arrow) {
-      result.push({
-        name: 'arrow',
-        options: {
-          element: arrowElement,
-          padding,
-        },
+  useEffect(() => {
+    if (popperElement.current && referenceElement.current) {
+      popper.current = createPopper(referenceElement.current, popperElement.current, {
+        placement,
+        modifiers: [
+          {
+            name: 'offset',
+            options: {
+              offset: [0, offset],
+            },
+          },
+          ...(arrow
+            ? [
+                {
+                  name: 'arrow',
+                  options: {
+                    element: arrowElement.current,
+                    padding,
+                  },
+                },
+              ]
+            : []),
+        ],
       })
     }
 
-    return result
-  }, [arrow, padding, offset, arrowElement])
-  const popper = usePopper(referenceElement, popperElement, {
-    placement,
-    modifiers,
-  })
+    return () => {
+      popper.current?.destroy()
+    }
+  }, [padding, offset, arrow])
 
-  useImperativeHandle(popperRef, () => popper, [popper])
+  useImperativeHandle(popperRef, () => popper.current, [popper])
 
   const onMouseEnter = useCallback(() => {
     clearHideTimeout()
@@ -174,8 +170,8 @@ export const Tooltip: FC<TooltipProps> = ({
 
   const contextValue = useMemo(
     () => ({
-      popperElement,
-      referenceElement,
+      popperElement: popperElement.current,
+      referenceElement: referenceElement.current,
       hide: onMouseLeave,
       clearHideTimeout,
     }),
@@ -188,7 +184,7 @@ export const Tooltip: FC<TooltipProps> = ({
   // Update the tooltip's position (useful when resizing table columns)
   useLayoutEffect(() => {
     if (content) {
-      void popper?.update?.()
+      void popper.current?.update?.()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isTooltipVisible, updateToken])
@@ -198,33 +194,43 @@ export const Tooltip: FC<TooltipProps> = ({
     }
   }, [clearHideTimeout])
   useEffect(() => {
-    referenceElement?.addEventListener('mouseenter', onMouseEnter, false)
-    referenceElement?.addEventListener('mouseleave', onMouseLeave, false)
+    const el = referenceElement.current
+
+    el?.addEventListener('mouseenter', onMouseEnter, false)
+    el?.addEventListener('mouseleave', onMouseLeave, false)
 
     return () => {
-      referenceElement?.removeEventListener('mouseenter', onMouseEnter)
-      referenceElement?.removeEventListener('mouseleave', onMouseLeave)
+      el?.removeEventListener('mouseenter', onMouseEnter)
+      el?.removeEventListener('mouseleave', onMouseLeave)
     }
   }, [referenceElement, onMouseEnter, onMouseLeave])
   useEffect(() => {
+    const el = popperElement.current
+
     if (hoverAbleTooltip) {
-      popperElement?.addEventListener('mouseenter', onMouseEnter, false)
-      popperElement?.addEventListener('mouseleave', onMouseLeave, false)
+      el?.addEventListener('mouseenter', onMouseEnter, false)
+      el?.addEventListener('mouseleave', onMouseLeave, false)
     }
 
     return () => {
-      popperElement?.removeEventListener('mouseenter', onMouseEnter)
-      popperElement?.removeEventListener('mouseleave', onMouseLeave)
+      el?.removeEventListener('mouseenter', onMouseEnter)
+      el?.removeEventListener('mouseleave', onMouseLeave)
     }
   }, [popperElement, onMouseEnter, onMouseLeave, hoverAbleTooltip])
 
-  const tooltipPortalContainer = getPortalContainer(tooltipContainer, referenceElement)
+  const tooltipPortalContainer = getPortalContainer(tooltipContainer, referenceElement.current)
 
   return (
     <TooltipContext.Provider value={contextValue}>
-      {children(setReferenceElement, onMouseEnter, (e: unknown) => {
-        onMouseLeave(e as Event)
-      })}
+      {children(
+        (el) => {
+          referenceElement.current = el
+        },
+        onMouseEnter,
+        (e: unknown) => {
+          onMouseLeave(e as Event)
+        },
+      )}
 
       {content !== undefined && (
         <>
@@ -235,7 +241,7 @@ export const Tooltip: FC<TooltipProps> = ({
             ReactDOM.createPortal(
               <>
                 <span
-                  ref={setPopperElement}
+                  ref={popperElement}
                   className={cn(
                     styles.overlay,
                     {
@@ -244,19 +250,23 @@ export const Tooltip: FC<TooltipProps> = ({
                     color && [styles[color]],
                     className,
                   )}
-                  style={{ ...popper.styles.popper, ...{ zIndex: context ? zIndex + 1 : zIndex }, wordBreak }}
+                  style={{
+                    ...(popper.current?.state.styles.popper as CSSProperties),
+                    ...{ zIndex: context ? zIndex + 1 : zIndex },
+                    wordBreak,
+                  }}
                   data-test="tooltip-overlay"
                   aria-hidden
-                  {...popper.attributes.popper}
+                  {...popper.current?.state.attributes.popper}
                 >
                   {content}
                   {arrow && (
                     <span
-                      ref={setArrowElement}
+                      ref={arrowElement}
                       className={styles.arrow}
-                      style={popper.styles.arrow}
+                      style={popper.current?.state.styles.arrow as CSSProperties}
                       data-test="tooltip-arrow"
-                      {...popper.attributes.arrow}
+                      {...popper.current?.state.attributes.arrow}
                     />
                   )}
                 </span>

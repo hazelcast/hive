@@ -25,7 +25,6 @@ const headerPropsBase: HeaderProps = {
   resizeHandler: jest.fn() as HeaderProps['resizeHandler'],
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const expectedContainerProps: Record<string, any> = {
   'data-test': 'table-header-container',
   className: styles.container,
@@ -36,7 +35,6 @@ const expectedContainerProps: Record<string, any> = {
   children: expect.anything(),
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const expectedContentProps: Record<string, any> = {
   'data-test': 'table-header-content',
   className: `${styles.th} ${styles.alignLeft}`,
@@ -48,7 +46,7 @@ const expectedContentProps: Record<string, any> = {
 
 describe('Header', () => {
   const onClick = jest.fn()
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   const data: [HeaderProps, Record<string, any>, Record<string, any>][] = [
     [headerPropsBase, expectedContainerProps, expectedContentProps],
     [

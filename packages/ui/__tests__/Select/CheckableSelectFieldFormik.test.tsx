@@ -43,7 +43,7 @@ describe('CheckableSelectFieldFormik', () => {
     })
 
     await userEvent.click(within(screen.getByTestId('test-opener')).getByRole('textbox'))
-    await act(() => userEvent.click(screen.queryAllByTestId('test-option')[1]))
+    await userEvent.click(screen.queryAllByTestId('test-option')[1])
 
     expect(formikBag.current?.values).toEqual({
       names: [options[1].value],
