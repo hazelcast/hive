@@ -10,6 +10,7 @@
     "@babel/preset-env": "^7.26.9",
     "@babel/preset-react": "^7.26.3",
     "@babel/preset-typescript": "^7.26.0",
+    "@eslint/js": "^9.21.0",
     "@storybook/source-loader": "^7.6.20",
     "@types/jest": "^29.5.14",
     "@typescript-eslint/eslint-plugin": "^8.24.0",

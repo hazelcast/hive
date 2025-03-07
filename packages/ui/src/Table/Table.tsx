@@ -460,6 +460,7 @@ export const Table = <D extends RowData & { subRows?: D[] }>({
                 ))}
               </div>
             )}
+            {/* eslint-disable-next-line no-nested-ternary */}
             {!overlayLoading && loading ? (
               <Row role="row">
                 <Cell role="cell" align="center" colSpan={columns.length} data-test="table-loader-cell">

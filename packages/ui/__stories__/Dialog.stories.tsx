@@ -17,7 +17,9 @@ export default {
   },
 }
 
+// eslint-disable-next-line no-console
 const onClose = () => console.log('onClose')
+// eslint-disable-next-line no-console
 const actionOnConfirm = () => console.log('onClick')
 const actionChildren = 'Action'
 const actionDisabledTooltip = 'Disabled Tooltip'

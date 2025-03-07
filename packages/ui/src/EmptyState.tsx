@@ -102,6 +102,7 @@ export const EmptyState: FC<EmptyStateProps> = ({
             {description}
           </p>
         )}
+        {/* eslint-disable-next-line no-nested-ternary */}
         {action ? (
           direction === 'horizontal' && actionHref !== undefined ? (
             <Link

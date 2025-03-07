@@ -42,7 +42,9 @@ const MultiValueRemove: typeof rsComponents.MultiValueRemove = (props) => {
   }
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    event.button === 0 && onClick && onClick(event)
+    if (event.button === 0 && onClick) {
+      onClick(event)
+    }
   }
 
   return (
@@ -161,7 +163,11 @@ export const MultiSelectField = <V extends string | number = number>(props: Mult
   const selectRef = useRef<SelectInstance<SelectFieldOption<V>, true>>(null)
   useEffect(() => {
     if (selectRef.current) {
-      menuIsOpen ? selectRef.current.onMenuOpen() : selectRef.current.onMenuClose()
+      if (menuIsOpen) {
+        selectRef.current.onMenuOpen()
+      } else {
+        selectRef.current.onMenuClose()
+      }
     }
   }, [menuIsOpen])
 

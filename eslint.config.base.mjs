@@ -9,7 +9,7 @@ import reactHooks from 'eslint-plugin-react-hooks'
 
 export default [
   {
-    ignores: ['lib', 'node_modules', 'coverage'],
+    ignores: ['lib', 'node_modules', 'coverage', 'storybook-static'],
   },
   {
     files: ['**/*.ts', '**/*.tsx'],

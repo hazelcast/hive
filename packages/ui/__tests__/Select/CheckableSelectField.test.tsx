@@ -7,7 +7,7 @@ import userEvent from '@testing-library/user-event'
 import { CheckableSelectField } from '../../src/Select/CheckableSelectField'
 import { SelectFieldOption } from '../../src/Select/helpers'
 
-import styles from '../src/SelectField.module.scss'
+import styles from '../../src/Select/SelectField.module.scss'
 
 jest.mock('react-uid')
 
@@ -132,7 +132,7 @@ describe('CheckableSelectField', () => {
     expect(onChange).toBeCalledTimes(0)
 
     await userEvent.click(within(screen.getByTestId('test-opener')).getByRole('textbox'))
-    await act(() => userEvent.click(screen.queryAllByTestId('test-option')[0]))
+    await userEvent.click(screen.queryAllByTestId('test-option')[0])
 
     expect(onChange).toBeCalledTimes(1)
     expect(onChange).toBeCalledWith([options[0].value])

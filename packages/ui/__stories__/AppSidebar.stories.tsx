@@ -37,7 +37,9 @@ const Template = (props: AppSidebarProps) => (
       <AppSidebarItem title="Cluster-1" adornment={<AppSidebarMenuItemCounter>13</AppSidebarMenuItemCounter>} />
     </AppSidebarSection>
     <AppSidebarSection title="TOOLS">
+      {/* eslint-disable-next-line no-console */}
       <AppSidebarItem title="SQL" icon={Airplay} iconAriaLabel="SQL" onClick={console.log} />
+      {/* eslint-disable-next-line no-console */}
       <AppSidebarItem title="Flow" color="authPrimary" icon={Droplet} iconAriaLabel="Flow" available={false} onClick={console.log} />
     </AppSidebarSection>
   </AppSidebar>

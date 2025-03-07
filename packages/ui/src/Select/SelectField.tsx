@@ -142,7 +142,11 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
   const selectRef = useRef<SelectInstance<SelectFieldOption<V>, false>>(null)
   useEffect(() => {
     if (selectRef.current) {
-      menuIsOpen ? selectRef.current.onMenuOpen() : selectRef.current.onMenuClose()
+      if (menuIsOpen) {
+        selectRef.current.onMenuOpen()
+      } else {
+        selectRef.current.onMenuClose()
+      }
     }
   }, [menuIsOpen])
 

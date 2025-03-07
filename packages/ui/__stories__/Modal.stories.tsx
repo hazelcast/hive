@@ -20,7 +20,9 @@ export default {
   },
 }
 
+// eslint-disable-next-line no-console
 const onClose = () => console.log('onClose')
+// eslint-disable-next-line no-console
 const onClick = () => console.log('onClick')
 const title = 'Modal title'
 const children = 'Action'

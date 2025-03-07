@@ -29,5 +29,5 @@ export const useResizeAware = (el: HTMLElement | undefined | null, callback: () 
         observer.unobserve(el)
       }
     }
-  }, [el, observer])
+  }, [el, observer, onResize])
 }

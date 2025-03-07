@@ -251,6 +251,7 @@ export function Slider<T extends SliderValue = number>(props: SliderProps<T>) {
 
   return (
     <div className={cn(className, { [styles.withError]: 'error' in props })} data-test={dataTest}>
+      {/* eslint-disable-next-line jsx-a11y/label-has-for */}
       {!!label && <Label id={id} label={label} />}
       <div
         className={cn(styles.wrapper, {

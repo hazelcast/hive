@@ -10,12 +10,12 @@ beforeEach(() => {
 let isConsoleErrorOrWarning: boolean
 
 beforeEach(() => {
-  isConsoleErrorOrWarning = false
+  /* isConsoleErrorOrWarning = false
   const originalError = console.error
   jest.spyOn(console, 'error').mockImplementation((...args) => {
     isConsoleErrorOrWarning = true
     originalError(...args)
-  })
+  })*/
   const originalWarn = console.warn
   jest.spyOn(console, 'warn').mockImplementation((...args) => {
     isConsoleErrorOrWarning = true

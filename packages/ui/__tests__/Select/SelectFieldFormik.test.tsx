@@ -42,7 +42,6 @@ describe('SelectFieldFormik', () => {
       name: null,
     })
     // We need the `async` call here to wait for processing of the asynchronous 'change'
-
     await act(async () => {
       fireEvent.mouseDown(container.querySelector('.hz-select-field__indicators')!, { button: 0 })
     })
@@ -53,7 +52,6 @@ describe('SelectFieldFormik', () => {
     })
 
     // We need the `async` call here to wait for processing of the asynchronous 'change'
-
     await act(async () => {
       fireEvent.mouseDown(container.querySelector('.hz-select-field__indicators')!, { button: 0 })
     })
@@ -84,7 +82,6 @@ describe('SelectFieldFormik', () => {
     expect(screen.queryByTestId('select-field-error')).toHaveTextContent('')
 
     // We need the `async` call here to wait for processing of the asynchronous 'change'
-
     await act(async () => {
       fireEvent.mouseDown(container.querySelector('.hz-select-field__indicators')!, { button: 0 })
     })
@@ -110,7 +107,6 @@ describe('SelectFieldFormik', () => {
     const { container } = await renderAndCheckA11Y(<TestForm />)
 
     // We need the `async` call here to wait for processing of the asynchronous 'change'
-
     await act(async () => {
       fireEvent.mouseDown(container.querySelector('.hz-select-field__indicators')!, { button: 0 })
     })

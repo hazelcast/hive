@@ -84,6 +84,8 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
     id: rootId,
     filterOptions,
     searchInputProps = {},
+    labelClassName,
+    errorClassName,
   } = props
   const id = useUID()
   const { isOpen, toggle, close } = useOpenCloseState(defaultOpen)
@@ -138,6 +140,7 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
         mRef={setAnchorElement}
         onChange={() => null}
         label={(label as string) || ''}
+        labelClassName={labelClassName}
         disabled={disabled}
         showAriaLabel={showAriaLabel}
         helperText={helperText}
@@ -145,6 +148,7 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
           [styles.withPermanentPlaceholder]: placeholderMode === 'permanent',
         })}
         error={error}
+        errorClassName={errorClassName}
         onBlur={onBlur}
         readOnly
         required={required}

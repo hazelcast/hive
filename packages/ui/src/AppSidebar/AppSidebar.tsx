@@ -16,7 +16,6 @@ export interface AppSidebarProps extends DataTestProp {
   open?: boolean
   initialOpen?: boolean
   footer?: ReactNode
-  onChangeState?: (state: Record<string, string>) => void
 }
 
 export const AppSidebar = ({

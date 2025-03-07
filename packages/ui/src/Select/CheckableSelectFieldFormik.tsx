@@ -25,7 +25,6 @@ export const CheckableSelectFieldFormik = <V extends object, OV extends string |
   const setFormikValue = useMemo(() => formikTouchAndUpdate<OV[]>(setValue, setTouched), [setValue, setTouched])
   const handleChange = useCallback(
     (newValue: OV[]) => {
-      console.log(444)
       if (onChange) {
         onChange(newValue)
       }
