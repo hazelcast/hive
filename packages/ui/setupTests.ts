@@ -16,6 +16,23 @@ const cleanup = () => {
   })
 }
 
+jest.mock('react-popper', () => {
+  const ReactPopper = jest.requireActual('react-popper')
+  const usePopper = jest.fn(() => {
+    return {
+      styles: {},
+      attributes: {},
+      state: {},
+      update: () => Promise.resolve({}),
+      forceUpdate: () => void null,
+    }
+  })
+  return {
+    ...ReactPopper,
+    usePopper,
+  }
+})
+
 afterEach(() => {
   cleanup()
 })
