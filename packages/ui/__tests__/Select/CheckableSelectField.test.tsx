@@ -1,7 +1,7 @@
 import React from 'react'
 import { useUID } from 'react-uid'
 import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
-import { act, render, screen, within } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { CheckableSelectField } from '../../src/Select/CheckableSelectField'
@@ -111,13 +111,12 @@ describe('CheckableSelectField', () => {
     expect(onChange).toBeCalledTimes(0)
 
     await userEvent.click(within(screen.getByTestId('test-opener')).getByRole('textbox'))
-    await act(() => userEvent.click(screen.getByTestId('test-select-all')))
+    await userEvent.click(screen.getByTestId('test-select-all'))
 
     expect(onChange).toBeCalledTimes(1)
     expect(onChange).toBeCalledWith(options.map(({ value }) => value))
 
-    await userEvent.click(within(screen.getByTestId('test-opener')).getByRole('textbox'))
-    await act(() => userEvent.click(screen.getByTestId('test-select-none')))
+    await userEvent.click(screen.getByTestId('test-select-none'))
 
     expect(onChange).toBeCalledTimes(2)
     expect(onChange).toBeCalledWith([])

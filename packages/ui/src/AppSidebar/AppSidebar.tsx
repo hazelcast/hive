@@ -1,10 +1,10 @@
 import React, { ReactNode, useCallback } from 'react'
 import cn from 'classnames'
 import { ChevronsLeft, ChevronsRight } from 'react-feather'
-import createPersistedState from 'use-persisted-state'
 import { DataTestProp } from '@hazelcast/helpers'
 
 import { IconButton } from '../IconButton'
+import { createPersistedState } from '../hooks'
 import { appSidebarContext } from './appSidebarContext'
 
 import styles from './AppSidebar.module.scss'

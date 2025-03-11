@@ -268,11 +268,8 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       nuka-carousel:
-        specifier: ^5.6.0
-        version: 5.6.0(react-dom@18.3.1)(react@18.3.1)
-      rc-tooltip:
-        specifier: ^5.3.1
-        version: 5.3.1(react-dom@18.3.1)(react@18.3.1)
+        specifier: ^7.0.0
+        version: 7.0.0(react-dom@18.3.1)(react@18.3.1)
       react-datepicker:
         specifier: ^4.25.0
         version: 4.25.0(react-dom@18.3.1)(react@18.3.1)
@@ -306,9 +303,6 @@ importers:
       use-deep-compare:
         specifier: ^1.3.0
         version: 1.3.0(react@18.3.1)
-      use-persisted-state:
-        specifier: ^0.3.3
-        version: 0.3.3(react@18.3.1)
     devDependencies:
       '@chromatic-com/storybook':
         specifier: ^3.2.5
@@ -389,8 +383,8 @@ importers:
         specifier: ^6.0.5
         version: 6.0.5
       jest-axe:
-        specifier: ^9.0.0
-        version: 9.0.0
+        specifier: ^10.0.0
+        version: 10.0.0
       loki:
         specifier: ^0.35.1
         version: 0.35.1(@storybook/react@8.6.4)(@types/react@18.3.18)
@@ -5987,14 +5981,6 @@ packages:
       eslint-visitor-keys: 4.2.0
     dev: true
 
-  /@use-it/event-listener@0.1.7(react@18.3.1):
-    resolution: {integrity: sha512-hgfExDzUU9uTRTPDCpw2s9jWTxcxmpJya3fK5ADpf5VDpSy8WYwY/kh28XE0tUcbsljeP8wfan48QvAQTSSa3Q==}
-    peerDependencies:
-      react: '>=16.8.0'
-    dependencies:
-      react: 18.3.1
-    dev: false
-
   /@vitest/expect@2.0.5:
     resolution: {integrity: sha512-yHZtwuP7JZivj65Gxoi8upUN2OzHTi3zVfjwdpu2WrvCZPLwsJ2Ey5ILIPccoW23dd/zQBlJ4/dhi7DWNyXCpA==}
     dependencies:
@@ -6639,6 +6625,11 @@ packages:
     resolution: {integrity: sha512-LEUDjgmdJoA3LqklSTwKYqkjcZ4HKc4ddIYGSAiSkr46NTjzg2L9RNB+lekO9P7Dlpa87+hBtzc2Fzn/+GUWMQ==}
     engines: {node: '>=4'}
 
+  /axe-core@4.10.2:
+    resolution: {integrity: sha512-RE3mdQ7P3FRSe7eqCWoeQ/Z9QXrtniSjp1wUjt5nRC3WIpz5rSCve6o3fsZ2aCpJtrZjSZgjwXAoTO5k4tEI0w==}
+    engines: {node: '>=4'}
+    dev: true
+
   /axe-core@4.10.3:
     resolution: {integrity: sha512-Xm7bpRXnDSX2YE2YFfBk2FnF0ep6tmG7xPh8iHee8MIcrgq762Nkce856dYtJYLkuIoYZvGfTs/PbZhideTcEg==}
     engines: {node: '>=4'}
@@ -6647,6 +6638,7 @@ packages:
   /axe-core@4.9.1:
     resolution: {integrity: sha512-QbUdXJVTpvUTHU7871ppZkdOLBeGUKBQWHkHrvN2V9IQWGMt61zf3B45BtzjxEJzYuj0JBjBZP/hmYS/R9pmAw==}
     engines: {node: '>=4'}
+    dev: false
 
   /axios@1.8.2:
     resolution: {integrity: sha512-ls4GYBm5aig9vWx8AWDSGLpnpDQRtWAfrjU+EuytuODrFBkqesN2RkOQCBzrA1RQNHw1SmRMSDDDSwzNAYQ6Rg==}
@@ -8292,10 +8284,6 @@ packages:
   /dom-accessibility-api@0.6.3:
     resolution: {integrity: sha512-7ZgogeTnjuHbo+ct10G9Ffp0mif17idi0IyWNVA/wcwcm7NPOD/WEHVP3n7n3MhXqxoIYm8d6MuZohYWIZ4T3w==}
     dev: true
-
-  /dom-align@1.12.4:
-    resolution: {integrity: sha512-R8LUSEay/68zE5c8/3BDxiTEvgb4xZTF0RKmAHfiEVN3klfIpXfi2/QCoiWPccVQ0J/ZGdz9OjzL4uJEP/MRAw==}
-    dev: false
 
   /dom-converter@0.2.0:
     resolution: {integrity: sha512-gd3ypIPfOMr9h5jIKq8E3sHOTCjeirnl0WK5ZdS1AW0Odt0b1PaWaHdJ4Qk4klv+YB9aJBS7mESXjFoDQPu6DA==}
@@ -10889,9 +10877,19 @@ packages:
     hasBin: true
     dependencies:
       async: 3.2.6
-      chalk: 4.1.0
+      chalk: 4.1.2
       filelist: 1.0.4
       minimatch: 3.1.2
+    dev: true
+
+  /jest-axe@10.0.0:
+    resolution: {integrity: sha512-9QR0M7//o5UVRnEUUm68IsGapHrcKGakYy9dKWWMX79LmeUKguDI6DREyljC5I13j78OUmtKLF5My6ccffLFBg==}
+    engines: {node: '>= 16.0.0'}
+    dependencies:
+      axe-core: 4.10.2
+      chalk: 4.1.2
+      jest-matcher-utils: 29.2.2
+      lodash.merge: 4.6.2
     dev: true
 
   /jest-axe@9.0.0:
@@ -10902,6 +10900,7 @@ packages:
       chalk: 4.1.2
       jest-matcher-utils: 29.2.2
       lodash.merge: 4.6.2
+    dev: false
 
   /jest-changed-files@29.7.0:
     resolution: {integrity: sha512-fEArFiwf1BpQ+4bXSprcDc3/x4HSzL4al2tozwVpDFpsxALjLYdyiIK4e5Vz66GQJIbXJ82+35PtysofptNX2w==}
@@ -13018,12 +13017,12 @@ packages:
       boolbase: 1.0.0
     dev: true
 
-  /nuka-carousel@5.6.0(react-dom@18.3.1)(react@18.3.1):
-    resolution: {integrity: sha512-pELQHcOTJ5yJvs7wtXD5J5pqBMHDfdI667V9jaEhJVr9VQKMwq87xXv5P1cXiNamJuT3g2zw30ic6Y4eII4ofA==}
+  /nuka-carousel@7.0.0(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-KE0WV1MuE4Gq6ynL8P3qJH2rGq/DkJ0ej+ezo0IuZp4oklV8WNqu6P6O1utJqihHLGoEuFppq5wlHSHfhdCHXA==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
-      react: ^15.3.0 || ^16.0.0 || ^17.0.1 || ^18.0.0
-      react-dom: ^15.3.0 || ^16.0.0 || ^17.0.1 || ^18.0.0
+      react: '>=18.0.0'
+      react-dom: '>=18.0.0'
     dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -14128,75 +14127,6 @@ packages:
     resolution: {integrity: sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==}
     engines: {node: '>= 0.6'}
     dev: true
-
-  /rc-align@4.0.15(react-dom@18.3.1)(react@18.3.1):
-    resolution: {integrity: sha512-wqJtVH60pka/nOX7/IspElA8gjPNQKIx/ZqJ6heATCkXpe1Zg4cPVrMD2vC96wjsFFL8WsmhPbx9tdMo1qqlIA==}
-    peerDependencies:
-      react: '>=16.9.0'
-      react-dom: '>=16.9.0'
-    dependencies:
-      '@babel/runtime': 7.26.9
-      classnames: 2.5.1
-      dom-align: 1.12.4
-      rc-util: 5.44.4(react-dom@18.3.1)(react@18.3.1)
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      resize-observer-polyfill: 1.5.1
-    dev: false
-
-  /rc-motion@2.9.5(react-dom@18.3.1)(react@18.3.1):
-    resolution: {integrity: sha512-w+XTUrfh7ArbYEd2582uDrEhmBHwK1ZENJiSJVb7uRxdE7qJSYjbO2eksRXmndqyKqKoYPc9ClpPh5242mV1vA==}
-    peerDependencies:
-      react: '>=16.9.0'
-      react-dom: '>=16.9.0'
-    dependencies:
-      '@babel/runtime': 7.26.9
-      classnames: 2.5.1
-      rc-util: 5.44.4(react-dom@18.3.1)(react@18.3.1)
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-    dev: false
-
-  /rc-tooltip@5.3.1(react-dom@18.3.1)(react@18.3.1):
-    resolution: {integrity: sha512-e6H0dMD38EPaSPD2XC8dRfct27VvT2TkPdoBSuNl3RRZ5tspiY/c5xYEmGC0IrABvMBgque4Mr2SMZuliCvoiQ==}
-    peerDependencies:
-      react: '>=16.9.0'
-      react-dom: '>=16.9.0'
-    dependencies:
-      '@babel/runtime': 7.26.9
-      classnames: 2.5.1
-      rc-trigger: 5.3.4(react-dom@18.3.1)(react@18.3.1)
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-    dev: false
-
-  /rc-trigger@5.3.4(react-dom@18.3.1)(react@18.3.1):
-    resolution: {integrity: sha512-mQv+vas0TwKcjAO2izNPkqR4j86OemLRmvL2nOzdP9OWNWA1ivoTt5hzFqYNW9zACwmTezRiN8bttrC7cZzYSw==}
-    engines: {node: '>=8.x'}
-    peerDependencies:
-      react: '>=16.9.0'
-      react-dom: '>=16.9.0'
-    dependencies:
-      '@babel/runtime': 7.26.9
-      classnames: 2.5.1
-      rc-align: 4.0.15(react-dom@18.3.1)(react@18.3.1)
-      rc-motion: 2.9.5(react-dom@18.3.1)(react@18.3.1)
-      rc-util: 5.44.4(react-dom@18.3.1)(react@18.3.1)
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-    dev: false
-
-  /rc-util@5.44.4(react-dom@18.3.1)(react@18.3.1):
-    resolution: {integrity: sha512-resueRJzmHG9Q6rI/DfK6Kdv9/Lfls05vzMs1Sk3M2P+3cJa+MakaZyWY8IPfehVuhPJFKrIY1IK4GqbiaiY5w==}
-    peerDependencies:
-      react: '>=16.9.0'
-      react-dom: '>=16.9.0'
-    dependencies:
-      '@babel/runtime': 7.26.9
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      react-is: 18.3.1
-    dev: false
 
   /react-confetti@6.4.0(react@18.3.1):
     resolution: {integrity: sha512-5MdGUcqxrTU26I2EU7ltkWPwxvucQTuqMm8dUz72z2YMqTD6s9vMcDUysk7n9jnC+lXuCPeJJ7Knf98VEYE9Rg==}
@@ -16743,15 +16673,6 @@ packages:
         optional: true
     dependencies:
       '@types/react': 18.3.18
-      react: 18.3.1
-    dev: false
-
-  /use-persisted-state@0.3.3(react@18.3.1):
-    resolution: {integrity: sha512-pCNlvYC8+XjRxwnIut4teGC9f2p9aD88R8OGseQGZa2dvqG/h1vEGk1vRE1IZG0Vf161UDpn+NlW4+UGubQflQ==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0
-    dependencies:
-      '@use-it/event-listener': 0.1.7(react@18.3.1)
       react: 18.3.1
     dev: false
 
