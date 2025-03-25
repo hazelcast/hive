@@ -43,6 +43,7 @@ export type TextFieldTypes = 'email' | 'number' | 'password' | 'search' | 'tel' 
 
 type TextFieldCoreProps<T extends TextFieldTypes> = {
   name: string
+  containerRef?: Ref<HTMLDivElement>
   value?: T extends 'number' ? number : string
   onBlur?: (e: FocusEvent<HTMLInputElement>) => void
   onFocus?: (e: FocusEvent<HTMLInputElement>) => void
@@ -62,7 +63,7 @@ export type TextFieldExtraProps<T extends TextFieldTypes> = {
   errorClassName?: string
   inputContainerChild?: ReactElement
   inputIcon?: IconType
-  onKeyPress?: (e: KeyboardEvent<HTMLInputElement>) => void
+  onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void
   type?: T
   readOnly?: boolean
   clearable?: boolean
@@ -116,7 +117,7 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
     onBlur,
     onFocus,
     onChange,
-    onKeyPress,
+    onKeyDown,
     placeholder,
     required,
     type = 'text',
@@ -127,6 +128,7 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
     iconSize = size,
     errorTooltipPlacement = 'top',
     children,
+    containerRef,
     ...htmlAttrs
   } = props
   const autoId = useUID()
@@ -171,7 +173,7 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
         helperTextTooltipWordBreak={helperTextTooltipWordBreak}
       />
       <div className={styles.inputBlock}>
-        <div className={cn(styles.inputContainer, inputContainerClassName)}>
+        <div ref={containerRef} className={cn(styles.inputContainer, inputContainerClassName)}>
           <input
             type={type}
             id={id}
@@ -182,7 +184,7 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
             onBlur={onBlur}
             onFocus={onFocus}
             readOnly={readOnly}
-            onKeyPress={onKeyPress}
+            onKeyDown={onKeyDown}
             onClick={onClick}
             aria-label={showAriaLabel ? ariaLabel || label : undefined}
             // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-invalid_attribute
