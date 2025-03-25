@@ -1,4 +1,4 @@
-name: publish release
+name: manual canary release
 env:
   CI: true
   PNPM_CACHE_FOLDER: .pnpm-store
