@@ -121,7 +121,7 @@ export const InteractiveList = <V,>({
           onChange={({ target: { value } }) => {
             setInputValue(value)
           }}
-          onKeyPress={async (e) => {
+          onKeyDown={async (e) => {
             if (e.key === 'Enter') {
               e.preventDefault()
               await onAddItem()

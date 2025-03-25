@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Modifier, usePopper } from 'react-popper'
-import { Placement } from '@popperjs/core'
+import { Placement, detectOverflow } from '@popperjs/core'
 import cls from 'classnames'
 
 import { getPortalContainer, PortalContainer } from './utils/portal'
@@ -61,6 +61,37 @@ export const Popover = (props: PropsWithChildren<PopoverProps>) => {
         },
       },
       { name: 'arrow', options: { element: arrowElement } },
+      {
+        name: 'maxSize',
+        enabled: true,
+        phase: 'main',
+        requiresIfExists: ['offset', 'preventOverflow', 'flip'],
+        fn({ state, name }) {
+          const overflow = detectOverflow(state)
+          const { x, y } = state.modifiersData.preventOverflow || { x: 0, y: 0 }
+          const { width, height } = state.rects.popper
+          const [basePlacement] = state.placement.split('-')
+
+          const widthProp = basePlacement === 'left' ? 'left' : 'right'
+          const heightProp = basePlacement === 'top' ? 'top' : 'bottom'
+
+          state.modifiersData[name] = {
+            width: width - overflow[widthProp] - x,
+            height: height - overflow[heightProp] - y,
+          }
+        },
+      },
+      {
+        name: 'applyMaxSize',
+        enabled: true,
+        phase: 'beforeWrite',
+        requires: ['maxSize'],
+        fn: ({ state }) => {
+          const { height } = state.modifiersData.maxSize as { height: number }
+
+          state.styles.popper.maxHeight = `${height}px`
+        },
+      },
     ]
 
     if (matchReferenceSize) {
@@ -71,14 +102,12 @@ export const Popover = (props: PropsWithChildren<PopoverProps>) => {
           const onUpdate = getOnUpdate()
           const widthOrHeight = state.placement.startsWith('left') || state.placement.startsWith('right') ? 'height' : 'width'
 
-          if (!popperElement) return
-
-          const popperSize = popperElement[`offset${widthOrHeight[0].toUpperCase() + widthOrHeight.slice(1)}` as 'offsetWidth']
+          const popperSize = state.rects.popper[widthOrHeight]
           const referenceSize = state.rects.reference[widthOrHeight]
 
           if (Math.round(popperSize) === Math.round(referenceSize)) return
 
-          popperElement.style[widthOrHeight] = `${referenceSize}px`
+          state.elements.popper.style[widthOrHeight] = `${referenceSize}px`
           void instance.update()
           if (onUpdate) {
             onUpdate()
@@ -90,7 +119,7 @@ export const Popover = (props: PropsWithChildren<PopoverProps>) => {
     }
 
     return modifiers
-  }, [matchReferenceSize, offset, popperElement, arrowElement, getOnUpdate])
+  }, [matchReferenceSize, offset, arrowElement, getOnUpdate])
 
   const popper = usePopper(anchorElement, popperElement, {
     placement,

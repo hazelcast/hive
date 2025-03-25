@@ -93,7 +93,7 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
   const [forceUpdateToken, setForceUpdateToken] = useState(1)
   const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null)
 
-  const handleKeyPress = useCallback(
+  const handleKeyDown = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.key === 'Enter') {
         toggle()
@@ -136,8 +136,8 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
         name={name}
         id={rootId || id}
         onClick={toggle}
-        onKeyPress={handleKeyPress}
-        mRef={setAnchorElement}
+        onKeyDown={handleKeyDown}
+        containerRef={setAnchorElement}
         onChange={() => null}
         label={(label as string) || ''}
         labelClassName={labelClassName}

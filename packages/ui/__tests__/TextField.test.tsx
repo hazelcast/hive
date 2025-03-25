@@ -21,7 +21,7 @@ describe('TextField', () => {
   it('Renders the default with correct props', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
-    const onKeyPress = jest.fn()
+    const onKeyDown = jest.fn()
 
     const { container } = await renderAndCheckA11Y(
       <TextField
@@ -31,7 +31,7 @@ describe('TextField', () => {
         label="Wisest jedi"
         onBlur={onBlur}
         onChange={onChange}
-        onKeyPress={onKeyPress}
+        onKeyDown={onKeyDown}
       />,
     )
 
