@@ -123,7 +123,7 @@ export const InteractiveList = <V,>({
             setInputValue(value)
           }}
           /* eslint-disable-next-line @typescript-eslint/no-misused-promises */
-          onKeyPress={async (e) => {
+          onKeyDown={async (e) => {
             if (e.key === 'Enter') {
               e.preventDefault()
               await onAddItem()

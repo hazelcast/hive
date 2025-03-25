@@ -302,7 +302,7 @@ describe('InteractiveListFormik', () => {
     await act(async () => userEvent.type(container.querySelector('input')!, '127.0.0.1'))
 
     act(() => {
-      fireEvent.keyPress(container.querySelector('input')!, {
+      fireEvent.keyDown(container.querySelector('input')!, {
         key: 'Enter',
         charCode: 13,
       })
