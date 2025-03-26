@@ -7,7 +7,7 @@ export type Dimensions = {
 }
 
 export const useDimensions = (ref: RefObject<HTMLElement>): Dimensions => {
-  const [dimensions, setDimensions] = useState<Dimensions>({ height: 0, width: 0 })
+  const [dimensions, setDimensions] = useState<Dimensions>({ width: 0, height: 0 })
 
   const handleResize = useCallback(() => {
     if (ref.current) {
