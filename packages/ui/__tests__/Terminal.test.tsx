@@ -66,7 +66,6 @@ describe('Terminal', () => {
     testAttribute(currentCommandInputBefore, 'disabled')
     testAttribute(currentCommandInputBefore, 'value', 'Luke')
 
-    // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
       fireEvent.keyUp(currentCommandInputBefore, { key: 'Enter', charCode: 13 })
     })

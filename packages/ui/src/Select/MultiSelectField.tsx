@@ -32,7 +32,7 @@ const MultiValueLabel: typeof rsComponents.MultiValueLabel = ({ children }) => <
 // Self-styled version of the MultiValue/Remove button
 const MultiValueRemove: typeof rsComponents.MultiValueRemove = (props) => {
   // We have to pass down the onClick
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,  @typescript-eslint/no-unsafe-assignment
+
   const onClick: React.MouseEventHandler<HTMLDivElement> | undefined = props.innerProps.onClick
 
   const handleMouseDown = (event: React.MouseEvent) => {
@@ -42,11 +42,12 @@ const MultiValueRemove: typeof rsComponents.MultiValueRemove = (props) => {
   }
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    event.button === 0 && onClick && onClick(event)
+    if (event.button === 0 && onClick) {
+      onClick(event)
+    }
   }
 
   return (
-    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
     <div
       className={cn(multiStyles.multiValueRemove, { [multiStyles.disabled]: true })}
       onClick={handleClick}
@@ -162,7 +163,11 @@ export const MultiSelectField = <V extends string | number = number>(props: Mult
   const selectRef = useRef<SelectInstance<SelectFieldOption<V>, true>>(null)
   useEffect(() => {
     if (selectRef.current) {
-      menuIsOpen ? selectRef.current.onMenuOpen() : selectRef.current.onMenuClose()
+      if (menuIsOpen) {
+        selectRef.current.onMenuOpen()
+      } else {
+        selectRef.current.onMenuClose()
+      }
     }
   }, [menuIsOpen])
 
@@ -197,7 +202,7 @@ export const MultiSelectField = <V extends string | number = number>(props: Mult
     },
     formatGroupLabel,
     formatOptionLabel,
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+
     // @ts-ignore
     renderMenuFooter,
     ...rest,

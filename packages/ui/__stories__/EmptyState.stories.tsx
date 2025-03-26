@@ -22,6 +22,7 @@ const iconLabel = 'Icon Figma'
 // Action
 const action = 'Ok'
 const actionLong = 'Understood'
+// eslint-disable-next-line no-console
 const actionOnClick = () => console.log('action')
 const actionHref = ''
 

@@ -71,7 +71,7 @@ describe('CheckboxFormik', () => {
 
     const { container } = await renderAndCheckA11Y(<TestForm />)
 
-    await act(async () => userEvent.click(container.querySelector('input')!))
+    await userEvent.click(container.querySelector('input')!)
 
     expect(container.querySelector('input')!).toHaveProperty('checked', true)
   })
@@ -101,8 +101,7 @@ describe('CheckboxFormik', () => {
 
     const { container } = await renderAndCheckA11Y(<TestForm />)
 
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => userEvent.click(container.querySelector('input')!))
+    await userEvent.click(container.querySelector('input')!)
 
     expect(onChange).toBeCalledTimes(1)
     expect(onChange).toBeCalledWith(true)

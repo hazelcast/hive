@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import { HotKeys, IgnoreKeys } from 'react-hotkeys'
+import HotKeys from 'react-hot-keys'
 import React, { AnchorHTMLAttributes, FC, LegacyRef, MutableRefObject, ReactNode, useCallback, MouseEvent } from 'react'
 import { Row as TableRow, ColumnSizingState } from '@tanstack/react-table'
 
@@ -57,13 +57,12 @@ export const TableContent = <D extends RowData>(props: TableContentProps<D>) => 
     selectedColumnValuesRef,
   } = props
 
-  const handleOnContextMenu = useCallback((e: MouseEvent<HotKeys>) => {
+  const handleOnContextMenu = useCallback((e: MouseEvent) => {
     // disable table custom context menu
     e.stopPropagation()
   }, [])
 
   return (
-    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions,jsx-a11y/no-static-element-interactions
     <div
       ref={rootRef}
       data-test="table-content"
@@ -109,9 +108,11 @@ export const TableContent = <D extends RowData>(props: TableContentProps<D>) => 
 
         const expandedRow =
           row.getIsExpanded() && renderRowSubComponent ? (
-            <IgnoreKeys tabIndex={-1} className={styles.subRowWrapper} onContextMenu={handleOnContextMenu}>
-              {renderRowSubComponent(prepareRow(row))}
-            </IgnoreKeys>
+            <HotKeys disabled>
+              <div tabIndex={-1} className={styles.subRowWrapper} onContextMenu={handleOnContextMenu}>
+                {renderRowSubComponent(prepareRow(row))}
+              </div>
+            </HotKeys>
           ) : null
 
         if (getHref) {

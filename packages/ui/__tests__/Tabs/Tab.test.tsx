@@ -10,7 +10,7 @@ import { Tab } from '../../src/Tabs/Tab'
 import { TabList } from '../../src/Tabs/TabList'
 import { TabPanel } from '../../src/Tabs/TabPanel'
 
-import styles from '../Tab.module.scss'
+import styles from '../../src/Tabs/Tab.module.scss'
 
 jest.mock('react-uid')
 const useUIDMock = useUID as jest.Mock<ReturnType<typeof useUID>>

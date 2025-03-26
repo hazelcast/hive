@@ -203,7 +203,7 @@ export const WithGroupedOptions = Template.bind({})
 WithGroupedOptions.args = {
   options: groupedOptions,
   value: groupedOptions[0].options[1].value,
-  // eslint-disable-next-line react/display-name
+
   formatGroupLabel: ({ label }) => (
     <p
       style={{
@@ -215,7 +215,7 @@ WithGroupedOptions.args = {
       {label}
     </p>
   ),
-  // eslint-disable-next-line react/display-name
+
   formatOptionLabel: ({ label }) => {
     const names: Array<string | ReactNode> = label.split(' ')
     names[names.length - 1] = (
@@ -250,7 +250,6 @@ WithGroupedOptions.args = {
 
 export const WithCustomMenuFooter = Template.bind({})
 WithCustomMenuFooter.args = {
-  // eslint-disable-next-line react/display-name
   renderMenuFooter: () => (
     <div
       style={{
@@ -284,7 +283,7 @@ export const SelectFieldWrappedInFormik = () => {
       }}
       initialErrors={{
         // Bug in Formik types. TODO: Raise a PR
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
+
         character: 'Server Error: Invalid character' as any,
       }}
       onSubmit={(values) => logger.log('submit', values)}

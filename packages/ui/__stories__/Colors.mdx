@@ -1,5 +1,5 @@
-import { Meta, ColorPalette, ColorItem } from '@storybook/addon-docs/blocks'
-import { Figma } from 'storybook-addon-designs/blocks'
+import { Meta, ColorPalette, ColorItem } from '@storybook/blocks'
+import { Figma } from '@storybook/addon-designs/blocks'
 
 import styleConsts from '../styles/constants/export.module.scss'
 
@@ -9,7 +9,7 @@ import styleConsts from '../styles/constants/export.module.scss'
   {Object.entries(styleConsts)
     .filter(([constName]) => constName.startsWith('color'))
     .map(([colorName, colorValue]) => (
-      <ColorItem title={colorName} colors={[colorValue]} />
+      <ColorItem key={colorName} title={colorName} colors={[colorValue]} />
     ))}
 </ColorPalette>
 

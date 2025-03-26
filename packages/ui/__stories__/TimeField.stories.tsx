@@ -8,7 +8,7 @@ import { Form, Formik } from 'formik'
 import { TimeFieldFormik } from '../src/TimeFieldFormik'
 
 import styles from '../src/TextField.module.scss'
-import styleUtils from './utils.scss'
+import styleUtils from './utils.module.scss'
 
 export default {
   title: 'Components/TimeField',
@@ -70,7 +70,6 @@ export const FocusedWithError = () => (
     value="10:00"
     onBlur={() => logger.log('blur')}
     onChange={(e) => logger.log('change', e.target.value)}
-    // eslint-disable-next-line jsx-a11y/no-autofocus
     inputClassName={styles.focus}
     error="Dark side"
   />

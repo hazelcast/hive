@@ -1,12 +1,13 @@
-import React, { ComponentType } from 'react'
-import { act } from 'react-dom/test-utils'
+import React, { ComponentType, PropsWithChildren } from 'react'
 import { userEvent } from '@testing-library/user-event'
-import { screen, render } from '@testing-library/react'
+import { screen, render, act } from '@testing-library/react'
 import { DataTestProp } from '@hazelcast/helpers'
 
 import { AppHeader } from '../../src/AppHeader'
 
-const LinkComponent: ComponentType<DataTestProp> = ({ children, 'data-test': dataTest }) => <div data-test={dataTest}>{children}</div>
+const LinkComponent: ComponentType<PropsWithChildren<DataTestProp>> = ({ children, 'data-test': dataTest }) => (
+  <div data-test={dataTest}>{children}</div>
+)
 
 describe('AppHeader', () => {
   it('renders basic version', () => {

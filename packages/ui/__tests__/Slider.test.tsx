@@ -78,7 +78,6 @@ describe('Slider', () => {
 
     expect(onChange).toBeCalledTimes(0)
 
-    // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
       fireEvent.change(container.querySelector('input')!, { target: { value: '20' } })
     })
@@ -93,7 +92,7 @@ describe('Slider', () => {
     })
 
     const onChange = jest.fn()
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     const events: any = {}
     jest.spyOn(window, 'addEventListener').mockImplementation((event, handle) => {
       events[event] = handle
@@ -120,7 +119,6 @@ describe('Slider', () => {
 
     const onChange = jest.fn()
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const events: any = {}
     jest.spyOn(window, 'addEventListener').mockImplementation((event, handle) => {
       events[event] = handle
@@ -245,7 +243,6 @@ describe('Slider', () => {
     expect(screen.queryByTestId('slider-first-value-indicator')).toHaveTextContent('4 RAM')
     expect(screen.queryByTestId('slider-second-value-indicator')).toHaveTextContent('10 RAM')
 
-    // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
       fireEvent.change(container.querySelector('input')!, { target: { value: '0' } })
     })
@@ -253,7 +250,6 @@ describe('Slider', () => {
     expect(screen.queryByTestId('slider-first-value-indicator')).toHaveTextContent('1 RAM')
     expect(screen.queryByTestId('slider-second-value-indicator')).toHaveTextContent('10 RAM')
 
-    // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
       fireEvent.change(container.querySelectorAll('input')[1]!, { target: { value: '1000' } })
     })

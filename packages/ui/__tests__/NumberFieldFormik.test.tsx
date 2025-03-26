@@ -34,7 +34,7 @@ describe('NumberFieldFormik', () => {
     expect(formikBag.current?.values).toEqual({
       name: 42,
     })
-    // eslint-disable-next-line @typescript-eslint/require-await
+
     await act(async () => {
       fireEvent.change(container.querySelector('input')!, { target: { value: 56 } })
     })
@@ -42,7 +42,7 @@ describe('NumberFieldFormik', () => {
     expect(formikBag.current?.values).toEqual({
       name: 56,
     })
-    // eslint-disable-next-line @typescript-eslint/require-await
+
     await act(async () => {
       fireEvent.click(screen.getByTestId('number-field-decrement'))
     })
@@ -51,7 +51,6 @@ describe('NumberFieldFormik', () => {
       name: 55,
     })
 
-    // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
       fireEvent.click(screen.getByTestId('number-field-increment'))
     })
@@ -61,7 +60,6 @@ describe('NumberFieldFormik', () => {
 
     expect(onSubmit).toBeCalledTimes(0)
 
-    // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
       fireEvent.submit(container.querySelector('form')!)
     })
@@ -104,7 +102,6 @@ describe('NumberFieldFormik', () => {
 
     expect(screen.queryByText('Dark side')).toBeInTheDocument()
 
-    // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
       fireEvent.change(container.querySelector('input')!, { target: { value: 56 } })
     })
@@ -113,11 +110,11 @@ describe('NumberFieldFormik', () => {
 
     // the error should remain if the user clears the input (undefined is set as the value in this case)
     // and submits the form. Handles the issue https://github.com/formium/formik/issues/2332
-    // eslint-disable-next-line @typescript-eslint/require-await
+
     await act(async () => {
       fireEvent.change(container.querySelector('input')!, { target: { value: '' } })
     })
-    // eslint-disable-next-line @typescript-eslint/require-await
+
     await act(async () => {
       fireEvent.submit(container.querySelector('form')!)
     })
@@ -149,7 +146,7 @@ describe('NumberFieldFormik', () => {
     const { container } = await renderAndCheckA11Y(<TestForm />)
 
     // We need the `async` call here to wait for processing of the asynchronous 'change'
-    // eslint-disable-next-line @typescript-eslint/require-await
+
     await act(async () => {
       fireEvent.change(container.querySelector('input')!, { target: { value: '56' } })
     })

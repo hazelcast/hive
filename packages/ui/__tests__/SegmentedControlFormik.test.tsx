@@ -1,7 +1,7 @@
 import React, { createRef } from 'react'
 import { Formik, Form, FormikProps } from 'formik'
 import { axeDefaultOptions, renderAndCheckA11Y } from '@hazelcast/test-helpers'
-import { act, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { SegmentedControlFormik } from '../src/SegmentedControlFormik'
@@ -59,7 +59,7 @@ describe('SegmentedControlFormik', () => {
       character: 'luke_skywalker',
     })
 
-    await act(() => userEvent.click(screen.getByTestId(`segmented-${swCharactersOptions[2].value}`)))
+    await userEvent.click(screen.getByTestId(`segmented-${swCharactersOptions[2].value}`))
 
     expect(formikBag.current?.values).toEqual({
       character: 'obi',

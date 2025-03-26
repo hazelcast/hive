@@ -7,7 +7,7 @@ import { Slider } from '../src/Slider'
 import { SliderFormik } from '../src/SliderFormik'
 import { Button } from '../src/Button'
 
-import utilStyles from './utils.scss'
+import utilStyles from './utils.module.scss'
 import styles from '../src/Slider.module.scss'
 
 export default {
@@ -294,7 +294,7 @@ export const SliderMultiRangeInFormik = () => {
  * https://css-tricks.com/multi-thumb-sliders-particular-two-thumb-case/#issues
  * @constructor
  */
-export const DoNotUse__OpacityThumb__Beginning = () => {
+export const DoNotUseOpacityThumbBeginning = () => {
   const [value, onChange] = useState<number>(0)
   return (
     <Slider
@@ -312,7 +312,7 @@ export const DoNotUse__OpacityThumb__Beginning = () => {
 /**
  * The scenario checks that the track's fill is exactly in the middle of the thumb when progress is 50%.
  */
-export const DoNotUse__OpacityThumb__Middle = () => {
+export const DoNotUseOpacityThumbMiddle = () => {
   const [value, onChange] = useState<number>(50)
   return (
     <Slider
@@ -326,7 +326,7 @@ export const DoNotUse__OpacityThumb__Middle = () => {
     />
   )
 }
-export const DoNotUse__OpacityThumb__End = () => {
+export const DoNotUseOpacityThumbEnd = () => {
   const [value, onChange] = useState<number>(100)
   return (
     <Slider

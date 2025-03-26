@@ -1,21 +1,14 @@
-import React, { ReactElement } from 'react'
+import React from 'react'
 import { Database } from 'react-feather'
-import { axe, toHaveNoViolations } from 'jest-axe'
-import { render, screen, within } from '@testing-library/react'
+import { toHaveNoViolations } from 'jest-axe'
+import { screen, within } from '@testing-library/react'
+import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
 
 import { Card, IconButton } from '../src'
 
 import styles from '../src/Card.module.scss'
 
 expect.extend(toHaveNoViolations)
-const renderAndCheckA11Y = async (node: ReactElement) => {
-  const result = render(node)
-
-  const results = await axe(result.container)
-  expect(results).toHaveNoViolations()
-
-  return result
-}
 
 describe('Card', () => {
   const cardHeadingIcon = Database

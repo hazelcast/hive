@@ -1,13 +1,13 @@
 import React, { useContext } from 'react'
-import { DocsContext, Heading } from '@storybook/addon-docs/blocks'
+import { DocsContext, Heading } from '@storybook/blocks'
 
 import { Story } from './Story'
 
 // https://github.com/storybookjs/storybook/blob/next/addons/docs/src/blocks/Stories.tsx
 export const Stories = () => {
-  const { componentStories } = useContext(DocsContext);
+  const { componentStories } = useContext(DocsContext)
 
-  let stories = componentStories();
+  let stories = componentStories()
 
   if (!stories || stories.length === 0) {
     return null
@@ -16,9 +16,7 @@ export const Stories = () => {
   return (
     <>
       <Heading>States</Heading>
-      {stories.map(
-        (story) => story && <Story key={story.id} {...story} expanded />,
-      )}
+      {stories.map((story) => story && <Story key={story.id} {...story} expanded />)}
     </>
   )
 }

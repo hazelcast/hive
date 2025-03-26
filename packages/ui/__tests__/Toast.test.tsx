@@ -89,7 +89,6 @@ describe('Toast', () => {
 
     expect(closeToast).toHaveBeenCalledTimes(0)
 
-    // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
       fireEvent.keyDown(document, { key: 'Escape', bubbles: true })
     })
@@ -112,7 +111,7 @@ describe('Toast', () => {
     expect(closeToast2).toHaveBeenCalledTimes(0)
 
     // first press
-    // eslint-disable-next-line @typescript-eslint/require-await
+
     await act(async () => {
       fireEvent.keyDown(document, { key: 'Escape', bubbles: true })
     })
@@ -122,7 +121,7 @@ describe('Toast', () => {
     expect(closeToast2).toHaveBeenCalledTimes(0)
 
     // second press
-    // eslint-disable-next-line @typescript-eslint/require-await
+
     await act(async () => {
       fireEvent.keyDown(document, { key: 'Escape', bubbles: true })
     })

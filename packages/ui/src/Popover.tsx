@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Modifier, usePopper } from 'react-popper'
 import { Placement, detectOverflow } from '@popperjs/core'
@@ -26,7 +26,7 @@ export interface PopoverProps extends DataTestProp {
   container?: PortalContainer
 }
 
-export const Popover: FC<PopoverProps> = (props) => {
+export const Popover = (props: PropsWithChildren<PopoverProps>) => {
   const {
     open,
     children,

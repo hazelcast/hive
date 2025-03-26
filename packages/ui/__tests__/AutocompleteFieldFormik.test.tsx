@@ -1,7 +1,7 @@
 import React, { createRef } from 'react'
 import { Formik, Form, FormikProps } from 'formik'
 import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
-import { act, fireEvent, screen } from '@testing-library/react'
+import { fireEvent, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { AutocompleteFieldFormik } from '../src/AutocompleteFieldFormik'
@@ -42,23 +42,15 @@ describe('AutocompleteFieldFormik', () => {
       name: null,
     })
 
-    // We need the `async` call here to wait for processing of the asynchronous 'change'
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      fireEvent.mouseDown(container.querySelector('.hz-autocomplete-field__indicators')!, { button: 0 })
-    })
-    await act(() => userEvent.click(screen.getByRole('option', { name: options[1].label })))
+    fireEvent.mouseDown(container.querySelector('.hz-autocomplete-field__indicators')!, { button: 0 })
+    await userEvent.click(screen.getByRole('option', { name: options[1].label }))
 
     expect(formikBag.current?.values).toEqual({
       name: options[1].value,
     })
 
-    // We need the `async` call here to wait for processing of the asynchronous 'change'
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      fireEvent.mouseDown(container.querySelector('.hz-autocomplete-field__indicators')!, { button: 0 })
-    })
-    await act(() => userEvent.click(screen.getByRole('option', { name: options[0].label })))
+    fireEvent.mouseDown(container.querySelector('.hz-autocomplete-field__indicators')!, { button: 0 })
+    await userEvent.click(screen.getByRole('option', { name: options[0].label }))
 
     expect(formikBag.current?.values).toEqual({
       name: options[0].value,
@@ -84,12 +76,8 @@ describe('AutocompleteFieldFormik', () => {
 
     expect(screen.queryByTestId('autocomplete-field-error')).toHaveTextContent('')
 
-    // We need the `async` call here to wait for processing of the asynchronous 'change'
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      fireEvent.mouseDown(container.querySelector('.hz-autocomplete-field__indicators')!, { button: 0 })
-    })
-    await act(() => userEvent.click(screen.getByRole('option', { name: options[1].label })))
+    fireEvent.mouseDown(container.querySelector('.hz-autocomplete-field__indicators')!, { button: 0 })
+    await userEvent.click(screen.getByRole('option', { name: options[1].label }))
 
     expect(screen.queryByTestId('autocomplete-field-error')).toHaveTextContent('error')
   })
@@ -120,12 +108,8 @@ describe('AutocompleteFieldFormik', () => {
 
     const { container } = await renderAndCheckA11Y(<TestForm />)
 
-    // We need the `async` call here to wait for processing of the asynchronous 'change'
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      fireEvent.mouseDown(container.querySelector('.hz-autocomplete-field__indicators')!, { button: 0 })
-    })
-    await act(() => userEvent.click(screen.getByRole('option', { name: options[1].label })))
+    fireEvent.mouseDown(container.querySelector('.hz-autocomplete-field__indicators')!, { button: 0 })
+    await userEvent.click(screen.getByRole('option', { name: options[1].label }))
 
     expect(onChange).toBeCalledTimes(1)
     expect(onChange).toBeCalledWith(options[1].value)

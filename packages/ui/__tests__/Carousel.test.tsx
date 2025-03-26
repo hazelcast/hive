@@ -1,10 +1,9 @@
 import React from 'react'
 import { within } from '@testing-library/react'
-
+import userEvent from '@testing-library/user-event'
 import { renderAndCheckA11Y, axeDefaultOptions } from '@hazelcast/test-helpers'
 
 import { Card, Carousel } from '../src'
-import userEvent from '@testing-library/user-event'
 
 describe('Carousel', () => {
   const contentCarousel = [<Card key={1}>Item1</Card>, <Card key={2}>Item2</Card>, <Card key={3}>Item3</Card>]

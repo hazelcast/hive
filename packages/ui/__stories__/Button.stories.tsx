@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react'
 import { Info, ChevronDown } from 'react-feather'
 import cn from 'classnames'
 
@@ -8,25 +8,9 @@ import { Button, ButtonProps, ButtonTypeAnchorProps } from '../src/Button'
 import styles from '../src/Button.module.scss'
 import storyStyles from './Button.stories.module.scss'
 
-export default {
-  title: 'Components/Button',
-  component: Button,
-  parameters: {
-    design: {
-      type: 'figma',
-      url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE-Hazelcast-Design-System?node-id=492%3A67',
-    },
-  },
-  args: {
-    children: 'Button',
-  },
-} as ComponentMeta<typeof Button>
+type Story = StoryObj<typeof Button>
 
-const DarkBackground = ({ children }: { children: ReactNode }) => (
-  <span style={{ display: 'inline-block', background: '#000', padding: 4 }}>{children}</span>
-)
-
-const Template: ComponentStory<typeof Button> = ({ className, ...args }) => {
+const Component = ({ className, ...args }: ButtonProps) => {
   const props = {
     ...args,
     className: cn(storyStyles.button, className),
@@ -86,105 +70,139 @@ const Template: ComponentStory<typeof Button> = ({ className, ...args }) => {
   )
 }
 
-export const Default = Template.bind({})
+export default {
+  title: 'Components/Button',
+  component: Component,
+  parameters: {
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE-Hazelcast-Design-System?node-id=492%3A67',
+    },
+  },
+  args: {
+    children: 'Button',
+  },
+} as Meta<typeof Button>
 
-export const Hovered = Template.bind({})
-Hovered.args = {
-  className: styles.hover,
+const DarkBackground = ({ children }: { children: ReactNode }) => (
+  <span style={{ display: 'inline-block', background: '#000', padding: 4 }}>{children}</span>
+)
+
+export const Default: Story = {}
+
+export const Hovered: Story = {
+  args: {
+    className: styles.hover,
+  },
 }
 
-export const Focused = Template.bind({})
-Focused.args = {
-  className: styles.focus,
+export const Focused: Story = {
+  args: {
+    className: styles.focus,
+  },
 }
 
-export const Active = Template.bind({})
-Active.args = {
-  active: true,
+export const Active: Story = {
+  args: {
+    active: true,
+  },
 }
 
-export const Disabled = Template.bind({})
-Disabled.args = {
-  disabled: true,
-  disabledTooltip: 'This button is disabled',
+export const Disabled: Story = {
+  args: {
+    disabled: true,
+    disabledTooltip: 'This button is disabled',
+  },
 }
 
-export const WithLeftIcon = Template.bind({})
-WithLeftIcon.args = {
-  iconLeft: Info,
-  iconLeftAriaLabel: 'Additional information',
+export const WithLeftIcon: Story = {
+  args: {
+    iconLeft: Info,
+    iconLeftAriaLabel: 'Additional information',
+  },
 }
 
-export const WithRightIcon = Template.bind({})
-WithRightIcon.args = {
-  iconRight: ChevronDown,
-  iconRightAriaLabel: 'Show additional information',
+export const WithRightIcon: Story = {
+  args: {
+    iconRight: ChevronDown,
+    iconRightAriaLabel: 'Show additional information',
+  },
 }
 
-export const WithLeftAndRightIcons = Template.bind({})
-WithLeftAndRightIcons.args = {
-  iconLeft: Info,
-  iconLeftAriaLabel: 'Additional information',
-  iconRight: ChevronDown,
-  iconRightAriaLabel: 'Show additional information',
+export const WithLeftAndRightIcons: Story = {
+  args: {
+    iconLeft: Info,
+    iconLeftAriaLabel: 'Additional information',
+    iconRight: ChevronDown,
+    iconRightAriaLabel: 'Show additional information',
+  },
 }
 
-export const WithLoader = Template.bind({})
-WithLoader.args = {
-  loading: true,
+export const WithLoader: Story = {
+  args: {
+    loading: true,
+  },
 }
 
-export const WithLoaderAndLeftIcon = Template.bind({})
-WithLoaderAndLeftIcon.args = {
-  loading: true,
-  iconLeft: Info,
-  iconLeftAriaLabel: 'Additional information',
+export const WithLoaderAndLeftIcon: Story = {
+  args: {
+    loading: true,
+    iconLeft: Info,
+    iconLeftAriaLabel: 'Additional information',
+  },
 }
 
-export const WithLoaderAndRightIcon = Template.bind({})
-WithLoaderAndRightIcon.args = {
-  loading: true,
-  iconRight: ChevronDown,
-  iconRightAriaLabel: 'Show additional information',
+export const WithLoaderAndRightIcon: Story = {
+  args: {
+    loading: true,
+    iconRight: ChevronDown,
+    iconRightAriaLabel: 'Show additional information',
+  },
 }
 
-export const WithLoaderAndBothIcons = Template.bind({})
-WithLoaderAndBothIcons.args = {
-  loading: true,
-  iconLeft: Info,
-  iconLeftAriaLabel: 'Additional information',
-  iconRight: ChevronDown,
-  iconRightAriaLabel: 'Show additional information',
+export const WithLoaderAndBothIcons: Story = {
+  args: {
+    loading: true,
+    iconLeft: Info,
+    iconLeftAriaLabel: 'Additional information',
+    iconRight: ChevronDown,
+    iconRightAriaLabel: 'Show additional information',
+  },
 }
 
-export const WithLongLabel = Template.bind({})
-WithLongLabel.args = {
-  children: 'Looooooooooooooooooooooooooooooooong Label',
-  className: storyStyles.block,
+export const WithLongLabel: Story = {
+  args: {
+    children: 'Looooooooooooooooooooooooooooooooong Label',
+    className: storyStyles.block,
+  },
 }
 
-export const DisabledWithLongLabel = Template.bind({})
-DisabledWithLongLabel.args = {
-  disabled: true,
-  disabledTooltip: 'This button is disabled',
-  children: 'Looooooooooooooooooooooooooooooooong Label',
-  className: storyStyles.block,
+export const DisabledWithLongLabel: Story = {
+  args: {
+    disabled: true,
+    disabledTooltip: 'This button is disabled',
+    children: 'Looooooooooooooooooooooooooooooooong Label',
+    className: storyStyles.block,
+  },
 }
 
-export const DisabledWithLongLabelShowingLabelInTooltip = Template.bind({})
-DisabledWithLongLabelShowingLabelInTooltip.args = {
-  ...DisabledWithLongLabel.args,
-  disabledTooltipVisible: false,
+export const DisabledWithLongLabelShowingLabelInTooltip: Story = {
+  args: {
+    ...DisabledWithLongLabel.args,
+    disabledTooltipVisible: false,
+  },
 }
 
-export const NonCapitalized = Template.bind({})
-NonCapitalized.args = {
-  capitalize: false,
+export const NonCapitalized: Story = {
+  args: {
+    capitalize: false,
+  },
 }
 
-export const WithInsetOutline = Template.bind({})
-WithInsetOutline.args = {
-  outline: 'inset',
+export const WithInsetOutline: Story = {
+  args: {
+    outline: 'inset',
+  },
 }
 
 export const LinkSemantics = () => {

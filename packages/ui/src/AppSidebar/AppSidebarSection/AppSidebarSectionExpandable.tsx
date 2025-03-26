@@ -1,10 +1,9 @@
 import React, { ReactNode, useContext, useEffect, useRef } from 'react'
 import cn from 'classnames'
 import { ChevronDown, ChevronUp, Icon as FeatherIcon } from 'react-feather'
-import createPersistedState from 'use-persisted-state'
 import { DataTestProp } from '@hazelcast/helpers'
 
-import { useRefValue } from '../../hooks'
+import { useRefValue, createPersistedState } from '../../hooks'
 import { Icon, IconProps } from '../../Icon'
 import { AppSidebarItem } from '../AppSidebarItem'
 import { appSidebarContext } from '../appSidebarContext'

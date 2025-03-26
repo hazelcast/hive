@@ -1,4 +1,4 @@
-import React, { FC, useCallback, KeyboardEvent, AnchorHTMLAttributes, CSSProperties } from 'react'
+import React, { FC, PropsWithChildren, useCallback, KeyboardEvent, AnchorHTMLAttributes, CSSProperties } from 'react'
 import cn from 'classnames'
 import { useUID } from 'react-uid'
 
@@ -11,7 +11,7 @@ export type RowProps = RowBase & { onClick?: () => void }
 export type LinkRowProps = RowBase & { href: string; AnchorComponent?: FC<AnchorHTMLAttributes<HTMLAnchorElement>> }
 export type HeaderRowProps = RowBase
 
-export const Row: FC<RowProps> = ({ children, className, style, role, ariaRowIndex, onClick }) => {
+export const Row = ({ children, className, style, role, ariaRowIndex, onClick }: PropsWithChildren<RowProps>) => {
   const onKeyDown = useCallback(
     (event: KeyboardEvent<HTMLDivElement>) => {
       event.preventDefault()
@@ -44,10 +44,17 @@ export const Row: FC<RowProps> = ({ children, className, style, role, ariaRowInd
   )
 }
 
-// eslint-disable-next-line jsx-a11y/anchor-has-content
 const DefaultAnchor: FC<AnchorHTMLAttributes<HTMLAnchorElement>> = (props) => <a {...props} />
 
-export const LinkRow: FC<LinkRowProps> = ({ children, className, style, role, ariaRowIndex, href, AnchorComponent = DefaultAnchor }) => {
+export const LinkRow = ({
+  children,
+  className,
+  style,
+  role,
+  ariaRowIndex,
+  href,
+  AnchorComponent = DefaultAnchor,
+}: PropsWithChildren<LinkRowProps>) => {
   const anchorId = useUID()
 
   return (
@@ -59,7 +66,7 @@ export const LinkRow: FC<LinkRowProps> = ({ children, className, style, role, ar
   )
 }
 
-export const HeaderRow: FC<HeaderRowProps> = ({ children, className, style, role, ariaRowIndex }) => (
+export const HeaderRow = ({ children, className, style, role, ariaRowIndex }: PropsWithChildren<HeaderRowProps>) => (
   <div data-test="table-header-row" className={cn(styles.row, className)} style={style} role={role} aria-rowindex={ariaRowIndex}>
     {children}
   </div>

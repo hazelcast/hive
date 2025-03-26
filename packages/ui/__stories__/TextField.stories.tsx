@@ -30,7 +30,6 @@ export default {
   },
 } as Meta<TextFieldProps<TextFieldTypes>>
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Template: Story<TextFieldProps<TextFieldTypes>> = ({ value: initialValue, ...args }) => {
   const [value, setValue] = useState<string | number | undefined>(initialValue)
   return (

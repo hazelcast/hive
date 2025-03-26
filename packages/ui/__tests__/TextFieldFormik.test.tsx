@@ -31,7 +31,7 @@ describe('TextFieldFormik', () => {
     expect(onSubmit).toBeCalledTimes(0)
 
     // We need the `async` call here to wait for processing of the asynchronous 'submit'
-    // eslint-disable-next-line @typescript-eslint/require-await
+
     await act(async () => {
       fireEvent.submit(container.querySelector('form')!)
     })
@@ -69,9 +69,8 @@ describe('TextFieldFormik', () => {
     const { container } = await renderAndCheckA11Y(<TestForm />)
 
     // We need the `async` call here to wait for processing of the asynchronous 'submit'
-    // eslint-disable-next-line @typescript-eslint/require-await
+
     await act(async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       fireEvent.change(container.querySelector('input')!, { target: { value: 'new value' } })
     })
 

@@ -287,7 +287,7 @@ export const AutocompleteFieldWrappedInFormik = () => {
       }}
       initialErrors={{
         // Bug in Formik types. TODO: Raise a PR
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
+
         character: 'Server Error: Invalid character' as any,
       }}
       onSubmit={(values) => logger.log('submit', values)}
@@ -319,7 +319,7 @@ export const AutocompleteFieldClearableWrappedInFormik = () => {
       }}
       initialErrors={{
         // Bug in Formik types. TODO: Raise a PR
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
+
         character: 'Server Error: Invalid character' as any,
       }}
       onSubmit={(values) => logger.log('submit', values)}

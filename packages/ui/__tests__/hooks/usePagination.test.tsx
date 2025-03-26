@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks'
+import { renderHook } from '@testing-library/react'
 
 import { getZeroSiblingCountItems, PaginationItem, usePagination, UsePaginationProps } from '../../src/hooks/usePagination'
 

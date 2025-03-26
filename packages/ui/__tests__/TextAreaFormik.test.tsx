@@ -34,7 +34,7 @@ describe('TextAreaFormik', () => {
     expect(onSubmit).toBeCalledTimes(0)
 
     // We need the `async` call here to wait for processing of the asynchronous 'submit'
-    // eslint-disable-next-line @typescript-eslint/require-await
+
     await act(async () => {
       fireEvent.submit(container.querySelector('form')!)
     })

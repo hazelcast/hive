@@ -7,7 +7,7 @@ import { AlertTriangle, CheckCircle, AlertCircle, Info } from 'react-feather'
 
 import { Notification, NotificationType, NotificationIconDescriptor } from '../src/Notification'
 
-import styles from './Notification.module.scss'
+import styles from '../src/Notification.module.scss'
 import linkStyles from '../src/Link.module.scss'
 
 const text = 'Lorem ipsum dolor sit amet'

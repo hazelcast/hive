@@ -1,7 +1,7 @@
 import React, { createRef } from 'react'
 import { Formik, Form, FormikProps } from 'formik'
 import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
-import { act, screen, within } from '@testing-library/react'
+import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { SelectFieldOption } from '../../src/Select/helpers'
@@ -43,7 +43,7 @@ describe('CheckableSelectFieldFormik', () => {
     })
 
     await userEvent.click(within(screen.getByTestId('test-opener')).getByRole('textbox'))
-    await act(() => userEvent.click(screen.queryAllByTestId('test-option')[1]))
+    await userEvent.click(screen.queryAllByTestId('test-option')[1])
 
     expect(formikBag.current?.values).toEqual({
       names: [options[1].value],
@@ -70,7 +70,7 @@ describe('CheckableSelectFieldFormik', () => {
     expect(screen.getByTestId('test-opener-error')).toHaveTextContent('')
 
     await userEvent.click(within(screen.getByTestId('test-opener')).getByRole('textbox'))
-    await act(() => userEvent.click(screen.queryAllByTestId('test-option')[1]))
+    await userEvent.click(screen.queryAllByTestId('test-option')[1])
 
     expect(screen.getByTestId('test-opener-error')).toHaveTextContent('error')
   })
@@ -106,7 +106,7 @@ describe('CheckableSelectFieldFormik', () => {
     })
 
     await userEvent.click(within(screen.getByTestId('test-opener')).getByRole('textbox'))
-    await act(() => userEvent.click(screen.queryAllByTestId('test-option')[1]))
+    await userEvent.click(screen.queryAllByTestId('test-option')[1])
 
     expect(onChange).toBeCalledTimes(1)
     expect(onChange).toBeCalledWith([options[1].value])

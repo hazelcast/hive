@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/require-await */
 import React from 'react'
 
 import { Terminal } from '../src/Terminal'

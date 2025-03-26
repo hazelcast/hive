@@ -3,6 +3,7 @@ import cn from 'classnames'
 import NukaCarousel, { CarouselProps as NukaCarouselProps } from 'nuka-carousel'
 import { ChevronLeft, ChevronRight } from 'react-feather'
 import { DataTestProp } from '@hazelcast/helpers'
+
 import styleConsts from '../styles/constants/export.module.scss'
 import styles from './Carousel.module.scss'
 

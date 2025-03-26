@@ -1,4 +1,4 @@
-import React, { FocusEvent } from 'react'
+import React from 'react'
 import { Plus, X } from 'react-feather'
 import { useUID } from 'react-uid'
 import cn from 'classnames'
@@ -23,7 +23,6 @@ export type InteractiveListExtraProps = {
 export type InteractiveListCoreProps<V> = {
   name: ExtractKeysOfValueType<V, string[]>
   value: string[]
-  onBlur?: (e: FocusEvent<HTMLTextAreaElement>) => void
   error?: string
   inputValue: string
   setInputValue: (val: string) => void
@@ -122,7 +121,6 @@ export const InteractiveList = <V,>({
           onChange={({ target: { value } }) => {
             setInputValue(value)
           }}
-          /* eslint-disable-next-line @typescript-eslint/no-misused-promises */
           onKeyDown={async (e) => {
             if (e.key === 'Enter') {
               e.preventDefault()

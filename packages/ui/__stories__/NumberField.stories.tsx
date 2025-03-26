@@ -140,7 +140,6 @@ export const WrappedInFormik = () => {
           Values: {JSON.stringify(values)}
           <NumberFieldFormik<Values> name="ram" label="Name" validate={validateRAM} min={0} max={64} />
           <NumberFieldFormik<Values>
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             name="mapStore.ttl"
             label="Nested"

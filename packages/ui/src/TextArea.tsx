@@ -1,13 +1,12 @@
 import React, { ChangeEvent, FC, FocusEvent, useRef } from 'react'
 import cn from 'classnames'
-import useResizeAware from 'react-resize-aware'
 import { DataTestProp } from '@hazelcast/helpers'
-import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 import { useUID } from 'react-uid'
 
 import { Error, errorId } from './Error'
 import { FieldHeader, FieldHeaderProps } from './FieldHeader'
 import { PopperRef } from './Tooltip'
+import { useResizeAware } from './hooks/useResizeAware'
 
 import styles from './TextArea.module.scss'
 
@@ -53,15 +52,12 @@ export const TextArea: FC<TextAreaProps> = (props) => {
     ...htmlAttrs
   } = props
   const id = useUID()
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   const popperRef = useRef<PopperRef>()
-  const [resizeListener, sizes] = useResizeAware()
-
-  useIsomorphicLayoutEffect(() => {
-    if (sizes.height) {
-      popperRef.current?.forceUpdate?.()
-    }
-  }, [sizes.height])
+  useResizeAware(textareaRef.current, () => {
+    popperRef.current?.forceUpdate?.()
+  })
 
   return (
     <div
@@ -80,6 +76,7 @@ export const TextArea: FC<TextAreaProps> = (props) => {
       <div className={styles.textAreaContainer}>
         <div className={styles.textAreaWrapper}>
           <textarea
+            ref={textareaRef}
             aria-invalid={!!error}
             aria-required={required}
             aria-errormessage={error && errorId(id)}
@@ -100,7 +97,6 @@ export const TextArea: FC<TextAreaProps> = (props) => {
             {...htmlAttrs}
           />
           <div className={styles.borderOverlay} />
-          {helperText && resizeListener}
         </div>
       </div>
       <Error data-test={`${dataTest}-error`} truncated error={error} className={cn(styles.errorContainer, errorClassName)} inputId={id} />
