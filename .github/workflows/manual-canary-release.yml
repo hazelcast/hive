@@ -16,5 +16,8 @@ jobs:
       - run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      # remove after we kill monorepo
+      - name: Reset pnpm-lock.yaml
+        run: git restore pnpm-lock.yaml
       - name: Publish to npm
         run: pnpm run publish-canary
