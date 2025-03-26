@@ -22,13 +22,13 @@ export const BadgeIcon: { [key in BadgeType]: BadgeIconDescriptor } = {
     icon: CheckCircle,
     ariaLabel: 'Check circle icon',
   },
-  info: {
-    icon: Info,
-    ariaLabel: 'Info circle icon',
-  },
   warning: {
     icon: AlertTriangle,
     ariaLabel: 'Warning triangle icon',
+  },
+  info: {
+    icon: Info,
+    ariaLabel: 'Info circle icon',
   },
   critical: {
     icon: AlertCircle,
