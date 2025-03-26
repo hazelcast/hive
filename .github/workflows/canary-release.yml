@@ -9,30 +9,13 @@ on:
     branches: [master]
 
 jobs:
-  build:
+  chromatic-deployment:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/install
       - run: pnpm run build-storybook
-
-      - name: Archive screenshots
-        if: ${{ failure() }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: loki-screenshots
-          path: packages/ui/.loki
-
-  chromatic-deployment:
-    if: github.event.pull_request.merged == true
-    runs-on: ubuntu-latest
-    needs: [build]
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - uses: ./.github/actions/install
       - name: Publish to Chromatic
         uses: chromaui/action@v11
         with:
@@ -45,7 +28,6 @@ jobs:
   publish_canary:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
-    needs: [build]
     steps:
       - uses: actions/checkout@v4
         with:
