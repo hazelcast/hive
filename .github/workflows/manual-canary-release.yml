@@ -60,6 +60,10 @@ jobs:
       - uses: ./.github/actions/install
       - run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN:
+            ${{ secrets.NPM_TOKEN }}
+            # Remove it after monorepo is dead!!!
+      - name: Reset pnpm-lock.yaml
+        run: git restore pnpm-lock.yaml
       - name: Publish to npm
         run: pnpm run publish-canary
