@@ -20,4 +20,4 @@ jobs:
       - name: Reset pnpm-lock.yaml
         run: git restore pnpm-lock.yaml
       - name: Publish to npm
-        run: pnpm run publish-canary
+        run: pnpm run publish-canary-forced
