@@ -1,7 +1,6 @@
 name: release
 env:
   CI: true
-  PNPM_CACHE_FOLDER: .pnpm-store
 # only trigger on pull request closed events
 on:
   push:
@@ -36,5 +35,5 @@ jobs:
         run: |
           git tag --force ${{ steps.create_tag.outputs.tag }} -m "tag release ${{ steps.create_tag.outputs.tag }}"
           git push -f origin ${{ steps.create_tag.outputs.tag }}
-          pnpm run change-packages-version -- ${{ steps.create_tag.outputs.tag }}
-          pnpm run publish-release
+          npm run change-packages-version -- ${{ steps.create_tag.outputs.tag }}
+          npm run publish-release
