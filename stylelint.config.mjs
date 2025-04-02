@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   extends: ['stylelint-config-standard'],
   plugins: [
     // SCSS rules set, need to be explicitly set in "rules"

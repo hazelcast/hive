@@ -68,6 +68,7 @@ export default [
         {
           '.js': 'always',
           '.jsx': 'always',
+          'scss': 'always',
         },
       ],
       'import/no-extraneous-dependencies': [

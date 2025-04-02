@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   roots: ['<rootDir>'],
   testEnvironment: 'jsdom',
   transformIgnorePatterns: ['node_modules/(?!serialize-error)'],
