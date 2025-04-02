@@ -26,7 +26,6 @@
   ],
   "scripts": {
     "build-storybook": "storybook build",
-    "change-packages-version": "lerna version",
     "chromatic": "chromatic --project-token=CHROMATIC_PROJECT_TOKEN",
     "compile": "shx rm -f *.tsbuildinfo && shx rm -rf lib && shx mkdir lib && shx cp -r src/* lib && shx rm -rf lib/*.{tsx,ts} && shx rm -rf lib/**/*.{tsx,ts} && tsc -p tsconfig.build.json",
     "generate-screenshots": "npm run build-storybook && loki update --reactUri file:./storybook-static --chromeDockerImage 'yukinying/chrome-headless-browser-stable:110.0.5481.77' --chromeFlags='--headless --disable-gpu --hide-scrollbars --no-sandbox --allow-file-access-from-files'",
@@ -39,8 +38,6 @@
     "lint:ts:fix": "npm run lint:ts --fix",
     "prepack": "npm run compile",
     "prepare": "husky install",
-    "publish-canary": "lerna publish --canary --preid next --dist-tag next --yes --no-verify-access --include-merged-tags",
-    "publish-release": "lerna publish from-package --force-publish --yes",
     "publish-storybook": "chromatic --storybook-build-dir storybook-static --project-token $CHROMATIC_PROJECT_TOKEN --exit-zero-on-changes",
     "start": "npm run storybook",
     "storybook": "storybook dev -p 6006",
@@ -48,7 +45,10 @@
     "test:visual": "loki --verboseRenderer --requireReference --chromeTolerance 3 --reactUri file:./storybook-static --chromeDockerImage 'yukinying/chrome-headless-browser-stable:110.0.5481.77' --chromeFlags='--headless --disable-gpu --hide-scrollbars --no-sandbox --allow-file-access-from-files'",
     "test:visual:approve": "loki approve",
     "test:watch": "jest --watch",
-    "verify-all": "npm run lint && npm run test && npm run build-storybook && npm run test:visual"
+    "verify-all": "npm run lint && npm run test && npm run build-storybook && npm run test:visual",
+    "change-packages-version": "lerna version",
+    "publish-canary": "lerna publish --canary --preid next --dist-tag next --yes --no-verify-access --include-merged-tags",
+    "publish-release": "lerna publish from-package --force-publish --yes"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.19",
