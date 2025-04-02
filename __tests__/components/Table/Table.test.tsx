@@ -2,14 +2,14 @@ import React from 'react'
 import startCase from 'lodash/startCase'
 import { fireEvent, screen, within, act } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
-import { axeDefaultOptions, renderAndCheckA11Y } from '../../src'
+import { axeDefaultOptions, renderAndCheckA11Y } from '../../../src'
 
 import { getColumns } from './utils'
-import { Table } from '../../src/Table/Table'
+import { Table } from '../../../src/components/Table/Table'
 import { bigDataSet, smallDataSet } from './consts'
 
-import cellStyles from '../../src/Table/Cell.module.scss'
-import headerStyles from '../../src/Table/Header.module.scss'
+import cellStyles from '../../../src/components/Table/Cell.module.scss'
+import headerStyles from '../../../src/components/Table/Header.module.scss'
 
 const rules = axeDefaultOptions?.rules ?? {}
 const axeOptions = {
@@ -20,8 +20,8 @@ const axeOptions = {
   },
 }
 
-jest.mock('../../src/Table/utils', () => ({
-  ...jest.requireActual('../../src/Table/utils'),
+jest.mock('../../../src/components/Table/utils', () => ({
+  ...jest.requireActual('../../../src/components/Table/utils'),
   getCellStyle: () => {
     const width = '100px'
     const minWidth = '100px'

@@ -1,13 +1,13 @@
 import React from 'react'
 import { useUID } from 'react-uid'
-import { renderAndCheckA11Y } from '../../src'
+import { renderAndCheckA11Y } from '../../../src'
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import { CheckableSelectField } from '../../src/Select/CheckableSelectField'
-import { SelectFieldOption } from '../../src/Select/helpers'
+import { CheckableSelectField } from '../../../src/components/Select/CheckableSelectField'
+import { SelectFieldOption } from '../../../src/components/Select/helpers'
 
-import styles from '../../src/Select/SelectField.module.scss'
+import styles from '../../../src/components/Select/SelectField.module.scss'
 
 jest.mock('react-uid')
 

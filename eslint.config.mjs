@@ -8,6 +8,8 @@ import prettier from 'eslint-plugin-prettier'
 import reactHooks from 'eslint-plugin-react-hooks'
 
 export default [
+  eslint.configs.recommended,
+  ...tseslint.configs.recommended,
   {
     ignores: ['lib', 'node_modules', 'coverage', 'storybook-static'],
   },
@@ -17,7 +19,6 @@ export default [
       sourceType: 'module',
       ecmaVersion: 2020,
     },
-    extends: [eslint.configs.recommended, ...tseslint.configs.recommended],
     plugins: {
       'jsx-a11y': jsxA11y,
       babel: babelPlugin,
