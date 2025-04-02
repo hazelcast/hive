@@ -1,0 +1,13 @@
+@use '../../../../styles/constants' as c;
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: c.$grid;
+  padding: c.$grid * 2 0;
+  font-size: c.$fontSizeBodySmall;
+}
+
+.placeholder {
+  padding: c.$grid * 2 c.$grid * 2.5 c.$grid * 2 c.$grid * 14;
+}

@@ -1,0 +1,106 @@
+@use '../../styles/constants' as c;
+@use '../../styles/helpers' as h;
+@include h.withError;
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+  box-sizing: border-box;
+  overflow: hidden;
+
+  @include c.typographyBodySmall;
+
+  * {
+    box-sizing: border-box;
+  }
+
+  // hide native checkbox
+  input {
+    @include h.visuallyHidden;
+  }
+
+  .helperText {
+    margin-top: c.$grid * 0.5;
+    margin-left: c.$grid * 1.5;
+  }
+
+  // default visible checkmark
+  .checkmark {
+    /* doiuse-disable calc */
+    $checkmarkSize: calc(#{c.$iconSizeSmall} + #{c.$borderWidth * 2});
+    /* doiuse-enable calc */
+
+    width: $checkmarkSize;
+    height: $checkmarkSize;
+    border: c.$borderWidth solid c.$colorNeutralLight;
+    border-radius: c.$grid;
+    color: c.$colorNeutralWhite;
+
+    // because of ~ and + selectors used below, we need to keep the current order in DOM and
+    // fix it visually with order property
+    order: -1;
+    flex-shrink: 0;
+  }
+
+  & > input:checked ~ .checkmark {
+    background-color: c.$colorSuccess;
+    border-color: c.$colorSuccess;
+  }
+
+  /**
+    Indeterminate
+  */
+  &.indeterminate input ~ .checkmark {
+    background-color: c.$colorPrimaryLight;
+    border-color: c.$colorPrimaryLight;
+  }
+
+  /**
+    Hover
+   */
+  &:hover,
+  &.hover {
+    input ~ .checkmark {
+      border-color: c.$colorPrimary;
+    }
+  }
+
+  // Error state
+  &.error input ~ .checkmark {
+    border-color: c.$colorError;
+  }
+
+  .name {
+    overflow: hidden;
+    padding-left: c.$grid * 1.25;
+  }
+
+  &:not(.checked) {
+    color: c.$colorTextSecondary;
+  }
+
+  &.focus > input,
+  input:focus {
+    ~ .checkmark {
+      @include h.outlineFormField;
+    }
+  }
+
+  /**
+    Disabled
+  */
+  &.disabled {
+    color: c.$colorNeutralLight;
+    cursor: not-allowed;
+
+    & > input:disabled ~ .checkmark {
+      color: c.$colorNeutralWhite;
+      border-color: c.$colorNeutralLight;
+    }
+
+    & > input:disabled:checked ~ .checkmark {
+      background-color: c.$colorNeutral;
+    }
+  }
+}

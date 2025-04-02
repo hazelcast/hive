@@ -1,0 +1,33 @@
+@use '../../styles/constants' as c;
+
+.iconContainer {
+  display: inline-block;
+
+  // Note: Font-size reset in order break inheritance.
+  font-size: 0;
+
+  .small {
+    width: c.$iconSizeSmall;
+    height: c.$iconSizeSmall;
+  }
+
+  .smallMedium {
+    width: c.$iconSizeSmallMedium;
+    height: c.$iconSizeSmallMedium;
+  }
+
+  .medium {
+    width: c.$iconSizeMedium;
+    height: c.$iconSizeMedium;
+  }
+
+  .large {
+    width: c.$iconSizeLarge;
+    height: c.$iconSizeLarge;
+  }
+
+  .xlarge {
+    width: c.$iconSizeXLarge;
+    height: c.$iconSizeXLarge;
+  }
+}
