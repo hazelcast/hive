@@ -28,7 +28,6 @@
     "chromatic": "chromatic --project-token=CHROMATIC_PROJECT_TOKEN",
     "compile": "shx rm -f *.tsbuildinfo && shx rm -rf lib && shx mkdir lib && shx cp -r src/* lib && shx rm -rf lib/*.{tsx,ts} && shx rm -rf lib/**/*.{tsx,ts} && tsc -p tsconfig.build.json",
     "generate-screenshots": "npm run build-storybook && loki update --reactUri file:./storybook-static --chromeDockerImage 'yukinying/chrome-headless-browser-stable:110.0.5481.77' --chromeFlags='--headless --disable-gpu --hide-scrollbars --no-sandbox --allow-file-access-from-files'",
-    "postinstall": "npm run compile",
     "lint": "npm run lint:ts && npm run lint:css",
     "lint:css": "postcss --config ./.postcss-lint --replace '**/*.{css,scss}'",
     "lint:css:fix": "stylelint --fix '**/*.{css,scss}'",
