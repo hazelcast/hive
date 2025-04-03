@@ -1,10 +1,45 @@
-name: manual canary release
+name: manual release
 env:
   CI: true
 on:
   workflow_dispatch:
+    inputs:
+      skip_chromatic_publish:
+        description: 'Should skip publishing to Chromatic'
+        required: false
+        default: false
+        type: boolean
+      release_type:
+        description: 'Type of the release'
+        required: false
+        default: 'prerelease'
+        type: choice
+        options:
+          - major
+          - minor
+          - patch
+          - prerelease
+          - prepatch
+          - preminor
+          - premajor
 
 jobs:
+  chromatic-deployment:
+    if: github.event.inputs.skip_chromatic_publish == false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/install
+      - run: npm run build-storybook
+      - name: Publish to Chromatic
+        uses: chromaui/action@v11
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          exitZeroOnChanges: true
+          workingDir: ./
+          autoAcceptChanges: true
+
   publish_canary:
     runs-on: ubuntu-latest
     steps:
@@ -15,5 +50,7 @@ jobs:
       - run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Increment version
+        run: npm version --preid canary --no-commit-hooks ${{ github.event.inputs.release_type || 'prerelease' }}
       - name: Publish to npm
-        run: npm run publish-canary-forced
+        run: npm publish

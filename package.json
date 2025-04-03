@@ -45,10 +45,7 @@
     "test:visual": "loki --verboseRenderer --requireReference --chromeTolerance 3 --reactUri file:./storybook-static --chromeDockerImage 'yukinying/chrome-headless-browser-stable:110.0.5481.77' --chromeFlags='--headless --disable-gpu --hide-scrollbars --no-sandbox --allow-file-access-from-files'",
     "test:visual:approve": "loki approve",
     "test:watch": "jest --watch",
-    "verify-all": "npm run lint && npm run test && npm run build-storybook && npm run test:visual",
-    "change-packages-version": "lerna version",
-    "publish-canary": "lerna publish --canary --preid next --dist-tag next --yes --no-verify-access --include-merged-tags",
-    "publish-release": "lerna publish from-package --force-publish --yes"
+    "verify-all": "npm run lint && npm run test && npm run build-storybook && npm run test:visual"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.19",
