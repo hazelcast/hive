@@ -1,6 +1,10 @@
 name: manual release
 env:
   CI: true
+  GIT_AUTHOR_NAME: GitHub Actions Bot
+  GIT_AUTHOR_EMAIL: <>
+  GIT_COMMITTER_NAME: GitHub Actions Bot
+  GIT_COMMITTER_EMAIL: <>
 on:
   workflow_dispatch:
     inputs:
