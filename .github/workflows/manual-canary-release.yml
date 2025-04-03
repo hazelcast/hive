@@ -34,7 +34,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/install
-      - run: npm run build-storybook
+      - name: Compile Package
+        run: npm run compile
+      - name: Build Storybook
+        run: npm run build-storybook
       - name: Publish to Chromatic
         uses: chromaui/action@v11
         with:
@@ -51,6 +54,8 @@ jobs:
         with:
           fetch-depth: 0
       - uses: ./.github/actions/install
+      - name: Compile package
+        run: npm run compile
       - run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
