@@ -60,7 +60,9 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Increment version
-        run: npm version --preid canary --no-commit-hooks ${{ github.event.inputs.release_type || 'prerelease' }}
+        run: |
+          npm version --preid canary --no-commit-hooks ${{ github.event.inputs.release_type || 'prerelease' }}
+          git push --tags
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish to npm
