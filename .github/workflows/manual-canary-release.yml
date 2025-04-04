@@ -62,6 +62,7 @@ jobs:
       - name: Increment version
         run: |
           npm version --preid canary --no-commit-hooks ${{ github.event.inputs.release_type || 'prerelease' }}
+          git push --no-verify
           git push --tags --no-verify
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
