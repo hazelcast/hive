@@ -8,7 +8,7 @@ import { MultiSelectField } from '../../src/Select/MultiSelectField'
 import { errorId } from '../../src/Error'
 import { getOptionsMap, SelectFieldOption } from '../../src/Select/helpers'
 
-import styles from '../src/SelectField.module.scss'
+import styles from '../../src/Select/SelectField.module.scss'
 
 jest.mock('react-uid')
 

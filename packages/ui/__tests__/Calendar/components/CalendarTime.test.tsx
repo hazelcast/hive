@@ -47,7 +47,6 @@ describe('CalendarTime', () => {
 
     expect(onChange).toHaveBeenCalledTimes(0)
 
-    // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
       fireEvent.change(input, { target: { value: '11:00' } })
     })

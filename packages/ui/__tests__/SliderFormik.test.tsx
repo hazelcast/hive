@@ -35,7 +35,6 @@ describe('SliderFormik', () => {
       ram: 42,
     })
 
-    // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
       fireEvent.change(container.querySelector('input')!, { target: { value: 30 } })
     })

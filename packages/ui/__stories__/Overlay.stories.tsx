@@ -67,7 +67,7 @@ export default {
     title: 'Settings',
     children: content,
     isOpen: true,
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
     parentSelector: () => document.getElementById(appElementId)!,
   },
 } as Meta<OverlayProps>

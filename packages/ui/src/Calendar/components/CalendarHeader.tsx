@@ -8,7 +8,6 @@ import { IconButton } from '../../IconButton'
 import styles from '../Calendar.module.scss'
 import styleConsts from '../../../styles/constants/export.module.scss'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ExtractFnArgumentType<T> = T extends (arg: infer U) => any ? U : never
 
 /*

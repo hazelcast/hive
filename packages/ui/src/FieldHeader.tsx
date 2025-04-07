@@ -48,6 +48,7 @@ export const FieldHeader = (props: FieldHeaderProps) => {
 
   return label ? (
     <div className={styles.root}>
+      {/* eslint-disable-next-line jsx-a11y/label-has-for */}
       <Label
         id={id}
         label={label}

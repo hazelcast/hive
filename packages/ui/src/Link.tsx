@@ -7,6 +7,7 @@ import { Icon } from './Icon'
 
 import styles from './Link.module.scss'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const sizes = {
   normal: styles.normal,
   small: styles.small,

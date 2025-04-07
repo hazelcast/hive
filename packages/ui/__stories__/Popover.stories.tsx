@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Meta, Story } from '@storybook/react'
+import { Meta } from '@storybook/react'
 
 import { Popover, PopoverProps } from '../src/Popover'
 import { Button } from '../src/Button'
@@ -13,7 +13,7 @@ export default {
   },
 } as Meta<PopoverProps>
 
-export const Default: Story<PopoverProps> = (args) => {
+export const Default = (args: PopoverProps) => {
   const [open, setOpen] = useState(false)
   const [anchorElement, setAnchorElement] = useState<HTMLElement | null>()
 
@@ -34,7 +34,7 @@ export const Default: Story<PopoverProps> = (args) => {
   )
 }
 
-export const Menu: Story<PopoverProps> = (args) => {
+export const Menu = (args: PopoverProps) => {
   const [open, setOpen] = useState(false)
   const [anchorElement, setAnchorElement] = useState<HTMLElement | null>()
 

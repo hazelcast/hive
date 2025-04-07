@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react'
+import React, { PropsWithChildren, useEffect } from 'react'
 import cls from 'classnames'
 
 import { Popover } from '../../../Popover'
@@ -12,7 +12,13 @@ export interface CellCopyablePopover {
   anchorElement?: HTMLElement | null
 }
 
-export const CellCopyablePopover: FC<CellCopyablePopover> = ({ children, contentClassName, anchorElement, isOpen, onClose }) => {
+export const CellCopyablePopover = ({
+  children,
+  contentClassName,
+  anchorElement,
+  isOpen,
+  onClose,
+}: PropsWithChildren<CellCopyablePopover>) => {
   useEffect(() => {
     return () => onClose()
   }, [onClose])

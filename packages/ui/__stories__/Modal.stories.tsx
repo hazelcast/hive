@@ -7,7 +7,7 @@ import { Modal, ModalProps } from '../src/Modal'
 import { Button } from '../src'
 
 import styles from '../src/Modal.module.scss'
-import utilsStyles from './utils.scss'
+import utilsStyles from './utils.module.scss'
 
 export default {
   title: 'Components/Modal',
@@ -20,7 +20,9 @@ export default {
   },
 }
 
+// eslint-disable-next-line no-console
 const onClose = () => console.log('onClose')
+// eslint-disable-next-line no-console
 const onClick = () => console.log('onClick')
 const title = 'Modal title'
 const children = 'Action'

@@ -1,15 +1,26 @@
 import React from 'react'
 import { Database } from 'react-feather'
-import { Meta, Story } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react'
 
 import { Alert, Card, IconButton } from '../src'
 
 import styles from './Card.stories.module.scss'
 import { CardProps } from '../src/Card'
 
+type Story = StoryObj<typeof Card>
+
+const Component = (args: CardProps) => {
+  return (
+    <>
+      <Card {...args} />
+      <Card variant="bordered" {...args} />
+    </>
+  )
+}
+
 export default {
   title: 'Components/Card',
-  component: Card,
+  component: Component,
   parameters: {
     design: {
       type: 'figma',
@@ -23,68 +34,67 @@ export default {
   },
 } as Meta<CardProps>
 
-const Template: Story<CardProps> = (args) => {
-  return (
-    <>
-      <Card {...args} />
-      <Card variant="bordered" {...args} />
-    </>
-  )
-}
+export const Simple: Story = {}
 
-export const Simple = Template.bind({})
-
-export const WithoutTitle = Template.bind({})
-WithoutTitle.args = {
-  title: undefined,
-}
-
-export const WithoutContent = Template.bind({})
-WithoutContent.args = {
-  children: undefined,
-}
-
-export const WithSeparator = Template.bind({})
-WithSeparator.args = {
-  separator: true,
-}
-WithSeparator.parameters = {
-  design: {
-    type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE-Hazelcast-Design-System?node-id=10093%3A21',
+export const WithoutTitle: Story = {
+  args: {
+    title: undefined,
   },
 }
 
-export const WithIcon = Template.bind({})
-WithIcon.args = {
-  headingIcon: Database,
-}
-WithIcon.parameters = {
-  design: {
-    type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE-Hazelcast-Design-System?node-id=10181%3A15',
+export const WithoutContent: Story = {
+  args: {
+    children: undefined,
   },
 }
 
-export const WithIconAndSeparator = Template.bind({})
-WithIconAndSeparator.args = {
-  ...WithSeparator.args,
-  ...WithIcon.args,
+export const WithSeparator: Story = {
+  args: {
+    separator: true,
+  },
+  parameters: {
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE-Hazelcast-Design-System?node-id=10093%3A21',
+    },
+  },
 }
 
-export const WithHeadingContent = Template.bind({})
-WithHeadingContent.args = {
-  headingContent: <IconButton kind="primary" ariaLabel="Check out the Database" icon={Database} component="a" href="#" />,
+export const WithIcon: Story = {
+  args: {
+    headingIcon: Database,
+  },
+  parameters: {
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE-Hazelcast-Design-System?node-id=10181%3A15',
+    },
+  },
 }
 
-export const WithCustomStyling = Template.bind({})
-WithCustomStyling.args = {
-  ...WithIcon.args,
-  iconClassName: styles.customIconClass,
-  titleClassName: styles.customTitleClass,
+export const WithIconAndSeparator: Story = {
+  args: {
+    ...WithSeparator.args,
+    ...WithIcon.args,
+  },
 }
 
-export const WithCaption = Template.bind({})
-WithCaption.args = {
-  caption: <Alert type="info" content="Only content" />,
+export const WithHeadingContent: Story = {
+  args: {
+    headingContent: <IconButton kind="primary" ariaLabel="Check out the Database" icon={Database} component="a" href="#" />,
+  },
+}
+
+export const WithCustomStyling: Story = {
+  args: {
+    ...WithIcon.args,
+    iconClassName: styles.customIconClass,
+    titleClassName: styles.customTitleClass,
+  },
+}
+
+export const WithCaption: Story = {
+  args: {
+    caption: <Alert type="info" content="Only content" />,
+  },
 }

@@ -78,7 +78,6 @@ describe('TimeField', () => {
 
     expect(onChange).toBeCalledTimes(0)
 
-    // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
       fireEvent.change(container.querySelector('input')!, { target: { value: '11:00' } })
     })
@@ -97,7 +96,6 @@ describe('TimeField', () => {
 
     expect(onBlur).toBeCalledTimes(0)
 
-    // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
       fireEvent.blur(container.querySelector('input')!)
     })

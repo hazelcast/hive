@@ -2,7 +2,7 @@ import React, { useMemo, useCallback, MouseEvent, KeyboardEvent, AriaAttributes,
 import { ChevronDown, ChevronUp, Menu } from 'react-feather'
 import cn from 'classnames'
 
-import { Icon } from '../Icon'
+import { Icon, IconType } from '../Icon'
 import { keyIsOneOf } from '../utils/keyboard'
 
 import styles from './Header.module.scss'
@@ -56,8 +56,13 @@ export const Header = ({
 
   const draggable = !!onDrop && !!onDragStart
   let ariaSort: AriaAttributes['aria-sort']
+  let ariaLabel: AriaAttributes['aria-label'] = 'Not Sorted'
+  let icon: IconType = ChevronUp
+
   if (isSorted) {
     ariaSort = isSortedDesc ? 'descending' : 'ascending'
+    ariaLabel = isSortedDesc ? 'Descending' : 'Ascending'
+    icon = isSortedDesc ? ChevronDown : ChevronUp
   }
 
   const Chevron = useMemo(
@@ -69,12 +74,12 @@ export const Header = ({
           [styles.right]: align === 'right',
           [styles.isSorted]: isSorted,
         })}
-        icon={!isSorted ? ChevronUp : isSortedDesc ? ChevronDown : ChevronUp}
-        ariaLabel={!isSorted ? 'Not Sorted' : isSortedDesc ? 'Descending' : 'Ascending'}
+        icon={icon}
+        ariaLabel={ariaLabel}
         size="smallMedium"
       />
     ),
-    [align, isSorted, isSortedDesc],
+    [align, ariaLabel, icon, isSorted],
   )
   const DraggableIcon = (
     <Icon
@@ -129,7 +134,10 @@ export const Header = ({
             ? (e) => {
                 e.dataTransfer.setData('text/plain', String(index))
                 isDragStarterRef.current = true
-                onDragStart && onDragStart(e)
+
+                if (onDragStart) {
+                  onDragStart(e)
+                }
               }
             : undefined
         }
@@ -161,10 +169,14 @@ export const Header = ({
         onDrop={
           draggable
             ? (e) => {
-                onDrop && onDrop(e, index)
+                if (onDrop) {
+                  onDrop(e, index)
+                }
+
                 if (rootRef.current) {
                   rootRef.current.classList.remove(styles.dragOver)
                 }
+
                 isDragStarterRef.current = false
                 counterRef.current = 0
               }
@@ -179,7 +191,6 @@ export const Header = ({
         {draggable && (align === 'left' || align === 'center') && DraggableIcon}
       </div>
       {canResize && (
-        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
         <div
           data-test="table-header-column-resizer-container"
           className={styles.resizer}

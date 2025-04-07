@@ -1,12 +1,6 @@
 import React, { useState, useMemo } from 'react'
-import {
-  Subheading,
-  Anchor,
-  Description,
-  Canvas,
-  Story as StoryOriginal,
-} from '@storybook/addon-docs/blocks'
-import { Design } from 'storybook-addon-designs/blocks'
+import { Subheading, Anchor, Description, Canvas, Story as StoryOriginal } from '@storybook/blocks'
+import { Design } from '@storybook/addon-designs/blocks'
 
 const designStyleOpen = {
   visibility: 'visible',
@@ -19,13 +13,7 @@ const designStyleHidden = {
 }
 
 // https://github.com/storybookjs/storybook/blob/next/addons/docs/src/blocks/DocsStory.tsx
-export const Story = ({
-  id,
-  name,
-  expanded = true,
-  withToolbar = false,
-  parameters = {},
-}) => {
+export const Story = ({ id, name, expanded = true, withToolbar = false, parameters = {} }) => {
   let description
   const { docs } = parameters
   if (expanded && docs) {

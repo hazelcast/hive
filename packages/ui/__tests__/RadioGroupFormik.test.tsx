@@ -37,8 +37,8 @@ describe('RadioGroupFormik', () => {
 
     expect(onSubmit).toBeCalledTimes(0)
 
+    await userEvent.click(container.querySelector("input[value='aragorn']")!)
     await act(async () => {
-      await userEvent.click(container.querySelector("input[value='aragorn']")!)
       fireEvent.submit(container.querySelector('form')!)
     })
 
@@ -85,7 +85,7 @@ describe('RadioGroupFormik', () => {
     expect(screen.queryByText('Server Error: Invalid name')).toBeInTheDocument()
 
     // let's click other valid option
-    await act(async () => userEvent.click(container.querySelector("input[value='gandalf']")!))
+    await userEvent.click(container.querySelector("input[value='gandalf']")!)
 
     expect(screen.queryByText('Server Error: Invalid name')).not.toBeInTheDocument()
   })
@@ -126,8 +126,8 @@ describe('RadioGroupFormik', () => {
     expect(screen.queryByText('Aragorn is stronger!')).not.toBeInTheDocument()
 
     // let's click other valid option
+    await userEvent.click(container.querySelector("input[value='gandalf']")!)
     await act(async () => {
-      await userEvent.click(container.querySelector("input[value='gandalf']")!)
       fireEvent.blur(container.querySelector("input[value='gandalf']")!)
     })
 
@@ -163,7 +163,7 @@ describe('RadioGroupFormik', () => {
 
     const { container } = await renderAndCheckA11Y(<TestForm />)
 
-    await act(() => userEvent.click(container.querySelector("input[value='aragorn']")!))
+    await userEvent.click(container.querySelector("input[value='aragorn']")!)
 
     expect(onChange).toBeCalledTimes(1)
     expect(onChange).toBeCalledWith('aragorn')

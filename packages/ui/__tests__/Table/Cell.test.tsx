@@ -52,7 +52,6 @@ describe('Cell', () => {
     'aria-sort': undefined,
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const data: [CellProps, Record<string, any>][] = [
     [cellPropsBase, expectedPropsBase],
     [

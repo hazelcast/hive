@@ -127,7 +127,7 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
    * 3. A created option is selected
    */
   const selectedOption = useMemo<SelectFieldOption<V> | null>(
-    () => (value === null ? null : optionsMap[value] ?? { value: value, label: value }),
+    () => (value === null ? null : (optionsMap[value] ?? { value: value, label: value })),
     [optionsMap, value],
   )
 
@@ -142,7 +142,11 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
   const selectRef = useRef<SelectInstance<SelectFieldOption<V>, false>>(null)
   useEffect(() => {
     if (selectRef.current) {
-      menuIsOpen ? selectRef.current.onMenuOpen() : selectRef.current.onMenuClose()
+      if (menuIsOpen) {
+        selectRef.current.onMenuOpen()
+      } else {
+        selectRef.current.onMenuClose()
+      }
     }
   }, [menuIsOpen])
 
@@ -182,7 +186,7 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
     components: innerComponents,
     formatGroupLabel,
     formatOptionLabel,
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+
     // @ts-ignore
     renderMenuFooter,
     menuShouldScrollIntoView,

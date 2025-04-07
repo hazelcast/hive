@@ -398,13 +398,13 @@ describe('Pagination', () => {
     expect(goToPage).toHaveBeenCalledTimes(0)
 
     // We need the `async` call here to wait for processing of the asynchronous 'change'
-    // eslint-disable-next-line @typescript-eslint/require-await
+
     await act(async () => {
       fireEvent.change(screen.getByTestId('pagination-jump-from-input-field').querySelector('input')!, { target: { value: '42' } })
     })
 
     // We need the `async` call here to wait for processing of the asynchronous 'submit'
-    // eslint-disable-next-line @typescript-eslint/require-await
+
     await act(() => userEvent.click(screen.getByTestId('pagination-jump-from-button')))
 
     expect(goToPage).toHaveBeenCalledTimes(1)
@@ -437,7 +437,7 @@ describe('Pagination', () => {
     expect(setPageSize).toHaveBeenCalledTimes(0)
 
     // We need the `async` call here to wait for processing of the asynchronous 'change'
-    // eslint-disable-next-line @typescript-eslint/require-await
+
     await act(async () => {
       fireEvent.mouseDown(container.querySelector('.hz-select-field__indicators')!, { button: 0 })
     })

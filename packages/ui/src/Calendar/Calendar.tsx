@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react'
+import React, { FC, PropsWithChildren, useMemo } from 'react'
 import cn from 'classnames'
 import { createPortal } from 'react-dom'
 import DatePicker, { ReactDatePickerProps } from 'react-datepicker'
@@ -16,16 +16,14 @@ const TIME_FORMAT = 'HH:mm'
 
 const CalendarPopperContainer =
   (container: HTMLElement | null, inPortal: boolean): FC =>
-  // eslint-disable-next-line react/display-name
-  ({ children }) => {
-    const content = // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-      (
-        <div className={styles.popper}>
-          <div data-test="date-picker-popper-container" className="hz-date-picker-popper-container">
-            {children}
-          </div>
+  ({ children }: PropsWithChildren<unknown>) => {
+    const content = (
+      <div className={styles.popper}>
+        <div data-test="date-picker-popper-container" className="hz-date-picker-popper-container">
+          {children}
         </div>
-      )
+      </div>
+    )
 
     if (inPortal) {
       return content

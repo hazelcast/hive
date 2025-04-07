@@ -1,7 +1,6 @@
 import React from 'react'
-import { render, screen, within } from '@testing-library/react'
+import { render, screen, within, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { act } from 'react-dom/test-utils'
 
 import { queryByLabel } from '../../setupTests'
 import { SelectCluster } from '../../src/AppHeader/SelectCluster'

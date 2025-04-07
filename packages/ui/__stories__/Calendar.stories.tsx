@@ -1,15 +1,27 @@
 import React, { useState } from 'react'
-import { Meta, Story } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react'
 import cn from 'classnames'
 
 import { Calendar, CalendarProps } from '../src/Calendar/Calendar'
 
-import utilsStyles from './utils.scss'
+import utilsStyles from './utils.module.scss'
 import storyStyles from './Calendar.stories.module.scss'
+
+type Story = StoryObj<typeof Calendar>
+
+const Component = ({ date: initialDate, ...args }: CalendarProps) => {
+  const [date, setDate] = useState<Date | null>(initialDate)
+  return (
+    <div className={cn(storyStyles.container, utilsStyles.row)}>
+      <Calendar {...args} date={date} onDateChange={(d: Date) => setDate(d)} />
+      <Calendar {...args} date={date} onDateChange={(d: Date) => setDate(d)} size={'small'} />
+    </div>
+  )
+}
 
 export default {
   title: 'Components/Calendar',
-  component: Calendar,
+  component: Component,
   parameters: {
     design: {
       type: 'figma',
@@ -23,41 +35,36 @@ export default {
   },
 } as Meta<CalendarProps>
 
-const Template: Story<CalendarProps> = ({ date: initialDate, ...args }) => {
-  const [date, setDate] = useState<Date | null>(initialDate)
-  return (
-    <div className={cn(storyStyles.container, utilsStyles.row)}>
-      <Calendar {...args} date={date} onDateChange={(d: Date) => setDate(d)} />
-      <Calendar {...args} date={date} onDateChange={(d: Date) => setDate(d)} size={'small'} />
-    </div>
-  )
+export const Default: Story = {}
+
+export const WithoutLabel: Story = {
+  args: {
+    inputLabel: undefined,
+  },
 }
 
-export const Default = Template.bind({})
-
-export const WithoutLabel = Template.bind({})
-WithoutLabel.args = {
-  inputLabel: undefined,
+export const Open: Story = {
+  args: {
+    open: true,
+  },
 }
 
-export const Open = Template.bind({})
-Open.args = {
-  open: true,
+export const Disabled: Story = {
+  args: {
+    disabled: true,
+  },
 }
 
-export const Disabled = Template.bind({})
-Disabled.args = {
-  disabled: true,
+export const WithTime: Story = {
+  args: {
+    showTimeInput: true,
+  },
 }
 
-export const WithTime = Template.bind({})
-WithTime.args = {
-  showTimeInput: true,
-}
-
-export const OpenWithTime = Template.bind({})
-OpenWithTime.args = {
-  ...Open.args,
-  ...WithTime.args,
-  containerClassName: storyStyles.openWithTime,
+export const OpenWithTime: Story = {
+  args: {
+    ...Open.args,
+    ...WithTime.args,
+    containerClassName: storyStyles.openWithTime,
+  },
 }

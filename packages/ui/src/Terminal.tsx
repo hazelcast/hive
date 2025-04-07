@@ -99,7 +99,7 @@ export const Terminal: FC<TerminalProps> = memo(
         setExecuting(false)
         clearTimeout(timer)
         setInputVal('')
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
         inputRef.current!.focus()
       }
     }

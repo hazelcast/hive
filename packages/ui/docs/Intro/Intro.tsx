@@ -41,7 +41,7 @@ export const Intro = () => {
             <Button
               component="a"
               href="https://www.figma.com/file/0CFsDZKJY5GMi8T3QKbjDm/HIVE-PORTAL?node-id=20%3A23&t=Y0g9peNGS9ZHfAWX-0"
-              kind="secondary"
+              variant="outlined"
               target="_blank"
             >
               Get Started
@@ -52,7 +52,7 @@ export const Intro = () => {
             <p>
               HIVE uses React as the underlying JS framework, it provides developers with React.js components, scss, css, html and assets
             </p>
-            <Button component="a" href="https://github.com/hazelcast/hive" kind="secondary" target="_blank">
+            <Button component="a" href="https://github.com/hazelcast/hive" variant="outlined" target="_blank">
               Get Started
             </Button>
           </Card>

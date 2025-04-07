@@ -1,4 +1,4 @@
-import { render, screen, act, within } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import ReactModal from 'react-modal'
 import { CloudLightning } from 'react-feather'
 import React from 'react'
@@ -90,7 +90,7 @@ describe('Modal', () => {
     expect(screen.queryByLabelText('Close icon')).toBeInTheDocument()
     expect(onClose).toHaveBeenCalledTimes(0)
 
-    await act(async () => userEvent.click(screen.getByLabelText('Close icon')))
+    await userEvent.click(screen.getByLabelText('Close icon'))
 
     expect(onClose).toHaveBeenCalledTimes(1)
   })
@@ -107,7 +107,7 @@ describe('Modal', () => {
     expect(screen.queryByTestId('modal-button-cancel')).toBeInTheDocument()
     expect(onClose).toHaveBeenCalledTimes(0)
 
-    await act(async () => userEvent.click(screen.getByTestId('modal-button-cancel')))
+    await userEvent.click(screen.getByTestId('modal-button-cancel'))
 
     expect(onClose).toHaveBeenCalledTimes(1)
   })
@@ -124,7 +124,7 @@ describe('Modal', () => {
     expect(onClose).toHaveBeenCalledTimes(0)
     expect(document.body.querySelector(`.${styles.overlay}`)).toBeInTheDocument()
 
-    await act(() => userEvent.click(document.body.querySelector(`.${styles.overlay}`)!))
+    await userEvent.click(document.body.querySelector(`.${styles.overlay}`)!)
 
     expect(onClose).toHaveBeenCalledTimes(0)
   })

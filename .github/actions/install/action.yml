@@ -7,7 +7,7 @@ runs:
     - name: Install Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: 22
+        node-version: 20
 
     - uses: pnpm/action-setup@v2
       name: Install pnpm
@@ -32,4 +32,4 @@ runs:
 
     - name: Install dependencies
       shell: bash
-      run: pnpm install --frozen-lockfile
+      run: pnpm install

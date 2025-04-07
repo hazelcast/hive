@@ -66,13 +66,11 @@ class Logger {
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
   public debug(...args: unknown[]) {
     // eslint-disable-next-line no-console
     console.debug(...args)
   }
 
-  // eslint-disable-next-line class-methods-use-this
   public info(...args: unknown[]) {
     // eslint-disable-next-line no-console
     console.info(...args)

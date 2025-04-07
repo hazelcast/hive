@@ -1,13 +1,11 @@
 import { renderAndCheckA11Y } from '@hazelcast/test-helpers'
 import React, { PropsWithChildren } from 'react'
-import { act } from 'react-dom/test-utils'
-import { fireEvent, screen } from '@testing-library/react'
+import { fireEvent, screen, act } from '@testing-library/react'
 
 import { HeaderRow, HeaderRowProps, LinkRow, LinkRowProps, Row, RowProps } from '../../src/Table/Row'
 
 import styles from '../../src/Table/Row.module.scss'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyProps = Record<string, any>
 
 describe('Row', () => {

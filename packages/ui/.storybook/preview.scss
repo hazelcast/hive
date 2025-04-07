@@ -3,5 +3,5 @@
 html {
   color: c.$colorText;
 
-  @include c.typographyGlobal(true);
+  @include c.typographyGlobal;
 }
