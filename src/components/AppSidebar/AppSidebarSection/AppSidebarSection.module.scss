@@ -1,0 +1,58 @@
+@use '../../../../styles/constants' as c;
+
+$transitionLength: 125ms;
+$sideBarMenuSectionTransitionMaxHeight: 1000px;
+
+.root {
+  display: flex;
+  gap: c.$grid * 2;
+  align-items: stretch;
+  flex-direction: column;
+  padding-top: c.$grid * 2;
+  border-top: 1px solid transparent;
+
+  h3 {
+    margin: 0;
+    color: c.$colorNeutralLight;
+    font-size: c.$fontSizeBodySmall;
+  }
+}
+
+.collapsed {
+  border-color: c.$colorNeutralLight;
+
+  h3 {
+    display: none;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: c.$grid;
+}
+
+.icon {
+  margin-left: auto;
+  color: c.$colorNeutralLighter;
+}
+
+.toggle {
+  margin-bottom: c.$grid;
+
+  .adornment {
+    margin-right: -#{c.$grid * 1.5};
+  }
+}
+
+.transitionLeave {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height $transitionLength ease-out;
+}
+
+.transitionEnter {
+  max-height: $sideBarMenuSectionTransitionMaxHeight;
+  overflow: visible;
+  transition: max-height $transitionLength ease-in;
+}

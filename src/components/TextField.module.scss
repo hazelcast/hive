@@ -1,0 +1,209 @@
+@use '../../styles/constants' as c;
+@use '../../styles/helpers' as h;
+
+$inputHorizontalPadding: c.$grid * 3;
+$marginLeftWithIcon: c.$grid * 5;
+
+.container {
+  color: c.$colorText;
+  box-sizing: border-box;
+
+  @include c.typographyBodySmall;
+
+  .inputBlock {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .inputContainer {
+    position: relative;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    box-sizing: border-box;
+    height: c.$inputHeight;
+    background-color: c.$colorOverlayBackground;
+    border-radius: c.$borderRadius;
+  }
+
+  .inputIconContainer {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: $marginLeftWithIcon + $inputHorizontalPadding;
+  }
+
+  .inputTrailingIconContainer {
+    width: auto;
+    margin-right: c.$grid * 1.5;
+  }
+
+  .inputLeftIconContainer {
+    order: -1;
+  }
+
+  .inputIcon,
+  .inputIconTrailing {
+    pointer-events: none;
+  }
+
+  .inputIcon {
+    left: ($marginLeftWithIcon + $inputHorizontalPadding) * 0.5;
+  }
+
+  .inputIconTrailing {
+    right: -(c.$grid);
+    color: c.$colorPrimary;
+  }
+
+  // Here we go. Another border hack. Why?
+  // TextField is re-used for PasswordField. PasswordField is meant for passwords.
+  // Passwords are often handled by password managers.
+  // Password managers often add their own UI on top of the password inputs.
+  // To make our password visibility toggle and their UI not overlap,
+  // we have to make the actual input shorter than its visual representation.
+  // However, visually we still would like our users to see it as one unit.
+  // As result, we cannot apply border to the input itself (because it's shorter).
+  // We could have applied border styles to .inputContainer. But IE11 does not support :focus-within.
+  // So to properly apply focus styles we need a sibling element to the actual input that supports :focus.
+  // .borderOverlay is that very sibling element.
+  .borderOverlay {
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    pointer-events: none;
+    z-index: c.$zIndex100;
+    border-radius: c.$borderRadius;
+    border: c.$borderWidth solid c.$colorNeutralLight;
+    box-sizing: border-box;
+  }
+
+  input {
+    display: block;
+    flex: 1 1 auto;
+    background-color: transparent;
+    padding: 0 $inputHorizontalPadding;
+    margin: 0;
+    border: none;
+    box-sizing: border-box;
+    font-size: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    height: 100%;
+    width: 100%;
+
+    &::placeholder {
+      color: c.$colorTextSecondary;
+    }
+  }
+
+  .clearButton {
+    display: inline-flex;
+    align-items: center;
+    margin-right: c.$grid * 1.5;
+  }
+
+  &.small {
+    .inputContainer {
+      height: c.$inputHeightSmall;
+    }
+  }
+
+  &.large {
+    .inputContainer {
+      height: c.$inputHeightLarge;
+    }
+  }
+
+  &.mockAutofill {
+    input {
+      @include h.mockChromeAutofill;
+    }
+  }
+
+  &.withIcon {
+    input {
+      padding-left: 0;
+    }
+  }
+
+  &.empty {
+    color: c.$colorTextSecondary;
+  }
+
+  input:hover,
+  input.hover {
+    & ~ .borderOverlay {
+      border-color: c.$colorPrimary;
+    }
+
+    & ~ .inputIconContainer > .inputIcon {
+      color: c.$colorPrimary;
+    }
+  }
+
+  &.hasError input {
+    & ~ .borderOverlay {
+      border-color: c.$colorError;
+    }
+  }
+
+  &.hasError label {
+    color: c.$colorError;
+  }
+
+  input:focus,
+  input.focus {
+    // Do not remove outline for high-contrast modes
+    // https://stackoverflow.com/a/52616313
+    outline: transparent solid c.$outlineWidth;
+
+    & ~ .borderOverlay {
+      @include h.outlineFormField;
+    }
+
+    & ~ .inputIconContainer > .inputIcon {
+      color: c.$colorPrimary;
+    }
+  }
+
+  // .hasError styles split in two groups to always color the icon with the error colors
+  // but the change the color of the border
+  /* stylelint-disable-next-line no-duplicate-selectors */
+  &.hasError input {
+    ~ .inputIconContainer > .inputIcon {
+      color: c.$colorError;
+    }
+  }
+
+  &.disabled {
+    color: c.$colorTextSecondary;
+
+    .inputContainer {
+      background-color: c.$colorNeutral;
+    }
+
+    input {
+      & ~ .borderOverlay {
+        border-color: c.$colorNeutralLight;
+      }
+
+      & ~ .inputIconContainer > .inputIcon {
+        color: c.$colorTextSecondary;
+      }
+
+      & ~ .inputIconContainer > .inputIconTrailing {
+        color: c.$colorTextSecondary;
+      }
+    }
+  }
+}
+
+@include h.withError;

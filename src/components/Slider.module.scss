@@ -1,0 +1,277 @@
+@use '../../styles/constants' as c;
+@use '../../styles/helpers' as h;
+
+// thumb width without a white border, let's make it the height of the slider
+$thumbWidth: c.$slideTrackHeight;
+$currentValueIndicatorHeight: c.$grid * 6;
+
+// We've double checked that everything works in IE11
+/* doiuse-disable calc */
+/* doiuse-disable multicolumn */
+/* doiuse-disable css-appearance */
+
+@mixin track() {
+  background: none; // get rid of track background
+  appearance: none;
+
+  // it's important for these values to be 0 in order to be consistent across (Firefox/IE11) & Chrome
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+}
+
+@mixin thumb() {
+  box-shadow: 0 c.$sliderThumbShadowSize c.$sliderThumbShadowBlur c.$colorShadow;
+  background: c.$colorSuccess; // background will represent the dot inside
+  border: c.$sliderThumbBorderSize solid c.$colorNeutralWhite; // the white part will be done by the border
+  box-sizing: content-box; /* and because of all of this, we need content-box */
+  border-radius: 50%;
+  pointer-events: auto; /* catch clicks */
+  width: $thumbWidth;
+  height: $thumbWidth;
+}
+
+/**
+  We can't combine these selectors with a comma, because they're invalid in different browsers.
+  This helper will save us some code blocks.
+ */
+@mixin styleThumb {
+  &::-webkit-slider-thumb {
+    @content;
+  }
+
+  &::-moz-range-thumb {
+    @content;
+  }
+
+  &::-ms-thumb {
+    @content;
+  }
+}
+
+ul.markDescriptions {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  height: c.$grid * 8;
+  position: relative;
+  font-size: c.$fontSizeBodySmall;
+  color: c.$colorTextSecondary;
+
+  > li {
+    position: absolute;
+    bottom: c.$grid;
+    transform: translateX(-50%);
+    white-space: nowrap;
+
+    &.activeMarkDescription {
+      font-weight: c.$fontWeightTextBold;
+      color: black;
+    }
+  }
+}
+
+.valueIndicators {
+  padding: 0;
+  height: $currentValueIndicatorHeight;
+  position: relative;
+  width: calc(100% - #{c.$sliderThumbBorderSize} - #{c.$sliderThumbShadowSize});
+  margin: 0 auto;
+
+  > span {
+    position: absolute;
+    top: c.$grid;
+    transform: translateX(-50%);
+    font-size: c.$fontSizeBodyNormal;
+    font-weight: c.$fontWeightTextBold;
+    white-space: nowrap;
+  }
+}
+
+@include h.withError;
+
+.wrapper {
+  display: flex;
+
+  & * {
+    box-sizing: border-box;
+  }
+
+  .innerWrapper {
+    flex: 1;
+  }
+
+  .inputWrapper {
+    @include c.typographyBodySmall;
+
+    position: relative;
+    height: c.$slideTrackHeight;
+    flex: 1;
+    margin: $thumbWidth 0;
+
+    input[type='range'] {
+      z-index: c.$zIndex100;
+      outline: none;
+      background: none;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: c.$sliderThumbBorderSize * -1;
+      width: calc(100% + #{c.$sliderThumbBorderSize * 2});
+      height: 100%;
+      pointer-events: none; // ignore clicks on the actual inputs and let them pass to the handles
+      min-height: c.$slideTrackHeight;
+      padding: 0;
+      margin: 0;
+      justify-self: center;
+
+      &::-webkit-slider-runnable-track,
+      &::-webkit-slider-thumb,
+      & {
+        appearance: none;
+      }
+
+      // Style the track
+      &::-webkit-slider-runnable-track {
+        @include track;
+      }
+
+      &::-moz-range-track {
+        @include track;
+      }
+
+      &::-ms-track {
+        @include track;
+
+        visibility: hidden; // IE11 specific rule to hide the default tick marks
+      }
+
+      @include styleThumb {
+        @include thumb;
+      }
+
+      /**
+        Hover
+       */
+      &:hover,
+      &.hover {
+        @include styleThumb {
+          box-shadow: 0 0 0 c.$sliderThumbHoverBorderSize c.$colorPrimary;
+        }
+      }
+
+      &.focus,
+      &:focus-visible {
+        @include styleThumb {
+          box-shadow: 0 0 0 c.$outlineWidth c.$colorAccessibilityOutline;
+        }
+      }
+
+      // don't show IE11's lower fill
+      &::-ms-fill-lower {
+        display: none;
+      }
+    }
+
+    // see the javascript code for an explanation of this class
+    input[type='range'].atTheBorder {
+      @include styleThumb {
+        pointer-events: none;
+      }
+    }
+
+    .fillPlaceholder {
+      pointer-events: none;
+      height: c.$slideTrackHeight;
+
+      // highlighted part covers the border
+      box-sizing: border-box;
+      background: c.$colorNeutral;
+      border: c.$sliderFillBorderSize solid c.$colorNeutralLight;
+      width: 100%;
+      position: relative;
+
+      // if the actual fill is very small the border is rounded, it can reach out of the wrapper
+      overflow: hidden;
+
+      // we ned to reserve space like this manually mostly because of IE11
+      border-radius: c.$sliderTrackBorderRadius;
+
+      .fill {
+        pointer-events: none;
+        height: 100%;
+        background: c.$colorPrimaryLight;
+
+        // width & marginLeft will be set by a Javascript
+      }
+
+      ul.marks {
+        $markWidth: 2px;
+
+        width: calc(100% - #{$markWidth}); // so that 0% & 100% marks are visible
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        position: absolute;
+        top: 0;
+        pointer-events: none;
+
+        > li {
+          position: absolute;
+          width: $markWidth;
+          height: 100%;
+          background-color: c.$colorTextSecondary;
+
+          &.active {
+            background-color: c.$colorNeutralWhite;
+          }
+        }
+      }
+    }
+  }
+
+  .helperText {
+    margin-left: c.$sliderThumbBorderSize;
+    align-self: flex-end;
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+
+    .valueIndicators {
+      color: c.$colorNeutralLight;
+    }
+
+    ul.markDescriptions {
+      color: c.$colorNeutralLight;
+    }
+
+    .fillPlaceholder {
+      background-color: c.$colorNeutral;
+
+      .fill {
+        background-color: c.$colorNeutralLight;
+      }
+
+      ul.marks {
+        > li {
+          background-color: c.$colorNeutralLight;
+        }
+      }
+    }
+
+    input[type='range']:disabled {
+      @include styleThumb {
+        box-shadow: 0 0 0 c.$sliderThumbHoverBorderSize c.$colorNeutral;
+        background: c.$colorNeutralLight;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+/* doiuse-enable calc */
+/* doiuse-enable multicolumn */
+/* doiuse-enable css-appearance */

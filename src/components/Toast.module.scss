@@ -1,0 +1,53 @@
+@use '../../styles/constants' as c;
+
+.toast {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: c.$borderRadiusToast;
+  max-width: c.$toastMaxWidth;
+  padding: c.$grid * 1.5 c.$grid * 2.5;
+
+  .icon {
+    flex: 0 0 auto;
+    margin-right: c.$grid * 2.5;
+  }
+
+  .content {
+    @include c.typographyBodyNormal;
+
+    word-break: break-word;
+  }
+
+  .close {
+    margin-left: c.$grid * 2.5;
+  }
+
+  &.success {
+    background-color: c.$colorSuccessLight;
+    color: c.$colorText;
+  }
+
+  &.info {
+    background-color: c.$colorInfoLight;
+    color: c.$colorText;
+
+    .icon {
+      color: c.$colorText;
+    }
+  }
+
+  &.warning {
+    background-color: c.$colorWarningLight;
+    color: c.$colorText;
+
+    .icon {
+      color: c.$colorText;
+    }
+  }
+
+  &.critical {
+    background-color: c.$colorErrorLight;
+    color: c.$colorText;
+  }
+}

@@ -1,9 +1,0 @@
-@use '../styles/helpers' as h;
-
-.truncatedText {
-  @include h.overflowEllipsis;
-}
-
-.multiline {
-  @include h.multilineOverflowEllipsis;
-}

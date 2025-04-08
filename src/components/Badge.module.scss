@@ -1,0 +1,55 @@
+@use '../../styles/constants' as c;
+
+.badge {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: c.$borderRadiusBadge;
+
+  .content {
+    margin-left: c.$grid;
+  }
+
+  // Sizes
+  &.normal {
+    padding: c.$grid * 2 c.$grid * 3;
+
+    .content {
+      @include c.typographyBodyNormal;
+    }
+  }
+
+  &.small {
+    padding: c.$grid c.$grid * 2;
+
+    .content {
+      @include c.typographyBodySmall;
+    }
+  }
+
+  // Themes
+  &.neutral {
+    background-color: c.$colorNeutralLighter;
+    color: c.$colorText;
+  }
+
+  &.success {
+    background-color: c.$colorSuccess;
+    color: c.$colorNeutralWhite;
+  }
+
+  &.info {
+    background-color: c.$colorInfoLight;
+    color: c.$colorText;
+  }
+
+  &.warning {
+    background-color: c.$colorWarningLight;
+    color: c.$colorText;
+  }
+
+  &.critical {
+    background-color: c.$colorError;
+    color: c.$colorNeutralWhite;
+  }
+}

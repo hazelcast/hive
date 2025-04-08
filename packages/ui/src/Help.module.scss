@@ -1,9 +1,0 @@
-@use '../styles/constants' as c;
-
-.container {
-  display: inline-flex;
-  vertical-align: middle;
-  line-height: 1;
-  padding-left: c.$grid;
-  padding-right: c.$grid;
-}

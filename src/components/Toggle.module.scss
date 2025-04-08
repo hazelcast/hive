@@ -1,0 +1,175 @@
+@use '../../styles/constants' as c;
+@use '../../styles/helpers' as h;
+@use 'sass:math';
+
+$height: c.$grid * 6;
+$width: c.$grid * 15;
+$labelMargin: c.$grid * 2.5;
+/* doiuse-disable calc */
+$trackBr: calc(#{$height} - #{c.$borderWidth * 2});
+/* doiuse-enable calc */
+$trackBgOn: c.$colorSuccess;
+$trackBgOff: c.$colorNeutral;
+$knobBgOn: c.$colorNeutralWhite;
+$knobBgOff: c.$colorNeutralLighter;
+$knobRadius: c.$grid * 5;
+/* stylelint-disable  length-zero-no-unit */
+$knobHorizontalOffset: math.max(c.$outlineWidth - c.$borderWidth, 0px);
+/* stylelint-enable */
+
+@keyframes switchOn {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) translateX(100%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes switchOff {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) translateX(-100%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+}
+
+.wrapper {
+  position: relative;
+
+  input {
+    @include h.visuallyHidden;
+  }
+
+  // faux wrapping label
+  label {
+    cursor: pointer;
+    display: inline-flex; // for aligning with the .labelText
+    align-items: center;
+    color: c.$colorText;
+    vertical-align: middle;
+
+    @include c.typographyBodySmall;
+
+    &.disabled {
+      cursor: not-allowed;
+      color: c.$colorNeutralLight;
+    }
+  }
+
+  // actual text label
+  .labelText {
+    margin-right: $labelMargin;
+  }
+
+  .helperText {
+    margin-left: c.$grid * 1.5;
+  }
+
+  // the `track` (default off state)
+  .toggleTrack {
+    display: inline-block;
+    height: $height;
+    width: $width;
+    background: $trackBgOff;
+    border-radius: $trackBr;
+    position: relative;
+    border: c.$borderWidth solid transparent;
+    box-sizing: border-box;
+    color: c.$colorNeutralWhite;
+
+    &::before {
+      content: '';
+      display: inline-block;
+      height: $knobRadius;
+      width: $knobRadius;
+      background: $knobBgOff;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      /* doiuse-disable calc */
+      right: calc(#{$width} - #{c.$borderWidth * 2} - #{$knobRadius} - #{$knobHorizontalOffset});
+      /* doiuse-enable calc */
+      transition: right c.$transitionTimeMedium ease-in;
+    }
+  }
+
+  // track states
+  label.hover .toggleTrack,
+  label:hover .toggleTrack {
+    border-color: c.$colorPrimary;
+  }
+
+  label.error .toggleTrack {
+    border-color: c.$colorError;
+  }
+
+  label.disabled .toggleTrack {
+    background-color: c.$colorNeutralLight;
+    border-color: c.$colorNeutralLight;
+    box-shadow: none;
+    color: c.$colorNeutral;
+
+    &::before {
+      background: c.$colorNeutral;
+    }
+  }
+
+  label.focus .toggleTrack,
+  input:focus + label .toggleTrack {
+    @include h.outlineFormField;
+  }
+
+  // track ON state
+  input:checked + label .toggleTrack {
+    background: $trackBgOn;
+
+    &::before {
+      background: $knobBgOn;
+      right: $knobHorizontalOffset;
+    }
+  }
+
+  input:checked + label.disabled .toggleTrack {
+    background-color: c.$colorSuccessDark;
+    border-color: c.$colorNeutralLight;
+    box-shadow: none;
+    color: c.$colorNeutral;
+
+    &::before {
+      background-color: c.$colorNeutral;
+    }
+  }
+
+  .toggleTrackText {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  // the "OFF" text
+  input:not(:checked) + label .toggleTrackText {
+    animation: switchOff c.$transitionTimeMedium ease-in;
+    right: c.$grid * 2;
+    left: auto;
+    color: c.$colorTextSecondary;
+  }
+
+  // the "ON" text
+  input:checked + label .toggleTrackText {
+    animation: switchOn c.$transitionTimeMedium ease-in;
+    right: auto;
+    left: c.$grid * 1.5;
+    color: c.$colorNeutralWhite;
+  }
+}
+
+@include h.withError;

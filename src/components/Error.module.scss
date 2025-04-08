@@ -1,0 +1,12 @@
+@use '../../styles/constants' as c;
+
+.container {
+  @include c.typographyBodySmall;
+
+  color: c.$colorError;
+  display: none;
+
+  &.hasError {
+    display: block;
+  }
+}

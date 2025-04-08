@@ -1,0 +1,24 @@
+@use 'sass:math';
+@use '../../../../styles/constants' as c;
+
+.root {
+  color: #353d49;
+  background-color: #e3e7ed;
+  border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-width: c.$grid * 4;
+  height: c.$grid * 4;
+  padding: math.div(c.$grid, 2);
+  font-size: c.$fontSizeBodyTiny;
+
+  &:hover {
+    color: #353d49;
+    background-color: #e3e7ed;
+  }
+
+  .content {
+    @include c.typographyBodyWeight('bold');
+  }
+}

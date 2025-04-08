@@ -1,0 +1,43 @@
+@use '../../styles/constants' as c;
+@use '../../styles/helpers' as h;
+@include h.withError;
+
+.wrapper {
+  margin-left: c.$grid * 10;
+  margin-right: c.$grid * 10;
+  margin-bottom: c.$grid * 2;
+}
+
+.nextButtonClassName {
+  left: c.$grid * 12;
+}
+
+.prevButtonClassName {
+  right: c.$grid * 12;
+}
+
+.nextButtonClassName,
+.prevButtonClassName {
+  padding: 0 !important;
+  position: relative;
+  height: 40px;
+
+  &:focus-visible {
+    @include h.outlineAround;
+  }
+}
+
+.pagingDotsClassName {
+  position: relative;
+  top: c.$grid * 7;
+  margin-left: c.$grid * 0.5;
+  margin-right: c.$grid * 0.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: c.$grid * 1.5;
+
+  &:focus-visible {
+    @include h.outlineAround;
+  }
+}

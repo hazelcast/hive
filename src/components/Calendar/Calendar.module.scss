@@ -1,0 +1,185 @@
+@use '../../../styles/constants' as c;
+@use '../../../styles/helpers' as h;
+
+$inputMaxWidth: 300px;
+$inputMinWidth: 118px;
+$inputMinWidthWithTime: 183px;
+$inputPadding: c.$grid * 3;
+
+/*
+ * Rest of styles
+ */
+.container {
+  width: $inputMaxWidth;
+  min-width: $inputMinWidth;
+
+  :global .react-datepicker-wrapper {
+    width: 100%;
+  }
+
+  &.time {
+    min-width: $inputMinWidthWithTime;
+  }
+}
+
+.popper {
+  :global(.hz-date-picker-popper-container) {
+    /*
+  * Internal styles override for those that cannot be
+  * overridden using classNames composition
+  */
+    :global .react-datepicker-popper {
+      z-index: c.$zIndex200;
+    }
+
+    :global .react-datepicker {
+      padding: $inputPadding;
+
+      :global .react-datepicker__header {
+        margin: 0;
+        padding: 0;
+        background-color: c.$colorNeutralLighter;
+        border: none;
+        border-radius: 0;
+
+        :global .react-datepicker__day-names {
+          margin-bottom: c.$grid;
+
+          :global .react-datepicker__day-name {
+            width: c.$grid * 8;
+            height: c.$grid * 8;
+            text-align: center;
+            vertical-align: middle;
+            line-height: c.$grid * 8 !important;
+            margin: 0;
+            color: c.$colorText;
+
+            @include c.typographyBodySmall('bold');
+
+            &:not(:last-of-type) {
+              margin-right: c.$grid * 2;
+            }
+          }
+        }
+      }
+
+      :global .react-datepicker__month {
+        /*
+         * Note: The calendar part is asymmetrical by design
+         * It's padded by 2 extra px from the left
+         */
+        margin: 0 0 0 (c.$grid * 0.5);
+
+        :global .react-datepicker__week {
+          &:not(:last-of-type) {
+            margin-bottom: c.$grid * 2;
+          }
+
+          /*
+           * Note:
+           * We need to use :global override here, as 'renderCustomDay' only allows us to override
+           * the child of this element, which does not allow us to touch the styles properly
+           *
+           * Source styles:
+           * https://github.com/Hacker0x01/react-datepicker/blob/master/src/stylesheets/datepicker.scss#L395
+           */
+          :global .react-datepicker__day {
+            border-radius: c.$grid;
+            width: c.$grid * 8;
+            height: c.$grid * 8;
+            background-color: c.$colorNeutralWhite;
+            color: c.$colorTextSecondary;
+            text-align: center;
+            vertical-align: middle;
+            line-height: c.$grid * 8 !important;
+            margin: 0;
+
+            // Do not remove outline for high-contrast modes
+            // https://stackoverflow.com/a/52616313
+            outline: transparent solid c.$outlineWidth;
+
+            @include c.typographyBodySmall;
+
+            &--today {
+              @include c.typographyBodySmall('bold');
+            }
+
+            &--in-selecting-range,
+            &--in-range {
+              // TODO: Improvised colour, consult with @Pawel
+              background-color: c.$colorInfoLight;
+              color: c.$colorNeutralWhite;
+            }
+
+            &--selected {
+              background-color: c.$colorPrimaryLight;
+              color: c.$colorNeutralWhite;
+
+              // Note: Disable default browser outline, force our only on :focus
+
+              @include c.typographyBodySmall('bold');
+            }
+
+            &--disabled {
+              cursor: default;
+              color: c.$colorNeutral;
+            }
+
+            &:focus-visible {
+              @include h.outlineSimple;
+            }
+
+            &:not(:last-of-type) {
+              margin-right: c.$grid * 2;
+            }
+          }
+        }
+      }
+
+      :global .react-datepicker__input-time-container {
+        margin: 0;
+        padding: 0;
+
+        :global .react-datepicker-time__caption {
+          display: none;
+        }
+
+        :global .react-datepicker-time__input-container {
+          margin: 0 c.$grid 0 c.$grid * 5;
+
+          :global .react-datepicker-time__input {
+            margin: 0;
+
+            input {
+              width: auto;
+            }
+          }
+        }
+      }
+    }
+
+    .calendar {
+      display: flex;
+      flex-direction: row;
+      border: c.$borderWidth solid c.$colorNeutralLight;
+      background-color: c.$colorNeutralLighter;
+      box-sizing: border-box;
+
+      .headerContainer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+
+        // Note: There is 1.5px in designs - also $separatorWidth is not semantically the best fit
+        margin-bottom: c.$separatorWidth;
+
+        .headerMonthAndYear {
+          color: c.$colorTextSecondary;
+
+          @include c.typographyBodySmall('bold');
+        }
+      }
+    }
+  }
+}

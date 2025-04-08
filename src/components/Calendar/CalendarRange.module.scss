@@ -1,0 +1,21 @@
+@use '../../../styles/constants' as c;
+
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+
+  &.vertical {
+    flex-direction: column;
+    gap: c.$grid * 4;
+  }
+
+  .arrowRight {
+    color: c.$colorNeutralLight;
+    margin: 0 c.$grid * 2 c.$grid * 2;
+
+    &.small {
+      margin-bottom: c.$grid * 0.75;
+    }
+  }
+}

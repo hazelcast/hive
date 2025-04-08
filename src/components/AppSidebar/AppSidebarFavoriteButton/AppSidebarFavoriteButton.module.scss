@@ -1,0 +1,16 @@
+@use '../../../../styles/constants' as c;
+
+[class].root {
+  position: absolute;
+  top: 50%;
+  z-index: 1;
+  left: c.$grid * 3;
+  color: c.$colorBrandText;
+  transform: translateY(-50%);
+
+  &.isFilled {
+    svg {
+      fill: c.$colorBrandText;
+    }
+  }
+}

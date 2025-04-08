@@ -1,7 +1,0 @@
-export { Cluster } from './Cluster'
-export { PlusCircle } from './PlusCircle'
-export { Streaming } from './Streaming'
-export { Folder } from './Folder'
-export { Compute } from './Compute'
-export { Compare } from './Compare'
-export { HazelcastIconProps, HazelcastIcon } from './types'

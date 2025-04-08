@@ -1,0 +1,109 @@
+@use '../../styles/constants' as c;
+@use '../../styles/helpers' as h;
+
+.container {
+  // Match TextField
+  @include c.typographyBodySmall;
+
+  color: c.$colorText;
+  padding: c.$grid * 5;
+  background-color: c.$colorNeutralWhite;
+}
+
+.input {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  margin: 0;
+  margin-bottom: c.$grid * 3;
+
+  > input {
+    flex: 1 1 auto;
+    min-width: 0;
+    border: none;
+    border-bottom: c.$outlineWidth solid c.$colorNeutral;
+    padding: 0;
+
+    // Align input bottom line with the icon
+    margin-bottom: c.$grid;
+    outline: none;
+    background-color: transparent;
+    color: c.$colorText;
+    box-sizing: border-box;
+    font-size: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+
+    &.blank {
+      border-bottom-color: transparent;
+    }
+
+    &:hover,
+    &.hover {
+      border-bottom-color: c.$colorText;
+    }
+
+    &:focus-visible,
+    &.focus {
+      // Do not remove outline for high-contrast modes
+      // https://stackoverflow.com/a/52616313
+      outline: transparent solid c.$outlineWidth;
+      border-bottom-color: c.$colorAccessibilityOutline;
+    }
+
+    &:disabled {
+      color: c.$colorTextSecondary;
+      background-color: transparent;
+      border-bottom-color: c.$colorNeutral;
+    }
+
+    &:read-only {
+      border-bottom-color: c.$colorNeutral;
+    }
+  }
+}
+
+.welcome {
+  @include c.typographyBodySmall('bold');
+
+  margin: 0;
+  margin-bottom: c.$grid * 5;
+}
+
+.commandRes {
+  color: c.$colorSuccessDark;
+  margin: 0;
+  margin-bottom: c.$grid * 3;
+
+  > p {
+    margin: 0;
+    margin-bottom: c.$grid;
+    white-space: break-spaces;
+  }
+}
+
+.commandError {
+  color: c.$colorErrorDark;
+  margin: 0;
+  margin-bottom: c.$grid * 3;
+}
+
+.loading {
+  margin: 0;
+  margin-bottom: c.$grid * 3;
+  position: relative;
+}
+
+.loadingA11yText {
+  @include h.visuallyHidden;
+}
+
+.terminalIcon {
+  margin-right: c.$grid * 3;
+}
+
+.prompt {
+  @include c.typographyBodySmall('bold');
+
+  margin-right: c.$grid;
+}
