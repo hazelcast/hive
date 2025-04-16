@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
-import { DataTestProp } from '../../src'
 
+import { DataTestProp } from '../helpers/types'
 import { LoaderProps, Loader } from './Loader'
 
 import styles from './CenteredLoader.module.scss'

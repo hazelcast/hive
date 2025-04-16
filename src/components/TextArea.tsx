@@ -1,8 +1,8 @@
 import React, { ChangeEvent, FC, FocusEvent, useRef } from 'react'
 import cn from 'classnames'
-import { DataTestProp } from '../../src'
 import { useUID } from 'react-uid'
 
+import { DataTestProp } from '../helpers/types'
 import { Error, errorId } from './Error'
 import { FieldHeader, FieldHeaderProps } from './FieldHeader'
 import { PopperRef } from './Tooltip'

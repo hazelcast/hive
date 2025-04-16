@@ -3,7 +3,7 @@ import cn from 'classnames'
 
 import { Label } from './Label'
 import { Help, HelpProps } from './Help'
-import { DataTestProp } from '../../src'
+import { DataTestProp } from '../helpers/types'
 
 import styles from './FieldHeader.module.scss'
 

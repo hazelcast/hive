@@ -1,8 +1,8 @@
 import React, { FC, FocusEvent, ReactElement, ReactNode, ReactText, useContext } from 'react'
 import classNames from 'classnames'
-import { DataTestProp } from '../../src'
 import { useUID } from 'react-uid'
 
+import { DataTestProp } from '../helpers/types'
 import { Help, HelpProps, helpTooltipId } from './Help'
 import { RadioGroupContext } from './RadioGroupContext'
 

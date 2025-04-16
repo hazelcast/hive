@@ -1,9 +1,9 @@
 import React, { FC, ReactNode, useMemo } from 'react'
 import ReactModal, { Props as ReactModalProps } from 'react-modal'
 import cn from 'classnames'
-import { DataTestProp } from '../../src'
 import { X } from 'react-feather'
 
+import { DataTestProp } from '../helpers/types'
 import { Button, ButtonProps, ButtonTypeButtonProps } from './Button'
 import { Icon, IconProps } from './Icon'
 import { IconButton } from './IconButton'

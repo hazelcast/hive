@@ -1,11 +1,11 @@
 import React, { ReactNode } from 'react'
 import cls from 'classnames'
-import { DataTestProp } from '../../../src'
 
 import { EnvironmentBadge } from './EnvironmentBadge'
 import { AppHeaderMenu, AppHeaderMenuProps } from './AppHeaderMenu'
 import { AppHeaderLogo, AppHeaderLogoProps } from './AppHeaderLogo'
 import { SelectCluster, SelectClusterProps } from './SelectCluster'
+import { DataTestProp } from '../../helpers/types'
 
 import styles from './AppHeader.module.scss'
 

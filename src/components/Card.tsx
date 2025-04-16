@@ -1,7 +1,7 @@
 import React, { ElementType, FC, ReactNode } from 'react'
 import cn from 'classnames'
-import { DataTestProp } from '../../src'
 
+import { DataTestProp } from '../helpers/types'
 import { Icon, IconProps } from './Icon'
 
 import styles from './Card.module.scss'

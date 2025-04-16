@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FC, useCallback, useEffect, useState } from 'react'
 import { format, parse } from 'date-fns'
-import { DataTestProp } from '../../../../src'
 
+import { DataTestProp } from '../../../helpers/types'
 import { Button } from '../../Button'
 import { timePoints } from '../helpers/consts'
 import { TimeField } from '../../TimeField'

@@ -1,9 +1,9 @@
-import { DataTestProp } from '../../src'
 import React, { FC, FocusEvent, ChangeEvent, InputHTMLAttributes, useCallback, useMemo, useRef, useEffect } from 'react'
 import { PlusCircle, MinusCircle } from 'react-feather'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 import cn from 'classnames'
 
+import { DataTestProp } from '../helpers/types'
 import { TextField, TextFieldProps, TextFieldSize } from './TextField'
 import { IconButton, IconButtonDisabledProps, IconButtonNotDisabledProps } from './IconButton'
 

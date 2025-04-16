@@ -2,8 +2,8 @@ import React, { FocusEvent, ChangeEvent, FC, InputHTMLAttributes } from 'react'
 import cn from 'classnames'
 import { useUID } from 'react-uid'
 import SimpleTimeField from 'react-simple-timefield'
-import { DataTestProp } from '../../src'
 
+import { DataTestProp } from '../helpers/types'
 import { FieldHeaderProps } from './FieldHeader'
 
 import styles from './TimeField.module.scss'

@@ -1,6 +1,7 @@
 import React, { FC, ReactElement } from 'react'
 import cn from 'classnames'
-import { DataTestProp } from '../../src'
+
+import { DataTestProp } from '../helpers/types'
 
 import styles from './Label.module.scss'
 

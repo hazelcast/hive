@@ -1,8 +1,8 @@
 import React, { ReactNode, useCallback } from 'react'
 import cn from 'classnames'
 import { ChevronsLeft, ChevronsRight } from 'react-feather'
-import { DataTestProp } from '../../../src'
 
+import { DataTestProp } from '../../helpers/types'
 import { IconButton } from '../IconButton'
 import { createPersistedState } from '../../hooks'
 import { appSidebarContext } from './appSidebarContext'

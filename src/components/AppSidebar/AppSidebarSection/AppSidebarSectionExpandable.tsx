@@ -1,8 +1,8 @@
 import React, { ReactNode, useContext, useEffect, useRef } from 'react'
 import cn from 'classnames'
 import { ChevronDown, ChevronUp, Icon as FeatherIcon } from 'react-feather'
-import { DataTestProp } from '../../../../src'
 
+import { DataTestProp } from '../../../helpers/types'
 import { useRefValue, createPersistedState } from '../../../hooks'
 import { Icon, IconProps } from '../../Icon'
 import { AppSidebarItem } from '../AppSidebarItem'

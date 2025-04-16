@@ -1,4 +1,3 @@
-import { DataTestProp } from '../../../src'
 import debounce from 'lodash/debounce'
 import React, {
   AnchorHTMLAttributes,
@@ -26,6 +25,7 @@ import {
 } from '@tanstack/react-table'
 import { AlertTriangle, ChevronDown, ChevronUp } from 'react-feather'
 
+import { DataTestProp } from '../../helpers/types'
 import { Pagination, PaginationProps } from '../Pagination'
 import { Cell, CellProps } from './Cell'
 import { EnhancedCellRenderer, EnhancedHeaderFooterRenderer } from './EnhancedRenderers'

@@ -1,8 +1,8 @@
 import React, { AnchorHTMLAttributes, ButtonHTMLAttributes, forwardRef, MouseEventHandler, MutableRefObject, ReactNode } from 'react'
 import { Icon as FeatherIcon } from 'react-feather'
 import cn from 'classnames'
-import { DataTestProp } from '../../src'
 
+import { DataTestProp } from '../helpers/types'
 import { Icon } from './Icon'
 
 import styles from './Link.module.scss'

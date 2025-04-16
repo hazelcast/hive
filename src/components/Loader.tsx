@@ -1,7 +1,7 @@
 import React, { FC, SVGAttributes } from 'react'
 import cn from 'classnames'
-import { DataTestProp } from '../../src'
 
+import { DataTestProp } from '../helpers/types'
 import { IconSize } from './Icon'
 
 import styles from './Loader.module.scss'

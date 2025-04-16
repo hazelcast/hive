@@ -1,16 +1,15 @@
 import React, { FC, ReactNode, useCallback } from 'react'
 import cn from 'classnames'
 import { ChevronRight, X } from 'react-feather'
-
-import { PartialRequired } from '../../src'
-
 import useKey from 'react-use/lib/useKey'
+
 import { escKeyFilterPredicate } from '../utils/keyboard'
 import { Link, LinkProps } from './Link'
 import { Button, ButtonAccessibleIconLeftProps } from './Button'
 import { ToastIcon, ToastType } from './Toast'
 import { Icon, IconProps } from './Icon'
 import { IconButton } from './IconButton'
+import { PartialRequired } from '../helpers/types'
 
 import styles from './Alert.module.scss'
 

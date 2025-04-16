@@ -1,7 +1,7 @@
 import React, { FC, ChangeEvent, InputHTMLAttributes, forwardRef } from 'react'
 import { Calendar } from 'react-feather'
-import { DataTestProp } from '../../../../src'
 
+import { DataTestProp } from '../../../helpers/types'
 import { TextField } from '../../TextField'
 import { CalendarSize } from '../Calendar'
 
