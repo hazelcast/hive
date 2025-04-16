@@ -1,0 +1,37 @@
+@use '../../styles/constants' as c;
+@use '../../styles/helpers' as h;
+
+.root {
+  position: absolute;
+  padding: c.$grid 0;
+  background: c.$colorNeutralWhite;
+  border-radius: c.$borderRadius;
+  border: c.$borderWidth solid c.$colorNeutral;
+  z-index: c.$zIndex2000;
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  flex-grow: 1;
+  flex-shrink: 0;
+  background: none;
+  padding: c.$grid c.$grid * 4;
+  margin: 0;
+  cursor: pointer;
+  border: none;
+  text-align: left;
+
+  &:focus-visible {
+    @include h.outlineSimple;
+  }
+
+  &:hover {
+    background: c.$colorNeutral;
+  }
+}
+
+.hidden {
+  top: -9999999999px;
+  left: -999999999px;
+}

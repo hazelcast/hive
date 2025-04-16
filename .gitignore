@@ -1,11 +1,11 @@
 node_modules
 *.log*
 *.tgz
-/packages/*/lib
-/packages/*/coverage
+lib
+coverage
 *.tsbuildinfo
 .npmrc
 .DS_Store
 .vscode
 .idea
-/packages/*/storybook-static
+storybook-static

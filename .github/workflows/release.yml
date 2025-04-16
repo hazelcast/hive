@@ -1,40 +1,72 @@
-name: release
+name: manual release
 env:
   CI: true
-  PNPM_CACHE_FOLDER: .pnpm-store
-# only trigger on pull request closed events
+  GIT_AUTHOR_NAME: GitHub Actions Bot
+  GIT_AUTHOR_EMAIL: github-actions[bot]@users.noreply.github.com
+  GIT_AUTHOR_USERNAME: github-actions[bot]
+  GIT_COMMITTER_NAME: GitHub Actions Bot
+  GIT_COMMITTER_EMAIL: github-actions[bot]@users.noreply.github.com
+  GIT_COMMITTER_USERNAME: github-actions[bot]
 on:
-  push:
-    branches:
-      - 'release/v[0-9]+.[0-9]+.[0-9]+'
+  workflow_dispatch:
+    inputs:
+      skip_chromatic_publish:
+        description: 'Should skip publishing to Chromatic'
+        required: false
+        default: false
+        type: boolean
+      release_type:
+        description: 'Type of the release'
+        required: false
+        default: 'prerelease'
+        type: choice
+        options:
+          - major
+          - minor
+          - patch
+          - prerelease
+          - prepatch
+          - preminor
+          - premajor
 
 jobs:
-  publish_release:
+  chromatic-deployment:
+    if: github.event.inputs.skip_chromatic_publish == false
     runs-on: ubuntu-latest
     steps:
-      - name: Check Release Format
-        id: check-release
-        run: |
-          if [[ ${{ github.head_ref }} =~ ^release/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-              echo ::set-output name=match::true
-          fi
-      - name: Create tag
-        if: steps.check-release.outputs.match == 'true'
-        id: create_tag
-        run: |
-          tag=$(echo ${{ github.event.pull_request.head.ref }} | sed 's/release\///')
-          echo ::set-output name=tag::$tag
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/install
+      - name: Compile Package
+        run: npm run compile
+      - name: Build Storybook
+        run: npm run build-storybook
+      - name: Publish to Chromatic
+        uses: chromaui/action@v11
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          exitZeroOnChanges: true
+          workingDir: ./
+          autoAcceptChanges: true
+
+  publish_canary:
+    runs-on: ubuntu-latest
+    steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - uses: ./.github/actions/install
+      - name: Compile package
+        run: npm run compile
       - run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: Publish to npm
-        if: steps.check-release.outputs.match == 'true'
+      - name: Increment version
         run: |
-          git tag --force ${{ steps.create_tag.outputs.tag }} -m "tag release ${{ steps.create_tag.outputs.tag }}"
-          git push -f origin ${{ steps.create_tag.outputs.tag }}
-          pnpm run change-packages-version -- ${{ steps.create_tag.outputs.tag }}
-          pnpm run publish-release
+          npm version --preid canary --no-commit-hooks ${{ github.event.inputs.release_type || 'prerelease' }}
+          git push --no-verify
+          git push --tags --no-verify
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish to npm
+        run: npm publish
