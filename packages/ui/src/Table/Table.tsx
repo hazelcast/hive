@@ -246,6 +246,7 @@ export const Table = <D extends RowData & { subRows?: D[] }>({
     manualPagination: manualPagination,
     // This means we'll also have to provide our own pageCount
     pageCount: controlledPageCount,
+    autoResetPageIndex: false,
     defaultColumn,
     columnResizeMode: 'onChange',
     paginateExpandedRows: false,
