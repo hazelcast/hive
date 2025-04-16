@@ -1,7 +1,7 @@
 import React, { ReactNode, useContext } from 'react'
 import cn from 'classnames'
-import { DataTestProp } from '../../../../src'
 
+import { DataTestProp } from '../../../helpers/types'
 import { appSidebarContext } from '../appSidebarContext'
 import { AppSidebarSectionExpandable, AppSidebarSectionExpandableProps } from './AppSidebarSectionExpandable'
 

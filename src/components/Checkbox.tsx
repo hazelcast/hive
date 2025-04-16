@@ -1,11 +1,11 @@
 import React, { ChangeEvent, FocusEvent, ReactElement, ReactText, useRef, MouseEvent, forwardRef } from 'react'
 import { Check, Minus } from 'react-feather'
-import { DataTestProp } from '../../src'
 import { useUID } from 'react-uid'
 import classNames from 'classnames'
 
 import { Error, errorId } from './Error'
 import { Help, HelpProps, helpTooltipId } from './Help'
+import { DataTestProp } from '../helpers/types'
 
 import styles from './Checkbox.module.scss'
 import { TruncatedText } from './TruncatedText'

@@ -1,8 +1,8 @@
 import React, { ReactNode, useContext } from 'react'
 import cn from 'classnames'
 import { Icon as FeatherIcon } from 'react-feather'
-import { DataTestProp } from '../../../../src'
 
+import { DataTestProp } from '../../../helpers/types'
 import { Icon } from '../../Icon'
 import { Tooltip } from '../../Tooltip'
 import { Button, ButtonColor } from '../../Button'

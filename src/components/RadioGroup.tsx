@@ -1,8 +1,8 @@
 import React, { ChangeEvent, FC, ReactElement, useMemo } from 'react'
 import { useUID } from 'react-uid'
 import classNames from 'classnames'
-import { DataTestProp } from '../../src'
 
+import { DataTestProp } from '../helpers/types'
 import { Error, errorId } from './Error'
 import { RadioGroupContext } from './RadioGroupContext'
 import { RadioProps } from './Radio'

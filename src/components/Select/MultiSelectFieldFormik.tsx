@@ -1,7 +1,7 @@
 import React, { ReactElement, useCallback, useMemo } from 'react'
 import { useField } from 'formik'
-import { DataTestProp } from '../../../src'
 
+import { DataTestProp } from '../../helpers/types'
 import { MultiSelectField, MultiSelectFieldExtraProps } from './MultiSelectField'
 import { FieldValidatorGeneric, formikTouchAndUpdate, getFieldError } from '../../utils/formik'
 import { ExtractKeysOfValueType } from '../../utils/types'

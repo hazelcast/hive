@@ -5,9 +5,9 @@ import { ChevronRight } from 'react-feather'
 import { ButtonTypeAnchorProps, ButtonProps, Button } from './Button'
 import { Link } from './Link'
 import { Icon, IconProps } from './Icon'
+import { DataTestProp } from '../helpers/types'
 
 import styles from './EmptyState.module.scss'
-import { DataTestProp } from '../../src'
 
 type EmptyStateSize = 'normal' | 'large'
 

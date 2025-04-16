@@ -1,6 +1,7 @@
 import React, { ComponentType, HTMLAttributes, ImgHTMLAttributes, ReactNode } from 'react'
 import cls from 'classnames'
-import { DataTestProp } from '../../../../src'
+
+import { DataTestProp } from '../../../helpers/types'
 
 import styles from './AppHeaderLogo.module.scss'
 

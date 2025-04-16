@@ -1,7 +1,7 @@
 import React, { FC, ReactNode } from 'react'
 import cn from 'classnames'
-import { DataTestProp } from '../../../src'
 
+import { DataTestProp } from '../../helpers/types'
 import { useTabContext, getPanelId, getTabId } from './TabContext'
 
 import styles from './TabPanel.module.scss'

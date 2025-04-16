@@ -1,8 +1,8 @@
-import { DataTestProp } from '../../src'
 import React, { FC, FocusEvent, ChangeEvent, InputHTMLAttributes, useMemo, useState } from 'react'
 import { Eye, EyeOff, Lock } from 'react-feather'
 import cls from 'classnames'
 
+import { DataTestProp } from '../helpers/types'
 import { TextField, TextFieldSize, TextFieldVariant } from './TextField'
 import { IconButton, IconButtonDisabledProps, IconButtonNotDisabledProps } from './IconButton'
 import { HelpProps } from './Help'

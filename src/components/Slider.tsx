@@ -1,14 +1,15 @@
 import React, { ChangeEvent, ReactNode, useCallback, useEffect, useMemo, useRef } from 'react'
-import { DataTestProp, triggerNativeInputChange } from '../../src'
 import useEvent from 'react-use/lib/useEvent'
 import cn from 'classnames'
 import { useUID } from 'react-uid'
 
 import { Error, errorId } from './Error'
 import { Help } from './Help'
+import { Label } from './Label'
+import { DataTestProp } from '../helpers/types'
+import { triggerNativeInputChange } from '../helpers/forms'
 
 import styles from './Slider.module.scss'
-import { Label } from './Label'
 
 // This component accepts one of these values
 export type SliderValue = number | [number, number]

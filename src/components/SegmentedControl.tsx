@@ -2,8 +2,9 @@ import React from 'react'
 import cn from 'classnames'
 import { RadioGroup } from '@headlessui/react'
 
+import { DataTestProp } from '../helpers/types'
+
 import styles from './SegmentedControl.module.scss'
-import { DataTestProp } from '../../src'
 
 export type SegmentedControlOption<V> = {
   value: V

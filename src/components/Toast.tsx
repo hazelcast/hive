@@ -1,9 +1,9 @@
 import React, { FC, ReactNode, useCallback } from 'react'
 import cn from 'classnames'
 import { AlertTriangle, CheckCircle, AlertCircle, Info, Icon as IconType, X } from 'react-feather'
-import { DataTestProp } from '../../src'
 import useKey from 'react-use/lib/useKey'
 
+import { DataTestProp } from '../helpers/types'
 import { escKeyFilterPredicate } from '../utils/keyboard'
 import { IconButton } from './IconButton'
 import { Icon } from './Icon'

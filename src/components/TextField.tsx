@@ -11,11 +11,12 @@ import React, {
   useRef,
 } from 'react'
 import cn from 'classnames'
-import { DataTestProp, triggerNativeInputChange } from '../../src'
 import { Icon as IconType, X } from 'react-feather'
 import { useUID } from 'react-uid'
 import mergeRefs from 'react-merge-refs'
 
+import { DataTestProp } from '../helpers/types'
+import { triggerNativeInputChange } from '../helpers/forms'
 import { Icon } from './Icon'
 import { Error, errorId } from './Error'
 import { FieldHeader, FieldHeaderProps } from './FieldHeader'

@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
-import { range } from '../../src'
+
+import { range } from '../helpers/array'
 
 export type PaginationItem = number | 'previous' | 'next' | 'ellipsis'
 
@@ -41,7 +42,7 @@ export const usePagination = ({ pageCount, currentPage, small = false }: UsePagi
      */
     const maxVisibleBlocks = currentPageCount + boundaryCount * 2 + siblingCount * 2 + ellipsis
 
-    let paginationItems: PaginationItem[] = []
+    let paginationItems: PaginationItem[]
 
     // Separate function to handle small pagination
     if (small) {

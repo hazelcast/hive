@@ -1,11 +1,12 @@
 import React, { FC, Fragment, KeyboardEventHandler, memo, useRef, useState } from 'react'
-import { DataTestProp } from '../../src'
 import cn from 'classnames'
 import { useUID } from 'react-uid'
 import { Terminal as TerminalIcon } from 'react-feather'
 
-import styles from './Terminal.module.scss'
+import { DataTestProp } from '../helpers/types'
 import { Icon } from './Icon'
+
+import styles from './Terminal.module.scss'
 
 export class CommandTimeoutError extends Error {
   name = 'CommandTimeoutError'
