@@ -249,6 +249,7 @@ export const Table = <D extends RowData & { subRows?: D[] }>({
     defaultColumn,
     columnResizeMode: 'onChange',
     paginateExpandedRows: false,
+    autoResetPageIndex: false,
     getSubRows: useCallback((row: D) => row.subRows, []),
     getRowCanExpand: useCallback(
       (row: TableRow<D>) => {

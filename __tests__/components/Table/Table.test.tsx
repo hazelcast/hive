@@ -10,6 +10,7 @@ import { bigDataSet, smallDataSet } from './consts'
 
 import cellStyles from '../../../src/components/Table/Cell.module.scss'
 import headerStyles from '../../../src/components/Table/Header.module.scss'
+import paginationStyles from '../../src/Pagination.module.scss'
 
 const rules = axeDefaultOptions?.rules ?? {}
 const axeOptions = {
@@ -391,5 +392,44 @@ describe('Table', () => {
       expect(container.querySelector('[aria-sort="ascending"]')).toBeInTheDocument()
       expect(within(container.querySelector('[aria-sort="ascending"]')!).queryByText('Name')).toBeInTheDocument()
     })
+  })
+
+  it('should reset page index when new data length is smaller than the current index', async () => {
+    const columns = getColumns({})
+
+    const { container, rerender } = await renderAndCheckA11Y(<Table data-test="table-test" columns={columns} data={bigDataSet} />, {
+      axeOptions,
+    })
+
+    const buttons = screen.getAllByTestId('pagination-buttons-go-to-page')
+    let activeButton = container.querySelector(`.${paginationStyles.selected}`)
+
+    expect(activeButton).toBeInTheDocument()
+    expect(activeButton).toHaveTextContent('1')
+
+    await userEvent.click(buttons[2])
+
+    activeButton = container.querySelector(`.${paginationStyles.selected}`)
+
+    expect(activeButton).toBeInTheDocument()
+    expect(activeButton).toHaveTextContent('100')
+
+    await act(async () => {
+      rerender(<Table data-test="table-test" columns={columns} data={[...bigDataSet]} />)
+    })
+
+    activeButton = container.querySelector(`.${paginationStyles.selected}`)
+
+    expect(activeButton).toBeInTheDocument()
+    expect(activeButton).toHaveTextContent('100')
+
+    await act(async () => {
+      rerender(<Table data-test="table-test" columns={columns} data={bigDataSet.slice(bigDataSet.length / 2)} />)
+    })
+
+    activeButton = container.querySelector(`.${paginationStyles.selected}`)
+
+    expect(activeButton).toBeInTheDocument()
+    expect(activeButton).toHaveTextContent('50')
   })
 })
