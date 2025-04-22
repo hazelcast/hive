@@ -1,6 +1,7 @@
 import React, { FC, forwardRef, SVGAttributes, SVGProps } from 'react'
 import cn from 'classnames'
-import { DataTestProp } from '../../src'
+
+import { DataTestProp } from '../helpers/types'
 
 import styleConsts from '../../styles/constants/export.module.scss'
 import styles from './Icon.module.scss'

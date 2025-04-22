@@ -1,8 +1,8 @@
 import React, { FC, FocusEvent, ChangeEvent } from 'react'
 import cn from 'classnames'
 import { useUID } from 'react-uid'
-import { DataTestProp } from '../../src'
 
+import { DataTestProp } from '../helpers/types'
 import { Error, errorId } from './Error'
 import { Help, HelpProps, helpTooltipId } from './Help'
 

@@ -8,9 +8,9 @@ import { TruncatedText } from './TruncatedText'
 import { Tooltip, TooltipProps } from './Tooltip'
 import { LinkRel, LinkTarget } from './Link'
 import { Loader } from './Loader'
+import { DataTestProp } from '../helpers/types'
 
 import styles from './Button.module.scss'
-import { DataTestProp } from '../../src'
 
 export type ButtonVariant = 'contained' | 'outlined' | 'text'
 export type ButtonColor = 'primary' | 'secondary' | 'warning' | 'brand' | 'authPrimary' | 'authSecondary' | 'light'

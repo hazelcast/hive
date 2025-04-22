@@ -1,4 +1,4 @@
-import { logger } from '../../src'
+import { logger } from '../services/logger'
 
 export function triggerNativeInputChange(value: string, inputEl: HTMLInputElement) {
   const inputPropertyDescriptor = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')
