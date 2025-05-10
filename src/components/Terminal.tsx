@@ -1,4 +1,4 @@
-import React, { FC, Fragment, KeyboardEventHandler, memo, useRef, useState } from 'react'
+import React, { FC, Fragment, KeyboardEventHandler, memo, useLayoutEffect, useRef, useState } from 'react'
 import cn from 'classnames'
 import { useUID } from 'react-uid'
 import { Terminal as TerminalIcon } from 'react-feather'
@@ -56,6 +56,10 @@ export const Terminal: FC<TerminalProps> = memo(
     const [executionHistoryPointer, setExecutionHistoryPointer] = useState<number | undefined>()
     const [executionHistory, setExecutionHistory] = useState<ExecutionHistoryState[]>(initialExecutionHistory)
 
+    useLayoutEffect(() => {
+      inputRef.current!.focus({ preventScroll: true })
+    }, [executionHistory])
+
     const addExecutionHistoryItem = (newHistoryItem: ExecutionHistoryState) => {
       setExecutionHistory((prevHistory) => {
         const newHistory = [...prevHistory, newHistoryItem]
@@ -100,8 +104,6 @@ export const Terminal: FC<TerminalProps> = memo(
         setExecuting(false)
         clearTimeout(timer)
         setInputVal('')
-
-        inputRef.current!.focus()
       }
     }
 
@@ -128,6 +130,7 @@ export const Terminal: FC<TerminalProps> = memo(
     const onKeyUp: KeyboardEventHandler = (e) => {
       switch (e.key) {
         case 'Enter': {
+          e.preventDefault()
           void execute()
           break
         }
