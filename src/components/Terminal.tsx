@@ -130,7 +130,6 @@ export const Terminal: FC<TerminalProps> = memo(
     const onKeyUp: KeyboardEventHandler = (e) => {
       switch (e.key) {
         case 'Enter': {
-          e.preventDefault()
           void execute()
           break
         }
