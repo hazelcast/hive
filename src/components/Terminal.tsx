@@ -27,6 +27,8 @@ export type TerminalProps = {
   initialCommand?: string
   initialLoading?: boolean
   autoFocusInitial?: boolean
+  focusOnExecution?: boolean
+  preventScrollOnFocus?: boolean
 } & DataTestProp
 
 export interface ExecutionHistoryState {
@@ -50,6 +52,8 @@ export const Terminal: FC<TerminalProps> = memo(
     initialCommand = '',
     initialLoading = false,
     autoFocusInitial = true,
+    focusOnExecution = true,
+    preventScrollOnFocus = false,
   }) => {
     const [inputVal, setInputVal] = useState(initialCommand)
 
@@ -57,8 +61,10 @@ export const Terminal: FC<TerminalProps> = memo(
     const [executionHistory, setExecutionHistory] = useState<ExecutionHistoryState[]>(initialExecutionHistory)
 
     useLayoutEffect(() => {
-      inputRef.current!.focus({ preventScroll: true })
-    }, [executionHistory])
+      if (focusOnExecution) {
+        inputRef.current!.focus({ preventScroll: preventScrollOnFocus })
+      }
+    }, [executionHistory, focusOnExecution, preventScrollOnFocus])
 
     const addExecutionHistoryItem = (newHistoryItem: ExecutionHistoryState) => {
       setExecutionHistory((prevHistory) => {
