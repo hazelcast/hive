@@ -3,9 +3,6 @@ import React, {
   ReactNode,
   useCallback,
   useState,
-  useImperativeHandle,
-  MutableRefObject,
-  ReactText,
   useLayoutEffect,
   createContext,
   useContext,
@@ -16,8 +13,7 @@ import React, {
   CSSProperties,
 } from 'react'
 import ReactDOM from 'react-dom'
-import { Placement } from '@popperjs/core'
-import { Modifier, StrictModifierNames, usePopper } from 'react-popper'
+import { Placement, offset, useFloating, arrow } from '@floating-ui/react'
 import cn from 'classnames'
 
 import { containsElement } from '../hooks'
@@ -32,12 +28,9 @@ const TooltipContext = createContext<{
   referenceElement: HTMLSpanElement | null
 } | null>(null)
 
-export type PopperRef = ReturnType<typeof usePopper>
-
 export type TooltipProps = {
   content: ReactNode
   id?: string
-  hideTimeoutDuration?: number
   offset?: number
   arrow?: boolean
   color?: 'dark' | 'secondary'
@@ -51,8 +44,6 @@ export type TooltipProps = {
     onMouseEnter?: MouseEventHandler,
     onMouseLeave?: MouseEventHandler,
   ) => ReactNode
-  popperRef?: MutableRefObject<PopperRef | undefined>
-  updateToken?: ReactText | boolean
   tooltipContainer?: PortalContainer
   wordBreak?: CSSProperties['wordBreak']
   disabled?: boolean
@@ -78,25 +69,23 @@ export type TooltipProps = {
 export const Tooltip: FC<TooltipProps> = ({
   id,
   content,
-  hideTimeoutDuration = 100,
-  offset = 10,
+  offset: offsetY = 10,
   padding = 10,
   placement = 'top',
   visible: visibilityOverride,
   children,
-  popperRef,
   wordBreak,
-  updateToken,
   tooltipContainer = 'body',
   hoverAbleTooltip = true,
   disabled = false,
   zIndex = 20,
-  arrow = true,
+  arrow: showArrow = true,
   color,
   className,
 }) => {
   const [isShown, setShown] = useState<boolean>(false)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const arrowRef = useRef(null)
 
   const context = useContext(TooltipContext)
 
@@ -116,36 +105,25 @@ export const Tooltip: FC<TooltipProps> = ({
    */
   const [referenceElement, setReferenceElement] = useState<HTMLElement | null>(null)
   const [popperElement, setPopperElement] = useState<HTMLSpanElement | null>(null)
-  const [arrowElement, setArrowElement] = useState<HTMLSpanElement | null>(null)
 
-  const modifiers = useMemo(() => {
-    const result: Modifier<StrictModifierNames>[] = [
-      {
-        name: 'offset',
-        options: {
-          offset: [0, offset],
-        },
-      },
-    ]
-
-    if (arrow) {
-      result.push({
-        name: 'arrow',
-        options: {
-          element: arrowElement,
-          padding,
-        },
-      })
-    }
-
-    return result
-  }, [arrow, padding, offset, arrowElement])
-  const popper = usePopper(referenceElement, popperElement, {
+  const { floatingStyles, update, middlewareData } = useFloating({
     placement,
-    modifiers,
+    middleware: [
+      offset(offsetY),
+      ...(showArrow
+        ? [
+            arrow({
+              element: arrowRef,
+              padding,
+            }),
+          ]
+        : []),
+    ],
+    elements: {
+      floating: popperElement,
+      reference: referenceElement,
+    },
   })
-
-  useImperativeHandle(popperRef, () => popper, [popper])
 
   const onMouseEnter = useCallback(() => {
     clearHideTimeout()
@@ -167,9 +145,9 @@ export const Tooltip: FC<TooltipProps> = ({
           }
         }
         setShown(false)
-      }, hideTimeoutDuration)
+      }, 100)
     },
-    [hideTimeoutDuration, context],
+    [context],
   )
 
   const contextValue = useMemo(
@@ -188,10 +166,10 @@ export const Tooltip: FC<TooltipProps> = ({
   // Update the tooltip's position (useful when resizing table columns)
   useLayoutEffect(() => {
     if (content) {
-      void popper?.update?.()
+      void update()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isTooltipVisible, updateToken])
+  }, [isTooltipVisible])
   useEffect(() => {
     return () => {
       clearHideTimeout()
@@ -244,19 +222,21 @@ export const Tooltip: FC<TooltipProps> = ({
                     color && [styles[color]],
                     className,
                   )}
-                  style={{ ...popper.styles.popper, ...{ zIndex: context ? zIndex + 1 : zIndex }, wordBreak }}
+                  style={{ ...floatingStyles, ...{ zIndex: context ? zIndex + 1 : zIndex }, wordBreak }}
                   data-test="tooltip-overlay"
                   aria-hidden
-                  {...popper.attributes.popper}
                 >
                   {content}
-                  {arrow && (
+                  {showArrow && (
                     <span
-                      ref={setArrowElement}
+                      ref={arrowRef}
                       className={styles.arrow}
-                      style={popper.styles.arrow}
+                      style={{
+                        position: 'absolute',
+                        left: middlewareData.arrow?.x,
+                        top: middlewareData.arrow?.y,
+                      }}
                       data-test="tooltip-arrow"
-                      {...popper.attributes.arrow}
                     />
                   )}
                 </span>
