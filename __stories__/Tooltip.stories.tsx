@@ -17,7 +17,7 @@ export default {
   },
   args: {
     id: 'tooltip-story-auto',
-    placement: 'auto',
+    placement: 'bottom',
     content: 'This is a nice tooltip!',
     visible: true,
   },
@@ -53,18 +53,10 @@ const Template: StoryFn<TooltipProps> = (args) => (
   </>
 )
 
-export const AutoPlacement = Template.bind({})
-
-export const AutoStartPlacement = Template.bind({})
-AutoStartPlacement.args = {
-  placement: 'auto-start',
-  id: 'tooltip-story-auto-start',
-}
-
 export const AutoEndPlacement = Template.bind({})
 AutoEndPlacement.args = {
-  placement: 'auto-end',
-  id: 'tooltip-story-auto-end',
+  placement: 'top-end',
+  id: 'tooltip-story-top-end',
 }
 
 export const TopPlacement = Template.bind({})

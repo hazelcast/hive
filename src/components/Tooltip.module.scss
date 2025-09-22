@@ -6,118 +6,9 @@
   @include h.visuallyHidden;
 }
 
-$tooltipArrowSize1-3: math.div(c.$tooltipArrowSize, 3);
-$tooltipArrowSize2-3: math.div(c.$tooltipArrowSize, 3) * 2;
-
-@mixin arrow($position, $color, $borderColor) {
-  @if $position == bottom {
-    > .arrow {
-      top: 0;
-
-      &::before,
-      &::after {
-        border-left: c.$tooltipArrowSize solid transparent;
-        border-right: c.$tooltipArrowSize solid transparent;
-        top: 0;
-        left: 50%;
-        margin-left: -(c.$tooltipArrowSize);
-      }
-
-      &::before {
-        border-bottom: c.$tooltipArrowSize solid $color;
-        margin-top: -(c.$tooltipArrowSize);
-      }
-
-      &::after {
-        border-bottom: c.$tooltipArrowSize solid $borderColor;
-        transform: translateY(-($tooltipArrowSize2-3));
-      }
-    }
-  } @else if $position == right {
-    > .arrow {
-      left: 0;
-
-      &::before,
-      &::after {
-        border-top: c.$tooltipArrowSize solid transparent;
-        border-bottom: c.$tooltipArrowSize solid transparent;
-        top: 50%;
-        left: 0;
-        margin-top: -(c.$tooltipArrowSize);
-      }
-
-      &::before {
-        border-right: c.$tooltipArrowSize solid $color;
-        margin-left: -(c.$tooltipArrowSize);
-      }
-
-      &::after {
-        border-right: c.$tooltipArrowSize solid $borderColor;
-        transform: translateX(-($tooltipArrowSize2-3));
-      }
-    }
-  } @else if $position == left {
-    > .arrow {
-      right: 0;
-
-      &::before,
-      &::after {
-        border-top: c.$tooltipArrowSize solid transparent;
-        border-bottom: c.$tooltipArrowSize solid transparent;
-        top: 50%;
-        left: 100%;
-        margin-top: -(c.$tooltipArrowSize);
-      }
-
-      &::before {
-        border-left: c.$tooltipArrowSize solid $color;
-      }
-
-      &::after {
-        border-left: c.$tooltipArrowSize solid $borderColor;
-        transform: translateX(-($tooltipArrowSize1-3));
-      }
-    }
-  } @else {
-    > .arrow {
-      bottom: 0;
-
-      &::before,
-      &::after {
-        border-left: c.$tooltipArrowSize solid transparent;
-        border-right: c.$tooltipArrowSize solid transparent;
-        top: 100%;
-        left: 50%;
-        margin-left: -(c.$tooltipArrowSize);
-      }
-
-      &::before {
-        border-top: c.$tooltipArrowSize solid $color;
-      }
-
-      &::after {
-        border-top: c.$tooltipArrowSize solid $borderColor;
-        transform: translateY(-($tooltipArrowSize1-3));
-      }
-    }
-  }
-}
-
-@mixin arrowPlacements($color: c.$colorNeutralLight, $borderColor: c.$colorNeutralLighter) {
-  &[data-popper-placement^='top'] {
-    @include arrow(top, $color, $borderColor);
-  }
-
-  &[data-popper-placement^='right'] {
-    @include arrow(right, $color, $borderColor);
-  }
-
-  &[data-popper-placement^='bottom'] {
-    @include arrow(bottom, $color, $borderColor);
-  }
-
-  &[data-popper-placement^='left'] {
-    @include arrow(left, $color, $borderColor);
+@mixin arrowPlacements($color) {
+  .arrow {
+    fill: $color;
   }
 }
 
@@ -146,7 +37,7 @@ $tooltipArrowSize2-3: math.div(c.$tooltipArrowSize, 3) * 2;
     color: c.$colorNeutralWhite;
     background-color: c.$colorTextSubdued;
 
-    @include arrowPlacements(c.$colorTextSubdued, transparent);
+    @include arrowPlacements(c.$colorTextSubdued);
   }
 
   &.dark {
@@ -154,22 +45,8 @@ $tooltipArrowSize2-3: math.div(c.$tooltipArrowSize, 3) * 2;
     color: c.$colorBrandText;
     background-color: c.$colorBrandAccent;
 
-    @include arrowPlacements(c.$colorBrandAccent, transparent);
+    @include arrowPlacements(c.$colorBrandAccent);
   }
 
-  > .arrow {
-    position: absolute;
-    z-index: c.$zIndex100;
-    display: block;
-    width: c.$tooltipArrowSize;
-    height: c.$tooltipArrowSize;
-
-    &::before,
-    &::after {
-      content: '';
-      position: absolute;
-    }
-  }
-
-  @include arrowPlacements;
+  @include arrowPlacements(c.$colorNeutralLight);
 }

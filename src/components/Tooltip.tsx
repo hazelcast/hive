@@ -1,32 +1,11 @@
-import React, {
-  FC,
-  ReactNode,
-  useCallback,
-  useState,
-  useLayoutEffect,
-  createContext,
-  useContext,
-  useMemo,
-  useRef,
-  useEffect,
-  MouseEventHandler,
-  CSSProperties,
-} from 'react'
+import React, { FC, ReactNode, useState, useLayoutEffect, useRef, MouseEventHandler, CSSProperties } from 'react'
 import ReactDOM from 'react-dom'
-import { Placement, offset, useFloating, arrow } from '@floating-ui/react'
+import { FloatingArrow, Placement, offset, useFloating, arrow, useHover, useInteractions, autoUpdate } from '@floating-ui/react'
 import cn from 'classnames'
 
-import { containsElement } from '../hooks'
-import { getPortalContainer, PortalContainer } from '../utils/portal'
+import { getPortalContainer } from '../utils/portal'
 
 import styles from './Tooltip.module.scss'
-
-const TooltipContext = createContext<{
-  hide: () => void
-  clearHideTimeout: () => void
-  popperElement: HTMLSpanElement | null
-  referenceElement: HTMLSpanElement | null
-} | null>(null)
 
 export type TooltipProps = {
   content: ReactNode
@@ -38,13 +17,11 @@ export type TooltipProps = {
   placement?: Placement
   visible?: boolean
   className?: string
-  hoverAbleTooltip?: boolean
   children: (
     ref: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
     onMouseEnter?: MouseEventHandler,
     onMouseLeave?: MouseEventHandler,
   ) => ReactNode
-  tooltipContainer?: PortalContainer
   wordBreak?: CSSProperties['wordBreak']
   disabled?: boolean
   zIndex?: number
@@ -75,39 +52,21 @@ export const Tooltip: FC<TooltipProps> = ({
   visible: visibilityOverride,
   children,
   wordBreak,
-  tooltipContainer = 'body',
-  hoverAbleTooltip = true,
   disabled = false,
   zIndex = 20,
   arrow: showArrow = true,
   color,
   className,
 }) => {
-  const [isShown, setShown] = useState<boolean>(false)
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
   const arrowRef = useRef(null)
 
-  const context = useContext(TooltipContext)
-
-  const clearHideTimeout = useCallback(() => {
-    const timeoutId = timeoutRef.current
-
-    context?.clearHideTimeout()
-
-    if (timeoutId !== null) {
-      clearTimeout(timeoutId)
-    }
-  }, [context])
-
-  /*
-   * We're using useState instead of useRef because react-popper package has some issues with useRef:
-   * https://github.com/popperjs/react-popper/issues/241#issuecomment-591411605
-   */
   const [referenceElement, setReferenceElement] = useState<HTMLElement | null>(null)
   const [popperElement, setPopperElement] = useState<HTMLSpanElement | null>(null)
 
-  const { floatingStyles, update, middlewareData } = useFloating({
+  const { floatingStyles, update, context } = useFloating({
+    strategy: 'absolute',
     placement,
+    whileElementsMounted: autoUpdate,
     middleware: [
       offset(offsetY),
       ...(showArrow
@@ -125,43 +84,12 @@ export const Tooltip: FC<TooltipProps> = ({
     },
   })
 
-  const onMouseEnter = useCallback(() => {
-    clearHideTimeout()
-    setShown(true)
-  }, [clearHideTimeout])
+  const hover = useHover(context)
 
-  const onMouseLeave = useCallback(
-    (event?: Event) => {
-      const e = event as MouseEvent
-      const { relatedTarget } = e ?? {}
+  // const {getReferenceProps, getFloatingProps} = useInteractions([
+  const { getFloatingProps } = useInteractions([hover])
 
-      timeoutRef.current = setTimeout(() => {
-        if (relatedTarget) {
-          if (
-            !containsElement(context?.referenceElement, relatedTarget as Node) &&
-            !containsElement(context?.popperElement, relatedTarget as Node)
-          ) {
-            context?.hide()
-          }
-        }
-        setShown(false)
-      }, 100)
-    },
-    [context],
-  )
-
-  const contextValue = useMemo(
-    () => ({
-      popperElement,
-      referenceElement,
-      hide: onMouseLeave,
-      clearHideTimeout,
-    }),
-    [onMouseLeave, clearHideTimeout, popperElement, referenceElement],
-  )
-
-  // Makes sure "visible" prop can override local "isShown" state
-  const isTooltipVisible = typeof visibilityOverride === 'boolean' ? visibilityOverride : !disabled && isShown
+  const isTooltipVisible = typeof visibilityOverride === 'boolean' ? visibilityOverride : !disabled
 
   // Update the tooltip's position (useful when resizing table columns)
   useLayoutEffect(() => {
@@ -170,40 +98,12 @@ export const Tooltip: FC<TooltipProps> = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isTooltipVisible])
-  useEffect(() => {
-    return () => {
-      clearHideTimeout()
-    }
-  }, [clearHideTimeout])
-  useEffect(() => {
-    referenceElement?.addEventListener('mouseenter', onMouseEnter, false)
-    referenceElement?.addEventListener('mouseleave', onMouseLeave, false)
 
-    return () => {
-      referenceElement?.removeEventListener('mouseenter', onMouseEnter)
-      referenceElement?.removeEventListener('mouseleave', onMouseLeave)
-    }
-  }, [referenceElement, onMouseEnter, onMouseLeave])
-  useEffect(() => {
-    if (hoverAbleTooltip) {
-      popperElement?.addEventListener('mouseenter', onMouseEnter, false)
-      popperElement?.addEventListener('mouseleave', onMouseLeave, false)
-    }
-
-    return () => {
-      popperElement?.removeEventListener('mouseenter', onMouseEnter)
-      popperElement?.removeEventListener('mouseleave', onMouseLeave)
-    }
-  }, [popperElement, onMouseEnter, onMouseLeave, hoverAbleTooltip])
-
-  const tooltipPortalContainer = getPortalContainer(tooltipContainer, referenceElement)
+  const tooltipPortalContainer = getPortalContainer('body', referenceElement)
 
   return (
-    <TooltipContext.Provider value={contextValue}>
-      {children(setReferenceElement, onMouseEnter, (e: unknown) => {
-        onMouseLeave(e as Event)
-      })}
-
+    <>
+      {children(setReferenceElement)}
       {content !== undefined && (
         <>
           <span {...(id && { id })} className={cn(styles.tooltipSr, className)} role="tooltip" data-test="tooltip-sr">
@@ -225,26 +125,16 @@ export const Tooltip: FC<TooltipProps> = ({
                   style={{ ...floatingStyles, ...{ zIndex: context ? zIndex + 1 : zIndex }, wordBreak }}
                   data-test="tooltip-overlay"
                   aria-hidden
+                  {...getFloatingProps()}
                 >
                   {content}
-                  {showArrow && (
-                    <span
-                      ref={arrowRef}
-                      className={styles.arrow}
-                      style={{
-                        position: 'absolute',
-                        left: middlewareData.arrow?.x,
-                        top: middlewareData.arrow?.y,
-                      }}
-                      data-test="tooltip-arrow"
-                    />
-                  )}
+                  {showArrow && <FloatingArrow ref={arrowRef} context={context} className={styles.arrow} />}
                 </span>
               </>,
               tooltipPortalContainer,
             )}
         </>
       )}
-    </TooltipContext.Provider>
+    </>
   )
 }
