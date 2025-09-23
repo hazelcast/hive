@@ -53,10 +53,11 @@ const Template: StoryFn<TooltipProps> = (args) => (
   </>
 )
 
-export const AutoEndPlacement = Template.bind({})
-AutoEndPlacement.args = {
-  placement: 'top-end',
-  id: 'tooltip-story-top-end',
+export const AutoPlacement = Template.bind({})
+AutoPlacement.args = {
+  placement: 'top',
+  autoPlacement: true,
+  id: 'tooltip-story-auto',
 }
 
 export const TopPlacement = Template.bind({})

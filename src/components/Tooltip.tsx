@@ -1,6 +1,16 @@
 import React, { FC, ReactNode, useState, useLayoutEffect, useRef, MouseEventHandler, CSSProperties } from 'react'
 import ReactDOM from 'react-dom'
-import { FloatingArrow, Placement, offset, useFloating, arrow, useHover, useInteractions, autoUpdate } from '@floating-ui/react'
+import {
+  FloatingArrow,
+  Placement,
+  offset,
+  useFloating,
+  arrow,
+  useHover,
+  useInteractions,
+  autoUpdate,
+  autoPlacement as autoPlacementMiddleware,
+} from '@floating-ui/react'
 import cn from 'classnames'
 
 import { getPortalContainer } from '../utils/portal'
@@ -25,6 +35,7 @@ export type TooltipProps = {
   wordBreak?: CSSProperties['wordBreak']
   disabled?: boolean
   zIndex?: number
+  autoPlacement?: boolean
 }
 
 /**
@@ -56,6 +67,7 @@ export const Tooltip: FC<TooltipProps> = ({
   zIndex = 20,
   arrow: showArrow = true,
   color,
+  autoPlacement = false,
   className,
 }) => {
   const arrowRef = useRef(null)
@@ -68,6 +80,7 @@ export const Tooltip: FC<TooltipProps> = ({
     placement,
     whileElementsMounted: autoUpdate,
     middleware: [
+      ...(autoPlacement ? [autoPlacementMiddleware()] : []),
       offset(offsetY),
       ...(showArrow
         ? [
