@@ -19,7 +19,6 @@ export default {
     id: 'tooltip-story-auto',
     placement: 'bottom',
     content: 'This is a nice tooltip!',
-    visible: true,
   },
 } as Meta<TooltipProps>
 
@@ -159,13 +158,6 @@ export const Visible = Template.bind({})
 Visible.args = {
   visible: true,
   id: 'tooltip-story-visible',
-}
-
-export const Disabled = Template.bind({})
-Disabled.args = {
-  disabled: true,
-  visible: undefined,
-  id: 'tooltip-story-disabled',
 }
 
 export const WithTooltip: StoryFn<TooltipProps> = () => (

@@ -1,5 +1,4 @@
-import React, { FC, ReactNode, useState, useLayoutEffect, useRef, MouseEventHandler, CSSProperties } from 'react'
-import ReactDOM from 'react-dom'
+import React, { FC, ReactNode, useRef, CSSProperties, cloneElement, ReactElement, useState } from 'react'
 import {
   FloatingArrow,
   Placement,
@@ -10,12 +9,14 @@ import {
   useInteractions,
   autoUpdate,
   autoPlacement as autoPlacementMiddleware,
+  FloatingPortal,
+  ReferenceType,
+  safePolygon,
 } from '@floating-ui/react'
 import cn from 'classnames'
 
-import { getPortalContainer } from '../utils/portal'
-
 import styles from './Tooltip.module.scss'
+import { canUseDOM } from '../utils/ssr'
 
 export type TooltipProps = {
   content: ReactNode
@@ -27,13 +28,8 @@ export type TooltipProps = {
   placement?: Placement
   visible?: boolean
   className?: string
-  children: (
-    ref: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
-    onMouseEnter?: MouseEventHandler,
-    onMouseLeave?: MouseEventHandler,
-  ) => ReactNode
+  children: (ref: (node: ReferenceType | null) => void) => ReactElement
   wordBreak?: CSSProperties['wordBreak']
-  disabled?: boolean
   zIndex?: number
   autoPlacement?: boolean
 }
@@ -63,22 +59,21 @@ export const Tooltip: FC<TooltipProps> = ({
   visible: visibilityOverride,
   children,
   wordBreak,
-  disabled = false,
   zIndex = 20,
   arrow: showArrow = true,
   color,
   autoPlacement = false,
   className,
 }) => {
+  const [isOpen, setIsOpen] = useState(false)
   const arrowRef = useRef(null)
 
-  const [referenceElement, setReferenceElement] = useState<HTMLElement | null>(null)
-  const [popperElement, setPopperElement] = useState<HTMLSpanElement | null>(null)
-
-  const { floatingStyles, update, context } = useFloating({
+  const { refs, floatingStyles, context } = useFloating({
     strategy: 'absolute',
     placement,
     whileElementsMounted: autoUpdate,
+    open: isOpen,
+    onOpenChange: setIsOpen,
     middleware: [
       ...(autoPlacement ? [autoPlacementMiddleware()] : []),
       offset(offsetY),
@@ -91,61 +86,42 @@ export const Tooltip: FC<TooltipProps> = ({
           ]
         : []),
     ],
-    elements: {
-      floating: popperElement,
-      reference: referenceElement,
-    },
   })
 
-  const hover = useHover(context)
+  const hover = useHover(context, { handleClose: safePolygon() })
 
-  // const {getReferenceProps, getFloatingProps} = useInteractions([
-  const { getFloatingProps } = useInteractions([hover])
+  const { getReferenceProps, getFloatingProps } = useInteractions([hover])
 
-  const isTooltipVisible = typeof visibilityOverride === 'boolean' ? visibilityOverride : !disabled
-
-  // Update the tooltip's position (useful when resizing table columns)
-  useLayoutEffect(() => {
-    if (content) {
-      void update()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isTooltipVisible])
-
-  const tooltipPortalContainer = getPortalContainer('body', referenceElement)
+  const isTooltipVisible = typeof visibilityOverride === 'boolean' ? visibilityOverride : isOpen
 
   return (
     <>
-      {children(setReferenceElement)}
-      {content !== undefined && (
+      {cloneElement(children(refs.setReference), { ...getReferenceProps() })}
+      {content !== undefined && isTooltipVisible && (
         <>
           <span {...(id && { id })} className={cn(styles.tooltipSr, className)} role="tooltip" data-test="tooltip-sr">
             {content}
           </span>
-          {tooltipPortalContainer &&
-            ReactDOM.createPortal(
-              <>
-                <span
-                  ref={setPopperElement}
-                  className={cn(
-                    styles.overlay,
-                    {
-                      [styles.hidden]: !isTooltipVisible,
-                    },
-                    color && [styles[color]],
-                    className,
-                  )}
-                  style={{ ...floatingStyles, ...{ zIndex: context ? zIndex + 1 : zIndex }, wordBreak }}
-                  data-test="tooltip-overlay"
-                  aria-hidden
-                  {...getFloatingProps()}
-                >
-                  {content}
-                  {showArrow && <FloatingArrow ref={arrowRef} context={context} className={styles.arrow} />}
-                </span>
-              </>,
-              tooltipPortalContainer,
-            )}
+          <FloatingPortal root={canUseDOM ? document.body : null}>
+            <span
+              ref={refs.setFloating}
+              className={cn(
+                styles.overlay,
+                {
+                  [styles.hidden]: !isTooltipVisible,
+                },
+                color && [styles[color]],
+                className,
+              )}
+              style={{ ...floatingStyles, ...{ zIndex: context ? zIndex + 1 : zIndex }, wordBreak }}
+              data-test="tooltip-overlay"
+              aria-hidden
+              {...getFloatingProps()}
+            >
+              {content}
+              {showArrow && <FloatingArrow ref={arrowRef} context={context} className={styles.arrow} />}
+            </span>
+          </FloatingPortal>
         </>
       )}
     </>
