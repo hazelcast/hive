@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, within, act } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { queryByLabel } from '../../../setupTests'
@@ -20,9 +20,7 @@ describe('SelectCluster', () => {
 
     expect(screen.queryByText(clusterName)).toBeInTheDocument()
 
-    await act(async () => {
-      await userEvent.click(selectInput)
-    })
+    await userEvent.click(selectInput)
 
     clusterNames.forEach((name) => expect(screen.queryAllByText(name).length).toBeGreaterThan(0))
   })
@@ -59,9 +57,7 @@ describe('SelectCluster', () => {
       name: /Select Cluster/i,
     })
 
-    await act(async () => {
-      await userEvent.click(selectInput)
-    })
+    await userEvent.click(selectInput)
 
     // In select box, and in dropdown options
     expect(screen.getAllByTestId('centered-loader')).toHaveLength(3)
@@ -78,9 +74,7 @@ describe('SelectCluster', () => {
       name: /Select Cluster/i,
     })
 
-    await act(async () => {
-      await userEvent.click(selectInput)
-    })
+    await userEvent.click(selectInput)
 
     // For options
     expect(screen.queryByTestId('centered-loader')).not.toBeInTheDocument()

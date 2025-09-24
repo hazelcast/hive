@@ -24,14 +24,6 @@
   color: c.$colorText;
   word-break: break-all;
 
-  &.hidden {
-    visibility: hidden;
-
-    // important is needed to override inline style
-    top: -99999px !important;
-    left: -99999px !important;
-  }
-
   &.secondary {
     border: none;
     color: c.$colorNeutralWhite;

@@ -105,17 +105,9 @@ export const Tooltip: FC<TooltipProps> = ({
           <FloatingPortal root={canUseDOM ? document.body : null}>
             <span
               ref={refs.setFloating}
-              className={cn(
-                styles.overlay,
-                {
-                  [styles.hidden]: !isTooltipVisible,
-                },
-                color && [styles[color]],
-                className,
-              )}
+              className={cn(styles.overlay, color && [styles[color]], className)}
               style={{ ...floatingStyles, ...{ zIndex: context ? zIndex + 1 : zIndex }, wordBreak }}
               data-test="tooltip-overlay"
-              aria-hidden
               {...getFloatingProps()}
             >
               {content}
