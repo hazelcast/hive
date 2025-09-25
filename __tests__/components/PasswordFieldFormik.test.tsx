@@ -46,7 +46,7 @@ describe('PasswordFieldFormik', () => {
       password: 'yoda',
     })
 
-    expect(onSubmit).toBeCalledTimes(0)
+    expect(onSubmit).toHaveBeenCalledTimes(0)
 
     // We need the `async` call here to wait for processing of the asynchronous 'submit'
 
@@ -54,8 +54,8 @@ describe('PasswordFieldFormik', () => {
       fireEvent.submit(container.querySelector('form')!)
     })
 
-    expect(onSubmit).toBeCalledTimes(1)
-    expect(onSubmit).toBeCalledWith(
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(onSubmit).toHaveBeenCalledWith(
       {
         password: 'yoda',
       },
@@ -145,7 +145,7 @@ describe('PasswordFieldFormik', () => {
       fireEvent.change(input, { target: { value: 'yoda' } })
     })
 
-    expect(onCnange).toBeCalledTimes(1)
-    expect(onCnange).toBeCalledWith('yoda')
+    expect(onCnange).toHaveBeenCalledTimes(1)
+    expect(onCnange).toHaveBeenCalledWith('yoda')
   })
 })

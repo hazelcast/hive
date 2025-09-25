@@ -1,6 +1,6 @@
 import React, { ComponentType, PropsWithChildren } from 'react'
 import { userEvent } from '@testing-library/user-event'
-import { screen, render, act } from '@testing-library/react'
+import { screen, render } from '@testing-library/react'
 import { DataTestProp } from '../../../src'
 
 import { AppHeader } from '../../../src/components/AppHeader'
@@ -26,9 +26,7 @@ describe('AppHeader', () => {
     expect(screen.queryByTestId('app-header-menu-toggle')).toBeInTheDocument()
     expect(screen.queryByText('Menu content')).not.toBeInTheDocument()
 
-    await act(async () => {
-      await userEvent.click(screen.getByTestId('app-header-menu-toggle'))
-    })
+    await userEvent.click(screen.getByTestId('app-header-menu-toggle'))
 
     expect(screen.queryByText('Menu content')).toBeInTheDocument()
   })

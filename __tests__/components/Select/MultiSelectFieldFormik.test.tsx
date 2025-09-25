@@ -129,7 +129,7 @@ describe('MultiSelectFieldFormik', () => {
     })
     await userEvent.click(screen.getByRole('option', { name: options[1].label }))
 
-    expect(onChange).toBeCalledTimes(1)
-    expect(onChange).toBeCalledWith([options[1].value])
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith([options[1].value])
   })
 })

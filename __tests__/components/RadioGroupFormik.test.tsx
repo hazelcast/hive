@@ -35,15 +35,15 @@ describe('RadioGroupFormik', () => {
 
     const { container } = await renderAndCheckA11Y(<TestForm />)
 
-    expect(onSubmit).toBeCalledTimes(0)
+    expect(onSubmit).toHaveBeenCalledTimes(0)
 
     await userEvent.click(container.querySelector("input[value='aragorn']")!)
     await act(async () => {
       fireEvent.submit(container.querySelector('form')!)
     })
 
-    expect(onSubmit).toBeCalledTimes(1)
-    expect(onSubmit).toBeCalledWith(
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(onSubmit).toHaveBeenCalledWith(
       {
         tosApproved: false,
         name: 'aragorn',
@@ -165,7 +165,7 @@ describe('RadioGroupFormik', () => {
 
     await userEvent.click(container.querySelector("input[value='aragorn']")!)
 
-    expect(onChange).toBeCalledTimes(1)
-    expect(onChange).toBeCalledWith('aragorn')
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith('aragorn')
   })
 })

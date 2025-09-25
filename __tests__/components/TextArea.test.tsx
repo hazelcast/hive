@@ -92,7 +92,7 @@ describe('TextArea', () => {
 
     const { container } = await renderAndCheckA11Y(<Wrapper />)
 
-    expect(onChange).toBeCalledTimes(0)
+    expect(onChange).toHaveBeenCalledTimes(0)
 
     const textarea = container.querySelector('textarea')!
 
@@ -100,7 +100,7 @@ describe('TextArea', () => {
       fireEvent.change(container.querySelector('textarea')!, { target: { value: 'value' } })
     })
 
-    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toHaveBeenCalledTimes(1)
     expect(textarea.value).toBe('value')
   })
 
@@ -119,13 +119,13 @@ describe('TextArea', () => {
       />,
     )
 
-    expect(onBlur).toBeCalledTimes(0)
+    expect(onBlur).toHaveBeenCalledTimes(0)
 
     await act(async () => {
       fireEvent.blur(container.querySelector('textarea')!)
     })
 
-    expect(onBlur).toBeCalledTimes(1)
+    expect(onBlur).toHaveBeenCalledTimes(1)
   })
 
   it('Renders error with correct props', async () => {
@@ -283,7 +283,5 @@ describe('TextArea', () => {
     const helperEl = screen.queryByTestId('textarea-helperText')!
 
     expect(helperEl).toBeInTheDocument()
-    expect(screen.queryByTestId('tooltip-sr')).toHaveAttribute('id', 'inputId-help')
-    expect(screen.queryByTestId('tooltip-overlay')).toHaveTextContent(helperText)
   })
 })

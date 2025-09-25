@@ -1,4 +1,4 @@
-import React, { FC, FocusEvent, ReactElement, ReactNode, ReactText, useContext } from 'react'
+import React, { FC, FocusEvent, ReactElement, ReactNode, useContext } from 'react'
 import classNames from 'classnames'
 import { useUID } from 'react-uid'
 
@@ -16,7 +16,7 @@ type RadioCoreProps = {
 }
 
 export type RadioExtraProps = {
-  label?: ReactText | ReactElement
+  label?: string | ReactElement
   helperText?: HelpProps['helperText']
   disabled?: boolean
   required?: boolean

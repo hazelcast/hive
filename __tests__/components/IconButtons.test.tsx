@@ -11,6 +11,7 @@ import { testAttribute, testClass } from '../helpers'
 
 import iconStyles from '../../src/components/Icon.module.scss'
 import styles from '../../src/components/IconButton.module.scss'
+import userEvent from '@testing-library/user-event'
 
 jest.mock('react-uid')
 
@@ -67,7 +68,7 @@ describe('IconButton', () => {
     const disabledTooltip = 'Disabled tooltip'
 
     const { container } = await renderAndCheckA11Y(
-      <IconButton kind="primary" icon={X} ariaLabel={ariaLabel} disabled disabledTooltip={disabledTooltip} />,
+      <IconButton kind="primary" icon={X} ariaLabel={ariaLabel} disabled disabledTooltip={disabledTooltip} disabledTooltipVisible />,
     )
 
     expect(container.querySelector('button')!).toHaveAttribute('disabled')
@@ -80,7 +81,15 @@ describe('IconButton', () => {
     const disabledTooltip = 'Disabled tooltip'
 
     const { container } = await renderAndCheckA11Y(
-      <IconButton kind="primary" icon={X} ariaLabel={ariaLabel} disabled disabledTooltip={disabledTooltip} loading />,
+      <IconButton
+        kind="primary"
+        icon={X}
+        ariaLabel={ariaLabel}
+        disabled
+        disabledTooltip={disabledTooltip}
+        disabledTooltipVisible
+        loading
+      />,
     )
 
     expect(container.querySelector('button')!).toHaveAttribute('disabled')
@@ -94,7 +103,14 @@ describe('IconButton', () => {
     const ariaLabelledBy = 'darth'
 
     const { container } = await renderAndCheckA11Y(
-      <IconButton kind="primary" icon={X} ariaLabelledBy={ariaLabelledBy} disabled disabledTooltip={disabledTooltip} />,
+      <IconButton
+        kind="primary"
+        icon={X}
+        ariaLabelledBy={ariaLabelledBy}
+        disabled
+        disabledTooltip={disabledTooltip}
+        disabledTooltipVisible
+      />,
     )
 
     expect(container.querySelector('button')!).toHaveAttribute('aria-labelledby', `${ariaLabelledBy} ${id}`)
@@ -129,8 +145,13 @@ describe('IconButton', () => {
   it('Renders with a tooltip', async () => {
     const tooltip = 'Tooltip'
 
-    await renderAndCheckA11Y(<IconButton kind="primary" icon={X} ariaLabel={ariaLabel} tooltip={tooltip} tooltipPlacement="bottom" />)
+    await renderAndCheckA11Y(
+      <IconButton kind="primary" icon={X} ariaLabel={ariaLabel} tooltip={tooltip} tooltipPlacement="bottom" tooltipVisible />,
+    )
 
+    const button = screen.getByTestId('icon-button')
+
+    await userEvent.hover(button)
     expect(within(screen.getByTestId('tooltip-overlay')).queryByText(tooltip)).toBeInTheDocument()
   })
 })

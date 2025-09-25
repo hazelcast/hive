@@ -1,7 +1,8 @@
 import React, { PropsWithChildren, useCallback, useEffect } from 'react'
 import { createPortal } from 'react-dom'
-import { useFloating, Placement, offset, OffsetOptions, shift } from '@floating-ui/react'
+import { useFloating, Placement, offset, OffsetOptions, shift, size } from '@floating-ui/react'
 import cls from 'classnames'
+import { autoPlacement as autoPlacementMiddleware } from '@floating-ui/react'
 
 import { getPortalContainer, PortalContainer } from '../utils/portal'
 import { DataTestProp } from '../helpers/types'
@@ -16,7 +17,9 @@ export interface PopoverProps extends DataTestProp {
   className?: string
   anchorElement?: HTMLElement | null
   onClose: () => void
+  matchReferenceSize?: boolean
   container?: PortalContainer
+  autoPlacement?: boolean
 }
 
 export const Popover = (props: PropsWithChildren<PopoverProps>) => {
@@ -29,7 +32,9 @@ export const Popover = (props: PropsWithChildren<PopoverProps>) => {
     offset: offsetOptions,
     onClose,
     'data-test': dataTest,
+    matchReferenceSize = false,
     container = `body`,
+    autoPlacement = false,
   } = props
 
   const getOnClose = useRefValue(onClose)
@@ -38,6 +43,18 @@ export const Popover = (props: PropsWithChildren<PopoverProps>) => {
     elements: { reference: anchorElement },
     placement,
     middleware: [
+      ...(autoPlacement ? [autoPlacementMiddleware()] : []),
+      ...(matchReferenceSize
+        ? [
+            size({
+              apply({ rects, elements }) {
+                Object.assign(elements.floating.style, {
+                  minWidth: `${rects.reference.width}px`,
+                })
+              },
+            }),
+          ]
+        : []),
       offset(offsetOptions),
       shift({
         crossAxis: true,

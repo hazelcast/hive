@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { ReactDatePickerProps } from 'react-datepicker'
+import { DatePickerProps } from 'react-datepicker'
 import { ChevronLeft, ChevronRight } from 'react-feather'
 import { format } from 'date-fns'
 
@@ -19,7 +19,7 @@ type ExtractFnArgumentType<T> = T extends (arg: infer U) => any ? U : never
  *
  * There is no significant benefit other than readability.
  */
-export type CalendarHeaderProps = ExtractFnArgumentType<ReactDatePickerProps['renderCustomHeader']>
+export type CalendarHeaderProps = ExtractFnArgumentType<DatePickerProps['renderCustomHeader']>
 
 export const CalendarHeader: FC<CalendarHeaderProps> = ({ date, decreaseMonth, increaseMonth }) => {
   return (

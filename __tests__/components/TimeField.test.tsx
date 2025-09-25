@@ -76,13 +76,13 @@ describe('TimeField', () => {
 
     const { container } = await renderAndCheckA11Y(<Wrapper />)
 
-    expect(onChange).toBeCalledTimes(0)
+    expect(onChange).toHaveBeenCalledTimes(0)
 
     await act(async () => {
       fireEvent.change(container.querySelector('input')!, { target: { value: '11:00' } })
     })
 
-    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange.mock.calls[0][0]).toMatchObject({ target: { value: '11:00' } })
   })
 
@@ -94,13 +94,13 @@ describe('TimeField', () => {
       <TimeField name={name} onChange={onChange} onBlur={onBlur} value={value} label={label} />,
     )
 
-    expect(onBlur).toBeCalledTimes(0)
+    expect(onBlur).toHaveBeenCalledTimes(0)
 
     await act(async () => {
       fireEvent.blur(container.querySelector('input')!)
     })
 
-    expect(onBlur).toBeCalledTimes(1)
+    expect(onBlur).toHaveBeenCalledTimes(1)
   })
 
   it('Renders error with correct props', async () => {

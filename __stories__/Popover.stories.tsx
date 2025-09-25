@@ -8,7 +8,8 @@ export default {
   title: 'Components/Popover',
   component: Popover,
   args: {
-    placement: 'auto',
+    placement: 'bottom',
+    autoPlacement: true,
     open: false,
   },
 } as Meta<PopoverProps>

@@ -73,10 +73,10 @@ describe('NumberField', () => {
       <NumberField name="name" value={42} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
     )
 
-    expect(onChange).toBeCalledTimes(0)
+    expect(onChange).toHaveBeenCalledTimes(0)
     await userEvent.click(screen.getByTestId('number-field-decrement'))
-    expect(onChange).toBeCalledTimes(1)
-    expect(onChange).toBeCalledWith(41)
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith(41)
   })
 
   it('onDecrement works with step', async () => {
@@ -87,10 +87,10 @@ describe('NumberField', () => {
       <NumberField name="name" value={42} step={10} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
     )
 
-    expect(onChange).toBeCalledTimes(0)
+    expect(onChange).toHaveBeenCalledTimes(0)
     await userEvent.click(screen.getByTestId('number-field-decrement'))
-    expect(onChange).toBeCalledTimes(1)
-    expect(onChange).toBeCalledWith(32)
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith(32)
   })
 
   it('onDecrement works with floats', async () => {
@@ -110,10 +110,10 @@ describe('NumberField', () => {
       />,
     )
 
-    expect(onChange).toBeCalledTimes(0)
+    expect(onChange).toHaveBeenCalledTimes(0)
     await userEvent.click(screen.getByTestId('number-field-decrement'))
-    expect(onChange).toBeCalledTimes(1)
-    expect(onChange).toBeCalledWith(42.1)
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith(42.1)
   })
 
   it('onIncrement works', async () => {
@@ -124,10 +124,10 @@ describe('NumberField', () => {
       <NumberField name="name" value={42} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
     )
 
-    expect(onChange).toBeCalledTimes(0)
+    expect(onChange).toHaveBeenCalledTimes(0)
     await userEvent.click(screen.getByTestId('number-field-increment'))
-    expect(onChange).toBeCalledTimes(1)
-    expect(onChange).toBeCalledWith(43)
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith(43)
   })
 
   it('onIncrement works with step', async () => {
@@ -138,10 +138,10 @@ describe('NumberField', () => {
       <NumberField name="name" value={42} step={10} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
     )
 
-    expect(onChange).toBeCalledTimes(0)
+    expect(onChange).toHaveBeenCalledTimes(0)
     await userEvent.click(screen.getByTestId('number-field-increment'))
-    expect(onChange).toBeCalledTimes(1)
-    expect(onChange).toBeCalledWith(52)
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith(52)
   })
 
   it('onIncrement works with floats', async () => {
@@ -161,10 +161,10 @@ describe('NumberField', () => {
       />,
     )
 
-    expect(onChange).toBeCalledTimes(0)
+    expect(onChange).toHaveBeenCalledTimes(0)
     await userEvent.click(screen.getByTestId('number-field-increment'))
-    expect(onChange).toBeCalledTimes(1)
-    expect(onChange).toBeCalledWith(42.5)
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith(42.5)
   })
 
   it('provides overrides for increment/decrement aria labels', async () => {
@@ -249,35 +249,35 @@ describe('NumberField', () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    expect(onChange).toBeCalledTimes(0)
+    expect(onChange).toHaveBeenCalledTimes(0)
 
     await renderAndCheckA11Y(
       <NumberField name="name" value={42} min={43} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
     )
 
-    expect(onChange).toBeCalledTimes(1)
-    expect(onChange).toBeCalledWith(43)
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith(43)
   })
 
   it('the initial value is adjusted if it is greater than max', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    expect(onChange).toBeCalledTimes(0)
+    expect(onChange).toHaveBeenCalledTimes(0)
 
     await renderAndCheckA11Y(
       <NumberField name="name" value={42} max={41} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
     )
 
-    expect(onChange).toBeCalledTimes(1)
-    expect(onChange).toBeCalledWith(41)
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith(41)
   })
 
   it('onChange works if changed manually', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    expect(onChange).toBeCalledTimes(0)
+    expect(onChange).toHaveBeenCalledTimes(0)
 
     const { container } = await renderAndCheckA11Y(
       <NumberField name="name" value={42} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
@@ -285,15 +285,15 @@ describe('NumberField', () => {
 
     fireEvent.change(container.querySelector('input')!, { target: { value: 100 } })
 
-    expect(onChange).toBeCalledTimes(1)
-    expect(onChange).toBeCalledWith(100)
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith(100)
   })
 
   it('new value entered manually is adjusted if it is greater than max', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    expect(onChange).toBeCalledTimes(0)
+    expect(onChange).toHaveBeenCalledTimes(0)
 
     const { container } = await renderAndCheckA11Y(
       <NumberField name="name" value={42} max={43} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
@@ -301,15 +301,15 @@ describe('NumberField', () => {
 
     fireEvent.change(container.querySelector('input')!, { target: { value: 100 } })
 
-    expect(onChange).toBeCalledTimes(1)
-    expect(onChange).toBeCalledWith(43)
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith(43)
   })
 
   it('new value entered manually is adjusted if it is less than min', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    expect(onChange).toBeCalledTimes(0)
+    expect(onChange).toHaveBeenCalledTimes(0)
 
     const { container } = await renderAndCheckA11Y(
       <NumberField name="name" value={42} min={39} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
@@ -317,15 +317,15 @@ describe('NumberField', () => {
 
     fireEvent.change(container.querySelector('input')!, { target: { value: 12 } })
 
-    expect(onChange).toBeCalledTimes(1)
-    expect(onChange).toBeCalledWith(39)
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith(39)
   })
 
   it('increment button should set min value when value is undefined', async () => {
     const onBlur = jest.fn()
     const onChange = jest.fn()
 
-    expect(onChange).toBeCalledTimes(0)
+    expect(onChange).toHaveBeenCalledTimes(0)
 
     await renderAndCheckA11Y(
       <NumberField name="name" min={39} placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
@@ -336,7 +336,7 @@ describe('NumberField', () => {
 
     await userEvent.click(incrementButton)
 
-    expect(onChange).toBeCalledWith(39)
+    expect(onChange).toHaveBeenCalledWith(39)
   })
 
   it('increment button should be disabled when min and value are undefined', async () => {
@@ -352,6 +352,6 @@ describe('NumberField', () => {
 
     await userEvent.click(incrementButton)
 
-    expect(onChange).toBeCalledTimes(0)
+    expect(onChange).toHaveBeenCalledTimes(0)
   })
 })

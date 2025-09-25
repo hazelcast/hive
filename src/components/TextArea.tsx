@@ -5,8 +5,6 @@ import { useUID } from 'react-uid'
 import { DataTestProp } from '../helpers/types'
 import { Error, errorId } from './Error'
 import { FieldHeader, FieldHeaderProps } from './FieldHeader'
-import { PopperRef } from './Tooltip'
-import { useResizeAware } from '../hooks/useResizeAware'
 
 import styles from './TextArea.module.scss'
 
@@ -53,11 +51,6 @@ export const TextArea: FC<TextAreaProps> = (props) => {
   } = props
   const id = useUID()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
-
-  const popperRef = useRef<PopperRef>()
-  useResizeAware(textareaRef.current, () => {
-    popperRef.current?.forceUpdate?.()
-  })
 
   return (
     <div

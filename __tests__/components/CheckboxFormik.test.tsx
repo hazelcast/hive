@@ -31,13 +31,13 @@ describe('CheckboxFormik', () => {
 
     const { container } = await renderAndCheckA11Y(<TestForm />)
 
-    expect(onSubmit).toBeCalledTimes(0)
+    expect(onSubmit).toHaveBeenCalledTimes(0)
 
     fireEvent.submit(container.querySelector('form')!)
     await act(async () => {})
 
-    expect(onSubmit).toBeCalledTimes(1)
-    expect(onSubmit).toBeCalledWith(
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(onSubmit).toHaveBeenCalledWith(
       {
         tosApproved: false,
         name: 'Yoda',
@@ -103,7 +103,7 @@ describe('CheckboxFormik', () => {
 
     await userEvent.click(container.querySelector('input')!)
 
-    expect(onChange).toBeCalledTimes(1)
-    expect(onChange).toBeCalledWith(true)
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith(true)
   })
 })

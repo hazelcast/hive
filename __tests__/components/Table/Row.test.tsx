@@ -124,19 +124,19 @@ describe('Row', () => {
     const onClick = jest.fn()
     await renderAndCheckA11Y(<Row onClick={onClick} />)
 
-    expect(onClick).toBeCalledTimes(0)
+    expect(onClick).toHaveBeenCalledTimes(0)
 
     act(() => {
       fireEvent.keyDown(screen.getByTestId('table-cell-row'), { key: 'Tab' })
     })
 
-    expect(onClick).toBeCalledTimes(0)
+    expect(onClick).toHaveBeenCalledTimes(0)
 
     act(() => {
       fireEvent.keyDown(screen.getByTestId('table-cell-row'), { key: 'Enter' })
     })
 
-    expect(onClick).toBeCalledTimes(1)
+    expect(onClick).toHaveBeenCalledTimes(1)
   })
 })
 

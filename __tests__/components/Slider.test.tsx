@@ -76,13 +76,13 @@ describe('Slider', () => {
     const onChange = jest.fn()
     const { container } = await renderAndCheckA11Y(<Slider name="ram" label="RAM" value={1} min={0} max={10} onChange={onChange} />)
 
-    expect(onChange).toBeCalledTimes(0)
+    expect(onChange).toHaveBeenCalledTimes(0)
 
     await act(async () => {
       fireEvent.change(container.querySelector('input')!, { target: { value: '20' } })
     })
 
-    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toHaveBeenCalledTimes(1)
   })
 
   it('Renders single value slider, checks that the number can be changed upon clicking a slider', async () => {
@@ -103,12 +103,12 @@ describe('Slider', () => {
 
     const { container } = await renderAndCheckA11Y(<Slider name="ram" label="RAM" value={1} min={0} max={10} onChange={onChange} />)
 
-    expect(onChange).toBeCalledTimes(0)
+    expect(onChange).toHaveBeenCalledTimes(0)
 
     events['click']({ offsetX: 100, target: container.querySelector("div[role='group']") })
 
-    expect(onChange).toBeCalledTimes(1)
-    expect(onChange).toBeCalledWith(5, expect.anything())
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith(5, expect.anything())
   })
 
   it('Renders range slider, checks that the number can be changed upon clicking a slider ', async () => {
@@ -129,12 +129,12 @@ describe('Slider', () => {
 
     const { container } = await renderAndCheckA11Y(<Slider name="ram" label="RAM" value={[3, 9]} min={0} max={10} onChange={onChange} />)
 
-    expect(onChange).toBeCalledTimes(0)
+    expect(onChange).toHaveBeenCalledTimes(0)
 
     events['click']({ offsetX: 100, target: container.querySelector("div[role='group']") })
 
-    expect(onChange).toBeCalledTimes(1)
-    expect(onChange).toBeCalledWith([5, 9], expect.anything())
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith([5, 9], expect.anything())
   })
 
   it('Renders slider with marks, check that marks are rendered', async () => {

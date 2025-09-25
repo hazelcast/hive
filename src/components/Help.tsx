@@ -16,7 +16,6 @@ export interface HelpProps extends DataTestProp {
   helperText: string | ReactElement
   placement?: TooltipProps['placement']
   className?: string
-  popperRef?: TooltipProps['popperRef']
   size?: IconSize
   tooltipWordBreak?: CSSProperties['wordBreak']
 }
@@ -27,14 +26,13 @@ export const Help: FC<HelpProps> = ({
   parentId,
   className,
   tooltipWordBreak,
-  popperRef,
   size = 'small',
   'data-test': dataTest = 'help',
 }) => {
   const tooltipId = helpTooltipId(parentId)
 
   return (
-    <Tooltip placement={placement} content={helperText} id={tooltipId} popperRef={popperRef} wordBreak={tooltipWordBreak}>
+    <Tooltip placement={placement} content={helperText} id={tooltipId} wordBreak={tooltipWordBreak}>
       {(ref) => (
         <div ref={ref} data-test={dataTest} className={cn(styles.container, className)}>
           <Icon

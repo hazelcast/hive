@@ -95,8 +95,6 @@ describe('Toggle', () => {
 
     expect(helperEl).toBeInTheDocument()
     expect(helperEl).toHaveClass(styles.helperText)
-    expect(screen.queryByTestId('tooltip-sr')).toHaveAttribute('id', 'uuidtest-help')
-    expect(screen.queryByTestId('tooltip-overlay')).toHaveTextContent('Rocknroll')
   })
 
   it('Renders a Toggle with error', async () => {

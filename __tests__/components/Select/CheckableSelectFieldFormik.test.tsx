@@ -1,7 +1,7 @@
-import React, { createRef } from 'react'
+import React, { createRef, act } from 'react'
 import { Formik, Form, FormikProps } from 'formik'
 import { renderAndCheckA11Y } from '../../../src'
-import { screen, within } from '@testing-library/react'
+import { fireEvent, screen, within, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { SelectFieldOption } from '../../../src/components/Select/helpers'
@@ -31,7 +31,7 @@ describe('CheckableSelectFieldFormik', () => {
         onSubmit={onSubmit}
       >
         <Form>
-          <CheckableSelectFieldFormik<Values, string> name="names" options={options} label="test" data-test="test" />
+          <CheckableSelectFieldFormik<Values, string> name="names" options={options} label="test" data-test="test" defaultOpen />
         </Form>
       </Formik>
     )
@@ -42,11 +42,14 @@ describe('CheckableSelectFieldFormik', () => {
       names: [],
     })
 
-    await userEvent.click(within(screen.getByTestId('test-opener')).getByRole('textbox'))
-    await userEvent.click(screen.queryAllByTestId('test-option')[1])
+    await act(async () => {
+      fireEvent.click(screen.queryAllByTestId('test-option')[1])
+    })
 
-    expect(formikBag.current?.values).toEqual({
-      names: [options[1].value],
+    await waitFor(() => {
+      expect(formikBag.current?.values).toEqual({
+        names: [options[1].value],
+      })
     })
   })
 
@@ -70,7 +73,10 @@ describe('CheckableSelectFieldFormik', () => {
     expect(screen.getByTestId('test-opener-error')).toHaveTextContent('')
 
     await userEvent.click(within(screen.getByTestId('test-opener')).getByRole('textbox'))
-    await userEvent.click(screen.queryAllByTestId('test-option')[1])
+
+    await act(async () => {
+      fireEvent.click(screen.queryAllByTestId('test-option')[1])
+    })
 
     expect(screen.getByTestId('test-opener-error')).toHaveTextContent('error')
   })
@@ -106,9 +112,12 @@ describe('CheckableSelectFieldFormik', () => {
     })
 
     await userEvent.click(within(screen.getByTestId('test-opener')).getByRole('textbox'))
-    await userEvent.click(screen.queryAllByTestId('test-option')[1])
 
-    expect(onChange).toBeCalledTimes(1)
-    expect(onChange).toBeCalledWith([options[1].value])
+    await act(async () => {
+      fireEvent.click(screen.queryAllByTestId('test-option')[1])
+    })
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith([options[1].value])
   })
 })

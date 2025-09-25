@@ -58,14 +58,14 @@ describe('NumberFieldFormik', () => {
       name: 56,
     })
 
-    expect(onSubmit).toBeCalledTimes(0)
+    expect(onSubmit).toHaveBeenCalledTimes(0)
 
     await act(async () => {
       fireEvent.submit(container.querySelector('form')!)
     })
 
-    expect(onSubmit).toBeCalledTimes(1)
-    expect(onSubmit).toBeCalledWith(
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(onSubmit).toHaveBeenCalledWith(
       {
         name: 56,
       },
@@ -151,7 +151,7 @@ describe('NumberFieldFormik', () => {
       fireEvent.change(container.querySelector('input')!, { target: { value: '56' } })
     })
 
-    expect(onChange).toBeCalledTimes(1)
-    expect(onChange).toBeCalledWith(56)
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith(56)
   })
 })
