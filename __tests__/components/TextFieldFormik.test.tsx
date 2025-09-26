@@ -26,7 +26,7 @@ describe('TextFieldFormik', () => {
 
     const { container } = await renderAndCheckA11Y(<TestForm />)
 
-    expect(onSubmit).toBeCalledTimes(0)
+    expect(onSubmit).toHaveBeenCalledTimes(0)
 
     // We need the `async` call here to wait for processing of the asynchronous 'submit'
 
@@ -34,8 +34,8 @@ describe('TextFieldFormik', () => {
       fireEvent.submit(container.querySelector('form')!)
     })
 
-    expect(onSubmit).toBeCalledTimes(1)
-    expect(onSubmit).toBeCalledWith(
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(onSubmit).toHaveBeenCalledWith(
       {
         name: 'Yoda',
       },
@@ -72,7 +72,7 @@ describe('TextFieldFormik', () => {
       fireEvent.change(container.querySelector('input')!, { target: { value: 'new value' } })
     })
 
-    expect(onChange).toBeCalledTimes(1)
-    expect(onChange).toBeCalledWith('new value')
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith('new value')
   })
 })

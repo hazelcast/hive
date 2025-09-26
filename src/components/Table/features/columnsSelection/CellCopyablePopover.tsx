@@ -31,7 +31,7 @@ export const CellCopyablePopover = ({
       placement="top-start"
       className={styles.root}
       data-test="cell-copyable-popover"
-      offset={{ y: -(anchorElement?.offsetHeight ?? 0) }}
+      offset={{ mainAxis: -(anchorElement?.offsetHeight ?? 0) }}
     >
       <div
         className={cls(styles.content, contentClassName)}

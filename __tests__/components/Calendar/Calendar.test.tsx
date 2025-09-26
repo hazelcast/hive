@@ -87,9 +87,7 @@ describe('Calendar', () => {
     // Date Picker Popper Container
     expect(screen.queryByTestId('date-picker-popper-container')).not.toBeInTheDocument()
 
-    await act(async () => {
-      await userEvent.click(input)
-    })
+    await userEvent.click(input)
 
     expect(screen.queryByTestId('date-picker-popper-container')).toBeInTheDocument()
 
@@ -121,9 +119,7 @@ describe('Calendar', () => {
     expect(input).toHaveAttribute('name', 'calendar-input')
     expect(within(datePicker).getByLabelText(inputLabel)).toBeInTheDocument()
 
-    await act(async () => {
-      await userEvent.click(input)
-    })
+    await userEvent.click(input)
 
     expect(screen.queryByTestId('date-picker-popper-container')).toBeInTheDocument()
 

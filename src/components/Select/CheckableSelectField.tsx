@@ -90,7 +90,6 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
   const id = useUID()
   const { isOpen, toggle, close } = useOpenCloseState(defaultOpen)
   const [searchValue, setSearchValue] = useState('')
-  const [forceUpdateToken, setForceUpdateToken] = useState(1)
   const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null)
 
   const handleKeyDown = useCallback(
@@ -164,7 +163,7 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
         open={isOpen}
         onClose={close}
         className={styles.panel}
-        onUpdateLayout={() => setForceUpdateToken((token) => token + 1)}
+        // onUpdateLayout={() => setForceUpdateToken((token) => token + 1)}
       >
         <div className={styles.dropdown} data-test={`${dataTest}-dropdown`}>
           <div className={styles.search}>
@@ -204,7 +203,7 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
                     }}
                   >
                     <Checkmark checked={isChecked} />
-                    <TruncatedText text={option.label} forceUpdateToken={forceUpdateToken} />
+                    <TruncatedText text={option.label} />
                   </button>
                 )
               })

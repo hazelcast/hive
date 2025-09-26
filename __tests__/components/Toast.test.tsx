@@ -60,11 +60,11 @@ describe('Toast', () => {
     await renderAndCheckA11Y(<Toast type="success" content={content} closeToast={closeToast} />)
 
     expect(screen.queryByTestId('toast-close')).toBeInTheDocument()
-    expect(closeToast).toBeCalledTimes(0)
+    expect(closeToast).toHaveBeenCalledTimes(0)
 
     await act(() => userEvent.click(screen.getByTestId('toast-close')))
 
-    expect(closeToast).toBeCalledTimes(1)
+    expect(closeToast).toHaveBeenCalledTimes(1)
   })
 
   it('Toast.closeToast called after simulating Escape key', async () => {

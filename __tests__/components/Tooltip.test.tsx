@@ -10,7 +10,7 @@ import styles from '../../src/components/Tooltip.module.scss'
 describe('Tooltip', () => {
   it('Renders correctly if "content" property is defined.', async () => {
     await renderAndCheckA11Y(
-      <Tooltip id="tooltip-test" content="Tooltip content">
+      <Tooltip id="tooltip-test" content="Tooltip content" visible>
         {(ref) => (
           <button ref={ref} data-test="tooltip-reference">
             Hover me
@@ -24,8 +24,7 @@ describe('Tooltip', () => {
     expect(screen.queryByTestId('tooltip-reference')).toBeInTheDocument()
     expect(tooltipOverlay).toBeInTheDocument()
     expect(tooltipOverlay).toHaveTextContent('Tooltip content')
-    expect(tooltipOverlay).toHaveAttribute('aria-hidden', 'true')
-    expect(tooltipOverlay).toHaveClass(cn(styles.overlay, styles.hidden))
+    expect(tooltipOverlay).toHaveClass(cn(styles.overlay))
 
     const tooltipSr = screen.queryByTestId('tooltip-sr')
 
@@ -60,6 +59,6 @@ describe('Tooltip', () => {
       </Tooltip>,
     )
 
-    expect(screen.queryByTestId('tooltip-overlay')).not.toHaveClass(styles.hidden)
+    expect(screen.queryByTestId('tooltip-overlay')).toBeInTheDocument()
   })
 })

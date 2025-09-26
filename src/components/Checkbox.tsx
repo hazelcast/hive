@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FocusEvent, ReactElement, ReactText, useRef, MouseEvent, forwardRef } from 'react'
+import React, { ChangeEvent, FocusEvent, ReactElement, useRef, MouseEvent, forwardRef } from 'react'
 import { Check, Minus } from 'react-feather'
 import { useUID } from 'react-uid'
 import classNames from 'classnames'
@@ -21,7 +21,7 @@ type CheckboxCoreProps = {
 }
 
 export type CheckboxExtraProps = {
-  label?: ReactElement | ReactText
+  label?: ReactElement | string
   helperText?: HelpProps['helperText']
   indeterminate?: boolean
   disabled?: boolean

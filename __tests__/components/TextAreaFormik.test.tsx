@@ -31,7 +31,7 @@ describe('TextAreaFormik', () => {
 
     const { container } = await renderAndCheckA11Y(<TestForm />)
 
-    expect(onSubmit).toBeCalledTimes(0)
+    expect(onSubmit).toHaveBeenCalledTimes(0)
 
     // We need the `async` call here to wait for processing of the asynchronous 'submit'
 
@@ -39,8 +39,8 @@ describe('TextAreaFormik', () => {
       fireEvent.submit(container.querySelector('form')!)
     })
 
-    expect(onSubmit).toBeCalledTimes(1)
-    expect(onSubmit).toBeCalledWith(
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(onSubmit).toHaveBeenCalledWith(
       {
         description,
       },

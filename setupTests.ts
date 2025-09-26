@@ -44,20 +44,33 @@ const cleanup = () => {
   })
 }
 
-jest.mock('react-popper', () => {
-  const ReactPopper = jest.requireActual('react-popper')
-  const usePopper = jest.fn(() => {
+jest.mock('@floating-ui/react', () => {
+  const FloatingUI = jest.requireActual('@floating-ui/react')
+  const useFloating = jest.fn(() => {
     return {
-      styles: {},
-      attributes: {},
-      state: {},
-      update: () => Promise.resolve({}),
-      forceUpdate: () => void null,
+      refs: {
+        setReference: jest.fn(),
+        setFloating: jest.fn(),
+        reference: { current: null },
+        floating: { current: null },
+      },
+      floatingStyles: {},
+      context: { open: true },
+      update: jest.fn(() => Promise.resolve({})),
     }
   })
+  const useHover = jest.fn(() => ({}))
+  const useInteractions = jest.fn(() => ({
+    getReferenceProps: jest.fn(() => ({})),
+    getFloatingProps: jest.fn(() => ({})),
+  }))
   return {
-    ...ReactPopper,
-    usePopper,
+    ...FloatingUI,
+    useFloating,
+    useHover,
+    useInteractions,
+    FloatingPortal: ({ children }: { children: React.ReactNode }) => children,
+    FloatingArrow: jest.fn(() => null),
   }
 })
 

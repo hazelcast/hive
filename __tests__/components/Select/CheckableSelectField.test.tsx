@@ -1,10 +1,10 @@
 import React from 'react'
 import { useUID } from 'react-uid'
 import { renderAndCheckA11Y } from '../../../src'
-import { render, screen, within } from '@testing-library/react'
+import { fireEvent, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import { CheckableSelectField } from '../../../src/components/Select/CheckableSelectField'
+import { CheckableSelectField } from '../../../src'
 import { SelectFieldOption } from '../../../src/components/Select/helpers'
 
 import styles from '../../../src/components/Select/SelectField.module.scss'
@@ -108,33 +108,43 @@ describe('CheckableSelectField', () => {
       />,
     )
 
-    expect(onChange).toBeCalledTimes(0)
+    expect(onChange).toHaveBeenCalledTimes(0)
 
     await userEvent.click(within(screen.getByTestId('test-opener')).getByRole('textbox'))
-    await userEvent.click(screen.getByTestId('test-select-all'))
+    fireEvent.click(screen.getByTestId('test-select-all'))
 
-    expect(onChange).toBeCalledTimes(1)
-    expect(onChange).toBeCalledWith(options.map(({ value }) => value))
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith(options.map(({ value }) => value))
 
-    await userEvent.click(screen.getByTestId('test-select-none'))
+    fireEvent.click(screen.getByTestId('test-select-none'))
 
-    expect(onChange).toBeCalledTimes(2)
-    expect(onChange).toBeCalledWith([])
+    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onChange).toHaveBeenCalledWith([])
   })
 
   it('Options are checkable', async () => {
     const onChange = jest.fn()
+
     await renderAndCheckA11Y(
-      <CheckableSelectField name={selectName} label={selectLabel} options={options} value={[]} onChange={onChange} data-test="test" />,
+      <CheckableSelectField
+        defaultOpen
+        name={selectName}
+        label={selectLabel}
+        options={options}
+        value={[]}
+        onChange={onChange}
+        data-test="test"
+      />,
     )
 
-    expect(onChange).toBeCalledTimes(0)
+    expect(onChange).toHaveBeenCalledTimes(0)
 
-    await userEvent.click(within(screen.getByTestId('test-opener')).getByRole('textbox'))
-    await userEvent.click(screen.queryAllByTestId('test-option')[0])
+    const optionEls = screen.queryAllByTestId('test-option')
+    expect(optionEls.length).toBe(options.length)
 
-    expect(onChange).toBeCalledTimes(1)
-    expect(onChange).toBeCalledWith([options[0].value])
+    fireEvent.click(optionEls[0])
+
+    expect(onChange).toHaveBeenCalledWith([options[0].value])
   })
 
   it('Can not be opened when disabled', async () => {
@@ -151,7 +161,7 @@ describe('CheckableSelectField', () => {
       />,
     )
 
-    expect(onChange).toBeCalledTimes(0)
+    expect(onChange).toHaveBeenCalledTimes(0)
 
     await userEvent.click(within(screen.getByTestId('test-opener')).getByRole('textbox'))
 

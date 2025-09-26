@@ -1,12 +1,18 @@
 import React from 'react'
 import { renderAndCheckA11Y } from '../../src'
 import { useUID } from 'react-uid'
-import { screen, within } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 
-import { Radio, RadioGroup } from '../../src'
+import { Help, Radio, RadioGroup } from '../../src'
 import { testAttribute } from '../helpers'
 
 jest.mock('react-uid')
+jest.mock('../../src/components/Help', () => {
+  return {
+    Help: jest.fn(() => null),
+    helpTooltipId: jest.fn(() => ''),
+  }
+})
 
 const useUIDMock = useUID as jest.Mock<ReturnType<typeof useUID>>
 
@@ -56,13 +62,14 @@ describe('Radio', () => {
   it('Radio is passed helperText, Help component is present', async () => {
     const onChange = jest.fn()
     const onBlur = jest.fn()
+    const helperText = 'This is a helper text.'
     await renderAndCheckA11Y(
       <RadioGroup name="hello" onChange={onChange}>
-        <Radio checked disabled value="world" helperText="This is a helper text." onBlur={onBlur} label="Hello World" />
+        <Radio checked disabled value="world" helperText={helperText} onBlur={onBlur} label="Hello World" />
       </RadioGroup>,
     )
 
-    expect(within(screen.getByTestId('tooltip-overlay')).queryByText('This is a helper text.')).toBeInTheDocument()
+    expect(Help).toHaveBeenCalled()
   })
 
   it('Radio is not passed helperText, Help component is not present', async () => {
@@ -74,7 +81,7 @@ describe('Radio', () => {
       </RadioGroup>,
     )
 
-    expect(screen.queryByTestId('radio-input-heleper-text')).not.toBeInTheDocument()
+    expect(Help).not.toHaveBeenCalled()
   })
 
   it('Radio is passed a label, label text is present', async () => {

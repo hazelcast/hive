@@ -50,8 +50,8 @@ describe('InteractiveListFormik', () => {
       fireEvent.submit(container.querySelector('form')!)
     })
 
-    expect(onSubmit).toBeCalledTimes(1)
-    expect(onSubmit).toBeCalledWith(
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(onSubmit).toHaveBeenCalledWith(
       {
         ipAddresses: ['1.2.3.4', '127.0.0.1'],
       },
@@ -211,7 +211,7 @@ describe('InteractiveListFormik', () => {
       fireEvent.submit(container.querySelector('form')!)
     })
 
-    expect(onSubmit).toBeCalledTimes(0)
+    expect(onSubmit).toHaveBeenCalledTimes(0)
 
     expect(screen.queryByText('Need at least 2 IP Addresses')).toBeInTheDocument()
   })
@@ -254,7 +254,7 @@ describe('InteractiveListFormik', () => {
       fireEvent.submit(container.querySelector('form')!)
     })
 
-    expect(onSubmit).toBeCalledTimes(1)
+    expect(onSubmit).toHaveBeenCalledTimes(1)
 
     expect(formikBag.current?.values).toEqual({
       ipAddresses: ['1.2.3.4', '127.0.0.1'],
@@ -304,7 +304,7 @@ describe('InteractiveListFormik', () => {
       fireEvent.submit(container.querySelector('form')!)
     })
 
-    expect(onSubmit).toBeCalledTimes(1)
+    expect(onSubmit).toHaveBeenCalledTimes(1)
 
     expect(formikBag.current?.values).toEqual({
       ipAddresses: ['4.3.2.1', '1.2.3.4', '127.0.0.1'],

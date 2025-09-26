@@ -245,9 +245,9 @@ describe('Header', () => {
       </Wrapper>,
     )
 
-    expect(onDragStart).toBeCalledTimes(0)
-    expect(onDrop).toBeCalledTimes(0)
-    expect(setData).toBeCalledTimes(0)
+    expect(onDragStart).toHaveBeenCalledTimes(0)
+    expect(onDrop).toHaveBeenCalledTimes(0)
+    expect(setData).toHaveBeenCalledTimes(0)
 
     expect(screen.getByTestId('table-header-content').getAttribute('draggable')).toBeTruthy()
 
@@ -257,8 +257,8 @@ describe('Header', () => {
       },
     })
 
-    expect(onDragStart).toBeCalledTimes(1)
-    expect(setData).toBeCalledTimes(1)
-    expect(setData).toBeCalledWith('text/plain', '0')
+    expect(onDragStart).toHaveBeenCalledTimes(1)
+    expect(setData).toHaveBeenCalledTimes(1)
+    expect(setData).toHaveBeenCalledWith('text/plain', '0')
   })
 })

@@ -16,12 +16,12 @@ describe('logger', () => {
       logger.error('testError')
     }).toThrow(Error(`Console error is not allowed. Found: ${JSON.stringify(['testError'])}`))
 
-    expect(consoleLogSpy).toBeCalledTimes(1)
-    expect(consoleLogSpy).toBeCalledWith('testLog')
-    expect(consoleWarnSpy).toBeCalledTimes(1)
-    expect(consoleWarnSpy).toBeCalledWith('testWarn')
-    expect(consoleErrorSpy).toBeCalledTimes(1)
-    expect(consoleErrorSpy).toBeCalledWith('testError')
+    expect(consoleLogSpy).toHaveBeenCalledTimes(1)
+    expect(consoleLogSpy).toHaveBeenCalledWith('testLog')
+    expect(consoleWarnSpy).toHaveBeenCalledTimes(1)
+    expect(consoleWarnSpy).toHaveBeenCalledWith('testWarn')
+    expect(consoleErrorSpy).toHaveBeenCalledTimes(1)
+    expect(consoleErrorSpy).toHaveBeenCalledWith('testError')
   })
 
   it('throws error if expected console output is not found', async () => {
@@ -51,9 +51,9 @@ describe('logger', () => {
       logger.error('testError')
     })
 
-    expect(consoleLogSpy).toBeCalledTimes(0)
-    expect(consoleWarnSpy).toBeCalledTimes(0)
-    expect(consoleErrorSpy).toBeCalledTimes(0)
+    expect(consoleLogSpy).toHaveBeenCalledTimes(0)
+    expect(consoleWarnSpy).toHaveBeenCalledTimes(0)
+    expect(consoleErrorSpy).toHaveBeenCalledTimes(0)
   })
 
   it('calls standard console methods when calling debug and info methods', () => {
@@ -63,10 +63,10 @@ describe('logger', () => {
     logger.debug('testDebug')
     logger.info('testInfo')
 
-    expect(consoleDebugSpy).toBeCalledTimes(1)
-    expect(consoleDebugSpy).toBeCalledWith('testDebug')
-    expect(consoleInfoSpy).toBeCalledTimes(1)
-    expect(consoleInfoSpy).toBeCalledWith('testInfo')
+    expect(consoleDebugSpy).toHaveBeenCalledTimes(1)
+    expect(consoleDebugSpy).toHaveBeenCalledWith('testDebug')
+    expect(consoleInfoSpy).toHaveBeenCalledTimes(1)
+    expect(consoleInfoSpy).toHaveBeenCalledWith('testInfo')
   })
 
   it('calls standard console methods outside test environment', () => {
@@ -84,15 +84,15 @@ describe('logger', () => {
     logger.warn('testWarn')
     logger.error('testError')
 
-    expect(consoleDebugSpy).toBeCalledTimes(1)
-    expect(consoleDebugSpy).toBeCalledWith('testDebug')
-    expect(consoleInfoSpy).toBeCalledTimes(1)
-    expect(consoleInfoSpy).toBeCalledWith('testInfo')
-    expect(consoleLogSpy).toBeCalledTimes(1)
-    expect(consoleLogSpy).toBeCalledWith('testLog')
-    expect(consoleWarnSpy).toBeCalledTimes(1)
-    expect(consoleWarnSpy).toBeCalledWith('testWarn')
-    expect(consoleErrorSpy).toBeCalledTimes(1)
-    expect(consoleErrorSpy).toBeCalledWith('testError')
+    expect(consoleDebugSpy).toHaveBeenCalledTimes(1)
+    expect(consoleDebugSpy).toHaveBeenCalledWith('testDebug')
+    expect(consoleInfoSpy).toHaveBeenCalledTimes(1)
+    expect(consoleInfoSpy).toHaveBeenCalledWith('testInfo')
+    expect(consoleLogSpy).toHaveBeenCalledTimes(1)
+    expect(consoleLogSpy).toHaveBeenCalledWith('testLog')
+    expect(consoleWarnSpy).toHaveBeenCalledTimes(1)
+    expect(consoleWarnSpy).toHaveBeenCalledWith('testWarn')
+    expect(consoleErrorSpy).toHaveBeenCalledTimes(1)
+    expect(consoleErrorSpy).toHaveBeenCalledWith('testError')
   })
 })

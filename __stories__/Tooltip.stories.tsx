@@ -17,9 +17,8 @@ export default {
   },
   args: {
     id: 'tooltip-story-auto',
-    placement: 'auto',
+    placement: 'bottom',
     content: 'This is a nice tooltip!',
-    visible: true,
   },
 } as Meta<TooltipProps>
 
@@ -54,17 +53,10 @@ const Template: StoryFn<TooltipProps> = (args) => (
 )
 
 export const AutoPlacement = Template.bind({})
-
-export const AutoStartPlacement = Template.bind({})
-AutoStartPlacement.args = {
-  placement: 'auto-start',
-  id: 'tooltip-story-auto-start',
-}
-
-export const AutoEndPlacement = Template.bind({})
-AutoEndPlacement.args = {
-  placement: 'auto-end',
-  id: 'tooltip-story-auto-end',
+AutoPlacement.args = {
+  placement: 'top',
+  autoPlacement: true,
+  id: 'tooltip-story-auto',
 }
 
 export const TopPlacement = Template.bind({})
@@ -166,13 +158,6 @@ export const Visible = Template.bind({})
 Visible.args = {
   visible: true,
   id: 'tooltip-story-visible',
-}
-
-export const Disabled = Template.bind({})
-Disabled.args = {
-  disabled: true,
-  visible: undefined,
-  id: 'tooltip-story-disabled',
 }
 
 export const WithTooltip: StoryFn<TooltipProps> = () => (

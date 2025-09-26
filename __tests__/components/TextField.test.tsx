@@ -90,13 +90,13 @@ describe('TextField', () => {
 
     const { container } = await renderAndCheckA11Y(<Wrapper />)
 
-    expect(onChange).toBeCalledTimes(0)
+    expect(onChange).toHaveBeenCalledTimes(0)
 
     await act(async () => {
       fireEvent.change(container.querySelector('input')!, { target: { value: 'Luke' } })
     })
 
-    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange.mock.calls[0][0]).toMatchObject({ target: { value: 'Luke' } })
   })
 
@@ -108,13 +108,13 @@ describe('TextField', () => {
       <TextField name="name" value="Yoda" placeholder="Enter the name" label="Wisest jedi" onBlur={onBlur} onChange={onChange} />,
     )
 
-    expect(onBlur).toBeCalledTimes(0)
+    expect(onBlur).toHaveBeenCalledTimes(0)
 
     await act(async () => {
       fireEvent.blur(container.querySelector('input')!)
     })
 
-    expect(onBlur).toBeCalledTimes(1)
+    expect(onBlur).toHaveBeenCalledTimes(1)
   })
 
   it('Renders helper text', async () => {
@@ -167,8 +167,6 @@ describe('TextField', () => {
 
     expect(helperEl).toBeInTheDocument()
     expect(helperEl).toHaveClass(styles.helperText)
-    expect(screen.queryByTestId('tooltip-sr')).toHaveAttribute('id', 'republic-help')
-    expect(screen.queryByTestId('tooltip-overlay')).toHaveTextContent('A long time ago in a galaxy far, far away....')
   })
 
   it('Renders error with correct props', async () => {

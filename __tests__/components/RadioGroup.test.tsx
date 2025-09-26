@@ -34,7 +34,7 @@ describe('RadioGroup', () => {
       </RadioGroup>,
     )
 
-    expect(onChange).toBeCalledTimes(0)
+    expect(onChange).toHaveBeenCalledTimes(0)
 
     const input = container.querySelector("input[value='world']")!
 
@@ -42,6 +42,6 @@ describe('RadioGroup', () => {
 
     await act(() => userEvent.click(input))
 
-    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toHaveBeenCalledTimes(1)
   })
 })

@@ -17,7 +17,6 @@ interface TruncatedTextProps extends DataTestProp {
   multiline?: boolean
   tooltipVisible?: boolean
   tooltipClassName?: string
-  hoverAbleTooltip?: boolean
   tooltipPlacement?: TooltipProps['placement']
 }
 
@@ -27,7 +26,6 @@ export const TruncatedText: FC<TruncatedTextProps> = ({
   className,
   tooltipVisible,
   tooltipPlacement = 'top',
-  hoverAbleTooltip,
   multiline,
   tooltipClassName,
   'data-test': dataTest,
@@ -48,15 +46,7 @@ export const TruncatedText: FC<TruncatedTextProps> = ({
   }, [text, forceUpdateToken])
 
   return (
-    <Tooltip
-      id={idTooltip}
-      content={tooltip}
-      visible={tooltipVisible}
-      className={tooltipClassName}
-      placement={tooltipPlacement}
-      updateToken={forceUpdateToken}
-      hoverAbleTooltip={hoverAbleTooltip}
-    >
+    <Tooltip id={idTooltip} content={tooltip} visible={tooltipVisible} className={tooltipClassName} placement={tooltipPlacement}>
       {(ref) => (
         <div ref={mergeRefs([textRef, ref])} className={cn(styles.truncatedText, { [styles.multiline]: multiline }, className)}>
           <span data-test={dataTest} aria-labelledby={tooltip ? idTooltip : undefined}>

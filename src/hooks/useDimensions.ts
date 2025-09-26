@@ -6,7 +6,7 @@ export type Dimensions = {
   height: number
 }
 
-export const useDimensions = (ref: RefObject<HTMLElement>): Dimensions => {
+export const useDimensions = (ref: RefObject<HTMLElement | null>): Dimensions => {
   const [dimensions, setDimensions] = useState<Dimensions>({ width: 0, height: 0 })
 
   const handleResize = useCallback(() => {

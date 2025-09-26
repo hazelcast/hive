@@ -90,8 +90,8 @@ describe('Notification', () => {
 
     const closeButton = screen.getByTestId('notification-close')
 
-    expect(onClose).toBeCalledTimes(0)
+    expect(onClose).toHaveBeenCalledTimes(0)
     await userEvent.click(closeButton)
-    expect(onClose).toBeCalledTimes(1)
+    expect(onClose).toHaveBeenCalledTimes(1)
   })
 })

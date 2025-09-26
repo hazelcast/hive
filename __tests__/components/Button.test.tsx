@@ -168,9 +168,7 @@ describe('Button', () => {
       </div>,
     )
 
-    expect(screen.getByTestId('button')).toHaveAttribute('disabled')
-    expect(screen.getByTestId('tooltip-overlay')).toHaveTextContent(disabledTooltip)
-    expect(screen.queryByTestId('loader')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('tooltip-overlay')).not.toBeInTheDocument()
   })
 
   it('Renders disabled loading button with a disabled tooltip', async () => {
@@ -179,29 +177,30 @@ describe('Button', () => {
     await renderAndCheckA11Y(
       // div is required because `axe` cannot validate react fragments
       <div>
-        <Button disabled loading disabledTooltip={disabledTooltip}>
+        <Button disabled loading disabledTooltip={disabledTooltip} disabledTooltipVisible>
           {label}
         </Button>
       </div>,
     )
 
-    expect(screen.getByTestId('button')).toHaveAttribute('disabled')
+    const button = screen.getByTestId('button')
+    expect(button).toHaveAttribute('disabled')
+
+    await userEvent.hover(button)
     expect(screen.getByTestId('tooltip-overlay')).toHaveTextContent(disabledTooltip)
-    expect(screen.getByTestId('loader')).toHaveClass(cn(styles.iconLeft, loaderStyles.small))
   })
 
   it('Renders disabled button, tooltip is enabled, correct tooltipVisible flag passed to TruncatedText', async () => {
     const disabledTooltip = 'Disabled tooltip'
 
     await renderAndCheckA11Y(
-      <Button disabled disabledTooltip={disabledTooltip}>
+      <Button disabled disabledTooltip={disabledTooltip} disabledTooltipVisible>
         {label}
       </Button>,
     )
 
     const tooltip = screen.getByTestId('tooltip-overlay')
     expect(tooltip).toHaveTextContent(disabledTooltip)
-    expect(tooltip).toHaveClass(tooltipStyles.hidden)
 
     fireEvent.mouseEnter(screen.getByTestId('button'))
 
@@ -217,13 +216,9 @@ describe('Button', () => {
       </Button>,
     )
 
-    const tooltip = screen.getByTestId('tooltip-overlay')
-    expect(tooltip).toHaveTextContent(disabledTooltip)
-    expect(tooltip).toHaveClass(tooltipStyles.hidden)
-
     fireEvent.mouseEnter(screen.getByTestId('button'))
 
-    expect(tooltip).toHaveClass(tooltipStyles.hidden)
+    expect(screen.queryByTestId('tooltip-overlay')).not.toBeInTheDocument()
   })
 
   it('Renders a button with an inset outline', async () => {

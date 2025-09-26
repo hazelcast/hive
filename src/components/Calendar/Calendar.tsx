@@ -1,7 +1,7 @@
 import React, { FC, PropsWithChildren, useMemo } from 'react'
 import cn from 'classnames'
 import { createPortal } from 'react-dom'
-import DatePicker, { ReactDatePickerProps } from 'react-datepicker'
+import DatePicker, { DatePickerProps } from 'react-datepicker'
 
 import { DataTestProp } from '../../helpers/types'
 import { CalendarInput } from './components/CalendarInput'
@@ -39,12 +39,14 @@ export type CalendarProps = {
   date: Date | null
   inputLabel?: string
   inputClassName?: string
-  onDateChange: ReactDatePickerProps['onChange']
+  onDateChange: (date: Date | null, event?: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>) => void
+  selectsRange?: never
+  selectsMultiple?: never
   size?: CalendarSize
   container?: PortalContainer
   inPortal?: boolean // prevents creating its own portal
   dateFormat?: string
-} & Omit<ReactDatePickerProps, 'value' | 'onChange' | 'dateFormat'> &
+} & Omit<DatePickerProps, 'value' | 'onChange' | 'dateFormat' | 'selectsMultiple' | 'selectsRange' | 'showMonthYearDropdown'> &
   DataTestProp
 
 export const Calendar: FC<CalendarProps> = ({
@@ -81,21 +83,12 @@ export const Calendar: FC<CalendarProps> = ({
         data-test={dataTest}
         calendarClassName={cn(styles.calendar, calendarClassName)}
         className={className}
-        /*
-         * Note: The library instantiates the component using React.cloneElement
-         * Source: https://github.com/Hacker0x01/react-datepicker/blob/master/src/index.jsx#L926
-         */
         customInput={<CalendarInput data-test={`${dataTest}-input`} label={inputLabel} textFieldSize={size} className={inputClassName} />}
         customTimeInput={<CalendarTime data-test={`${dataTest}-time`} />}
         dateFormat={showTimeInput ? `${dateFormat} ${timeFormat}` : dateFormat}
         onChange={onDateChange}
         popperContainer={PopperContainer}
-        /*
-         * Note:
-         * 'renderCustomHeader' is the only child component override prop that is not instantiated
-         * via React.cloneElement. So at least we can utilise a typed React.Component over React.ReactNode here
-         */
-        renderCustomHeader={CalendarHeader}
+        renderCustomHeader={({ ...props }) => <CalendarHeader {...props} />}
         selected={date}
         timeFormat={timeFormat}
         showPopperArrow={false}
