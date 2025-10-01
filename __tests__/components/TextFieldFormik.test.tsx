@@ -1,6 +1,7 @@
 import React from 'react'
 import { Formik, Form } from 'formik'
-import { renderAndCheckA11Y, TextFieldFormik } from '../../src'
+import { renderAndCheckA11Y } from '../../src/test-helpers'
+import { TextFieldFormik } from '../../src'
 import { act, fireEvent } from '@testing-library/react'
 
 describe('TextFieldFormik', () => {

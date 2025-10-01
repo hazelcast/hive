@@ -1,5 +1,5 @@
 import React from 'react'
-import { axeDefaultOptions, renderAndCheckA11Y } from '../../src'
+import { axeDefaultOptions, renderAndCheckA11Y } from '../../src/test-helpers'
 import { render, screen, within } from '@testing-library/react'
 
 import { SegmentedControl, SegmentedControlOption } from '../../src/components/SegmentedControl'

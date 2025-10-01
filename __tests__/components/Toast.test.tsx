@@ -1,7 +1,7 @@
 import React from 'react'
 import { act, within, screen, fireEvent } from '@testing-library/react'
 import { AlertTriangle, CheckCircle, Info, AlertCircle } from 'react-feather'
-import { renderAndCheckA11Y } from '../../src'
+import { renderAndCheckA11Y } from '../../src/test-helpers'
 import userEvent from '@testing-library/user-event'
 
 import { Toast, ToastType, ToastIconDescriptor } from '../../src/components/Toast'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { renderAndCheckA11Y } from '../../src'
+import { renderAndCheckA11Y } from '../../src/test-helpers'
 import { screen, within } from '@testing-library/react'
 
 import { CircularProgressBar, innerStrokeWidth, outerStrokeWidth, size } from '../../src/components/CircularProgressBar'

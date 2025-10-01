@@ -1,7 +1,7 @@
 import React from 'react'
 import { screen, within, act } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
-import { getFixedTimezoneDate, renderAndCheckA11Y } from '../../../src'
+import { getFixedTimezoneDate, renderAndCheckA11Y } from '../../../src/test-helpers'
 
 import { Calendar } from '../../../src/components/Calendar/Calendar'
 

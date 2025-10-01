@@ -1,4 +1,4 @@
-import { renderAndCheckA11Y } from '../../../src'
+import { renderAndCheckA11Y } from '../../../src/test-helpers'
 import React, { PropsWithChildren } from 'react'
 import { useUID } from 'react-uid'
 import { screen, within } from '@testing-library/react'

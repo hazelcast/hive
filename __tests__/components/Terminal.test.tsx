@@ -1,4 +1,4 @@
-import { jestFnControlledPromise, renderAndCheckA11Y } from '../../src'
+import { jestFnControlledPromise, renderAndCheckA11Y } from '../../src/test-helpers'
 import React from 'react'
 import { act, fireEvent } from '@testing-library/react'
 

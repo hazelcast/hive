@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { act, fireEvent, screen } from '@testing-library/react'
-import { renderAndCheckA11Y } from '../../src'
+import { renderAndCheckA11Y } from '../../src/test-helpers'
 import { useUID } from 'react-uid'
 import userEvent from '@testing-library/user-event'
 

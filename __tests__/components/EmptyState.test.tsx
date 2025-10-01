@@ -2,7 +2,7 @@ import React from 'react'
 import cn from 'classnames'
 import userEvent from '@testing-library/user-event'
 import { act, screen, within } from '@testing-library/react'
-import { renderAndCheckA11Y } from '../../src'
+import { renderAndCheckA11Y } from '../../src/test-helpers'
 import { SiFigma } from '@icons-pack/react-simple-icons'
 
 import { LinkRel } from '../../src/components/Link'

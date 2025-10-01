@@ -2,7 +2,7 @@ import React from 'react'
 import cn from 'classnames'
 import userEvent from '@testing-library/user-event'
 import { screen, within } from '@testing-library/react'
-import { renderAndCheckA11Y } from '../../src'
+import { renderAndCheckA11Y } from '../../src/test-helpers'
 import { AlertTriangle, CheckCircle, AlertCircle, Info } from 'react-feather'
 
 import { Notification, NotificationType, NotificationIconDescriptor } from '../../src/components/Notification'

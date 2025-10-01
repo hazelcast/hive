@@ -2,7 +2,7 @@ import React from 'react'
 import cn from 'classnames'
 import { useUID } from 'react-uid'
 import { screen, fireEvent } from '@testing-library/react'
-import { renderAndCheckA11Y } from '../../../src'
+import { renderAndCheckA11Y } from '../../../src/test-helpers'
 import userEvent from '@testing-library/user-event'
 
 import { getPanelId, getTabId, TabContextProvider, TabContextProviderControlled } from '../../../src/components/Tabs/TabContext'
