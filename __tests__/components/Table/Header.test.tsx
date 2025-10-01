@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import { fireEvent, screen } from '@testing-library/react'
-import { renderAndCheckA11Y } from '../../../src'
+import { renderAndCheckA11Y } from '../../../src/test-helpers'
 
 import { Header, HeaderProps } from '../../../src/components/Table/Header'
 

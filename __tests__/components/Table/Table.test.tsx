@@ -2,7 +2,7 @@ import React from 'react'
 import startCase from 'lodash/startCase'
 import { fireEvent, screen, within, act } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
-import { axeDefaultOptions, renderAndCheckA11Y } from '../../../src'
+import { axeDefaultOptions, renderAndCheckA11Y } from '../../../src/test-helpers'
 
 import { getColumns } from './utils'
 import { Table } from '../../../src/components/Table/Table'

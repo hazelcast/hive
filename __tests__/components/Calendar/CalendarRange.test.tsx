@@ -1,4 +1,4 @@
-import { getFixedTimezoneDate, renderAndCheckA11Y } from '../../../src'
+import { getFixedTimezoneDate, renderAndCheckA11Y } from '../../../src/test-helpers'
 import React from 'react'
 import { screen, within } from '@testing-library/react'
 

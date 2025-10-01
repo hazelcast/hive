@@ -1,4 +1,4 @@
-import { renderAndCheckA11Y } from '../../../../src'
+import { renderAndCheckA11Y } from '../../../../src/test-helpers'
 import React from 'react'
 import { screen } from '@testing-library/react'
 

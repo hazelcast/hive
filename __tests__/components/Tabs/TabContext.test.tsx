@@ -1,6 +1,6 @@
 import React from 'react'
 import { useUID } from 'react-uid'
-import { renderAndCheckA11Y } from '../../../src'
+import { renderAndCheckA11Y } from '../../../src/test-helpers'
 import { renderHook } from '@testing-library/react'
 
 import {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { fireEvent, screen, within } from '@testing-library/react'
-import { renderAndCheckA11Y } from '../../src'
+import { renderAndCheckA11Y } from '../../src/test-helpers'
 
 import { Clipboard } from 'react-feather'
 import { ToastType } from '../../src/components/Toast'

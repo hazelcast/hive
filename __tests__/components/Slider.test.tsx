@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { renderAndCheckA11Y } from '../../src'
+import { renderAndCheckA11Y } from '../../src/test-helpers'
 import { useUID } from 'react-uid'
 import { act, screen, fireEvent } from '@testing-library/react'
 

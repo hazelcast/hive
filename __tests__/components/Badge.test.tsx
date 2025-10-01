@@ -1,4 +1,4 @@
-import { renderAndCheckA11Y } from '../../src'
+import { renderAndCheckA11Y } from '../../src/test-helpers'
 import React from 'react'
 import { Info, CheckCircle, AlertTriangle, AlertCircle } from 'react-feather'
 import { screen, within } from '@testing-library/react'

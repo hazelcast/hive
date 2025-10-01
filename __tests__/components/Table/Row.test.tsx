@@ -1,4 +1,4 @@
-import { renderAndCheckA11Y } from '../../../src'
+import { renderAndCheckA11Y } from '../../../src/test-helpers'
 import React, { PropsWithChildren } from 'react'
 import { fireEvent, screen, act } from '@testing-library/react'
 

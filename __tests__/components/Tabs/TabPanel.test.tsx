@@ -1,7 +1,7 @@
 import React from 'react'
 import { useUID } from 'react-uid'
 import cn from 'classnames'
-import { renderAndCheckA11Y } from '../../../src'
+import { renderAndCheckA11Y } from '../../../src/test-helpers'
 import { screen } from '@testing-library/react'
 
 import { getPanelId, getTabId, TabContextProvider } from '../../../src/components/Tabs/TabContext'

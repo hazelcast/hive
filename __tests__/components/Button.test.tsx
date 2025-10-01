@@ -1,6 +1,6 @@
 import React from 'react'
 import { X } from 'react-feather'
-import { renderAndCheckA11Y } from '../../src'
+import { renderAndCheckA11Y } from '../../src/test-helpers'
 import cn from 'classnames'
 import { act, fireEvent, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'

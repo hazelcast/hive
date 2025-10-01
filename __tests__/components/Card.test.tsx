@@ -2,7 +2,7 @@ import React from 'react'
 import { Database } from 'react-feather'
 import { toHaveNoViolations } from 'jest-axe'
 import { screen, within } from '@testing-library/react'
-import { renderAndCheckA11Y } from '../../src'
+import { renderAndCheckA11Y } from '../../src/test-helpers'
 
 import { Card, IconButton } from '../../src'
 

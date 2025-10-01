@@ -1,6 +1,6 @@
 import React from 'react'
 import { useUID } from 'react-uid'
-import { renderAndCheckA11Y } from '../../../src'
+import { renderAndCheckA11Y } from '../../../src/test-helpers'
 import { Options } from 'react-select'
 import { screen, within } from '@testing-library/react'
 import { Aperture } from 'react-feather'

@@ -1,6 +1,6 @@
 import React, { createRef } from 'react'
 import { Formik, Form, FormikProps } from 'formik'
-import { renderAndCheckA11Y } from '../../../src'
+import { renderAndCheckA11Y } from '../../../src/test-helpers'
 import userEvent from '@testing-library/user-event'
 import { screen, act, fireEvent } from '@testing-library/react'
 
