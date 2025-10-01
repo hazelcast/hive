@@ -81,6 +81,11 @@ export { Folder } from './icons/Folder'
 export { Compute } from './icons/Compute'
 export { Compare } from './icons/Compare'
 
+// test-helpers
+export { getFixedTimezoneDate } from './test-helpers/time'
+export { jestFnControlledPromise } from './test-helpers/utils'
+export { axeDefaultOptions, renderAndCheckA11Y } from './test-helpers/render'
+
 // services
 export { logger } from './services/logger'
 export { TimeService } from './services/time'
