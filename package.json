@@ -1,6 +1,6 @@
 {
   "name": "@hazelcast/ui",
-  "version": "2.0.5-canary.0",
+  "version": "3.0.0-canary.0",
   "description": "Hazelcast design system components and utilities",
   "homepage": "https://github.com/hazelcast/hive#readme",
   "bugs": {
