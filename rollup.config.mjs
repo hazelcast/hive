@@ -73,8 +73,7 @@ export default {
   external,
   output: {
     dir: 'lib',
-    format: 'cjs',
-    exports: 'named',
+    format: 'esm',
     preserveModules: true,
     preserveModulesRoot: 'src',
     entryFileNames: '[name].js',
@@ -87,7 +86,7 @@ export default {
     commonjs({
       esmExternals: true,
       requireReturnsDefault: 'preferred',
-      defaultIsModuleExports: true
+      defaultIsModuleExports: false
     }),
     typescript({
       tsconfig: './tsconfig.json',

@@ -13,6 +13,7 @@
   "license": "Apache-2.0",
   "author": "Hazelcast",
   "sideEffects": false,
+  "type": "module",
   "main": "lib/index.js",
   "module": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -27,7 +28,8 @@
   "scripts": {
     "build-storybook": "storybook build",
     "chromatic": "chromatic --project-token=CHROMATIC_PROJECT_TOKEN",
-    "compile": "rm -rf lib && rollup -c",
+    "compile": "shx rm -f *.tsbuildinfo && shx rm -rf lib && shx mkdir lib && shx cp -r src/* lib && shx rm -rf lib/*.{tsx,ts} && shx rm -rf lib/**/*.{tsx,ts} && tsc -p tsconfig.build.json",
+    "compile-rollup": "rm -rf lib && rollup -c",
     "generate-screenshots": "npm run build-storybook && loki update --reactUri file:./storybook-static --chromeDockerImage 'yukinying/chrome-headless-browser-stable:110.0.5481.77' --chromeFlags='--headless --disable-gpu --hide-scrollbars --no-sandbox --allow-file-access-from-files'",
     "lint": "npm run lint:ts && npm run lint:css",
     "lint:css": "postcss --config ./.postcss-lint --replace '**/*.{css,scss}'",
