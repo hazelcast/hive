@@ -62,7 +62,7 @@ export const Tooltip: FC<TooltipProps> = ({
   zIndex = 20,
   arrow: showArrow = true,
   color,
-  autoPlacement = false,
+  autoPlacement = true,
   className,
 }) => {
   const [isOpen, setIsOpen] = useState(false)
