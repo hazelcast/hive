@@ -57,6 +57,7 @@ export const Overlay: FC<OverlayProps> = ({
   isOpen,
   closable = true,
   closeText = 'Cancel',
+  ariaHideApp = false,
   ...rest
 }) => {
   useIsomorphicLayoutEffect(() => {
@@ -79,6 +80,7 @@ export const Overlay: FC<OverlayProps> = ({
       shouldFocusAfterRender
       shouldReturnFocusAfterClose
       isOpen={isOpen}
+      ariaHideApp={ariaHideApp}
       {...rest}
     >
       <div
