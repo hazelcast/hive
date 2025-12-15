@@ -161,6 +161,19 @@ $selectGroupHeading: ':global .hz-select-field__group-heading';
     // https://stackoverflow.com/a/52616313
     outline: c.$outlineWidth solid transparent;
     text-align: left;
+
+    &.small {
+      line-height: c.$inputHeightSmall;
+      min-height: c.$inputHeightSmall;
+    }
+
+    &:first-child {
+      border-radius: c.$borderRadius c.$borderRadius 0 0;
+    }
+
+    &:last-child {
+      border-radius: 0 0 c.$borderRadius c.$borderRadius;
+    }
   }
 
   #{$selectOption}--is-focused {

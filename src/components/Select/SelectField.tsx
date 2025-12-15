@@ -190,6 +190,7 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
     // @ts-ignore
     renderMenuFooter,
     menuShouldScrollIntoView,
+    classNames: { option: () => size },
     ...rest,
   }
 
