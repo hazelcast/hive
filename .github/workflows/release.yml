@@ -29,6 +29,9 @@ on:
           - preminor
           - premajor
 
+permissions:
+  id-token: write
+
 jobs:
   chromatic-deployment:
     if: github.event.inputs.skip_chromatic_publish == false
@@ -58,9 +61,6 @@ jobs:
       - uses: ./.github/actions/install
       - name: Compile package
         run: npm run compile
-      - run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Increment version
         run: |
           npm version --preid canary --no-commit-hooks ${{ github.event.inputs.release_type || 'prerelease' }}
