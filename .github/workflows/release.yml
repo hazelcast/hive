@@ -29,6 +29,12 @@ on:
           - preminor
           - premajor
 
+permissions:
+  # OIDC token for npm registry authentication - https://docs.npmjs.com/trusted-publishers
+  id-token: write
+  # `git push` changes back to repo
+  contents: write
+
 jobs:
   chromatic-deployment:
     if: github.event.inputs.skip_chromatic_publish == false
@@ -58,9 +64,6 @@ jobs:
       - uses: ./.github/actions/install
       - name: Compile package
         run: npm run compile
-      - run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Increment version
         run: |
           npm version --preid canary --no-commit-hooks ${{ github.event.inputs.release_type || 'prerelease' }}
