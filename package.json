@@ -1,6 +1,6 @@
 {
   "name": "@hazelcast/ui",
-  "version": "3.0.7",
+  "version": "3.0.8",
   "description": "Hazelcast design system components and utilities",
   "homepage": "https://github.com/hazelcast/hive#readme",
   "bugs": {
