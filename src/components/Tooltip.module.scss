@@ -22,7 +22,8 @@
   border: c.$borderWidth solid c.$colorNeutralLight;
   border-radius: c.$borderRadius;
   color: c.$colorText;
-  word-break: break-all;
+  word-break: break-word;
+  text-align: center;
 
   &.secondary {
     border: none;
