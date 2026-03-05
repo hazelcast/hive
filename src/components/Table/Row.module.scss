@@ -4,6 +4,7 @@
 @mixin rowBase {
   display: flex;
   width: 100%;
+  @include c.typographyBodySmall;
 
   &:nth-child(even) {
     background-color: c.$colorNeutralLighter;
@@ -11,7 +12,6 @@
 }
 
 .row {
-  @include c.typographyBodySmall;
   @include rowBase;
 
   &.clickable {
