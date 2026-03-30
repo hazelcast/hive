@@ -49,7 +49,7 @@ jobs:
       - name: Publish to Chromatic
         uses: chromaui/action@v11
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ github.token }}
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           exitZeroOnChanges: true
           workingDir: ./
@@ -69,7 +69,5 @@ jobs:
           npm version --preid canary --no-commit-hooks ${{ github.event.inputs.release_type || 'prerelease' }}
           git push --no-verify
           git push --tags --no-verify
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish to npm
         run: npm publish
