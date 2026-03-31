@@ -5,7 +5,6 @@ import cn from 'classnames'
 
 import { Button, ButtonProps, ButtonTypeAnchorProps } from '../src/components/Button'
 
-import styles from '../src/components/Button.module.scss'
 import storyStyles from './Button.stories.module.scss'
 
 type Story = StoryObj<typeof Button>
@@ -90,17 +89,9 @@ const DarkBackground = ({ children }: { children: ReactNode }) => (
 
 export const Default: Story = {}
 
-export const Hovered: Story = {
-  args: {
-    className: styles.hover,
-  },
-}
+export const Hovered: Story = {}
 
-export const Focused: Story = {
-  args: {
-    className: styles.focus,
-  },
-}
+export const Focused: Story = {}
 
 export const Active: Story = {
   args: {

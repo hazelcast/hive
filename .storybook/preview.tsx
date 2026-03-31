@@ -1,5 +1,6 @@
 import type { Preview } from '@storybook/react'
 
+import '../src/styles/globals.css'
 import './preview.scss'
 import 'react-datepicker/dist/react-datepicker.css'
 

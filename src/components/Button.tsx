@@ -1,5 +1,4 @@
 import React, { ButtonHTMLAttributes, forwardRef, HTMLAttributes, ReactElement } from 'react'
-import cn from 'classnames'
 import mergeRefs from 'react-merge-refs'
 import { useUID } from 'react-uid'
 
@@ -9,8 +8,8 @@ import { Tooltip, TooltipProps } from './Tooltip'
 import { LinkRel, LinkTarget } from './Link'
 import { Loader } from './Loader'
 import { DataTestProp } from '../helpers/types'
-
-import styles from './Button.module.scss'
+import { cn } from '../lib/utils'
+import { buttonVariants } from './ui/button'
 
 export type ButtonVariant = 'contained' | 'outlined' | 'text'
 export type ButtonColor = 'primary' | 'secondary' | 'warning' | 'brand' | 'authPrimary' | 'authSecondary' | 'light'
@@ -106,8 +105,6 @@ export type ButtonProps<T = ButtonTypeProps> = ButtonCommonProps &
   ButtonAccessibleIconRightProps &
   DataTestProp
 
-const capitalizeFirstCharacter = (str: string) => `${str[0].toUpperCase()}${str.slice(1)}`
-
 /**
  * ### Purpose
  * Make it clear what users should do to continue with their main flow by using buttons to highlight the main actions they can take.
@@ -185,16 +182,9 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
         {(tooltipRef) => (
           <Component
             data-test="button"
-            className={cn(
-              styles.button,
-              {
-                [styles[`color${capitalizeFirstCharacter(color)}`]]: true,
-                [styles[`variant${capitalizeFirstCharacter(variant)}`]]: true,
-                [styles.active]: active,
-                [styles[size]]: size !== 'small',
-              },
-              className,
-            )}
+            // data-active enables the active variant in buttonVariants (data-[active]:...)
+            data-active={active || undefined}
+            className={cn(buttonVariants({ color, variant, size }), className)}
             aria-describedby={disabled ? tooltipId : undefined}
             disabled={disabled ?? loading}
             rel={Component === 'a' ? relFinal : undefined}
@@ -203,40 +193,59 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
             ref={mergeRefs([ref, tooltipRef])}
             {...rest}
           >
-            <span data-test="button-outline" className={cn(styles.outline, { [styles.inset]: outline === 'inset' }, outlineClassName)} />
-            <span className={cn(styles.body, bodyClassName)}>
-              {loading && !loadingAnimationOnRight && <Loader className={styles.iconLeft} size={iconSize} />}
+            {/* Focus ring — made visible via [&:focus-visible_.hz-btn-outline]:visible on parent */}
+            <span
+              data-test="button-outline"
+              className={cn(
+                'hz-btn-outline',
+                'absolute rounded-[var(--button-radius,1.25rem)] pointer-events-none invisible',
+                'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
+                // Contained default: $grid * 2 = 0.5rem extra each dimension
+                'w-[calc(100%+0.5rem)] h-[calc(100%+0.5rem)]',
+                'z-[100]',
+                'outline outline-2 outline-(--color-outline)',
+                { 'hz-btn-outline-inset w-full h-full': outline === 'inset' },
+                outlineClassName,
+              )}
+            />
+
+            <span className={cn('flex flex-row items-center justify-center', 'max-w-full w-full h-full', 'px-5 box-border', bodyClassName)}>
+              {loading && !loadingAnimationOnRight && <Loader className="shrink-0 mr-2" size={iconSize} />}
+
               {iconLeft && iconLeftAriaLabel && !loading && (
                 <Icon
                   icon={iconLeft}
                   ariaLabel={iconLeftAriaLabel}
                   data-test="button-icon-left"
-                  className={cn(styles.iconLeft, iconLeftClassName)}
+                  className={cn('shrink-0 mr-2', iconLeftClassName)}
                   size={iconSize}
                   color={iconLeftColor}
                 />
               )}
+
               {truncate ? (
                 <TruncatedText
                   text={capitalize && typeof children === 'string' ? children.toUpperCase() : children}
                   /*
-                  If a button is disabled and text is long we don't want to show 2 popups.
-                  1. In case a button is disabled and no `disabledTooltipVisible` is enforced, we just hide truncated popup.
-                  2. In case a button is disabled and disabledTooltip is hidden with a false flag, there is a space to show
-                  the truncated popup -> setting it to undefined will leave the default behaviour.
-                */
+                   * If a button is disabled and text is long we don't want to show 2 popups.
+                   * 1. In case a button is disabled and no `disabledTooltipVisible` is enforced, we just hide truncated popup.
+                   * 2. In case a button is disabled and disabledTooltip is hidden with a false flag, there is a space to show
+                   *    the truncated popup -> setting it to undefined will leave the default behaviour.
+                   */
                   tooltipVisible={disabled && disabledTooltipVisible !== false ? false : undefined}
                 />
               ) : (
                 children
               )}
-              {loadingAnimationOnRight && <Loader className={styles.iconRight} size={iconSize} />}
+
+              {loadingAnimationOnRight && <Loader className="shrink-0 ml-2" size={iconSize} />}
+
               {!loadingAnimationOnRight && iconRight && iconRightAriaLabel && (
                 <Icon
                   icon={iconRight}
                   ariaLabel={iconRightAriaLabel}
                   data-test="button-icon-right"
-                  className={cn(styles.iconRight, iconRightClassName)}
+                  className={cn('shrink-0 ml-2', iconRightClassName)}
                   size={iconSize}
                   color={iconRightColor}
                 />
