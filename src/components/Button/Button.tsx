@@ -2,19 +2,17 @@ import React, { ButtonHTMLAttributes, forwardRef, HTMLAttributes, ReactElement }
 import mergeRefs from 'react-merge-refs'
 import { useUID } from 'react-uid'
 
-import { Icon, IconProps, IconSize } from './Icon'
-import { TruncatedText } from './TruncatedText'
-import { Tooltip, TooltipProps } from './Tooltip'
-import { LinkRel, LinkTarget } from './Link'
-import { Loader } from './Loader'
-import { DataTestProp } from '../helpers/types'
-import { cn } from '../lib/utils'
-import { buttonVariants } from './ui/button'
+import { Icon, IconProps, IconSize } from '../Icon'
+import { TruncatedText } from '../TruncatedText'
+import { Tooltip, TooltipProps } from '../Tooltip'
+import { LinkRel, LinkTarget } from '../Link'
+import { Loader } from '../Loader'
+import { DataTestProp } from '../../helpers/types'
+import { cn } from '../../lib/utils'
+import { buttonVariants } from './ButtonPrimitive'
 
 export type ButtonVariant = 'contained' | 'outlined' | 'text'
 export type ButtonColor = 'primary' | 'secondary' | 'warning' | 'brand' | 'authPrimary' | 'authSecondary' | 'light'
-
-export type ButtonSize = 'medium' | 'small'
 
 // Left icon is always present with proper aria-label attribute
 export type ButtonAccessibleIconLeftProps =
@@ -60,18 +58,23 @@ export type ButtonDisabledProps = {
   disabledTooltipPlacement?: TooltipProps['placement']
 }
 
+/**
+ * @deprecated outline/outlineClassName are no-ops in v4.
+ * Focus is now handled by the CSS ring (shadcn default).
+ */
 export type ButtonOutlineType = 'outline' | 'inset'
 
 // Common props for all button "kinds"
 export type ButtonCommonProps = {
   children: string | ReactElement
-  size?: ButtonSize
   iconSize?: IconSize
   color?: ButtonColor
   capitalize?: boolean
   bodyClassName?: string
   variant?: ButtonVariant
+  /** @deprecated no-op in v4, will be removed */
   outlineClassName?: string
+  /** @deprecated no-op in v4, will be removed */
   outline?: ButtonOutlineType
   tooltip?: string
   tooltipColor?: TooltipProps['color']
@@ -131,8 +134,9 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
       component: Component = 'button',
       className,
       bodyClassName,
-      outlineClassName,
-      outline = 'outline',
+      // outline / outlineClassName are no-ops in v4 (ring handles focus)
+      outline: _outline,
+      outlineClassName: _outlineClassName,
       children,
       capitalize = true,
       // Disabled tooltip
@@ -157,7 +161,6 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
       variant = 'contained',
       color = 'primary',
       tooltip,
-      size = 'small',
       active,
       truncate = true,
       iconSize: propIconSize,
@@ -167,7 +170,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
     ref,
   ) => {
     const tooltipId = useUID()
-    const iconSize: IconSize = propIconSize || (size === 'medium' ? 'smallMedium' : 'small')
+    const iconSize: IconSize = propIconSize ?? 'small'
     const relFinal = Array.isArray(rel) ? rel.join(' ') : rel
     const loadingAnimationOnRight = loading && iconRight && iconRightAriaLabel && !(iconLeft && iconLeftAriaLabel)
 
@@ -182,9 +185,8 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
         {(tooltipRef) => (
           <Component
             data-test="button"
-            // data-active enables the active variant in buttonVariants (data-[active]:...)
             data-active={active || undefined}
-            className={cn(buttonVariants({ color, variant, size }), className)}
+            className={cn(buttonVariants({ color, variant }), className)}
             aria-describedby={disabled ? tooltipId : undefined}
             disabled={disabled ?? loading}
             rel={Component === 'a' ? relFinal : undefined}
@@ -193,23 +195,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
             ref={mergeRefs([ref, tooltipRef])}
             {...rest}
           >
-            {/* Focus ring — made visible via [&:focus-visible_.hz-btn-outline]:visible on parent */}
-            <span
-              data-test="button-outline"
-              className={cn(
-                'hz-btn-outline',
-                'absolute rounded-[var(--button-radius,1.25rem)] pointer-events-none invisible',
-                'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
-                // Contained default: $grid * 2 = 0.5rem extra each dimension
-                'w-[calc(100%+0.5rem)] h-[calc(100%+0.5rem)]',
-                'z-[100]',
-                'outline outline-2 outline-(--color-outline)',
-                { 'hz-btn-outline-inset w-full h-full': outline === 'inset' },
-                outlineClassName,
-              )}
-            />
-
-            <span className={cn('flex flex-row items-center justify-center', 'max-w-full w-full h-full', 'px-5 box-border', bodyClassName)}>
+            <span className={cn('flex flex-row items-center justify-center max-w-full w-full h-full px-5 box-border', bodyClassName)}>
               {loading && !loadingAnimationOnRight && <Loader className="shrink-0 mr-2" size={iconSize} />}
 
               {iconLeft && iconLeftAriaLabel && !loading && (

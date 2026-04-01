@@ -25,8 +25,6 @@
 
 # @hazelcast/ui Audit Report — hazelcast-cloud-frontend
 
-Generated: 2026-03-30
-
 ## Summary
 
 | Metric                             | Count |

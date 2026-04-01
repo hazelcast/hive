@@ -1,119 +1,68 @@
 @import 'tailwindcss';
 
-/* ─────────────────────────────────────────────
-   Hazelcast Design Tokens
-   TODO: Mykola — replace these with the final
-   shadcn variable values for the v4 design.
-   ───────────────────────────────────────────── */
-@layer base {
-  :root {
-    /* Primary */
-    --color-primary: #2160c0;
-    --color-primary-light: #2d7de4;
-    --color-primary-dark: #003b87;
-
-    /* Secondary (destructive / error) */
-    --color-secondary: #dc084b;
-    --color-secondary-light: #efb1c9;
-    --color-secondary-dark: #8f001d;
-
-    /* Warning */
-    --color-warning: #ffec44;
-    --color-warning-light: #f9f6c7;
-    --color-warning-dark: #f6dd00;
-
-    /* Brand (teal) */
-    --color-brand: #00bac6;
-    --color-brand-text: #10a4b3;
-
-    /* Auth */
-    --color-auth-primary: #c6ff3a;
-    --color-auth-secondary: #0b2b39;
-
-    /* Neutrals */
-    --color-neutral: #dbdbdb;
-    --color-neutral-white: #ffffff;
-    --color-neutral-light: #b7c1cb;
-    --color-neutral-lighter: #fafafa;
-
-    /* Text */
-    --color-text: #061827;
-    --color-text-secondary: #707482;
-
-    /* Focus outline */
-    --color-outline: #7744ff;
-
-    /* Button geometry */
-    --button-radius: 1.25rem; /* $borderRadiusButtonSmall = $grid * 5 */
-    --button-max-width: 370px;
-    --button-height-sm: 1.875rem; /* $inputHeightSmall = $grid * 7.5 */
-    --button-height-md: 2.6875rem; /* $grid * 10.75 */
-  }
+/* Map shadcn CSS vars → Tailwind design tokens.
+   This enables utilities like bg-primary, text-primary-foreground, etc.
+   All values are resolved at runtime via var(), so they can be themed. */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
 /* ─────────────────────────────────────────────
-   Button color-variant token classes
-   Each sets --btn-* CSS variables consumed by
-   the buttonVariants CVA in ui/button.tsx.
+   shadcn CSS variables — slate base theme.
+   TODO: Mykola — replace these with the final
+   Hazelcast v4 design tokens.
    ───────────────────────────────────────────── */
-@layer components {
-  .hz-btn-primary {
-    --btn-bg: var(--color-primary);
-    --btn-bg-hover: var(--color-primary-light);
-    --btn-bg-active: var(--color-primary-dark);
-    --btn-text-contained: var(--color-neutral-white);
+@layer base {
+  :root {
+    --radius: 0.5rem;
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.145 0 0);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.145 0 0);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.145 0 0);
+    --primary: oklch(0.205 0 0);
+    --primary-foreground: oklch(0.985 0 0);
+    --secondary: oklch(0.97 0 0);
+    --secondary-foreground: oklch(0.205 0 0);
+    --muted: oklch(0.97 0 0);
+    --muted-foreground: oklch(0.556 0 0);
+    --accent: oklch(0.97 0 0);
+    --accent-foreground: oklch(0.205 0 0);
+    --destructive: oklch(0.577 0.245 27.325);
+    --border: oklch(0.922 0 0);
+    --input: oklch(0.922 0 0);
+    --ring: oklch(0.708 0 0);
+    /* Warning — placeholder until Hazelcast tokens are configured */
+    --warning: oklch(0.905 0.182 98.111);
+    --warning-foreground: oklch(0.279 0.077 45.635);
   }
 
-  .hz-btn-secondary {
-    --btn-bg: var(--color-secondary);
-    --btn-bg-hover: var(--color-secondary-light);
-    --btn-bg-active: var(--color-secondary-dark);
-    --btn-text-contained: var(--color-neutral-white);
-  }
-
-  .hz-btn-warning {
-    --btn-bg: var(--color-warning);
-    --btn-bg-hover: var(--color-warning-light);
-    --btn-bg-active: var(--color-warning-dark);
-    --btn-text-contained: var(--color-text);
-  }
-
-  .hz-btn-brand {
-    --btn-bg: var(--color-brand);
-    --btn-bg-hover: color-mix(in srgb, var(--color-brand) 70%, white);
-    --btn-bg-active: color-mix(in srgb, var(--color-brand) 85%, black);
-    --btn-text-contained: var(--color-neutral-white);
-  }
-
-  .hz-btn-auth-primary {
-    --btn-bg: var(--color-auth-primary);
-    --btn-bg-hover: color-mix(in srgb, var(--color-auth-primary) 80%, white);
-    --btn-bg-active: color-mix(in srgb, var(--color-auth-primary) 85%, black);
-    --btn-text-contained: var(--color-text);
-  }
-
-  .hz-btn-auth-secondary {
-    --btn-bg: var(--color-auth-secondary);
-    --btn-bg-hover: color-mix(in srgb, var(--color-auth-secondary) 80%, white);
-    --btn-bg-active: color-mix(in srgb, var(--color-auth-secondary) 85%, black);
-    --btn-text-contained: var(--color-neutral-white);
-  }
-
-  .hz-btn-light {
-    --btn-bg: var(--color-neutral-lighter);
-    --btn-bg-hover: color-mix(in srgb, var(--color-brand-text) 85%, white);
-    --btn-bg-active: var(--color-brand-text);
-    --btn-text-contained: var(--color-text);
-  }
-
-  /* Outlined variant needs a slightly larger focus-outline (accounts for 1px border) */
-  .hz-btn-outlined .hz-btn-outline {
-    width: calc(100% + 0.625rem); /* $grid * 2.5 */
-    height: calc(100% + 0.625rem);
-  }
-
-  .hz-btn-outlined .hz-btn-outline.hz-btn-outline-inset {
-    width: calc(100% + 0.25rem); /* $grid */
-    height: calc(100% + 0.25rem);
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
   }
 }

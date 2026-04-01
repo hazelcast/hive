@@ -21,12 +21,15 @@ Both can be found in the same folder as this library.
 
 ## Key decisions made
 
-- Parallel packages: @hazelcast/ui-v3 and @hazelcast/ui (v4) during transition
-- Migration strategy: Component Bridge (libs/hive-bridge)
-- Control old/new design via an env var
+- Stick to the default shadcn styling (which will be later customized with Tailwind) but keep old variation if that makes sense.
+- All SCSS files should be converted to Tailwind CSS + Native CSS.
 - Primitives: Radix UI (not Base UI)
 - Should export a CSS with Tailwind build but also export the Tailwind config to use it in the client apps.
 - Build tool: tsup
+- If you change the interface of a component, write a migration guide, so I can update the client apps.
+- Keep related components together. For example, if we have a `Button` component, we can also have `IconButton`, `LinkButton`, etc. in the same folder.
+- Stick to the rule one component per file.
+- Name the file the same way the component is named.
 
 ## Migration steps:
 
