@@ -98,6 +98,7 @@ export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
     const tooltipContent = disabled ? disabledTooltip : tooltip
     const tooltipSide = disabled ? disabledTooltipPlacement : tooltipPlacement
     const tooltipOpen =
+      // eslint-disable-next-line no-nested-ternary
       typeof (disabled ? disabledTooltipVisible : tooltipVisible) === 'boolean'
         ? disabled
           ? disabledTooltipVisible
