@@ -13,6 +13,8 @@
     - [3. Props moved / renamed](#3-props-moved--renamed)
     - [4. `TooltipProps` type removed](#4-tooltipprops-type-removed)
     - [5. New exports](#5-new-exports)
+    - [6. `tooltipColor` prop removed from `Button` and `IconButton`](#6-tooltipcolor-prop-removed-from-button-and-iconbutton)
+    - [7. `helperTextTooltipWordBreak` prop removed from `FieldHeader`](#7-helpertexttooltipwordbreak-prop-removed-from-fieldheader)
   - [Checklist for Claude Code](#checklist-for-claude-code)
     - [Tooltip](#tooltip-1)
 
@@ -153,23 +155,32 @@ a **compound component** pattern (similar to shadcn).
 ### 1. Render-prop children API removed
 
 The old `children: (ref) => ReactElement` render-prop pattern is gone.
-Use `<TooltipTrigger asChild>` to wrap the trigger element instead.
 
-**Find:** any `<Tooltip ...>{(ref) => ...}</Tooltip>` usage.
+**Quickest migration path — use `SimpleTooltip`** (mirrors the old single-element API):
 
 ```tsx
 // before
 import { Tooltip } from '@hazelcast/ui'
-
 ;<Tooltip id="my-tooltip" content="Hello" placement="top">
   {(ref) => <button ref={ref}>Hover me</button>}
 </Tooltip>
 ```
 
 ```tsx
-// after
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@hazelcast/ui'
+// after — SimpleTooltip (drop-in for most cases)
+import { SimpleTooltip } from '@hazelcast/ui'
+;<SimpleTooltip content="Hello" placement="top" id="my-tooltip">
+  <button>Hover me</button>
+</SimpleTooltip>
+```
 
+`SimpleTooltip` handles `TooltipProvider`, `Tooltip`, `TooltipTrigger`, and `TooltipContent` internally.
+When `content` is falsy it renders the child directly with no portal overhead.
+
+**Full compound API** — use when you need nested tooltips or advanced control:
+
+```tsx
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@hazelcast/ui'
 ;<TooltipProvider>
   <Tooltip>
     <TooltipTrigger asChild>
@@ -231,6 +242,8 @@ type MyProp = TooltipPlacement
 
 ```ts
 import {
+  SimpleTooltip, // Convenience wrapper — use for most cases
+  SimpleTooltipProps, // Props type for SimpleTooltip
   Tooltip, // Radix Root (open, onOpenChange, defaultOpen, etc.)
   TooltipTrigger, // Wraps the trigger element (use asChild)
   TooltipContent, // The tooltip bubble (placement, arrow, sideOffset, id, className)
@@ -239,6 +252,33 @@ import {
   TooltipContentProps, // Props type for TooltipContent
 } from '@hazelcast/ui'
 ```
+
+### 6. `tooltipColor` prop removed from `Button` and `IconButton`
+
+`tooltipColor` (which took `TooltipProps['color']`) has been removed along with the `color` prop.
+Use `className` on `TooltipContent` via the compound API if a custom colour is needed.
+
+**Find:**
+
+```
+tooltipColor=
+```
+
+**Fix:** delete the prop.
+
+### 7. `helperTextTooltipWordBreak` prop removed from `FieldHeader`
+
+`FieldHeader` no longer accepts `helperTextTooltipWordBreak` (it was forwarded to the old
+`Tooltip`'s `wordBreak` prop which no longer exists). Delete all usages.
+
+**Find:**
+
+```
+helperTextTooltipWordBreak=
+```
+
+**Fix:** delete the prop. Use `helperTextTooltipClassName` with a Tailwind class if custom
+word-break behaviour is needed.
 
 ---
 
@@ -258,11 +298,11 @@ When migrating a file that imports from `@hazelcast/ui`:
 
 ### Tooltip
 
-10. Search for `children={(ref) =>` inside `<Tooltip` — rewrite to compound API (`TooltipTrigger asChild` + `TooltipContent`).
-11. Search for `import.*Tooltip.*from '@hazelcast/ui'` — add `TooltipTrigger`, `TooltipContent`, `TooltipProvider` to the import; remove `TooltipProps` if present.
-12. Search for `TooltipProps\['placement'\]` — replace with `TooltipPlacement`.
+10. Search for `children={(ref) =>` inside `<Tooltip` — replace with `<SimpleTooltip content={...} placement={...}>child</SimpleTooltip>` for simple cases, or the full compound API for advanced usage.
+11. Search for `import.*Tooltip.*from '@hazelcast/ui'` — replace with `SimpleTooltip` (and `TooltipPlacement` if needed); remove `TooltipProps`.
+12. Search for `TooltipProps\['placement'\]` or `TooltipProps\['color'\]` — replace with `TooltipPlacement`; remove color references entirely.
 13. Search for `color=` on `<Tooltip` — delete the prop (no replacement).
-14. Search for `content=` on `<Tooltip` — move the value to be children of `<TooltipContent>`.
-15. Search for `visible=` on `<Tooltip` — rename to `open=` on `<Tooltip>` (the Root).
-16. Wrap each `<Tooltip>` with `<TooltipProvider>` unless one already wraps the subtree.
+14. Search for `visible=` on `<Tooltip` — rename to `open` on `<SimpleTooltip>` or `<Tooltip>`.
+15. Search for `tooltipColor=` on `<Button>` or `<IconButton>` — delete the prop.
+16. Search for `helperTextTooltipWordBreak=` on `<FieldHeader>` — delete the prop.
 17. Re-generate any snapshot tests that include Tooltip output.
