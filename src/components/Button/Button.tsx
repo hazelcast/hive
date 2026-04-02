@@ -1,10 +1,9 @@
 import React, { ButtonHTMLAttributes, forwardRef, HTMLAttributes, ReactElement } from 'react'
-import mergeRefs from 'react-merge-refs'
 import { useUID } from 'react-uid'
 
 import { Icon, IconProps, IconSize } from '../Icon'
 import { TruncatedText } from '../TruncatedText'
-import { Tooltip, TooltipProps } from '../Tooltip'
+import { SimpleTooltip, TooltipPlacement } from '../Tooltip'
 import { LinkRel, LinkTarget } from '../Link'
 import { Loader } from '../Loader'
 import { DataTestProp } from '../../helpers/types'
@@ -55,7 +54,7 @@ export type ButtonDisabledProps = {
   disabledTooltip?: string
   disabled: boolean
   disabledTooltipVisible?: boolean
-  disabledTooltipPlacement?: TooltipProps['placement']
+  disabledTooltipPlacement?: TooltipPlacement
 }
 
 /**
@@ -77,7 +76,7 @@ export type ButtonCommonProps = {
   /** @deprecated no-op in v4, will be removed */
   outline?: ButtonOutlineType
   tooltip?: string
-  tooltipColor?: TooltipProps['color']
+  tooltipPlacement?: TooltipPlacement
   active?: boolean
   truncate?: boolean
 } & (ButtonDisabledProps | ButtonNotDisabledProps) &
@@ -164,7 +163,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
       active,
       truncate = true,
       iconSize: propIconSize,
-      tooltipColor,
+      tooltipPlacement,
       ...rest
     },
     ref,
@@ -173,73 +172,72 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
     const iconSize: IconSize = propIconSize ?? 'small'
     const relFinal = Array.isArray(rel) ? rel.join(' ') : rel
     const loadingAnimationOnRight = loading && iconRight && iconRightAriaLabel && !(iconLeft && iconLeftAriaLabel)
+    const tooltipContent = disabled ? disabledTooltip : tooltip
+    const tooltipOpen = disabled && typeof disabledTooltipVisible === 'boolean' ? disabledTooltipVisible : undefined
+    const tooltipSide = disabledTooltipPlacement ?? tooltipPlacement
+
+    const buttonElement = (
+      <Component
+        data-test="button"
+        data-active={active || undefined}
+        className={cn(buttonVariants({ color, variant }), className)}
+        aria-describedby={tooltipContent ? tooltipId : undefined}
+        disabled={disabled ?? loading}
+        rel={Component === 'a' ? relFinal : undefined}
+        target={Component === 'a' ? target : undefined}
+        type={Component === 'button' ? type : undefined}
+        ref={ref as React.Ref<any>}
+        {...rest}
+      >
+        <span className={cn('flex flex-row items-center justify-center max-w-full w-full h-full px-5 box-border', bodyClassName)}>
+          {loading && !loadingAnimationOnRight && <Loader className="shrink-0 mr-2" size={iconSize} />}
+
+          {iconLeft && iconLeftAriaLabel && !loading && (
+            <Icon
+              icon={iconLeft}
+              ariaLabel={iconLeftAriaLabel}
+              data-test="button-icon-left"
+              className={cn('shrink-0 mr-2', iconLeftClassName)}
+              size={iconSize}
+              color={iconLeftColor}
+            />
+          )}
+
+          {truncate ? (
+            <TruncatedText
+              text={capitalize && typeof children === 'string' ? children.toUpperCase() : children}
+              /*
+               * If a button is disabled and text is long we don't want to show 2 popups.
+               * 1. In case a button is disabled and no `disabledTooltipVisible` is enforced, we just hide truncated popup.
+               * 2. In case a button is disabled and disabledTooltip is hidden with a false flag, there is a space to show
+               *    the truncated popup -> setting it to undefined will leave the default behaviour.
+               */
+              tooltipVisible={disabled && disabledTooltipVisible !== false ? false : undefined}
+            />
+          ) : (
+            children
+          )}
+
+          {loadingAnimationOnRight && <Loader className="shrink-0 ml-2" size={iconSize} />}
+
+          {!loadingAnimationOnRight && iconRight && iconRightAriaLabel && (
+            <Icon
+              icon={iconRight}
+              ariaLabel={iconRightAriaLabel}
+              data-test="button-icon-right"
+              className={cn('shrink-0 ml-2', iconRightClassName)}
+              size={iconSize}
+              color={iconRightColor}
+            />
+          )}
+        </span>
+      </Component>
+    )
 
     return (
-      <Tooltip
-        id={tooltipId}
-        color={tooltipColor}
-        content={disabled ? disabledTooltip : tooltip}
-        visible={disabled && disabledTooltipVisible}
-        placement={disabledTooltipPlacement}
-      >
-        {(tooltipRef) => (
-          <Component
-            data-test="button"
-            data-active={active || undefined}
-            className={cn(buttonVariants({ color, variant }), className)}
-            aria-describedby={disabled ? tooltipId : undefined}
-            disabled={disabled ?? loading}
-            rel={Component === 'a' ? relFinal : undefined}
-            target={Component === 'a' ? target : undefined}
-            type={Component === 'button' ? type : undefined}
-            ref={mergeRefs([ref, tooltipRef])}
-            {...rest}
-          >
-            <span className={cn('flex flex-row items-center justify-center max-w-full w-full h-full px-5 box-border', bodyClassName)}>
-              {loading && !loadingAnimationOnRight && <Loader className="shrink-0 mr-2" size={iconSize} />}
-
-              {iconLeft && iconLeftAriaLabel && !loading && (
-                <Icon
-                  icon={iconLeft}
-                  ariaLabel={iconLeftAriaLabel}
-                  data-test="button-icon-left"
-                  className={cn('shrink-0 mr-2', iconLeftClassName)}
-                  size={iconSize}
-                  color={iconLeftColor}
-                />
-              )}
-
-              {truncate ? (
-                <TruncatedText
-                  text={capitalize && typeof children === 'string' ? children.toUpperCase() : children}
-                  /*
-                   * If a button is disabled and text is long we don't want to show 2 popups.
-                   * 1. In case a button is disabled and no `disabledTooltipVisible` is enforced, we just hide truncated popup.
-                   * 2. In case a button is disabled and disabledTooltip is hidden with a false flag, there is a space to show
-                   *    the truncated popup -> setting it to undefined will leave the default behaviour.
-                   */
-                  tooltipVisible={disabled && disabledTooltipVisible !== false ? false : undefined}
-                />
-              ) : (
-                children
-              )}
-
-              {loadingAnimationOnRight && <Loader className="shrink-0 ml-2" size={iconSize} />}
-
-              {!loadingAnimationOnRight && iconRight && iconRightAriaLabel && (
-                <Icon
-                  icon={iconRight}
-                  ariaLabel={iconRightAriaLabel}
-                  data-test="button-icon-right"
-                  className={cn('shrink-0 ml-2', iconRightClassName)}
-                  size={iconSize}
-                  color={iconRightColor}
-                />
-              )}
-            </span>
-          </Component>
-        )}
-      </Tooltip>
+      <SimpleTooltip content={tooltipContent} open={tooltipOpen} placement={tooltipSide} id={tooltipId}>
+        {buttonElement}
+      </SimpleTooltip>
     )
   },
 )

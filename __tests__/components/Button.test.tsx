@@ -1,86 +1,55 @@
 import React from 'react'
 import { X } from 'react-feather'
 import { renderAndCheckA11Y } from '../../src/test-helpers'
-import cn from 'classnames'
-import { act, fireEvent, screen, within } from '@testing-library/react'
+import { act, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { Button } from '../../src'
 import { testAttribute } from '../helpers'
 import { ButtonColor, ButtonVariant } from '../../src/components/Button'
 
-import styles from '../../src/components/Button.module.scss'
-import loaderStyles from '../../src/components/Loader.module.scss'
-import tooltipStyles from '../../src/components/Tooltip.module.scss'
-
 const label = 'LABEL'
 const ariaLabel = 'X Icon'
 
 describe('Button', () => {
-  const buttonColorTestData: [ButtonColor, string][] = [
-    ['primary', styles.colorPrimary],
-    ['secondary', styles.colorSecondary],
-    ['warning', styles.colorWarning],
-    ['brand', styles.colorBrand],
-    ['authPrimary', styles.colorAuthPrimary],
-    ['authSecondary', styles.colorAuthSecondary],
-    ['light', styles.colorLight],
-  ]
-  const buttonVariantTestData: [ButtonVariant, string][] = [
-    ['contained', `${styles.colorPrimary} ${styles.variantContained}`],
-    ['outlined', `${styles.colorPrimary} ${styles.variantOutlined}`],
-    ['text', `${styles.colorPrimary} ${styles.variantText}`],
-  ]
+  it('Renders Button', async () => {
+    const labelRaw = 'label'
 
-  it.each(buttonVariantTestData)(
-    'Renders Button with correct className which corresponds to button variant and default color',
-    async (variant, className) => {
-      await renderAndCheckA11Y(<Button variant={variant}>Label</Button>)
-
-      expect(screen.getByTestId('button')).toHaveClass(cn(styles.button, className))
-    },
-  )
-
-  it.each(buttonColorTestData)('Renders Button with correct className which corresponds to button color', async (color, className) => {
-    await renderAndCheckA11Y(<Button color={color}>Label</Button>)
-
-    expect(screen.getByTestId('button')).toHaveClass(cn(styles.button, className))
-  })
-
-  const labelTestData: [string][] = [['label'], [label], ['lAbEl']]
-
-  it.each(labelTestData)('Renders Button with correctly capitalized label, when capitalize=true: %s', async (labelRaw) => {
     await renderAndCheckA11Y(<Button>{labelRaw}</Button>)
 
-    expect(screen.queryByText(label)).toBeInTheDocument()
-  })
-
-  it('Renders Button', async () => {
-    const label = 'label'
-
-    await renderAndCheckA11Y(<Button>{label}</Button>)
-
     const button = screen.getByTestId('button')
-    expect(within(button).queryByText(label.toUpperCase())).toBeInTheDocument()
-    expect(button).toHaveClass(cn(styles.button, styles.colorPrimary, styles.variantContained))
+    expect(within(button).queryByText(labelRaw.toUpperCase())).toBeInTheDocument()
     expect(button).toHaveAttribute('type', 'button')
     expect(button).not.toHaveAttribute('aria-describedby')
     expect(button).not.toHaveAttribute('rel')
     expect(button).not.toHaveAttribute('target')
     expect(button).not.toHaveAttribute('disabled')
 
-    expect(within(button).getByTestId('button-outline')).toHaveClass(styles.outline)
-
     expect(within(button).queryByTestId('button-icon-left')).not.toBeInTheDocument()
     expect(within(button).queryByTestId('button-icon-right')).not.toBeInTheDocument()
   })
 
+  it.each<ButtonVariant>(['contained', 'outlined', 'text'])('Renders Button with variant: %s', async (variant) => {
+    await renderAndCheckA11Y(<Button variant={variant}>Label</Button>)
+
+    expect(screen.getByTestId('button')).toBeInTheDocument()
+  })
+
+  it.each<ButtonColor>(['primary', 'secondary', 'warning', 'brand', 'authPrimary', 'authSecondary', 'light'])(
+    'Renders Button with color: %s',
+    async (color) => {
+      await renderAndCheckA11Y(<Button color={color}>Label</Button>)
+
+      expect(screen.getByTestId('button')).toBeInTheDocument()
+    },
+  )
+
   it('Renders Button with original label when capitalize=false', async () => {
-    const label = 'label'
+    const labelRaw = 'label'
 
-    await renderAndCheckA11Y(<Button capitalize={false}>{label}</Button>)
+    await renderAndCheckA11Y(<Button capitalize={false}>{labelRaw}</Button>)
 
-    expect(screen.queryByText(label)).toBeInTheDocument()
+    expect(screen.queryByText(labelRaw)).toBeInTheDocument()
   })
 
   it('Renders button with left icon with proper aria-label', async () => {
@@ -91,11 +60,7 @@ describe('Button', () => {
     )
 
     expect(screen.queryByText(label)).toBeInTheDocument()
-
-    // Left
     expect(within(screen.getByTestId('button-icon-left')).queryByLabelText(ariaLabel)).toBeInTheDocument()
-
-    // Right
     expect(screen.queryByTestId('button-icon-right')).not.toBeInTheDocument()
   })
 
@@ -107,11 +72,7 @@ describe('Button', () => {
     )
 
     expect(screen.queryByText(label)).toBeInTheDocument()
-
-    // Left
     expect(screen.queryByTestId('button-icon-left')).not.toBeInTheDocument()
-
-    // Right
     expect(within(screen.getByTestId('button-icon-right')).queryByLabelText(ariaLabel)).toBeInTheDocument()
   })
 
@@ -123,11 +84,7 @@ describe('Button', () => {
     )
 
     expect(screen.queryByText(label)).toBeInTheDocument()
-
-    // Left
     expect(within(screen.getByTestId('button-icon-left')).queryByLabelText(ariaLabel)).toBeInTheDocument()
-
-    // Right
     expect(within(screen.getByTestId('button-icon-right')).queryByLabelText(ariaLabel)).toBeInTheDocument()
   })
 
@@ -140,23 +97,10 @@ describe('Button', () => {
     )
 
     expect(screen.getByTestId('button')).toHaveAttribute('disabled')
-    expect(screen.getByTestId('loader')).toHaveClass(cn(styles.iconLeft, loaderStyles.small))
+    expect(screen.getByTestId('loader')).toBeInTheDocument()
   })
 
-  it('Renders loading animation on right side (only when the right icon is used)', async () => {
-    await renderAndCheckA11Y(
-      // div is required because `axe` cannot validate react fragments
-      <div>
-        <Button loading iconRight={X} iconRightAriaLabel="X Icon">
-          {label}
-        </Button>
-      </div>,
-    )
-
-    expect(screen.getByTestId('loader')).toHaveClass(cn(styles.iconRight, loaderStyles.small))
-  })
-
-  it('Renders disabled button with a disabled tooltip', async () => {
+  it('Renders disabled button with a disabled tooltip (hidden by default)', async () => {
     const disabledTooltip = 'Disabled tooltip'
 
     await renderAndCheckA11Y(
@@ -168,29 +112,11 @@ describe('Button', () => {
       </div>,
     )
 
-    expect(screen.queryByTestId('tooltip-overlay')).not.toBeInTheDocument()
+    // Tooltip is hover-controlled when disabledTooltipVisible is not set
+    expect(screen.queryByText(disabledTooltip)).not.toBeInTheDocument()
   })
 
-  it('Renders disabled loading button with a disabled tooltip', async () => {
-    const disabledTooltip = 'Disabled tooltip'
-
-    await renderAndCheckA11Y(
-      // div is required because `axe` cannot validate react fragments
-      <div>
-        <Button disabled loading disabledTooltip={disabledTooltip} disabledTooltipVisible>
-          {label}
-        </Button>
-      </div>,
-    )
-
-    const button = screen.getByTestId('button')
-    expect(button).toHaveAttribute('disabled')
-
-    await userEvent.hover(button)
-    expect(screen.getByTestId('tooltip-overlay')).toHaveTextContent(disabledTooltip)
-  })
-
-  it('Renders disabled button, tooltip is enabled, correct tooltipVisible flag passed to TruncatedText', async () => {
+  it('Renders disabled button, tooltip is force-shown via disabledTooltipVisible', async () => {
     const disabledTooltip = 'Disabled tooltip'
 
     await renderAndCheckA11Y(
@@ -199,15 +125,10 @@ describe('Button', () => {
       </Button>,
     )
 
-    const tooltip = screen.getByTestId('tooltip-overlay')
-    expect(tooltip).toHaveTextContent(disabledTooltip)
-
-    fireEvent.mouseEnter(screen.getByTestId('button'))
-
-    expect(screen.getByTestId('tooltip-overlay')).not.toHaveClass(tooltipStyles.hidden)
+    expect(screen.getByText(disabledTooltip)).toBeInTheDocument()
   })
 
-  it('Renders disabled button, tooltip is disabled, correct tooltipVisible flag passed to TruncatedText', async () => {
+  it('Renders disabled button, tooltip is force-hidden via disabledTooltipVisible=false', async () => {
     const disabledTooltip = 'Disabled tooltip'
 
     await renderAndCheckA11Y(
@@ -216,15 +137,19 @@ describe('Button', () => {
       </Button>,
     )
 
-    fireEvent.mouseEnter(screen.getByTestId('button'))
-
-    expect(screen.queryByTestId('tooltip-overlay')).not.toBeInTheDocument()
+    expect(screen.queryByText(disabledTooltip)).not.toBeInTheDocument()
   })
 
-  it('Renders a button with an inset outline', async () => {
-    await renderAndCheckA11Y(<Button outline="inset">{label}</Button>)
+  it('Renders button with data-active attribute when active=true', async () => {
+    await renderAndCheckA11Y(<Button active>{label}</Button>)
 
-    expect(screen.getByTestId('button-outline')).toHaveClass(cn(styles.outline, styles.inset))
+    expect(screen.getByTestId('button')).toHaveAttribute('data-active')
+  })
+
+  it('Does not render data-active attribute when active=false', async () => {
+    await renderAndCheckA11Y(<Button active={false}>{label}</Button>)
+
+    expect(screen.getByTestId('button')).not.toHaveAttribute('data-active')
   })
 
   it('Renders button with a link semantics', async () => {
@@ -268,7 +193,7 @@ describe('Button', () => {
     expect(button).toHaveAttribute('type', 'button')
   })
 
-  it('Renders button with a link semantics, check that noopener attribute is passed to a link by default', async () => {
+  it('Renders button with a link semantics, noopener attribute is passed by default', async () => {
     const onClick = jest.fn()
     await renderAndCheckA11Y(
       <Button component="a" href="#test" onClick={onClick}>

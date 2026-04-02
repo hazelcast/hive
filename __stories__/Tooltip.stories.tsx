@@ -1,14 +1,12 @@
 import React from 'react'
 import { Meta, StoryFn } from '@storybook/react'
 
-import { Tooltip, TooltipProps } from '../src/components/Tooltip'
+import { SimpleTooltip, Tooltip, TooltipTrigger, TooltipContent, TooltipProvider, type SimpleTooltipProps } from '../src/components/Tooltip'
 import { Button } from '../src/components/Button'
-
-import styles from './Tooltip.stories.module.scss'
 
 export default {
   title: 'Components/Tooltip',
-  component: Tooltip,
+  component: SimpleTooltip,
   parameters: {
     design: {
       type: 'figma',
@@ -16,168 +14,141 @@ export default {
     },
   },
   args: {
-    id: 'tooltip-story-auto',
     placement: 'bottom',
     content: 'This is a nice tooltip!',
   },
-} as Meta<TooltipProps>
+  argTypes: {
+    children: { control: false },
+    open: { control: false },
+  },
+} as Meta<SimpleTooltipProps>
 
-const Template: StoryFn<TooltipProps> = (args) => (
-  <>
-    <div className={styles.wrapper}>
-      <Tooltip {...args}>
-        {(ref) => (
-          <Button ref={ref} aria-labelledby={args.id} style={{ height: 80 }}>
-            This button has a tooltip
-          </Button>
-        )}
-      </Tooltip>
-      <Tooltip color="dark" {...args}>
-        {(ref) => (
-          <Button ref={ref} aria-labelledby={args.id} style={{ height: 80 }}>
-            This button has a tooltip
-          </Button>
-        )}
-      </Tooltip>
-    </div>
-    <div className={styles.wrapper}>
-      <Tooltip color="secondary" {...args}>
-        {(ref) => (
-          <Button ref={ref} aria-labelledby={args.id} style={{ height: 80 }}>
-            This button has a tooltip
-          </Button>
-        )}
-      </Tooltip>
-    </div>
-  </>
+const Template: StoryFn<SimpleTooltipProps> = (args) => (
+  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 320, gap: 16 }}>
+    <SimpleTooltip {...args}>
+      <Button style={{ height: 80 }}>This button has a tooltip</Button>
+    </SimpleTooltip>
+  </div>
 )
 
 export const AutoPlacement = Template.bind({})
-AutoPlacement.args = {
-  placement: 'top',
-  autoPlacement: true,
-  id: 'tooltip-story-auto',
-}
+AutoPlacement.args = { placement: 'top' }
 
 export const TopPlacement = Template.bind({})
-TopPlacement.args = {
-  placement: 'top',
-  id: 'tooltip-story-top',
-}
+TopPlacement.args = { placement: 'top' }
 
 export const TopStartPlacement = Template.bind({})
-TopStartPlacement.args = {
-  placement: 'top-start',
-  id: 'tooltip-story-top-start',
-}
+TopStartPlacement.args = { placement: 'top-start' }
 
 export const TopEndPlacement = Template.bind({})
-TopEndPlacement.args = {
-  placement: 'top-end',
-  id: 'tooltip-story-top-end',
-}
+TopEndPlacement.args = { placement: 'top-end' }
 
 export const BottomPlacement = Template.bind({})
-BottomPlacement.args = {
-  placement: 'bottom',
-  id: 'tooltip-story-bottom',
-}
+BottomPlacement.args = { placement: 'bottom' }
 
 export const BottomStartPlacement = Template.bind({})
-BottomStartPlacement.args = {
-  placement: 'bottom-start',
-  id: 'tooltip-story-bottom-start',
-}
+BottomStartPlacement.args = { placement: 'bottom-start' }
 
 export const BottomEndPlacement = Template.bind({})
-BottomEndPlacement.args = {
-  placement: 'bottom-end',
-  id: 'tooltip-story-bottom-end',
-}
+BottomEndPlacement.args = { placement: 'bottom-end' }
 
 export const RightPlacement = Template.bind({})
-RightPlacement.args = {
-  placement: 'right',
-  id: 'tooltip-story-right',
-}
+RightPlacement.args = { placement: 'right' }
 
 export const RightStartPlacement = Template.bind({})
-RightStartPlacement.args = {
-  placement: 'right-start',
-  id: 'tooltip-story-right-start',
-}
+RightStartPlacement.args = { placement: 'right-start' }
 
 export const RightEndPlacement = Template.bind({})
-RightEndPlacement.args = {
-  placement: 'right-end',
-  id: 'tooltip-story-right-end',
-}
+RightEndPlacement.args = { placement: 'right-end' }
 
 export const LeftPlacement = Template.bind({})
-LeftPlacement.args = {
-  placement: 'left',
-  id: 'tooltip-story-left',
-}
+LeftPlacement.args = { placement: 'left' }
 
 export const LeftStartPlacement = Template.bind({})
-LeftStartPlacement.args = {
-  placement: 'left-start',
-  id: 'tooltip-story-left-start',
-}
+LeftStartPlacement.args = { placement: 'left-start' }
 
 export const LeftEndPlacement = Template.bind({})
-LeftEndPlacement.args = {
-  placement: 'left-end',
-  id: 'tooltip-story-left-end',
-}
+LeftEndPlacement.args = { placement: 'left-end' }
 
-export const WithInteractiveContent = Template.bind({})
-WithInteractiveContent.args = {
-  placement: 'top',
-  id: 'tooltip-story-with-interactive-content',
-  content: (
-    <>
-      <p>
-        Parley come about mutiny swing the lead to go on account run a shot across the bow schooner fathom bounty carouser. Maroon killick
-        keel driver scourge of the seven seas Jolly Roger hands spyglass Brethren of the Coast booty. Boom rigging gally Plate Fleet pink
-        dance the hempen jig bilge water measured fer yer chains take a caulk tender.
-      </p>
-
-      <Button>Aye Captain!</Button>
-    </>
-  ),
-}
-
-export const Invisible = Template.bind({})
-Invisible.args = {
-  visible: false,
-  id: 'tooltip-story-invisible',
-}
-
-export const Visible = Template.bind({})
-Visible.args = {
-  visible: true,
-  id: 'tooltip-story-visible',
-}
-
-export const WithTooltip: StoryFn<TooltipProps> = () => (
+export const WithInteractiveContent: StoryFn<SimpleTooltipProps> = () => (
   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 320 }}>
-    <Tooltip
+    <SimpleTooltip
+      placement="top"
       content={
-        <Tooltip content="internal tooltip2" id="root_tooltip">
-          {(internalRef) => <span ref={internalRef}>tooltip2</span>}
-        </Tooltip>
-      }
-      id="root"
-    >
-      {(ref) => (
-        <div ref={ref} style={{ height: 80 }}>
-          This element has a{' '}
-          <Tooltip content="internal tooltip" id="internal">
-            {(internalRef) => <span ref={internalRef}>tooltip</span>}
-          </Tooltip>
+        <div>
+          <p style={{ margin: '0 0 8px' }}>This tooltip has interactive content:</p>
+          <Button onClick={() => alert('Clicked inside tooltip!')}>Click me</Button>
         </div>
-      )}
-    </Tooltip>
+      }
+    >
+      <Button style={{ height: 80 }}>Hover for interactive tooltip</Button>
+    </SimpleTooltip>
   </div>
 )
+
+export const LongContent: StoryFn<SimpleTooltipProps> = () => (
+  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 320 }}>
+    <SimpleTooltip
+      placement="top"
+      content="Parley come about mutiny swing the lead to go on account run a shot across the bow schooner fathom bounty carouser. Maroon killick keel driver scourge of the seven seas Jolly Roger hands spyglass Brethren of the Coast booty."
+    >
+      <Button style={{ height: 80 }}>Hover for long tooltip</Button>
+    </SimpleTooltip>
+  </div>
+)
+
+export const Visible: StoryFn<SimpleTooltipProps> = () => (
+  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 320 }}>
+    <SimpleTooltip content="This tooltip is always visible" open>
+      <Button style={{ height: 80 }}>Tooltip always visible</Button>
+    </SimpleTooltip>
+  </div>
+)
+
+export const NoArrow: StoryFn<SimpleTooltipProps> = () => (
+  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 320 }}>
+    <SimpleTooltip content="No arrow here" arrow={false}>
+      <Button style={{ height: 80 }}>Tooltip without arrow</Button>
+    </SimpleTooltip>
+  </div>
+)
+
+// Nested: outer tooltip is controlled so it stays open while hovering either the button or the tooltip
+// content itself (using a grace-period timer). Hovering "hover here" inside also opens a second tooltip.
+const NestedExample = () => {
+  const [outerOpen, setOuterOpen] = React.useState(false)
+  const closeTimer = React.useRef<number | undefined>(undefined)
+
+  const openOuter = () => {
+    clearTimeout(closeTimer.current)
+    setOuterOpen(true)
+  }
+  const closeOuter = () => {
+    closeTimer.current = window.setTimeout(() => setOuterOpen(false), 200)
+  }
+
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 320 }}>
+      <TooltipProvider>
+        <Tooltip open={outerOpen}>
+          <TooltipTrigger asChild>
+            <div style={{ display: 'inline-flex' }} onMouseEnter={openOuter} onMouseLeave={closeOuter}>
+              <Button style={{ height: 80 }}>Hover me</Button>
+            </div>
+          </TooltipTrigger>
+          <TooltipContent placement="top" onMouseEnter={openOuter} onMouseLeave={closeOuter}>
+            First tooltip —{' '}
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span style={{ textDecoration: 'underline', cursor: 'help' }}>hover here</span>
+              </TooltipTrigger>
+              <TooltipContent placement="top">Second tooltip, above the first</TooltipContent>
+            </Tooltip>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    </div>
+  )
+}
+
+export const Nested: StoryFn<SimpleTooltipProps> = () => <NestedExample />
