@@ -1,6 +1,8 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+**Table of Contents** _generated with [DocToc](https://github.com/thlorenz/doctoc)_
+
 - [@hazelcast/ui — v3 → v4 Migration Guide](#hazelcastui--v3-%E2%86%92-v4-migration-guide)
   - [Button](#button)
     - [1. `size` prop removed](#1-size-prop-removed)

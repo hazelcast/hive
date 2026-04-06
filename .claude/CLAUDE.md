@@ -130,7 +130,6 @@ npx tsc --noEmit
 
 ```tsx
 import { SimpleTooltip } from '../Tooltip'
-
 ;<SimpleTooltip content="Hello" placement="top" id={tooltipId}>
   <button>Hover me</button>
 </SimpleTooltip>
@@ -143,7 +142,6 @@ import { SimpleTooltip } from '../Tooltip'
 
 ```tsx
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '../Tooltip'
-
 ;<TooltipProvider>
   <Tooltip>
     <TooltipTrigger asChild>

@@ -110,7 +110,6 @@
     "babel-jest": "^29.7.0",
     "chromatic": "^6.24.1",
     "css-loader": "^7.1.2",
-    "doctoc": "^2.2.1",
     "eslint": "^9.20.1",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-import": "^2.31.0",

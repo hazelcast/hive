@@ -1,37 +1,40 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+**Table of Contents** _generated with [DocToc](https://github.com/thlorenz/doctoc)_
+
+- [Hazelcast Hive](#hazelcast-hive)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [Global CSS](#global-css)
+  - [SSR](#ssr)
+    - [Stable IDs](#stable-ids)
+  - [Project structure](#project-structure)
+    - [Automated visual regression testing](#automated-visual-regression-testing)
+  - [How-to](#how-to)
+    - [Install PnpM](#install-pnpm)
+    - [Setup](#setup)
+      - [Under the hood](#under-the-hood)
+    - [Deploy](#deploy)
+    - [Add a new shared dependency](#add-a-new-shared-dependency)
+    - [Add a new local dependency (for one package only)](#add-a-new-local-dependency-for-one-package-only)
+    - [Make changes to several packages and test it](#make-changes-to-several-packages-and-test-it)
+    - [Run storybook for development](#run-storybook-for-development)
+    - [Run linting](#run-linting)
+    - [Run unit tests](#run-unit-tests)
+    - [Run visual regression tests](#run-visual-regression-tests)
+    - [Approve the updated for visual regression test screenshots](#approve-the-updated-for-visual-regression-test-screenshots)
+    - [Run all checks at once](#run-all-checks-at-once)
+  - [Releasing a new version](#releasing-a-new-version)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Hazelcast Hive
 
 ![](./hive.png)
 
 Design system built with A11Y in mind. Developed as a [Lerna](https://lerna.js.org/) monorepo with shared frontend libraries for a variety of Hazelcast product offerings.  
 **Design system is available live at URL**: https://5f80b6aa3ceb290022dfea61-tultjjrhhk.chromatic.com/?path=/story/getting-started-intro--page
-
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-- [Installation](#installation)
-- [Usage](#usage)
-- [Global CSS](#global-css)
-- [SSR](#ssr)
-  - [Stable IDs](#stable-ids)
-- [Project structure](#project-structure)
-  - [Automated visual regression testing](#automated-visual-regression-testing)
-- [How-to](#how-to)
-  - [Install PnpM](#install-pnpm)
-  - [Setup](#setup)
-    - [Under the hood](#under-the-hood)
-  - [Deploy](#deploy)
-  - [Add a new shared dependency](#add-a-new-shared-dependency)
-  - [Add a new local dependency (for one package only)](#add-a-new-local-dependency-for-one-package-only)
-  - [Make changes to several packages and test it](#make-changes-to-several-packages-and-test-it)
-  - [Run storybook for development](#run-storybook-for-development)
-  - [Run linting](#run-linting)
-  - [Run unit tests](#run-unit-tests)
-  - [Run visual regression tests](#run-visual-regression-tests)
-  - [Approve the updated for visual regression test screenshots](#approve-the-updated-for-visual-regression-test-screenshots)
-  - [Run all checks at once](#run-all-checks-at-once)
-- [Releasing a new version](#releasing-a-new-version)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Installation
 
