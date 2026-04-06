@@ -30,17 +30,7 @@ export type FieldHeaderProps = {
   (FieldHeaderNoLabelProps | FieldHeaderLabelProps)
 
 export const FieldHeader = (props: FieldHeaderProps) => {
-  const {
-    label,
-    id,
-    variant,
-    helperText,
-    size = 'medium',
-    labelClassName,
-    'data-test': dataTest,
-    showAriaLabel,
-    helperTextTooltipWordBreak,
-  } = props
+  const { label, id, variant, helperText, size = 'medium', labelClassName, 'data-test': dataTest, showAriaLabel } = props
 
   if (showAriaLabel) {
     return null
@@ -61,7 +51,6 @@ export const FieldHeader = (props: FieldHeaderProps) => {
           parentId={id}
           helperText={helperText}
           className={styles.helperText}
-          tooltipWordBreak={helperTextTooltipWordBreak}
           data-test={dataTest ? `${dataTest}-helperText` : undefined}
         />
       )}

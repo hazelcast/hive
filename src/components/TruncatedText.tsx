@@ -1,11 +1,10 @@
 import React, { FC, useRef, useState, ReactNode } from 'react'
-import mergeRefs from 'react-merge-refs'
 import cn from 'classnames'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 import { useUID } from 'react-uid'
 
 import { DataTestProp } from '../helpers/types'
-import { Tooltip, TooltipProps } from './Tooltip'
+import { SimpleTooltip, TooltipPlacement } from './Tooltip'
 
 import styles from './TruncatedText.module.scss'
 
@@ -17,7 +16,7 @@ interface TruncatedTextProps extends DataTestProp {
   multiline?: boolean
   tooltipVisible?: boolean
   tooltipClassName?: string
-  tooltipPlacement?: TooltipProps['placement']
+  tooltipPlacement?: TooltipPlacement
 }
 
 export const TruncatedText: FC<TruncatedTextProps> = ({
@@ -31,7 +30,7 @@ export const TruncatedText: FC<TruncatedTextProps> = ({
   'data-test': dataTest,
 }) => {
   const textRef = useRef<HTMLDivElement>(null)
-  const [tooltip, setTooltip] = useState<ReactNode | undefined>()
+  const [isTruncated, setIsTruncated] = useState(false)
   const idTooltip = useUID()
 
   useIsomorphicLayoutEffect(() => {
@@ -42,18 +41,28 @@ export const TruncatedText: FC<TruncatedTextProps> = ({
     }
 
     // https://codepen.io/triple-j/pen/wadKQB
-    setTooltip(span.offsetWidth < span.scrollWidth || span.offsetHeight < span.scrollHeight ? text : undefined)
+    setIsTruncated(span.offsetWidth < span.scrollWidth || span.offsetHeight < span.scrollHeight)
   }, [text, forceUpdateToken])
 
+  const content = (
+    <div ref={textRef} className={cn(styles.truncatedText, { [styles.multiline]: multiline }, className)}>
+      <span data-test={dataTest} aria-labelledby={isTruncated ? idTooltip : undefined}>
+        {text}
+      </span>
+    </div>
+  )
+
+  const tooltipOpen = typeof tooltipVisible === 'boolean' ? tooltipVisible : undefined
+
   return (
-    <Tooltip id={idTooltip} content={tooltip} visible={tooltipVisible} className={tooltipClassName} placement={tooltipPlacement}>
-      {(ref) => (
-        <div ref={mergeRefs([textRef, ref])} className={cn(styles.truncatedText, { [styles.multiline]: multiline }, className)}>
-          <span data-test={dataTest} aria-labelledby={tooltip ? idTooltip : undefined}>
-            {text}
-          </span>
-        </div>
-      )}
-    </Tooltip>
+    <SimpleTooltip
+      content={isTruncated ? text : undefined}
+      open={tooltipOpen}
+      placement={tooltipPlacement}
+      id={idTooltip}
+      className={tooltipClassName}
+    >
+      {content}
+    </SimpleTooltip>
   )
 }

@@ -2,10 +2,9 @@ import React, { ButtonHTMLAttributes, forwardRef } from 'react'
 import cn from 'classnames'
 import { Icon as FeatherIcon } from 'react-feather'
 import { useUID } from 'react-uid'
-import mergeRefs from 'react-merge-refs'
 
 import { Icon, IconProps, IconAriaProps } from './Icon'
-import { Tooltip, TooltipProps } from './Tooltip'
+import { SimpleTooltip, TooltipPlacement } from './Tooltip'
 import { LinkRel, LinkTarget } from './Link'
 import { Loader } from './Loader'
 import { DataTestProp } from '../helpers/types'
@@ -25,7 +24,7 @@ type IconButtonCommonProps = {
   padding?: 'normal'
   tooltip?: string
   tooltipVisible?: boolean
-  tooltipPlacement?: TooltipProps['placement']
+  tooltipPlacement?: TooltipPlacement
 } & DataTestProp &
   IconAriaProps &
   Pick<ButtonHTMLAttributes<HTMLAnchorElement | HTMLButtonElement>, 'onClick' | 'onMouseDown' | 'className' | 'tabIndex' | 'style'>
@@ -39,7 +38,7 @@ export type IconButtonNotDisabledProps = {
 export type IconButtonDisabledProps = {
   disabledTooltip: string
   disabled: boolean
-  disabledTooltipPlacement?: TooltipProps['placement']
+  disabledTooltipPlacement?: TooltipPlacement
   disabledTooltipVisible?: boolean
 }
 type IconButtonComponentProps =
@@ -96,53 +95,60 @@ export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
   ) => {
     const tooltipId = useUID()
     const relFinal = Array.isArray(rel) ? rel.join(' ') : rel
-    const labelledByFinal = [ariaLabelledBy, disabled ? tooltipId : undefined].filter(Boolean).join(' ')
+    const tooltipContent = disabled ? disabledTooltip : tooltip
+    const tooltipSide = disabled ? disabledTooltipPlacement : tooltipPlacement
+    const tooltipOpen =
+      // eslint-disable-next-line no-nested-ternary
+      typeof (disabled ? disabledTooltipVisible : tooltipVisible) === 'boolean'
+        ? disabled
+          ? disabledTooltipVisible
+          : tooltipVisible
+        : undefined
+    const labelledByFinal = [ariaLabelledBy, tooltipContent ? tooltipId : undefined].filter(Boolean).join(' ')
+
+    const buttonElement = (
+      <Component
+        className={cn(
+          styles.iconButton,
+          {
+            [styles.primary]: kind === 'primary',
+            [styles.transparent]: kind === 'transparent',
+            [styles.paddingNormal]: padding === 'normal',
+          },
+          className,
+        )}
+        aria-hidden={ariaHidden}
+        aria-label={ariaLabel}
+        aria-labelledby={labelledByFinal || undefined}
+        disabled={disabled ?? loading}
+        rel={Component === 'a' ? relFinal : undefined}
+        target={Component === 'a' ? target : undefined}
+        type={Component === 'button' ? type : undefined}
+        data-test={dataTest}
+        ref={ref as React.Ref<any>}
+        {...rest}
+      >
+        <span className={styles.body}>
+          {loading && <Loader role={loaderRole} size={size} />}
+          {!loading && (
+            <Icon
+              role={iconRole}
+              className={iconClassName}
+              color={iconColor}
+              data-test={`${dataTest}-icon`}
+              icon={icon}
+              size={size}
+              ariaHidden
+            />
+          )}
+        </span>
+      </Component>
+    )
 
     return (
-      <Tooltip
-        id={tooltipId}
-        content={disabled ? disabledTooltip : tooltip}
-        placement={disabled ? disabledTooltipPlacement : tooltipPlacement}
-        visible={disabled ? disabledTooltipVisible : tooltipVisible}
-      >
-        {(tooltipRef) => (
-          <Component
-            className={cn(
-              styles.iconButton,
-              {
-                [styles.primary]: kind === 'primary',
-                [styles.transparent]: kind === 'transparent',
-                [styles.paddingNormal]: padding === 'normal',
-              },
-              className,
-            )}
-            aria-hidden={ariaHidden}
-            aria-label={ariaLabel}
-            aria-labelledby={labelledByFinal}
-            disabled={disabled ?? loading}
-            rel={Component === 'a' ? relFinal : undefined}
-            target={Component === 'a' ? target : undefined}
-            type={Component === 'button' ? type : undefined}
-            data-test={dataTest}
-            {...rest}
-          >
-            <span className={styles.body} ref={mergeRefs([ref, tooltipRef])}>
-              {loading && <Loader role={loaderRole} size={size} />}
-              {!loading && (
-                <Icon
-                  role={iconRole}
-                  className={iconClassName}
-                  color={iconColor}
-                  data-test={`${dataTest}-icon`}
-                  icon={icon}
-                  size={size}
-                  ariaHidden
-                />
-              )}
-            </span>
-          </Component>
-        )}
-      </Tooltip>
+      <SimpleTooltip content={tooltipContent} open={tooltipOpen} placement={tooltipSide} id={tooltipId}>
+        {buttonElement}
+      </SimpleTooltip>
     )
   },
 )

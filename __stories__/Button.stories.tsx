@@ -5,7 +5,6 @@ import cn from 'classnames'
 
 import { Button, ButtonProps, ButtonTypeAnchorProps } from '../src/components/Button'
 
-import styles from '../src/components/Button.module.scss'
 import storyStyles from './Button.stories.module.scss'
 
 type Story = StoryObj<typeof Button>
@@ -37,25 +36,6 @@ const Component = ({ className, ...args }: ButtonProps) => {
         <Button {...props} color="authSecondary" disabled />
         <Button {...props} variant="outlined" color="authSecondary" />
         <Button {...props} variant="text" color="authSecondary" />
-        <Button {...props} size="medium" />
-        <Button {...props} variant="outlined" size="medium" />
-        <Button {...props} variant="text" size="medium" />
-        <Button {...props} color="secondary" size="medium" />
-        <Button {...props} variant="outlined" color="secondary" size="medium" />
-        <Button {...props} variant="text" color="secondary" size="medium" />
-        <Button {...props} color="warning" size="medium" />
-        <Button {...props} variant="outlined" color="warning" size="medium" />
-        <Button {...props} variant="text" color="warning" size="medium" />
-        <Button {...props} color="brand" size="medium" />
-        <Button {...props} variant="outlined" color="brand" size="medium" />
-        <Button {...props} variant="text" color="brand" size="medium" />
-        <Button {...props} color="authPrimary" size="medium" />
-        <Button {...props} variant="outlined" color="authPrimary" size="medium" />
-        <Button {...props} variant="text" color="authPrimary" size="medium" />
-        <Button {...props} color="authSecondary" size="medium" />
-        <Button {...props} color="authSecondary" disabled size="medium" />
-        <Button {...props} variant="outlined" color="authSecondary" size="medium" />
-        <Button {...props} variant="text" color="authSecondary" size="medium" />
         <DarkBackground>
           <Button {...props} color="light" />
         </DarkBackground>
@@ -90,17 +70,9 @@ const DarkBackground = ({ children }: { children: ReactNode }) => (
 
 export const Default: Story = {}
 
-export const Hovered: Story = {
-  args: {
-    className: styles.hover,
-  },
-}
+export const Hovered: Story = {}
 
-export const Focused: Story = {
-  args: {
-    className: styles.focus,
-  },
-}
+export const Focused: Story = {}
 
 export const Active: Story = {
   args: {

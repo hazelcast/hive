@@ -1,64 +1,54 @@
 import React from 'react'
 import { renderAndCheckA11Y } from '../../src/test-helpers'
-import cn from 'classnames'
 import { screen } from '@testing-library/react'
 
-import { Tooltip } from '../../src/components/Tooltip'
-
-import styles from '../../src/components/Tooltip.module.scss'
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '../../src/components/Tooltip'
 
 describe('Tooltip', () => {
-  it('Renders correctly if "content" property is defined.', async () => {
+  it('Renders tooltip content when open.', async () => {
     await renderAndCheckA11Y(
-      <Tooltip id="tooltip-test" content="Tooltip content" visible>
-        {(ref) => (
-          <button ref={ref} data-test="tooltip-reference">
-            Hover me
-          </button>
-        )}
-      </Tooltip>,
+      <TooltipProvider>
+        <Tooltip open>
+          <TooltipTrigger asChild>
+            <button data-test="tooltip-reference">Hover me</button>
+          </TooltipTrigger>
+          <TooltipContent>Tooltip content</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>,
     )
-
-    const tooltipOverlay = screen.queryByTestId('tooltip-overlay')
 
     expect(screen.queryByTestId('tooltip-reference')).toBeInTheDocument()
-    expect(tooltipOverlay).toBeInTheDocument()
-    expect(tooltipOverlay).toHaveTextContent('Tooltip content')
-    expect(tooltipOverlay).toHaveClass(cn(styles.overlay))
-
-    const tooltipSr = screen.queryByTestId('tooltip-sr')
-
-    expect(tooltipSr).toBeInTheDocument()
-    expect(tooltipSr).toHaveRole('tooltip')
-    expect(tooltipSr).toHaveAttribute('id', 'tooltip-test')
-    expect(tooltipSr).toHaveClass(styles.tooltipSr)
+    expect(screen.getByText('Tooltip content')).toBeInTheDocument()
   })
 
-  it('Does not render tooltip if "content" property is not defined.', async () => {
+  it('Does not render tooltip content when closed.', async () => {
     await renderAndCheckA11Y(
-      <Tooltip content={undefined}>
-        {(ref) => (
-          <button ref={ref} data-test="tooltip-reference">
-            Hover me
-          </button>
-        )}
-      </Tooltip>,
+      <TooltipProvider>
+        <Tooltip open={false}>
+          <TooltipTrigger asChild>
+            <button data-test="tooltip-reference">Hover me</button>
+          </TooltipTrigger>
+          <TooltipContent>Tooltip content</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>,
     )
 
-    expect(screen.queryByTestId('tooltip-overlay')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('tooltip-reference')).toBeInTheDocument()
+    expect(screen.queryByText('Tooltip content')).not.toBeInTheDocument()
   })
 
-  it('Shows tooltip overlay by default if "visible" prop is true.', async () => {
+  it('Renders with placement prop.', async () => {
     await renderAndCheckA11Y(
-      <Tooltip content="Tooltip content" visible>
-        {(ref) => (
-          <button ref={ref} data-test="tooltip-reference">
-            Hover me
-          </button>
-        )}
-      </Tooltip>,
+      <TooltipProvider>
+        <Tooltip open>
+          <TooltipTrigger asChild>
+            <button>Hover me</button>
+          </TooltipTrigger>
+          <TooltipContent placement="bottom-start">Bottom start tooltip</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>,
     )
 
-    expect(screen.queryByTestId('tooltip-overlay')).toBeInTheDocument()
+    expect(screen.getByText('Bottom start tooltip')).toBeInTheDocument()
   })
 })

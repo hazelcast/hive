@@ -4,7 +4,7 @@ import { useUID } from 'react-uid'
 import cn from 'classnames'
 
 import { Icon } from '../Icon'
-import { Tooltip } from '../Tooltip'
+import { SimpleTooltip } from '../Tooltip'
 import { useOpenCloseState } from '../../hooks'
 import { CellCopyablePopover } from './features/columnsSelection'
 
@@ -20,20 +20,17 @@ export const CellWarning: FC<CellWarningProps> = ({ align, warning }) => {
   const dataTest = 'cell-warning-content'
 
   return (
-    <Tooltip id={id} content={warning}>
-      {(tooltipRef) => (
-        <div
-          data-test={dataTest}
-          ref={tooltipRef}
-          className={cn(styles.warningIcon, {
-            [styles.left]: align === 'left',
-            [styles.right]: align === 'right',
-          })}
-        >
-          <Icon data-test={`${dataTest}-icon`} icon={AlertTriangle} ariaLabelledBy={id} size="small" />
-        </div>
-      )}
-    </Tooltip>
+    <SimpleTooltip content={warning} id={id}>
+      <div
+        data-test={dataTest}
+        className={cn(styles.warningIcon, {
+          [styles.left]: align === 'left',
+          [styles.right]: align === 'right',
+        })}
+      >
+        <Icon data-test={`${dataTest}-icon`} icon={AlertTriangle} ariaLabelledBy={id} size="small" />
+      </div>
+    </SimpleTooltip>
   )
 }
 

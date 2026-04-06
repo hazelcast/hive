@@ -71,6 +71,7 @@ const config: StorybookConfig = {
               importLoaders: 2,
             },
           },
+          'postcss-loader',
           {
             loader: 'sass-loader',
             options: {
