@@ -37,6 +37,7 @@
     "prepare": "husky install",
     "publish-storybook": "chromatic --storybook-build-dir storybook-static --project-token $CHROMATIC_PROJECT_TOKEN --exit-zero-on-changes",
     "dev": "npm run storybook",
+    "watch:lib": "tsc -p tsconfig.build.json --watch",
     "storybook": "storybook dev -p 6006",
     "test": "jest --maxWorkers=50%",
     "test:visual": "loki --verboseRenderer --requireReference --chromeTolerance 3 --reactUri file:./storybook-static --chromeDockerImage 'yukinying/chrome-headless-browser-stable:110.0.5481.77' --chromeFlags='--headless --disable-gpu --hide-scrollbars --no-sandbox --allow-file-access-from-files'",

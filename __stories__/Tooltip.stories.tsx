@@ -113,6 +113,14 @@ export const NoArrow: StoryFn<SimpleTooltipProps> = () => (
   </div>
 )
 
+export const Open: StoryFn<SimpleTooltipProps> = () => (
+  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 320 }}>
+    <SimpleTooltip content="Always open" open>
+      <Button style={{ height: 80 }}>Tooltip without arrow</Button>
+    </SimpleTooltip>
+  </div>
+)
+
 // Nested: outer tooltip is controlled so it stays open while hovering either the button or the tooltip
 // content itself (using a grace-period timer). Hovering "hover here" inside also opens a second tooltip.
 const NestedExample = () => {
