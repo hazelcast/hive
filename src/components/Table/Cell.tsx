@@ -4,7 +4,7 @@ import { useUID } from 'react-uid'
 import cn from 'classnames'
 
 import { Icon } from '../Icon'
-import { Tooltip } from '../Tooltip'
+import { Tooltip } from '../old/Tooltip'
 import { useOpenCloseState } from '../../hooks'
 import { CellCopyablePopover } from './features/columnsSelection'
 

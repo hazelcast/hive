@@ -35,9 +35,9 @@ grep -r "@hazelcast/ui/old" src --include="*.tsx" --include="*.ts"
 
 <!-- Updated as v4 is built. -->
 
-| Category | Component | Change | `/old` fallback |
-| -------- | --------- | ------ | --------------- |
-| —        | —         | —      | —               |
+| Category | Component | Change                                            | `/old` fallback |
+| -------- | --------- | ------------------------------------------------- | --------------- |
+| Updated  | `Tooltip` | Radix UI base; new props; no render-prop children | ✅              |
 
 ---
 
@@ -71,7 +71,47 @@ import { ComponentName } from '@hazelcast/ui/old'
 ```
 -->
 
-_No updated components yet._
+### `Tooltip`
+
+Rebuilt on [Radix UI Tooltip](https://www.radix-ui.com/primitives/docs/components/tooltip). The `placement` / `autoPlacement` prop names are replaced with Radix-aligned equivalents, and the render-prop `children` pattern is replaced with a plain element.
+
+**Old import (temporary fallback):**
+
+```ts
+import { Tooltip } from '@hazelcast/ui/old'
+```
+
+**Prop changes:**
+
+| Prop (v3)                         | Prop (v4)                                       | Notes                                           |
+| --------------------------------- | ----------------------------------------------- | ----------------------------------------------- |
+| `children: (ref) => ReactElement` | `children: ReactElement`                        | No more render prop — pass the trigger directly |
+| `placement?: Placement`           | `side?: 'top' \| 'right' \| 'bottom' \| 'left'` | 12-value floating-ui type → 4-value Radix side  |
+| _(part of `placement`)_           | `align?: 'start' \| 'center' \| 'end'`          | Alignment is now a separate prop                |
+| `autoPlacement?: boolean`         | `avoidCollisions?: boolean`                     | Matches Radix naming; default `true`            |
+| `offset?: number`                 | `sideOffset?: number`                           | Matches Radix naming                            |
+| `visible?: boolean`               | `open?: boolean`                                | Matches Radix naming                            |
+| `padding?: number`                | _(removed)_                                     | Was used for arrow padding; no longer needed    |
+
+**Before:**
+
+```tsx
+import { Tooltip } from '@hazelcast/ui'
+
+;<Tooltip content="Save" placement="top-start" autoPlacement offset={8} visible={show}>
+  {(ref) => <button ref={ref}>Save</button>}
+</Tooltip>
+```
+
+**After:**
+
+```tsx
+import { Tooltip } from '@hazelcast/ui'
+
+;<Tooltip content="Save" side="top" align="start" avoidCollisions sideOffset={8} open={show}>
+  <button>Save</button>
+</Tooltip>
+```
 
 ---
 
@@ -128,15 +168,36 @@ v4 drops SCSS in favor of pure CSS with custom properties.
 @use '@hazelcast/ui/styles/constants' as c;
 ```
 
-CSS custom properties are now available globally once the library stylesheet is loaded.
+Import the CSS variables file instead (once, at your app root):
+
+```css
+@import '@hazelcast/ui/styles/variables.css';
+```
 
 ### CSS variables reference
 
-<!-- Populated as SCSS variables are migrated to CSS custom properties. -->
+| SCSS variable (v3)                              | CSS custom property (v4)       |
+| ----------------------------------------------- | ------------------------------ |
+| `c.$colorPrimary`                               | `--hive-color-primary`         |
+| `c.$colorNeutralWhite`                          | `--hive-color-neutral-white`   |
+| `c.$colorNeutralLight`                          | `--hive-color-neutral-light`   |
+| `c.$colorNeutralLighter`                        | `--hive-color-neutral-lighter` |
+| `c.$colorText`                                  | `--hive-color-text`            |
+| `c.$colorTextSecondary` / `c.$colorTextSubdued` | `--hive-color-text-subdued`    |
+| `c.$colorBrandText`                             | `--hive-color-brand-text`      |
+| `c.$colorBrandAccent`                           | `--hive-color-brand-accent`    |
+| `c.$colorSuccess`                               | `--hive-color-success`         |
+| `c.$colorWarning`                               | `--hive-color-warning`         |
+| `c.$colorError`                                 | `--hive-color-error`           |
+| `c.$grid`                                       | `--hive-grid`                  |
+| `c.$borderRadius`                               | `--hive-border-radius`         |
+| `c.$borderWidth`                                | `--hive-border-width`          |
+| `c.$tooltipMaxWidth`                            | `--hive-tooltip-max-width`     |
+| `c.$fontFamilyText`                             | `--hive-font-family-text`      |
+| `c.$fontSizeBodySmall`                          | `--hive-font-size-body-small`  |
+| `c.$fontSizeBodyNormal`                         | `--hive-font-size-body-normal` |
 
-| SCSS variable (v3) | CSS custom property (v4) |
-| ------------------ | ------------------------ |
-| —                  | —                        |
+Full list: see `styles/variables.css` in the hive repo.
 
 ### Class name changes
 

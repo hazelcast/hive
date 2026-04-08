@@ -1,6 +1,6 @@
 {
   "name": "@hazelcast/ui",
-  "version": "3.0.13",
+  "version": "4.0.0",
   "description": "Hazelcast design system components and utilities",
   "homepage": "https://github.com/hazelcast/hive#readme",
   "bugs": {
@@ -16,6 +16,12 @@
   "main": "lib/index.js",
   "module": "lib/index.js",
   "types": "lib/index.d.ts",
+  "exports": {
+    ".": "./lib/index.js",
+    "./old": "./lib/old/index.js",
+    "./lib/*": "./lib/*",
+    "./styles/*": "./styles/*"
+  },
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -51,6 +57,7 @@
     "@floating-ui/react": "^0.26.28",
     "@headlessui/react": "^2.2.0",
     "@icons-pack/react-simple-icons": "^12.0.0",
+    "@radix-ui/react-tooltip": "^1.2.8",
     "@tanstack/react-table": "^8.21.2",
     "@types/react-modal": "3.16.3",
     "classnames": "^2.5.1",

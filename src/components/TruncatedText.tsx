@@ -5,7 +5,7 @@ import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 import { useUID } from 'react-uid'
 
 import { DataTestProp } from '../helpers/types'
-import { Tooltip, TooltipProps } from './Tooltip'
+import { Tooltip, TooltipProps } from './old/Tooltip'
 
 import styles from './TruncatedText.module.scss'
 

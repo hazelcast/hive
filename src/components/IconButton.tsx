@@ -5,7 +5,7 @@ import { useUID } from 'react-uid'
 import mergeRefs from 'react-merge-refs'
 
 import { Icon, IconProps, IconAriaProps } from './Icon'
-import { Tooltip, TooltipProps } from './Tooltip'
+import { Tooltip, TooltipProps } from './old/Tooltip'
 import { LinkRel, LinkTarget } from './Link'
 import { Loader } from './Loader'
 import { DataTestProp } from '../helpers/types'

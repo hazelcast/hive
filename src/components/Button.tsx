@@ -5,7 +5,7 @@ import { useUID } from 'react-uid'
 
 import { Icon, IconProps, IconSize } from './Icon'
 import { TruncatedText } from './TruncatedText'
-import { Tooltip, TooltipProps } from './Tooltip'
+import { Tooltip, TooltipProps } from './old/Tooltip'
 import { LinkRel, LinkTarget } from './Link'
 import { Loader } from './Loader'
 import { DataTestProp } from '../helpers/types'

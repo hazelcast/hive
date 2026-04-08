@@ -1,0 +1,45 @@
+@use 'sass:math';
+@use '../../../styles/constants' as c;
+@use '../../../styles/helpers' as h;
+
+.tooltipSr {
+  @include h.visuallyHidden;
+}
+
+@mixin arrowPlacements($color) {
+  .arrow {
+    fill: $color;
+  }
+}
+
+.overlay {
+  @include c.typographyBodySmall;
+
+  position: relative;
+  max-width: c.$tooltipMaxWidth;
+  padding: c.$grid * 3;
+  background: c.$colorNeutralLighter;
+  border: c.$borderWidth solid c.$colorNeutralLight;
+  border-radius: c.$borderRadius;
+  color: c.$colorText;
+  word-break: break-word;
+  text-align: center;
+
+  &.secondary {
+    border: none;
+    color: c.$colorNeutralWhite;
+    background-color: c.$colorTextSubdued;
+
+    @include arrowPlacements(c.$colorTextSubdued);
+  }
+
+  &.dark {
+    border: none;
+    color: c.$colorBrandText;
+    background-color: c.$colorBrandAccent;
+
+    @include arrowPlacements(c.$colorBrandAccent);
+  }
+
+  @include arrowPlacements(c.$colorNeutralLight);
+}

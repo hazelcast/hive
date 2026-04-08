@@ -1,0 +1,128 @@
+/* ── Keyframes ───────────────────────────────────────────────────── */
+
+@keyframes hive-tooltip-fade-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hive-tooltip-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hive-tooltip-fade-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes hive-tooltip-fade-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes hive-tooltip-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* ── Base ────────────────────────────────────────────────────────── */
+
+.content {
+  font-family: var(--hive-font-family-text);
+  font-size: var(--hive-font-size-body-small);
+  font-weight: var(--hive-font-weight-text-regular);
+  letter-spacing: var(--hive-letter-spacing-body-small);
+  line-height: var(--hive-line-height-body-small);
+
+  position: relative;
+  max-width: var(--hive-tooltip-max-width);
+  padding: calc(var(--hive-grid) * 3);
+  background: var(--hive-color-neutral-lighter);
+  border: var(--hive-border-width) solid var(--hive-color-neutral-light);
+  border-radius: var(--hive-border-radius);
+  color: var(--hive-color-text);
+  word-break: break-word;
+  text-align: center;
+
+  /* Arrow color — overridden per variant */
+  --tooltip-arrow-fill: var(--hive-color-neutral-light);
+
+  /* Smooth in */
+  will-change: transform, opacity;
+}
+
+/* ── Enter animations (per side) ─────────────────────────────────── */
+
+.content[data-state='delayed-open'][data-side='bottom'],
+.content[data-state='instant-open'][data-side='bottom'] {
+  animation: hive-tooltip-fade-in-down 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.content[data-state='delayed-open'][data-side='top'],
+.content[data-state='instant-open'][data-side='top'] {
+  animation: hive-tooltip-fade-in-up 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.content[data-state='delayed-open'][data-side='right'],
+.content[data-state='instant-open'][data-side='right'] {
+  animation: hive-tooltip-fade-in-right 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.content[data-state='delayed-open'][data-side='left'],
+.content[data-state='instant-open'][data-side='left'] {
+  animation: hive-tooltip-fade-in-left 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Exit animation ──────────────────────────────────────────────── */
+
+.content[data-state='closed'] {
+  animation: hive-tooltip-fade-out 120ms ease-out;
+}
+
+/* ── Color variants ──────────────────────────────────────────────── */
+
+.content.secondary {
+  border: none;
+  color: var(--hive-color-neutral-white);
+  background-color: var(--hive-color-text-subdued);
+  --tooltip-arrow-fill: var(--hive-color-text-subdued);
+}
+
+.content.dark {
+  border: none;
+  color: var(--hive-color-brand-text);
+  background-color: var(--hive-color-brand-accent);
+  --tooltip-arrow-fill: var(--hive-color-brand-accent);
+}
+
+.arrow {
+  fill: var(--tooltip-arrow-fill);
+}

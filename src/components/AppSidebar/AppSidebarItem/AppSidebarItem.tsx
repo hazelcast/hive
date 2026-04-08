@@ -4,7 +4,7 @@ import { Icon as FeatherIcon } from 'react-feather'
 
 import { DataTestProp } from '../../../helpers/types'
 import { Icon } from '../../Icon'
-import { Tooltip } from '../../Tooltip'
+import { Tooltip } from '../../old/Tooltip'
 import { Button, ButtonColor } from '../../Button'
 import { appSidebarContext } from '../appSidebarContext'
 import { AppSidebarFavoriteButton } from '../AppSidebarFavoriteButton'
