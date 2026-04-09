@@ -12,6 +12,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/install
       - run: npm run lint
+      - run: npm run compile # should generate artifacts and then use them in the next release?
       - run: npm run test
         env:
           NODE_OPTIONS: --max-old-space-size=8192
