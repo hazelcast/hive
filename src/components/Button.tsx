@@ -198,7 +198,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
           rel={Component === 'a' ? relFinal : undefined}
           target={Component === 'a' ? target : undefined}
           type={Component === 'button' ? type : undefined}
-          ref={ref}
+          ref={ref as React.Ref<HTMLButtonElement & HTMLAnchorElement>}
           {...rest}
         >
           <span data-test="button-outline" className={cn(styles.outline, { [styles.inset]: outline === 'inset' }, outlineClassName)} />
