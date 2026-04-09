@@ -7,14 +7,14 @@
 - React 19, TypeScript, SCSS modules
 - Storybook 8 for component development (`npm run dev`)
 - Jest + Testing Library for unit tests (`npm test`)
-- ESLint + Stylelint + Prettier
+- ESLint + Prettier
 
 ## Key commands
 
 ```
 npm run dev       # Storybook on :6006
 npm test          # Jest
-npm run lint      # ESLint + Stylelint
+npm run lint      # ESLint
 npm run compile   # Build to lib/
 ```
 
@@ -31,4 +31,4 @@ npm run compile   # Build to lib/
 - Components export from `src/index.ts`
 - Stories live in `__stories__/`, tests in `__tests__/`
 - CSS modules (`.module.scss`) per component
-- Lint-staged runs on commit (ESLint + Stylelint)
+- Lint-staged runs on commit (ESLint)

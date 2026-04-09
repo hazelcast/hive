@@ -32,7 +32,6 @@ This means there are **no hard removal deadlines** in v4 — only deprecations.
 - Replace `@use`/`@forward` with standard CSS custom properties
 - Move shared design tokens to CSS variables in `styles/` (not SCSS variables/mixins)
 - Update all `import styles from './Foo.module.scss'` → `import styles from './Foo.module.css'`
-- Update `stylelint.config.mjs` and build config if needed after migration
 
 ### Updating an existing component (breaking change)
 
@@ -120,6 +119,6 @@ Categories:
 ```bash
 npm test                          # all tests
 npm test -- --testPathPattern=Foo # single component
-npm run lint                      # ESLint + Stylelint
+npm run lint                      # ESLint
 npm run dev                       # Storybook to verify visually
 ```

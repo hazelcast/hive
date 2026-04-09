@@ -1,5 +1,4 @@
 import doiuse from 'doiuse'
-import stylelint from 'stylelint'
 import postcssReporter from 'postcss-reporter'
 
 const browsers = ['last 2 Chrome version', 'last 2 Firefox version', 'last 1 Safari version', 'last 1 Edge version']
@@ -14,7 +13,6 @@ const browsers = ['last 2 Chrome version', 'last 2 Firefox version', 'last 1 Saf
 export default {
   syntax: 'postcss-scss',
   plugins: [
-    stylelint,
     doiuse({
       browsers,
       ignore: [
