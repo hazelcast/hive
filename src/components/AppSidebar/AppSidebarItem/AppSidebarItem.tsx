@@ -4,7 +4,7 @@ import { Icon as FeatherIcon } from 'react-feather'
 
 import { DataTestProp } from '../../../helpers/types'
 import { Icon } from '../../Icon'
-import { Tooltip } from '../../old/Tooltip'
+import { Tooltip } from '../../Tooltip'
 import { Button, ButtonColor } from '../../Button'
 import { appSidebarContext } from '../appSidebarContext'
 import { AppSidebarFavoriteButton } from '../AppSidebarFavoriteButton'
@@ -46,36 +46,34 @@ export const AppSidebarItem = ({
   const ctx = useContext(appSidebarSectionContext)
 
   return (
-    <Tooltip arrow={false} placement="right-start" color="dark" visible={isOpen ? false : undefined} content={iconAriaLabel}>
-      {(ref) => (
-        <div ref={ref} className={cn(styles.root, { [styles.collapsed]: !isOpen, [styles.nested]: !!ctx })} data-test={dataTest}>
-          {id && ctx && <AppSidebarFavoriteButton id={id} className={styles.favorite} />}
-          <Button
-            variant="text"
-            color={color}
-            active={active}
-            truncate={false}
-            onClick={onClick}
-            outline="inset"
-            disabled={disabled as boolean}
-            disabledTooltip={disabledTooltip}
-            bodyClassName={styles.content}
-            data-test="sidebar-menu-item-title"
-            className={cn(styles.button, { [styles.active]: active }, className)}
-          >
-            <>
-              {icon && <Icon size="medium" icon={icon} ariaLabel={iconAriaLabel} className={styles.icon} />}
-              {title}
-              {(adornment || available !== undefined) && (
-                <div className={cn(styles.adornment, adornmentClassName)}>
-                  {adornment}
-                  {available !== undefined && <span className={cn(styles.status, { [styles.available]: available })} />}
-                </div>
-              )}
-            </>
-          </Button>
-        </div>
-      )}
+    <Tooltip arrow={false} side="right" align="start" color="dark" open={isOpen ? false : undefined} content={iconAriaLabel}>
+      <div className={cn(styles.root, { [styles.collapsed]: !isOpen, [styles.nested]: !!ctx })} data-test={dataTest}>
+        {id && ctx && <AppSidebarFavoriteButton id={id} className={styles.favorite} />}
+        <Button
+          variant="text"
+          color={color}
+          active={active}
+          truncate={false}
+          onClick={onClick}
+          outline="inset"
+          disabled={disabled as boolean}
+          disabledTooltip={disabledTooltip}
+          bodyClassName={styles.content}
+          data-test="sidebar-menu-item-title"
+          className={cn(styles.button, { [styles.active]: active }, className)}
+        >
+          <>
+            {icon && <Icon size="medium" icon={icon} ariaLabel={iconAriaLabel} className={styles.icon} />}
+            {title}
+            {(adornment || available !== undefined) && (
+              <div className={cn(styles.adornment, adornmentClassName)}>
+                {adornment}
+                {available !== undefined && <span className={cn(styles.status, { [styles.available]: available })} />}
+              </div>
+            )}
+          </>
+        </Button>
+      </div>
     </Tooltip>
   )
 }

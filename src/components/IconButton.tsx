@@ -2,10 +2,9 @@ import React, { ButtonHTMLAttributes, forwardRef } from 'react'
 import cn from 'classnames'
 import { Icon as FeatherIcon } from 'react-feather'
 import { useUID } from 'react-uid'
-import mergeRefs from 'react-merge-refs'
 
 import { Icon, IconProps, IconAriaProps } from './Icon'
-import { Tooltip, TooltipProps } from './old/Tooltip'
+import { Tooltip, TooltipSide } from './Tooltip'
 import { LinkRel, LinkTarget } from './Link'
 import { Loader } from './Loader'
 import { DataTestProp } from '../helpers/types'
@@ -25,7 +24,7 @@ type IconButtonCommonProps = {
   padding?: 'normal'
   tooltip?: string
   tooltipVisible?: boolean
-  tooltipPlacement?: TooltipProps['placement']
+  tooltipPlacement?: TooltipSide
 } & DataTestProp &
   IconAriaProps &
   Pick<ButtonHTMLAttributes<HTMLAnchorElement | HTMLButtonElement>, 'onClick' | 'onMouseDown' | 'className' | 'tabIndex' | 'style'>
@@ -39,7 +38,7 @@ export type IconButtonNotDisabledProps = {
 export type IconButtonDisabledProps = {
   disabledTooltip: string
   disabled: boolean
-  disabledTooltipPlacement?: TooltipProps['placement']
+  disabledTooltipPlacement?: TooltipSide
   disabledTooltipVisible?: boolean
 }
 type IconButtonComponentProps =
@@ -102,46 +101,44 @@ export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
       <Tooltip
         id={tooltipId}
         content={disabled ? disabledTooltip : tooltip}
-        placement={disabled ? disabledTooltipPlacement : tooltipPlacement}
-        visible={disabled ? disabledTooltipVisible : tooltipVisible}
+        side={disabled ? disabledTooltipPlacement : tooltipPlacement}
+        open={disabled ? disabledTooltipVisible : tooltipVisible}
       >
-        {(tooltipRef) => (
-          <Component
-            className={cn(
-              styles.iconButton,
-              {
-                [styles.primary]: kind === 'primary',
-                [styles.transparent]: kind === 'transparent',
-                [styles.paddingNormal]: padding === 'normal',
-              },
-              className,
+        <Component
+          className={cn(
+            styles.iconButton,
+            {
+              [styles.primary]: kind === 'primary',
+              [styles.transparent]: kind === 'transparent',
+              [styles.paddingNormal]: padding === 'normal',
+            },
+            className,
+          )}
+          aria-hidden={ariaHidden}
+          aria-label={ariaLabel}
+          aria-labelledby={labelledByFinal}
+          disabled={disabled ?? loading}
+          rel={Component === 'a' ? relFinal : undefined}
+          target={Component === 'a' ? target : undefined}
+          type={Component === 'button' ? type : undefined}
+          data-test={dataTest}
+          {...rest}
+        >
+          <span className={styles.body} ref={ref}>
+            {loading && <Loader role={loaderRole} size={size} />}
+            {!loading && (
+              <Icon
+                role={iconRole}
+                className={iconClassName}
+                color={iconColor}
+                data-test={`${dataTest}-icon`}
+                icon={icon}
+                size={size}
+                ariaHidden
+              />
             )}
-            aria-hidden={ariaHidden}
-            aria-label={ariaLabel}
-            aria-labelledby={labelledByFinal}
-            disabled={disabled ?? loading}
-            rel={Component === 'a' ? relFinal : undefined}
-            target={Component === 'a' ? target : undefined}
-            type={Component === 'button' ? type : undefined}
-            data-test={dataTest}
-            {...rest}
-          >
-            <span className={styles.body} ref={mergeRefs([ref, tooltipRef])}>
-              {loading && <Loader role={loaderRole} size={size} />}
-              {!loading && (
-                <Icon
-                  role={iconRole}
-                  className={iconClassName}
-                  color={iconColor}
-                  data-test={`${dataTest}-icon`}
-                  icon={icon}
-                  size={size}
-                  ariaHidden
-                />
-              )}
-            </span>
-          </Component>
-        )}
+          </span>
+        </Component>
       </Tooltip>
     )
   },

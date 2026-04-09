@@ -3,7 +3,7 @@ import cn from 'classnames'
 
 import { DataTestProp } from '../helpers/types'
 import { TruncatedText } from './TruncatedText'
-import { TooltipProps } from './old/Tooltip'
+import { TooltipSide } from './Tooltip'
 
 import styles from './Error.module.scss'
 
@@ -14,7 +14,7 @@ interface ErrorProps extends DataTestProp {
   className?: string
   inputId: string
   truncated?: boolean
-  tooltipPlacement?: TooltipProps['placement']
+  tooltipPlacement?: TooltipSide
 }
 
 /* https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_alert_role */

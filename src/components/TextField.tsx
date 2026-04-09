@@ -23,7 +23,7 @@ import { FieldHeader, FieldHeaderProps } from './FieldHeader'
 import { helpTooltipId } from './Help'
 import { IconButton } from './IconButton'
 import { IconSize } from './Icon'
-import { TooltipProps } from './old/Tooltip'
+import { TooltipSide } from './Tooltip'
 
 import styles from './TextField.module.scss'
 
@@ -68,7 +68,7 @@ export type TextFieldExtraProps<T extends TextFieldTypes> = {
   type?: T
   readOnly?: boolean
   clearable?: boolean
-  errorTooltipPlacement?: TooltipProps['placement']
+  errorTooltipPlacement?: TooltipSide
   children?: React.ReactNode
 } & DataTestProp &
   Pick<InputHTMLAttributes<HTMLInputElement>, 'id' | 'autoFocus' | 'disabled' | 'autoComplete' | 'required' | 'placeholder'> &
