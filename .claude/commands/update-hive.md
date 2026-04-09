@@ -110,6 +110,7 @@ Categories:
 - [ ] SCSS → CSS migrated for the new component
 - [ ] Story updated
 - [ ] Tests updated and passing
+- [ ] Unused imports and variables removed from every edited file (both source and test)
 - [ ] `docs/migration-v4.md` updated
 - [ ] `package.json` exports field includes `./old` entry
 - [ ] `src/index.ts` unchanged (or updated if exports changed)

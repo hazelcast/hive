@@ -1,11 +1,10 @@
 import React, { FC, useRef, useState, ReactNode } from 'react'
-import mergeRefs from 'react-merge-refs'
 import cn from 'classnames'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 import { useUID } from 'react-uid'
 
 import { DataTestProp } from '../helpers/types'
-import { Tooltip, TooltipProps } from './old/Tooltip'
+import { Tooltip, TooltipSide } from './Tooltip'
 
 import styles from './TruncatedText.module.scss'
 
@@ -17,7 +16,7 @@ interface TruncatedTextProps extends DataTestProp {
   multiline?: boolean
   tooltipVisible?: boolean
   tooltipClassName?: string
-  tooltipPlacement?: TooltipProps['placement']
+  tooltipPlacement?: TooltipSide
 }
 
 export const TruncatedText: FC<TruncatedTextProps> = ({
@@ -46,14 +45,12 @@ export const TruncatedText: FC<TruncatedTextProps> = ({
   }, [text, forceUpdateToken])
 
   return (
-    <Tooltip id={idTooltip} content={tooltip} visible={tooltipVisible} className={tooltipClassName} placement={tooltipPlacement}>
-      {(ref) => (
-        <div ref={mergeRefs([textRef, ref])} className={cn(styles.truncatedText, { [styles.multiline]: multiline }, className)}>
-          <span data-test={dataTest} aria-labelledby={tooltip ? idTooltip : undefined}>
-            {text}
-          </span>
-        </div>
-      )}
+    <Tooltip id={idTooltip} content={tooltip} open={tooltipVisible} className={tooltipClassName} side={tooltipPlacement}>
+      <div ref={textRef} className={cn(styles.truncatedText, { [styles.multiline]: multiline }, className)}>
+        <span data-test={dataTest} aria-labelledby={tooltip ? idTooltip : undefined}>
+          {text}
+        </span>
+      </div>
     </Tooltip>
   )
 }

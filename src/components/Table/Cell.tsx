@@ -1,10 +1,9 @@
 import React, { CSSProperties, FC, PropsWithChildren, MouseEvent, RefObject, useEffect, useRef } from 'react'
 import { AlertTriangle } from 'react-feather'
-import { useUID } from 'react-uid'
 import cn from 'classnames'
 
 import { Icon } from '../Icon'
-import { Tooltip } from '../old/Tooltip'
+import { Tooltip } from '../Tooltip'
 import { useOpenCloseState } from '../../hooks'
 import { CellCopyablePopover } from './features/columnsSelection'
 
@@ -16,23 +15,19 @@ export type CellWarningProps = {
 }
 
 export const CellWarning: FC<CellWarningProps> = ({ align, warning }) => {
-  const id = useUID()
   const dataTest = 'cell-warning-content'
 
   return (
-    <Tooltip id={id} content={warning}>
-      {(tooltipRef) => (
-        <div
-          data-test={dataTest}
-          ref={tooltipRef}
-          className={cn(styles.warningIcon, {
-            [styles.left]: align === 'left',
-            [styles.right]: align === 'right',
-          })}
-        >
-          <Icon data-test={`${dataTest}-icon`} icon={AlertTriangle} ariaLabelledBy={id} size="small" />
-        </div>
-      )}
+    <Tooltip content={warning}>
+      <div
+        data-test={dataTest}
+        className={cn(styles.warningIcon, {
+          [styles.left]: align === 'left',
+          [styles.right]: align === 'right',
+        })}
+      >
+        <Icon data-test={`${dataTest}-icon`} icon={AlertTriangle} ariaLabel={warning} size="small" />
+      </div>
     </Tooltip>
   )
 }

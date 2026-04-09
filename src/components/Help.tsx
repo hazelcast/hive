@@ -3,7 +3,7 @@ import { HelpCircle } from 'react-feather'
 import cn from 'classnames'
 
 import { Icon, IconSize } from './Icon'
-import { Tooltip, TooltipProps } from './old/Tooltip'
+import { Tooltip, TooltipSide } from './Tooltip'
 import { DataTestProp } from '../helpers/types'
 
 import styleConsts from '../../styles/constants/export.module.scss'
@@ -14,7 +14,7 @@ export const helpTooltipId = (inputId: string): string => `${inputId}-help`
 export interface HelpProps extends DataTestProp {
   parentId: string
   helperText: string | ReactElement
-  placement?: TooltipProps['placement']
+  placement?: TooltipSide
   className?: string
   size?: IconSize
   tooltipWordBreak?: CSSProperties['wordBreak']
@@ -32,19 +32,17 @@ export const Help: FC<HelpProps> = ({
   const tooltipId = helpTooltipId(parentId)
 
   return (
-    <Tooltip placement={placement} content={helperText} id={tooltipId} wordBreak={tooltipWordBreak}>
-      {(ref) => (
-        <div ref={ref} data-test={dataTest} className={cn(styles.container, className)}>
-          <Icon
-            ariaLabel="Help"
-            aria-describedby={tooltipId}
-            color={styleConsts.colorPrimary}
-            icon={HelpCircle}
-            className={styles.icon}
-            size={size}
-          />
-        </div>
-      )}
+    <Tooltip side={placement} content={helperText} id={tooltipId} wordBreak={tooltipWordBreak}>
+      <div data-test={dataTest} className={cn(styles.container, className)}>
+        <Icon
+          ariaLabel="Help"
+          aria-describedby={tooltipId}
+          color={styleConsts.colorPrimary}
+          icon={HelpCircle}
+          className={styles.icon}
+          size={size}
+        />
+      </div>
     </Tooltip>
   )
 }

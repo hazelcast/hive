@@ -1,11 +1,10 @@
 import React, { ButtonHTMLAttributes, forwardRef, HTMLAttributes, ReactElement } from 'react'
 import cn from 'classnames'
-import mergeRefs from 'react-merge-refs'
 import { useUID } from 'react-uid'
 
 import { Icon, IconProps, IconSize } from './Icon'
 import { TruncatedText } from './TruncatedText'
-import { Tooltip, TooltipProps } from './old/Tooltip'
+import { Tooltip, TooltipSide } from './Tooltip'
 import { LinkRel, LinkTarget } from './Link'
 import { Loader } from './Loader'
 import { DataTestProp } from '../helpers/types'
@@ -58,7 +57,7 @@ export type ButtonDisabledProps = {
   disabledTooltip?: string
   disabled: boolean
   disabledTooltipVisible?: boolean
-  disabledTooltipPlacement?: TooltipProps['placement']
+  disabledTooltipPlacement?: TooltipSide
 }
 
 export type ButtonOutlineType = 'outline' | 'inset'
@@ -75,7 +74,7 @@ export type ButtonCommonProps = {
   outlineClassName?: string
   outline?: ButtonOutlineType
   tooltip?: string
-  tooltipColor?: TooltipProps['color']
+  tooltipColor?: 'dark' | 'secondary'
   active?: boolean
   truncate?: boolean
 } & (ButtonDisabledProps | ButtonNotDisabledProps) &
@@ -179,71 +178,69 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
         id={tooltipId}
         color={tooltipColor}
         content={disabled ? disabledTooltip : tooltip}
-        visible={disabled && disabledTooltipVisible}
-        placement={disabledTooltipPlacement}
+        open={disabled && disabledTooltipVisible}
+        side={disabledTooltipPlacement}
       >
-        {(tooltipRef) => (
-          <Component
-            data-test="button"
-            className={cn(
-              styles.button,
-              {
-                [styles[`color${capitalizeFirstCharacter(color)}`]]: true,
-                [styles[`variant${capitalizeFirstCharacter(variant)}`]]: true,
-                [styles.active]: active,
-                [styles[size]]: size !== 'small',
-              },
-              className,
+        <Component
+          data-test="button"
+          className={cn(
+            styles.button,
+            {
+              [styles[`color${capitalizeFirstCharacter(color)}`]]: true,
+              [styles[`variant${capitalizeFirstCharacter(variant)}`]]: true,
+              [styles.active]: active,
+              [styles[size]]: size !== 'small',
+            },
+            className,
+          )}
+          aria-describedby={disabled ? tooltipId : undefined}
+          disabled={disabled ?? loading}
+          rel={Component === 'a' ? relFinal : undefined}
+          target={Component === 'a' ? target : undefined}
+          type={Component === 'button' ? type : undefined}
+          ref={ref}
+          {...rest}
+        >
+          <span data-test="button-outline" className={cn(styles.outline, { [styles.inset]: outline === 'inset' }, outlineClassName)} />
+          <span className={cn(styles.body, bodyClassName)}>
+            {loading && !loadingAnimationOnRight && <Loader className={styles.iconLeft} size={iconSize} />}
+            {iconLeft && iconLeftAriaLabel && !loading && (
+              <Icon
+                icon={iconLeft}
+                ariaLabel={iconLeftAriaLabel}
+                data-test="button-icon-left"
+                className={cn(styles.iconLeft, iconLeftClassName)}
+                size={iconSize}
+                color={iconLeftColor}
+              />
             )}
-            aria-describedby={disabled ? tooltipId : undefined}
-            disabled={disabled ?? loading}
-            rel={Component === 'a' ? relFinal : undefined}
-            target={Component === 'a' ? target : undefined}
-            type={Component === 'button' ? type : undefined}
-            ref={mergeRefs([ref, tooltipRef])}
-            {...rest}
-          >
-            <span data-test="button-outline" className={cn(styles.outline, { [styles.inset]: outline === 'inset' }, outlineClassName)} />
-            <span className={cn(styles.body, bodyClassName)}>
-              {loading && !loadingAnimationOnRight && <Loader className={styles.iconLeft} size={iconSize} />}
-              {iconLeft && iconLeftAriaLabel && !loading && (
-                <Icon
-                  icon={iconLeft}
-                  ariaLabel={iconLeftAriaLabel}
-                  data-test="button-icon-left"
-                  className={cn(styles.iconLeft, iconLeftClassName)}
-                  size={iconSize}
-                  color={iconLeftColor}
-                />
-              )}
-              {truncate ? (
-                <TruncatedText
-                  text={capitalize && typeof children === 'string' ? children.toUpperCase() : children}
-                  /*
+            {truncate ? (
+              <TruncatedText
+                text={capitalize && typeof children === 'string' ? children.toUpperCase() : children}
+                /*
                   If a button is disabled and text is long we don't want to show 2 popups.
                   1. In case a button is disabled and no `disabledTooltipVisible` is enforced, we just hide truncated popup.
                   2. In case a button is disabled and disabledTooltip is hidden with a false flag, there is a space to show
                   the truncated popup -> setting it to undefined will leave the default behaviour.
                 */
-                  tooltipVisible={disabled && disabledTooltipVisible !== false ? false : undefined}
-                />
-              ) : (
-                children
-              )}
-              {loadingAnimationOnRight && <Loader className={styles.iconRight} size={iconSize} />}
-              {!loadingAnimationOnRight && iconRight && iconRightAriaLabel && (
-                <Icon
-                  icon={iconRight}
-                  ariaLabel={iconRightAriaLabel}
-                  data-test="button-icon-right"
-                  className={cn(styles.iconRight, iconRightClassName)}
-                  size={iconSize}
-                  color={iconRightColor}
-                />
-              )}
-            </span>
-          </Component>
-        )}
+                tooltipVisible={disabled && disabledTooltipVisible !== false ? false : undefined}
+              />
+            ) : (
+              children
+            )}
+            {loadingAnimationOnRight && <Loader className={styles.iconRight} size={iconSize} />}
+            {!loadingAnimationOnRight && iconRight && iconRightAriaLabel && (
+              <Icon
+                icon={iconRight}
+                ariaLabel={iconRightAriaLabel}
+                data-test="button-icon-right"
+                className={cn(styles.iconRight, iconRightClassName)}
+                size={iconSize}
+                color={iconRightColor}
+              />
+            )}
+          </span>
+        </Component>
       </Tooltip>
     )
   },

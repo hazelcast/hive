@@ -3,7 +3,7 @@ import { X } from 'react-feather'
 import { renderAndCheckA11Y } from '../../src/test-helpers'
 import cn from 'classnames'
 import { useUID } from 'react-uid'
-import { screen, within } from '@testing-library/react'
+import { act, screen } from '@testing-library/react'
 
 import { IconButtonKind } from '../../src/components/IconButton'
 import { IconButton } from '../../src'
@@ -11,7 +11,6 @@ import { testAttribute, testClass } from '../helpers'
 
 import iconStyles from '../../src/components/Icon.module.scss'
 import styles from '../../src/components/IconButton.module.scss'
-import userEvent from '@testing-library/user-event'
 
 jest.mock('react-uid')
 
@@ -67,12 +66,15 @@ describe('IconButton', () => {
   it('Renders disabled button with a disabled tooltip', async () => {
     const disabledTooltip = 'Disabled tooltip'
 
-    const { container } = await renderAndCheckA11Y(
-      <IconButton kind="primary" icon={X} ariaLabel={ariaLabel} disabled disabledTooltip={disabledTooltip} disabledTooltipVisible />,
-    )
+    let container: HTMLElement
+    await act(async () => {
+      ;({ container } = await renderAndCheckA11Y(
+        <IconButton kind="primary" icon={X} ariaLabel={ariaLabel} disabled disabledTooltip={disabledTooltip} disabledTooltipVisible />,
+      ))
+    })
 
-    expect(container.querySelector('button')!).toHaveAttribute('disabled')
-    expect(within(screen.getByTestId('tooltip-overlay')).queryByText(disabledTooltip)).toBeInTheDocument()
+    expect(container!.querySelector('button')!).toHaveAttribute('disabled')
+    expect(screen.getByTestId('tooltip-overlay')).toHaveTextContent(disabledTooltip)
     expect(screen.queryByTestId('loader')).not.toBeInTheDocument()
     expect(screen.queryByTestId('icon-button-icon')).toBeInTheDocument()
   })
@@ -80,20 +82,23 @@ describe('IconButton', () => {
   it('Renders disabled loading button with a disabled tooltip', async () => {
     const disabledTooltip = 'Disabled tooltip'
 
-    const { container } = await renderAndCheckA11Y(
-      <IconButton
-        kind="primary"
-        icon={X}
-        ariaLabel={ariaLabel}
-        disabled
-        disabledTooltip={disabledTooltip}
-        disabledTooltipVisible
-        loading
-      />,
-    )
+    let container: HTMLElement
+    await act(async () => {
+      ;({ container } = await renderAndCheckA11Y(
+        <IconButton
+          kind="primary"
+          icon={X}
+          ariaLabel={ariaLabel}
+          disabled
+          disabledTooltip={disabledTooltip}
+          disabledTooltipVisible
+          loading
+        />,
+      ))
+    })
 
-    expect(container.querySelector('button')!).toHaveAttribute('disabled')
-    expect(within(screen.getByTestId('tooltip-overlay')).queryByText(disabledTooltip)).toBeInTheDocument()
+    expect(container!.querySelector('button')!).toHaveAttribute('disabled')
+    expect(screen.getByTestId('tooltip-overlay')).toHaveTextContent(disabledTooltip)
     expect(screen.queryByTestId('loader')).toBeInTheDocument()
     expect(screen.queryByTestId('icon-button-icon')).not.toBeInTheDocument()
   })
@@ -102,18 +107,21 @@ describe('IconButton', () => {
     const disabledTooltip = 'Disabled tooltip'
     const ariaLabelledBy = 'darth'
 
-    const { container } = await renderAndCheckA11Y(
-      <IconButton
-        kind="primary"
-        icon={X}
-        ariaLabelledBy={ariaLabelledBy}
-        disabled
-        disabledTooltip={disabledTooltip}
-        disabledTooltipVisible
-      />,
-    )
+    let container: HTMLElement
+    await act(async () => {
+      ;({ container } = await renderAndCheckA11Y(
+        <IconButton
+          kind="primary"
+          icon={X}
+          ariaLabelledBy={ariaLabelledBy}
+          disabled
+          disabledTooltip={disabledTooltip}
+          disabledTooltipVisible
+        />,
+      ))
+    })
 
-    expect(container.querySelector('button')!).toHaveAttribute('aria-labelledby', `${ariaLabelledBy} ${id}`)
+    expect(container!.querySelector('button')!).toHaveAttribute('aria-labelledby', `${ariaLabelledBy} ${id}`)
   })
 
   it('Renders button with a link semantics', async () => {
@@ -145,13 +153,12 @@ describe('IconButton', () => {
   it('Renders with a tooltip', async () => {
     const tooltip = 'Tooltip'
 
-    await renderAndCheckA11Y(
-      <IconButton kind="primary" icon={X} ariaLabel={ariaLabel} tooltip={tooltip} tooltipPlacement="bottom" tooltipVisible />,
-    )
+    await act(async () => {
+      await renderAndCheckA11Y(
+        <IconButton kind="primary" icon={X} ariaLabel={ariaLabel} tooltip={tooltip} tooltipPlacement="bottom" tooltipVisible />,
+      )
+    })
 
-    const button = screen.getByTestId('icon-button')
-
-    await userEvent.hover(button)
-    expect(within(screen.getByTestId('tooltip-overlay')).queryByText(tooltip)).toBeInTheDocument()
+    expect(screen.getByTestId('tooltip-overlay')).toHaveTextContent(tooltip)
   })
 })
