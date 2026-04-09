@@ -70,4 +70,4 @@ jobs:
           git push --no-verify
           git push --tags --no-verify
       - name: Publish to npm
-        run: npm publish
+        run: npm publish --tag canary
