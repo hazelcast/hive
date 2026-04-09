@@ -13,9 +13,7 @@ $trackBgOff: c.$colorNeutral;
 $knobBgOn: c.$colorNeutralWhite;
 $knobBgOff: c.$colorNeutralLighter;
 $knobRadius: c.$grid * 5;
-/* stylelint-disable  length-zero-no-unit */
 $knobHorizontalOffset: math.max(c.$outlineWidth - c.$borderWidth, 0px);
-/* stylelint-enable */
 
 @keyframes switchOn {
   from {

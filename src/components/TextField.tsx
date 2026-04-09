@@ -23,7 +23,7 @@ import { FieldHeader, FieldHeaderProps } from './FieldHeader'
 import { helpTooltipId } from './Help'
 import { IconButton } from './IconButton'
 import { IconSize } from './Icon'
-import { TooltipProps } from './Tooltip'
+import { TooltipProps } from './old/Tooltip'
 
 import styles from './TextField.module.scss'
 

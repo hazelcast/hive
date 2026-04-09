@@ -3,7 +3,7 @@ import { HelpCircle } from 'react-feather'
 import cn from 'classnames'
 
 import { Icon, IconSize } from './Icon'
-import { Tooltip, TooltipProps } from './Tooltip'
+import { Tooltip, TooltipProps } from './old/Tooltip'
 import { DataTestProp } from '../helpers/types'
 
 import styleConsts from '../../styles/constants/export.module.scss'

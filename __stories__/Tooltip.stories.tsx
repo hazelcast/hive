@@ -17,123 +17,129 @@ export default {
   },
   args: {
     id: 'tooltip-story-auto',
-    placement: 'bottom',
+    side: 'bottom',
     content: 'This is a nice tooltip!',
+  },
+  argTypes: {
+    // children is the trigger element — managed by the story template, not controls
+    children: { control: false, table: { disable: true } },
   },
 } as Meta<TooltipProps>
 
-const Template: StoryFn<TooltipProps> = (args) => (
+const Template: StoryFn<TooltipProps> = ({ children: _trigger, ...args }) => (
   <>
     <div className={styles.wrapper}>
       <Tooltip {...args}>
-        {(ref) => (
-          <Button ref={ref} aria-labelledby={args.id} style={{ height: 80 }}>
-            This button has a tooltip
-          </Button>
-        )}
+        <Button aria-labelledby={args.id} style={{ height: 80 }}>
+          This button has a tooltip
+        </Button>
       </Tooltip>
       <Tooltip color="dark" {...args}>
-        {(ref) => (
-          <Button ref={ref} aria-labelledby={args.id} style={{ height: 80 }}>
-            This button has a tooltip
-          </Button>
-        )}
+        <Button aria-labelledby={args.id} style={{ height: 80 }}>
+          This button has a tooltip
+        </Button>
       </Tooltip>
     </div>
     <div className={styles.wrapper}>
       <Tooltip color="secondary" {...args}>
-        {(ref) => (
-          <Button ref={ref} aria-labelledby={args.id} style={{ height: 80 }}>
-            This button has a tooltip
-          </Button>
-        )}
+        <Button aria-labelledby={args.id} style={{ height: 80 }}>
+          This button has a tooltip
+        </Button>
       </Tooltip>
     </div>
   </>
 )
 
-export const AutoPlacement = Template.bind({})
-AutoPlacement.args = {
-  placement: 'top',
-  autoPlacement: true,
-  id: 'tooltip-story-auto',
+export const Default = Template.bind({})
+Default.args = {
+  side: 'top',
+  avoidCollisions: true,
+  id: 'tooltip-story-default',
 }
 
-export const TopPlacement = Template.bind({})
-TopPlacement.args = {
-  placement: 'top',
+export const TopSide = Template.bind({})
+TopSide.args = {
+  side: 'top',
   id: 'tooltip-story-top',
 }
 
-export const TopStartPlacement = Template.bind({})
-TopStartPlacement.args = {
-  placement: 'top-start',
+export const TopStart = Template.bind({})
+TopStart.args = {
+  side: 'top',
+  align: 'start',
   id: 'tooltip-story-top-start',
 }
 
-export const TopEndPlacement = Template.bind({})
-TopEndPlacement.args = {
-  placement: 'top-end',
+export const TopEnd = Template.bind({})
+TopEnd.args = {
+  side: 'top',
+  align: 'end',
   id: 'tooltip-story-top-end',
 }
 
-export const BottomPlacement = Template.bind({})
-BottomPlacement.args = {
-  placement: 'bottom',
+export const BottomSide = Template.bind({})
+BottomSide.args = {
+  side: 'bottom',
   id: 'tooltip-story-bottom',
 }
 
-export const BottomStartPlacement = Template.bind({})
-BottomStartPlacement.args = {
-  placement: 'bottom-start',
+export const BottomStart = Template.bind({})
+BottomStart.args = {
+  side: 'bottom',
+  align: 'start',
   id: 'tooltip-story-bottom-start',
 }
 
-export const BottomEndPlacement = Template.bind({})
-BottomEndPlacement.args = {
-  placement: 'bottom-end',
+export const BottomEnd = Template.bind({})
+BottomEnd.args = {
+  side: 'bottom',
+  align: 'end',
   id: 'tooltip-story-bottom-end',
 }
 
-export const RightPlacement = Template.bind({})
-RightPlacement.args = {
-  placement: 'right',
+export const RightSide = Template.bind({})
+RightSide.args = {
+  side: 'right',
   id: 'tooltip-story-right',
 }
 
-export const RightStartPlacement = Template.bind({})
-RightStartPlacement.args = {
-  placement: 'right-start',
+export const RightStart = Template.bind({})
+RightStart.args = {
+  side: 'right',
+  align: 'start',
   id: 'tooltip-story-right-start',
 }
 
-export const RightEndPlacement = Template.bind({})
-RightEndPlacement.args = {
-  placement: 'right-end',
+export const RightEnd = Template.bind({})
+RightEnd.args = {
+  side: 'right',
+  align: 'end',
   id: 'tooltip-story-right-end',
 }
 
-export const LeftPlacement = Template.bind({})
-LeftPlacement.args = {
-  placement: 'left',
+export const LeftSide = Template.bind({})
+LeftSide.args = {
+  side: 'left',
   id: 'tooltip-story-left',
 }
 
-export const LeftStartPlacement = Template.bind({})
-LeftStartPlacement.args = {
-  placement: 'left-start',
+export const LeftStart = Template.bind({})
+LeftStart.args = {
+  side: 'left',
+  align: 'start',
   id: 'tooltip-story-left-start',
 }
 
-export const LeftEndPlacement = Template.bind({})
-LeftEndPlacement.args = {
-  placement: 'left-end',
+export const LeftEnd = Template.bind({})
+LeftEnd.args = {
+  side: 'left',
+  align: 'end',
   id: 'tooltip-story-left-end',
 }
 
 export const WithInteractiveContent = Template.bind({})
 WithInteractiveContent.args = {
-  placement: 'top',
+  side: 'top',
   id: 'tooltip-story-with-interactive-content',
   content: (
     <>
@@ -150,34 +156,32 @@ WithInteractiveContent.args = {
 
 export const Invisible = Template.bind({})
 Invisible.args = {
-  visible: false,
+  open: false,
   id: 'tooltip-story-invisible',
 }
 
 export const Visible = Template.bind({})
 Visible.args = {
-  visible: true,
+  open: true,
   id: 'tooltip-story-visible',
 }
 
-export const WithTooltip: StoryFn<TooltipProps> = () => (
+export const Nested: StoryFn<TooltipProps> = () => (
   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 320 }}>
     <Tooltip
       content={
         <Tooltip content="internal tooltip2" id="root_tooltip">
-          {(internalRef) => <span ref={internalRef}>tooltip2</span>}
+          <span>tooltip2</span>
         </Tooltip>
       }
       id="root"
     >
-      {(ref) => (
-        <div ref={ref} style={{ height: 80 }}>
-          This element has a{' '}
-          <Tooltip content="internal tooltip" id="internal">
-            {(internalRef) => <span ref={internalRef}>tooltip</span>}
-          </Tooltip>
-        </div>
-      )}
+      <div style={{ height: 80 }}>
+        This element has a{' '}
+        <Tooltip content="internal tooltip" id="internal">
+          <span>tooltip</span>
+        </Tooltip>
+      </div>
     </Tooltip>
   </div>
 )

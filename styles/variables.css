@@ -1,0 +1,137 @@
+/**
+ * Hive design tokens as CSS custom properties.
+ * This is the v4 replacement for styles/constants/*.scss.
+ *
+ * Apply to :root or a theme wrapper element.
+ */
+
+:root {
+  /* ─── Colors ─────────────────────────────────────────────────── */
+
+  --hive-color-primary-light: #2d7de4;
+  --hive-color-primary: #2160c0;
+  --hive-color-primary-dark: #003b87;
+  --hive-color-neutral-white: #fff;
+  --hive-color-neutral-gray: #e9f0f9;
+  --hive-color-neutral-gray-darker: #ccdff5;
+  --hive-color-neutral: #dbdbdb;
+  --hive-color-neutral-light: #b7c1cb;
+  --hive-color-neutral-lighter: #fafafa;
+  --hive-color-success: #85da66;
+  --hive-color-success-light: #d5f0d1;
+  --hive-color-success-dark: #64d03c;
+  --hive-color-success-darkest: #3b7044;
+  --hive-color-info: #76e7e7;
+  --hive-color-info-light: #d0f4f8;
+  --hive-color-info-dark: #4adfdf;
+  --hive-color-info-darkest: #006585;
+  --hive-color-warning: #ffec44;
+  --hive-color-warning-light: #f9f6c7;
+  --hive-color-warning-dark: #f6dd00;
+  --hive-color-warning-darkest: #8b5d00;
+  --hive-color-error: #dc084b;
+  --hive-color-error-light: #efb1c9;
+  --hive-color-error-dark: #8f001d;
+  --hive-color-text: #061827;
+  --hive-color-text-secondary: #707482;
+  --hive-color-text-subdued: #707482;
+  --hive-color-overlay-background: #f0f6ff;
+  --hive-color-accessibility-outline: #74f;
+  --hive-color-shadow: #dbdbdb;
+  --hive-color-brand: #00bac6;
+  --hive-color-brand-text: #10a4b3;
+  --hive-color-brand-primary: #c6ff3a;
+  --hive-color-brand-secondary: #061727;
+  --hive-color-brand-accent: #122d45;
+  --hive-color-brand-ocean: #0080a9;
+  --hive-color-brand-raspberry: #c91268;
+  --hive-color-brand-carrot: #f5911e;
+  --hive-color-brand-blueberry: #0019fe;
+  --hive-color-auth-secondary: #0b2b39;
+
+  /* ─── Spacing ─────────────────────────────────────────────────── */
+  /* Base grid unit: 4px = 0.25rem */
+
+  --hive-grid: 0.25rem;
+
+  /* ─── Borders ─────────────────────────────────────────────────── */
+
+  --hive-border-width: 1px;
+  --hive-border-width-button: 1px;
+  --hive-outline-width: 2px;
+  --hive-border-radius: 0.5rem; /* $grid * 2 */
+  --hive-border-radius-button-small: 1.25rem; /* $grid * 5 */
+  --hive-border-radius-toast: 37px;
+  --hive-border-radius-badge: 37px;
+  --hive-border-radius-time-field: 3px;
+  --hive-border-radius-notification: 3px;
+
+  /* ─── Icons ───────────────────────────────────────────────────── */
+
+  --hive-icon-stroke-width: 1.5px;
+  --hive-icon-stroke-width-bold: 3px;
+  --hive-icon-size-small: 1rem; /* $grid * 4 */
+  --hive-icon-size-small-medium: 1.25rem; /* $grid * 5 */
+  --hive-icon-size-medium: 1.5rem; /* $grid * 6 */
+  --hive-icon-size-large: 2.5rem; /* $grid * 10 */
+  --hive-icon-size-xlarge: 3rem; /* $grid * 12 */
+
+  /* ─── Component sizes ─────────────────────────────────────────── */
+
+  --hive-tooltip-max-width: 550px;
+  --hive-tooltip-arrow-size: 6px;
+  --hive-input-height: 2.5rem; /* $grid * 10 */
+  --hive-input-height-small: 1.875rem; /* $grid * 7.5 */
+  --hive-input-height-large: 3.25rem; /* $grid * 13 */
+  --hive-alert-width: 350px;
+  --hive-button-max-width: 370px;
+  --hive-toast-max-width: 580px;
+  --hive-overlay-content-max-width: 1000px;
+  --hive-modal-width: 75%;
+  --hive-modal-min-width: 480px;
+  --hive-modal-max-width: 960px;
+  --hive-modal-max-height: 75%;
+  --hive-dialog-width: 400px;
+  --hive-dialog-min-height: 200px;
+  --hive-table-column-min-width: 60px;
+  --hive-table-column-width: 170px;
+  --hive-table-column-max-width: 600px;
+
+  /* ─── Typography ──────────────────────────────────────────────── */
+
+  --hive-font-family-heading: 'PP Telegraf', 'Helvetica', 'Arial', sans-serif;
+  --hive-font-family-text: 'Open Sans', 'Helvetica', 'Arial', sans-serif;
+  --hive-font-weight-heading-regular: 400;
+  --hive-font-weight-heading-bold: 500;
+  --hive-font-weight-text-regular: 400;
+  --hive-font-weight-text-bold: 600;
+  --hive-font-size-h1-hero: 2.875rem;
+  --hive-font-size-h1: 2.125rem;
+  --hive-font-size-h2: 1.625rem;
+  --hive-font-size-h3: 1.25rem;
+  --hive-font-size-button: 1rem;
+  --hive-font-size-button-small: 0.875rem;
+  --hive-font-size-body-normal: 1rem;
+  --hive-font-size-body-small: 0.875rem;
+  --hive-font-size-body-smaller: 0.75rem;
+  --hive-font-size-body-tiny: 0.625rem;
+  --hive-letter-spacing-h1-hero: 0.25px;
+  --hive-letter-spacing-h1: 0.25px;
+  --hive-letter-spacing-h2: 0.25px;
+  --hive-letter-spacing-h3: 0.25px;
+  --hive-letter-spacing-button: 1.25px;
+  --hive-letter-spacing-button-small: 0.25px;
+  --hive-letter-spacing-body-normal: 0.25px;
+  --hive-letter-spacing-body-small: 0.5px;
+  --hive-letter-spacing-body-smaller: normal;
+  --hive-letter-spacing-body-tiny: normal;
+  --hive-line-height-h1-hero: normal;
+  --hive-line-height-h1: normal;
+  --hive-line-height-h2: normal;
+  --hive-line-height-h3: normal;
+  --hive-line-height-button: normal;
+  --hive-line-height-body-normal: 1.4;
+  --hive-line-height-body-small: normal;
+  --hive-line-height-body-smaller: normal;
+  --hive-line-height-body-tiny: normal;
+}

@@ -1,121 +1,98 @@
-import React, { FC, ReactNode, useRef, CSSProperties, cloneElement, ReactElement, useState } from 'react'
-import {
-  FloatingArrow,
-  Placement,
-  offset,
-  useFloating,
-  arrow,
-  useHover,
-  useInteractions,
-  autoUpdate,
-  autoPlacement as autoPlacementMiddleware,
-  FloatingPortal,
-  ReferenceType,
-  safePolygon,
-} from '@floating-ui/react'
+import React, { CSSProperties, ReactElement, ReactNode } from 'react'
+import * as TooltipPrimitive from '@radix-ui/react-tooltip'
 import cn from 'classnames'
 
-import styles from './Tooltip.module.scss'
-import { canUseDOM } from '../utils/ssr'
+import styles from './Tooltip.module.css'
+
+export type TooltipSide = 'top' | 'right' | 'bottom' | 'left'
+export type TooltipAlign = 'start' | 'center' | 'end'
 
 export type TooltipProps = {
+  /** The trigger element */
+  children: ReactElement
+  /** Content displayed inside the tooltip */
   content: ReactNode
-  id?: string
-  offset?: number
+  /** Preferred side relative to the trigger */
+  side?: TooltipSide
+  /** Alignment along the side axis */
+  align?: TooltipAlign
+  /** Distance in pixels between trigger and tooltip */
+  sideOffset?: number
+  /** Automatically shift to avoid viewport overflow */
+  avoidCollisions?: boolean
+  /** Controlled open state */
+  open?: boolean
+  /** Delay in ms before the tooltip opens (default: 300) */
+  delayDuration?: number
+  /** Show the arrow pointer */
   arrow?: boolean
+  /** Color variant */
   color?: 'dark' | 'secondary'
-  padding?: number
-  placement?: Placement
-  visible?: boolean
-  className?: string
-  children: (ref: (node: ReferenceType | null) => void) => ReactElement
+  /** CSS word-break override */
   wordBreak?: CSSProperties['wordBreak']
+  /** z-index for the tooltip portal */
   zIndex?: number
-  autoPlacement?: boolean
+  /** Additional className on the tooltip content */
+  className?: string
+  /** ID for aria-labelledby */
+  id?: string
 }
 
 /**
  * ### Purpose
- * Useful when you need to display additional information/actionable content.
- * A tooltip with this content is displayed when user hovers over a target element.
- *
- * ### General info
- * - Tooltip automatically detects viewport overflow and changes placement to prevent it.
- * - Offset (space between a target and tooltip elements) can be also configured via "offset" property.
- * - If "content" property is undefined, tooltip element will be removed from DOM entirely.
- * - It's required to set the "id" property which will be assigned to the tooltip. This id parameter can be then used as a value of "aria-labelledby" attribute.
- * - Use `updateToken` prop to update the tooltip position.
- * - Use `tooltipContainer` prop to change the tooltip portal container. Defaults to `body`.
+ * Displays additional information when hovering over a trigger element.
  *
  * ### Usage
- * Wrap the target element with Tooltip component and use the "content" property to define what should be displayed inside the tooltip.
+ * Pass the trigger element as `children` and the tooltip text/content via `content`.
+ *
+ * ```tsx
+ * <Tooltip content="Save changes">
+ *   <button>Save</button>
+ * </Tooltip>
+ * ```
  */
-export const Tooltip: FC<TooltipProps> = ({
-  id,
-  content,
-  offset: offsetY = 10,
-  padding = 10,
-  placement = 'top',
-  visible: visibilityOverride,
+export const Tooltip = ({
   children,
-  wordBreak,
-  zIndex = 20,
+  content,
+  side = 'top',
+  align = 'center',
+  sideOffset = 10,
+  avoidCollisions = true,
+  open,
+  delayDuration = 300,
   arrow: showArrow = true,
   color,
-  autoPlacement = true,
+  wordBreak,
+  zIndex = 20,
   className,
-}) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const arrowRef = useRef(null)
+  id,
+}: TooltipProps) => {
+  if (content === undefined) {
+    return <>{children}</>
+  }
 
-  const { refs, floatingStyles, context } = useFloating({
-    strategy: 'absolute',
-    placement,
-    whileElementsMounted: autoUpdate,
-    open: isOpen,
-    onOpenChange: setIsOpen,
-    middleware: [
-      ...(autoPlacement ? [autoPlacementMiddleware()] : []),
-      offset(offsetY),
-      ...(showArrow
-        ? [
-            arrow({
-              element: arrowRef,
-              padding,
-            }),
-          ]
-        : []),
-    ],
-  })
-
-  const hover = useHover(context, { handleClose: safePolygon() })
-
-  const { getReferenceProps, getFloatingProps } = useInteractions([hover])
-
-  const isTooltipVisible = typeof visibilityOverride === 'boolean' ? visibilityOverride : isOpen
+  const rootProps = typeof open === 'boolean' ? { open } : {}
 
   return (
-    <>
-      {cloneElement(children(refs.setReference), { ...getReferenceProps() })}
-      {content !== undefined && isTooltipVisible && (
-        <>
-          <span {...(id && { id })} className={cn(styles.tooltipSr, className)} role="tooltip" data-test="tooltip-sr">
+    <TooltipPrimitive.Provider delayDuration={delayDuration}>
+      <TooltipPrimitive.Root {...rootProps}>
+        <TooltipPrimitive.Trigger asChild>{children}</TooltipPrimitive.Trigger>
+        <TooltipPrimitive.Portal>
+          <TooltipPrimitive.Content
+            id={id}
+            side={side}
+            align={align}
+            sideOffset={sideOffset}
+            avoidCollisions={avoidCollisions}
+            className={cn(styles.content, color && styles[color], className)}
+            style={{ zIndex, wordBreak }}
+            data-test="tooltip-overlay"
+          >
             {content}
-          </span>
-          <FloatingPortal root={canUseDOM ? document.body : null}>
-            <span
-              ref={refs.setFloating}
-              className={cn(styles.overlay, color && [styles[color]], className)}
-              style={{ ...floatingStyles, ...{ zIndex: context ? zIndex + 1 : zIndex }, wordBreak }}
-              data-test="tooltip-overlay"
-              {...getFloatingProps()}
-            >
-              {content}
-              {showArrow && <FloatingArrow ref={arrowRef} context={context} className={styles.arrow} />}
-            </span>
-          </FloatingPortal>
-        </>
-      )}
-    </>
+            {showArrow && <TooltipPrimitive.Arrow className={styles.arrow} />}
+          </TooltipPrimitive.Content>
+        </TooltipPrimitive.Portal>
+      </TooltipPrimitive.Root>
+    </TooltipPrimitive.Provider>
   )
 }

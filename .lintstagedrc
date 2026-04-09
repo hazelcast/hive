@@ -3,7 +3,6 @@
     "npx prettier --write",
   ],
   "*.md": [
-    "npx doctoc",
     "npx prettier --write",
   ]
 }

@@ -3,7 +3,7 @@ import cn from 'classnames'
 
 import { DataTestProp } from '../helpers/types'
 import { TruncatedText } from './TruncatedText'
-import { TooltipProps } from './Tooltip'
+import { TooltipProps } from './old/Tooltip'
 
 import styles from './Error.module.scss'
 
