@@ -11,7 +11,6 @@ import { testAttribute, testClass } from '../helpers'
 
 import iconStyles from '../../src/components/Icon.module.scss'
 import styles from '../../src/components/IconButton.module.scss'
-import userEvent from '@testing-library/user-event'
 
 jest.mock('react-uid')
 
