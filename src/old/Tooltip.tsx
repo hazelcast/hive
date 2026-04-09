@@ -17,7 +17,7 @@ import cn from 'classnames'
 
 // @deprecated — use Tooltip from @hazelcast/ui instead. This will be removed in v5.
 import styles from './Tooltip.module.scss'
-import { canUseDOM } from '../../utils/ssr'
+import { canUseDOM } from '../utils/ssr'
 
 export type TooltipProps = {
   content: ReactNode

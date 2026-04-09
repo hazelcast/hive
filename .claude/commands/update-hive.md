@@ -6,7 +6,7 @@ You are helping update the `@hazelcast/ui` design system from v3 to v4.
 
 - **Package:** `@hazelcast/ui` at `/Users/mykolafant/Desktop/projects/hive`
 - **Components:** `src/components/` — each component has its own `.tsx` + `.module.scss` (being replaced with `.module.css`)
-- **Legacy components:** `src/components/old/` — preserved v3 versions, exported via `@hazelcast/ui/old`
+- **Legacy components:** `src/old/` — preserved v3 versions, exported via `@hazelcast/ui/old`
 - **Public API:** everything exported from `src/index.ts`
 - **Legacy API:** everything exported from `src/old/index.ts` (subpath `@hazelcast/ui/old`)
 - **Stories:** `__stories__/<Component>.stories.tsx`
