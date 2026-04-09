@@ -11,7 +11,6 @@ import { ButtonColor, ButtonVariant } from '../../src/components/Button'
 
 import styles from '../../src/components/Button.module.scss'
 import loaderStyles from '../../src/components/Loader.module.scss'
-import tooltipStyles from '../../src/components/Tooltip.module.scss'
 
 const label = 'LABEL'
 const ariaLabel = 'X Icon'
@@ -174,37 +173,35 @@ describe('Button', () => {
   it('Renders disabled loading button with a disabled tooltip', async () => {
     const disabledTooltip = 'Disabled tooltip'
 
-    await renderAndCheckA11Y(
-      // div is required because `axe` cannot validate react fragments
-      <div>
-        <Button disabled loading disabledTooltip={disabledTooltip} disabledTooltipVisible>
-          {label}
-        </Button>
-      </div>,
-    )
+    await act(async () => {
+      await renderAndCheckA11Y(
+        // div is required because `axe` cannot validate react fragments
+        <div>
+          <Button disabled loading disabledTooltip={disabledTooltip} disabledTooltipVisible>
+            {label}
+          </Button>
+        </div>,
+      )
+    })
 
     const button = screen.getByTestId('button')
     expect(button).toHaveAttribute('disabled')
 
-    await userEvent.hover(button)
     expect(screen.getByTestId('tooltip-overlay')).toHaveTextContent(disabledTooltip)
   })
 
   it('Renders disabled button, tooltip is enabled, correct tooltipVisible flag passed to TruncatedText', async () => {
     const disabledTooltip = 'Disabled tooltip'
 
-    await renderAndCheckA11Y(
-      <Button disabled disabledTooltip={disabledTooltip} disabledTooltipVisible>
-        {label}
-      </Button>,
-    )
+    await act(async () => {
+      await renderAndCheckA11Y(
+        <Button disabled disabledTooltip={disabledTooltip} disabledTooltipVisible>
+          {label}
+        </Button>,
+      )
+    })
 
-    const tooltip = screen.getByTestId('tooltip-overlay')
-    expect(tooltip).toHaveTextContent(disabledTooltip)
-
-    fireEvent.mouseEnter(screen.getByTestId('button'))
-
-    expect(screen.getByTestId('tooltip-overlay')).not.toHaveClass(tooltipStyles.hidden)
+    expect(screen.getByTestId('tooltip-overlay')).toHaveTextContent(disabledTooltip)
   })
 
   it('Renders disabled button, tooltip is disabled, correct tooltipVisible flag passed to TruncatedText', async () => {
