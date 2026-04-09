@@ -1,6 +1,6 @@
 # Hive v4 Migration Assistant
 
-You are helping a client app (`mc` or `cloud`) migrate its `@hazelcast/ui` dependency from v3 to v4.
+You are helping a client app: `mc` (../management-center) or `cloud` (../hazelcast-cloud-frontend) migrate its `@hazelcast/ui` dependency from v3 to v4.
 
 ## Key concept: gradual migration via `/old`
 
