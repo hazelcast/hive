@@ -2,16 +2,6 @@
 
 `@hazelcast/ui` v4 introduces breaking changes with a **gradual migration path**.
 
-Changed components are preserved in `@hazelcast/ui/old` so clients can upgrade at their own pace. The `/old` subpath will be removed in v5.
-
----
-
-## Install
-
-```bash
-npm install @hazelcast/ui@4
-```
-
 ---
 
 ## Gradual migration
@@ -19,7 +9,6 @@ npm install @hazelcast/ui@4
 For any component with a breaking change you're not ready to migrate yet, redirect the import to `/old`:
 
 ```ts
-// Temporary — migrate before v5
 import { Tooltip } from '@hazelcast/ui/old'
 ```
 
@@ -97,7 +86,6 @@ import { Tooltip } from '@hazelcast/ui/old'
 
 ```tsx
 import { Tooltip } from '@hazelcast/ui'
-
 ;<Tooltip content="Save" placement="top-start" autoPlacement offset={8} visible={show}>
   {(ref) => <button ref={ref}>Save</button>}
 </Tooltip>
@@ -107,7 +95,6 @@ import { Tooltip } from '@hazelcast/ui'
 
 ```tsx
 import { Tooltip } from '@hazelcast/ui'
-
 ;<Tooltip content="Save" side="top" align="start" avoidCollisions sideOffset={8} open={show}>
   <button>Save</button>
 </Tooltip>
@@ -117,7 +104,7 @@ import { Tooltip } from '@hazelcast/ui'
 
 ## Deprecated components
 
-Removed from the main `@hazelcast/ui` entry but available at `@hazelcast/ui/old` until v5.
+Removed from the main `@hazelcast/ui` entry but available at `@hazelcast/ui/old`.
 
 <!-- Template:
 ### `<ComponentName>`
