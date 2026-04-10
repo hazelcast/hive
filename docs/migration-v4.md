@@ -28,6 +28,7 @@ grep -r "@hazelcast/ui/old" src --include="*.tsx" --include="*.ts"
 | -------- | --------- | ------------------------------------------------- | --------------- |
 | Updated  | `Tooltip` | Radix UI base; new props; no render-prop children | ✅              |
 | Updated  | `Badge`   | `size` prop removed; borders + 8px radius added   | ❌              |
+| Updated  | `Button`  | `size` prop removed; border-radius changed to 8px | ❌              |
 
 ---
 
@@ -94,6 +95,31 @@ import { Badge } from '@hazelcast/ui'
 // Custom icon
 import { Star } from 'react-feather'
 <Badge type="info" icon={{ icon: Star, ariaLabel: 'Star icon' }} content="Featured" />
+```
+
+---
+
+### `Button`
+
+The `size` prop and `ButtonSize` type have been removed. Only the small size remains. Border-radius changed from `20px` to `8px`.
+
+**Prop changes:**
+
+| Prop                         | v3                          | v4                     |
+| ---------------------------- | --------------------------- | ---------------------- |
+| `size?: 'small' \| 'medium'` | optional, default `'small'` | removed — always small |
+
+**Before:**
+
+```tsx
+<Button size="medium">Save</Button>
+<Button size="small">Save</Button>
+```
+
+**After:**
+
+```tsx
+<Button>Save</Button>
 ```
 
 ---

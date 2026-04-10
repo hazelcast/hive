@@ -14,8 +14,6 @@ import styles from './Button.module.scss'
 export type ButtonVariant = 'contained' | 'outlined' | 'text'
 export type ButtonColor = 'primary' | 'secondary' | 'warning' | 'brand' | 'authPrimary' | 'authSecondary' | 'light'
 
-export type ButtonSize = 'medium' | 'small'
-
 // Left icon is always present with proper aria-label attribute
 export type ButtonAccessibleIconLeftProps =
   | {
@@ -65,7 +63,6 @@ export type ButtonOutlineType = 'outline' | 'inset'
 // Common props for all button "kinds"
 export type ButtonCommonProps = {
   children: string | ReactElement
-  size?: ButtonSize
   iconSize?: IconSize
   color?: ButtonColor
   capitalize?: boolean
@@ -107,26 +104,6 @@ export type ButtonProps<T = ButtonTypeProps> = ButtonCommonProps &
 
 const capitalizeFirstCharacter = (str: string) => `${str[0].toUpperCase()}${str.slice(1)}`
 
-/**
- * ### Purpose
- * Make it clear what users should do to continue with their main flow by using buttons to highlight the main actions they can take.
- * Prioritize the actions on a page and use the button sizes and types to make it clear to users which are the most important. If you have many actions, consider using button links to offer less important ones.
- *
- * ### General Info
- * - Use 4 types of Button: Primary, Secondary, Danger and Transparent
- * - There are two sizes: `small` with height of `30px` and `medium` with height of `40px`
- * - Button can stand only with the label, icon on the left side, icon on the right side, icon on both left and right side, or only icon (depends on the type of the button).
- * - You can use an icon with the label to draw more attention.
- * - Button label is always in upper-case
- * - The labels should be actionable (e.g. "EDIT" or "ADD NEW FILTER") and it should be clear from the button label what will happen when the user interacts with it. Make button labels short and clear. Avoid long explanations in the button text.
- * - You can change underlying semantics with a component property. Typescript will guard you on providing other properties related to the component type.
- *
- * ### Usage
- * - **Primary**: Use primary button for the single primary action on the screen. To call attention to an action on a form, or highlight the strongest call to action on a page. Primary button should only appear once per screen. Not every screen requires a primary button.
- * - **Secondary**: Use secondary buttons for all remaining actions. Secondary button is the standard button for most use cases.
- * - **Danger**: Use danger button for potentially destructive actions.
- * - **Transparent**: Use for IconButton and similar use-cases.
- */
 export const Button = forwardRef<HTMLElement, ButtonProps>(
   (
     {
@@ -137,17 +114,14 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
       outline = 'outline',
       children,
       capitalize = true,
-      // Disabled tooltip
       disabled,
       disabledTooltip,
       disabledTooltipVisible,
       disabledTooltipPlacement,
-      // Left icon
       iconLeft,
       iconLeftAriaLabel,
       iconLeftColor,
       iconLeftClassName,
-      // Right icon
       iconRight,
       iconRightAriaLabel,
       iconRightColor,
@@ -159,7 +133,6 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
       variant = 'contained',
       color = 'primary',
       tooltip,
-      size = 'small',
       active,
       truncate = true,
       iconSize: propIconSize,
@@ -169,7 +142,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
     ref,
   ) => {
     const tooltipId = useUID()
-    const iconSize: IconSize = propIconSize || (size === 'medium' ? 'smallMedium' : 'small')
+    const iconSize: IconSize = propIconSize ?? 'small'
     const relFinal = Array.isArray(rel) ? rel.join(' ') : rel
     const loadingAnimationOnRight = loading && iconRight && iconRightAriaLabel && !(iconLeft && iconLeftAriaLabel)
 
@@ -189,7 +162,6 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
               [styles[`color${capitalizeFirstCharacter(color)}`]]: true,
               [styles[`variant${capitalizeFirstCharacter(variant)}`]]: true,
               [styles.active]: active,
-              [styles[size]]: size !== 'small',
             },
             className,
           )}
