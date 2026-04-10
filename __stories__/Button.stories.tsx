@@ -1,3 +1,4 @@
+import React from 'react'
 import { Meta, StoryObj } from '@storybook/react'
 import { Info, ChevronDown } from 'react-feather'
 import cn from 'classnames'
