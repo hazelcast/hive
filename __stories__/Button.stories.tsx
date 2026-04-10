@@ -1,4 +1,3 @@
-import React, { ReactNode } from 'react'
 import { Meta, StoryObj } from '@storybook/react'
 import { Info, ChevronDown } from 'react-feather'
 import cn from 'classnames'
