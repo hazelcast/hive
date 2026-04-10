@@ -21,7 +21,7 @@
   cursor: pointer;
   border: none;
   padding: 0;
-  border-radius: c.$borderRadiusButtonSmall;
+  border-radius: 8px;
   height: c.$inputHeightSmall;
   max-width: c.$buttonMaxWidth;
 
@@ -30,15 +30,9 @@
 
   @include c.typographyButton('small');
 
-  &.medium {
-    height: c.$grid * 10.75;
-
-    @include c.typographyButton('medium');
-  }
-
   .outline {
     position: absolute;
-    border-radius: c.$borderRadiusButtonSmall;
+    border-radius: 8px;
     pointer-events: none;
     top: 50%;
     left: 50%;

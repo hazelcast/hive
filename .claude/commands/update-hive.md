@@ -115,6 +115,15 @@ Categories:
 - [ ] `package.json` exports field includes `./old` entry
 - [ ] `src/index.ts` unchanged (or updated if exports changed)
 
+## REQUIRED: Update migration guide on breaking changes
+
+After any task that introduces a **breaking change** (removed prop, renamed prop, changed type, visual redesign), you **must** update `docs/migration-v4.md` before considering the task done:
+
+1. Add a row to the summary table (Category, Component, Change, `/old` fallback)
+2. Add a full section under the appropriate heading (Updated / Deprecated / New) with before/after code examples and a prop change table
+
+Non-breaking changes (internal refactors, bug fixes) do not need a migration guide entry.
+
 ## Running checks
 
 ```bash

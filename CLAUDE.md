@@ -26,6 +26,10 @@ npm run compile   # Build to lib/
 - `__stories__/` — Storybook stories
 - `__tests__/` — Jest tests
 
+## Code style
+
+- Minimize comments — only add them where the logic is non-obvious. Do not add section headers, label-style comments (e.g. `// Colors`, `// Sizes`), or comments that restate what the code already says.
+
 ## Conventions
 
 - Components export from `src/index.ts`

@@ -36,17 +36,15 @@ export const BadgeIcon: { [key in BadgeType]: BadgeIconDescriptor } = {
   },
 }
 
-export type BadgeSize = 'small' | 'normal'
-
 export type BadgeProps = {
   type: BadgeType
-  size?: BadgeSize
   content: ReactNode
+  icon?: BadgeIconDescriptor
   className?: string
 }
 
-export const Badge: FC<BadgeProps> = ({ type, content, size = 'normal', className }) => {
-  const { icon, ariaLabel } = BadgeIcon[type]
+export const Badge: FC<BadgeProps> = ({ type, content, icon, className }) => {
+  const { icon: resolvedIcon, ariaLabel } = icon ?? BadgeIcon[type]
 
   return (
     <div
@@ -54,26 +52,16 @@ export const Badge: FC<BadgeProps> = ({ type, content, size = 'normal', classNam
       className={cn(
         styles.badge,
         {
-          // Colors
           [styles.neutral]: type === 'neutral',
           [styles.success]: type === 'success',
           [styles.info]: type === 'info',
           [styles.warning]: type === 'warning',
           [styles.critical]: type === 'critical',
-          // Size
-          [styles.normal]: size === 'normal',
-          [styles.small]: size === 'small',
         },
         className,
       )}
     >
-      <Icon
-        data-test="badge-icon"
-        ariaLabel={ariaLabel}
-        icon={icon}
-        className={styles.icon}
-        size={size === 'normal' ? 'medium' : 'small'}
-      />
+      <Icon data-test="badge-icon" ariaLabel={ariaLabel} icon={resolvedIcon} className={styles.icon} size="small" />
       <div data-test="badge-content" className={styles.content}>
         {content}
       </div>

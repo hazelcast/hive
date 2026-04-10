@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 import { Meta, StoryObj } from '@storybook/react'
 import { Info, ChevronDown } from 'react-feather'
 import cn from 'classnames'
@@ -37,34 +37,6 @@ const Component = ({ className, ...args }: ButtonProps) => {
         <Button {...props} color="authSecondary" disabled />
         <Button {...props} variant="outlined" color="authSecondary" />
         <Button {...props} variant="text" color="authSecondary" />
-        <Button {...props} size="medium" />
-        <Button {...props} variant="outlined" size="medium" />
-        <Button {...props} variant="text" size="medium" />
-        <Button {...props} color="secondary" size="medium" />
-        <Button {...props} variant="outlined" color="secondary" size="medium" />
-        <Button {...props} variant="text" color="secondary" size="medium" />
-        <Button {...props} color="warning" size="medium" />
-        <Button {...props} variant="outlined" color="warning" size="medium" />
-        <Button {...props} variant="text" color="warning" size="medium" />
-        <Button {...props} color="brand" size="medium" />
-        <Button {...props} variant="outlined" color="brand" size="medium" />
-        <Button {...props} variant="text" color="brand" size="medium" />
-        <Button {...props} color="authPrimary" size="medium" />
-        <Button {...props} variant="outlined" color="authPrimary" size="medium" />
-        <Button {...props} variant="text" color="authPrimary" size="medium" />
-        <Button {...props} color="authSecondary" size="medium" />
-        <Button {...props} color="authSecondary" disabled size="medium" />
-        <Button {...props} variant="outlined" color="authSecondary" size="medium" />
-        <Button {...props} variant="text" color="authSecondary" size="medium" />
-        <DarkBackground>
-          <Button {...props} color="light" />
-        </DarkBackground>
-        <DarkBackground>
-          <Button {...props} variant="outlined" color="light" />
-        </DarkBackground>
-        <DarkBackground>
-          <Button {...props} variant="text" color="light" />
-        </DarkBackground>
       </div>
     </div>
   )
@@ -83,10 +55,6 @@ export default {
     children: 'Button',
   },
 } as Meta<typeof Button>
-
-const DarkBackground = ({ children }: { children: ReactNode }) => (
-  <span style={{ display: 'inline-block', background: '#000', padding: 4 }}>{children}</span>
-)
 
 export const Default: Story = {}
 

@@ -27,6 +27,8 @@ grep -r "@hazelcast/ui/old" src --include="*.tsx" --include="*.ts"
 | Category | Component | Change                                            | `/old` fallback |
 | -------- | --------- | ------------------------------------------------- | --------------- |
 | Updated  | `Tooltip` | Radix UI base; new props; no render-prop children | ✅              |
+| Updated  | `Badge`   | `size` prop removed; borders + 8px radius added   | ❌              |
+| Updated  | `Button`  | `size` prop removed; border-radius changed to 8px | ❌              |
 
 ---
 
@@ -59,6 +61,68 @@ import { ComponentName } from '@hazelcast/ui/old'
 <ComponentName newProp="value" />
 ```
 -->
+
+### `Badge`
+
+The `size` prop and `BadgeSize` type have been removed. Only the small size remains. Badges now have a `1px` semantic border and `8px` border-radius (previously borderless pill shape).
+
+**Prop changes:**
+
+| Prop                         | v3                           | v4                                          |
+| ---------------------------- | ---------------------------- | ------------------------------------------- |
+| `size?: 'small' \| 'normal'` | optional, default `'normal'` | removed — always small                      |
+| `icon?: BadgeIconDescriptor` | n/a                          | new — overrides the default type-based icon |
+
+**Type changes:**
+
+`BadgeSize` type is no longer exported.
+
+**Before:**
+
+```tsx
+import { Badge, BadgeSize } from '@hazelcast/ui'
+<Badge type="success" size="normal" content="Active" />
+<Badge type="warning" size="small" content="Pending" />
+```
+
+**After:**
+
+```tsx
+import { Badge } from '@hazelcast/ui'
+<Badge type="success" content="Active" />
+<Badge type="warning" content="Pending" />
+
+// Custom icon
+import { Star } from 'react-feather'
+<Badge type="info" icon={{ icon: Star, ariaLabel: 'Star icon' }} content="Featured" />
+```
+
+---
+
+### `Button`
+
+The `size` prop and `ButtonSize` type have been removed. Only the small size remains. Border-radius changed from `20px` to `8px`.
+
+**Prop changes:**
+
+| Prop                         | v3                          | v4                     |
+| ---------------------------- | --------------------------- | ---------------------- |
+| `size?: 'small' \| 'medium'` | optional, default `'small'` | removed — always small |
+
+**Before:**
+
+```tsx
+<Button size="medium">Save</Button>
+<Button size="small">Save</Button>
+```
+
+**After:**
+
+```tsx
+<Button>Save</Button>
+```
+
+---
 
 ### `Tooltip`
 

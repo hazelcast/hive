@@ -4,52 +4,41 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  border-radius: c.$borderRadiusBadge;
+  border-radius: 8px;
+  padding: c.$grid * 0.5 c.$grid * 2;
 
   .content {
     margin-left: c.$grid;
+    @include c.typographyBodySmall;
   }
 
-  // Sizes
-  &.normal {
-    padding: c.$grid * 2 c.$grid * 3;
-
-    .content {
-      @include c.typographyBodyNormal;
-    }
-  }
-
-  &.small {
-    padding: c.$grid c.$grid * 2;
-
-    .content {
-      @include c.typographyBodySmall;
-    }
-  }
-
-  // Themes
   &.neutral {
-    background-color: c.$colorNeutralLighter;
-    color: c.$colorText;
+    background-color: lab(from var(--hive-color-text-secondary) 97% a b);
+    color: var(--hive-color-text-secondary);
+    border: 1px solid var(--hive-color-text-secondary);
   }
 
   &.success {
-    background-color: c.$colorSuccess;
-    color: c.$colorNeutralWhite;
+    background-color: lab(from var(--hive-color-success-darkest) 95% a b);
+    color: var(--hive-color-success-darkest);
+    border: 1px solid var(--hive-color-success-darkest);
   }
 
   &.info {
-    background-color: c.$colorInfoLight;
-    color: c.$colorText;
+    background-color: lab(from var(--hive-color-info-darkest) 95% a b);
+    color: var(--hive-color-info-darkest);
+    border: 1px solid var(--hive-color-info-darkest);
   }
 
   &.warning {
-    background-color: c.$colorWarningLight;
-    color: c.$colorText;
+    background-color: lab(from var(--hive-color-warning-darkest) 95% a b);
+    color: var(--hive-color-warning-darkest);
+    border: 1px solid var(--hive-color-warning-darkest);
   }
 
   &.critical {
-    background-color: c.$colorError;
-    color: c.$colorNeutralWhite;
+    background-color: lab(from var(--hive-color-error) 95% a b);
+    color: var(--hive-color-error);
+    border: 1px solid var(--hive-color-error);
   }
 }
