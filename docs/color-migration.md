@@ -10,9 +10,9 @@ Replace each HIVE token value with the OKLCH values below to match this prototyp
 
 | Token | Current HEX | Light OKLCH | Dark OKLCH |
 |:---|:---|:---|:---|
-| `$colorPrimaryLight` | `#2d7de4` | `oklch(0.95 0.002 220)` | `oklch(0.79 0.17 170)` |
-| `$colorPrimary` | `#2160c0` | `oklch(0.95 0.002 220)` | `oklch(0.79 0.17 170)` |
-| `$colorPrimaryDark` | `#003b87` | `oklch(0.90 0.002 220)` | `oklch(0.79 0.17 170)` |
+| `$colorPrimaryLight` | `#2d7de4` | `oklch(0.79 0.17 170)` | `oklch(0.79 0.17 170)` |
+| `$colorPrimary` | `#2160c0` | `oklch(0.79 0.17 170)` | `oklch(0.79 0.17 170)` |
+| `$colorPrimaryDark` | `#003b87` | `oklch(0.72 0.15 170)` | `oklch(0.72 0.15 170)` |
 
 ---
 
@@ -66,9 +66,9 @@ Replace each HIVE token value with the OKLCH values below to match this prototyp
 
 | Token | Current HEX | Light OKLCH | Dark OKLCH |
 |:---|:---|:---|:---|
-| `$colorError` | `#dc084b` | `oklch(0.95 0.002 10)` | `oklch(0.65 0.22 25)` |
-| `$colorErrorLight` | `#efb1c9` | `oklch(0.95 0.002 10 / 0.15)` | `oklch(0.65 0.22 25 / 0.15)` |
-| `$colorErrorDark` | `#8f001d` | `oklch(0.90 0.002 10)` | `oklch(0.58 0.20 25)` |
+| `$colorError` | `#dc084b` | `oklch(0.53 0.22 27)` | `oklch(0.65 0.22 25)` |
+| `$colorErrorLight` | `#efb1c9` | `oklch(0.53 0.22 27 / 0.15)` | `oklch(0.65 0.22 25 / 0.15)` |
+| `$colorErrorDark` | `#8f001d` | `oklch(0.45 0.20 25)` | `oklch(0.58 0.20 25)` |
 
 ---
 
@@ -118,7 +118,7 @@ Replace each HIVE token value with the OKLCH values below to match this prototyp
 | `$colorBrandSecondary` | `#061727` | `oklch(0.35 0.002 0)` | `oklch(0.24 0.02 280)` |
 | `$colorBrandAccent` | `#122d45` | `oklch(0.30 0.02 275)` | `oklch(0.30 0.02 275)` |
 | `$colorBrandOcean` | `#0080a9` | `oklch(0.55 0.15 220)` | `oklch(0.81 0.09 215)` |
-| `$colorBrandRaspberry` | `#c91268` | `oklch(0.95 0.002 10)` | `oklch(0.65 0.22 25)` |
+| `$colorBrandRaspberry` | `#c91268` | `oklch(0.53 0.22 27)` | `oklch(0.65 0.22 25)` |
 | `$colorBrandCarrot` | `#f5911e` | `oklch(0.60 0.16 85)` | `oklch(0.90 0.17 95)` |
 | `$colorBrandBlueberry` | `#0019fe` | `oklch(0.55 0.15 220)` | `oklch(0.81 0.09 215)` |
 
