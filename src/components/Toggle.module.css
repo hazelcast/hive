@@ -1,4 +1,111 @@
 .wrapper {
+  --toggle-track-width: 32px;
+  --toggle-track-height: 18px;
+  --toggle-thumb-size: 16px;
+  --toggle-thumb-offset: calc(var(--toggle-track-width) - var(--toggle-thumb-size) - 2px);
+  --toggle-track-bg: var(--hive-color-neutral-light);
+  --toggle-track-bg-checked: var(--hive-color-brand);
+  --toggle-thumb-bg: var(--hive-color-neutral-white);
+  --toggle-transition-duration: 160ms;
+
+  position: relative;
+  font-family: inherit;
+  font-size: var(--hive-font-size-body-small);
+  line-height: var(--hive-line-height-body-small);
+  color: var(--hive-color-text);
+}
+
+.wrapper input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.wrapper label {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+  color: inherit;
+}
+
+.labelText {
+  display: inline-block;
+}
+
+.toggleTrack {
+  position: relative;
+  flex-shrink: 0;
+  display: inline-block;
+  width: var(--toggle-track-width);
+  height: var(--toggle-track-height);
+  border-radius: 9999px;
+  background: var(--toggle-track-bg);
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  transition: background-color var(--toggle-transition-duration) ease;
+}
+
+.toggleTrack::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--toggle-thumb-size);
+  height: var(--toggle-thumb-size);
+  background: var(--toggle-thumb-bg);
+  border-radius: 9999px;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.1),
+    0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: transform var(--toggle-transition-duration) ease;
+}
+
+.wrapper input:checked + label .toggleTrack {
+  background: var(--toggle-track-bg-checked);
+}
+
+.wrapper input:checked + label .toggleTrack::before {
+  transform: translateX(var(--toggle-thumb-offset));
+}
+
+.wrapper input:focus-visible + label .toggleTrack,
+.wrapper label.focus .toggleTrack {
+  outline: var(--hive-outline-width) solid var(--hive-color-primary);
+  outline-offset: 2px;
+}
+
+.wrapper label.hover .toggleTrack,
+.wrapper label:hover .toggleTrack {
+  filter: brightness(0.92);
+}
+
+.wrapper label.disabled,
+.wrapper input:disabled + label {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.wrapper label.error .toggleTrack,
+.withError .toggleTrack {
+  box-shadow: 0 0 0 1px var(--hive-color-error);
+}
+
+.helperText {
+  margin-left: 6px;
+}
+
+.errorContainer {
+  margin-top: 4px;
+}
+.wrapper {
   position: relative;
   font-family: inherit;
   font-size: 14px;
