@@ -49,6 +49,23 @@
   --hive-color-brand-blueberry: #0019fe;
   --hive-color-auth-secondary: #0b2b39;
 
+  /* ─── HIVE 4.0 colors (opt-in, OKLCH) ─────────────────────────── */
+  /* Mirror of $color*V4 Sass tokens in styles/constants/_colors.scss */
+
+  --hive-color-primary-v4: oklch(0.77 0.14 175);
+  --hive-color-neutral-white-v4: oklch(1 0 0);
+  --hive-color-neutral-v4: oklch(0.89 0 0);
+  --hive-color-neutral-lighter-v4: oklch(0.99 0 0);
+  --hive-color-success-v4: oklch(0.84 0.06 151);
+  --hive-color-info-v4: oklch(0.78 0.06 250);
+  --hive-color-warning-v4: oklch(0.87 0.09 95);
+  --hive-color-error-v4: oklch(0.55 0.21 27);
+  --hive-color-text-v4: oklch(0.33 0.002 17);
+  --hive-color-text-secondary-v4: oklch(0.42 0.002 17);
+  --hive-color-text-subdued-v4: oklch(0.42 0.002 17);
+  --hive-color-brand-v4: oklch(0.77 0.14 175);
+  --hive-color-brand-primary-v4: oklch(0.95 0.22 124);
+
   /* ─── Spacing ─────────────────────────────────────────────────── */
   /* Base grid unit: 4px = 0.25rem */
 

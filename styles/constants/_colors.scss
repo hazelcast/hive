@@ -52,3 +52,21 @@ $colorBrandOcean: #0080a9 !default;
 $colorBrandRaspberry: #c91268 !default;
 $colorBrandCarrot: #f5911e !default;
 $colorBrandBlueberry: #0019fe !default;
+
+// ─── HIVE 4.0 colors (opt-in, OKLCH) ──────────────────────────────
+// Each token mirrors a HIVE 3.0 variable above with a `V4` suffix and
+// the OKLCH value from the HIVE 4.0 Figma palette.
+
+$colorPrimaryV4: oklch(0.77 0.14 175) !default; // #00d4aa
+$colorNeutralWhiteV4: oklch(1 0 0) !default; // #fff
+$colorNeutralV4: oklch(0.89 0 0) !default; // #dedede
+$colorNeutralLighterV4: oklch(0.99 0 0) !default; // #fafafa
+$colorSuccessV4: oklch(0.84 0.06 151) !default; // #a9d6b9
+$colorInfoV4: oklch(0.78 0.06 250) !default; // #a6bfd9
+$colorWarningV4: oklch(0.87 0.09 95) !default; // #e6d699
+$colorErrorV4: oklch(0.55 0.21 27) !default; // #df2225
+$colorTextV4: oklch(0.33 0.002 17) !default; // #3b3a3a
+$colorTextSecondaryV4: oklch(0.42 0.002 17) !default; // #575555
+$colorTextSubduedV4: $colorTextSecondaryV4 !default;
+$colorBrandV4: oklch(0.77 0.14 175) !default; // #00d4aa
+$colorBrandPrimaryV4: oklch(0.95 0.22 124) !default; // #c6ff3a

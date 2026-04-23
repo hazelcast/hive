@@ -3,16 +3,16 @@
   --toggle-track-height: 18px;
   --toggle-thumb-size: 16px;
   --toggle-thumb-offset: calc(var(--toggle-track-width) - var(--toggle-thumb-size) - 2px);
-  --toggle-track-bg: var(--hive-color-neutral-light);
-  --toggle-track-bg-checked: var(--hive-color-brand);
-  --toggle-thumb-bg: var(--hive-color-neutral-white);
+  --toggle-track-bg: var(--hive-color-neutral-v4);
+  --toggle-track-bg-checked: var(--hive-color-brand-v4);
+  --toggle-thumb-bg: var(--hive-color-neutral-white-v4);
   --toggle-transition-duration: 160ms;
 
   position: relative;
   font-family: inherit;
   font-size: var(--hive-font-size-body-small);
   line-height: var(--hive-line-height-body-small);
-  color: var(--hive-color-text);
+  color: var(--hive-color-text-v4);
 }
 
 .wrapper input {
@@ -78,7 +78,7 @@
 
 .wrapper input:focus-visible + label .toggleTrack,
 .wrapper label.focus .toggleTrack {
-  outline: var(--hive-outline-width) solid var(--hive-color-primary);
+  outline: var(--hive-outline-width) solid var(--hive-color-primary-v4);
   outline-offset: 2px;
 }
 
@@ -95,7 +95,7 @@
 
 .wrapper label.error .toggleTrack,
 .withError .toggleTrack {
-  box-shadow: 0 0 0 1px var(--hive-color-error);
+  box-shadow: 0 0 0 1px var(--hive-color-error-v4);
 }
 
 .helperText {
