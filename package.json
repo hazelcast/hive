@@ -16,17 +16,6 @@
   "main": "lib/index.js",
   "module": "lib/index.js",
   "types": "lib/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./lib/index.d.ts",
-      "default": "./lib/index.js"
-    },
-    "./old": {
-      "types": "./lib/old/index.d.ts",
-      "default": "./lib/old/index.js"
-    },
-    "./styles/*": "./styles/*"
-  },
   "directories": {
     "lib": "lib",
     "test": "__tests__"
