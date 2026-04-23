@@ -14,7 +14,6 @@ import styles from './Button.module.scss'
 export type ButtonVariant = 'contained' | 'outlined' | 'text'
 export type ButtonColor = 'primary' | 'secondary' | 'warning' | 'brand' | 'authPrimary' | 'authSecondary' | 'light'
 
-// Left icon is always present with proper aria-label attribute
 export type ButtonAccessibleIconLeftProps =
   | {
       iconLeft: IconProps['icon']
@@ -29,7 +28,6 @@ export type ButtonAccessibleIconLeftProps =
       iconLeftClassName?: never
     }
 
-// Right icon is always present with proper aria-label attribute
 export type ButtonAccessibleIconRightProps =
   | {
       iconRight: IconProps['icon']
@@ -60,7 +58,6 @@ export type ButtonDisabledProps = {
 
 export type ButtonOutlineType = 'outline' | 'inset'
 
-// Common props for all button "kinds"
 export type ButtonCommonProps = {
   children: string | ReactElement
   iconSize?: IconSize

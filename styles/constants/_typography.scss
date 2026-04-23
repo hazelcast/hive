@@ -10,8 +10,7 @@ $fontSizeH1Hero: 2.875rem !default; // 46px
 $fontSizeH1: 2.125rem !default; // 34px
 $fontSizeH2: 1.625rem !default; // 26px
 $fontSizeH3: 1.25rem !default; // 20px
-$fontSizeButton: 1rem !default;
-$fontSizeButtonSmall: 0.875rem !default;
+$fontSizeButton: 0.75rem !default;
 $fontSizeBodyNormal: 1rem !default;
 $fontSizeBodySmall: 0.875rem !default;
 $fontSizeBodySmaller: 0.75rem !default;
@@ -63,23 +62,6 @@ $lineHeightBodyTiny: normal !default;
   font-size: $fontSizeH3 #{override($override)};
   letter-spacing: $letterSpacingH3 #{override($override)};
   line-height: $lineHeightH3 #{override($override)};
-}
-
-@mixin typographyButton($size: 'medium') {
-  font-family: $fontFamilyText;
-  line-height: $lineHeightButton;
-
-  @if $size == 'medium' {
-    font-weight: $fontWeightTextBold;
-    font-size: $fontSizeButton;
-    letter-spacing: $letterSpacingButton;
-  }
-
-  @if $size == 'small' {
-    font-weight: $fontWeightTextRegular;
-    font-size: $fontSizeButtonSmall;
-    letter-spacing: $letterSpacingButtonSmall;
-  }
 }
 
 @mixin typographyBodyWeight($weight: 'regular') {

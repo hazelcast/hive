@@ -28,7 +28,12 @@
   // for <a> element
   text-decoration: none;
 
-  @include c.typographyButton('small');
+  font-family: c.$fontFamilyText;
+  line-height: c.$lineHeightButton;
+
+  font-weight: c.$fontWeightTextRegular;
+  font-size: c.$fontSizeButton;
+  letter-spacing: c.$letterSpacingButtonSmall;
 
   .outline {
     position: absolute;
@@ -37,10 +42,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    /* doiuse-disable calc */
     width: calc(100% + #{c.$grid} * 2);
     height: calc(100% + #{c.$grid} * 2);
-    /* doiuse-enable calc */
     z-index: c.$zIndex100;
     visibility: hidden;
 
