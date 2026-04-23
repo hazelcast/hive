@@ -1,0 +1,98 @@
+.wrapper {
+  position: relative;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 20px;
+  color: #3b3a3a;
+}
+
+.wrapper input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.wrapper label {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+  color: inherit;
+}
+
+.labelText {
+  display: inline-block;
+}
+
+.toggleTrack {
+  position: relative;
+  flex-shrink: 0;
+  display: inline-block;
+  width: 32px;
+  height: 18.4px;
+  border-radius: 9999px;
+  background: #b5b8ba;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  transition: background-color 160ms ease;
+}
+
+.toggleTrack::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  border-radius: 9999px;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.1),
+    0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: transform 160ms ease;
+}
+
+.wrapper input:checked + label .toggleTrack {
+  background: #00d4aa;
+}
+
+.wrapper input:checked + label .toggleTrack::before {
+  transform: translateX(14px);
+}
+
+.wrapper input:focus-visible + label .toggleTrack,
+.wrapper label.focus .toggleTrack {
+  outline: 2px solid var(--hive-color-primary, #2160c0);
+  outline-offset: 2px;
+}
+
+.wrapper label.hover .toggleTrack,
+.wrapper label:hover .toggleTrack {
+  filter: brightness(0.92);
+}
+
+.wrapper label.disabled,
+.wrapper input:disabled + label {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.wrapper label.error .toggleTrack,
+.withError .toggleTrack {
+  box-shadow: 0 0 0 1px #e7000b;
+}
+
+.helperText {
+  margin-left: 6px;
+}
+
+.errorContainer {
+  margin-top: 4px;
+}

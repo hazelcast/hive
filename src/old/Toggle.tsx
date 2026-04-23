@@ -3,10 +3,10 @@ import cn from 'classnames'
 import { useUID } from 'react-uid'
 
 import { DataTestProp } from '../helpers/types'
-import { Error, errorId } from './Error'
-import { Help, HelpProps, helpTooltipId } from './Help'
+import { Error, errorId } from '../components/Error'
+import { Help, HelpProps, helpTooltipId } from '../components/Help'
 
-import styles from './Toggle.module.css'
+import styles from './ToggleLegacy.module.scss'
 
 type ToggleCoreProps = {
   name: string
@@ -46,6 +46,7 @@ export const Toggle: FC<ToggleProps> = (props) => {
 
   return (
     <div className={cn(styles.wrapper, className, { [styles.withError]: 'error' in props })} data-test={dataTest}>
+      {/* hidden yet actual input */}
       <input
         type="checkbox"
         id={id}
@@ -60,6 +61,7 @@ export const Toggle: FC<ToggleProps> = (props) => {
         aria-errormessage={error && errorId(id)}
       />
 
+      {/* label controlling the input above with the `toggleTrack` element */}
       <label
         className={cn(
           {
@@ -75,7 +77,12 @@ export const Toggle: FC<ToggleProps> = (props) => {
             {label}
           </span>
         )}
-        <span className={styles.toggleTrack} data-test={`${dataTest}-state`} aria-hidden />
+        {/* actual element to render */}
+        <span className={styles.toggleTrack}>
+          <span className={styles.toggleTrackText} data-test={`${dataTest}-state`}>
+            {checked ? 'ON' : 'OFF'}
+          </span>
+        </span>
       </label>
 
       {helperText && <Help parentId={id} helperText={helperText} className={styles.helperText} data-test={`${dataTest}-helperText`} />}
