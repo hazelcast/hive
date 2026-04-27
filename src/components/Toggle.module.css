@@ -94,10 +94,7 @@
 }
 
 .wrapper input:disabled + label .toggleTrack,
-.wrapper label.disabled .toggleTrack {
-  background: var(--hive-color-neutral-lighter-v4);
-}
-
+.wrapper label.disabled .toggleTrack,
 .wrapper input:disabled:checked + label .toggleTrack,
 .wrapper label.disabled.checked .toggleTrack {
   background: var(--hive-color-neutral-v4);
