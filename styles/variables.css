@@ -66,6 +66,11 @@
   --hive-color-brand-v4: oklch(0.77 0.14 175);
   --hive-color-brand-primary-v4: oklch(0.95 0.22 124);
 
+  /* Disabled / muted surfaces (theme-overridable, no alpha) */
+  --hive-color-disabled-bg-v4: var(--hive-color-neutral-lighter-v4);
+  --hive-color-disabled-fg-v4: var(--hive-color-neutral-v4);
+  --hive-color-text-disabled-v4: var(--hive-color-text-subdued-v4);
+
   /* ─── Spacing ─────────────────────────────────────────────────── */
   /* Base grid unit: 4px = 0.25rem */
 

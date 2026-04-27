@@ -90,7 +90,23 @@
 .wrapper label.disabled,
 .wrapper input:disabled + label {
   cursor: not-allowed;
-  opacity: 0.5;
+  color: var(--hive-color-text-disabled-v4);
+}
+
+.wrapper input:disabled + label .toggleTrack,
+.wrapper label.disabled .toggleTrack {
+  background: var(--hive-color-disabled-bg-v4);
+}
+
+.wrapper input:disabled:checked + label .toggleTrack,
+.wrapper label.disabled.checked .toggleTrack {
+  background: var(--hive-color-disabled-fg-v4);
+}
+
+.wrapper input:disabled + label .toggleTrack::before,
+.wrapper label.disabled .toggleTrack::before {
+  background: var(--hive-color-neutral-white-v4);
+  box-shadow: none;
 }
 
 .wrapper label.error .toggleTrack,
