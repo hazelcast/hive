@@ -29,7 +29,7 @@ grep -r "@hazelcast/ui/old" src --include="*.tsx" --include="*.ts"
 | Updated  | `Tooltip` | Radix UI base; new props; no render-prop children | ✅              |
 | Updated  | `Badge`   | `size` prop removed; borders + 8px radius added   | ❌              |
 | Updated  | `Button`  | `size` prop removed; border-radius changed to 8px | ❌              |
-| Updated  | `Toggle`  | HIVE 3.0 pill switch; SCSS → CSS; no ON/OFF label | ✅              |
+| Updated  | `Toggle`  | HIVE 4.0 pill switch; SCSS → CSS; no ON/OFF label | ✅              |
 
 ---
 
@@ -169,7 +169,7 @@ import { Tooltip } from '@hazelcast/ui'
 
 ### `Toggle`
 
-Visual redesign to the HIVE 3.0 pill switch: `32×18px` track, `16px` white thumb with shadow, teal (`#00d4aa`) on state, neutral (`#b5b8ba`) off state. The inline `ON` / `OFF` text label has been removed — the track state is communicated purely visually. Styles have also been migrated from SCSS to CSS modules.
+Visual redesign to the HIVE 4.0 pill switch: `32×18px` track, `16px` white thumb with shadow, brand color on state, neutral color off state, all driven by HIVE 4.0 design tokens. The inline `ON` / `OFF` text label has been removed — the track state is communicated purely visually. Styles have also been migrated from SCSS to CSS modules.
 
 The public prop contract is unchanged; only visuals and the internal DOM of the track have changed.
 
@@ -181,19 +181,19 @@ import { Toggle, ToggleFormik } from '@hazelcast/ui/old'
 
 **Prop changes:**
 
-| Prop  | v3              | v4                              |
-| ----- | --------------- | ------------------------------- |
+| Prop  | v3              | v4                                 |
+| ----- | --------------- | ---------------------------------- |
 | _all_ | same public API | same — visual-only breaking change |
 
 **Visual / DOM changes:**
 
-| Aspect          | v3                                                | v4                                      |
-| --------------- | ------------------------------------------------- | --------------------------------------- |
-| Track size      | `60×24` (`c.$grid * 15 × 6`)                      | `32×18.4`                               |
-| Colors          | `colorSuccess` on / `colorNeutral` off            | `#00d4aa` on / `#b5b8ba` off            |
-| State text      | `ON` / `OFF` rendered inside the track            | Removed — visual only                   |
-| Stylesheet      | `Toggle.module.scss` with SCSS `@use` and mixins  | `Toggle.module.css` using CSS variables |
-| `data-test` hook | `${dataTest}-state` wraps the `ON` / `OFF` text | `${dataTest}-state` is the track `<span>` |
+| Aspect           | v3                                               | v4                                        |
+| ---------------- | ------------------------------------------------ | ----------------------------------------- |
+| Track size       | `60×24` (`c.$grid * 15 × 6`)                     | `32×18.4`                                 |
+| Colors           | `colorSuccess` on / `colorNeutral` off           | `#00d4aa` on / `#b5b8ba` off              |
+| State text       | `ON` / `OFF` rendered inside the track           | Removed — visual only                     |
+| Stylesheet       | `Toggle.module.scss` with SCSS `@use` and mixins | `Toggle.module.css` using CSS variables   |
+| `data-test` hook | `${dataTest}-state` wraps the `ON` / `OFF` text  | `${dataTest}-state` is the track `<span>` |
 
 **Before:**
 
