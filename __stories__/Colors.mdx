@@ -1,20 +1,12 @@
-import { Meta, ColorPalette, ColorItem } from '@storybook/blocks'
-import { Figma } from '@storybook/addon-designs/blocks'
+import { Meta } from '@storybook/addon-docs/blocks'
 
-import styleConsts from '../styles/constants/export.module.scss'
+import { ColorComparison } from '../docs/Colors/ColorComparison'
 
 <Meta title="Visual Style/Colors" />
 
-<ColorPalette>
-  {Object.entries(styleConsts)
-    .filter(([constName]) => constName.startsWith('color'))
-    .map(([colorName, colorValue]) => (
-      <ColorItem key={colorName} title={colorName} colors={[colorValue]} />
-    ))}
-</ColorPalette>
+# Colors
 
-<Figma
-  url="https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE---Hazelcast-Design-System?node-id=478%3A1434"
-  collapsable
-  defaultCollapsed
-/>
+Every HIVE 3.0 token paired with its HIVE 4.0 (OKLCH) equivalent. Where a v3
+token has no v4 counterpart, the right column says **No new value**.
+
+<ColorComparison />

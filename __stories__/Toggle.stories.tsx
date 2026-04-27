@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { Form, Formik } from 'formik'
-import { logger } from '../src'
 
-import { Toggle, ToggleFormik } from '../src'
+import { logger, Toggle, ToggleFormik } from '../src'
+import { Toggle as LegacyToggle } from '../src/old'
 import { formDecorator } from './decorators'
 
-import styles from '../src/components/Toggle.module.scss'
+import styles from '../src/components/Toggle.module.css'
 
 export default {
   title: 'Components/Toggle',
@@ -47,7 +47,7 @@ export const Default = () => {
 Default.parameters = {
   design: {
     type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE-Hazelcast-Design-System?node-id=10187%3A30',
+    url: 'https://www.figma.com/design/uGTDLFJEVy4dCNIhlmTPRw/%F0%9F%90%9D-HIVE-3.0?node-id=26-1326',
   },
 }
 
@@ -158,4 +158,24 @@ export const ToggleWrappedInFormik = () => {
   )
 
   return <TestForm />
+}
+
+export const LegacyV3 = () => {
+  const [checked, setChecked] = useState<boolean>(true)
+  return (
+    <LegacyToggle
+      name="legacy"
+      checked={checked}
+      label="Legacy v3 Toggle (available via @hazelcast/ui/old)"
+      onChange={(e) => setChecked(e.target.checked)}
+    />
+  )
+}
+
+LegacyV3.parameters = {
+  docs: {
+    description: {
+      story: 'The v3 Toggle is preserved for gradual migration. Import from `@hazelcast/ui/old`.',
+    },
+  },
 }

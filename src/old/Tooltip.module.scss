@@ -1,6 +1,6 @@
 @use 'sass:math';
-@use '../../../styles/constants' as c;
-@use '../../../styles/helpers' as h;
+@use '../../styles/constants' as c;
+@use '../../styles/helpers' as h;
 
 .tooltipSr {
   @include h.visuallyHidden;

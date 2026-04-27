@@ -5,7 +5,7 @@ import { render, screen } from '@testing-library/react'
 
 import { helpTooltipId, errorId, Toggle } from '../../src'
 
-import styles from '../../src/components/TextField.module.scss'
+import styles from '../../src/components/Toggle.module.css'
 
 jest.mock('react-uid')
 

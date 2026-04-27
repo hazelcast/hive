@@ -29,6 +29,7 @@ grep -r "@hazelcast/ui/old" src --include="*.tsx" --include="*.ts"
 | Updated  | `Tooltip` | Radix UI base; new props; no render-prop children | ✅              |
 | Updated  | `Badge`   | `size` prop removed; borders + 8px radius added   | ❌              |
 | Updated  | `Button`  | `size` prop removed; border-radius changed to 8px | ❌              |
+| Updated  | `Toggle`  | HIVE 4.0 pill switch; SCSS → CSS; no ON/OFF label | ✅              |
 
 ---
 
@@ -163,6 +164,54 @@ import { Tooltip } from '@hazelcast/ui'
   <button>Save</button>
 </Tooltip>
 ```
+
+---
+
+### `Toggle`
+
+Visual redesign to the HIVE 4.0 pill switch: `32×18px` track, `16px` white thumb with shadow, brand color on state, neutral color off state, all driven by HIVE 4.0 design tokens. The inline `ON` / `OFF` text label has been removed — the track state is communicated purely visually. Styles have also been migrated from SCSS to CSS modules.
+
+The public prop contract is unchanged; only visuals and the internal DOM of the track have changed.
+
+**Old import (temporary fallback):**
+
+```ts
+import { Toggle, ToggleFormik } from '@hazelcast/ui/old'
+```
+
+**Prop changes:**
+
+| Prop  | v3              | v4                                 |
+| ----- | --------------- | ---------------------------------- |
+| _all_ | same public API | same — visual-only breaking change |
+
+**Visual / DOM changes:**
+
+| Aspect           | v3                                               | v4                                        |
+| ---------------- | ------------------------------------------------ | ----------------------------------------- |
+| Track size       | `60×24` (`c.$grid * 15 × 6`)                     | `32×18.4`                                 |
+| Colors           | `colorSuccess` on / `colorNeutral` off           | `#00d4aa` on / `#b5b8ba` off              |
+| State text       | `ON` / `OFF` rendered inside the track           | Removed — visual only                     |
+| Stylesheet       | `Toggle.module.scss` with SCSS `@use` and mixins | `Toggle.module.css` using CSS variables   |
+| `data-test` hook | `${dataTest}-state` wraps the `ON` / `OFF` text  | `${dataTest}-state` is the track `<span>` |
+
+**Before:**
+
+```tsx
+import { Toggle } from '@hazelcast/ui'
+;<Toggle name="notifications" checked label="Enable notifications" onChange={onChange} />
+// Renders a 60×24 track with the word "ON" inside.
+```
+
+**After:**
+
+```tsx
+import { Toggle } from '@hazelcast/ui'
+;<Toggle name="notifications" checked label="Enable notifications" onChange={onChange} />
+// Renders a 32×18 pill with a sliding thumb. No inline text.
+```
+
+If you relied on the `ON` / `OFF` text node (e.g. in tests with `getByText('ON')`), switch to asserting `checked` on the input or the `aria-checked` state.
 
 ---
 
