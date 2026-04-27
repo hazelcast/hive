@@ -66,8 +66,10 @@ const Swatch = ({ name, value }: { name: string; value: string }) => (
       }}
     />
     <div style={{ minWidth: 0 }}>
-      <div style={{ fontFamily: 'monospace', fontSize: 12 }}>{name}</div>
-      <div style={{ fontFamily: 'monospace', fontSize: 11, color: '#707482' }}>{value}</div>
+      <div style={{ fontFamily: 'monospace', fontSize: 'var(--hive-font-size-body-smaller)' }}>{name}</div>
+      <div style={{ fontFamily: 'monospace', fontSize: 'var(--hive-font-size-body-tiny)', color: 'var(--hive-color-text-subdued-v4)' }}>
+        {value}
+      </div>
     </div>
   </div>
 )
@@ -93,7 +95,15 @@ export const ColorComparison = () => (
               {v4Value ? (
                 <Swatch name={v4} value={v4Value} />
               ) : (
-                <span style={{ fontFamily: 'monospace', fontSize: 12, color: '#707482' }}>No new value</span>
+                <span
+                  style={{
+                    fontFamily: 'monospace',
+                    fontSize: 'var(--hive-font-size-body-smaller)',
+                    color: 'var(--hive-color-text-subdued-v4)',
+                  }}
+                >
+                  No new value
+                </span>
               )}
             </td>
           </tr>

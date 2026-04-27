@@ -48,7 +48,7 @@
   height: var(--toggle-track-height);
   border-radius: 9999px;
   background: var(--toggle-track-bg);
-  border: 1px solid transparent;
+  border: var(--hive-border-width) solid transparent;
   box-sizing: border-box;
   transition: background-color var(--toggle-transition-duration) ease;
 }
@@ -90,17 +90,17 @@
 .wrapper label.disabled,
 .wrapper input:disabled + label {
   cursor: not-allowed;
-  color: var(--hive-color-text-disabled-v4);
+  color: var(--hive-color-text-subdued-v4);
 }
 
 .wrapper input:disabled + label .toggleTrack,
 .wrapper label.disabled .toggleTrack {
-  background: var(--hive-color-disabled-bg-v4);
+  background: var(--hive-color-neutral-lighter-v4);
 }
 
 .wrapper input:disabled:checked + label .toggleTrack,
 .wrapper label.disabled.checked .toggleTrack {
-  background: var(--hive-color-disabled-fg-v4);
+  background: var(--hive-color-neutral-v4);
 }
 
 .wrapper input:disabled + label .toggleTrack::before,
@@ -111,7 +111,7 @@
 
 .wrapper label.error .toggleTrack,
 .withError .toggleTrack {
-  box-shadow: 0 0 0 1px var(--hive-color-error-v4);
+  box-shadow: 0 0 0 var(--hive-border-width) var(--hive-color-error-v4);
 }
 
 .helperText {
@@ -119,5 +119,5 @@
 }
 
 .errorContainer {
-  margin-top: 4px;
+  margin-top: var(--hive-grid);
 }
