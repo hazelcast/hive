@@ -24,12 +24,14 @@ grep -r "@hazelcast/ui/old" src --include="*.tsx" --include="*.ts"
 
 <!-- Updated as v4 is built. -->
 
-| Category | Component | Change                                            | `/old` fallback |
-| -------- | --------- | ------------------------------------------------- | --------------- |
-| Updated  | `Tooltip` | Radix UI base; new props; no render-prop children | ✅              |
-| Updated  | `Badge`   | `size` prop removed; borders + 8px radius added   | ❌              |
-| Updated  | `Button`  | `size` prop removed; border-radius changed to 8px | ❌              |
-| Updated  | `Toggle`  | HIVE 4.0 pill switch; SCSS → CSS; no ON/OFF label | ✅              |
+| Category | Component     | Change                                                                                                                                                                                                                          | `/old` fallback |
+| -------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- |
+| Updated  | `Tooltip`     | Radix UI base; new props; no render-prop children                                                                                                                                                                               | ✅              |
+| Updated  | `Badge`       | `size` prop removed; borders + 8px radius added                                                                                                                                                                                 | ❌              |
+| Updated  | `Button`      | HIVE 4.0 rebrand; `color` × `variant` axes (variant: contained/outlined/ghost/link, color: primary/secondary/warning/danger); `tooltipColor` removed; `size` reintroduced (`small`/`regular`); `capitalize` removed; SCSS → CSS | ✅              |
+| Updated  | `IconButton`  | HIVE 4.0 rebrand; `kind` → `variant`; `size` is `sm`/`md`/`lg`; `padding` removed; SCSS → CSS                                                                                                                                   | ✅              |
+| New      | `ButtonGroup` | Group of joined `Button`s sharing border-radius and shadow                                                                                                                                                                      | n/a             |
+| Updated  | `Toggle`      | HIVE 4.0 pill switch; SCSS → CSS; no ON/OFF label                                                                                                                                                                               | ✅              |
 
 ---
 
@@ -102,25 +104,92 @@ import { Star } from 'react-feather'
 
 ### `Button`
 
-The `size` prop and `ButtonSize` type have been removed. Only the small size remains. Border-radius changed from `20px` to `8px`.
+Button has been rebranded to HIVE 4.0. The styling axis is now **two orthogonal props**: `variant` controls the visual treatment, `color` controls the semantic intent. Sizes are reintroduced (`small`/`regular`). `capitalize` is removed — labels render as written. `tooltipColor` is removed — the tooltip color is fixed by design tokens.
+
+**Old import (temporary fallback):**
+
+```ts
+import { Button } from '@hazelcast/ui/old'
+```
 
 **Prop changes:**
 
-| Prop                         | v3                          | v4                     |
-| ---------------------------- | --------------------------- | ---------------------- |
-| `size?: 'small' \| 'medium'` | optional, default `'small'` | removed — always small |
+| Prop                                                                                                      | v3                              | v4                                               |
+| --------------------------------------------------------------------------------------------------------- | ------------------------------- | ------------------------------------------------ |
+| `color?: 'primary' \| 'secondary' \| 'warning' \| 'brand' \| 'authPrimary' \| 'authSecondary' \| 'light'` | optional, default `'primary'`   | replaced — see new values below                  |
+| `variant?: 'contained' \| 'outlined' \| 'text'`                                                           | optional, default `'contained'` | replaced — see new values below                  |
+| `variant?: 'contained' \| 'outlined' \| 'ghost' \| 'link'`                                                | n/a                             | new — visual treatment, default `'contained'`    |
+| `color?: 'primary' \| 'secondary' \| 'warning' \| 'danger'`                                               | n/a                             | new — semantic intent, default `'primary'`       |
+| `size?: 'small' \| 'regular'`                                                                             | n/a                             | new — default `'regular'`                        |
+| `tooltipColor?: 'dark' \| 'secondary'`                                                                    | optional                        | removed — tooltip color follows the design token |
+| `capitalize?: boolean`                                                                                    | optional, default `true`        | removed — labels render as-is                    |
+
+**v3 → v4 mapping:**
+
+| v3                                                      | v4                                              |
+| ------------------------------------------------------- | ----------------------------------------------- |
+| `variant="contained"` (default) + `color="primary"`     | `variant="contained" color="primary"` (default) |
+| `variant="contained"` + `color="secondary"`             | `variant="contained" color="secondary"`         |
+| `variant="contained"` + `color="warning"`               | `variant="contained" color="warning"`           |
+| `variant="contained"` + `color="light"` / dangerous red | `variant="contained" color="danger"`            |
+| `variant="outlined"`                                    | `variant="outlined" color="secondary"`          |
+| `variant="text"` / `color="light"`                      | `variant="ghost" color="secondary"`             |
+| anchor-styled button                                    | `variant="link"` (color is ignored)             |
+
+**Note:** the v4 `color` is a small, semantic palette (`primary`, `secondary`, `warning`, `danger`). The v3 brand/auth colors are no longer first-class on Button — for those use cases, use `className` and the brand tokens directly.
 
 **Before:**
 
 ```tsx
 <Button size="medium">Save</Button>
-<Button size="small">Save</Button>
+<Button color="secondary" variant="contained">Delete</Button>
+<Button color="light" variant="text">Cancel</Button>
+<Button capitalize={false}>raw label</Button>
+<Button tooltipColor="secondary" tooltip="Hi">Hover me</Button>
 ```
 
 **After:**
 
 ```tsx
 <Button>Save</Button>
+<Button color="danger">Delete</Button>
+<Button variant="ghost" color="secondary">Cancel</Button>
+<Button>raw label</Button>
+<Button tooltip="Hi">Hover me</Button>
+```
+
+---
+
+### `IconButton`
+
+`IconButton` has been rebranded to match the new `Button`. The `kind` prop is replaced by `variant` with the same set as Button (minus `link`); `size` accepts `sm`/`md`/`lg`; the `padding` prop is removed (sizing is fully driven by `size`).
+
+**Old import (temporary fallback):**
+
+```ts
+import { IconButton } from '@hazelcast/ui/old'
+```
+
+**Prop changes:**
+
+| Prop                                                                          | v3                                | v4                               |
+| ----------------------------------------------------------------------------- | --------------------------------- | -------------------------------- |
+| `kind?: 'primary' \| 'transparent'`                                           | optional, default `'transparent'` | removed — replaced by `variant`  |
+| `variant?: 'primary' \| 'secondary' \| 'outline' \| 'ghost' \| 'destructive'` | n/a                               | new — default `'ghost'`          |
+| `size?: 'normal' \| 'small' \| 'medium' \| 'large' \| 'xlarge'`               | optional                          | replaced — see `size` below      |
+| `size?: 'sm' \| 'md' \| 'lg'`                                                 | n/a                               | new — default `'md'`             |
+| `padding?: 'small' \| 'normal'`                                               | optional                          | removed — fully driven by `size` |
+
+**Before:**
+
+```tsx
+<IconButton kind="primary" size="medium" padding="normal" icon={X} ariaLabel="Close" />
+```
+
+**After:**
+
+```tsx
+<IconButton variant="primary" size="md" icon={X} ariaLabel="Close" />
 ```
 
 ---
@@ -254,6 +323,20 @@ import { ComponentName } from '@hazelcast/ui'
 -->
 
 _No new components yet._
+
+### `ButtonGroup`
+
+Groups several `Button`s into a single visually-joined control. Buttons share border-radius and shadow, and adjacent borders collapse so the group reads as one element.
+
+```tsx
+import { Button, ButtonGroup } from '@hazelcast/ui'
+
+;<ButtonGroup>
+  <Button variant="outline">Day</Button>
+  <Button variant="outline">Week</Button>
+  <Button variant="outline">Month</Button>
+</ButtonGroup>
+```
 
 ---
 
