@@ -6,6 +6,12 @@ import '../styles/variables.css'
 
 const preview: Preview = {
   parameters: {
+    options: {
+      storySort: {
+        method: 'alphabetical',
+        order: ['Visual Style', 'Getting Started', 'Components'],
+      },
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,

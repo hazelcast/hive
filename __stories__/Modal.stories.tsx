@@ -107,7 +107,7 @@ export const WithDangerAction = () => (
       {
         children,
         onClick,
-        color: 'secondary',
+        color: 'danger',
       },
     ]}
   >
@@ -126,7 +126,7 @@ export const WithDangerActionDisabled = () => (
         onClick,
         disabled: true,
         disabledTooltip,
-        color: 'secondary',
+        color: 'danger',
       },
     ]}
   >
@@ -147,7 +147,7 @@ export const WithMultipleActions = () => (
       {
         children,
         onClick,
-        color: 'secondary',
+        color: 'danger',
       },
     ]}
   >
@@ -175,7 +175,7 @@ export const WithHiddenModalActions = () => {
       </p>
       <div className={styles.footer}>
         <Button onClick={onClick}>Action</Button>
-        <Button variant="outlined" onClick={onClose}>
+        <Button variant="outlined" color="secondary" onClick={onClose}>
           Cancel
         </Button>
       </div>

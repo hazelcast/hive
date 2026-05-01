@@ -1,105 +1,67 @@
-import React, { PropsWithChildren } from 'react'
-import { X } from 'react-feather'
+import React from 'react'
+import { Bell, Menu, Search, Settings, Trash2 } from 'react-feather'
 
-import { IconButton } from '../src/components/IconButton'
+import { IconButton, IconButtonProps, IconButtonVariant } from '../src/components/IconButton'
+import { IconButton as LegacyIconButton } from '../src/old'
 
-import styleConsts from '../styles/constants/export.module.scss'
-import styles from '../src/components/IconButton.module.scss'
+import styles from '../src/components/IconButton.module.css'
 
 export default {
   title: 'Components/IconButton',
   component: IconButton,
 }
 
-export const Transparent = () => <IconButton kind="transparent" ariaLabel="Close icon" icon={X} />
+const baseProps: IconButtonProps = {
+  ariaLabel: 'Settings',
+  icon: Settings,
+}
 
-export const TransparentSmall = () => <IconButton kind="transparent" ariaLabel="Close icon" icon={X} size="small" />
+export const Default = () => <IconButton {...baseProps} />
 
-export const TransparentXLarge = () => <IconButton kind="transparent" ariaLabel="Close icon" icon={X} size="xlarge" />
+export const Hovered = () => <IconButton {...baseProps} className={styles.hover} />
 
-export const TransparentHover = () => <IconButton kind="transparent" ariaLabel="Close icon" className={styles.hover} icon={X} />
+export const Focused = () => <IconButton {...baseProps} className={styles.focus} />
 
-export const TransparentFocused = () => <IconButton kind="transparent" ariaLabel="Close icon" className={styles.focus} icon={X} />
+export const Active = () => <IconButton {...baseProps} className={styles.active} />
 
-export const TransparentActive = () => <IconButton kind="transparent" ariaLabel="Close icon" className={styles.active} icon={X} />
+export const Disabled = () => <IconButton {...baseProps} disabled disabledTooltip="Disabled" />
 
-export const TransparentDisabled = () => <IconButton kind="transparent" ariaLabel="Close icon" disabled icon={X} disabledTooltip="Yoda" />
+export const Loading = () => <IconButton {...baseProps} loading />
 
-export const TransparentLoading = () => <IconButton kind="transparent" ariaLabel="Close icon" icon={X} loading />
+export const LinkSemantics = () => <IconButton ariaLabel="Settings" icon={Settings} component="a" href="#" />
 
-export const TransparentLinkSemantics = () => <IconButton kind="transparent" ariaLabel="Close icon" icon={X} component="a" href="#" />
+export const WithTooltip = () => <IconButton {...baseProps} tooltipVisible tooltipPlacement="bottom" tooltip="Settings tooltip" />
 
-const InheritColorContainer = ({ children }: PropsWithChildren) => <div style={{ color: styleConsts.colorWarning }}>{children}</div>
-export const TransparentInheritColor = () => (
-  <InheritColorContainer>
-    <IconButton kind="transparent" ariaLabel="Close icon" icon={X} />
-  </InheritColorContainer>
+const variants: IconButtonVariant[] = ['primary', 'secondary', 'outline', 'ghost', 'destructive']
+const icons = [Search, Bell, Settings, Menu, Trash2]
+
+export const AllVariants = () => (
+  <div style={{ display: 'flex', gap: 12 }}>
+    {variants.map((variant, i) => (
+      <IconButton key={variant} variant={variant} ariaLabel={variant} icon={icons[i]} />
+    ))}
+  </div>
 )
 
-export const TransparentInheritColorHover = () => (
-  <InheritColorContainer>
-    <IconButton kind="transparent" ariaLabel="Close icon" className={styles.hover} icon={X} />
-  </InheritColorContainer>
+export const AllSizes = () => (
+  <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+    <IconButton {...baseProps} size="sm" />
+    <IconButton {...baseProps} size="md" />
+    <IconButton {...baseProps} size="lg" />
+  </div>
 )
 
-export const TransparentInheritColorFocused = () => (
-  <InheritColorContainer>
-    <IconButton kind="transparent" ariaLabel="Close icon" className={styles.focus} icon={X} />
-  </InheritColorContainer>
+export const LegacyV3 = () => (
+  <div style={{ display: 'flex', gap: 12 }}>
+    <LegacyIconButton kind="primary" ariaLabel="Settings" icon={Settings} />
+    <LegacyIconButton kind="transparent" ariaLabel="Settings" icon={Settings} />
+  </div>
 )
 
-export const TransparentInheritColorActive = () => (
-  <InheritColorContainer>
-    <IconButton kind="transparent" ariaLabel="Close icon" className={styles.active} icon={X} />
-  </InheritColorContainer>
-)
-
-export const TransparentInheritColorDisabled = () => (
-  <InheritColorContainer>
-    <IconButton kind="transparent" ariaLabel="Close icon" disabled icon={X} disabledTooltip="Yoda" />
-  </InheritColorContainer>
-)
-
-export const TransparentInheritColorLoading = () => (
-  <InheritColorContainer>
-    <IconButton kind="transparent" ariaLabel="Close icon" icon={X} loading />
-  </InheritColorContainer>
-)
-
-export const TransparentInheritColorLinkSemantics = () => (
-  <InheritColorContainer>
-    <IconButton kind="transparent" ariaLabel="Close icon" icon={X} component="a" href="#" />
-  </InheritColorContainer>
-)
-
-export const Primary = () => <IconButton kind="primary" ariaLabel="Close icon" icon={X} />
-
-export const PrimarySmall = () => <IconButton kind="primary" ariaLabel="Close icon" icon={X} size="small" />
-
-export const PrimaryXLarge = () => <IconButton kind="primary" ariaLabel="Close icon" icon={X} size="xlarge" />
-
-export const PrimaryHover = () => <IconButton kind="primary" ariaLabel="Close icon" className={styles.hover} icon={X} />
-
-export const PrimaryFocused = () => <IconButton kind="primary" ariaLabel="Close icon" className={styles.focus} icon={X} />
-
-export const PrimaryActive = () => <IconButton kind="primary" ariaLabel="Close icon" className={styles.active} icon={X} />
-
-export const PrimaryDisabled = () => <IconButton kind="primary" ariaLabel="Close icon" disabled icon={X} disabledTooltip="Yoda" />
-
-export const PrimaryLoading = () => <IconButton kind="primary" ariaLabel="Close icon" icon={X} loading />
-
-export const PrimaryLinkSemantics = () => <IconButton kind="primary" ariaLabel="Close icon" icon={X} component="a" href="#" />
-
-export const PrimaryPaddingNormal = () => <IconButton kind="primary" ariaLabel="Close icon" padding="normal" icon={X} />
-
-export const WithTooltip = () => (
-  <IconButton
-    kind="transparent"
-    ariaLabel="Close icon"
-    icon={X}
-    loading
-    tooltipVisible
-    tooltipPlacement="bottom"
-    tooltip="Button tooltip"
-  />
-)
+LegacyV3.parameters = {
+  docs: {
+    description: {
+      story: 'The v3 IconButton is preserved for gradual migration. Import from `@hazelcast/ui/old`.',
+    },
+  },
+}
