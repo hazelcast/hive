@@ -65,6 +65,12 @@
   --hive-color-text-subdued-v4: oklch(0.42 0.002 17);
   --hive-color-brand-v4: oklch(0.77 0.14 175);
   --hive-color-brand-primary-v4: oklch(0.95 0.22 124);
+  --hive-color-secondary-v4: oklch(0.92 0 0);
+  --hive-color-border-v4: oklch(0.81 0 0);
+  --hive-color-surface-hover-v4: oklch(0.97 0 0);
+  --hive-color-surface-active-v4: oklch(0.94 0 0);
+  --hive-color-link-v4: oklch(0.6 0.21 264);
+  --hive-shadow-button-v4: 0 1px 3px oklch(0 0 0 / 0.1), 0 1px 2px oklch(0 0 0 / 0.1);
 
   /* ─── Spacing ─────────────────────────────────────────────────── */
   /* Base grid unit: 4px = 0.25rem */
@@ -121,6 +127,7 @@
   --hive-font-weight-heading-regular: 400;
   --hive-font-weight-heading-bold: 500;
   --hive-font-weight-text-regular: 400;
+  --hive-font-weight-text-medium: 500;
   --hive-font-weight-text-bold: 600;
   --hive-font-size-h1-hero: 2.875rem;
   --hive-font-size-h1: 2.125rem;
