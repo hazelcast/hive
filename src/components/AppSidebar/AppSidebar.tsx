@@ -40,7 +40,14 @@ export const AppSidebar = ({
 
   return (
     <aside data-test={dataTest} className={cn(styles.root, { [styles.collapsed]: isCollapsed }, className)}>
-      <IconButton size="medium" icon={!isCollapsed ? ChevronsLeft : ChevronsRight} onClick={toggle} className={styles.toggle} />
+      <IconButton
+        iconSize="medium"
+        variant="ghost"
+        ariaLabel={!isCollapsed ? 'Collapse sidebar' : 'Expand sidebar'}
+        icon={!isCollapsed ? ChevronsLeft : ChevronsRight}
+        onClick={toggle}
+        className={styles.toggle}
+      />
       <appSidebarContext.Provider
         value={{
           open,

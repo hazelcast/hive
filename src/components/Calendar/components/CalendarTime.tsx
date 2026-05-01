@@ -97,7 +97,14 @@ export const CalendarTimeInternal: FC<CalendarTimeInternalProps> = ({ date, valu
       </div>
       <div data-test={`${dataTest}-timePoints`} className={styles.timePoints}>
         {timePoints.map((tP) => (
-          <Button className={styles.timePoint} bodyClassName={styles.timePointBody} key={tP} variant="text" onClick={handleDateClick(tP)}>
+          <Button
+            className={styles.timePoint}
+            bodyClassName={styles.timePointBody}
+            key={tP}
+            variant="ghost"
+            color="secondary"
+            onClick={handleDateClick(tP)}
+          >
             {tP}
           </Button>
         ))}

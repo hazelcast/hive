@@ -36,7 +36,7 @@ export const AppSidebarFavoriteButton = ({ id, className }: AppSidebarFavoriteBu
       onClick={handleToggleFavorite}
       ariaLabel="Favorite Item"
       icon={Star}
-      size="medium"
+      iconSize="medium"
     />
   )
 }

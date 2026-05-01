@@ -62,10 +62,10 @@ export const InteractiveListItem = ({ onRemoveItem, content, error, idx, 'data-t
           {content}
         </span>{' '}
         <IconButton
-          kind="primary"
+          variant="ghost"
           ariaLabel="Remove Item"
           icon={X}
-          size="medium"
+          iconSize="medium"
           className={styles.removeIcon}
           onClick={() => {
             onRemoveItem(idx)
@@ -130,11 +130,11 @@ export const InteractiveList = <V,>({
         >
           <IconButton
             data-test={`${dataTest}-add-button`}
-            kind="transparent"
+            variant="ghost"
             ariaLabel="Add Icon"
             icon={Plus}
             className={cn(styles.addIcon, iconClassName)}
-            size="medium"
+            iconSize="medium"
             onClick={() => void onAddItem()}
           />
         </TextField>

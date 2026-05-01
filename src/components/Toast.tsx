@@ -97,7 +97,7 @@ export const Toast: FC<ToastProps> = ({
       {closeToast && (
         <IconButton
           data-test={`${dataTest}-close`}
-          kind="transparent"
+          variant="ghost"
           className={styles.close}
           ariaLabel="Close icon"
           icon={X}

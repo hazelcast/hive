@@ -64,12 +64,12 @@ export const PasswordField: FC<PasswordFieldProps> = ({
 
     return (
       <IconButton
-        size="small"
+        iconSize="small"
         icon={visible ? EyeOff : Eye}
         ariaLabel={visible ? hideIconLabel : showIconLabel}
         className={styles.toggle}
         onClick={() => setVisible((prev) => !prev)}
-        kind="primary"
+        variant="ghost"
         data-test={`${dataTest}-toggle`}
         type="button"
         {...disabledProps}
