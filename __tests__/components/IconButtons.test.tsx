@@ -5,12 +5,12 @@ import cn from 'classnames'
 import { useUID } from 'react-uid'
 import { act, screen } from '@testing-library/react'
 
-import { IconButtonKind } from '../../src/components/IconButton'
+import { IconButtonVariant } from '../../src/components/IconButton'
 import { IconButton } from '../../src'
 import { testAttribute, testClass } from '../helpers'
 
 import iconStyles from '../../src/components/Icon.module.scss'
-import styles from '../../src/components/IconButton.module.scss'
+import styles from '../../src/components/IconButton.module.css'
 
 jest.mock('react-uid')
 
@@ -24,26 +24,29 @@ describe('IconButton', () => {
     useUIDMock.mockImplementation(() => id)
   })
 
-  const buttonKindTestData: [IconButtonKind, string][] = [
-    ['primary', styles.primary],
-    ['transparent', styles.transparent],
+  const variantTestData: [IconButtonVariant, string][] = [
+    ['primary', styles.variantPrimary],
+    ['secondary', styles.variantSecondary],
+    ['outline', styles.variantOutline],
+    ['ghost', styles.variantGhost],
+    ['destructive', styles.variantDestructive],
   ]
 
-  it.each(buttonKindTestData)('Renders Button with correct className which corresponds to button kind', async (kind, className) => {
-    const { container } = await renderAndCheckA11Y(<IconButton kind={kind} icon={X} ariaLabel={ariaLabel} />)
+  it.each(variantTestData)('Renders Button with class for variant %s', async (variant, className) => {
+    const { container } = await renderAndCheckA11Y(<IconButton variant={variant} icon={X} ariaLabel={ariaLabel} />)
 
     expect(container.querySelector('button')).toHaveClass(cn(styles.iconButton, className))
   })
 
   it('Renders button with proper aria-label', async () => {
-    await renderAndCheckA11Y(<IconButton kind="primary" icon={X} ariaLabel={ariaLabel} />)
+    await renderAndCheckA11Y(<IconButton variant="primary" icon={X} ariaLabel={ariaLabel} />)
 
     expect(screen.queryByLabelText(ariaLabel)).toBeInTheDocument()
   })
 
   it('Renders icon with proper size and iconClassName', async () => {
     const { container } = await renderAndCheckA11Y(
-      <IconButton kind="primary" icon={X} ariaLabel={ariaLabel} size="xlarge" iconClassName="yoda" />,
+      <IconButton variant="primary" icon={X} ariaLabel={ariaLabel} iconSize="xlarge" iconClassName="yoda" />,
     )
 
     const icon = container.querySelector('svg')
@@ -55,7 +58,7 @@ describe('IconButton', () => {
   })
 
   it('Renders loading button', async () => {
-    const { container } = await renderAndCheckA11Y(<IconButton kind="primary" icon={X} ariaLabel={ariaLabel} loading />)
+    const { container } = await renderAndCheckA11Y(<IconButton variant="primary" icon={X} ariaLabel={ariaLabel} loading />)
 
     expect(container.querySelector('button')!).toHaveAttribute('disabled')
     expect(screen.queryByTestId('tooltip-overlay')).not.toBeInTheDocument()
@@ -69,7 +72,7 @@ describe('IconButton', () => {
     let container: HTMLElement
     await act(async () => {
       ;({ container } = await renderAndCheckA11Y(
-        <IconButton kind="primary" icon={X} ariaLabel={ariaLabel} disabled disabledTooltip={disabledTooltip} disabledTooltipVisible />,
+        <IconButton variant="primary" icon={X} ariaLabel={ariaLabel} disabled disabledTooltip={disabledTooltip} disabledTooltipVisible />,
       ))
     })
 
@@ -86,7 +89,7 @@ describe('IconButton', () => {
     await act(async () => {
       ;({ container } = await renderAndCheckA11Y(
         <IconButton
-          kind="primary"
+          variant="primary"
           icon={X}
           ariaLabel={ariaLabel}
           disabled
@@ -111,7 +114,7 @@ describe('IconButton', () => {
     await act(async () => {
       ;({ container } = await renderAndCheckA11Y(
         <IconButton
-          kind="primary"
+          variant="primary"
           icon={X}
           ariaLabelledBy={ariaLabelledBy}
           disabled
@@ -129,7 +132,7 @@ describe('IconButton', () => {
 
     const { container } = await renderAndCheckA11Y(
       <IconButton
-        kind="primary"
+        variant="primary"
         component="a"
         href="#"
         icon={X}
@@ -155,7 +158,7 @@ describe('IconButton', () => {
 
     await act(async () => {
       await renderAndCheckA11Y(
-        <IconButton kind="primary" icon={X} ariaLabel={ariaLabel} tooltip={tooltip} tooltipPlacement="bottom" tooltipVisible />,
+        <IconButton variant="primary" icon={X} ariaLabel={ariaLabel} tooltip={tooltip} tooltipPlacement="bottom" tooltipVisible />,
       )
     })
 
