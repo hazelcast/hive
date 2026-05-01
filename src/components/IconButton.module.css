@@ -1,0 +1,96 @@
+.iconButton {
+  --button-size: 36px;
+  --button-bg: var(--hive-color-brand-v4);
+  --button-bg-hover: oklch(from var(--button-bg) calc(l - 0.04) c h);
+  --button-bg-active: oklch(from var(--button-bg) calc(l - 0.08) c h);
+  --button-color: var(--hive-color-text-v4);
+  --button-border: transparent;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: var(--button-size);
+  height: var(--button-size);
+  padding: 0;
+  border: var(--hive-border-width) solid var(--button-border);
+  border-radius: var(--hive-border-radius);
+  background: var(--button-bg);
+  color: var(--button-color);
+  cursor: pointer;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease;
+}
+
+.sizeSm {
+  --button-size: 32px;
+}
+
+.sizeMd {
+  --button-size: 36px;
+}
+
+.sizeLg {
+  --button-size: 40px;
+}
+
+.iconButton:hover,
+.iconButton.hover {
+  background: var(--button-bg-hover);
+}
+
+.iconButton:active,
+.iconButton.active {
+  background: var(--button-bg-active);
+}
+
+.iconButton:disabled,
+.iconButton.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.iconButton:focus-visible,
+.iconButton.focus {
+  outline: var(--hive-outline-width) solid var(--hive-color-primary-v4);
+  outline-offset: 2px;
+}
+
+.variantPrimary {
+  --button-bg: var(--hive-color-brand-v4);
+  --button-color: var(--hive-color-text-v4);
+}
+
+.variantSecondary {
+  --button-bg: var(--hive-color-secondary-v4);
+  --button-color: var(--hive-color-text-v4);
+}
+
+.variantOutline {
+  --button-bg: var(--hive-color-neutral-white-v4);
+  --button-bg-hover: var(--hive-color-surface-hover-v4);
+  --button-bg-active: var(--hive-color-surface-active-v4);
+  --button-color: var(--hive-color-text-v4);
+  --button-border: var(--hive-color-border-v4);
+}
+
+.variantGhost {
+  --button-bg: transparent;
+  --button-bg-hover: var(--hive-color-surface-hover-v4);
+  --button-bg-active: var(--hive-color-surface-active-v4);
+  --button-color: var(--hive-color-text-v4);
+}
+
+.variantDestructive {
+  --button-bg: var(--hive-color-error-v4);
+  --button-color: var(--hive-color-neutral-white-v4);
+}
+
+.body {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
