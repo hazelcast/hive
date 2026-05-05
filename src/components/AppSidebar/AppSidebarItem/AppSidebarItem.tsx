@@ -5,7 +5,7 @@ import { Icon as FeatherIcon } from 'react-feather'
 import { DataTestProp } from '../../../helpers/types'
 import { Icon } from '../../Icon'
 import { Tooltip } from '../../Tooltip'
-import { Button, ButtonColor } from '../../Button'
+import { Button } from '../../Button'
 import { appSidebarContext } from '../appSidebarContext'
 import { AppSidebarFavoriteButton } from '../AppSidebarFavoriteButton'
 import { appSidebarSectionContext } from '../AppSidebarSection/appSidebarSectionContext'
@@ -17,7 +17,6 @@ export type AppSidebarItemProps = {
   title: string
   className?: string
   active?: boolean
-  color?: ButtonColor
   onClick?: () => void
   available?: boolean
   adornment?: ReactNode
@@ -36,7 +35,6 @@ export const AppSidebarItem = ({
   disabled,
   disabledTooltip,
   onClick,
-  color = 'light',
   adornment,
   available,
   adornmentClassName,
@@ -50,8 +48,8 @@ export const AppSidebarItem = ({
       <div className={cn(styles.root, { [styles.collapsed]: !isOpen, [styles.nested]: !!ctx })} data-test={dataTest}>
         {id && ctx && <AppSidebarFavoriteButton id={id} className={styles.favorite} />}
         <Button
-          variant="text"
-          color={color}
+          variant="ghost"
+          color="secondary"
           active={active}
           truncate={false}
           onClick={onClick}

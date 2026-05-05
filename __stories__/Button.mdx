@@ -1,0 +1,233 @@
+import { Meta, Title, Canvas, Controls } from '@storybook/blocks'
+import * as ButtonStories from './Button.stories'
+import { DocsTabs } from '../.storybook/DocsTabs'
+
+<Meta of={ButtonStories} name="Docs" />
+
+<Title />
+
+Button is used to initiate actions on a page or form. It is the primary way users
+trigger an action — such as submitting a form, opening a dialog, or navigating to
+another page.
+
+<DocsTabs tabs={[
+  {
+    id: 'overview',
+    label: 'Overview',
+    content: (
+      <>
+        <Canvas of={ButtonStories.Playground} />
+
+        <h2>Variant &amp; color</h2>
+
+        <p><code>variant</code> and <code>color</code> are independent. Pick the visual treatment with <code>variant</code>; pick the semantic intent with <code>color</code>.</p>
+
+        <ul>
+          <li><strong>variant</strong> — <code>contained</code> (filled), <code>outlined</code> (border), <code>ghost</code> (transparent), or <code>link</code>.</li>
+          <li><strong>color</strong> — <code>primary</code>, <code>secondary</code>, <code>warning</code>, or <code>danger</code>. Ignored for <code>link</code>.</li>
+        </ul>
+
+        <Canvas of={ButtonStories.Variants} />
+
+        <h2>Sizes</h2>
+
+        <p><strong>Regular</strong> is the default. Use <strong>Small</strong> in compact spaces such as toolbars and dense tables.</p>
+
+        <Canvas of={ButtonStories.Sizes} />
+
+        <h2>With icons</h2>
+
+        <p>Leading icons add context to a label. Trailing icons hint at what happens next — navigation, dropdowns, or external links. Avoid using both unless the meaning is unambiguous.</p>
+
+        <Canvas of={ButtonStories.WithIcons} />
+
+        <h2>Loading</h2>
+
+        <p>Use a loading state while waiting for an async action to complete. The button keeps its width to avoid layout shift, remains in the DOM, and stays focusable so screen readers announce the busy state.</p>
+
+        <Canvas of={ButtonStories.Loading} />
+
+        <h2>Full width</h2>
+
+        <p>Buttons stretch to fill their container when given a block-level layout. Useful in modals, narrow forms, and mobile layouts. Long labels truncate with an ellipsis.</p>
+
+        <Canvas of={ButtonStories.FullWidth} />
+
+        <h2>Disabled</h2>
+
+        <p>Disabled buttons should explain themselves. Provide a <code>disabledTooltip</code> describing what the user needs to do to unblock the action. When the label itself is truncated, set <code>disabledTooltipVisible={false}</code> so the tooltip falls back to showing the full label instead of the disabled message.</p>
+
+        <Canvas of={ButtonStories.Disabled} />
+
+        <h2>As a link</h2>
+
+        <p>Pass <code>component="a"</code> and an <code>href</code> to render an anchor that looks like a button.</p>
+
+        <Canvas of={ButtonStories.AsLink} />
+
+        <h2>Inset outline</h2>
+
+        <p>When a button sits flush against the edge of a container, set <code>outline="inset"</code> so the focus ring renders inside the button bounds instead of being clipped.</p>
+
+        <Canvas of={ButtonStories.InsetOutline} />
+
+        <hr />
+
+        <h2>Visual states</h2>
+
+        <p>QA matrix for engineers verifying CSS changes. Interactive states are forced via classes that mirror the real <code>:hover</code>, <code>:focus</code>, and <code>:active</code> rules.</p>
+
+        <Canvas of={ButtonStories.States} />
+
+        <h2>Legacy v3</h2>
+
+        <p>The v3 Button is preserved for gradual migration. Import from <code>@hazelcast/ui/old</code>. New code should use the Button above.</p>
+
+        <Canvas of={ButtonStories.LegacyV3} />
+
+        <h2>Props</h2>
+
+        <Controls of={ButtonStories.Playground} />
+      </>
+    ),
+  },
+  {
+    id: 'guidelines',
+    label: 'Guidelines',
+    content: (
+      <>
+        <h2>Anatomy</h2>
+
+        <p>A Button is composed of:</p>
+
+        <ul>
+          <li>a <strong>label</strong> — the action, written as a verb phrase</li>
+          <li>an optional <strong>leading visual</strong> (icon) — adds context</li>
+          <li>an optional <strong>trailing visual</strong> (icon) — hints at what happens next (chevron, arrow, external link)</li>
+          <li>an optional <strong>loader</strong> — replaces the label while an async action is in progress</li>
+        </ul>
+
+        <h2>Best practices</h2>
+
+        <h3>Variant choice</h3>
+
+        <ul>
+          <li>Use <strong>contained + primary</strong> for the highest-priority action. One per page or grouping.</li>
+          <li>Use <strong>outlined</strong> or <strong>ghost</strong> with <code>color="secondary"</code> for cancel and lower-emphasis actions.</li>
+          <li>Use <strong>color="danger"</strong> for irreversible actions. Always pair with a confirmation dialog.</li>
+          <li>Use <strong>color="warning"</strong> sparingly for actions the user should review before committing.</li>
+          <li>Use <strong>variant="link"</strong> only when the button looks and behaves like an inline link.</li>
+        </ul>
+
+        <h3>Labels</h3>
+
+        <ul>
+          <li>Use sentence case (<code>Save changes</code>, not <code>SAVE CHANGES</code> or <code>Save Changes</code>).</li>
+          <li>Keep labels short. No line breaks — a button should never wrap.</li>
+          <li>Lead with a verb (<code>Create project</code>, not <code>Project creation</code>).</li>
+          <li>Avoid generic labels like <code>OK</code>, <code>Submit</code>, <code>Click here</code>. Be specific about what happens.</li>
+        </ul>
+
+        <h3>Placement</h3>
+
+        <ul>
+          <li>Place the primary button at the <strong>end</strong> of a button group (right-aligned in LTR).</li>
+          <li>Keep destructive actions visually separated from confirmations.</li>
+          <li>In modals, the action that closes/cancels comes first; the action that commits comes last.</li>
+        </ul>
+
+        <h2>Do &amp; Don&rsquo;t</h2>
+
+        <Canvas of={ButtonStories.DoVsDont} />
+
+        <h3>When <em>not</em> to use a Button</h3>
+
+        <ul>
+          <li>For navigation that changes the URL → use the <code>Link</code> component.</li>
+          <li>For binary choices → use a <code>Toggle</code> or <code>Checkbox</code>.</li>
+          <li>For mutually exclusive choices → use a <code>RadioGroup</code> or <code>SegmentedControl</code>.</li>
+        </ul>
+
+        <h2>Disabled vs. inactive</h2>
+
+        <p>A <strong>disabled</strong> button can't be focused or clicked — screen readers in forms mode may skip past it entirely. Only disable when the action is truly unavailable for a structural reason (e.g. form invalid).</p>
+
+        <p>If you need to explain <em>why</em> an action is unavailable, prefer leaving the button enabled and showing an error on click, or use a tooltip on hover/focus. Always provide a <code>disabledTooltip</code> so users can recover.</p>
+
+        <h2>Loading state</h2>
+
+        <p>Use <code>loading</code> for async actions. The button keeps its width to avoid layout shift, stays focusable, and announces the busy state to assistive tech. Don't replace the button with a spinner outside the button — focus would be lost.</p>
+      </>
+    ),
+  },
+  {
+    id: 'accessibility',
+    label: 'Accessibility',
+    content: (
+      <>
+        <p>The Button renders a real <code>{'<button>'}</code> element by default, so most accessibility comes for free. The notes below cover edge cases.</p>
+
+        <h2>Accessible name</h2>
+
+        <p>The button's text content <strong>is</strong> its accessible name. Keep labels descriptive — avoid <code>OK</code>, <code>Submit</code>, or <code>Click here</code>. Icons are decorative and ignored by screen readers; never rely on an icon alone to convey meaning.</p>
+
+        <p>When you must override the visible label with <code>aria-label</code>, include the visible text in the override so speech-input users can activate the button by saying what they see.</p>
+
+        <h2>Color is not a meaning</h2>
+
+        <p>Variant colors (primary, destructive…) help sighted users scan, but they're invisible to screen readers and unreliable for users with color-vision differences. The <strong>label</strong> must carry the meaning on its own.</p>
+
+        <h2>Target size</h2>
+
+        <p>The regular variant meets the WCAG 2.5.5 minimum target size of 24×24 CSS pixels. The <strong>small</strong> variant can fall below that threshold with very narrow content (e.g. a single character). When using <code>size="small"</code>, ensure the label is wide enough, or pad it manually.</p>
+
+        <h2>Keyboard</h2>
+
+        <ul>
+          <li><code>Tab</code> moves focus to the button.</li>
+          <li><code>Enter</code> and <code>Space</code> activate it.</li>
+          <li>A visible focus ring is shown on <code>:focus-visible</code>. <strong>Don't override it.</strong> If you need to change the ring color, edit the design tokens — don't remove it.</li>
+        </ul>
+
+        <h2>Disabled buttons</h2>
+
+        <p>A disabled <code>{'<button>'}</code> is not focusable and is invisible to screen readers in forms mode. Use disabled buttons sparingly and always provide a <code>disabledTooltip</code> describing how to unblock the action.</p>
+
+        <p>If the user needs to interact with the control to learn why it can't be used, prefer:</p>
+
+        <ol>
+          <li>Keeping the button enabled and showing an error on click, or</li>
+          <li>Showing a tooltip on hover/focus that explains the blocker.</li>
+        </ol>
+
+        <h2>Loading state</h2>
+
+        <p>While <code>loading</code>, the button:</p>
+
+        <ul>
+          <li>Stays in the DOM and remains focusable (so focus is not lost mid-action).</li>
+          <li>Sets <code>aria-disabled="true"</code> rather than <code>disabled</code>.</li>
+          <li>Should be paired with an <code>aria-live="polite"</code> region elsewhere announcing progress (<code>Saving profile…</code>).</li>
+        </ul>
+
+        <p>If the action fails, move focus to the heading of the resulting error banner so the user is brought to the message.</p>
+
+        <h2>Trailing actions and dropdowns</h2>
+
+        <p>When a trailing icon (e.g. chevron) indicates a dropdown, add <code>aria-haspopup</code> and toggle <code>aria-expanded</code> to convey the state. The icon alone is not enough.</p>
+
+        <h2>Testing checklist</h2>
+
+        <ul>
+          <li>The label describes the action without the icon.</li>
+          <li>The button can be focused with <code>Tab</code> and activated with <code>Enter</code> and <code>Space</code>.</li>
+          <li>The focus ring is visible on <code>:focus-visible</code>.</li>
+          <li>Color contrast of label vs background meets WCAG AA (4.5:1 for normal text, 3:1 for large text).</li>
+          <li>Target size is at least 24×24 CSS pixels.</li>
+          <li>If <code>aria-label</code> is used, it includes the visible label.</li>
+          <li>Disabled buttons explain themselves via <code>disabledTooltip</code> or surrounding context.</li>
+        </ul>
+      </>
+    ),
+  },
+]} />

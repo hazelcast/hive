@@ -1,0 +1,29 @@
+.group {
+  display: inline-flex;
+  border-radius: var(--hive-border-radius);
+  box-shadow: var(--hive-shadow-button-v4);
+}
+
+.group > * {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.group > *:first-child {
+  border-top-left-radius: var(--hive-border-radius);
+  border-bottom-left-radius: var(--hive-border-radius);
+}
+
+.group > *:last-child {
+  border-top-right-radius: var(--hive-border-radius);
+  border-bottom-right-radius: var(--hive-border-radius);
+}
+
+.group > * + * {
+  margin-left: calc(var(--hive-border-width) * -1);
+}
+
+.group > *:focus-visible,
+.group > *:hover {
+  z-index: 1;
+}

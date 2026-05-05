@@ -5,3 +5,237 @@ html {
 
   @include c.typographyGlobal;
 }
+
+// Primer-inspired polish for the Storybook Docs page.
+// Scoped to .sbdocs-content so it does not affect the canvas/playground.
+.sbdocs.sbdocs-content {
+  max-width: 880px;
+  padding: 48px 32px 96px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #1f2328;
+
+  // Hero title
+  h1.sbdocs-title {
+    font-size: 40px;
+    line-height: 1.2;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0 0 8px;
+    border: 0;
+    padding-bottom: 0;
+  }
+
+  // Subtitle (component description)
+  .sbdocs-subtitle {
+    font-size: 18px;
+    line-height: 1.5;
+    color: #59636e;
+    margin: 0 0 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #d1d9e0;
+  }
+
+  h2.sbdocs-h2 {
+    font-size: 24px;
+    line-height: 1.3;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    margin-top: 56px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #d1d9e0;
+  }
+
+  h3.sbdocs-h3 {
+    font-size: 18px;
+    line-height: 1.4;
+    font-weight: 600;
+    margin-top: 32px;
+    margin-bottom: 8px;
+    border: 0;
+  }
+
+  p.sbdocs-p,
+  ul.sbdocs-ul,
+  ol.sbdocs-ol {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #1f2328;
+    margin: 0 0 16px;
+  }
+
+  ul.sbdocs-ul li,
+  ol.sbdocs-ol li {
+    margin-bottom: 6px;
+  }
+
+  a {
+    color: #0969da;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  // Inline code
+  code:not(pre code) {
+    background: #f6f8fa;
+    border-radius: 6px;
+    padding: 0.15em 0.4em;
+    font-size: 0.92em;
+    font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+    color: #1f2328;
+    border: 0;
+  }
+
+  // Story preview blocks. Storybook wraps `.docs-story` inside `.sbdocs-preview`,
+  // so style only the outer container and strip any inner borders.
+  .sbdocs-preview {
+    border: 1px solid #d1d9e0;
+    border-radius: 8px;
+    box-shadow: none;
+    background: #fff;
+    margin: 16px 0 32px;
+    overflow: hidden;
+  }
+
+  .docs-story {
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  .docs-story > div:first-child {
+    padding: 32px 24px;
+    background: linear-gradient(180deg, #fff 0%, #fafbfc 100%);
+  }
+
+  // Source / code toggle bar
+  .sb-bar,
+  .sbdocs-preview .docblock-code-toggle {
+    border-top: 1px solid #d1d9e0;
+    background: #f6f8fa;
+  }
+
+  // Code blocks — dark theme so Prism's default token colors are readable.
+  pre.prismjs,
+  .sbdocs-pre,
+  .docblock-source {
+    background: #0d1117 !important;
+    border: 1px solid #30363d !important;
+    border-radius: 8px !important;
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+    color: #e6edf3 !important;
+  }
+
+  pre.prismjs code {
+    color: inherit;
+  }
+
+  // Props table — Primer-like clean look
+  table.sbdocs-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    margin: 16px 0 32px;
+    font-size: 14px;
+
+    thead tr th {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d1d9e0;
+      font-weight: 600;
+      color: #1f2328;
+      text-align: left;
+      padding: 10px 16px;
+    }
+
+    tbody tr td {
+      border-bottom: 1px solid #eaeef2;
+      padding: 12px 16px;
+      vertical-align: top;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    tbody tr:hover {
+      background: #fafbfc;
+    }
+
+    code {
+      background: #fff;
+      border: 1px solid #d1d9e0;
+    }
+  }
+
+  // Block quote callouts
+  blockquote {
+    margin: 16px 0;
+    padding: 12px 16px;
+    border-left: 3px solid #0969da;
+    background: #ddf4ff;
+    border-radius: 0 6px 6px 0;
+    color: #1f2328;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  hr {
+    border: 0;
+    border-top: 1px solid #d1d9e0;
+    margin: 48px 0;
+  }
+
+  // Primer-style tab navigation inside the Docs page.
+  .docs-tabs {
+    margin: -8px 0 0;
+  }
+
+  .docs-tabs-nav {
+    display: flex;
+    gap: 4px;
+    border-bottom: 1px solid #d1d9e0;
+    margin-bottom: 32px;
+    padding: 0;
+  }
+
+  .docs-tabs-tab {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    padding: 12px 16px;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    color: #59636e;
+    cursor: pointer;
+    margin-bottom: -1px;
+    transition:
+      color 0.12s,
+      border-color 0.12s;
+
+    &:hover {
+      color: #1f2328;
+      border-bottom-color: #d1d9e0;
+    }
+
+    &.is-active {
+      color: #1f2328;
+      border-bottom-color: #fd8c73;
+      font-weight: 600;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #0969da;
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+  }
+}

@@ -7,7 +7,7 @@ import { NumberField } from '../../src'
 
 import styles from '../../src/components/NumberField.module.scss'
 import iconStyles from '../../src/components/Icon.module.scss'
-import iconButtonStyles from '../../src/components/IconButton.module.scss'
+import iconButtonStyles from '../../src/components/IconButton.module.css'
 
 describe('NumberField', () => {
   it('renders the default with correct props', async () => {
@@ -43,7 +43,7 @@ describe('NumberField', () => {
     expect(decrementButton).toHaveAttribute('aria-label', 'Decrement')
     expect(decrementButton).toHaveAttribute('type', 'button')
     expect(decrementButton).toHaveClass(styles.decrement)
-    expect(decrementButton).toHaveClass(iconButtonStyles.transparent)
+    expect(decrementButton).toHaveClass(iconButtonStyles.variantGhost)
     expect(decrementButton.querySelector('svg')).toHaveClass(iconStyles.smallMedium)
   })
 
@@ -188,14 +188,14 @@ describe('NumberField', () => {
     expect(decrementButton).toHaveAttribute('aria-label', '-1')
     expect(decrementButton).toHaveAttribute('type', 'button')
     expect(decrementButton).toHaveClass(styles.decrement)
-    expect(decrementButton).toHaveClass(iconButtonStyles.transparent)
+    expect(decrementButton).toHaveClass(iconButtonStyles.variantGhost)
     expect(decrementButton.querySelector('svg')).toHaveClass(iconStyles.smallMedium)
 
     const incrementButton = screen.getByTestId('number-field-increment')
     expect(incrementButton).toHaveAttribute('aria-label', '+1')
     expect(incrementButton).toHaveAttribute('type', 'button')
     expect(incrementButton).toHaveClass(styles.increment)
-    expect(incrementButton).toHaveClass(iconButtonStyles.transparent)
+    expect(incrementButton).toHaveClass(iconButtonStyles.variantGhost)
     expect(incrementButton.querySelector('svg')).toHaveClass(iconStyles.smallMedium)
   })
 

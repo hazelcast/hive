@@ -69,7 +69,7 @@ export const PasswordField: FC<PasswordFieldProps> = ({
         ariaLabel={visible ? hideIconLabel : showIconLabel}
         className={styles.toggle}
         onClick={() => setVisible((prev) => !prev)}
-        kind="primary"
+        variant="ghost"
         data-test={`${dataTest}-toggle`}
         type="button"
         {...disabledProps}

@@ -95,7 +95,7 @@ export const Modal: FC<ModalProps> = ({
           {closable && showCloseButton && (
             // Note: Mostly a Dialog use-case. We want it to be closable, but we don't want to show an X button in the corner.
             <div className={styles.close}>
-              <IconButton data-test={`${dataTest}-button-close`} kind="transparent" ariaLabel="Close icon" icon={X} onClick={onClose} />
+              <IconButton data-test={`${dataTest}-button-close`} variant="ghost" ariaLabel="Close icon" icon={X} onClick={onClose} />
             </div>
           )}
         </div>
@@ -109,7 +109,13 @@ export const Modal: FC<ModalProps> = ({
                 {children}
               </Button>
             ))}
-            <Button autoFocus={shouldAutoFocusCancelButton} data-test="modal-button-cancel" variant="outlined" onClick={onClose}>
+            <Button
+              autoFocus={shouldAutoFocusCancelButton}
+              data-test="modal-button-cancel"
+              variant="outlined"
+              color="secondary"
+              onClick={onClose}
+            >
               Cancel
             </Button>
           </div>

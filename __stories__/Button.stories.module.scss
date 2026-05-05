@@ -12,8 +12,178 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  gap: 12px;
+}
 
-  & button {
-    margin-bottom: 12px;
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 8px 4px;
+}
+
+.caption {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #5b6168;
+  max-width: 720px;
+  margin: 0;
+
+  strong {
+    color: #1a202c;
+    font-weight: 600;
   }
+
+  ul {
+    margin: 8px 0 0;
+    padding-left: 20px;
+  }
+
+  li {
+    margin-bottom: 4px;
+  }
+}
+
+.grid {
+  display: grid;
+  gap: 16px 24px;
+  align-items: end;
+}
+
+.gridVariants {
+  grid-template-columns: repeat(6, max-content);
+}
+
+.gridMatrix {
+  grid-template-columns: max-content repeat(4, max-content);
+  align-items: center;
+}
+
+.gridSizes {
+  grid-template-columns: repeat(3, max-content);
+  align-items: baseline;
+}
+
+.gridStates {
+  grid-template-columns: max-content repeat(5, max-content);
+  align-items: center;
+}
+
+.gridIcons {
+  grid-template-columns: max-content repeat(3, max-content);
+  align-items: center;
+}
+
+.gridLoading {
+  grid-template-columns: max-content max-content max-content;
+  align-items: center;
+}
+
+.loadingGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 8px;
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #5b6168;
+}
+
+.rowLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: #5b6168;
+  padding-right: 8px;
+}
+
+.fullWidthDemo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 480px;
+}
+
+.doDont {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.doDontRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.doDontHeading {
+  grid-column: 1 / -1;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a202c;
+  margin: 0;
+}
+
+.doDontCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  border-radius: 6px;
+  border: 1px solid;
+  min-height: 120px;
+}
+
+.doDontGood {
+  background: #f0f9f4;
+  border-color: #b7e0c5;
+}
+
+.doDontBad {
+  background: #fdf2f2;
+  border-color: #f1c0c0;
+}
+
+.doDontMarker {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.doDontGood .doDontMarker {
+  color: #1a7f3c;
+}
+
+.doDontBad .doDontMarker {
+  color: #b42318;
+}
+
+.doDontDemo {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 0;
+}
+
+.doDontNote {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #5b6168;
+  margin: 0;
 }

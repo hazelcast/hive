@@ -81,7 +81,7 @@ export const WithIconAndSeparator: Story = {
 
 export const WithHeadingContent: Story = {
   args: {
-    headingContent: <IconButton kind="primary" ariaLabel="Check out the Database" icon={Database} component="a" href="#" />,
+    headingContent: <IconButton variant="ghost" ariaLabel="Check out the Database" icon={Database} component="a" href="#" />,
   },
 }
 

@@ -46,9 +46,7 @@ export const WithBadge = () => {
       }}
       menuContent={() => (
         <>
-          <Button color="light" variant="text">
-            Item 1
-          </Button>
+          <Button variant="ghost">Item 1</Button>
         </>
       )}
       environment="production"
@@ -67,9 +65,7 @@ export const WithoutSelectCluster = () => (
     }}
     menuContent={() => (
       <>
-        <Button color="light" variant="text">
-          Item 1
-        </Button>
+        <Button variant="ghost">Item 1</Button>
       </>
     )}
   />
@@ -91,9 +87,7 @@ export const DisabledSelectCluster = () => {
       }}
       menuContent={() => (
         <>
-          <Button color="light" variant="text">
-            Item 1
-          </Button>
+          <Button variant="ghost">Item 1</Button>
         </>
       )}
     />
@@ -157,9 +151,7 @@ export const WithAsideContent = () => {
       }}
       menuContent={() => (
         <>
-          <Button color="light" variant="text">
-            Item 1
-          </Button>
+          <Button variant="ghost">Item 1</Button>
         </>
       )}
     />

@@ -13,7 +13,7 @@ expect.extend(toHaveNoViolations)
 describe('Card', () => {
   const cardHeadingIcon = Database
   const cardHeadingTitle = 'Card title'
-  const cardHeadingContent = <IconButton kind="primary" ariaLabel="Check out the Database" icon={Database} component="a" href="#" />
+  const cardHeadingContent = <IconButton variant="contained" ariaLabel="Check out the Database" icon={Database} component="a" href="#" />
   const cardContent = 'Card content'
 
   it('renders title and content', async () => {

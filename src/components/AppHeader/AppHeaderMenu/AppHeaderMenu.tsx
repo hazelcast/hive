@@ -20,11 +20,9 @@ export const AppHeaderMenu = ({ separator, children }: AppHeaderMenuProps) => {
   return (
     <div className={cn(styles.root, { [styles.separator]: separator })}>
       <Button
-        variant="text"
-        color="light"
-        iconSize="medium"
+        variant="ghost"
+        color="secondary"
         onClick={toggle}
-        capitalize={false}
         iconRight={MenuIcon}
         ref={setAnchorElement}
         data-test="app-header-menu-toggle"

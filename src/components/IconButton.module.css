@@ -1,0 +1,145 @@
+.iconButton {
+  --button-size: 36px;
+  --button-color-base: var(--hive-color-brand-v4);
+  --button-color-fg-on-base: var(--hive-color-text-v4);
+  --button-color-fg-on-light: var(--hive-color-text-v4);
+  --button-bg: var(--button-color-base);
+  --button-bg-hover: oklch(from var(--button-bg) calc(l - 0.04) c h);
+  --button-bg-active: oklch(from var(--button-bg) calc(l - 0.08) c h);
+  --button-color: var(--button-color-fg-on-base);
+  --button-border: transparent;
+  --button-border-hover: var(--button-border);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: var(--button-size);
+  height: var(--button-size);
+  padding: 0;
+  border: var(--hive-border-width) solid var(--button-border);
+  border-radius: var(--hive-border-radius);
+  background: var(--button-bg);
+  color: var(--button-color);
+  cursor: pointer;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease;
+}
+
+.sizeSmall {
+  --button-size: 32px;
+}
+
+.sizeRegular {
+  --button-size: 36px;
+}
+
+.iconButton:hover,
+.iconButton.hover {
+  background: var(--button-bg-hover);
+  border-color: var(--button-border-hover);
+}
+
+.iconButton:active,
+.iconButton.active {
+  background: var(--button-bg-active);
+}
+
+.iconButton:disabled,
+.iconButton.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.iconButton:focus-visible,
+.iconButton.focus {
+  outline: var(--hive-outline-width) solid var(--hive-color-primary-v4);
+  outline-offset: 2px;
+}
+
+.variantContained {
+  --button-bg: var(--button-color-base);
+  --button-color: var(--button-color-fg-on-base);
+  --button-border: transparent;
+}
+
+.variantOutlined {
+  --button-bg: var(--hive-color-neutral-white-v4);
+  --button-bg-hover: var(--hive-color-surface-hover-v4);
+  --button-bg-active: var(--hive-color-surface-active-v4);
+  --button-color: var(--button-color-fg-on-light);
+  --button-border: var(--button-color-base);
+  --button-border-hover: var(--button-color-base);
+}
+
+.variantGhost {
+  --button-bg: transparent;
+  --button-bg-hover: var(--hive-color-surface-hover-v4);
+  --button-bg-active: var(--hive-color-surface-active-v4);
+  --button-color: var(--button-color-fg-on-light);
+}
+
+.variantGhost.colorPrimary {
+  --button-bg-hover: oklch(from var(--hive-color-brand-v4) 0.95 calc(c * 0.5) h);
+  --button-bg-active: oklch(from var(--hive-color-brand-v4) 0.9 calc(c * 0.6) h);
+}
+
+.variantGhost.colorWarning {
+  --button-bg-hover: oklch(from var(--hive-color-warning) 0.95 calc(c * 0.5) h);
+  --button-bg-active: oklch(from var(--hive-color-warning) 0.9 calc(c * 0.6) h);
+}
+
+.variantGhost.colorDanger {
+  --button-bg-hover: oklch(from var(--hive-color-error) 0.95 calc(c * 0.4) h);
+  --button-bg-active: oklch(from var(--hive-color-error) 0.9 calc(c * 0.5) h);
+}
+
+.variantLink {
+  --button-bg: transparent;
+  --button-bg-hover: transparent;
+  --button-bg-active: transparent;
+  --button-color: var(--hive-color-link-v4);
+}
+
+.colorPrimary {
+  --button-color-base: var(--hive-color-brand-v4);
+  --button-color-fg-on-base: var(--hive-color-text-v4);
+  --button-color-fg-on-light: var(--hive-color-text-v4);
+}
+
+.colorSecondary {
+  --button-color-base: var(--hive-color-secondary-v4);
+  --button-color-fg-on-base: var(--hive-color-text-v4);
+  --button-color-fg-on-light: var(--hive-color-text-v4);
+}
+
+.colorWarning {
+  --button-color-base: var(--hive-color-warning);
+  --button-color-fg-on-base: var(--hive-color-warning-darkest);
+  --button-color-fg-on-light: var(--hive-color-warning-darkest);
+}
+
+.colorDanger {
+  --button-color-base: var(--hive-color-error);
+  --button-color-fg-on-base: var(--hive-color-neutral-white-v4);
+  --button-color-fg-on-light: var(--hive-color-error);
+}
+
+.variantOutlined.colorSecondary {
+  --button-border: var(--hive-color-border-v4);
+  --button-border-hover: var(--hive-color-border-v4);
+}
+
+.variantOutlined.colorWarning {
+  --button-border: var(--hive-color-warning-darkest);
+  --button-border-hover: var(--hive-color-warning-darkest);
+}
+
+.body {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}

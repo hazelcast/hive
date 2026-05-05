@@ -176,7 +176,7 @@ export const Pagination: FC<PaginationProps> = ({
               return canPreviousPage ? (
                 <IconButton
                   key="previous"
-                  kind="primary"
+                  variant="outlined"
                   icon={ChevronLeft}
                   ariaLabel="Previous page"
                   className={styles.iconButton}
@@ -189,7 +189,7 @@ export const Pagination: FC<PaginationProps> = ({
               return canNextPage ? (
                 <IconButton
                   key="next"
-                  kind="primary"
+                  variant="outlined"
                   icon={ChevronRight}
                   ariaLabel="Next page"
                   className={styles.iconButton}
@@ -211,14 +211,13 @@ export const Pagination: FC<PaginationProps> = ({
               <Button
                 key={page}
                 type="button"
-                variant="text"
+                variant="ghost"
+                color="secondary"
                 data-test="pagination-buttons-go-to-page"
                 className={cn(styles.button, {
                   [styles.selected]: page === currentPage,
                 })}
                 bodyClassName={styles.body}
-                outlineClassName={styles.outline}
-                capitalize={false}
                 onClick={() => {
                   goToPage(page)
                 }}
@@ -258,7 +257,7 @@ export const Pagination: FC<PaginationProps> = ({
         // TODO: button should display an overlay with more options
         <IconButton
           key="next"
-          kind="primary"
+          variant="outlined"
           icon={moreOptions ? ArrowLeft : Settings}
           ariaLabel={moreOptions ? 'Show Pages' : 'More Options'}
           data-test="pagination-controls-toggle"

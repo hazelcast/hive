@@ -40,7 +40,7 @@ const Template = (props: AppSidebarProps) => (
       {/* eslint-disable-next-line no-console */}
       <AppSidebarItem title="SQL" icon={Airplay} iconAriaLabel="SQL" onClick={console.log} />
       {/* eslint-disable-next-line no-console */}
-      <AppSidebarItem title="Flow" color="authPrimary" icon={Droplet} iconAriaLabel="Flow" available={false} onClick={console.log} />
+      <AppSidebarItem title="Flow" icon={Droplet} iconAriaLabel="Flow" available={false} onClick={console.log} />
     </AppSidebarSection>
   </AppSidebar>
 )

@@ -8,7 +8,7 @@ import { PasswordField } from '../../src/components/PasswordField'
 
 import iconStyles from '../../src/components/Icon.module.scss'
 import styles from '../../src/components/PasswordField.module.scss'
-import iconButtonStyles from '../../src/components/IconButton.module.scss'
+import iconButtonStyles from '../../src/components/IconButton.module.css'
 
 describe('PasswordField', () => {
   it('renders the default with correct props', async () => {
@@ -47,7 +47,7 @@ describe('PasswordField', () => {
     testAttribute(toggle, 'type', 'button')
     testAttribute(toggle, 'disabled')
     testClass(toggle, styles.toggle)
-    testClass(toggle, iconButtonStyles.primary)
+    testClass(toggle, iconButtonStyles.variantGhost)
 
     const icon = toggle!.querySelector('svg')
 

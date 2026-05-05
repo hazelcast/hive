@@ -100,7 +100,7 @@ export const Alert: FC<AlertProps> = ({
               {title}
             </div>
           )}
-          {!!closeToast && <IconButton data-test="alert-close" kind="transparent" ariaLabel="Close icon" icon={X} onClick={closeToast} />}
+          {!!closeToast && <IconButton data-test="alert-close" variant="ghost" ariaLabel="Close icon" icon={X} onClick={closeToast} />}
         </div>
         <div data-test="alert-body" className={cn(styles.body, bodyClassName)}>
           {content && <div data-test="alert-content">{content}</div>}
@@ -121,8 +121,8 @@ export const Alert: FC<AlertProps> = ({
                   return (
                     <Button
                       key={aI}
-                      variant="text"
-                      capitalize={false}
+                      variant="ghost"
+                      color="secondary"
                       className={cn(styles.action, styles.actionButton)}
                       bodyClassName={styles.actionButtonBody}
                       onClick={onClick}

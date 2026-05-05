@@ -3,14 +3,15 @@ import cn from 'classnames'
 import { Icon as FeatherIcon } from 'react-feather'
 import { useUID } from 'react-uid'
 
-import { Icon, IconAriaProps, IconSize } from './Icon'
-import { ButtonVariant, ButtonColor, ButtonSize } from './Button'
-import { Tooltip, TooltipSide } from './Tooltip'
-import { LinkRel, LinkTarget } from './Link'
-import { Loader } from './Loader'
+import { Icon, IconProps, IconAriaProps } from '../components/Icon'
+import { Tooltip, TooltipSide } from '../components/Tooltip'
+import { LinkRel, LinkTarget } from '../components/Link'
+import { Loader } from '../components/Loader'
 import { DataTestProp } from '../helpers/types'
 
-import styles from './IconButton.module.css'
+import styles from './IconButtonLegacy.module.scss'
+
+export type IconButtonKind = 'primary' | 'transparent'
 
 type IconButtonCommonProps = {
   icon: FeatherIcon
@@ -18,9 +19,9 @@ type IconButtonCommonProps = {
   iconColor?: string
   iconRole?: string
   loaderRole?: string
-  variant?: ButtonVariant
-  color?: ButtonColor
-  size?: ButtonSize
+  kind?: IconButtonKind
+  size?: IconProps['size']
+  padding?: 'normal'
   tooltip?: string
   tooltipVisible?: boolean
   tooltipPlacement?: TooltipSide
@@ -59,25 +60,6 @@ type IconButtonComponentProps =
       Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'autoFocus' | 'type'>)
 export type IconButtonProps = IconButtonCommonProps & IconButtonComponentProps
 
-const variantClass: Record<ButtonVariant, string> = {
-  contained: styles.variantContained,
-  outlined: styles.variantOutlined,
-  ghost: styles.variantGhost,
-  link: styles.variantLink,
-}
-
-const colorClass: Record<ButtonColor, string> = {
-  primary: styles.colorPrimary,
-  secondary: styles.colorSecondary,
-  warning: styles.colorWarning,
-  danger: styles.colorDanger,
-}
-
-const sizeClass: Record<ButtonSize, string> = {
-  small: styles.sizeSmall,
-  regular: styles.sizeRegular,
-}
-
 export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
   (
     {
@@ -88,12 +70,12 @@ export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
       iconRole,
       loaderRole,
       className,
-      variant = 'contained',
-      color = 'primary',
-      size = 'regular',
+      size,
+      kind = 'transparent',
       ariaHidden,
       ariaLabelledBy,
       ariaLabel,
+      // Disabled tooltip
       disabled,
       disabledTooltip,
       disabledTooltipVisible,
@@ -102,6 +84,7 @@ export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
       target,
       type = 'button',
       loading,
+      padding,
       tooltip,
       tooltipPlacement,
       tooltipVisible,
@@ -111,7 +94,6 @@ export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
     ref,
   ) => {
     const tooltipId = useUID()
-    const iconSize: IconSize = size === 'small' ? 'small' : 'smallMedium'
     const relFinal = Array.isArray(rel) ? rel.join(' ') : rel
     const labelledByFinal = [ariaLabelledBy, disabled ? tooltipId : undefined].filter(Boolean).join(' ')
 
@@ -123,7 +105,15 @@ export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
         open={disabled ? disabledTooltipVisible : tooltipVisible}
       >
         <Component
-          className={cn(styles.iconButton, variantClass[variant], colorClass[color], sizeClass[size], className)}
+          className={cn(
+            styles.iconButton,
+            {
+              [styles.primary]: kind === 'primary',
+              [styles.transparent]: kind === 'transparent',
+              [styles.paddingNormal]: padding === 'normal',
+            },
+            className,
+          )}
           aria-hidden={ariaHidden}
           aria-label={ariaLabel}
           aria-labelledby={labelledByFinal}
@@ -135,7 +125,7 @@ export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
           {...rest}
         >
           <span className={styles.body} ref={ref}>
-            {loading && <Loader role={loaderRole} size={iconSize} />}
+            {loading && <Loader role={loaderRole} size={size} />}
             {!loading && (
               <Icon
                 role={iconRole}
@@ -143,7 +133,7 @@ export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
                 color={iconColor}
                 data-test={`${dataTest}-icon`}
                 icon={icon}
-                size={iconSize}
+                size={size}
                 ariaHidden
               />
             )}

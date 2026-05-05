@@ -213,7 +213,8 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
           {clearable && !disabled && isNotEmpty && (
             <IconButton
               icon={X}
-              size={size}
+              variant="ghost"
+              size={size === 'small' ? 'small' : 'regular'}
               ariaLabel="Clear field"
               onClick={handleClear}
               className={styles.clearButton}
