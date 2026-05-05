@@ -1,0 +1,199 @@
+import { Meta, Title, Canvas, Controls } from '@storybook/blocks'
+import * as IconButtonStories from './IconButton.stories'
+import { DocsTabs } from '../.storybook/DocsTabs'
+
+<Meta of={IconButtonStories} name="Docs" />
+
+<Title />
+
+IconButton is an icon-only action control. Use it in toolbars, table rows, and
+anywhere a labelled `Button` would crowd the layout. Because there is no visible
+label, accessibility relies on `ariaLabel` and a hover `tooltip`.
+
+<DocsTabs tabs={[
+  {
+    id: 'overview',
+    label: 'Overview',
+    content: (
+      <>
+        <Canvas of={IconButtonStories.Playground} />
+
+        <h2>Variant &amp; color</h2>
+
+        <p><code>variant</code> and <code>color</code> are independent — and identical to <code>Button</code>. Pick the visual treatment with <code>variant</code>; pick the semantic intent with <code>color</code>.</p>
+
+        <ul>
+          <li><strong>variant</strong> — <code>contained</code> (filled), <code>outlined</code> (border), <code>ghost</code> (transparent), or <code>link</code>.</li>
+          <li><strong>color</strong> — <code>primary</code>, <code>secondary</code>, <code>warning</code>, or <code>danger</code>. Ignored for <code>link</code>.</li>
+        </ul>
+
+        <Canvas of={IconButtonStories.Variants} />
+
+        <h2>Sizes</h2>
+
+        <p><strong>Regular</strong> (36px) is the default. Use <strong>Small</strong> (32px) in compact spaces such as toolbars and dense table rows. The icon scales with the button.</p>
+
+        <Canvas of={IconButtonStories.Sizes} />
+
+        <h2>Loading</h2>
+
+        <p>Use a loading state while waiting for an async action to complete. The button keeps its size to avoid layout shift, remains in the DOM, and stays focusable so screen readers announce the busy state.</p>
+
+        <Canvas of={IconButtonStories.Loading} />
+
+        <h2>Disabled</h2>
+
+        <p>Disabled icon buttons should explain themselves. Provide a <code>disabledTooltip</code> describing what the user needs to do to unblock the action — without it, an icon-only disabled control is opaque.</p>
+
+        <Canvas of={IconButtonStories.Disabled} />
+
+        <h2>Tooltips</h2>
+
+        <p>Always pair an icon-only button with a <code>tooltip</code>. It surfaces the action on hover for sighted users without taking up layout space.</p>
+
+        <Canvas of={IconButtonStories.WithTooltip} />
+
+        <h2>As a link</h2>
+
+        <p>Pass <code>component="a"</code> and an <code>href</code> to render an anchor that looks like an icon button. Useful for &ldquo;open in new tab&rdquo; or external link affordances.</p>
+
+        <Canvas of={IconButtonStories.AsLink} />
+
+        <hr />
+
+        <h2>Visual states</h2>
+
+        <p>QA matrix for engineers verifying CSS changes. Interactive states are forced via classes that mirror the real <code>:hover</code>, <code>:focus</code>, and <code>:active</code> rules.</p>
+
+        <Canvas of={IconButtonStories.States} />
+
+        <h2>Legacy v3</h2>
+
+        <p>The v3 IconButton is preserved for gradual migration. Import from <code>@hazelcast/ui/old</code>. New code should use the IconButton above.</p>
+
+        <Canvas of={IconButtonStories.LegacyV3} />
+
+        <h2>Props</h2>
+
+        <Controls of={IconButtonStories.Playground} />
+      </>
+    ),
+  },
+  {
+    id: 'guidelines',
+    label: 'Guidelines',
+    content: (
+      <>
+        <h2>Anatomy</h2>
+
+        <p>An IconButton is composed of:</p>
+
+        <ul>
+          <li>an <strong>icon</strong> — a glyph that conveys the action</li>
+          <li>an <strong>accessible name</strong> — supplied via <code>ariaLabel</code> (or <code>ariaLabelledBy</code>)</li>
+          <li>an optional <strong>tooltip</strong> — strongly recommended; doubles as a visible label on hover</li>
+          <li>an optional <strong>loader</strong> — replaces the icon while an async action is in progress</li>
+        </ul>
+
+        <h2>When to use</h2>
+
+        <ul>
+          <li>Toolbars, table row actions, and other dense layouts where a labelled <code>Button</code> would not fit.</li>
+          <li>Universally recognised icons (close, settings, more options, search). Avoid bespoke glyphs.</li>
+          <li>Pair with a tooltip every time. If the action would be ambiguous without a tooltip, use a labelled <code>Button</code> instead.</li>
+        </ul>
+
+        <h2>Variant choice</h2>
+
+        <ul>
+          <li><strong>ghost</strong> — the most common choice. Use in toolbars, list rows, dialog headers.</li>
+          <li><strong>outlined</strong> — when the button needs to read as standalone (e.g. pagination chevrons).</li>
+          <li><strong>contained</strong> — for high-emphasis primary actions (rare; usually paired with a label).</li>
+          <li><strong>color="danger"</strong> — for destructive actions inside a confirmed context. Always pair with a tooltip.</li>
+        </ul>
+
+        <h2>Icon choice</h2>
+
+        <ul>
+          <li>Use a single, immediately recognisable glyph. If users have to think about it, add a label.</li>
+          <li>Match the icon to the verb in the <code>ariaLabel</code> (e.g. <code>Trash2</code> + <code>"Delete"</code>).</li>
+          <li>Don't overload one icon for two meanings within the same screen.</li>
+        </ul>
+
+        <h2>Do &amp; Don&rsquo;t</h2>
+
+        <Canvas of={IconButtonStories.DoVsDont} />
+
+        <h3>When <em>not</em> to use an IconButton</h3>
+
+        <ul>
+          <li>If you have room for a label → use <code>Button</code>.</li>
+          <li>If the action is the primary CTA of a screen → use a labelled <code>Button</code>.</li>
+          <li>If the icon is purely decorative → use the <code>Icon</code> component with <code>ariaHidden</code>.</li>
+        </ul>
+      </>
+    ),
+  },
+  {
+    id: 'accessibility',
+    label: 'Accessibility',
+    content: (
+      <>
+        <p>An IconButton is a real <code>{'<button>'}</code> element. The accessibility burden is higher than a labelled <code>Button</code> because there is no visible text — get the name and tooltip right.</p>
+
+        <h2>Accessible name</h2>
+
+        <p>Every IconButton must have an accessible name. Provide one of:</p>
+
+        <ul>
+          <li><code>ariaLabel</code> — a short verb phrase describing the action (<code>"Delete row"</code>, not <code>"Trash"</code>).</li>
+          <li><code>ariaLabelledBy</code> — when an adjacent visible element already names the button.</li>
+          <li><code>ariaHidden</code> — only when the button is decorative or a duplicate of an action elsewhere.</li>
+        </ul>
+
+        <p>The TypeScript types enforce that exactly one of these is set.</p>
+
+        <h2>Tooltips</h2>
+
+        <p>A tooltip is not the same as an accessible name. Always provide <code>ariaLabel</code> in addition to <code>tooltip</code>. The tooltip helps sighted users discover the action; the <code>ariaLabel</code> is what assistive tech announces.</p>
+
+        <p>Match the two — they should say the same thing. Conflicting tooltip and aria-label confuse speech-input users.</p>
+
+        <h2>Color is not a meaning</h2>
+
+        <p>Variant colors are invisible to screen readers and unreliable for users with color-vision differences. The <strong>label</strong> must carry the meaning. Don't rely on a red icon to communicate destruction.</p>
+
+        <h2>Target size</h2>
+
+        <p>The regular variant (36×36) and small variant (32×32) both meet the WCAG 2.5.5 minimum target size of 24×24 CSS pixels. Don't shrink the button further with custom CSS.</p>
+
+        <h2>Keyboard</h2>
+
+        <ul>
+          <li><code>Tab</code> moves focus to the button.</li>
+          <li><code>Enter</code> and <code>Space</code> activate it.</li>
+          <li>A visible focus ring is shown on <code>:focus-visible</code>. <strong>Don't override it.</strong></li>
+        </ul>
+
+        <h2>Disabled buttons</h2>
+
+        <p>A disabled icon button has no visible label and no clue why it's disabled. Always provide <code>disabledTooltip</code>. If the user needs to interact to learn why it can't be used, prefer keeping the button enabled and showing an error on click.</p>
+
+        <h2>Loading state</h2>
+
+        <p>While <code>loading</code>, the button stays in the DOM, remains focusable, and sets <code>aria-disabled="true"</code>. Pair with an <code>aria-live="polite"</code> region elsewhere announcing progress.</p>
+
+        <h2>Testing checklist</h2>
+
+        <ul>
+          <li>Every IconButton has an accessible name (<code>ariaLabel</code>, <code>ariaLabelledBy</code>, or <code>ariaHidden</code>).</li>
+          <li>Every interactive IconButton has a <code>tooltip</code>.</li>
+          <li>The accessible name describes the action, not the icon (<code>"Delete"</code>, not <code>"Trash icon"</code>).</li>
+          <li>The button can be focused with <code>Tab</code> and activated with <code>Enter</code> and <code>Space</code>.</li>
+          <li>The focus ring is visible on <code>:focus-visible</code>.</li>
+          <li>Disabled icon buttons provide a <code>disabledTooltip</code>.</li>
+        </ul>
+      </>
+    ),
+  },
+]} />

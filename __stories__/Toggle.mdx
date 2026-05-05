@@ -1,0 +1,183 @@
+import { Meta, Title, Canvas, Controls } from '@storybook/blocks'
+import * as ToggleStories from './Toggle.stories'
+import { DocsTabs } from '../.storybook/DocsTabs'
+
+<Meta of={ToggleStories} name="Docs" />
+
+<Title />
+
+Toggle is a binary on/off control. Use it for settings that take immediate effect
+— enabling a feature, switching a mode, or opting in/out of a preference. For
+choices that only commit on form submit, prefer a `Checkbox`.
+
+<DocsTabs tabs={[
+  {
+    id: 'overview',
+    label: 'Overview',
+    content: (
+      <>
+        <Canvas of={ToggleStories.Playground} />
+
+        <h2>Basic usage</h2>
+
+        <p>A Toggle is a controlled component. Provide <code>checked</code> and an <code>onChange</code> handler that flips state. The label is rendered to the right of the switch and is clickable.</p>
+
+        <Canvas of={ToggleStories.Basic} />
+
+        <h2>Without a label</h2>
+
+        <p>You may omit the label when an adjacent element already names the toggle. In that case associate the toggle with the naming element via <code>aria-labelledby</code> so screen readers still announce a name.</p>
+
+        <Canvas of={ToggleStories.WithoutLabel} />
+
+        <h2>Helper text</h2>
+
+        <p>Use <code>helperText</code> to add a small help icon next to the label that reveals a tooltip on hover. Reserve it for genuinely ambiguous toggles — most settings should be self-evident from the label.</p>
+
+        <Canvas of={ToggleStories.WithHelperText} />
+
+        <h2>Error</h2>
+
+        <p>Use the <code>error</code> prop to surface a validation error inline. The toggle adopts the error color and the message renders below.</p>
+
+        <Canvas of={ToggleStories.WithError} />
+
+        <h2>Disabled</h2>
+
+        <p>Disable a toggle when its setting is unavailable for a structural reason (e.g. requires a higher plan, depends on another setting being on). Always pair with surrounding context that explains why.</p>
+
+        <Canvas of={ToggleStories.Disabled} />
+
+        <hr />
+
+        <h2>Visual states</h2>
+
+        <p>QA matrix for engineers verifying CSS changes. Interactive states are forced via classes that mirror the real <code>:hover</code>, <code>:focus</code>, and <code>:active</code> rules.</p>
+
+        <Canvas of={ToggleStories.States} />
+
+        <h2>With Formik</h2>
+
+        <p>Use <code>ToggleFormik</code> for forms managed by Formik. It wires <code>checked</code>, <code>onChange</code>, and validation errors automatically — pass <code>name</code> and an optional <code>validate</code> function.</p>
+
+        <Canvas of={ToggleStories.WithFormik} />
+
+        <h2>Legacy v3</h2>
+
+        <p>The v3 Toggle is preserved for gradual migration. Import from <code>@hazelcast/ui/old</code>. New code should use the Toggle above.</p>
+
+        <Canvas of={ToggleStories.LegacyV3} />
+
+        <h2>Props</h2>
+
+        <Controls of={ToggleStories.Playground} />
+      </>
+    ),
+  },
+  {
+    id: 'guidelines',
+    label: 'Guidelines',
+    content: (
+      <>
+        <h2>Anatomy</h2>
+
+        <p>A Toggle is composed of:</p>
+
+        <ul>
+          <li>a <strong>switch</strong> — the visual track and thumb that animate between off and on</li>
+          <li>an optional <strong>label</strong> — names the setting; clickable</li>
+          <li>an optional <strong>helper</strong> — a tooltip-on-icon that explains the setting</li>
+          <li>an optional <strong>error message</strong> — surfaces validation issues</li>
+        </ul>
+
+        <h2>When to use a Toggle</h2>
+
+        <ul>
+          <li>For settings that take effect <strong>immediately</strong> — no separate &ldquo;Save&rdquo; required.</li>
+          <li>For binary, mutually exclusive states (on/off, enabled/disabled, public/private).</li>
+          <li>When the default value matters — a Toggle clearly communicates the current state at a glance.</li>
+        </ul>
+
+        <h3>When <em>not</em> to use a Toggle</h3>
+
+        <ul>
+          <li>For form fields that only commit on submit → use a <code>Checkbox</code>.</li>
+          <li>For more than two options → use a <code>RadioGroup</code> or <code>SegmentedControl</code>.</li>
+          <li>For triggering an action → use a <code>Button</code>.</li>
+        </ul>
+
+        <h2>Labels</h2>
+
+        <ul>
+          <li>Write labels as the <strong>positive</strong> state of the setting (<code>Notifications</code>, not <code>Disable notifications</code>). The toggle position communicates on/off; the label names the thing being toggled.</li>
+          <li>Avoid double negatives (<code>Don&rsquo;t hide archived items</code>).</li>
+          <li>Use sentence case. Keep labels concise — they should fit on one line.</li>
+        </ul>
+
+        <h2>Do &amp; Don&rsquo;t</h2>
+
+        <Canvas of={ToggleStories.DoVsDont} />
+
+        <h2>Confirmation</h2>
+
+        <p>For destructive or expensive toggles (deleting data, charging the user, sending notifications), pair the toggle with a confirmation dialog or an undo affordance. The user should never be surprised by an irreversible toggle flip.</p>
+
+        <h2>Grouping</h2>
+
+        <p>When listing multiple toggles, align labels vertically and separate groups with section headings. Avoid mixing toggles with checkboxes in the same group — pick one pattern.</p>
+      </>
+    ),
+  },
+  {
+    id: 'accessibility',
+    label: 'Accessibility',
+    content: (
+      <>
+        <p>The Toggle renders a real <code>{'<input type="checkbox">'}</code> element with the visual styling of a switch. Most accessibility comes for free — the notes below cover edge cases.</p>
+
+        <h2>Accessible name</h2>
+
+        <p>The visible label is the accessible name (wired up via <code>htmlFor</code>). When you omit the label, associate the toggle with an external label via <code>aria-labelledby</code> so the toggle still announces what it controls. Don&rsquo;t rely on surrounding context alone — speech-input users need an explicit name.</p>
+
+        <h2>State announcements</h2>
+
+        <p>Screen readers announce &ldquo;checked&rdquo; or &ldquo;not checked&rdquo; when focus lands on the toggle and when the state changes. The label should describe the <strong>setting</strong>, not the state.</p>
+
+        <h2>Color is not a meaning</h2>
+
+        <p>The on state uses brand color and the off state is neutral, but color alone is unreliable for users with color-vision differences. The toggle&rsquo;s position (thumb left vs right) and the screen-reader announcement carry the meaning.</p>
+
+        <h2>Target size</h2>
+
+        <p>The toggle&rsquo;s clickable area extends to the entire row including the label, comfortably exceeding the WCAG 2.5.5 minimum target size. Don&rsquo;t shrink the toggle with custom CSS.</p>
+
+        <h2>Keyboard</h2>
+
+        <ul>
+          <li><code>Tab</code> moves focus to the toggle.</li>
+          <li><code>Space</code> flips the state.</li>
+          <li>A visible focus ring is shown on <code>:focus-visible</code>. <strong>Don&rsquo;t override it.</strong></li>
+        </ul>
+
+        <h2>Disabled toggles</h2>
+
+        <p>A disabled toggle is not focusable and is invisible to screen readers in forms mode. Only disable when the setting is structurally unavailable. If the user needs to know <em>why</em>, surface that explanation in surrounding text rather than relying on the disabled visual alone.</p>
+
+        <h2>Errors</h2>
+
+        <p>When using <code>error</code>, the message is associated with the input via <code>aria-describedby</code> so screen readers announce it on focus. Keep error text actionable — say what to fix, not just what&rsquo;s wrong.</p>
+
+        <h2>Testing checklist</h2>
+
+        <ul>
+          <li>Every Toggle has an accessible name (visible label or <code>aria-labelledby</code>).</li>
+          <li>The label describes the setting, not the action (<code>Notifications</code>, not <code>Turn on notifications</code>).</li>
+          <li>The toggle can be focused with <code>Tab</code> and activated with <code>Space</code>.</li>
+          <li>The focus ring is visible on <code>:focus-visible</code>.</li>
+          <li>State changes are announced by the screen reader.</li>
+          <li>Color contrast of the on/off states meets WCAG AA.</li>
+        </ul>
+      </>
+    ),
+  },
+]} />
