@@ -111,7 +111,7 @@ export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
     ref,
   ) => {
     const tooltipId = useUID()
-    const iconSize: IconSize = size === 'small' ? 'small' : 'medium'
+    const iconSize: IconSize = size === 'small' ? 'small' : 'smallMedium'
     const relFinal = Array.isArray(rel) ? rel.join(' ') : rel
     const labelledByFinal = [ariaLabelledBy, disabled ? tooltipId : undefined].filter(Boolean).join(' ')
 

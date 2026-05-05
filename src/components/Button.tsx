@@ -150,7 +150,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
     ref,
   ) => {
     const tooltipId = useUID()
-    const iconSize: IconSize = size === 'small' ? 'small' : 'medium'
+    const iconSize: IconSize = size === 'small' ? 'small' : 'smallMedium'
     const relFinal = Array.isArray(rel) ? rel.join(' ') : rel
     const loadingAnimationOnRight = loading && iconRight && iconRightAriaLabel && !(iconLeft && iconLeftAriaLabel)
 

@@ -44,7 +44,7 @@ describe('NumberField', () => {
     expect(decrementButton).toHaveAttribute('type', 'button')
     expect(decrementButton).toHaveClass(styles.decrement)
     expect(decrementButton).toHaveClass(iconButtonStyles.variantGhost)
-    expect(decrementButton.querySelector('svg')).toHaveClass(iconStyles.medium)
+    expect(decrementButton.querySelector('svg')).toHaveClass(iconStyles.smallMedium)
   })
 
   it('Renders correctly without the label prop', () => {
@@ -189,14 +189,14 @@ describe('NumberField', () => {
     expect(decrementButton).toHaveAttribute('type', 'button')
     expect(decrementButton).toHaveClass(styles.decrement)
     expect(decrementButton).toHaveClass(iconButtonStyles.variantGhost)
-    expect(decrementButton.querySelector('svg')).toHaveClass(iconStyles.medium)
+    expect(decrementButton.querySelector('svg')).toHaveClass(iconStyles.smallMedium)
 
     const incrementButton = screen.getByTestId('number-field-increment')
     expect(incrementButton).toHaveAttribute('aria-label', '+1')
     expect(incrementButton).toHaveAttribute('type', 'button')
     expect(incrementButton).toHaveClass(styles.increment)
     expect(incrementButton).toHaveClass(iconButtonStyles.variantGhost)
-    expect(incrementButton.querySelector('svg')).toHaveClass(iconStyles.medium)
+    expect(incrementButton.querySelector('svg')).toHaveClass(iconStyles.smallMedium)
   })
 
   it('onDecrement can be disabled', async () => {
