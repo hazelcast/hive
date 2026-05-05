@@ -22,7 +22,6 @@ export const AppHeaderMenu = ({ separator, children }: AppHeaderMenuProps) => {
       <Button
         variant="ghost"
         color="secondary"
-        iconSize="medium"
         onClick={toggle}
         iconRight={MenuIcon}
         ref={setAnchorElement}

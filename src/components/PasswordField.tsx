@@ -64,7 +64,7 @@ export const PasswordField: FC<PasswordFieldProps> = ({
 
     return (
       <IconButton
-        iconSize="small"
+        size="small"
         icon={visible ? EyeOff : Eye}
         ariaLabel={visible ? hideIconLabel : showIconLabel}
         className={styles.toggle}

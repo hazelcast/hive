@@ -3,7 +3,8 @@ import cn from 'classnames'
 import { Icon as FeatherIcon } from 'react-feather'
 import { useUID } from 'react-uid'
 
-import { Icon, IconProps, IconAriaProps } from './Icon'
+import { Icon, IconAriaProps, IconSize } from './Icon'
+import { ButtonVariant, ButtonColor, ButtonSize } from './Button'
 import { Tooltip, TooltipSide } from './Tooltip'
 import { LinkRel, LinkTarget } from './Link'
 import { Loader } from './Loader'
@@ -11,18 +12,15 @@ import { DataTestProp } from '../helpers/types'
 
 import styles from './IconButton.module.css'
 
-export type IconButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive'
-export type IconButtonSize = 'sm' | 'md' | 'lg'
-
 type IconButtonCommonProps = {
   icon: FeatherIcon
   iconClassName?: string
   iconColor?: string
   iconRole?: string
   loaderRole?: string
-  variant?: IconButtonVariant
-  size?: IconButtonSize
-  iconSize?: IconProps['size']
+  variant?: ButtonVariant
+  color?: ButtonColor
+  size?: ButtonSize
   tooltip?: string
   tooltipVisible?: boolean
   tooltipPlacement?: TooltipSide
@@ -61,18 +59,23 @@ type IconButtonComponentProps =
       Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'autoFocus' | 'type'>)
 export type IconButtonProps = IconButtonCommonProps & IconButtonComponentProps
 
-const variantClass: Record<IconButtonVariant, string> = {
-  primary: styles.variantPrimary,
-  secondary: styles.variantSecondary,
-  outline: styles.variantOutline,
+const variantClass: Record<ButtonVariant, string> = {
+  contained: styles.variantContained,
+  outlined: styles.variantOutlined,
   ghost: styles.variantGhost,
-  destructive: styles.variantDestructive,
+  link: styles.variantLink,
 }
 
-const sizeClass: Record<IconButtonSize, string> = {
-  sm: styles.sizeSm,
-  md: styles.sizeMd,
-  lg: styles.sizeLg,
+const colorClass: Record<ButtonColor, string> = {
+  primary: styles.colorPrimary,
+  secondary: styles.colorSecondary,
+  warning: styles.colorWarning,
+  danger: styles.colorDanger,
+}
+
+const sizeClass: Record<ButtonSize, string> = {
+  small: styles.sizeSmall,
+  regular: styles.sizeRegular,
 }
 
 export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
@@ -85,9 +88,9 @@ export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
       iconRole,
       loaderRole,
       className,
-      iconSize,
-      variant = 'ghost',
-      size = 'md',
+      variant = 'contained',
+      color = 'primary',
+      size = 'regular',
       ariaHidden,
       ariaLabelledBy,
       ariaLabel,
@@ -108,6 +111,7 @@ export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
     ref,
   ) => {
     const tooltipId = useUID()
+    const iconSize: IconSize = size === 'small' ? 'small' : 'medium'
     const relFinal = Array.isArray(rel) ? rel.join(' ') : rel
     const labelledByFinal = [ariaLabelledBy, disabled ? tooltipId : undefined].filter(Boolean).join(' ')
 
@@ -119,7 +123,7 @@ export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
         open={disabled ? disabledTooltipVisible : tooltipVisible}
       >
         <Component
-          className={cn(styles.iconButton, variantClass[variant], sizeClass[size], className)}
+          className={cn(styles.iconButton, variantClass[variant], colorClass[color], sizeClass[size], className)}
           aria-hidden={ariaHidden}
           aria-label={ariaLabel}
           aria-labelledby={labelledByFinal}

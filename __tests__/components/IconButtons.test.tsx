@@ -5,7 +5,7 @@ import cn from 'classnames'
 import { useUID } from 'react-uid'
 import { act, screen } from '@testing-library/react'
 
-import { IconButtonVariant } from '../../src/components/IconButton'
+import { ButtonVariant } from '../../src/components/Button'
 import { IconButton } from '../../src'
 import { testAttribute, testClass } from '../helpers'
 
@@ -24,12 +24,11 @@ describe('IconButton', () => {
     useUIDMock.mockImplementation(() => id)
   })
 
-  const variantTestData: [IconButtonVariant, string][] = [
-    ['primary', styles.variantPrimary],
-    ['secondary', styles.variantSecondary],
-    ['outline', styles.variantOutline],
+  const variantTestData: [ButtonVariant, string][] = [
+    ['contained', styles.variantContained],
+    ['outlined', styles.variantOutlined],
     ['ghost', styles.variantGhost],
-    ['destructive', styles.variantDestructive],
+    ['link', styles.variantLink],
   ]
 
   it.each(variantTestData)('Renders Button with class for variant %s', async (variant, className) => {
@@ -39,14 +38,14 @@ describe('IconButton', () => {
   })
 
   it('Renders button with proper aria-label', async () => {
-    await renderAndCheckA11Y(<IconButton variant="primary" icon={X} ariaLabel={ariaLabel} />)
+    await renderAndCheckA11Y(<IconButton variant="contained" icon={X} ariaLabel={ariaLabel} />)
 
     expect(screen.queryByLabelText(ariaLabel)).toBeInTheDocument()
   })
 
   it('Renders icon with proper size and iconClassName', async () => {
     const { container } = await renderAndCheckA11Y(
-      <IconButton variant="primary" icon={X} ariaLabel={ariaLabel} iconSize="xlarge" iconClassName="yoda" />,
+      <IconButton variant="contained" icon={X} ariaLabel={ariaLabel} size="small" iconClassName="yoda" />,
     )
 
     const icon = container.querySelector('svg')
@@ -54,11 +53,11 @@ describe('IconButton', () => {
     expect(icon).toBeInTheDocument()
 
     testAttribute(icon, 'aria-hidden', 'true')
-    testClass(icon, `yoda ${iconStyles.xlarge}`)
+    testClass(icon, `yoda ${iconStyles.small}`)
   })
 
   it('Renders loading button', async () => {
-    const { container } = await renderAndCheckA11Y(<IconButton variant="primary" icon={X} ariaLabel={ariaLabel} loading />)
+    const { container } = await renderAndCheckA11Y(<IconButton variant="contained" icon={X} ariaLabel={ariaLabel} loading />)
 
     expect(container.querySelector('button')!).toHaveAttribute('disabled')
     expect(screen.queryByTestId('tooltip-overlay')).not.toBeInTheDocument()
@@ -72,7 +71,7 @@ describe('IconButton', () => {
     let container: HTMLElement
     await act(async () => {
       ;({ container } = await renderAndCheckA11Y(
-        <IconButton variant="primary" icon={X} ariaLabel={ariaLabel} disabled disabledTooltip={disabledTooltip} disabledTooltipVisible />,
+        <IconButton variant="contained" icon={X} ariaLabel={ariaLabel} disabled disabledTooltip={disabledTooltip} disabledTooltipVisible />,
       ))
     })
 
@@ -89,7 +88,7 @@ describe('IconButton', () => {
     await act(async () => {
       ;({ container } = await renderAndCheckA11Y(
         <IconButton
-          variant="primary"
+          variant="contained"
           icon={X}
           ariaLabel={ariaLabel}
           disabled
@@ -114,7 +113,7 @@ describe('IconButton', () => {
     await act(async () => {
       ;({ container } = await renderAndCheckA11Y(
         <IconButton
-          variant="primary"
+          variant="contained"
           icon={X}
           ariaLabelledBy={ariaLabelledBy}
           disabled
@@ -132,7 +131,7 @@ describe('IconButton', () => {
 
     const { container } = await renderAndCheckA11Y(
       <IconButton
-        variant="primary"
+        variant="contained"
         component="a"
         href="#"
         icon={X}
@@ -158,7 +157,7 @@ describe('IconButton', () => {
 
     await act(async () => {
       await renderAndCheckA11Y(
-        <IconButton variant="primary" icon={X} ariaLabel={ariaLabel} tooltip={tooltip} tooltipPlacement="bottom" tooltipVisible />,
+        <IconButton variant="contained" icon={X} ariaLabel={ariaLabel} tooltip={tooltip} tooltipPlacement="bottom" tooltipVisible />,
       )
     })
 

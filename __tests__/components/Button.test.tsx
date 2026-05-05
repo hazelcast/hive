@@ -132,7 +132,7 @@ describe('Button', () => {
     )
 
     expect(screen.getByTestId('button')).toHaveAttribute('disabled')
-    expect(screen.getByTestId('loader')).toHaveClass(cn(styles.iconLeft, loaderStyles.small))
+    expect(screen.getByTestId('loader')).toHaveClass(cn(styles.iconLeft, loaderStyles.medium))
   })
 
   it('Renders loading animation on right side (only when the right icon is used)', async () => {
@@ -145,7 +145,7 @@ describe('Button', () => {
       </div>,
     )
 
-    expect(screen.getByTestId('loader')).toHaveClass(cn(styles.iconRight, loaderStyles.small))
+    expect(screen.getByTestId('loader')).toHaveClass(cn(styles.iconRight, loaderStyles.medium))
   })
 
   it('Renders disabled button with a disabled tooltip', async () => {

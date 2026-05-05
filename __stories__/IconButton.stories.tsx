@@ -1,7 +1,8 @@
 import React from 'react'
 import { Bell, Menu, Search, Settings, Trash2 } from 'react-feather'
 
-import { IconButton, IconButtonProps, IconButtonVariant } from '../src/components/IconButton'
+import { IconButton, IconButtonProps } from '../src/components/IconButton'
+import { ButtonVariant, ButtonColor } from '../src/components/Button'
 import { IconButton as LegacyIconButton } from '../src/old'
 
 import styles from '../src/components/IconButton.module.css'
@@ -32,7 +33,8 @@ export const LinkSemantics = () => <IconButton ariaLabel="Settings" icon={Settin
 
 export const WithTooltip = () => <IconButton {...baseProps} tooltipVisible tooltipPlacement="bottom" tooltip="Settings tooltip" />
 
-const variants: IconButtonVariant[] = ['primary', 'secondary', 'outline', 'ghost', 'destructive']
+const variants: ButtonVariant[] = ['contained', 'outlined', 'ghost', 'link']
+const colors: ButtonColor[] = ['primary', 'secondary', 'warning', 'danger']
 const icons = [Search, Bell, Settings, Menu, Trash2]
 
 export const AllVariants = () => (
@@ -43,11 +45,18 @@ export const AllVariants = () => (
   </div>
 )
 
+export const AllColors = () => (
+  <div style={{ display: 'flex', gap: 12 }}>
+    {colors.map((color, i) => (
+      <IconButton key={color} color={color} ariaLabel={color} icon={icons[i]} />
+    ))}
+  </div>
+)
+
 export const AllSizes = () => (
   <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-    <IconButton {...baseProps} size="sm" />
-    <IconButton {...baseProps} size="md" />
-    <IconButton {...baseProps} size="lg" />
+    <IconButton {...baseProps} size="small" />
+    <IconButton {...baseProps} size="regular" />
   </div>
 )
 

@@ -41,7 +41,6 @@ export const AppSidebar = ({
   return (
     <aside data-test={dataTest} className={cn(styles.root, { [styles.collapsed]: isCollapsed }, className)}>
       <IconButton
-        iconSize="medium"
         variant="ghost"
         ariaLabel={!isCollapsed ? 'Collapse sidebar' : 'Expand sidebar'}
         icon={!isCollapsed ? ChevronsLeft : ChevronsRight}

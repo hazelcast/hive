@@ -89,7 +89,7 @@ const ClearIndicator: typeof components.ClearIndicator = ({ innerProps }) => {
   // Visually impaired people will use the keyboard (backspace) to remove the value. We do not want to confuse them by allowing to focus this button.
 
   // @ts-ignore
-  return <IconButton {...innerProps} icon={X} ariaHidden variant="ghost" iconSize="medium" className={styles.clear} tabIndex={-1} />
+  return <IconButton {...innerProps} icon={X} ariaHidden variant="ghost" className={styles.clear} tabIndex={-1} />
 }
 
 export const highlightOptionText = (labelText: string, inputValue: string | undefined): ReactNode => {

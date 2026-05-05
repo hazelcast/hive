@@ -24,7 +24,7 @@ const ClearIndicator: typeof rsComponents.ClearIndicator = ({ innerProps }) => (
   // Visually impaired people will use the keyboard (backspace) to remove the value. We do not want to confuse them by allowing to focus this button.
 
   // @ts-ignore
-  <IconButton {...innerProps} icon={X} ariaHidden variant="ghost" iconSize="medium" className={styles.clear} tabIndex={-1} />
+  <IconButton {...innerProps} icon={X} ariaHidden variant="ghost" className={styles.clear} tabIndex={-1} />
 )
 
 const Input: typeof rsComponents.Input = (innerProps) => {

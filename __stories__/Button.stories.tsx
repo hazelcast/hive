@@ -67,7 +67,6 @@ export default {
         'iconRightColor',
         'iconLeftAriaLabel',
         'iconRightAriaLabel',
-        'iconSize',
         'tabIndex',
         'style',
         'className',

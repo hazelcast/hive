@@ -159,7 +159,7 @@ export const NumberField: FC<NumberFieldProps> = ({
     return (
       <>
         <IconButton
-          iconSize={size === 'small' ? 'small' : 'smallMedium'}
+          size={size === 'small' ? 'small' : 'regular'}
           icon={MinusCircle}
           ariaLabel={decrementIconAriaLabel}
           className={cn(styles.decrement, {
@@ -174,7 +174,7 @@ export const NumberField: FC<NumberFieldProps> = ({
           {...decrementDisabledProps}
         />
         <IconButton
-          iconSize={size === 'small' ? 'small' : 'smallMedium'}
+          size={size === 'small' ? 'small' : 'regular'}
           icon={PlusCircle}
           ariaLabel={incrementIconAriaLabel}
           className={cn(styles.increment, {

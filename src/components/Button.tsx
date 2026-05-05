@@ -60,7 +60,6 @@ export type ButtonDisabledProps = {
 
 export type ButtonCommonProps = {
   children: string | ReactElement
-  iconSize?: IconSize
   variant?: ButtonVariant
   color?: ButtonColor
   size?: ButtonSize
@@ -146,13 +145,12 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
       tooltip,
       active,
       truncate = true,
-      iconSize: propIconSize,
       ...rest
     },
     ref,
   ) => {
     const tooltipId = useUID()
-    const iconSize: IconSize = propIconSize ?? 'small'
+    const iconSize: IconSize = size === 'small' ? 'small' : 'medium'
     const relFinal = Array.isArray(rel) ? rel.join(' ') : rel
     const loadingAnimationOnRight = loading && iconRight && iconRightAriaLabel && !(iconLeft && iconLeftAriaLabel)
 

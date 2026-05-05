@@ -162,7 +162,7 @@ import { Button } from '@hazelcast/ui/old'
 
 ### `IconButton`
 
-`IconButton` has been rebranded to match the new `Button`. The `kind` prop is replaced by `variant` with the same set as Button (minus `link`); `size` accepts `sm`/`md`/`lg`; the `padding` prop is removed (sizing is fully driven by `size`).
+`IconButton` has been rebranded to match the new `Button`. The `kind` prop is replaced by Button's `variant` + `color` props (`variant: 'contained' | 'outlined' | 'ghost' | 'link'`, `color: 'primary' | 'secondary' | 'warning' | 'danger'`); `size` accepts `'small' | 'regular'`; the `padding` prop is removed (sizing is fully driven by `size`). The `iconSize` prop is removed and now derived from `size`.
 
 **Old import (temporary fallback):**
 
@@ -172,13 +172,15 @@ import { IconButton } from '@hazelcast/ui/old'
 
 **Prop changes:**
 
-| Prop                                                                          | v3                                | v4                               |
-| ----------------------------------------------------------------------------- | --------------------------------- | -------------------------------- |
-| `kind?: 'primary' \| 'transparent'`                                           | optional, default `'transparent'` | removed — replaced by `variant`  |
-| `variant?: 'primary' \| 'secondary' \| 'outline' \| 'ghost' \| 'destructive'` | n/a                               | new — default `'ghost'`          |
-| `size?: 'normal' \| 'small' \| 'medium' \| 'large' \| 'xlarge'`               | optional                          | replaced — see `size` below      |
-| `size?: 'sm' \| 'md' \| 'lg'`                                                 | n/a                               | new — default `'md'`             |
-| `padding?: 'small' \| 'normal'`                                               | optional                          | removed — fully driven by `size` |
+| Prop                                                            | v3                                | v4                                        |
+| --------------------------------------------------------------- | --------------------------------- | ----------------------------------------- |
+| `kind?: 'primary' \| 'transparent'`                             | optional, default `'transparent'` | removed — replaced by `variant` + `color` |
+| `variant?: 'contained' \| 'outlined' \| 'ghost' \| 'link'`      | n/a                               | new — default `'contained'`               |
+| `color?: 'primary' \| 'secondary' \| 'warning' \| 'danger'`     | n/a                               | new — default `'primary'`                 |
+| `size?: 'normal' \| 'small' \| 'medium' \| 'large' \| 'xlarge'` | optional                          | replaced — see `size` below               |
+| `size?: 'small' \| 'regular'`                                   | n/a                               | new — default `'regular'`                 |
+| `iconSize?: IconSize`                                           | optional                          | removed — derived from `size`             |
+| `padding?: 'small' \| 'normal'`                                 | optional                          | removed — fully driven by `size`          |
 
 **Before:**
 
@@ -189,7 +191,7 @@ import { IconButton } from '@hazelcast/ui/old'
 **After:**
 
 ```tsx
-<IconButton variant="primary" size="md" icon={X} ariaLabel="Close" />
+<IconButton variant="contained" color="primary" size="regular" icon={X} ariaLabel="Close" />
 ```
 
 ---
@@ -330,7 +332,6 @@ Groups several `Button`s into a single visually-joined control. Buttons share bo
 
 ```tsx
 import { Button, ButtonGroup } from '@hazelcast/ui'
-
 ;<ButtonGroup>
   <Button variant="outline">Day</Button>
   <Button variant="outline">Week</Button>

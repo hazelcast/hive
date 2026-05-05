@@ -12,11 +12,11 @@ export default {
 
 export const PagerStyle = () => (
   <ButtonGroup ariaLabel="Date navigation">
-    <IconButton variant="outline" ariaLabel="Previous" icon={ChevronLeft} />
+    <IconButton variant="outlined" ariaLabel="Previous" icon={ChevronLeft} />
     <Button variant="outlined" color="secondary">
       Today
     </Button>
-    <IconButton variant="outline" ariaLabel="Next" icon={ChevronRight} />
+    <IconButton variant="outlined" ariaLabel="Next" icon={ChevronRight} />
   </ButtonGroup>
 )
 
