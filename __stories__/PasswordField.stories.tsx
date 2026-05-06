@@ -6,7 +6,7 @@ import { Form, Formik } from 'formik'
 import { PasswordField, PasswordFieldProps } from '../src/components/PasswordField'
 import { PasswordFieldFormik } from '../src/components/PasswordFieldFormik'
 
-import styles from '../src/components/TextField.module.scss'
+import styles from '../src/components/TextField.module.css'
 import storyStyles from './TextField.stories.module.scss'
 
 export default {
