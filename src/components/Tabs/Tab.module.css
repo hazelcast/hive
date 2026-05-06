@@ -1,0 +1,52 @@
+.tab {
+  display: inline-flex;
+  flex: 1 1 0;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--hive-grid) * 1.5);
+  position: relative;
+  box-sizing: border-box;
+  height: calc(var(--hive-grid) * 7.25);
+  min-width: 0;
+  padding: calc(var(--hive-grid) * 1.25) calc(var(--hive-grid) * 2.25);
+  border: var(--hive-border-width) solid transparent;
+  border-radius: calc(var(--hive-grid) * 3.5);
+  color: var(--hive-color-text-v4);
+  background-color: transparent;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+
+  font-family: var(--hive-font-family-text);
+  font-size: var(--hive-font-size-body-small);
+  font-weight: var(--hive-font-weight-text-medium);
+  line-height: 1;
+  letter-spacing: -0.0094rem;
+}
+
+.tab > * {
+  display: inline-flex;
+  align-items: center;
+}
+
+.tab.selected {
+  color: var(--hive-color-text-v4);
+  border-radius: calc(var(--hive-grid) * 3.5);
+  background: var(--hive-color-neutral-white-v4);
+}
+
+.tab.fullWidth {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.tab:hover {
+  color: var(--hive-color-text-v4);
+}
+
+.tab:focus-visible {
+  outline: var(--hive-outline-width) solid var(--hive-color-primary-v4);
+  outline-offset: 2px;
+}

@@ -1,0 +1,158 @@
+import { Meta, Title, Canvas, Controls } from '@storybook/blocks'
+import * as TabsStories from './Tabs.stories'
+import { DocsTabs } from '../.storybook/DocsTabs'
+
+<Meta of={TabsStories} name="Docs" />
+
+<Title />
+
+Tabs organize related content into a single surface and reveal one panel at a time.
+Use them for peer sections that users switch between frequently.
+
+<DocsTabs tabs={[
+  {
+    id: 'overview',
+    label: 'Overview',
+    content: (
+      <>
+        <Canvas of={TabsStories.Playground} />
+
+        <h2>Basic usage</h2>
+
+        <p>A Tabs group is composed of a <code>TabList</code>, multiple <code>Tab</code> items, and matching <code>TabPanel</code> containers. One tab is active at a time.</p>
+
+        <Canvas of={TabsStories.Basic} />
+
+        <h2>Full width layout</h2>
+
+        <p>The Hive 4.0 design uses a full-width segmented surface. Set <code>fullWidth</code> to stretch tabs evenly across the row.</p>
+
+        <Canvas of={TabsStories.FullWidth} />
+
+        <h2>Navigation tabs</h2>
+
+        <p>Enable <code>navigation</code> when tabs should behave like links and map to routeable URLs.</p>
+
+        <Canvas of={TabsStories.Navigation} />
+
+        <h2>Controlled mode</h2>
+
+        <p>Use <code>TabContextProviderControlled</code> to manage active value from external state (URL params, persisted preferences, or analytics).</p>
+
+        <Canvas of={TabsStories.Controlled} />
+
+        <h2>With icons</h2>
+
+        <p>Icons can support faster recognition but should remain decorative. Labels still carry the meaning.</p>
+
+        <Canvas of={TabsStories.WithIcons} />
+
+        <h2>Custom labels</h2>
+
+        <p>Rich labels are supported, but keep wording short and formatting minimal.</p>
+
+        <Canvas of={TabsStories.CustomLabel} />
+
+        <hr />
+
+        <h2>Visual states</h2>
+
+        <p>QA matrix for checking selected-state styling and panel switching after CSS updates.</p>
+
+        <Canvas of={TabsStories.States} />
+
+        <h2>Legacy v3</h2>
+
+        <p>The v3 Tabs is preserved for gradual migration. Import from <code>@hazelcast/ui/old</code>. New code should use the Tabs above.</p>
+
+        <Canvas of={TabsStories.LegacyV3} />
+
+        <h2>Props</h2>
+
+        <Controls of={TabsStories.Playground} />
+      </>
+    ),
+  },
+  {
+    id: 'guidelines',
+    label: 'Guidelines',
+    content: (
+      <>
+        <h2>Anatomy</h2>
+
+        <p>A Tabs pattern is composed of:</p>
+
+        <ul>
+          <li>a <strong>tab list</strong> container</li>
+          <li>multiple <strong>tab controls</strong></li>
+          <li>one visible <strong>tab panel</strong> at a time</li>
+          <li>a clear <strong>selected state</strong> indicator</li>
+        </ul>
+
+        <h2>When to use tabs</h2>
+
+        <ul>
+          <li>Switching between peer sections in the same context.</li>
+          <li>Comparing related slices of data quickly.</li>
+          <li>Keeping users on one page without route churn.</li>
+        </ul>
+
+        <h3>When not to use tabs</h3>
+
+        <ul>
+          <li>Deep navigation hierarchies.</li>
+          <li>Long, sentence-like labels.</li>
+          <li>Cases where all sections should remain visible together.</li>
+        </ul>
+
+        <h2>Label writing</h2>
+
+        <ul>
+          <li>Use short noun phrases: <code>Overview</code>, <code>Metrics</code>, <code>Settings</code>.</li>
+          <li>Keep labels parallel in tone and grammar.</li>
+          <li>Avoid truncation where possible.</li>
+        </ul>
+
+        <h2>Do &amp; Don&rsquo;t</h2>
+
+        <Canvas of={TabsStories.DoVsDont} />
+      </>
+    ),
+  },
+  {
+    id: 'accessibility',
+    label: 'Accessibility',
+    content: (
+      <>
+        <p>The Tabs implementation follows ARIA roles: <code>tablist</code>, <code>tab</code>, and <code>tabpanel</code>.</p>
+
+        <h2>Naming</h2>
+
+        <p>Set a meaningful <code>ariaLabel</code> on <code>TabList</code>. Each tab label should clearly describe the panel content.</p>
+
+        <h2>Keyboard behavior</h2>
+
+        <ul>
+          <li><code>ArrowLeft</code> and <code>ArrowRight</code> move focus between tabs.</li>
+          <li><code>Home</code> and <code>End</code> jump to first and last tabs.</li>
+          <li><code>Enter</code> and <code>Space</code> activate the focused tab.</li>
+        </ul>
+
+        <p>The component uses manual activation: focus movement does not switch panels until activation keys are pressed.</p>
+
+        <h2>Focus visibility</h2>
+
+        <p>A visible focus indicator is required for keyboard users. Do not remove focus styling.</p>
+
+        <h2>Testing checklist</h2>
+
+        <ul>
+          <li>All tabs are reachable by keyboard.</li>
+          <li>Arrow/Home/End/Enter/Space behaviors work as expected.</li>
+          <li>Only the active panel is rendered visibly.</li>
+          <li>Focus ring remains visible on keyboard focus.</li>
+        </ul>
+      </>
+    ),
+  },
+]} />
