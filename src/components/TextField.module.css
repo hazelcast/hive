@@ -156,9 +156,8 @@
 
 .container input:focus ~ .borderOverlay,
 .container input.focus ~ .borderOverlay {
-  outline: var(--hive-outline-width) solid var(--hive-color-primary-v4);
-  outline-offset: 2px;
   border-color: var(--hive-color-primary-v4);
+  box-shadow: 0 0 0 3px oklch(from var(--hive-color-primary-v4) l c h / 0.5);
 }
 
 .container input:focus ~ .inputIconContainer > .inputIcon,
