@@ -31,8 +31,6 @@
 }
 
 .tab.selected {
-  color: var(--hive-color-text-v4);
-  border-radius: calc(var(--hive-grid) * 3.5);
   background: var(--hive-color-neutral-white-v4);
 }
 
