@@ -94,6 +94,12 @@
   color: var(--hive-color-text-secondary-v4);
 }
 
+.container input::-webkit-search-cancel-button,
+.container input::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
 .container .clearButton {
   display: inline-flex;
   align-items: center;
