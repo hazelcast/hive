@@ -19,7 +19,6 @@
   flex: 1 1 auto;
   display: flex;
   flex-direction: row;
-  overflow: hidden;
   box-sizing: border-box;
   height: calc(var(--hive-grid) * 9);
   background-color: var(--hive-color-neutral-white-v4);
