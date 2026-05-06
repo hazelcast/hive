@@ -196,31 +196,33 @@ export const States = () => {
         QA matrix for visual states. Interactive states are forced via classes that mirror the real <code>:hover</code> and{' '}
         <code>:focus</code> rules.
       </Caption>
-      <div className={`${s.grid} ${s.gridStates}`}>
-        <span />
-        {stateRows.map((r) => (
-          <span key={r.label} className={s.label}>
-            {r.label}
-          </span>
-        ))}
-        {valueRows.map(({ label, value }) => (
-          <React.Fragment key={label}>
-            <span className={s.rowLabel}>{label}</span>
-            {stateRows.map((r) => (
-              <TextField
-                key={r.label}
-                name={`state-${label}-${r.label}`}
-                label="Cluster name"
-                placeholder="e.g. production-eu"
-                value={value}
-                disabled={r.disabled}
-                error={r.error}
-                inputClassName={r.inputClassName}
-                onChange={() => {}}
-              />
-            ))}
-          </React.Fragment>
-        ))}
+      <div style={{ overflowX: 'auto', paddingBottom: 8 }}>
+        <div className={`${s.grid} ${s.gridStates}`} style={{ minWidth: 'max-content' }}>
+          <span />
+          {stateRows.map((r) => (
+            <span key={r.label} className={s.label}>
+              {r.label}
+            </span>
+          ))}
+          {valueRows.map(({ label, value }) => (
+            <React.Fragment key={label}>
+              <span className={s.rowLabel}>{label}</span>
+              {stateRows.map((r) => (
+                <TextField
+                  key={r.label}
+                  name={`state-${label}-${r.label}`}
+                  label="Cluster name"
+                  placeholder="e.g. production-eu"
+                  value={value}
+                  disabled={r.disabled}
+                  error={r.error}
+                  inputClassName={r.inputClassName}
+                  onChange={() => {}}
+                />
+              ))}
+            </React.Fragment>
+          ))}
+        </div>
       </div>
     </div>
   )
