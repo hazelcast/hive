@@ -23,7 +23,6 @@
   font-size: var(--hive-font-size-body-small);
   font-weight: var(--hive-font-weight-text-medium);
   line-height: 1;
-  letter-spacing: -0.0094rem;
 }
 
 .tab > * {
