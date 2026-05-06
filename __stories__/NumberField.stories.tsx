@@ -6,7 +6,7 @@ import { logger } from '../src'
 import { NumberField, NumberFieldProps } from '../src/components/NumberField'
 import { NumberFieldFormik } from '../src/components/NumberFieldFormik'
 
-import styles from '../src/components/TextField.module.scss'
+import styles from '../src/components/TextField.module.css'
 import storyStyles from './TextField.stories.module.scss'
 
 export default {

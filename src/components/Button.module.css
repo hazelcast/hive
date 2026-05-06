@@ -29,7 +29,6 @@
   font-size: var(--hive-font-size-button-small);
   line-height: 1.4286;
   font-weight: var(--hive-font-weight-text-medium);
-  letter-spacing: -0.0094em;
   text-decoration: none;
   cursor: pointer;
   transition:

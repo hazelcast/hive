@@ -1,0 +1,195 @@
+.container {
+  color: var(--hive-color-text-v4);
+  box-sizing: border-box;
+  font-family: var(--hive-font-family-text);
+  font-size: var(--hive-font-size-body-small);
+  font-weight: var(--hive-font-weight-text-regular);
+  line-height: 1;
+}
+
+.container .inputBlock {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.container .inputContainer {
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  height: calc(var(--hive-grid) * 9);
+  background-color: var(--hive-color-neutral-white-v4);
+  border-radius: var(--hive-border-radius);
+}
+
+.container .inputIconContainer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: calc(var(--hive-grid) * 8);
+}
+
+.container .inputTrailingIconContainer {
+  width: auto;
+  margin-right: calc(var(--hive-grid) * 1.5);
+}
+
+.container .inputLeftIconContainer {
+  order: -1;
+}
+
+.container .inputIcon,
+.container .inputIconTrailing {
+  pointer-events: none;
+}
+
+.container .inputIcon {
+  left: calc(var(--hive-grid) * 4);
+  color: var(--hive-color-text-secondary-v4);
+}
+
+.container .inputIconTrailing {
+  right: calc(var(--hive-grid) * -1);
+  color: var(--hive-color-text-secondary-v4);
+}
+
+.container .borderOverlay {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+  z-index: 100;
+  border-radius: var(--hive-border-radius);
+  border: var(--hive-border-width) solid var(--hive-color-border-v4);
+  box-sizing: border-box;
+}
+
+.container input {
+  display: block;
+  flex: 1 1 auto;
+  background-color: transparent;
+  padding: calc(var(--hive-grid) * 1) calc(var(--hive-grid) * 3);
+  margin: 0;
+  border: none;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  color: inherit;
+  height: 100%;
+  width: 100%;
+}
+
+.container input::placeholder {
+  color: var(--hive-color-text-secondary-v4);
+}
+
+.container input::-webkit-search-cancel-button,
+.container input::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.container .clearButton {
+  display: inline-flex;
+  align-items: center;
+  margin-right: calc(var(--hive-grid) * 1.5);
+}
+
+.container.small .inputContainer {
+  height: calc(var(--hive-grid) * 7.5);
+}
+
+.container.large .inputContainer {
+  height: calc(var(--hive-grid) * 13);
+}
+
+.container.mockAutofill input {
+  -webkit-box-shadow: 0 0 0 1000px var(--hive-color-neutral-white-v4) inset;
+  -webkit-text-fill-color: var(--hive-color-text-v4);
+}
+
+.container.withIcon input {
+  padding-left: 0;
+}
+
+.container.empty {
+  color: var(--hive-color-text-secondary-v4);
+}
+
+.container input:hover ~ .borderOverlay,
+.container input.hover ~ .borderOverlay {
+  border-color: var(--hive-color-text-v4);
+}
+
+.container input:hover ~ .inputIconContainer > .inputIcon,
+.container input.hover ~ .inputIconContainer > .inputIcon {
+  color: var(--hive-color-text-v4);
+}
+
+.container.hasError input ~ .borderOverlay {
+  border-color: var(--hive-color-error-v4);
+}
+
+.container.hasError label {
+  color: var(--hive-color-error-v4);
+}
+
+.container.hasError input ~ .inputIconContainer > .inputIcon {
+  color: var(--hive-color-error-v4);
+}
+
+.container input:focus,
+.container input.focus {
+  outline: transparent solid var(--hive-outline-width);
+}
+
+.container input:focus ~ .borderOverlay,
+.container input.focus ~ .borderOverlay {
+  border-color: var(--hive-color-primary-v4);
+  box-shadow: 0 0 0 3px oklch(from var(--hive-color-primary-v4) l c h / 0.5);
+}
+
+.container input:focus ~ .inputIconContainer > .inputIcon,
+.container input.focus ~ .inputIconContainer > .inputIcon {
+  color: var(--hive-color-primary-v4);
+}
+
+.container.disabled {
+  color: var(--hive-color-text-secondary-v4);
+  opacity: 0.5;
+}
+
+.container.disabled .inputContainer {
+  background-color: var(--hive-color-neutral-white-v4);
+}
+
+.container.disabled input ~ .borderOverlay {
+  border-color: var(--hive-color-border-v4);
+}
+
+.container.disabled input ~ .inputIconContainer > .inputIcon,
+.container.disabled input ~ .inputIconContainer > .inputIconTrailing {
+  color: var(--hive-color-text-secondary-v4);
+}
+
+.withError {
+  position: relative;
+  padding-bottom: calc(var(--hive-grid) * 4.75 + var(--hive-grid));
+}
+
+.withError .errorContainer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  height: calc(var(--hive-grid) * 4.75);
+  width: 100%;
+}

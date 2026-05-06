@@ -32,6 +32,7 @@ grep -r "@hazelcast/ui/old" src --include="*.tsx" --include="*.ts"
 | Updated  | `IconButton`  | HIVE 4.0 rebrand; `kind` → `variant`; `size` is `sm`/`md`/`lg`; `padding` removed; SCSS → CSS                                                                                                                                   | ✅              |
 | New      | `ButtonGroup` | Group of joined `Button`s sharing border-radius and shadow                                                                                                                                                                      | n/a             |
 | Updated  | `Toggle`      | HIVE 4.0 pill switch; SCSS → CSS; no ON/OFF label                                                                                                                                                                               | ✅              |
+| Updated  | `TextField`   | HIVE 4.0 rebrand; 36px height; 8px radius; `--hive-*` tokens; SCSS → CSS                                                                                                                                                        | ✅              |
 
 ---
 
@@ -283,6 +284,59 @@ import { Toggle } from '@hazelcast/ui'
 ```
 
 If you relied on the `ON` / `OFF` text node (e.g. in tests with `getByText('ON')`), switch to asserting `checked` on the input or the `aria-checked` state.
+
+---
+
+### `TextField`
+
+Visual redesign to the HIVE 4.0 input: `36px` height (was `40px`), `8px` border-radius (was `4px`), `4px 12px` padding, `Inter Medium 14px` label, `Inter Regular 14px` input text, neutral border on default, brand outline on focus, error border on invalid. All values now come from `--hive-*` design tokens. Styles have been migrated from SCSS (`TextField.module.scss`) to CSS modules (`TextField.module.css`).
+
+The public prop contract is unchanged; only visuals have changed.
+
+**Old import (temporary fallback):**
+
+```ts
+import { TextField, TextFieldFormik } from '@hazelcast/ui/old'
+```
+
+**Prop changes:**
+
+| Prop  | v3              | v4                                 |
+| ----- | --------------- | ---------------------------------- |
+| _all_ | same public API | same — visual-only breaking change |
+
+**Visual / token changes:**
+
+| Aspect           | v3                                                           | v4                                                          |
+| ---------------- | ------------------------------------------------------------ | ----------------------------------------------------------- |
+| Container height | `40px` (`c.$inputHeight`)                                    | `36px` (`calc(var(--hive-grid) * 9)`)                       |
+| Border radius    | `4px` (`c.$borderRadius`)                                    | `8px` (`var(--hive-border-radius)`)                         |
+| Padding          | `c.$grid * 2` vertical / `c.$grid * 3` horizontal            | `4px 12px`                                                  |
+| Border (default) | `c.$colorNeutralLight`                                       | `var(--hive-color-border-v4)`                               |
+| Border (focus)   | `c.$colorPrimary` outline glow                               | `var(--hive-color-primary-v4)` 2px outline                  |
+| Border (error)   | `c.$colorError`                                              | `var(--hive-color-error-v4)`                                |
+| Label            | `c.$colorTextSecondary`                                      | `var(--hive-color-text-v4)`, `Inter Medium 14px`            |
+| Placeholder      | `c.$colorTextSecondary`                                      | `var(--hive-color-text-secondary-v4)`, `Inter Regular 14px` |
+| Helper text      | `12px`                                                       | `12px` (`var(--hive-font-size-body-smaller)`)               |
+| Stylesheet       | `TextField.module.scss` with SCSS `@use`, mixins, `c.$grid…` | `TextField.module.css` using `--hive-*` CSS variables       |
+
+**Before:**
+
+```tsx
+import { TextField } from '@hazelcast/ui'
+;<TextField name="cluster" label="Cluster name" value={value} onChange={onChange} />
+// Renders a 40px-tall input with 4px radius.
+```
+
+**After:**
+
+```tsx
+import { TextField } from '@hazelcast/ui'
+;<TextField name="cluster" label="Cluster name" value={value} onChange={onChange} />
+// Renders a 36px-tall input with 8px radius and HIVE 4.0 colors.
+```
+
+`NumberField`, `PasswordField`, `AutocompleteField`, `TimeField`, and `SelectField` all consume `TextField`-style classes; their visuals follow automatically.
 
 ---
 

@@ -1,0 +1,217 @@
+import { Meta, Title, Canvas, Controls } from '@storybook/blocks'
+import * as TextFieldStories from './TextField.stories'
+import { DocsTabs } from '../.storybook/DocsTabs'
+
+<Meta of={TextFieldStories} name="Docs" />
+
+<Title />
+
+TextField is the canonical control for short, single-line text input. Use it for
+names, identifiers, search terms, URLs, emails and any other free-form value that
+fits on one line. For multi-line content prefer `TextArea`; for numeric input
+prefer `NumberField`; for secrets prefer `PasswordField`.
+
+<DocsTabs tabs={[
+  {
+    id: 'overview',
+    label: 'Overview',
+    content: (
+      <>
+        <Canvas of={TextFieldStories.Playground} />
+
+        <h2>Basic usage</h2>
+
+        <p>TextField is a controlled component. Provide <code>value</code> and an <code>onChange</code> handler that updates state. Pair every field with a visible <code>label</code>.</p>
+
+        <Canvas of={TextFieldStories.Basic} />
+
+        <h2>Sizes</h2>
+
+        <p>Three sizes — <code>small</code> for dense tables and toolbars, <code>medium</code> (default) for most forms, and <code>large</code> for hero forms or onboarding flows.</p>
+
+        <Canvas of={TextFieldStories.Sizes} />
+
+        <h2>Leading icon</h2>
+
+        <p>Use <code>inputIcon</code> to add a glyph that hints at the input&rsquo;s purpose — a magnifier for search, a globe for URLs. Leading icons are decorative; they should never replace a visible label.</p>
+
+        <Canvas of={TextFieldStories.WithIcon} />
+
+        <h2>Trailing icon</h2>
+
+        <p>Use <code>inputTrailingIcon</code> for actions or status. Always pass <code>inputTrailingIconLabel</code> so screen readers announce what the icon represents.</p>
+
+        <Canvas of={TextFieldStories.WithTrailingIcon} />
+
+        <h2>Helper text</h2>
+
+        <p>Use <code>helperText</code> for short hints — character limits, allowed formats, or links to docs. The help icon renders inline with the label and reveals the message in a tooltip.</p>
+
+        <Canvas of={TextFieldStories.WithHelperText} />
+
+        <h2>Error</h2>
+
+        <p>Set <code>error</code> to surface a validation message inline. The input becomes <code>aria-invalid</code> and the message is announced to assistive tech.</p>
+
+        <Canvas of={TextFieldStories.WithError} />
+
+        <h2>Clear button</h2>
+
+        <p>Set <code>clearable</code> to render a trailing clear button when the field has a value. Particularly useful for search inputs.</p>
+
+        <Canvas of={TextFieldStories.WithClearButton} />
+
+        <h2>Disabled</h2>
+
+        <p>Disable a field when its value cannot be edited in the current context. Always pair with surrounding context that explains why.</p>
+
+        <Canvas of={TextFieldStories.Disabled} />
+
+        <hr />
+
+        <h2>Visual states</h2>
+
+        <p>QA matrix for engineers verifying CSS changes. Interactive states are forced via classes that mirror the real <code>:hover</code> and <code>:focus</code> rules.</p>
+
+        <Canvas of={TextFieldStories.States} />
+
+        <h2>With Formik</h2>
+
+        <p>Use <code>TextFieldFormik</code> for forms managed by Formik. It wires <code>value</code>, <code>onChange</code>, and validation errors automatically — pass <code>name</code> and an optional <code>validate</code> function.</p>
+
+        <Canvas of={TextFieldStories.WithFormik} />
+
+        <h2>Legacy v3</h2>
+
+        <p>The v3 TextField is preserved for gradual migration. Import from <code>@hazelcast/ui/old</code>. New code should use the TextField above.</p>
+
+        <Canvas of={TextFieldStories.LegacyV3} />
+
+        <h2>Props</h2>
+
+        <Controls of={TextFieldStories.Playground} />
+      </>
+    ),
+  },
+  {
+    id: 'guidelines',
+    label: 'Guidelines',
+    content: (
+      <>
+        <h2>Anatomy</h2>
+
+        <p>A TextField is composed of:</p>
+
+        <ul>
+          <li>a <strong>label</strong> — names the field; required for every input</li>
+          <li>an optional <strong>helper</strong> — a tooltip-on-icon that explains the expected input</li>
+          <li>the <strong>input</strong> — the text-entry surface itself</li>
+          <li>an optional <strong>leading icon</strong> — a decorative glyph that hints at purpose</li>
+          <li>an optional <strong>trailing icon</strong> or <strong>clear button</strong> — for actions or status</li>
+          <li>an optional <strong>error message</strong> — surfaces validation issues inline</li>
+        </ul>
+
+        <h2>When to use a TextField</h2>
+
+        <ul>
+          <li>For short, single-line free-form input — names, IDs, URLs, emails, search terms.</li>
+          <li>When the value can be anything the user types and you don&rsquo;t have a fixed list of options.</li>
+        </ul>
+
+        <h3>When <em>not</em> to use a TextField</h3>
+
+        <ul>
+          <li>For multi-line content (descriptions, comments) → use a <code>TextArea</code>.</li>
+          <li>For numbers with steppers or units → use a <code>NumberField</code>.</li>
+          <li>For passwords or secrets → use a <code>PasswordField</code>.</li>
+          <li>For a fixed list of options → use a <code>SelectField</code> or <code>RadioGroup</code>.</li>
+        </ul>
+
+        <h2>Labels and placeholders</h2>
+
+        <ul>
+          <li>Always provide a visible <strong>label</strong>. It describes what the field is for and doubles as the accessible name.</li>
+          <li>Use <strong>placeholders for examples</strong>, not instructions (<code>e.g. production-eu</code> rather than <code>Enter cluster name</code>).</li>
+          <li>Don&rsquo;t use the placeholder as a substitute for the label — it disappears once the user types and is unreliable for screen readers.</li>
+          <li>Use sentence case. Keep labels concise.</li>
+        </ul>
+
+        <h2>Helper text vs error</h2>
+
+        <ul>
+          <li>Use <code>helperText</code> proactively — character limits, allowed formats, links to docs.</li>
+          <li>Use <code>error</code> reactively — show only after the user has attempted a value or submitted the form.</li>
+          <li>Keep error messages actionable — say what to fix, not just what&rsquo;s wrong.</li>
+        </ul>
+
+        <h2>Do &amp; Don&rsquo;t</h2>
+
+        <Canvas of={TextFieldStories.DoVsDont} />
+
+        <h2>Sizing</h2>
+
+        <p>Pick one size per form. Mixing sizes within the same form creates visual noise. Use <code>small</code> in compact contexts (tables, toolbars), <code>medium</code> for standard forms, and <code>large</code> for marketing or onboarding surfaces where the field is the focal point.</p>
+
+        <h2>Grouping</h2>
+
+        <p>Align labels and inputs vertically. Group related fields with section headings. Avoid horizontal layouts unless the fields are obviously related (e.g. first/last name).</p>
+      </>
+    ),
+  },
+  {
+    id: 'accessibility',
+    label: 'Accessibility',
+    content: (
+      <>
+        <p>TextField renders a real <code>{'<input>'}</code> element. Most accessibility comes for free — the notes below cover edge cases.</p>
+
+        <h2>Accessible name</h2>
+
+        <p>The visible label is the accessible name (wired up via <code>htmlFor</code>). Never omit the label. If a design calls for a label-less field (rare), associate the input with an external label via <code>aria-labelledby</code>.</p>
+
+        <h2>Placeholders are not labels</h2>
+
+        <p>Placeholder text disappears once the user types and has poor contrast by design. Don&rsquo;t use it as the only descriptor of a field — screen readers may skip it and users with cognitive differences lose context.</p>
+
+        <h2>Input type</h2>
+
+        <p>Pick the <code>type</code> that matches the data — <code>email</code>, <code>url</code>, <code>tel</code>, <code>search</code>. Mobile keyboards adapt to the type, and browsers can validate basic patterns automatically.</p>
+
+        <h2>Required fields</h2>
+
+        <p>Mark required fields with <code>required</code>. The label renders an asterisk and the input gets <code>aria-required</code>. Avoid marking optional fields — clutter scales poorly.</p>
+
+        <h2>Errors</h2>
+
+        <p>When using <code>error</code>, the message is associated with the input via <code>aria-errormessage</code> and the input gets <code>aria-invalid="true"</code>. Screen readers announce the error on focus. Keep error text actionable.</p>
+
+        <h2>Disabled fields</h2>
+
+        <p>A disabled field is not focusable and is invisible to screen readers in forms mode. Only disable when the value is structurally locked. If the user needs to know <em>why</em>, surface that explanation in surrounding text.</p>
+
+        <h2>Keyboard</h2>
+
+        <ul>
+          <li><code>Tab</code> moves focus into the field.</li>
+          <li>A visible focus ring is shown on <code>:focus-visible</code>. <strong>Don&rsquo;t override it.</strong></li>
+          <li>The clear button (when <code>clearable</code>) is reachable with <code>Tab</code> and activatable with <code>Enter</code> or <code>Space</code>.</li>
+        </ul>
+
+        <h2>Color contrast</h2>
+
+        <p>The default border, label, placeholder and error colors all meet WCAG AA against the input background. Don&rsquo;t override them with custom CSS for decorative reasons.</p>
+
+        <h2>Testing checklist</h2>
+
+        <ul>
+          <li>Every TextField has a visible label associated via <code>htmlFor</code>.</li>
+          <li>The <code>type</code> attribute matches the data.</li>
+          <li>Required fields are marked with <code>required</code>.</li>
+          <li>Error messages are actionable and announced on focus.</li>
+          <li>The field can be reached and edited with the keyboard alone.</li>
+          <li>The focus ring is visible on <code>:focus-visible</code>.</li>
+        </ul>
+      </>
+    ),
+  },
+]} />
