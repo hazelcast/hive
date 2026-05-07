@@ -198,7 +198,14 @@ export const Open = () => {
     <div className={s.section}>
       <Caption>The open menu attaches directly to the control with no gap. Hover and selected fills mirror SelectField.</Caption>
       <div style={{ width: 320, height: 360 }}>
-        <AutocompleteField name="open" label="Character" options={options} value={value} onChange={setValue} defaultMenuIsOpen />
+        <AutocompleteField
+          name="open"
+          label="Character"
+          options={options}
+          value={value}
+          onChange={setValue}
+          {...({ menuIsOpen: true } as object)}
+        />
       </div>
     </div>
   )

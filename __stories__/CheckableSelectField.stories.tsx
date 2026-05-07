@@ -60,6 +60,7 @@ export default {
     options,
     value: [options[1].value],
     noOptionsMessage: 'No options',
+    'data-test': 'checkable-select-field',
     onBlur: () => logger.log('blur'),
   },
 } as Meta<Args>
@@ -100,10 +101,18 @@ export const Basic = () => {
             options={options}
             value={a}
             onChange={setA}
+            data-test="basic-empty"
           />
         </Cell>
         <Cell label="Multiple">
-          <CheckableSelectField name="basic-filled" label="Characters" options={options} value={b} onChange={setB} />
+          <CheckableSelectField
+            name="basic-filled"
+            label="Characters"
+            options={options}
+            value={b}
+            onChange={setB}
+            data-test="basic-filled"
+          />
         </Cell>
       </div>
     </div>
@@ -117,7 +126,15 @@ export const Open = () => {
     <div className={s.section}>
       <Caption>The open dropdown shows checkable rows with a search input. Selection persists as the user filters.</Caption>
       <div style={{ width: 360, height: 380 }}>
-        <CheckableSelectField name="open" label="Characters" options={options} value={value} onChange={setValue} defaultOpen />
+        <CheckableSelectField
+          name="open"
+          label="Characters"
+          options={options}
+          value={value}
+          onChange={setValue}
+          defaultOpen
+          data-test="open"
+        />
       </div>
     </div>
   )
@@ -139,6 +156,7 @@ export const WithHelperText = () => {
           value={value}
           onChange={setValue}
           helperText="Pick anyone you align with."
+          data-test="helper"
         />
       </div>
     </div>
@@ -152,7 +170,15 @@ export const WithError = () => (
       Set <strong>error</strong> to surface a validation message inline.
     </Caption>
     <div style={{ width: 360 }}>
-      <CheckableSelectField name="error" label="Characters" options={options} value={[]} error="Pick at least one" onChange={() => {}} />
+      <CheckableSelectField
+        name="error"
+        label="Characters"
+        options={options}
+        value={[]}
+        error="Pick at least one"
+        onChange={() => {}}
+        data-test="error"
+      />
     </div>
   </div>
 )
@@ -162,7 +188,15 @@ export const Disabled = () => (
   <div className={s.section}>
     <Caption>Use disabled when the field cannot be edited.</Caption>
     <div style={{ width: 360 }}>
-      <CheckableSelectField name="disabled" label="Characters" options={options} value={[options[1].value]} disabled onChange={() => {}} />
+      <CheckableSelectField
+        name="disabled"
+        label="Characters"
+        options={options}
+        value={[options[1].value]}
+        disabled
+        onChange={() => {}}
+        data-test="disabled"
+      />
     </div>
   </div>
 )
@@ -172,7 +206,15 @@ export const NoOptions = () => (
   <div className={s.section}>
     <Caption>The empty-options state shows the configured fallback message.</Caption>
     <div style={{ width: 360, height: 220 }}>
-      <CheckableSelectField name="empty" label="Characters" options={[]} value={[]} defaultOpen onChange={() => {}} />
+      <CheckableSelectField<string>
+        name="empty"
+        label="Characters"
+        options={[]}
+        value={[]}
+        defaultOpen
+        onChange={() => {}}
+        data-test="empty"
+      />
     </div>
   </div>
 )
@@ -190,7 +232,13 @@ export const WithFormik = () => {
         <Formik<Values> initialValues={{ characters: [options[1].value] }} onSubmit={(values) => logger.log('submit', values)}>
           {({ values }) => (
             <Form>
-              <CheckableSelectFieldFormik<Values> name="characters" label="Characters" options={options} validate={validate} />
+              <CheckableSelectFieldFormik<Values>
+                name="characters"
+                label="Characters"
+                options={options}
+                validate={validate}
+                data-test="formik"
+              />
               <pre style={{ marginTop: 12 }}>{JSON.stringify(values, null, 2)}</pre>
               <button type="submit">Submit</button>
             </Form>
@@ -216,6 +264,7 @@ export const LegacyV3 = () => {
           options={options}
           value={value}
           onChange={setValue}
+          data-test="legacy"
         />
       </div>
     </div>
