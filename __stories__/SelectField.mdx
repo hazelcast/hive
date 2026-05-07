@@ -1,0 +1,199 @@
+import { Meta, Title, Canvas, Controls } from '@storybook/blocks'
+import * as SelectFieldStories from './SelectField.stories'
+import { DocsTabs } from '../.storybook/DocsTabs'
+
+<Meta of={SelectFieldStories} name="Docs" />
+
+<Title />
+
+SelectField lets users pick **one** value from a fixed list of options. Use it
+when the list is too long for radio buttons but short enough that a free-text
+field would be wrong. For multiple selection use `MultiSelectField` or
+`CheckableSelectField`. For very long lists where the user is likely to type,
+prefer `AutocompleteField`.
+
+<DocsTabs tabs={[
+  {
+    id: 'overview',
+    label: 'Overview',
+    content: (
+      <>
+        <Canvas of={SelectFieldStories.Playground} />
+
+        <h2>Basic usage</h2>
+
+        <p>SelectField is a controlled component. Provide <code>value</code> and an <code>onChange</code> handler that updates state. Pair every field with a visible <code>label</code>.</p>
+
+        <Canvas of={SelectFieldStories.Basic} />
+
+        <h2>Sizes</h2>
+
+        <p>Two sizes — <code>small</code> for dense tables and toolbars, <code>medium</code> (default) for most forms.</p>
+
+        <Canvas of={SelectFieldStories.Sizes} />
+
+        <h2>Open menu</h2>
+
+        <p>The menu opens on click and closes on outside click or Escape. Hover and selected rows have distinct fills so the active option is always obvious.</p>
+
+        <Canvas of={SelectFieldStories.Open} />
+
+        <h2>Leading icon</h2>
+
+        <p>Use <code>iconLeft</code> to add a glyph that hints at the field&rsquo;s purpose. Always pass <code>iconLeftAriaLabel</code> so screen readers announce what the icon represents.</p>
+
+        <Canvas of={SelectFieldStories.WithIcon} />
+
+        <h2>Helper text</h2>
+
+        <p>Use <code>helperText</code> for short hints. The help icon renders inline with the label and reveals the message in a tooltip.</p>
+
+        <Canvas of={SelectFieldStories.WithHelperText} />
+
+        <h2>Error</h2>
+
+        <p>Set <code>error</code> to surface a validation message inline. The control becomes <code>aria-invalid</code>.</p>
+
+        <Canvas of={SelectFieldStories.WithError} />
+
+        <h2>Clearable</h2>
+
+        <p>Set <code>isClearable</code> to render a clear affordance when the field has a value. Particularly useful for filter UIs.</p>
+
+        <Canvas of={SelectFieldStories.Clearable} />
+
+        <h2>Disabled</h2>
+
+        <p>Disable a field when its value cannot be edited in the current context. Always pair with surrounding context that explains why.</p>
+
+        <Canvas of={SelectFieldStories.Disabled} />
+
+        <h2>Grouped options</h2>
+
+        <p>Pass groups of options to break up long lists. Group headings are not selectable.</p>
+
+        <Canvas of={SelectFieldStories.Grouped} />
+
+        <h2>Long option labels</h2>
+
+        <p>Long labels truncate with a tooltip preserving the full value. Avoid relying on this — short labels are more scannable.</p>
+
+        <Canvas of={SelectFieldStories.LongOptions} />
+
+        <hr />
+
+        <h2>Visual states</h2>
+
+        <p>QA matrix for engineers verifying CSS changes. Interactive states are forced via classes that mirror the real <code>:hover</code> and <code>:focus</code> rules.</p>
+
+        <Canvas of={SelectFieldStories.States} />
+
+        <h2>With Formik</h2>
+
+        <p>Use <code>SelectFieldFormik</code> for forms managed by Formik. It wires <code>value</code>, <code>onChange</code>, and validation errors automatically — pass <code>name</code> and an optional <code>validate</code> function.</p>
+
+        <Canvas of={SelectFieldStories.WithFormik} />
+
+        <h2>Legacy v3</h2>
+
+        <p>The v3 SelectField is preserved for gradual migration. Import from <code>@hazelcast/ui/old</code>. New code should use the SelectField above.</p>
+
+        <Canvas of={SelectFieldStories.LegacyV3} />
+
+        <h2>Props</h2>
+
+        <Controls of={SelectFieldStories.Playground} />
+      </>
+    ),
+  },
+  {
+    id: 'guidelines',
+    label: 'Guidelines',
+    content: (
+      <>
+        <h2>Anatomy</h2>
+
+        <p>A SelectField is composed of:</p>
+
+        <ul>
+          <li>a <strong>label</strong> — names the field; required for every select</li>
+          <li>an optional <strong>helper</strong> — a tooltip-on-icon that explains the choice</li>
+          <li>the <strong>control</strong> — the closed surface showing the current value or placeholder</li>
+          <li>an optional <strong>leading icon</strong> — a decorative glyph that hints at purpose</li>
+          <li>a <strong>menu</strong> — the floating list of options shown when open</li>
+          <li>an optional <strong>error message</strong> — surfaces validation inline</li>
+        </ul>
+
+        <h2>When to use a SelectField</h2>
+
+        <ul>
+          <li>For a single choice from a fixed list of options.</li>
+          <li>When the list is too long for a <code>RadioGroup</code> (~6+) but the user shouldn&rsquo;t type free text.</li>
+          <li>When the values are known up front and don&rsquo;t need server-side filtering.</li>
+        </ul>
+
+        <h3>When <em>not</em> to use a SelectField</h3>
+
+        <ul>
+          <li>For 2–5 options that fit on one row → use a <code>RadioGroup</code> or <code>SegmentedControl</code>.</li>
+          <li>For multiple selection → use <code>MultiSelectField</code> or <code>CheckableSelectField</code>.</li>
+          <li>When users will likely type to filter → use <code>AutocompleteField</code>.</li>
+          <li>For free-form text → use <code>TextField</code>.</li>
+        </ul>
+
+        <h2>Labels and placeholders</h2>
+
+        <ul>
+          <li>Always provide a visible <strong>label</strong>.</li>
+          <li>The placeholder is the <strong>empty hint</strong> (&ldquo;Select an option&rdquo;), not an instruction.</li>
+          <li>Use sentence case. Keep labels concise.</li>
+        </ul>
+
+        <h2>Option labels</h2>
+
+        <ul>
+          <li>Keep option labels short and scannable. Avoid duplicating prefixes (&ldquo;Project A&rdquo;, &ldquo;Project B&rdquo; — drop &ldquo;Project&rdquo;).</li>
+          <li>Sort logically — alphabetical, by frequency, or by domain order. Don&rsquo;t shuffle randomly.</li>
+        </ul>
+
+        <h2>Grouping</h2>
+
+        <p>Group long lists with section headings (Dark Side / Light Side). Don&rsquo;t group fewer than ~6 options — the noise outweighs the structure.</p>
+      </>
+    ),
+  },
+  {
+    id: 'accessibility',
+    label: 'Accessibility',
+    content: (
+      <>
+        <p>SelectField wraps <a href="https://react-select.com">react-select</a> with HIVE styling. Most accessibility comes for free — the notes below cover edge cases.</p>
+
+        <h2>Accessible name</h2>
+
+        <p>The visible label is the accessible name. Never omit the label. If a design calls for a label-less control (rare), pass <code>showAriaLabel</code> and the label still drives the accessible name even though it&rsquo;s visually hidden.</p>
+
+        <h2>Keyboard</h2>
+
+        <ul>
+          <li><code>Tab</code> moves focus to the control. <code>Space</code> or <code>Enter</code> opens the menu.</li>
+          <li><code>↑</code>/<code>↓</code> move highlight; <code>Enter</code> selects.</li>
+          <li><code>Esc</code> closes the menu without changing the value.</li>
+          <li>Type to filter (when the field is searchable).</li>
+        </ul>
+
+        <h2>Errors</h2>
+
+        <p>When using <code>error</code>, the message is announced via <code>aria-errormessage</code> and the control gets <code>aria-invalid="true"</code>.</p>
+
+        <h2>Disabled fields</h2>
+
+        <p>Disabled SelectFields are not focusable. Only disable when the value is structurally locked. If the user needs to know <em>why</em>, surface that explanation in surrounding text.</p>
+
+        <h2>Color contrast</h2>
+
+        <p>Border, text and option fills meet WCAG AA at all interactive states. Don&rsquo;t override the focus halo with custom CSS.</p>
+      </>
+    ),
+  },
+]} />

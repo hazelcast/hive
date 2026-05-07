@@ -92,22 +92,28 @@
   box-shadow: 0 0 0 3px oklch(from var(--hive-color-primary-v4) l c h / 0.5);
 }
 
+.container :global(.hz-autocomplete-field__control--menu-is-open),
+.container :global(.hz-autocomplete-field__control--is-focused.hz-autocomplete-field__control--menu-is-open) {
+  border-color: var(--hive-color-border-v4);
+  box-shadow: none;
+}
+
 .container.hasError.focus :global(.hz-autocomplete-field__control),
 .container.hasError :global(.hz-autocomplete-field__control--is-focused) {
   border-color: var(--hive-color-error-v4);
   box-shadow: 0 0 0 3px oklch(from var(--hive-color-error-v4) l c h / 0.4);
 }
 
+.container.hasError :global(.hz-autocomplete-field__control--menu-is-open) {
+  border-color: var(--hive-color-error-v4);
+  box-shadow: none;
+}
+
 .menuContainer :global(.hz-autocomplete-field__menu-portal) {
   z-index: 2000;
 }
 
-.menuContainer :global(.hz-autocomplete-field__matched-option-text) {
-  font-weight: var(--hive-font-weight-text-bold);
-  color: var(--hive-color-text-v4);
-}
-
-.menuContainer :global(.hz-autocomplete-field__menu) {
+.menuContainer.menuContainer :global(.hz-autocomplete-field__menu) {
   margin-top: 0;
   margin-bottom: calc(var(--hive-grid) * 1);
   border: var(--hive-border-width) solid var(--hive-color-border-v4);
@@ -128,27 +134,38 @@
   color: var(--hive-color-text-v4);
 }
 
-.menuContainer :global(.hz-autocomplete-field__option),
-.menuContainer :global(.hz-autocomplete-field__menu-notice) {
+.menuContainer.menuContainer :global(.hz-autocomplete-field__option),
+.menuContainer.menuContainer :global(.hz-autocomplete-field__menu-notice) {
   min-height: calc(var(--hive-grid) * 10);
   line-height: calc(var(--hive-grid) * 10);
   padding: 0 calc(var(--hive-grid) * 3);
   background-color: transparent;
-  outline: var(--hive-outline-width) solid transparent;
+  outline: none;
   text-align: left;
   white-space: pre;
   cursor: pointer;
   color: var(--hive-color-text-v4);
+  text-decoration: none;
 }
 
-.menuContainer :global(.hz-autocomplete-field__option--is-focused) {
+.menuContainer.menuContainer :global(.hz-autocomplete-field__option--is-focused) {
   background-color: var(--hive-color-surface-hover-v4);
+  outline: none;
+  box-shadow: none;
 }
 
-.menuContainer :global(.hz-autocomplete-field__option--is-selected) {
+.menuContainer.menuContainer :global(.hz-autocomplete-field__option--is-selected) {
   background-color: var(--hive-color-surface-active-v4);
   color: var(--hive-color-text-v4);
   font-weight: var(--hive-font-weight-text-medium);
+  text-decoration: none;
+  box-shadow: none;
+}
+
+.menuContainer.menuContainer :global(.hz-autocomplete-field__matched-option-text) {
+  font-weight: var(--hive-font-weight-text-bold);
+  color: var(--hive-color-text-v4);
+  text-decoration: none;
 }
 
 .withError {

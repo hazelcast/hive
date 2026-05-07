@@ -1,0 +1,107 @@
+import { Meta, Title, Canvas, Controls } from '@storybook/blocks'
+import * as CheckableSelectFieldStories from './CheckableSelectField.stories'
+import { DocsTabs } from '../.storybook/DocsTabs'
+
+<Meta of={CheckableSelectFieldStories} name="Docs" />
+
+<Title />
+
+CheckableSelectField is a multi-select that opens a dedicated panel with a
+search input and explicit checkboxes for each option. Use it when users routinely
+pick many values, want to filter as they go, and need the dropdown to stay open
+across selections. For inline-chip multi-select, prefer `MultiSelectField`.
+
+<DocsTabs tabs={[
+  {
+    id: 'overview',
+    label: 'Overview',
+    content: (
+      <>
+        <Canvas of={CheckableSelectFieldStories.Playground} />
+
+        <h2>Basic usage</h2>
+
+        <p>CheckableSelectField is a controlled component. Provide <code>value</code> (an array) and an <code>onChange</code> handler. The label is required.</p>
+
+        <Canvas of={CheckableSelectFieldStories.Basic} />
+
+        <h2>Open panel</h2>
+
+        <p>The open panel shows a search input and a checkable list. Selecting a row toggles its inclusion in <code>value</code>; the panel doesn&rsquo;t close on selection.</p>
+
+        <Canvas of={CheckableSelectFieldStories.Open} />
+
+        <h2>Helper text</h2>
+
+        <Canvas of={CheckableSelectFieldStories.WithHelperText} />
+
+        <h2>Error</h2>
+
+        <Canvas of={CheckableSelectFieldStories.WithError} />
+
+        <h2>Disabled</h2>
+
+        <Canvas of={CheckableSelectFieldStories.Disabled} />
+
+        <h2>No options</h2>
+
+        <Canvas of={CheckableSelectFieldStories.NoOptions} />
+
+        <h2>With Formik</h2>
+
+        <Canvas of={CheckableSelectFieldStories.WithFormik} />
+
+        <h2>Legacy v3</h2>
+
+        <p>The v3 CheckableSelectField is preserved for gradual migration. Import from <code>@hazelcast/ui/old</code>.</p>
+
+        <Canvas of={CheckableSelectFieldStories.LegacyV3} />
+
+        <h2>Props</h2>
+
+        <Controls of={CheckableSelectFieldStories.Playground} />
+      </>
+    ),
+  },
+  {
+    id: 'guidelines',
+    label: 'Guidelines',
+    content: (
+      <>
+        <h2>When to use</h2>
+
+        <ul>
+          <li>For multi-select on long lists where users want to filter and pick several values in one pass.</li>
+          <li>When the selected count is more important than the names of the selected values inline.</li>
+        </ul>
+
+        <h3>When <em>not</em> to use</h3>
+
+        <ul>
+          <li>For 2–5 options → use <code>RadioGroup</code> or a stack of <code>Checkbox</code>es.</li>
+          <li>For one selection → use <code>SelectField</code>.</li>
+          <li>When chips inline matter more than checkboxes → use <code>MultiSelectField</code>.</li>
+        </ul>
+      </>
+    ),
+  },
+  {
+    id: 'accessibility',
+    label: 'Accessibility',
+    content: (
+      <>
+        <h2>Keyboard</h2>
+
+        <ul>
+          <li><code>Tab</code> focuses the control. <code>Space</code> or <code>Enter</code> opens the panel.</li>
+          <li>Inside the panel, the search input takes focus first. <code>Tab</code> moves through options; <code>Space</code> toggles selection.</li>
+          <li><code>Esc</code> closes the panel.</li>
+        </ul>
+
+        <h2>Errors</h2>
+
+        <p>When using <code>error</code>, the message is announced via <code>aria-errormessage</code> and the control gets <code>aria-invalid="true"</code>.</p>
+      </>
+    ),
+  },
+]} />
