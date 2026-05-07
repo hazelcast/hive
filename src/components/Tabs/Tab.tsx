@@ -4,7 +4,7 @@ import cn from 'classnames'
 import { useTabContext, getTabId, getPanelId } from './TabContext'
 import { keyIsOneOf } from '../../utils/keyboard'
 
-import styles from './Tab.module.scss'
+import styles from './Tab.module.css'
 
 export type AnchorTabProps = {
   component: 'a'
