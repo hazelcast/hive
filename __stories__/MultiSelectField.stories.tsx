@@ -8,7 +8,7 @@ import { SelectFieldOption } from '../src/components/Select/helpers'
 import { MultiSelectFieldFormik } from '../src/components/Select/MultiSelectFieldFormik'
 import { LONG_MULTIPLE_WORD_TEXT, LONG_ONE_WORD_TEXT } from './constants'
 
-import styles from '../src/components/Select/SelectField.module.scss'
+import styles from '../src/components/Select/SelectField.module.css'
 import { GroupBase } from 'react-select'
 
 const options: SelectFieldOption<string>[] = [

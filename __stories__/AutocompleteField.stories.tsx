@@ -4,7 +4,7 @@ import { Check } from 'react-feather'
 import { Formik, Form } from 'formik'
 
 import { AutocompleteField, AutocompleteFieldOption, RenderOptionFunction } from '../src/components/AutocompleteField'
-import styles from '../src/components/AutocompleteField.module.scss'
+import styles from '../src/components/AutocompleteField.module.css'
 import { AutocompleteFieldFormik } from '../src/components/AutocompleteFieldFormik'
 
 export default {

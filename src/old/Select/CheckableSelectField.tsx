@@ -3,15 +3,15 @@ import { Check, ChevronDown, ChevronUp, Minus } from 'react-feather'
 import { useUID } from 'react-uid'
 import cls from 'classnames'
 
-import { Popover } from '../Popover'
-import { Link } from '../Link'
+import { Popover } from '../../components/Popover'
+import { Link } from '../../components/Link'
 import { SelectFieldOption } from './helpers'
 import { TextField } from '../TextField'
-import { HelpProps } from '../Help'
+import { HelpProps } from '../../components/Help'
 import { useOpenCloseState } from '../../hooks'
-import { TruncatedText } from '../TruncatedText'
+import { TruncatedText } from '../../components/TruncatedText'
 
-import styles from './CheckableSelectField.module.css'
+import styles from './CheckableSelectFieldLegacy.module.scss'
 
 export type CheckableSelectFieldCoreStaticProps<V> = {
   name: string

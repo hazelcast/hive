@@ -24,15 +24,17 @@ grep -r "@hazelcast/ui/old" src --include="*.tsx" --include="*.ts"
 
 <!-- Updated as v4 is built. -->
 
-| Category | Component     | Change                                                                                                                                                                                                                          | `/old` fallback |
-| -------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- |
-| Updated  | `Tooltip`     | Radix UI base; new props; no render-prop children                                                                                                                                                                               | ✅              |
-| Updated  | `Badge`       | `size` prop removed; borders + 8px radius added                                                                                                                                                                                 | ❌              |
-| Updated  | `Button`      | HIVE 4.0 rebrand; `color` × `variant` axes (variant: contained/outlined/ghost/link, color: primary/secondary/warning/danger); `tooltipColor` removed; `size` reintroduced (`small`/`regular`); `capitalize` removed; SCSS → CSS | ✅              |
-| Updated  | `IconButton`  | HIVE 4.0 rebrand; `kind` → `variant`; `size` is `sm`/`md`/`lg`; `padding` removed; SCSS → CSS                                                                                                                                   | ✅              |
-| New      | `ButtonGroup` | Group of joined `Button`s sharing border-radius and shadow                                                                                                                                                                      | n/a             |
-| Updated  | `Toggle`      | HIVE 4.0 pill switch; SCSS → CSS; no ON/OFF label                                                                                                                                                                               | ✅              |
-| Updated  | `TextField`   | HIVE 4.0 rebrand; 36px height; 8px radius; `--hive-*` tokens; SCSS → CSS                                                                                                                                                        | ✅              |
+| Category | Component                                                   | Change                                                                                                                                                                                                                          | `/old` fallback |
+| -------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- |
+| Updated  | `Tooltip`                                                   | Radix UI base; new props; no render-prop children                                                                                                                                                                               | ✅              |
+| Updated  | `Badge`                                                     | `size` prop removed; borders + 8px radius added                                                                                                                                                                                 | ❌              |
+| Updated  | `Button`                                                    | HIVE 4.0 rebrand; `color` × `variant` axes (variant: contained/outlined/ghost/link, color: primary/secondary/warning/danger); `tooltipColor` removed; `size` reintroduced (`small`/`regular`); `capitalize` removed; SCSS → CSS | ✅              |
+| Updated  | `IconButton`                                                | HIVE 4.0 rebrand; `kind` → `variant`; `size` is `sm`/`md`/`lg`; `padding` removed; SCSS → CSS                                                                                                                                   | ✅              |
+| New      | `ButtonGroup`                                               | Group of joined `Button`s sharing border-radius and shadow                                                                                                                                                                      | n/a             |
+| Updated  | `Toggle`                                                    | HIVE 4.0 pill switch; SCSS → CSS; no ON/OFF label                                                                                                                                                                               | ✅              |
+| Updated  | `TextField`                                                 | HIVE 4.0 rebrand; 36px height; 8px radius; `--hive-*` tokens; SCSS → CSS                                                                                                                                                        | ✅              |
+| Updated  | `SelectField` / `MultiSelectField` / `CheckableSelectField` | HIVE 4.0 rebrand; 36px height; 8px radius; new menu surface + hover/selected states; `--hive-*` tokens; SCSS → CSS                                                                                                              | ✅              |
+| Updated  | `AutocompleteField`                                         | HIVE 4.0 rebrand; 36px height; 8px radius; new menu surface + hover/selected states; `--hive-*` tokens; SCSS → CSS                                                                                                              | ✅              |
 
 ---
 
@@ -337,6 +339,55 @@ import { TextField } from '@hazelcast/ui'
 ```
 
 `NumberField`, `PasswordField`, `AutocompleteField`, `TimeField`, and `SelectField` all consume `TextField`-style classes; their visuals follow automatically.
+
+---
+
+### `SelectField` / `MultiSelectField` / `CheckableSelectField`
+
+Visual redesign of the entire `react-select`-based stack to the HIVE 4.0 input + menu surface: `36px` control height (was `40px`), `8px` border-radius (was `4px`), brand-color focus halo, neutral-on-hover and gray-on-selected option rows, and a soft elevation shadow on the menu. All values come from `--hive-*` design tokens. Styles have been migrated from SCSS modules to CSS modules.
+
+The public prop contract is unchanged; only visuals have changed. The same applies to the `*FieldFormik` wrappers.
+
+**Old import (temporary fallback):**
+
+```ts
+import {
+  SelectField,
+  SelectFieldFormik,
+  MultiSelectField,
+  MultiSelectFieldFormik,
+  CheckableSelectField,
+  CheckableSelectFieldFormik,
+} from '@hazelcast/ui/old'
+```
+
+**Visual / token changes:**
+
+| Aspect            | v3                                                   | v4                                               |
+| ----------------- | ---------------------------------------------------- | ------------------------------------------------ |
+| Control height    | `40px`                                               | `36px` (`calc(var(--hive-grid) * 9)`)            |
+| Border radius     | `4px`                                                | `8px` (`var(--hive-border-radius)`)              |
+| Border (default)  | `c.$colorNeutralLight`                               | `var(--hive-color-border-v4)`                    |
+| Border (hover)    | `c.$colorPrimary`                                    | `var(--hive-color-text-v4)`                      |
+| Border (focus)    | `c.$colorPrimary` outline glow                       | `var(--hive-color-primary-v4)` + 3px halo        |
+| Menu shadow       | `c.$selectMenuShadowSize` SCSS variable              | `0 4px 12px oklch(0 0 0 / 0.08)` soft elevation  |
+| Option (hover)    | `c.$colorNeutral`                                    | `var(--hive-color-surface-hover-v4)`             |
+| Option (selected) | `c.$colorPrimary` text                               | `var(--hive-color-surface-active-v4)` filled row |
+| Stylesheet        | `*.module.scss` with SCSS `@use`, mixins, `c.$grid…` | `*.module.css` using `--hive-*` CSS variables    |
+
+---
+
+### `AutocompleteField`
+
+Same HIVE 4.0 redesign as `SelectField`, with the autocomplete-specific dropdown that visually attaches to the bottom of the control (no top border on the menu, top corners square on the open control).
+
+The public prop contract is unchanged.
+
+**Old import (temporary fallback):**
+
+```ts
+import { AutocompleteField, AutocompleteFieldFormik } from '@hazelcast/ui/old'
+```
 
 ---
 

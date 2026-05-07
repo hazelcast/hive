@@ -1,0 +1,108 @@
+.panel {
+  z-index: 2000;
+}
+
+.opener input {
+  cursor: pointer;
+}
+
+.opener.withPermanentPlaceholder input {
+  color: var(--hive-color-text-secondary-v4);
+}
+
+.dropdown {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: calc(var(--hive-grid) * 5);
+  box-shadow:
+    0 4px 12px oklch(0 0 0 / 0.08),
+    0 1px 3px oklch(0 0 0 / 0.06);
+  border-radius: var(--hive-border-radius);
+  background: var(--hive-color-neutral-white-v4);
+  border: var(--hive-border-width) solid var(--hive-color-border-v4);
+}
+
+.options {
+  display: flex;
+  overflow: auto;
+  max-height: 300px;
+  flex-direction: column;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--hive-grid) * 2);
+  margin-bottom: calc(var(--hive-grid) * 2);
+}
+
+.searchField {
+  flex-grow: 1;
+}
+
+.option {
+  background: transparent;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  text-align: left;
+  flex-shrink: 0;
+  font-family: var(--hive-font-family-text);
+  font-size: var(--hive-font-size-body-small);
+  color: var(--hive-color-text-secondary-v4);
+  outline: var(--hive-outline-width) solid transparent;
+  margin-bottom: calc(var(--hive-grid) * 2.5);
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: var(--hive-border-radius);
+  padding: calc(var(--hive-grid) * 1) calc(var(--hive-grid) * 2);
+}
+
+.option:hover {
+  background-color: var(--hive-color-surface-hover-v4);
+  color: var(--hive-color-text-v4);
+}
+
+.option:focus-visible {
+  outline: var(--hive-outline-width) solid var(--hive-color-primary-v4);
+  outline-offset: 1px;
+}
+
+.optionChecked {
+  color: var(--hive-color-text-v4);
+}
+
+.bottom {
+  display: flex;
+  padding: calc(var(--hive-grid) * 2.5) calc(var(--hive-grid) * 2.5) 0 calc(var(--hive-grid) * 2.5);
+  margin: 0 calc(var(--hive-grid) * -5);
+  justify-content: space-between;
+  border-top: 1px solid var(--hive-color-border-v4);
+}
+
+.checkmark {
+  width: 1rem;
+  height: 1rem;
+  border: var(--hive-border-width) solid var(--hive-color-border-v4);
+  border-radius: calc(var(--hive-grid) * 1);
+  color: transparent;
+  margin-right: calc(var(--hive-grid) * 2);
+  background-color: transparent;
+  flex-shrink: 0;
+}
+
+.checkmark.checked {
+  color: var(--hive-color-neutral-white-v4);
+  background-color: var(--hive-color-primary-v4);
+  border-color: var(--hive-color-primary-v4);
+}
+
+.noOptionsMessage {
+  display: inline-flex;
+  min-height: calc(var(--hive-grid) * 10);
+  line-height: calc(var(--hive-grid) * 10);
+  color: var(--hive-color-text-secondary-v4);
+  font-family: var(--hive-font-family-text);
+  font-size: var(--hive-font-size-body-small);
+}
