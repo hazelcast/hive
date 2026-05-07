@@ -174,16 +174,16 @@
   background-color: var(--hive-color-surface-hover-v4);
   color: var(--hive-color-text-v4);
   outline: none;
-  box-shadow: none;
-  text-decoration: none;
+  box-shadow: none !important;
+  text-decoration: none !important;
 }
 
 .menuContainer.menuContainer.menuContainer :global(.hz-select-field__option--is-selected) {
   background-color: var(--hive-color-surface-active-v4);
   color: var(--hive-color-text-v4);
   font-weight: var(--hive-font-weight-text-medium);
-  text-decoration: none;
-  box-shadow: none;
+  text-decoration: none !important;
+  box-shadow: none !important;
 }
 
 .menuContainer.menuContainer.menuContainer :global(.hz-select-field__group) {
