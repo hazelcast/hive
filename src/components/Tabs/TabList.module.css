@@ -1,0 +1,12 @@
+.tabList {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  height: calc(var(--hive-grid) * 9);
+  padding: calc(var(--hive-grid) * 0.875) calc(var(--hive-grid) * 0.75);
+  border-radius: calc(var(--hive-grid) * 3.5);
+  background: var(--hive-color-secondary-v4);
+  box-sizing: border-box;
+  overflow: hidden;
+}

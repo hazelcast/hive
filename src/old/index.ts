@@ -51,3 +51,15 @@ export type { SelectFieldOption, SelectFieldOptionsMap } from './Select/helpers'
 export { AutocompleteField, getSelectedOptionFromValue, highlightOptionText } from './AutocompleteField'
 export type { AutocompleteFieldProps, AutocompleteFieldOption, RenderOptionFunction } from './AutocompleteField'
 export { AutocompleteFieldFormik } from './AutocompleteFieldFormik'
+export { TabContext, TabContextProvider, TabContextProviderControlled, useTabContext, TabList, Tab, TabPanel } from './Tabs'
+export type {
+  TabContextValue,
+  TabContextProviderProps,
+  TabContextProviderControlledProps,
+  TabListProps,
+  TabProps,
+  TabCommonProps,
+  AnchorTabProps,
+  ButtonTabProps,
+  TabPanelProps,
+} from './Tabs'

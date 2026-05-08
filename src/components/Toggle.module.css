@@ -46,7 +46,7 @@
   display: inline-block;
   width: var(--toggle-track-width);
   height: var(--toggle-track-height);
-  border-radius: 9999px;
+  border-radius: var(--hive-border-radius-pill);
   background: var(--toggle-track-bg);
   border: var(--hive-border-width) solid transparent;
   box-sizing: border-box;
@@ -61,7 +61,7 @@
   width: var(--toggle-thumb-size);
   height: var(--toggle-thumb-size);
   background: var(--toggle-thumb-bg);
-  border-radius: 9999px;
+  border-radius: var(--hive-border-radius-pill);
   box-shadow:
     0 1px 3px rgba(0, 0, 0, 0.1),
     0 1px 2px rgba(0, 0, 0, 0.1);
