@@ -29,3 +29,15 @@ export { TextField } from './TextField'
 export type { TextFieldProps, TextFieldExtraProps, TextFieldSize, TextFieldVariant, TextFieldTypes } from './TextField'
 export { TextFieldFormik } from './TextFieldFormik'
 export type { TextFieldFormikProps } from './TextFieldFormik'
+export { TabContext, TabContextProvider, TabContextProviderControlled, useTabContext, TabList, Tab, TabPanel } from './Tabs'
+export type {
+  TabContextValue,
+  TabContextProviderProps,
+  TabContextProviderControlledProps,
+  TabListProps,
+  TabProps,
+  TabCommonProps,
+  AnchorTabProps,
+  ButtonTabProps,
+  TabPanelProps,
+} from './Tabs'

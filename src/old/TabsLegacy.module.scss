@@ -1,5 +1,9 @@
-@use '../../../styles/constants' as c;
-@use '../../../styles/helpers' as h;
+@use '../../styles/constants' as c;
+@use '../../styles/helpers' as h;
+
+.tabList {
+  display: flex;
+}
 
 .tab {
   display: flex;
@@ -17,8 +21,6 @@
   color: c.$colorText;
   background-color: transparent;
   cursor: pointer;
-
-  // for <a> element
   text-decoration: none;
 
   @include c.typographyH3;
@@ -46,13 +48,19 @@
   }
 
   &:focus-visible {
-    // Do not remove outline for high-contrast modes
-    // https://stackoverflow.com/a/52616313
     outline: c.$outlineWidth solid transparent;
     color: c.$colorPrimary;
     border-radius: c.$borderRadius;
     border-color: transparent;
 
     @include h.outlineSimple;
+  }
+}
+
+.tabPanel {
+  visibility: visible;
+
+  .hidden {
+    visibility: hidden;
   }
 }

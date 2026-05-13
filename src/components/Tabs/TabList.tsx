@@ -1,7 +1,7 @@
 import React, { FC, ReactNode, KeyboardEvent, useRef, useCallback } from 'react'
 import cn from 'classnames'
 
-import styles from './TabList.module.scss'
+import styles from './TabList.module.css'
 
 export type TabListProps = {
   ariaLabel: string

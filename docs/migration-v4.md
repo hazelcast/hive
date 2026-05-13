@@ -34,6 +34,7 @@ grep -r "@hazelcast/ui/old" src --include="*.tsx" --include="*.ts"
 | Updated  | `Toggle`      | HIVE 4.0 pill switch; SCSS → CSS; no ON/OFF label                                                                                                                                                                               | ✅              |
 | Updated  | `TextField`   | HIVE 4.0 rebrand; 36px height; 8px radius; `--hive-*` tokens; SCSS → CSS                                                                                                                                                        | ✅              |
 | Updated  | `Checkbox`    | HIVE 4.0 rebrand; primary-v4 fill when checked; 4px radius box; focus halo; `--hive-*` tokens; SCSS → CSS                                                                                                                       | ✅              |
+| Updated  | `Tabs`        | HIVE 4.0 visual redesign; pill-segmented shape with gray background; no API changes; SCSS → CSS                                                                                                                                 | ✅              |
 
 ---
 
@@ -390,6 +391,74 @@ import { Checkbox } from '@hazelcast/ui'
 import { Checkbox } from '@hazelcast/ui'
 ;<Checkbox name="tos" label="Accept terms" checked={value} onChange={onChange} />
 // Renders a primary-teal HIVE 4.0 checkbox with focus halo.
+```
+
+---
+
+### `Tabs`
+
+Visual redesign to the HIVE 4.0 pill-segmented tabs: `36px` container with `3.5px` padding, `14px` border-radius, neutral gray background (`#eaebec`), and white selected state. The typography and interaction model remain unchanged. Styles have been migrated from SCSS to CSS modules.
+
+The public prop contract is unchanged; only visuals and internal styling have changed.
+
+**Old import (temporary fallback):**
+
+```ts
+import { Tab, TabList, TabPanel, TabContext, TabContextProvider, TabContextProviderControlled } from '@hazelcast/ui/old'
+```
+
+**Prop changes:**
+
+| Prop  | v3              | v4                                 |
+| ----- | --------------- | ---------------------------------- |
+| _all_ | same public API | same — visual-only breaking change |
+
+**Visual / DOM changes:**
+
+| Aspect            | v3                                            | v4                                                            |
+| ----------------- | --------------------------------------------- | ------------------------------------------------------------- |
+| Container height  | `40px` (`c.$grid * 10`)                       | `36px`                                                        |
+| Container radius  | none (flex row)                               | `14px` (pill shape)                                           |
+| Container bg      | transparent                                   | `#eaebec` (neutral gray)                                      |
+| Tab height        | `40px` (`c.$grid * 10`)                       | `29px`                                                        |
+| Tab padding       | `1px 20px` (`c.$grid × c.$grid * 5`)          | `5px 9px`                                                     |
+| Tab radius        | none (underline style)                        | `14px` (pill shape)                                           |
+| Selected state    | blue underline (`borderBottom` + `boxShadow`) | white background (`#fff`)                                     |
+| Unselected border | `1px solid` neutral light bottom              | removed (transparent)                                         |
+| Stylesheet        | `Tab.module.scss` + `TabList.module.scss`     | `Tab.module.scss` + `TabList.module.scss` using CSS variables |
+
+**Before:**
+
+```tsx
+import { TabContextProvider, TabList, Tab, TabPanel } from '@hazelcast/ui'
+;<TabContextProvider>
+  <TabList ariaLabel="Tabs demo">
+    <Tab value={0}>General</Tab>
+    <Tab value={1}>Security</Tab>
+    <Tab value={2}>Notifications</Tab>
+  </TabList>
+  <TabPanel value={0}>Content for General</TabPanel>
+  <TabPanel value={1}>Content for Security</TabPanel>
+  <TabPanel value={2}>Content for Notifications</TabPanel>
+</TabContextProvider>
+// Renders as a row of underlined tabs with blue underline for selected.
+```
+
+**After:**
+
+```tsx
+import { TabContextProvider, TabList, Tab, TabPanel } from '@hazelcast/ui'
+;<TabContextProvider>
+  <TabList ariaLabel="Tabs demo">
+    <Tab value={0}>General</Tab>
+    <Tab value={1}>Security</Tab>
+    <Tab value={2}>Notifications</Tab>
+  </TabList>
+  <TabPanel value={0}>Content for General</TabPanel>
+  <TabPanel value={1}>Content for Security</TabPanel>
+  <TabPanel value={2}>Content for Notifications</TabPanel>
+</TabContextProvider>
+// Renders as a pill-segmented row with white selected state.
 ```
 
 ---

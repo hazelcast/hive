@@ -4,7 +4,7 @@ import cn from 'classnames'
 import { DataTestProp } from '../../helpers/types'
 import { useTabContext, getPanelId, getTabId } from './TabContext'
 
-import styles from './TabPanel.module.scss'
+import styles from './TabPanel.module.css'
 
 export type TabPanelProps = {
   value: number
