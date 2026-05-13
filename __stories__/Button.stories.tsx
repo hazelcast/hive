@@ -342,17 +342,17 @@ Loading.tags = ['!dev']
 export const FullWidth = () => (
   <div className={s.section}>
     <Caption>
-      Buttons stretch to fill their container when given a block-level class. Useful in modals, narrow forms, and mobile layouts. Long
+      Pass <strong>fullWidth</strong> to stretch a button to fill its container. Useful in modals, narrow forms, and mobile layouts. Long
       labels truncate with an ellipsis.
     </Caption>
     <div className={s.fullWidthDemo}>
-      <Button className={s.block} iconLeft={Plus} iconLeftAriaLabel="Add">
+      <Button fullWidth iconLeft={Plus} iconLeftAriaLabel="Add">
         Create new project
       </Button>
-      <Button className={s.block} variant="outlined" color="secondary">
+      <Button fullWidth variant="outlined" color="secondary">
         Cancel
       </Button>
-      <Button className={s.block}>Looooooooooooooooooooooooooooooooong label that gets truncated</Button>
+      <Button fullWidth>Looooooooooooooooooooooooooooooooong label that gets truncated</Button>
     </div>
   </div>
 )
