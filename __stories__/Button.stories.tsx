@@ -173,13 +173,17 @@ export const Playground: Story = {
     iconLeftAriaLabel: 'leading',
     iconRightAriaLabel: 'trailing',
   },
-  render: ({ tooltip, ...args }) => <Button {...args} tooltip={tooltip ? tooltip : undefined} />,
+  render: ({ tooltip, ...args }) => (
+    <div className={s.playgroundContainer}>
+      <Button {...args} tooltip={tooltip ? tooltip : undefined} />
+    </div>
+  ),
   parameters: {
     layout: 'centered',
     docs: {
       description: {
         story:
-          'Tweak any prop in the Controls panel on the right. Pick icons from the **left icon** and **right icon** dropdowns. Type into **tooltip** to enable a hover tooltip; clear it to disable.',
+          'Tweak any prop in the Controls panel on the right. Pick icons from the **left icon** and **right icon** dropdowns. Type into **tooltip** to enable a hover tooltip; clear it to disable. The dashed box shows the parent container — toggle **fullWidth** to see the button stretch to fill it.',
       },
     },
   },
