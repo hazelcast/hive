@@ -68,6 +68,7 @@ export type ButtonCommonProps = {
   tooltip?: string
   active?: boolean
   truncate?: boolean
+  fullWidth?: boolean
 } & (ButtonDisabledProps | ButtonNotDisabledProps) &
   Pick<HTMLAttributes<HTMLAnchorElement | HTMLButtonElement>, 'className' | 'onClick' | 'tabIndex' | 'style'>
 
@@ -145,6 +146,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
       tooltip,
       active,
       truncate = true,
+      fullWidth,
       ...rest
     },
     ref,
@@ -171,6 +173,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
             {
               [styles.active]: active,
               [styles.inset]: outline === 'inset',
+              [styles.fullWidth]: fullWidth,
             },
             className,
           )}
