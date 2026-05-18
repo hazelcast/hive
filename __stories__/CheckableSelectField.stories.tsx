@@ -1,14 +1,17 @@
-import React, { useState } from 'react'
-import { logger } from '../src'
-import { Meta, StoryFn } from '@storybook/react'
+import React, { ReactNode, useState } from 'react'
+import { Meta, StoryObj } from '@storybook/react'
 import { Form, Formik } from 'formik'
-import { AlertTriangle, Info } from 'react-feather'
 
+import { logger } from '../src'
 import { CheckableSelectField, CheckableSelectProps } from '../src/components/Select/CheckableSelectField'
-import { SelectFieldOption } from '../src/components/Select/helpers'
 import { CheckableSelectFieldFormik } from '../src/components/Select/CheckableSelectFieldFormik'
-import { LONG_ONE_WORD_TEXT, LONG_MULTIPLE_WORD_TEXT } from './constants'
-import { Icon } from '../src/components/Icon'
+import { SelectFieldOption } from '../src/components/Select/helpers'
+import { CheckableSelectField as LegacyCheckableSelectField } from '../src/old'
+
+import s from './Button.stories.module.scss'
+
+type Args = CheckableSelectProps<string>
+type Story = StoryObj<typeof CheckableSelectField>
 
 const options: SelectFieldOption<string>[] = [
   { value: 'darth_vader', label: 'Darth Vader' },
@@ -20,6 +23,15 @@ const options: SelectFieldOption<string>[] = [
   { value: 'jar_jar_binks', label: 'Jar Jar Binks' },
 ]
 
+const Caption = ({ children }: { children: ReactNode }) => <div className={s.caption}>{children}</div>
+
+const Cell = ({ label, children }: { label: string; children: ReactNode }) => (
+  <div className={s.cell}>
+    <span className={s.label}>{label}</span>
+    {children}
+  </div>
+)
+
 export default {
   title: 'Components/CheckableSelectField',
   component: CheckableSelectField,
@@ -28,143 +40,234 @@ export default {
       type: 'figma',
       url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE-Hazelcast-Design-System?node-id=23167%3A4292',
     },
+    docs: { canvas: { sourceState: 'hidden' } },
+    controls: {
+      exclude: ['name', 'value', 'className', 'onBlur', 'onChange', 'options', 'noOptionsMessage', 'data-test'],
+    },
+  },
+  argTypes: {
+    label: { control: 'text', table: { category: 'Content' } },
+    placeholder: { control: 'text', table: { category: 'Content' } },
+    helperText: { control: 'text', table: { category: 'Content' } },
+    error: { control: 'text', table: { category: 'State' } },
+    disabled: { control: 'boolean', table: { category: 'State' } },
+    defaultOpen: { control: 'boolean', table: { category: 'State' } },
   },
   args: {
     name: 'characters',
-    label: 'Pick Characters',
-    placeholder: 'One or more characters...',
-    noOptionsMessage: 'No options',
+    label: 'Pick characters',
+    placeholder: 'Select one or more',
     options,
     value: [options[1].value],
+    noOptionsMessage: 'No options',
+    'data-test': 'checkable-select-field',
     onBlur: () => logger.log('blur'),
-    'data-test': 'test',
   },
-} as Meta<CheckableSelectProps<string>>
+} as Meta<Args>
 
-const Template: StoryFn<CheckableSelectProps<string>> = ({ value: initialValue, ...args }) => {
-  const [value, setValue] = useState<string[]>(initialValue)
-
+const PlaygroundComponent = ({ value: initialValue, ...args }: Args) => {
+  const [value, setValue] = useState<string[]>(initialValue ?? [])
   return (
-    <div style={{ height: 350 }}>
-      <CheckableSelectField<string> {...args} value={value} onChange={setValue} />
+    <div style={{ width: 360 }}>
+      <CheckableSelectField {...args} value={value} onChange={setValue} />
     </div>
   )
 }
 
-export const Default = Template.bind({})
-
-export const Empty = Template.bind({})
-Empty.args = {
-  value: [],
-}
-
-export const WithError = Template.bind({})
-WithError.args = {
-  error: 'Dark side',
-}
-
-export const Disabled = Template.bind({})
-Disabled.args = {
-  disabled: true,
-}
-
-export const WithHelperText = Template.bind({})
-WithHelperText.args = {
-  helperText: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-}
-
-export const WithoutLabel = Template.bind({})
-WithoutLabel.args = {
-  showAriaLabel: true,
-}
-
-export const WithPermanentPlaceholder = Template.bind({})
-WithPermanentPlaceholder.args = {
-  placeholderMode: 'permanent',
-  placeholder: 'Permanent placeholder',
-}
-
-export const WithLongTextOptions = Template.bind({})
-WithLongTextOptions.args = {
-  options: [
-    {
-      value: '10000',
-      label: LONG_ONE_WORD_TEXT,
+export const Playground: Story = {
+  render: (args) => <PlaygroundComponent {...(args as Args)} />,
+  parameters: {
+    layout: 'centered',
+    docs: {
+      description: { story: 'Tweak any prop in the Controls panel on the right.' },
     },
-    {
-      value: '10001',
-      label: LONG_MULTIPLE_WORD_TEXT,
-    },
-    ...options,
-  ],
+  },
 }
 
-export const WrappedInFormik = () => {
-  type Values = {
-    characters: string[]
-  }
-
-  const validateCharacter = (values: string[]) => (values.length >= 3 ? undefined : 'Pick at least three (3) characters')
-
-  const TestForm = () => (
-    <Formik<Values>
-      initialValues={{
-        characters: [options[1].value],
-      }}
-      initialErrors={{
-        // Bug in Formik types. TODO: Raise a PR
-
-        characters: 'Server Error: Invalid character' as any,
-      }}
-      onSubmit={(values) => logger.log('submit', values)}
-    >
-      {({ values }) => (
-        <Form>
-          Values: {JSON.stringify(values)}
-          <CheckableSelectFieldFormik<Values>
-            name="characters"
-            data-test="test"
-            label="Character"
+export const Basic = () => {
+  const [a, setA] = useState<string[]>([])
+  const [b, setB] = useState<string[]>([options[1].value, options[2].value])
+  return (
+    <div className={s.section}>
+      <Caption>
+        Use a CheckableSelectField when users pick many values from a list and the dropdown should stay open during selection.
+      </Caption>
+      <div className={`${s.grid} ${s.gridSizes}`} style={{ gridTemplateColumns: 'repeat(2, 360px)' }}>
+        <Cell label="Empty">
+          <CheckableSelectField
+            name="basic-empty"
+            label="Characters"
+            placeholder="Select one or more"
             options={options}
-            validate={validateCharacter}
+            value={a}
+            onChange={setA}
+            data-test="basic-empty"
           />
-          <button type="submit">Submit</button>
-        </Form>
-      )}
-    </Formik>
+        </Cell>
+        <Cell label="Multiple">
+          <CheckableSelectField
+            name="basic-filled"
+            label="Characters"
+            options={options}
+            value={b}
+            onChange={setB}
+            data-test="basic-filled"
+          />
+        </Cell>
+      </div>
+    </div>
   )
-
-  return <TestForm />
 }
+Basic.tags = ['!dev']
 
-export const WithoutOptions = Template.bind({})
-WithoutOptions.args = {
-  value: [],
-  options: [],
-  defaultOpen: true,
+export const Open = () => {
+  const [value, setValue] = useState<string[]>([options[1].value])
+  return (
+    <div className={s.section}>
+      <Caption>The open dropdown shows checkable rows with a search input. Selection persists as the user filters.</Caption>
+      <div style={{ width: 360, height: 380 }}>
+        <CheckableSelectField
+          name="open"
+          label="Characters"
+          options={options}
+          value={value}
+          onChange={setValue}
+          defaultOpen
+          data-test="open"
+        />
+      </div>
+    </div>
+  )
 }
+Open.tags = ['!dev']
 
-export const CustomSearch = Template.bind({})
-CustomSearch.args = {
-  value: [],
-  options,
-  defaultOpen: true,
-  filterOptions: (candidate, input) => {
-    if (!input) {
-      return true
-    }
-
-    return !candidate.label.toLowerCase().includes(input)
-  },
+export const WithHelperText = () => {
+  const [value, setValue] = useState<string[]>([])
+  return (
+    <div className={s.section}>
+      <Caption>
+        Use <strong>helperText</strong> for short hints next to the label.
+      </Caption>
+      <div style={{ width: 360 }}>
+        <CheckableSelectField
+          name="helper"
+          label="Characters"
+          options={options}
+          value={value}
+          onChange={setValue}
+          helperText="Pick anyone you align with."
+          data-test="helper"
+        />
+      </div>
+    </div>
+  )
 }
+WithHelperText.tags = ['!dev']
 
-export const WithSearchInputAdornments = Template.bind({})
-WithSearchInputAdornments.args = {
-  value: [],
-  options,
-  defaultOpen: true,
-  searchInputProps: {
-    endAdornment: <Icon icon={AlertTriangle} />,
-    startAdornment: <Icon icon={Info} />,
-  },
+export const WithError = () => (
+  <div className={s.section}>
+    <Caption>
+      Set <strong>error</strong> to surface a validation message inline.
+    </Caption>
+    <div style={{ width: 360 }}>
+      <CheckableSelectField
+        name="error"
+        label="Characters"
+        options={options}
+        value={[]}
+        error="Pick at least one"
+        onChange={() => {}}
+        data-test="error"
+      />
+    </div>
+  </div>
+)
+WithError.tags = ['!dev']
+
+export const Disabled = () => (
+  <div className={s.section}>
+    <Caption>Use disabled when the field cannot be edited.</Caption>
+    <div style={{ width: 360 }}>
+      <CheckableSelectField
+        name="disabled"
+        label="Characters"
+        options={options}
+        value={[options[1].value]}
+        disabled
+        onChange={() => {}}
+        data-test="disabled"
+      />
+    </div>
+  </div>
+)
+Disabled.tags = ['!dev']
+
+export const NoOptions = () => (
+  <div className={s.section}>
+    <Caption>The empty-options state shows the configured fallback message.</Caption>
+    <div style={{ width: 360, height: 220 }}>
+      <CheckableSelectField<string>
+        name="empty"
+        label="Characters"
+        options={[]}
+        value={[]}
+        defaultOpen
+        onChange={() => {}}
+        data-test="empty"
+      />
+    </div>
+  </div>
+)
+NoOptions.tags = ['!dev']
+
+export const WithFormik = () => {
+  type Values = { characters: string[] }
+  const validate = (vals: string[]) => (vals.length >= 3 ? undefined : 'Pick at least three characters')
+  return (
+    <div className={s.section}>
+      <Caption>
+        Use <strong>CheckableSelectFieldFormik</strong> for forms managed by Formik.
+      </Caption>
+      <div style={{ width: 360 }}>
+        <Formik<Values> initialValues={{ characters: [options[1].value] }} onSubmit={(values) => logger.log('submit', values)}>
+          {({ values }) => (
+            <Form>
+              <CheckableSelectFieldFormik<Values>
+                name="characters"
+                label="Characters"
+                options={options}
+                validate={validate}
+                data-test="formik"
+              />
+              <pre style={{ marginTop: 12 }}>{JSON.stringify(values, null, 2)}</pre>
+              <button type="submit">Submit</button>
+            </Form>
+          )}
+        </Formik>
+      </div>
+    </div>
+  )
 }
+WithFormik.tags = ['!dev']
+
+export const LegacyV3 = () => {
+  const [value, setValue] = useState<string[]>([options[1].value])
+  return (
+    <div className={s.section}>
+      <Caption>
+        The v3 CheckableSelectField is preserved for gradual migration. Import from <strong>@hazelcast/ui/old</strong>.
+      </Caption>
+      <div style={{ width: 360 }}>
+        <LegacyCheckableSelectField
+          name="legacy"
+          label="Legacy v3 CheckableSelectField"
+          options={options}
+          value={value}
+          onChange={setValue}
+          data-test="legacy"
+        />
+      </div>
+    </div>
+  )
+}
+LegacyV3.tags = ['!dev']

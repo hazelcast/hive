@@ -1,0 +1,121 @@
+import { Meta, Title, Canvas, Controls } from '@storybook/blocks'
+import * as MultiSelectFieldStories from './MultiSelectField.stories'
+import { DocsTabs } from '../.storybook/DocsTabs'
+
+<Meta of={MultiSelectFieldStories} name="Docs" />
+
+<Title />
+
+MultiSelectField lets users pick **multiple** values from a fixed list. Selected
+values render as removable chips inside the control. Use it when the order of
+selection doesn&rsquo;t matter and you need a compact summary inline. For
+explicit checkboxes that stay open while picking, use `CheckableSelectField`.
+
+<DocsTabs tabs={[
+  {
+    id: 'overview',
+    label: 'Overview',
+    content: (
+      <>
+        <Canvas of={MultiSelectFieldStories.Playground} />
+
+        <h2>Basic usage</h2>
+
+        <p>MultiSelectField is a controlled component. Provide <code>value</code> (an array) and an <code>onChange</code> handler that updates state. Pair every field with a visible <code>label</code>.</p>
+
+        <Canvas of={MultiSelectFieldStories.Basic} />
+
+        <h2>Sizes</h2>
+
+        <p>Two sizes — <code>small</code> for dense tables and toolbars, <code>medium</code> (default) for most forms.</p>
+
+        <Canvas of={MultiSelectFieldStories.Sizes} />
+
+        <h2>Open menu</h2>
+
+        <p>The menu opens on click and stays open while the user picks values. Selected options stay highlighted.</p>
+
+        <Canvas of={MultiSelectFieldStories.Open} />
+
+        <h2>Helper text</h2>
+
+        <Canvas of={MultiSelectFieldStories.WithHelperText} />
+
+        <h2>Error</h2>
+
+        <Canvas of={MultiSelectFieldStories.WithError} />
+
+        <h2>Disabled</h2>
+
+        <Canvas of={MultiSelectFieldStories.Disabled} />
+
+        <h2>Long option labels</h2>
+
+        <Canvas of={MultiSelectFieldStories.LongOptions} />
+
+        <hr />
+
+        <h2>Visual states</h2>
+
+        <Canvas of={MultiSelectFieldStories.States} />
+
+        <h2>With Formik</h2>
+
+        <Canvas of={MultiSelectFieldStories.WithFormik} />
+
+        <h2>Legacy v3</h2>
+
+        <p>The v3 MultiSelectField is preserved for gradual migration. Import from <code>@hazelcast/ui/old</code>.</p>
+
+        <Canvas of={MultiSelectFieldStories.LegacyV3} />
+
+        <h2>Props</h2>
+
+        <Controls of={MultiSelectFieldStories.Playground} />
+      </>
+    ),
+  },
+  {
+    id: 'guidelines',
+    label: 'Guidelines',
+    content: (
+      <>
+        <h2>When to use</h2>
+
+        <ul>
+          <li>For zero-to-many selection from a fixed list of options.</li>
+          <li>When the selected values fit reasonably as chips inside one row.</li>
+        </ul>
+
+        <h3>When <em>not</em> to use</h3>
+
+        <ul>
+          <li>When users frequently pick more than ~5 values → use <code>CheckableSelectField</code>; the panel pattern scales better.</li>
+          <li>When users pick exactly one value → use <code>SelectField</code>.</li>
+        </ul>
+
+        <h2>Chips</h2>
+
+        <p>Each selected value renders as a chip with a remove button. Chips wrap to additional lines when they exceed the control width — design for that.</p>
+      </>
+    ),
+  },
+  {
+    id: 'accessibility',
+    label: 'Accessibility',
+    content: (
+      <>
+        <p>MultiSelectField wraps react-select with HIVE styling. Most accessibility comes for free.</p>
+
+        <h2>Keyboard</h2>
+
+        <ul>
+          <li><code>Tab</code> moves focus to the control.</li>
+          <li><code>Space</code> or <code>Enter</code> opens the menu; <code>Esc</code> closes.</li>
+          <li><code>↑</code>/<code>↓</code> move highlight; <code>Enter</code> selects without closing.</li>
+          <li><code>Backspace</code> removes the last chip when the input is empty.</li>
+        </ul>
+      </>
+    ),
+  },
+]} />

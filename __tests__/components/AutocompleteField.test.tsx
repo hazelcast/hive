@@ -11,7 +11,7 @@ import {
 } from '../../src/components/AutocompleteField'
 import { errorId } from '../../src/components/Error'
 
-import styles from '../../src/components/AutocompleteField.module.scss'
+import styles from '../../src/components/AutocompleteField.module.css'
 
 jest.mock('react-uid')
 

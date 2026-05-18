@@ -1,0 +1,32 @@
+.chevron {
+  color: var(--hive-color-text-secondary-v4);
+  margin-left: calc(var(--hive-grid) * 2);
+  transition: transform 150ms ease;
+  flex-shrink: 0;
+}
+
+.chevron.open {
+  transform: rotate(180deg);
+  color: var(--hive-color-text-v4);
+}
+
+.chevron.disabled {
+  color: var(--hive-color-text-secondary-v4);
+}
+
+.clear {
+  margin-left: calc(var(--hive-grid) * 1);
+}
+
+[class].valueContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+[class].valueContainer .trailingNote {
+  flex-shrink: 0;
+  color: var(--hive-color-text-secondary-v4);
+  margin-left: calc(var(--hive-grid) * 2);
+}
