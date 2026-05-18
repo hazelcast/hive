@@ -53,6 +53,18 @@ describe('Button', () => {
     expect(screen.getByTestId('button')).toHaveClass(className)
   })
 
+  it('Renders Button with fullWidth class when fullWidth prop is true', async () => {
+    await renderAndCheckA11Y(<Button fullWidth>{label}</Button>)
+
+    expect(screen.getByTestId('button')).toHaveClass(styles.fullWidth)
+  })
+
+  it('Does not apply fullWidth class by default', async () => {
+    await renderAndCheckA11Y(<Button>{label}</Button>)
+
+    expect(screen.getByTestId('button')).not.toHaveClass(styles.fullWidth)
+  })
+
   it('Renders Button with default variant contained, color primary, and size regular', async () => {
     await renderAndCheckA11Y(<Button>{label}</Button>)
 

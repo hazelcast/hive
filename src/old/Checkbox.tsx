@@ -3,12 +3,12 @@ import { Check, Minus } from 'react-feather'
 import { useUID } from 'react-uid'
 import classNames from 'classnames'
 
-import { Error, errorId } from './Error'
-import { Help, HelpProps, helpTooltipId } from './Help'
+import { Error, errorId } from '../components/Error'
+import { Help, HelpProps, helpTooltipId } from '../components/Help'
 import { DataTestProp } from '../helpers/types'
 
-import styles from './Checkbox.module.css'
-import { TruncatedText } from './TruncatedText'
+import styles from './CheckboxLegacy.module.scss'
+import { TruncatedText } from '../components/TruncatedText'
 
 type CheckboxCoreProps = {
   name: string

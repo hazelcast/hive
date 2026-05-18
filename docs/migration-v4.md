@@ -33,6 +33,7 @@ grep -r "@hazelcast/ui/old" src --include="*.tsx" --include="*.ts"
 | New      | `ButtonGroup`                                               | Group of joined `Button`s sharing border-radius and shadow                                                                                                                                                                      | n/a             |
 | Updated  | `Toggle`                                                    | HIVE 4.0 pill switch; SCSS → CSS; no ON/OFF label                                                                                                                                                                               | ✅              |
 | Updated  | `TextField`                                                 | HIVE 4.0 rebrand; 36px height; 8px radius; `--hive-*` tokens; SCSS → CSS                                                                                                                                                        | ✅              |
+| Updated  | `Checkbox`                                                  | HIVE 4.0 rebrand; primary-v4 fill when checked; 4px radius box; focus halo; `--hive-*` tokens; SCSS → CSS                                                                                                                       | ✅              |
 | Updated  | `Tabs`                                                      | HIVE 4.0 visual redesign; pill-segmented shape with gray background; no API changes; SCSS → CSS                                                                                                                                 | ✅              |
 | Updated  | `SelectField` / `MultiSelectField` / `CheckableSelectField` | HIVE 4.0 rebrand; 36px height; 8px radius; new menu surface + hover/selected states; `--hive-*` tokens; SCSS → CSS                                                                                                              | ✅              |
 | Updated  | `AutocompleteField`                                         | HIVE 4.0 rebrand; 36px height; 8px radius; new menu surface + hover/selected states; `--hive-*` tokens; SCSS → CSS                                                                                                              | ✅              |
@@ -340,6 +341,127 @@ import { TextField } from '@hazelcast/ui'
 ```
 
 `NumberField`, `PasswordField`, `AutocompleteField`, `TimeField`, and `SelectField` all consume `TextField`-style classes; their visuals follow automatically.
+
+---
+
+### `Checkbox`
+
+Visual redesign to the HIVE 4.0 checkbox: 16×16 box with `4px` radius, `--hive-color-primary-v4` fill when checked, white check icon, `--hive-color-border-v4` outline when unchecked, subtle drop shadow, and a `3px` brand-colored focus halo. Disabled state is communicated via `opacity: 0.5`. Indeterminate (mixed) state remains supported. Styles have been migrated from SCSS (`Checkbox.module.scss`) to CSS modules (`Checkbox.module.css`).
+
+The public prop contract is unchanged; only visuals have changed.
+
+**Old import (temporary fallback):**
+
+```ts
+import { Checkbox, CheckboxFormik } from '@hazelcast/ui/old'
+```
+
+**Prop changes:**
+
+| Prop  | v3              | v4                                 |
+| ----- | --------------- | ---------------------------------- |
+| _all_ | same public API | same — visual-only breaking change |
+
+**Visual / token changes:**
+
+| Aspect          | v3                                                       | v4                                                                 |
+| --------------- | -------------------------------------------------------- | ------------------------------------------------------------------ |
+| Box size        | `iconSizeSmall + 2 × borderWidth`                        | `16px`                                                             |
+| Box radius      | `c.$grid` (4px)                                          | `4px` (`calc(var(--hive-grid) * 1)`)                               |
+| Box (unchecked) | white bg, `c.$colorNeutralLight` border                  | white bg, `var(--hive-color-border-v4)` border, subtle drop shadow |
+| Box (checked)   | `c.$colorSuccess` bg + border                            | `var(--hive-color-primary-v4)` bg + border                         |
+| Box (indeterm.) | `c.$colorPrimaryLight`                                   | `var(--hive-color-primary-v4)` (same as checked)                   |
+| Box (hover)     | `c.$colorPrimary` border                                 | `var(--hive-color-primary-v4)` border                              |
+| Box (focus)     | `outlineFormField` mixin                                 | `3px` halo (`oklch(from primary-v4 l c h / 0.5)`)                  |
+| Box (disabled)  | `c.$colorNeutralLight` border, `c.$colorNeutral` checked | `opacity: 0.5` on the whole row                                    |
+| Box (error)     | `c.$colorError` border                                   | `var(--hive-color-error-v4)` border                                |
+| Label           | `bodySmall` typography mixin                             | `Inter Regular 14/20`, `var(--hive-color-text-v4)`                 |
+| Label gap       | `c.$grid * 1.25`                                         | `8px` (`calc(var(--hive-grid) * 2)`)                               |
+| Stylesheet      | `Checkbox.module.scss`                                   | `Checkbox.module.css` using `--hive-*` CSS variables               |
+
+**Before:**
+
+```tsx
+import { Checkbox } from '@hazelcast/ui'
+;<Checkbox name="tos" label="Accept terms" checked={value} onChange={onChange} />
+// Renders a green-checked v3 checkbox.
+```
+
+**After:**
+
+```tsx
+import { Checkbox } from '@hazelcast/ui'
+;<Checkbox name="tos" label="Accept terms" checked={value} onChange={onChange} />
+// Renders a primary-teal HIVE 4.0 checkbox with focus halo.
+```
+
+---
+
+### `Tabs`
+
+Visual redesign to the HIVE 4.0 pill-segmented tabs: `36px` container with `3.5px` padding, `14px` border-radius, neutral gray background (`#eaebec`), and white selected state. The typography and interaction model remain unchanged. Styles have been migrated from SCSS to CSS modules.
+
+The public prop contract is unchanged; only visuals and internal styling have changed.
+
+**Old import (temporary fallback):**
+
+```ts
+import { Tab, TabList, TabPanel, TabContext, TabContextProvider, TabContextProviderControlled } from '@hazelcast/ui/old'
+```
+
+**Prop changes:**
+
+| Prop  | v3              | v4                                 |
+| ----- | --------------- | ---------------------------------- |
+| _all_ | same public API | same — visual-only breaking change |
+
+**Visual / DOM changes:**
+
+| Aspect            | v3                                            | v4                                                            |
+| ----------------- | --------------------------------------------- | ------------------------------------------------------------- |
+| Container height  | `40px` (`c.$grid * 10`)                       | `36px`                                                        |
+| Container radius  | none (flex row)                               | `14px` (pill shape)                                           |
+| Container bg      | transparent                                   | `#eaebec` (neutral gray)                                      |
+| Tab height        | `40px` (`c.$grid * 10`)                       | `29px`                                                        |
+| Tab padding       | `1px 20px` (`c.$grid × c.$grid * 5`)          | `5px 9px`                                                     |
+| Tab radius        | none (underline style)                        | `14px` (pill shape)                                           |
+| Selected state    | blue underline (`borderBottom` + `boxShadow`) | white background (`#fff`)                                     |
+| Unselected border | `1px solid` neutral light bottom              | removed (transparent)                                         |
+| Stylesheet        | `Tab.module.scss` + `TabList.module.scss`     | `Tab.module.scss` + `TabList.module.scss` using CSS variables |
+
+**Before:**
+
+```tsx
+import { TabContextProvider, TabList, Tab, TabPanel } from '@hazelcast/ui'
+;<TabContextProvider>
+  <TabList ariaLabel="Tabs demo">
+    <Tab value={0}>General</Tab>
+    <Tab value={1}>Security</Tab>
+    <Tab value={2}>Notifications</Tab>
+  </TabList>
+  <TabPanel value={0}>Content for General</TabPanel>
+  <TabPanel value={1}>Content for Security</TabPanel>
+  <TabPanel value={2}>Content for Notifications</TabPanel>
+</TabContextProvider>
+// Renders as a row of underlined tabs with blue underline for selected.
+```
+
+**After:**
+
+```tsx
+import { TabContextProvider, TabList, Tab, TabPanel } from '@hazelcast/ui'
+;<TabContextProvider>
+  <TabList ariaLabel="Tabs demo">
+    <Tab value={0}>General</Tab>
+    <Tab value={1}>Security</Tab>
+    <Tab value={2}>Notifications</Tab>
+  </TabList>
+  <TabPanel value={0}>Content for General</TabPanel>
+  <TabPanel value={1}>Content for Security</TabPanel>
+  <TabPanel value={2}>Content for Notifications</TabPanel>
+</TabContextProvider>
+// Renders as a pill-segmented row with white selected state.
+```
 
 ---
 

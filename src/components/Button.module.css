@@ -47,6 +47,12 @@
   --button-padding-x: 16px;
 }
 
+.fullWidth.fullWidth {
+  display: flex;
+  width: 100%;
+  max-width: 100%;
+}
+
 .button:hover,
 .button.hover {
   background: var(--button-bg-hover);

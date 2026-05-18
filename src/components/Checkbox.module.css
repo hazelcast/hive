@@ -1,0 +1,97 @@
+.wrapper {
+  --checkbox-size: calc(var(--hive-grid) * 4);
+  --checkbox-radius: calc(var(--hive-grid) * 1);
+  --checkbox-padding: 1px;
+  --checkbox-transition-duration: 120ms;
+  --checkbox-shadow: 0 1px 2px oklch(0 0 0 / 0.05);
+  --checkbox-shadow-checked: 0 1px 1px oklch(0 0 0 / 0.05);
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: calc(var(--hive-grid) * 2);
+  cursor: pointer;
+  box-sizing: border-box;
+  color: var(--hive-color-text-v4);
+  font-family: var(--hive-font-family-text);
+  font-size: var(--hive-font-size-body-small);
+  font-weight: var(--hive-font-weight-text-regular);
+  line-height: var(--hive-line-height-body-small);
+}
+
+.wrapper * {
+  box-sizing: border-box;
+}
+
+.wrapper input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.wrapper .checkmark {
+  order: -1;
+  flex-shrink: 0;
+  width: var(--checkbox-size);
+  height: var(--checkbox-size);
+  padding: var(--checkbox-padding);
+  border: var(--hive-border-width) solid var(--hive-color-border-v4);
+  border-radius: var(--checkbox-radius);
+  background-color: var(--hive-color-neutral-white-v4);
+  color: var(--hive-color-neutral-white-v4);
+  box-shadow: var(--checkbox-shadow);
+  transition:
+    background-color var(--checkbox-transition-duration) ease,
+    border-color var(--checkbox-transition-duration) ease,
+    box-shadow var(--checkbox-transition-duration) ease;
+}
+
+.wrapper > input:checked ~ .checkmark,
+.wrapper.indeterminate > input ~ .checkmark {
+  background-color: var(--hive-color-primary-v4);
+  border-color: var(--hive-color-primary-v4);
+  box-shadow: var(--checkbox-shadow-checked);
+}
+
+.wrapper:hover > input:not(:disabled) ~ .checkmark,
+.wrapper.hover > input:not(:disabled) ~ .checkmark {
+  border-color: var(--hive-color-primary-v4);
+}
+
+.wrapper.error > input ~ .checkmark {
+  border-color: var(--hive-color-error-v4);
+}
+
+.wrapper > input:focus-visible ~ .checkmark,
+.wrapper.focus > input ~ .checkmark {
+  border-color: var(--hive-color-primary-v4);
+  box-shadow: 0 0 0 3px oklch(from var(--hive-color-primary-v4) l c h / 0.5);
+}
+
+.wrapper.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.wrapper .name {
+  overflow: hidden;
+}
+
+.wrapper .helperText {
+  margin-left: calc(var(--hive-grid) * 1);
+}
+
+.errorContainer {
+  margin-top: calc(var(--hive-grid) * 0.5);
+  margin-left: calc(var(--hive-grid) * 6);
+}
+
+.withError {
+  margin-bottom: calc(var(--hive-grid) * 2);
+}
