@@ -28,6 +28,8 @@ export type ModalHelperLinkProps = {
 export type ModalProps = {
   actions?: ModalActionProps[]
   hideActions?: boolean
+  hideHeader?: boolean
+  hideFooter?: boolean
   autoFocus?: boolean
   children?: ReactNode
   closable?: boolean
@@ -41,11 +43,13 @@ export type ModalProps = {
   icon?: IconProps['icon']
   iconAriaLabel?: IconProps['ariaLabel']
   onClose: ReactModalProps['onRequestClose']
-  title: string
+  title?: string
   description?: ReactNode
   eyebrow?: ReactNode
   intent?: ModalIntent
   helperLink?: ModalHelperLinkProps
+  header?: ReactNode
+  footer?: ReactNode
 } & DataTestProp &
   Exclude<ReactModalProps, 'onRequestClose' | 'shouldFocusAfterRender' | 'shouldReturnFocusAfterClose'>
 
@@ -63,15 +67,20 @@ const intentClass: Record<ModalIntent, string | undefined> = {
  * confirmations, short forms, or any flow that should pause the underlying page.
  *
  * ### General Info
- * - Always contains a title, an "X" close button, content and action buttons in the footer.
- * - Optional `eyebrow`, `description`, `icon` and `intent` define the redesigned HIVE 4.0 header.
- * - Optional `helperLink` renders a docs/help link in the footer.
- * - Underlying page is blocked by an overlay; click overlay, press Esc, or click Cancel to close.
+ * - Three optional sections — `header`, body (`children`) and `footer` — are independently
+ *   customizable. Omit a section (or pass `hideHeader` / `hideFooter`) to remove it entirely.
+ * - The default header renders structured `title`, `eyebrow`, `description` and `icon` props.
+ *   Pass a `header` ReactNode to fully replace that markup (the close button is preserved).
+ * - The default footer renders `actions` plus an optional `helperLink`. Pass a `footer`
+ *   ReactNode to fully replace it, or `hideActions` / no `helperLink` to drop pieces.
+ * - Underlying page is blocked by an overlay; click overlay or press Esc to close (when `closable`).
  */
 export const Modal: FC<ModalProps> = ({
   'data-test': dataTest = 'modal',
   actions,
   hideActions = false,
+  hideHeader = false,
+  hideFooter = false,
   autoFocus = true,
   children,
   className,
@@ -90,13 +99,21 @@ export const Modal: FC<ModalProps> = ({
   eyebrow,
   intent = 'action',
   helperLink,
+  header,
+  footer,
   ...rest
 }) => {
   const shouldAutoFocusCancelButton = useMemo(() => autoFocus && !actions?.some((action) => action?.autoFocus), [autoFocus, actions])
 
-  const hasFooter = !hideActions || !!helperLink
   const hasIcon = !!(icon && iconAriaLabel)
   const hasBody = children !== undefined && children !== null && children !== false
+  const hasStructuredHeader = !!(title || eyebrow || description || hasIcon)
+  const hasCustomHeader = header !== undefined && header !== null && header !== false
+  const renderHeader = !hideHeader && (hasCustomHeader || hasStructuredHeader)
+  const hasCustomFooter = footer !== undefined && footer !== null && footer !== false
+  const hasStructuredFooter = !hideActions || !!helperLink
+  const renderFooter = !hideFooter && (hasCustomFooter || hasStructuredFooter)
+  const renderClose = closable && showCloseButton
 
   return (
     <ReactModal
@@ -111,79 +128,93 @@ export const Modal: FC<ModalProps> = ({
       shouldReturnFocusAfterClose
       {...rest}
     >
-      <div data-test="modal-header" className={cn(styles.header, headerClassName)}>
-        <div className={styles.headerRow}>
-          {hasIcon && (
-            <div className={styles.iconBox}>
-              <Icon data-test="modal-header-icon" icon={icon} ariaLabel={iconAriaLabel} />
+      {renderClose && (
+        <button
+          type="button"
+          data-test={`${dataTest}-button-close`}
+          className={styles.close}
+          aria-label="Close icon"
+          onClick={(e) => onClose?.(e)}
+        >
+          <X size={16} aria-hidden />
+        </button>
+      )}
+      {renderHeader && (
+        <div data-test="modal-header" className={cn(styles.header, headerClassName)}>
+          {hasCustomHeader ? (
+            header
+          ) : (
+            <div className={styles.headerRow}>
+              {hasIcon && (
+                <div className={styles.iconBox}>
+                  <Icon data-test="modal-header-icon" icon={icon} ariaLabel={iconAriaLabel} />
+                </div>
+              )}
+              <div className={styles.headerText}>
+                {eyebrow && (
+                  <p data-test="modal-header-eyebrow" className={styles.eyebrow}>
+                    {eyebrow}
+                  </p>
+                )}
+                {title && (
+                  <h3 data-test="modal-header-title" className={styles.title}>
+                    {title}
+                  </h3>
+                )}
+                {description && (
+                  <p data-test="modal-header-description" className={styles.description}>
+                    {description}
+                  </p>
+                )}
+              </div>
             </div>
           )}
-          <div className={styles.headerText}>
-            {eyebrow && (
-              <p data-test="modal-header-eyebrow" className={styles.eyebrow}>
-                {eyebrow}
-              </p>
-            )}
-            <h3 data-test="modal-header-title" className={styles.title}>
-              {title}
-            </h3>
-            {description && (
-              <p data-test="modal-header-description" className={styles.description}>
-                {description}
-              </p>
-            )}
-          </div>
         </div>
-        {closable && showCloseButton && (
-          <button
-            type="button"
-            data-test={`${dataTest}-button-close`}
-            className={styles.close}
-            aria-label="Close icon"
-            onClick={(e) => onClose?.(e)}
-          >
-            <X size={16} aria-hidden />
-          </button>
-        )}
-      </div>
+      )}
       {hasBody && (
         <div data-test="modal-content" className={cn(styles.body, bodyClassName, contentClassName)}>
           {children}
         </div>
       )}
-      {hasFooter && (
+      {renderFooter && (
         <div data-test="modal-footer" className={cn(styles.footer, footerClassName)}>
-          {helperLink && (
-            <a
-              data-test="modal-helper-link"
-              className={styles.helperLink}
-              href={helperLink.href}
-              target={helperLink.target ?? '_blank'}
-              rel={helperLink.rel ?? 'noopener noreferrer'}
-              aria-label={helperLink.ariaLabel}
-            >
-              {helperLink.label}
-              <ExternalLink size={12} aria-hidden />
-            </a>
-          )}
-          {!hideActions && (
-            <div className={styles.footerActions}>
-              <Button
-                autoFocus={shouldAutoFocusCancelButton}
-                data-test="modal-button-cancel"
-                variant="ghost"
-                color="secondary"
-                size="small"
-                onClick={(e) => onClose?.(e)}
-              >
-                Cancel
-              </Button>
-              {actions?.map(({ children: actionChildren, size = 'small', ...actionPropsRest }, key) => (
-                <Button key={key} data-test="modal-button-action" size={size} {...actionPropsRest}>
-                  {actionChildren}
-                </Button>
-              ))}
-            </div>
+          {hasCustomFooter ? (
+            footer
+          ) : (
+            <>
+              {helperLink && (
+                <a
+                  data-test="modal-helper-link"
+                  className={styles.helperLink}
+                  href={helperLink.href}
+                  target={helperLink.target ?? '_blank'}
+                  rel={helperLink.rel ?? 'noopener noreferrer'}
+                  aria-label={helperLink.ariaLabel}
+                >
+                  {helperLink.label}
+                  <ExternalLink size={12} aria-hidden />
+                </a>
+              )}
+              {!hideActions && (
+                <div className={styles.footerActions}>
+                  <Button
+                    autoFocus={shouldAutoFocusCancelButton}
+                    data-test="modal-button-cancel"
+                    variant="ghost"
+                    color="secondary"
+                    size="small"
+                    onClick={(e) => onClose?.(e)}
+                  >
+                    Cancel
+                  </Button>
+                  {actions?.map(({ children: actionChildren, size = 'small', ...actionPropsRest }, key) => (
+                    <Button key={key} data-test="modal-button-action" size={size} {...actionPropsRest}>
+                      {actionChildren}
+                    </Button>
+                  ))}
+                </div>
+              )}
+            </>
           )}
         </div>
       )}

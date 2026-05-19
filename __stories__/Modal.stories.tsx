@@ -168,6 +168,62 @@ export const Success: Story = {
   ),
 }
 
+export const HeaderOnly: Story = {
+  tags: ['!dev'],
+  render: () => (
+    <ModalWithPortalFactory
+      isOpen
+      onClose={onClose}
+      title="Heads up"
+      description="No buttons, no body — just the structured header. Close via the X or overlay."
+      hideFooter
+    />
+  ),
+}
+
+export const BodyOnly: Story = {
+  tags: ['!dev'],
+  render: () => (
+    <ModalWithPortalFactory isOpen onClose={onClose} hideHeader hideActions>
+      <div style={{ padding: '16px 0' }}>
+        Drop any content here — a chart, an embedded form, marketing copy — Modal renders the body slot verbatim with no chrome above or
+        below it.
+      </div>
+    </ModalWithPortalFactory>
+  ),
+}
+
+export const CustomHeaderAndFooter: Story = {
+  tags: ['!dev'],
+  render: () => (
+    <ModalWithPortalFactory
+      isOpen
+      onClose={onClose}
+      header={
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <CloudLightning size={20} aria-hidden />
+          <strong style={{ fontSize: 18 }}>Fully custom header</strong>
+        </div>
+      }
+      footer={
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginLeft: 'auto' }}>
+          <Button variant="ghost" color="secondary" size="small" onClick={onClose}>
+            Skip
+          </Button>
+          <Button size="small" onClick={onClick}>
+            Continue
+          </Button>
+        </div>
+      }
+    >
+      <div>
+        The <code>header</code> and <code>footer</code> props accept any ReactNode and replace the default structured rendering, while the
+        body slot remains the children. Use this when you need bespoke layouts that don&apos;t fit the title/eyebrow/description pattern.
+      </div>
+    </ModalWithPortalFactory>
+  ),
+}
+
 export const Default = () => (
   <ModalWithPortalFactory title={title} isOpen onClose={onClose}>
     {Content}

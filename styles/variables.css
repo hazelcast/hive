@@ -74,16 +74,6 @@
   --hive-shadow-modal-v4: 0 10px 15px -3px oklch(0 0 0 / 0.1), 0 4px 6px -4px oklch(0 0 0 / 0.1);
   --hive-color-overlay-v4: oklch(0 0 0 / 0.5);
 
-  /* Deep, saturated intent accents — used by Modal/Alert/Toast headers
-     to derive tinted gradients via alpha (e.g. ` / 0.15`).  These are
-     intentionally distinct from the pastel `--hive-color-{warning,info,success}-v4`
-     tokens, which are surface fills rather than accents. */
-  --hive-color-intent-action-v4: oklch(0.77 0.14 175);
-  --hive-color-intent-confirm-v4: oklch(0.77 0.18 70);
-  --hive-color-intent-info-v4: oklch(0.62 0.19 259);
-  --hive-color-intent-danger-v4: oklch(0.58 0.22 27);
-  --hive-color-intent-success-v4: oklch(0.69 0.17 162);
-
   /* ─── Spacing ─────────────────────────────────────────────────── */
   /* Base grid unit: 4px = 0.25rem */
 
