@@ -1,24 +1,15 @@
 import React, { FC } from 'react'
 import cn from 'classnames'
 import { useUID } from 'react-uid'
-import { CloudLightning } from 'react-feather'
+import { AlertTriangle, CheckCircle, CloudLightning, Info, Trash2, RefreshCw } from 'react-feather'
+import { Meta, StoryObj } from '@storybook/react'
 
 import { Modal, ModalProps } from '../src/components/Modal'
+import { Modal as LegacyModal, ModalProps as LegacyModalProps } from '../src/old/Modal'
 import { Button } from '../src'
 
-import styles from '../src/components/Modal.module.scss'
+import styles from '../src/components/Modal.module.css'
 import utilsStyles from './utils.module.scss'
-
-export default {
-  title: 'Components/Modal',
-  component: Modal,
-  parameters: {
-    docs: {
-      inlineStories: false,
-      iframeHeight: 500,
-    },
-  },
-}
 
 // eslint-disable-next-line no-console
 const onClose = () => console.log('onClose')
@@ -44,6 +35,239 @@ const ModalWithPortalFactory: FC<ModalProps> = ({ children, className, ...props 
       </Modal>
     </div>
   )
+}
+
+const meta: Meta<typeof Modal> = {
+  title: 'Components/Modal',
+  component: Modal,
+  parameters: {
+    docs: {
+      inlineStories: false,
+      iframeHeight: 500,
+    },
+  },
+  argTypes: {
+    intent: {
+      control: { type: 'inline-radio' },
+      options: ['action', 'confirm', 'info', 'danger', 'success'],
+    },
+    closable: { control: 'boolean' },
+    showCloseButton: { control: 'boolean' },
+    hideActions: { control: 'boolean' },
+    hideHeader: { control: 'boolean' },
+    hideFooter: { control: 'boolean' },
+    title: { control: 'text' },
+    eyebrow: { control: 'text' },
+    description: { control: 'text' },
+    helperLink: { control: 'object' },
+    header: { control: false },
+    footer: { control: false },
+    children: { control: false },
+    icon: { control: false },
+    actions: { control: false },
+    onClose: { control: false },
+    parentSelector: { control: false },
+  },
+}
+export default meta
+
+type Story = StoryObj<typeof Modal>
+
+const iconOptions = {
+  None: undefined,
+  RefreshCw,
+  AlertTriangle,
+  CheckCircle,
+  Info,
+  Trash2,
+  CloudLightning,
+}
+
+type PlaygroundArgs = ModalProps & {
+  iconName?: keyof typeof iconOptions
+  showHelperLink?: boolean
+  actionLabel?: string
+}
+
+export const Playground: StoryObj<PlaygroundArgs> = {
+  argTypes: {
+    iconName: {
+      name: 'icon',
+      control: { type: 'select' },
+      options: Object.keys(iconOptions),
+    },
+    showHelperLink: { control: 'boolean', name: 'helperLink' },
+    actionLabel: { control: 'text', name: 'action label' },
+    iconAriaLabel: { control: 'text' },
+  },
+  args: {
+    isOpen: true,
+    title: 'Restart connector',
+    eyebrow: 'Action',
+    description:
+      'Restarting will briefly interrupt streaming. Existing buffered events will be replayed when the connector comes back online.',
+    intent: 'action',
+    iconName: 'RefreshCw',
+    iconAriaLabel: 'Restart',
+    onClose,
+    actionLabel: 'Restart',
+    showHelperLink: true,
+  },
+  render: ({ iconName, showHelperLink, actionLabel, ...args }) => (
+    <ModalWithPortalFactory
+      {...args}
+      icon={iconName ? iconOptions[iconName] : undefined}
+      actions={actionLabel ? [{ children: actionLabel, onClick, autoFocus: true }] : undefined}
+      helperLink={showHelperLink ? { label: 'Learn more in docs', href: '#' } : undefined}
+    />
+  ),
+}
+
+export const Action: Story = {
+  tags: ['!dev'],
+  render: () => (
+    <ModalWithPortalFactory
+      isOpen
+      onClose={onClose}
+      intent="action"
+      eyebrow="Action"
+      icon={RefreshCw}
+      iconAriaLabel="Restart"
+      title="Restart connector"
+      description="Restarting will briefly interrupt streaming. Existing buffered events will be replayed when the connector comes back online."
+      actions={[{ children: 'Restart', onClick, autoFocus: true }]}
+      helperLink={{ label: 'Learn more in docs', href: '#' }}
+    />
+  ),
+}
+
+export const Confirm: Story = {
+  tags: ['!dev'],
+  render: () => (
+    <ModalWithPortalFactory
+      isOpen
+      onClose={onClose}
+      intent="confirm"
+      eyebrow="Confirm"
+      icon={AlertTriangle}
+      iconAriaLabel="Warning"
+      title="Pause cluster"
+      description="Pausing the cluster will disconnect all active clients. Saved data is retained and the cluster can be resumed at any time."
+      actions={[{ children: 'Pause cluster', onClick, autoFocus: true }]}
+      helperLink={{ label: 'Learn more in docs', href: '#' }}
+    />
+  ),
+}
+
+export const InfoModal: Story = {
+  tags: ['!dev'],
+  name: 'Info',
+  render: () => (
+    <ModalWithPortalFactory
+      isOpen
+      onClose={onClose}
+      intent="info"
+      eyebrow="Heads up"
+      icon={Info}
+      iconAriaLabel="Info"
+      title="New version available"
+      description="Hazelcast Cloud 5.6 is available. Upgrade your cluster to get the latest features and security patches."
+      actions={[{ children: 'Upgrade', onClick, autoFocus: true }]}
+      helperLink={{ label: 'Learn more in docs', href: '#' }}
+    />
+  ),
+}
+
+export const Danger: Story = {
+  tags: ['!dev'],
+  render: () => (
+    <ModalWithPortalFactory
+      isOpen
+      onClose={onClose}
+      intent="danger"
+      eyebrow="Danger zone"
+      icon={Trash2}
+      iconAriaLabel="Delete"
+      title="Delete cluster"
+      description="This permanently deletes the cluster and all data. Backups, IP whitelists, and saved configuration will be removed. This action cannot be undone."
+      actions={[{ children: 'Delete forever', onClick, color: 'danger' }]}
+      helperLink={{ label: 'Learn more in docs', href: '#' }}
+    />
+  ),
+}
+
+export const Success: Story = {
+  tags: ['!dev'],
+  render: () => (
+    <ModalWithPortalFactory
+      isOpen
+      onClose={onClose}
+      intent="success"
+      eyebrow="All set"
+      icon={CheckCircle}
+      iconAriaLabel="Success"
+      title="Cluster is healthy"
+      description="All members are connected, replication is current, and your client connections are healthy."
+      actions={[{ children: 'Got it', onClick, autoFocus: true }]}
+      helperLink={{ label: 'Learn more in docs', href: '#' }}
+    />
+  ),
+}
+
+export const HeaderOnly: Story = {
+  tags: ['!dev'],
+  render: () => (
+    <ModalWithPortalFactory
+      isOpen
+      onClose={onClose}
+      title="Heads up"
+      description="No buttons, no body — just the structured header. Close via the X or overlay."
+      hideFooter
+    />
+  ),
+}
+
+export const BodyOnly: Story = {
+  tags: ['!dev'],
+  render: () => (
+    <ModalWithPortalFactory isOpen onClose={onClose} hideHeader hideActions>
+      <div style={{ padding: '16px 0' }}>
+        Drop any content here — a chart, an embedded form, marketing copy — Modal renders the body slot verbatim with no chrome above or
+        below it.
+      </div>
+    </ModalWithPortalFactory>
+  ),
+}
+
+export const CustomHeaderAndFooter: Story = {
+  tags: ['!dev'],
+  render: () => (
+    <ModalWithPortalFactory
+      isOpen
+      onClose={onClose}
+      header={
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <CloudLightning size={20} aria-hidden />
+          <strong style={{ fontSize: 18 }}>Fully custom header</strong>
+        </div>
+      }
+      footer={
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginLeft: 'auto' }}>
+          <Button variant="ghost" color="secondary" size="small" onClick={onClose}>
+            Skip
+          </Button>
+          <Button size="small" onClick={onClick}>
+            Continue
+          </Button>
+        </div>
+      }
+    >
+      <div>
+        The <code>header</code> and <code>footer</code> props accept any ReactNode and replace the default structured rendering, while the
+        body slot remains the children. Use this when you need bespoke layouts that don&apos;t fit the title/eyebrow/description pattern.
+      </div>
+    </ModalWithPortalFactory>
+  ),
 }
 
 export const Default = () => (
@@ -223,3 +447,37 @@ export const SmallVariant = () => (
     {Content}
   </ModalWithPortalFactory>
 )
+SmallVariant.tags = ['!dev']
+Default.tags = ['!dev']
+NotClosable.tags = ['!dev']
+WithIcon.tags = ['!dev']
+WithAction.tags = ['!dev']
+WithActionDisabled.tags = ['!dev']
+WithDangerAction.tags = ['!dev']
+WithDangerActionDisabled.tags = ['!dev']
+WithMultipleActions.tags = ['!dev']
+WithLongTitle.tags = ['!dev']
+WithHiddenModalActions.tags = ['!dev']
+LongContent.tags = ['!dev']
+
+const LegacyModalWithPortal: FC<LegacyModalProps> = ({ children, className, ...props }) => {
+  const id = `s${useUID()}`
+  return (
+    <div id={id} className={utilsStyles.modalWrapper}>
+      <LegacyModal
+        {...props}
+        className={cn(className, utilsStyles.modal)}
+        parentSelector={() => document.querySelector(`#${id}`) as HTMLElement}
+      >
+        {children}
+      </LegacyModal>
+    </div>
+  )
+}
+
+export const LegacyV3 = () => (
+  <LegacyModalWithPortal title={title} isOpen onClose={onClose} actions={[{ children: 'Action', onClick }]}>
+    {Content}
+  </LegacyModalWithPortal>
+)
+LegacyV3.tags = ['!dev']

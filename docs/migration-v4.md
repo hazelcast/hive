@@ -35,6 +35,7 @@ grep -r "@hazelcast/ui/old" src --include="*.tsx" --include="*.ts"
 | Updated  | `TextField`   | HIVE 4.0 rebrand; 36px height; 8px radius; `--hive-*` tokens; SCSS → CSS                                                                                                                                                        | ✅              |
 | Updated  | `Checkbox`    | HIVE 4.0 rebrand; primary-v4 fill when checked; 4px radius box; focus halo; `--hive-*` tokens; SCSS → CSS                                                                                                                       | ✅              |
 | Updated  | `Tabs`        | HIVE 4.0 visual redesign; pill-segmented shape with gray background; no API changes; SCSS → CSS                                                                                                                                 | ✅              |
+| Updated  | `Modal`       | HIVE 4.0 redesign; new `intent`, `eyebrow`, `description`, `helperLink` props; tinted header gradient and framed icon tile; Cancel now precedes primary actions in DOM order; SCSS → CSS                                        | ✅              |
 
 ---
 
@@ -459,6 +460,68 @@ import { TabContextProvider, TabList, Tab, TabPanel } from '@hazelcast/ui'
   <TabPanel value={2}>Content for Notifications</TabPanel>
 </TabContextProvider>
 // Renders as a pill-segmented row with white selected state.
+```
+
+---
+
+### `Modal`
+
+HIVE 4.0 redesign with a richer header anatomy and intent-driven theming. The modal container is wider (`max-width: 480px`), uses the neutral-lighter v4 surface, and the header carries a soft gradient keyed to the new `intent` prop. An optional 40×40 icon tile, an `eyebrow` label, and a `description` paragraph give modals a consistent look across the product. A `helperLink` slot in the footer renders a docs link next to the actions. Styles have been migrated from SCSS to CSS modules.
+
+**DOM order change:** the Cancel button now precedes the primary actions inside the footer so keyboard focus reaches the safer choice first. Existing consumers that asserted on `footer.children` order will need to update those tests.
+
+**Old import (temporary fallback):**
+
+```ts
+import { Modal, setAppElement } from '@hazelcast/ui/old'
+```
+
+**Prop changes:**
+
+| Prop          | v3        | v4                                                                    |
+| ------------- | --------- | --------------------------------------------------------------------- |
+| `intent`      | —         | new — `'action' \| 'confirm' \| 'info' \| 'danger' \| 'success'`      |
+| `eyebrow`     | —         | new — category label above the title                                  |
+| `description` | —         | new — short paragraph under the title                                 |
+| `helperLink`  | —         | new — `{ label, href, ariaLabel?, target?, rel? }` footer docs link   |
+| `icon`        | unchanged | unchanged — now renders inside a framed 40×40 tile coloured by intent |
+| `title`       | unchanged | unchanged                                                             |
+| `actions`     | unchanged | unchanged — order in footer is now `[Cancel, ...actions]`             |
+| `hideActions` | unchanged | unchanged                                                             |
+| `closable`    | unchanged | unchanged                                                             |
+
+**Before:**
+
+```tsx
+import { Modal } from '@hazelcast/ui'
+;<Modal
+  isOpen={open}
+  onClose={close}
+  title="Delete cluster"
+  icon={Trash2}
+  iconAriaLabel="Delete"
+  actions={[{ children: 'Delete', onClick: onDelete, color: 'danger' }]}
+>
+  This action cannot be undone.
+</Modal>
+```
+
+**After:**
+
+```tsx
+import { Modal } from '@hazelcast/ui'
+;<Modal
+  isOpen={open}
+  onClose={close}
+  intent="danger"
+  eyebrow="Danger zone"
+  icon={Trash2}
+  iconAriaLabel="Delete"
+  title="Delete cluster"
+  description="This permanently deletes the cluster and all data. Backups, IP whitelists, and saved configuration will be removed."
+  actions={[{ children: 'Delete forever', onClick: onDelete, color: 'danger' }]}
+  helperLink={{ label: 'Learn more in docs', href: '/docs/clusters#delete' }}
+/>
 ```
 
 ---
