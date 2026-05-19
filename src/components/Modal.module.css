@@ -21,7 +21,9 @@
 }
 
 .modal {
-  --modal-icon-color: var(--hive-color-primary-v4);
+  --modal-intent-color: var(--hive-color-primary-v4);
+  --modal-surface: color-mix(in oklch, var(--modal-intent-color) 10%, var(--hive-color-neutral-lighter-v4));
+  --modal-footer-surface: color-mix(in oklch, var(--modal-intent-color) 20%, var(--hive-color-neutral-lighter-v4));
 
   position: absolute;
   left: 50%;
@@ -31,7 +33,7 @@
   min-width: var(--hive-modal-min-width);
   max-width: var(--hive-modal-max-width);
   max-height: var(--hive-modal-max-height);
-  background-color: var(--hive-color-neutral-lighter-v4);
+  background-color: var(--modal-surface);
   border: var(--hive-border-width) solid var(--hive-color-border-v4);
   border-radius: var(--modal-radius);
   box-shadow: var(--hive-shadow-modal-v4);
@@ -50,26 +52,26 @@
 }
 
 .modal.intentConfirm {
-  --modal-icon-color: var(--hive-color-warning-v4);
+  --modal-intent-color: var(--hive-color-warning-v4);
 }
 
 .modal.intentInfo {
-  --modal-icon-color: var(--hive-color-info-v4);
+  --modal-intent-color: var(--hive-color-info-v4);
 }
 
 .modal.intentDanger {
-  --modal-icon-color: var(--hive-color-error-v4);
+  --modal-intent-color: var(--hive-color-error-v4);
 }
 
 .modal.intentSuccess {
-  --modal-icon-color: var(--hive-color-success-v4);
+  --modal-intent-color: var(--hive-color-success-v4);
 }
 
 .header {
   position: relative;
   padding: calc(var(--hive-grid) * 4) calc(var(--hive-grid) * 6);
   border-bottom: var(--hive-border-width) solid var(--hive-color-border-v4);
-  background-color: var(--hive-color-neutral-lighter-v4);
+  background-color: transparent;
 }
 
 .headerRow {
@@ -90,7 +92,7 @@
   background-color: var(--hive-color-neutral-white-v4);
   border: var(--hive-border-width) solid var(--hive-color-border-v4);
   border-radius: var(--modal-radius);
-  color: var(--modal-icon-color);
+  color: var(--modal-intent-color);
 }
 
 .headerText {
@@ -176,7 +178,7 @@
   justify-content: space-between;
   gap: calc(var(--hive-grid) * 3);
   padding: calc(var(--hive-grid) * 3) calc(var(--hive-grid) * 6);
-  background-color: var(--hive-color-surface-hover-v4);
+  background-color: var(--modal-footer-surface);
   border-top: var(--hive-border-width) solid var(--hive-color-border-v4);
 }
 
