@@ -1,0 +1,195 @@
+import { Meta, Title, Canvas, Controls } from '@storybook/blocks'
+import * as ModalStories from './Modal.stories'
+import { DocsTabs } from '../.storybook/DocsTabs'
+
+<Meta of={ModalStories} name="Docs" />
+
+<Title />
+
+Modal is a focused, blocking dialog used for high-signal interactions that
+require a decision or acknowledgement before the user continues. Use it
+sparingly — most flows are better served by inline UI, side panels, or
+toasts. Reach for Modal when an action is destructive, irreversible, or
+needs a clear yes/no commitment.
+
+<DocsTabs tabs={[
+  {
+    id: 'overview',
+    label: 'Overview',
+    content: (
+      <>
+        <Canvas of={ModalStories.Playground} />
+
+        <h2>Intents</h2>
+
+        <p>The <code>intent</code> prop tints the header gradient and frames the optional icon. Pick the intent that matches the user&rsquo;s mental model of the action.</p>
+
+        <h3>Action</h3>
+
+        <p>The default. A neutral container for ordinary, low-risk decisions — restart, rename, share.</p>
+
+        <Canvas of={ModalStories.Action} />
+
+        <h3>Confirm</h3>
+
+        <p>For decisions that aren&rsquo;t destructive but have a perceptible blast radius — pausing a cluster, suspending a user.</p>
+
+        <Canvas of={ModalStories.Confirm} />
+
+        <h3>Info</h3>
+
+        <p>For announcements and acknowledgements where the user&rsquo;s primary action is to read and dismiss.</p>
+
+        <Canvas of={ModalStories.InfoModal} />
+
+        <h3>Danger</h3>
+
+        <p>For destructive, hard-to-reverse actions — delete, drop, force-disconnect. Pair with a danger-coloured primary action.</p>
+
+        <Canvas of={ModalStories.Danger} />
+
+        <h3>Success</h3>
+
+        <p>For positive confirmations and celebrations of completed flows. Use sparingly; most success states belong in a toast.</p>
+
+        <Canvas of={ModalStories.Success} />
+
+        <h2>Eyebrow, title, description</h2>
+
+        <p>The header anatomy is intentionally rigid:</p>
+
+        <ul>
+          <li><strong>eyebrow</strong> — a one- or two-word category label above the title (<code>Action</code>, <code>Danger zone</code>).</li>
+          <li><strong>title</strong> — what is happening, written as a noun phrase or short imperative.</li>
+          <li><strong>description</strong> — one or two sentences of consequence and context. Keep under 200 characters.</li>
+        </ul>
+
+        <h2>Icon</h2>
+
+        <p>Pass any <code>react-feather</code> icon component as <code>icon</code> and a label as <code>iconAriaLabel</code>. The icon renders in a 40×40 framed tile coloured to match the intent.</p>
+
+        <Canvas of={ModalStories.WithIcon} />
+
+        <h2>Actions</h2>
+
+        <p>Provide one or more primary <code>actions</code>; each renders as a Button. The Cancel button is rendered automatically and appears <strong>before</strong> the primary actions in DOM order so keyboard focus reaches the safer choice first. Use <code>color: &quot;danger&quot;</code> on a primary action to mark it destructive.</p>
+
+        <Canvas of={ModalStories.WithDangerAction} />
+        <Canvas of={ModalStories.WithMultipleActions} />
+
+        <h2>Helper link</h2>
+
+        <p>Use <code>helperLink</code> for a documentation pointer that sits in the footer next to the actions. Keep the label short — <code>Learn more in docs</code>, <code>About this setting</code>.</p>
+
+        <h2>Hidden actions</h2>
+
+        <p>Set <code>hideActions</code> when the modal content owns its own footer (forms, multi-step flows). The default Cancel button is suppressed.</p>
+
+        <Canvas of={ModalStories.WithHiddenModalActions} />
+
+        <h2>Legacy v3</h2>
+
+        <p>The v3 Modal is preserved for gradual migration. Import from <code>@hazelcast/ui/old</code>. New code should use the Modal above.</p>
+
+        <Canvas of={ModalStories.LegacyV3} />
+
+        <h2>Props</h2>
+
+        <Controls of={ModalStories.Playground} />
+      </>
+    ),
+  },
+  {
+    id: 'guidelines',
+    label: 'Guidelines',
+    content: (
+      <>
+        <h2>When to use a Modal</h2>
+
+        <ul>
+          <li><strong>Destructive actions</strong> — delete, drop, force-disconnect. Always use <code>intent=&quot;danger&quot;</code> and a danger-coloured primary action.</li>
+          <li><strong>Irreversible or high-cost actions</strong> — billing changes, plan downgrades, exporting credentials.</li>
+          <li><strong>Short focused tasks</strong> — single-form input that blocks the surrounding flow.</li>
+        </ul>
+
+        <h3>When <em>not</em> to use a Modal</h3>
+
+        <ul>
+          <li>For non-blocking notifications → use a <code>Toast</code> or <code>Alert</code>.</li>
+          <li>For long forms or multi-step workflows → use a side panel or full page.</li>
+          <li>For onboarding tours, marketing announcements, or tips → use inline UI or a dismissible banner.</li>
+          <li>To stack on top of another modal — modals should not chain.</li>
+        </ul>
+
+        <h2>Writing</h2>
+
+        <ul>
+          <li><strong>Title</strong> states what is happening (<em>Delete cluster</em>) — not a question (<em>Are you sure?</em>).</li>
+          <li><strong>Description</strong> describes the consequence in plain language; lead with what changes and what can&rsquo;t be undone.</li>
+          <li><strong>Primary action label</strong> restates the verb in the title (<em>Delete cluster</em>, <em>Restart connector</em>). Avoid generic <em>OK</em> / <em>Yes</em>.</li>
+          <li><strong>Cancel label</strong> stays as <em>Cancel</em>. Don&rsquo;t replace with <em>No</em> or <em>Back</em>.</li>
+        </ul>
+
+        <h2>Intent &amp; colour</h2>
+
+        <ul>
+          <li>The intent gradient is decorative — never the only signal. Reinforce with the icon and copy.</li>
+          <li>One primary action per modal. Multiple primaries dilute the decision.</li>
+          <li>Reserve <code>danger</code> for destructive actions; overuse erodes its meaning.</li>
+        </ul>
+
+        <h2>Anatomy</h2>
+
+        <p>The header always contains an optional icon tile + eyebrow + title + optional description. The body holds rich content. The footer holds an optional helper link on the left and the action group (Cancel + actions) on the right. Do not relocate these regions.</p>
+      </>
+    ),
+  },
+  {
+    id: 'accessibility',
+    label: 'Accessibility',
+    content: (
+      <>
+        <p>Modal is built on <code>react-modal</code>, which provides the focus trap, return-focus, scroll lock, and <code>aria-modal</code> wiring. The notes below cover the application-level concerns.</p>
+
+        <h2>Accessible name</h2>
+
+        <p>The <code>title</code> prop is wired to the dialog via <code>aria-labelledby</code>. Always provide a title — even when the design hides it visually, supply text the screen reader can announce.</p>
+
+        <h2>Focus management</h2>
+
+        <ul>
+          <li>Focus moves into the modal on open and is trapped until close.</li>
+          <li>Focus returns to the triggering element on close.</li>
+          <li>Set <code>autoFocus</code> on the action you want focused first. For destructive flows, default focus to <strong>Cancel</strong> — the safer choice.</li>
+        </ul>
+
+        <h2>Keyboard</h2>
+
+        <ul>
+          <li><code>Esc</code> closes the modal (unless <code>closable={false}</code>).</li>
+          <li><code>Tab</code> / <code>Shift</code>+<code>Tab</code> cycles within the dialog.</li>
+          <li>The close icon is a real <code>{'<button>'}</code> with an <code>aria-label</code>.</li>
+        </ul>
+
+        <h2>Backdrop &amp; dismiss</h2>
+
+        <p>Backdrop click closes the modal by default. Disable with <code>shouldCloseOnOverlayClick={false}</code> for high-cost decisions where an accidental click could discard work.</p>
+
+        <h2>Icon labelling</h2>
+
+        <p>Always pair <code>icon</code> with <code>iconAriaLabel</code>. If the icon is purely decorative, you can omit both — but the intent gradient alone is not enough on its own.</p>
+
+        <h2>Testing checklist</h2>
+
+        <ul>
+          <li>Modal opens with focus inside and returns focus to the trigger on close.</li>
+          <li><code>Esc</code> closes the modal.</li>
+          <li>Backdrop click closes the modal (or is intentionally disabled).</li>
+          <li>The dialog has an accessible name announced on open.</li>
+          <li>Destructive primaries are colour-coded <strong>and</strong> labelled with the destructive verb.</li>
+          <li>Default focus lands on Cancel when the modal is destructive.</li>
+        </ul>
+      </>
+    ),
+  },
+]} />

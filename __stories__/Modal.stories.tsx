@@ -1,24 +1,15 @@
 import React, { FC } from 'react'
 import cn from 'classnames'
 import { useUID } from 'react-uid'
-import { CloudLightning } from 'react-feather'
+import { AlertTriangle, CheckCircle, CloudLightning, Info, Trash2, RefreshCw } from 'react-feather'
+import { Meta, StoryObj } from '@storybook/react'
 
 import { Modal, ModalProps } from '../src/components/Modal'
+import { Modal as LegacyModal, ModalProps as LegacyModalProps } from '../src/old/Modal'
 import { Button } from '../src'
 
-import styles from '../src/components/Modal.module.scss'
+import styles from '../src/components/Modal.module.css'
 import utilsStyles from './utils.module.scss'
-
-export default {
-  title: 'Components/Modal',
-  component: Modal,
-  parameters: {
-    docs: {
-      inlineStories: false,
-      iframeHeight: 500,
-    },
-  },
-}
 
 // eslint-disable-next-line no-console
 const onClose = () => console.log('onClose')
@@ -44,6 +35,137 @@ const ModalWithPortalFactory: FC<ModalProps> = ({ children, className, ...props 
       </Modal>
     </div>
   )
+}
+
+const meta: Meta<typeof Modal> = {
+  title: 'Components/Modal',
+  component: Modal,
+  parameters: {
+    docs: {
+      inlineStories: false,
+      iframeHeight: 500,
+    },
+  },
+  argTypes: {
+    intent: {
+      control: { type: 'inline-radio' },
+      options: ['action', 'confirm', 'info', 'danger', 'success'],
+    },
+    closable: { control: 'boolean' },
+    showCloseButton: { control: 'boolean' },
+    hideActions: { control: 'boolean' },
+  },
+}
+export default meta
+
+type Story = StoryObj<typeof Modal>
+
+export const Playground: Story = {
+  args: {
+    isOpen: true,
+    title: 'Restart connector',
+    eyebrow: 'Action',
+    description:
+      'Restarting will briefly interrupt streaming. Existing buffered events will be replayed when the connector comes back online.',
+    intent: 'action',
+    icon: RefreshCw,
+    iconAriaLabel: 'Restart',
+    onClose,
+    actions: [{ children: 'Restart', onClick, autoFocus: true }],
+    helperLink: { label: 'Learn more in docs', href: '#' },
+  },
+  render: (args) => <ModalWithPortalFactory {...args} />,
+}
+
+export const Action: Story = {
+  tags: ['!dev'],
+  render: () => (
+    <ModalWithPortalFactory
+      isOpen
+      onClose={onClose}
+      intent="action"
+      eyebrow="Action"
+      icon={RefreshCw}
+      iconAriaLabel="Restart"
+      title="Restart connector"
+      description="Restarting will briefly interrupt streaming. Existing buffered events will be replayed when the connector comes back online."
+      actions={[{ children: 'Restart', onClick, autoFocus: true }]}
+      helperLink={{ label: 'Learn more in docs', href: '#' }}
+    />
+  ),
+}
+
+export const Confirm: Story = {
+  tags: ['!dev'],
+  render: () => (
+    <ModalWithPortalFactory
+      isOpen
+      onClose={onClose}
+      intent="confirm"
+      eyebrow="Confirm"
+      icon={AlertTriangle}
+      iconAriaLabel="Warning"
+      title="Pause cluster"
+      description="Pausing the cluster will disconnect all active clients. Saved data is retained and the cluster can be resumed at any time."
+      actions={[{ children: 'Pause cluster', onClick, autoFocus: true }]}
+      helperLink={{ label: 'Learn more in docs', href: '#' }}
+    />
+  ),
+}
+
+export const InfoModal: Story = {
+  tags: ['!dev'],
+  name: 'Info',
+  render: () => (
+    <ModalWithPortalFactory
+      isOpen
+      onClose={onClose}
+      intent="info"
+      eyebrow="Heads up"
+      icon={Info}
+      iconAriaLabel="Info"
+      title="New version available"
+      description="Hazelcast Cloud 5.6 is available. Upgrade your cluster to get the latest features and security patches."
+      actions={[{ children: 'Upgrade', onClick, autoFocus: true }]}
+      helperLink={{ label: 'Learn more in docs', href: '#' }}
+    />
+  ),
+}
+
+export const Danger: Story = {
+  tags: ['!dev'],
+  render: () => (
+    <ModalWithPortalFactory
+      isOpen
+      onClose={onClose}
+      intent="danger"
+      eyebrow="Danger zone"
+      icon={Trash2}
+      iconAriaLabel="Delete"
+      title="Delete cluster"
+      description="This permanently deletes the cluster and all data. Backups, IP whitelists, and saved configuration will be removed. This action cannot be undone."
+      actions={[{ children: 'Delete forever', onClick, color: 'danger' }]}
+      helperLink={{ label: 'Learn more in docs', href: '#' }}
+    />
+  ),
+}
+
+export const Success: Story = {
+  tags: ['!dev'],
+  render: () => (
+    <ModalWithPortalFactory
+      isOpen
+      onClose={onClose}
+      intent="success"
+      eyebrow="All set"
+      icon={CheckCircle}
+      iconAriaLabel="Success"
+      title="Cluster is healthy"
+      description="All members are connected, replication is current, and your client connections are healthy."
+      actions={[{ children: 'Got it', onClick, autoFocus: true }]}
+      helperLink={{ label: 'Learn more in docs', href: '#' }}
+    />
+  ),
 }
 
 export const Default = () => (
@@ -223,3 +345,25 @@ export const SmallVariant = () => (
     {Content}
   </ModalWithPortalFactory>
 )
+
+const LegacyModalWithPortal: FC<LegacyModalProps> = ({ children, className, ...props }) => {
+  const id = `s${useUID()}`
+  return (
+    <div id={id} className={utilsStyles.modalWrapper}>
+      <LegacyModal
+        {...props}
+        className={cn(className, utilsStyles.modal)}
+        parentSelector={() => document.querySelector(`#${id}`) as HTMLElement}
+      >
+        {children}
+      </LegacyModal>
+    </div>
+  )
+}
+
+export const LegacyV3 = () => (
+  <LegacyModalWithPortal title={title} isOpen onClose={onClose} actions={[{ children: 'Action', onClick }]}>
+    {Content}
+  </LegacyModalWithPortal>
+)
+LegacyV3.tags = ['!dev']

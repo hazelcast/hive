@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event'
 
 import { Modal } from '../../src/components/Modal'
 
-import styles from '../../src/components/Modal.module.scss'
+import styles from '../../src/components/Modal.module.css'
 
 const modalTitle = 'Modal Title'
 const ModalContent = () => <div>Content</div>
@@ -212,7 +212,7 @@ describe('Modal', () => {
       </Modal>,
     )
 
-    expect(screen.getByTestId('modal-footer').children).toHaveLength(2)
+    expect(within(screen.getByTestId('modal-footer')).queryAllByRole('button', { hidden: true })).toHaveLength(2)
     expect(document.activeElement).toEqual(screen.getByTestId('modal-button-action'))
   })
 
@@ -238,7 +238,7 @@ describe('Modal', () => {
       </Modal>,
     )
 
-    expect(screen.getByTestId('modal-footer').children).toHaveLength(2)
+    expect(within(screen.getByTestId('modal-footer')).queryAllByRole('button', { hidden: true })).toHaveLength(2)
     expect(document.activeElement).toEqual(screen.getByTestId('test-input'))
   })
 })
