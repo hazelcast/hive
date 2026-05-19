@@ -61,6 +61,14 @@ const intentClass: Record<ModalIntent, string | undefined> = {
   success: styles.intentSuccess,
 }
 
+const intentActionColor: Record<ModalIntent, ModalActionProps['color']> = {
+  action: 'primary',
+  confirm: 'warning',
+  info: 'primary',
+  danger: 'danger',
+  success: 'primary',
+}
+
 /*
  * ### Purpose
  * Modal surfaces a focused, secondary user-story on top of the current page. Use it for
@@ -207,8 +215,14 @@ export const Modal: FC<ModalProps> = ({
                   >
                     Cancel
                   </Button>
-                  {actions?.map(({ children: actionChildren, size = 'small', ...actionPropsRest }, key) => (
-                    <Button key={key} data-test="modal-button-action" size={size} {...actionPropsRest}>
+                  {actions?.map(({ children: actionChildren, size = 'small', color, ...actionPropsRest }, key) => (
+                    <Button
+                      key={key}
+                      data-test="modal-button-action"
+                      size={size}
+                      color={color ?? intentActionColor[intent]}
+                      {...actionPropsRest}
+                    >
                       {actionChildren}
                     </Button>
                   ))}

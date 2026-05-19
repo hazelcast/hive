@@ -71,8 +71,6 @@
   --hive-color-surface-active-v4: oklch(0.94 0 0);
   --hive-color-link-v4: oklch(0.6 0.21 264);
   --hive-shadow-button-v4: 0 1px 3px oklch(0 0 0 / 0.1), 0 1px 2px oklch(0 0 0 / 0.1);
-  --hive-shadow-modal-v4: 0 10px 15px -3px oklch(0 0 0 / 0.1), 0 4px 6px -4px oklch(0 0 0 / 0.1);
-  --hive-color-overlay-v4: oklch(0 0 0 / 0.5);
 
   /* ─── Spacing ─────────────────────────────────────────────────── */
   /* Base grid unit: 4px = 0.25rem */

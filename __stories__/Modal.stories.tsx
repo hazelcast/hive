@@ -54,13 +54,52 @@ const meta: Meta<typeof Modal> = {
     closable: { control: 'boolean' },
     showCloseButton: { control: 'boolean' },
     hideActions: { control: 'boolean' },
+    hideHeader: { control: 'boolean' },
+    hideFooter: { control: 'boolean' },
+    title: { control: 'text' },
+    eyebrow: { control: 'text' },
+    description: { control: 'text' },
+    helperLink: { control: 'object' },
+    header: { control: false },
+    footer: { control: false },
+    children: { control: false },
+    icon: { control: false },
+    actions: { control: false },
+    onClose: { control: false },
+    parentSelector: { control: false },
   },
 }
 export default meta
 
 type Story = StoryObj<typeof Modal>
 
-export const Playground: Story = {
+const iconOptions = {
+  None: undefined,
+  RefreshCw,
+  AlertTriangle,
+  CheckCircle,
+  Info,
+  Trash2,
+  CloudLightning,
+}
+
+type PlaygroundArgs = ModalProps & {
+  iconName?: keyof typeof iconOptions
+  showHelperLink?: boolean
+  actionLabel?: string
+}
+
+export const Playground: StoryObj<PlaygroundArgs> = {
+  argTypes: {
+    iconName: {
+      name: 'icon',
+      control: { type: 'select' },
+      options: Object.keys(iconOptions),
+    },
+    showHelperLink: { control: 'boolean', name: 'helperLink' },
+    actionLabel: { control: 'text', name: 'action label' },
+    iconAriaLabel: { control: 'text' },
+  },
   args: {
     isOpen: true,
     title: 'Restart connector',
@@ -68,13 +107,20 @@ export const Playground: Story = {
     description:
       'Restarting will briefly interrupt streaming. Existing buffered events will be replayed when the connector comes back online.',
     intent: 'action',
-    icon: RefreshCw,
+    iconName: 'RefreshCw',
     iconAriaLabel: 'Restart',
     onClose,
-    actions: [{ children: 'Restart', onClick, autoFocus: true }],
-    helperLink: { label: 'Learn more in docs', href: '#' },
+    actionLabel: 'Restart',
+    showHelperLink: true,
   },
-  render: (args) => <ModalWithPortalFactory {...args} />,
+  render: ({ iconName, showHelperLink, actionLabel, ...args }) => (
+    <ModalWithPortalFactory
+      {...args}
+      icon={iconName ? iconOptions[iconName] : undefined}
+      actions={actionLabel ? [{ children: actionLabel, onClick, autoFocus: true }] : undefined}
+      helperLink={showHelperLink ? { label: 'Learn more in docs', href: '#' } : undefined}
+    />
+  ),
 }
 
 export const Action: Story = {

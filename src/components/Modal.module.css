@@ -1,6 +1,4 @@
 .portal {
-  --modal-radius: var(--hive-border-radius);
-
   position: fixed;
   inset: 0;
   width: 100%;
@@ -16,13 +14,11 @@
 .overlay {
   width: 100%;
   height: 100%;
-  background-color: var(--hive-color-overlay-v4);
+  background-color: oklch(0 0 0 / 0.5);
   pointer-events: all;
 }
 
 .modal {
-  --modal-intent-color: var(--hive-color-primary-v4);
-
   position: absolute;
   left: 50%;
   top: 50%;
@@ -33,8 +29,10 @@
   max-height: var(--hive-modal-max-height);
   background-color: var(--hive-color-neutral-lighter-v4);
   border: var(--hive-border-width) solid var(--hive-color-border-v4);
-  border-radius: var(--modal-radius);
-  box-shadow: var(--hive-shadow-modal-v4);
+  border-radius: var(--hive-border-radius);
+  box-shadow:
+    0 10px 15px -3px oklch(0 0 0 / 0.1),
+    0 4px 6px -4px oklch(0 0 0 / 0.1);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -45,31 +43,32 @@
 .modal.focus {
   outline: transparent solid var(--hive-outline-width);
   box-shadow:
-    var(--hive-shadow-modal-v4),
+    0 10px 15px -3px oklch(0 0 0 / 0.1),
+    0 4px 6px -4px oklch(0 0 0 / 0.1),
     0 0 0 3px oklch(from var(--hive-color-primary-v4) l c h / 0.5);
-}
-
-.modal.intentConfirm {
-  --modal-intent-color: var(--hive-color-warning-v4);
-}
-
-.modal.intentInfo {
-  --modal-intent-color: var(--hive-color-info-v4);
-}
-
-.modal.intentDanger {
-  --modal-intent-color: var(--hive-color-error-v4);
-}
-
-.modal.intentSuccess {
-  --modal-intent-color: var(--hive-color-success-v4);
 }
 
 .header {
   position: relative;
   padding: calc(var(--hive-grid) * 4) calc(var(--hive-grid) * 6);
   border-bottom: var(--hive-border-width) solid var(--hive-color-border-v4);
-  background-color: color-mix(in oklab, var(--modal-intent-color) 20%, var(--hive-color-neutral-lighter-v4));
+  background-color: color-mix(in oklab, var(--hive-color-primary-v4) 20%, var(--hive-color-neutral-lighter-v4));
+}
+
+.modal.intentConfirm .header {
+  background-color: color-mix(in oklab, var(--hive-color-warning-v4) 20%, var(--hive-color-neutral-lighter-v4));
+}
+
+.modal.intentInfo .header {
+  background-color: color-mix(in oklab, var(--hive-color-info-v4) 20%, var(--hive-color-neutral-lighter-v4));
+}
+
+.modal.intentDanger .header {
+  background-color: color-mix(in oklab, var(--hive-color-error-v4) 20%, var(--hive-color-neutral-lighter-v4));
+}
+
+.modal.intentSuccess .header {
+  background-color: color-mix(in oklab, var(--hive-color-success-v4) 20%, var(--hive-color-neutral-lighter-v4));
 }
 
 .headerRow {
@@ -89,8 +88,24 @@
   justify-content: center;
   background-color: var(--hive-color-neutral-white-v4);
   border: var(--hive-border-width) solid var(--hive-color-border-v4);
-  border-radius: var(--modal-radius);
-  color: var(--modal-intent-color);
+  border-radius: var(--hive-border-radius);
+  color: var(--hive-color-primary-v4);
+}
+
+.modal.intentConfirm .iconBox {
+  color: var(--hive-color-warning-v4);
+}
+
+.modal.intentInfo .iconBox {
+  color: var(--hive-color-info-v4);
+}
+
+.modal.intentDanger .iconBox {
+  color: var(--hive-color-error-v4);
+}
+
+.modal.intentSuccess .iconBox {
+  color: var(--hive-color-success-v4);
 }
 
 .headerText {
