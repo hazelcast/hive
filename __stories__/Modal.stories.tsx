@@ -345,6 +345,18 @@ export const SmallVariant = () => (
     {Content}
   </ModalWithPortalFactory>
 )
+SmallVariant.tags = ['!dev']
+Default.tags = ['!dev']
+NotClosable.tags = ['!dev']
+WithIcon.tags = ['!dev']
+WithAction.tags = ['!dev']
+WithActionDisabled.tags = ['!dev']
+WithDangerAction.tags = ['!dev']
+WithDangerActionDisabled.tags = ['!dev']
+WithMultipleActions.tags = ['!dev']
+WithLongTitle.tags = ['!dev']
+WithHiddenModalActions.tags = ['!dev']
+LongContent.tags = ['!dev']
 
 const LegacyModalWithPortal: FC<LegacyModalProps> = ({ children, className, ...props }) => {
   const id = `s${useUID()}`
