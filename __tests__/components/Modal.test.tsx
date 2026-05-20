@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event'
 
 import { Modal } from '../../src/components/Modal'
 
-import styles from '../../src/components/Modal.module.scss'
+import styles from '../../src/components/Modal.module.css'
 
 const modalTitle = 'Modal Title'
 const ModalContent = () => <div>Content</div>
@@ -112,6 +112,33 @@ describe('Modal', () => {
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 
+  it('Can rename the footer Cancel button', () => {
+    const onClose = jest.fn()
+
+    render(
+      <Modal isOpen title={modalTitle} onClose={onClose} cancelLabel="Dismiss">
+        <ModalContent />
+      </Modal>,
+    )
+
+    expect(screen.queryByText('Dismiss')).toBeInTheDocument()
+    expect(screen.queryByText('Cancel')).not.toBeInTheDocument()
+  })
+
+  it('Renders a custom header without the default structured header shell', () => {
+    const onClose = jest.fn()
+
+    render(
+      <Modal isOpen onClose={onClose} title={modalTitle} header={<div data-test="custom-header">Custom header</div>}>
+        <ModalContent />
+      </Modal>,
+    )
+
+    expect(screen.queryByText(modalTitle)).not.toBeInTheDocument()
+    expect(screen.queryByTestId('custom-header')).toBeInTheDocument()
+    expect(screen.getByTestId('modal-header')).not.toHaveClass(styles.header)
+  })
+
   it('Sets shouldCloseOnEsc and shouldCloseOnOverlayClick to false, when closable is false', async () => {
     const onClose = jest.fn()
 
@@ -212,7 +239,7 @@ describe('Modal', () => {
       </Modal>,
     )
 
-    expect(screen.getByTestId('modal-footer').children).toHaveLength(2)
+    expect(within(screen.getByTestId('modal-footer')).queryAllByRole('button', { hidden: true })).toHaveLength(2)
     expect(document.activeElement).toEqual(screen.getByTestId('modal-button-action'))
   })
 
@@ -238,7 +265,7 @@ describe('Modal', () => {
       </Modal>,
     )
 
-    expect(screen.getByTestId('modal-footer').children).toHaveLength(2)
+    expect(within(screen.getByTestId('modal-footer')).queryAllByRole('button', { hidden: true })).toHaveLength(2)
     expect(document.activeElement).toEqual(screen.getByTestId('test-input'))
   })
 })
