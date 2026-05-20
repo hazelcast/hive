@@ -40,6 +40,7 @@ export type ModalProps = {
   footerClassName?: string
   overlayClassName?: string
   className?: string
+  cancelLabel?: ReactNode
   icon?: IconProps['icon']
   iconAriaLabel?: IconProps['ariaLabel']
   onClose: ReactModalProps['onRequestClose']
@@ -78,7 +79,7 @@ const intentActionColor: Record<ModalIntent, ModalActionProps['color']> = {
  * - Three optional sections — `header`, body (`children`) and `footer` — are independently
  *   customizable. Omit a section (or pass `hideHeader` / `hideFooter`) to remove it entirely.
  * - The default header renders structured `title`, `eyebrow`, `description` and `icon` props.
- *   Pass a `header` ReactNode to fully replace that markup (the close button is preserved).
+ *   Pass a `header` ReactNode to fully replace the header section (the close button is preserved).
  * - The default footer renders `actions` plus an optional `helperLink`. Pass a `footer`
  *   ReactNode to fully replace it, or `hideActions` / no `helperLink` to drop pieces.
  * - Underlying page is blocked by an overlay; click overlay or press Esc to close (when `closable`).
@@ -102,6 +103,7 @@ export const Modal: FC<ModalProps> = ({
   iconAriaLabel,
   onClose,
   overlayClassName,
+  cancelLabel = 'Cancel',
   title,
   description,
   eyebrow,
@@ -147,11 +149,13 @@ export const Modal: FC<ModalProps> = ({
           <X size={16} aria-hidden />
         </button>
       )}
-      {renderHeader && (
-        <div data-test="modal-header" className={cn(styles.header, headerClassName)}>
-          {hasCustomHeader ? (
-            header
-          ) : (
+      {renderHeader &&
+        (hasCustomHeader ? (
+          <div data-test="modal-header" className={headerClassName}>
+            {header}
+          </div>
+        ) : (
+          <div data-test="modal-header" className={cn(styles.header, headerClassName)}>
             <div className={styles.headerRow}>
               {hasIcon && (
                 <div className={styles.iconBox}>
@@ -176,9 +180,8 @@ export const Modal: FC<ModalProps> = ({
                 )}
               </div>
             </div>
-          )}
-        </div>
-      )}
+          </div>
+        ))}
       {hasBody && (
         <div data-test="modal-content" className={cn(styles.body, bodyClassName, contentClassName)}>
           {children}
@@ -213,7 +216,7 @@ export const Modal: FC<ModalProps> = ({
                     size="small"
                     onClick={(e) => onClose?.(e)}
                   >
-                    Cancel
+                    {cancelLabel}
                   </Button>
                   {actions?.map(({ children: actionChildren, size = 'small', color, ...actionPropsRest }, key) => (
                     <Button

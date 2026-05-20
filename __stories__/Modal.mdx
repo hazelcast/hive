@@ -10,7 +10,8 @@ Modal is a focused, blocking dialog used for high-signal interactions that
 require a decision or acknowledgement before the user continues. Use it
 sparingly — most flows are better served by inline UI, side panels, or
 toasts. Reach for Modal when an action is destructive, irreversible, or
-needs a clear yes/no commitment.
+needs a clear yes/no commitment. The header, body, and footer can each be
+composed independently when the default structure is too rigid.
 
 <DocsTabs tabs={[
   {
@@ -22,7 +23,7 @@ needs a clear yes/no commitment.
 
         <h2>Intents</h2>
 
-        <p>The <code>intent</code> prop tints the header gradient and frames the optional icon. Pick the intent that matches the user&rsquo;s mental model of the action.</p>
+        <p>The <code>intent</code> prop tints the header and frames the optional icon. Pick the intent that matches the user&rsquo;s mental model of the action.</p>
 
         <h3>Action</h3>
 
@@ -54,9 +55,31 @@ needs a clear yes/no commitment.
 
         <Canvas of={ModalStories.Success} />
 
+  <h2>Composition</h2>
+
+  <p>Use the default header and footer when you want the standard confirmation layout. Use <code>header</code>, <code>footer</code>, or just rich <code>children</code> when the modal needs to look more like an embedded panel than a simple yes/no dialog.</p>
+
+  <h3>No body</h3>
+
+  <p>The modal can be header plus footer only. Leave out <code>children</code> when the flow does not need a body section.</p>
+
+  <Canvas of={ModalStories.HeaderAndFooterOnly} />
+
+  <h3>Rich body</h3>
+
+        <p>Put arbitrary content in <code>children</code> for forms, checklists, cards, or other embedded application UI. Compose the body from real Hive form components (TextField, SelectField, SegmentedControl, etc.) rather than raw HTML.</p>
+
+  <Canvas of={ModalStories.UseCaseComposer} />
+
+  <h3>Custom header and footer</h3>
+
+  <p>Pass React nodes to <code>header</code> and <code>footer</code> when the default shell is not enough. The custom header fully replaces the default header region, so you can choose a different background or layout entirely.</p>
+
+  <Canvas of={ModalStories.CustomHeaderAndFooter} />
+
         <h2>Eyebrow, title, description</h2>
 
-        <p>The header anatomy is intentionally rigid:</p>
+        <p>The default header anatomy is intentionally rigid:</p>
 
         <ul>
           <li><strong>eyebrow</strong> — a one- or two-word category label above the title (<code>Action</code>, <code>Danger zone</code>).</li>
@@ -72,14 +95,14 @@ needs a clear yes/no commitment.
 
         <h2>Actions</h2>
 
-        <p>Provide one or more primary <code>actions</code>; each renders as a Button. The Cancel button is rendered automatically and appears <strong>before</strong> the primary actions in DOM order so keyboard focus reaches the safer choice first. Use <code>color: &quot;danger&quot;</code> on a primary action to mark it destructive.</p>
+        <p>Provide one or more primary <code>actions</code>; each renders as a Button. The Cancel button is rendered automatically and appears <strong>before</strong> the primary actions in DOM order so keyboard focus reaches the safer choice first. Override it with <code>cancelLabel</code> when product language needs something else. Use <code>color: &quot;danger&quot;</code> on a primary action to mark it destructive.</p>
 
         <Canvas of={ModalStories.WithDangerAction} />
         <Canvas of={ModalStories.WithMultipleActions} />
 
         <h2>Helper link</h2>
 
-        <p>Use <code>helperLink</code> for a documentation pointer that sits in the footer next to the actions. Keep the label short — <code>Learn more in docs</code>, <code>About this setting</code>.</p>
+        <p>Use <code>helperLink</code> for a documentation pointer that sits in the footer next to the actions. Keep the label short — <code>Learn more in docs</code>, <code>About this setting</code>. Omit it entirely when the footer should be just actions.</p>
 
         <h2>Hidden actions</h2>
 
@@ -127,20 +150,20 @@ needs a clear yes/no commitment.
           <li><strong>Title</strong> states what is happening (<em>Delete cluster</em>) — not a question (<em>Are you sure?</em>).</li>
           <li><strong>Description</strong> describes the consequence in plain language; lead with what changes and what can&rsquo;t be undone.</li>
           <li><strong>Primary action label</strong> restates the verb in the title (<em>Delete cluster</em>, <em>Restart connector</em>). Avoid generic <em>OK</em> / <em>Yes</em>.</li>
-          <li><strong>Cancel label</strong> stays as <em>Cancel</em>. Don&rsquo;t replace with <em>No</em> or <em>Back</em>.</li>
+          <li><strong>Cancel label</strong> defaults to <em>Cancel</em>. Override it with <code>cancelLabel</code> only when the product language needs a different word.</li>
         </ul>
 
         <h2>Intent &amp; colour</h2>
 
         <ul>
-          <li>The intent gradient is decorative — never the only signal. Reinforce with the icon and copy.</li>
+          <li>The intent tint is decorative — never the only signal. Reinforce with the icon and copy.</li>
           <li>One primary action per modal. Multiple primaries dilute the decision.</li>
           <li>Reserve <code>danger</code> for destructive actions; overuse erodes its meaning.</li>
         </ul>
 
         <h2>Anatomy</h2>
 
-        <p>The header always contains an optional icon tile + eyebrow + title + optional description. The body holds rich content. The footer holds an optional helper link on the left and the action group (Cancel + actions) on the right. Do not relocate these regions.</p>
+        <p>The default header always contains an optional icon tile + eyebrow + title + optional description. The body holds rich content. The footer holds an optional helper link on the left and the action group (Cancel + actions) on the right. The custom <code>header</code> and <code>footer</code> props replace those regions entirely, so use them when you need a different shell.</p>
       </>
     ),
   },

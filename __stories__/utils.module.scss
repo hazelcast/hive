@@ -17,6 +17,10 @@
   /* doiuse-enable calc */
 }
 
+.modalAuto {
+  max-height: none !important;
+}
+
 .sliderSmallThumb::-webkit-slider-thumb {
   // this should never be possible to override, this is only for storybook purpose - visual regression testing
   opacity: 0.5 !important;
