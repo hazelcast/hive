@@ -67,3 +67,5 @@ export type {
   ButtonTabProps,
   TabPanelProps,
 } from './Tabs'
+export { Modal, setAppElement } from './Modal'
+export type { ModalProps, ModalActionProps } from './Modal'
