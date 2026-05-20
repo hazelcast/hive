@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useMemo, AnchorHTMLAttributes } from 'react'
+import React, { FC, ReactElement, ReactNode, useMemo, AnchorHTMLAttributes } from 'react'
 import ReactModal, { Props as ReactModalProps } from 'react-modal'
 import cn from 'classnames'
 import { X, ExternalLink } from 'react-feather'
@@ -40,7 +40,7 @@ export type ModalProps = {
   footerClassName?: string
   overlayClassName?: string
   className?: string
-  cancelLabel?: ReactNode
+  cancelLabel?: string | ReactElement
   icon?: IconProps['icon']
   iconAriaLabel?: IconProps['ariaLabel']
   onClose: ReactModalProps['onRequestClose']
