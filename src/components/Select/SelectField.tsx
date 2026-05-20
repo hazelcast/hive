@@ -228,7 +228,7 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
           <Icon
             containerClassName={cn(styles.iconLeftContainer, iconLeftContainerClassName)}
             icon={iconLeft}
-            size={size}
+            size="small"
             ariaLabel={iconLeftAriaLabel}
             data-test={`${dataTest}-icon-left`}
             className={cn(styles.iconLeft, iconLeftClassName)}
