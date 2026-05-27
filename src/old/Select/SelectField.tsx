@@ -6,15 +6,15 @@ import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 import cn from 'classnames'
 
 import { DataTestProp } from '../../helpers/types'
-import { Error, errorId } from '../Error'
-import { FieldHeader, FieldHeaderProps } from '../FieldHeader'
-import { Icon, IconProps } from '../Icon'
+import { Error, errorId } from '../../components/Error'
+import { FieldHeader, FieldHeaderProps } from '../../components/FieldHeader'
+import { Icon, IconProps } from '../../components/Icon'
 import { getMenuContainer, getOptionsMap, SelectFieldOption, SelectFieldOptionsMap } from './helpers'
 import { components, RenderMenuFooterFunction } from './Common'
 import { components as rsComponents } from 'react-select'
 import { useCloseOnResize } from '../../hooks/useCloseOnResize'
 
-import styles from './SelectField.module.css'
+import styles from './SelectFieldLegacy.module.scss'
 
 export type SelectFieldCoreStaticProps<V> = {
   name: string
@@ -228,7 +228,7 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
           <Icon
             containerClassName={cn(styles.iconLeftContainer, iconLeftContainerClassName)}
             icon={iconLeft}
-            size="small"
+            size={size}
             ariaLabel={iconLeftAriaLabel}
             data-test={`${dataTest}-icon-left`}
             className={cn(styles.iconLeft, iconLeftClassName)}

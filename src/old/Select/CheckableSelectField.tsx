@@ -3,15 +3,15 @@ import { Check, ChevronDown, ChevronUp, Minus } from 'react-feather'
 import { useUID } from 'react-uid'
 import cls from 'classnames'
 
-import { Popover } from '../Popover'
-import { Link } from '../Link'
+import { Popover } from '../../components/Popover'
+import { Link } from '../../components/Link'
 import { SelectFieldOption } from './helpers'
 import { TextField } from '../TextField'
-import { HelpProps } from '../Help'
+import { HelpProps } from '../../components/Help'
 import { useOpenCloseState } from '../../hooks'
-import { TruncatedText } from '../TruncatedText'
+import { TruncatedText } from '../../components/TruncatedText'
 
-import styles from './CheckableSelectField.module.css'
+import styles from './CheckableSelectFieldLegacy.module.scss'
 
 export type CheckableSelectFieldCoreStaticProps<V> = {
   name: string
@@ -128,41 +128,34 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
     return `${value.length} selected`
   }
 
-  const handleOpenerClick = useCallback(() => {
-    if (!disabled) {
-      toggle()
-    }
-  }, [disabled, toggle])
-
   return (
     <>
-      <div className={styles.openerWrap} onClick={handleOpenerClick}>
-        <TextField
-          size={size}
-          name={name}
-          id={rootId || id}
-          onKeyDown={handleKeyDown}
-          containerRef={setAnchorElement}
-          onChange={() => null}
-          label={(label as string) || ''}
-          labelClassName={labelClassName}
-          disabled={disabled}
-          showAriaLabel={showAriaLabel}
-          helperText={helperText}
-          className={cls(className, styles.opener, {
-            [styles.withPermanentPlaceholder]: placeholderMode === 'permanent',
-          })}
-          error={error}
-          errorClassName={errorClassName}
-          onBlur={onBlur}
-          readOnly
-          required={required}
-          data-test={`${dataTest}-opener`}
-          value={getValueLabel()}
-          inputTrailingIconLabel={isOpen ? 'Close' : 'Open'}
-          inputTrailingIcon={isOpen ? ChevronUp : ChevronDown}
-        />
-      </div>
+      <TextField
+        size={size}
+        name={name}
+        id={rootId || id}
+        onClick={toggle}
+        onKeyDown={handleKeyDown}
+        containerRef={setAnchorElement}
+        onChange={() => null}
+        label={(label as string) || ''}
+        labelClassName={labelClassName}
+        disabled={disabled}
+        showAriaLabel={showAriaLabel}
+        helperText={helperText}
+        className={cls(className, styles.opener, {
+          [styles.withPermanentPlaceholder]: placeholderMode === 'permanent',
+        })}
+        error={error}
+        errorClassName={errorClassName}
+        onBlur={onBlur}
+        readOnly
+        required={required}
+        data-test={`${dataTest}-opener`}
+        value={getValueLabel()}
+        inputTrailingIconLabel={isOpen ? 'Close' : 'Open'}
+        inputTrailingIcon={isOpen ? ChevronUp : ChevronDown}
+      />
 
       <Popover
         matchReferenceSize

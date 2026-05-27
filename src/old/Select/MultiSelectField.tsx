@@ -16,15 +16,15 @@ import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 import cn from 'classnames'
 
 import { DataTestProp } from '../../helpers/types'
-import { Error, errorId } from '../Error'
-import { Icon } from '../Icon'
+import { Error, errorId } from '../../components/Error'
+import { Icon } from '../../components/Icon'
 import { SelectFieldOption, getMenuContainer, getOptionsMap, SelectFieldOptionsMap } from './helpers'
 import { components, RenderMenuFooterFunction } from './Common'
-import { FieldHeader, FieldHeaderProps } from '../FieldHeader'
+import { FieldHeader, FieldHeaderProps } from '../../components/FieldHeader'
 import { useCloseOnResize } from '../../hooks/useCloseOnResize'
 
-import styles from './SelectField.module.css'
-import multiStyles from './MultiSelectField.module.css'
+import styles from './SelectFieldLegacy.module.scss'
+import multiStyles from './MultiSelectFieldLegacy.module.scss'
 
 // Self-styled version of the MultiValue/Label
 const MultiValueLabel: typeof rsComponents.MultiValueLabel = ({ children }) => <div className={multiStyles.multiValueLabel}>{children}</div>

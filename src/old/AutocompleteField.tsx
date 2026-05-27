@@ -4,13 +4,13 @@ import { useUID } from 'react-uid'
 import cn from 'classnames'
 import { Search, X } from 'react-feather'
 import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
-import styles from './AutocompleteField.module.css'
-import { Error, errorId } from './Error'
-import { HelpProps } from './Help'
+import styles from './AutocompleteFieldLegacy.module.scss'
+import { Error, errorId } from '../components/Error'
+import { HelpProps } from '../components/Help'
 import { canUseDOM } from '../utils/ssr'
 import { IconButton } from './IconButton'
 import { SelectFieldSize } from './Select/SelectField'
-import { FieldHeader, FieldHeaderProps } from './FieldHeader'
+import { FieldHeader, FieldHeaderProps } from '../components/FieldHeader'
 
 export type AutocompleteFieldOption = {
   label: string

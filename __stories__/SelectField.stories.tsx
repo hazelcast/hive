@@ -1,16 +1,21 @@
 import React, { ReactNode, useState } from 'react'
-import { logger } from '../src'
-import { Meta, StoryFn } from '@storybook/react'
-import { Aperture } from 'react-feather'
+import { Meta, StoryObj } from '@storybook/react'
 import { Form, Formik } from 'formik'
+import { Aperture } from 'react-feather'
+import { GroupBase } from 'react-select'
 
+import { logger } from '../src'
 import { SelectField, SelectFieldProps } from '../src/components/Select/SelectField'
-import { SelectFieldOption } from '../src/components/Select/helpers'
 import { SelectFieldFormik } from '../src/components/Select/SelectFieldFormik'
+import { SelectFieldOption } from '../src/components/Select/helpers'
+import { SelectField as LegacySelectField } from '../src/old'
 import { LONG_MULTIPLE_WORD_TEXT, LONG_ONE_WORD_TEXT } from './constants'
 
-import styles from '../src/components/Select/SelectField.module.scss'
-import { GroupBase } from 'react-select'
+import styles from '../src/components/Select/SelectField.module.css'
+import s from './Button.stories.module.scss'
+
+type Args = SelectFieldProps<string>
+type Story = StoryObj<typeof SelectField>
 
 const options: SelectFieldOption<string>[] = [
   { value: 'darth_vader', label: 'Darth Vader' },
@@ -22,7 +27,14 @@ const options: SelectFieldOption<string>[] = [
   { value: 'jar_jar_binks', label: 'Jar Jar Binks' },
 ]
 
-type Args = SelectFieldProps<string>
+const Caption = ({ children }: { children: ReactNode }) => <div className={s.caption}>{children}</div>
+
+const Cell = ({ label, children }: { label: string; children: ReactNode }) => (
+  <div className={s.cell}>
+    <span className={s.label}>{label}</span>
+    {children}
+  </div>
+)
 
 export default {
   title: 'Components/SelectField',
@@ -32,153 +44,260 @@ export default {
       type: 'figma',
       url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE-Hazelcast-Design-System?node-id=510%3A1',
     },
+    docs: {
+      canvas: { sourceState: 'hidden' },
+    },
+    controls: {
+      exclude: ['name', 'value', 'className', 'menuPortalTarget', 'onBlur', 'onChange', 'noOptionsMessage', 'options', 'data-test'],
+    },
+  },
+  argTypes: {
+    label: { control: 'text', table: { category: 'Content' } },
+    placeholder: { control: 'text', table: { category: 'Content' } },
+    helperText: { control: 'text', table: { category: 'Content' } },
+    error: { control: 'text', table: { category: 'State' } },
+    size: {
+      control: 'inline-radio',
+      options: ['small', 'medium'],
+      table: { category: 'Layout', defaultValue: { summary: 'medium' } },
+    },
+    disabled: { control: 'boolean', table: { category: 'State' } },
+    isClearable: { control: 'boolean', table: { category: 'Behavior' } },
+    isCreatable: { control: 'boolean', table: { category: 'Behavior' } },
+    menuIsOpen: { control: 'boolean', table: { category: 'State' } },
   },
   args: {
     name: 'character',
-    label: 'Pick Character',
-    placeholder: 'One character...',
-    noOptionsMessage: () => 'No characters :-(',
+    label: 'Pick character',
+    placeholder: 'Select an option',
     options,
     value: options[1].value,
-    menuPlacement: 'bottom',
-    // menuPortalTarget: 'self',
+    noOptionsMessage: () => 'No characters',
     onBlur: () => logger.log('blur'),
   },
 } as Meta<Args>
 
-const Template: StoryFn<Args> = ({ value: initialValue, ...args }) => {
-  const [value, setValue] = useState<string | null>(initialValue)
-
+const PlaygroundComponent = ({ value: initialValue, ...args }: Args) => {
+  const [value, setValue] = useState<string | null>(initialValue ?? null)
   return (
-    <div style={{ height: 350 }}>
+    <div style={{ width: 320 }}>
       <SelectField {...args} value={value} onChange={setValue} />
     </div>
   )
 }
 
-export const Default = Template.bind({})
-
-export const Empty = Template.bind({})
-Empty.args = {
-  value: null,
-}
-
-export const WithError = Template.bind({})
-WithError.args = {
-  error: 'Dark side',
-}
-
-export const Hovered = Template.bind({})
-Hovered.args = {
-  className: styles.hover,
-}
-
-export const Focused = Template.bind({})
-Focused.args = {
-  className: styles.focus,
-}
-
-export const FocusedWithError = Template.bind({})
-FocusedWithError.args = {
-  ...Focused.args,
-  ...WithError.args,
-}
-
-export const Disabled = Template.bind({})
-Disabled.args = {
-  disabled: true,
-}
-
-export const WithHelperText = Template.bind({})
-WithHelperText.args = {
-  helperText: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-}
-
-export const WithTrailingNote = Template.bind({})
-WithTrailingNote.args = {
-  options: [
-    { value: 'luke_skywalker', label: 'Luke Skywalker', trailingNote: 'Note' },
-    { value: 'custom', label: 'Customized Side Note', trailingNote: <span style={{ color: 'red', fontWeight: '600' }}>Custom Note</span> },
-    { value: 'one_word', label: LONG_ONE_WORD_TEXT, trailingNote: 'Note' },
-    { value: 'multiple_word', label: LONG_MULTIPLE_WORD_TEXT, trailingNote: 'Note' },
-  ],
-}
-
-export const Clearable = Template.bind({})
-Clearable.args = {
-  isClearable: true,
-}
-
-export const WithIcon = Template.bind({})
-WithIcon.args = {
-  iconLeft: Aperture,
-  iconLeftAriaLabel: 'Aperture',
-}
-
-export const Open = Template.bind({})
-Open.args = {
-  menuIsOpen: true,
-}
-
-export const OpenWithInputValue = Template.bind({})
-OpenWithInputValue.args = {
-  ...Empty.args,
-  ...Open.args,
-  inputValue: 'obi',
-}
-
-export const OpenWithInputValueAndNoResults = Template.bind({})
-OpenWithInputValueAndNoResults.args = {
-  ...Empty.args,
-  ...Open.args,
-  inputValue: 'Not a Star Wars character',
-}
-
-export const WithoutLabel = Template.bind({})
-WithoutLabel.args = {
-  showAriaLabel: true,
-}
-
-export const Small = Template.bind({})
-Small.args = {
-  size: 'small',
-}
-
-export const WithCreatableOptions = Template.bind({})
-WithCreatableOptions.args = {
-  isCreatable: true,
-}
-
-export const WithLongTextOptions = Template.bind({})
-WithLongTextOptions.args = {
-  options: [
-    {
-      value: '10000',
-      label: LONG_MULTIPLE_WORD_TEXT,
+export const Playground: Story = {
+  render: (args) => <PlaygroundComponent {...(args as Args)} />,
+  parameters: {
+    layout: 'centered',
+    docs: {
+      description: {
+        story:
+          'Tweak any prop in the Controls panel on the right. Type into **label** for the visible text, **placeholder** for the empty hint, or **error** to render the error state.',
+      },
     },
-    {
-      value: '10001',
-      label: LONG_ONE_WORD_TEXT,
-    },
-    ...options,
-  ],
+  },
 }
 
-export const WithTooltipHidden = Template.bind({})
-WithTooltipHidden.args = {
-  options: [
-    {
-      value: '10000',
-      label: LONG_MULTIPLE_WORD_TEXT,
-    },
-    {
-      value: '10001',
-      label: LONG_ONE_WORD_TEXT,
-    },
-    ...options,
-  ],
-  singleValueTooltipVisible: false,
+export const Basic = () => {
+  const [a, setA] = useState<string | null>(null)
+  const [b, setB] = useState<string | null>(options[1].value)
+  return (
+    <div className={s.section}>
+      <Caption>
+        Use a SelectField when users pick exactly one value from a fixed list. Always pair with a visible <strong>label</strong>.
+      </Caption>
+      <div className={`${s.grid} ${s.gridSizes}`} style={{ gridTemplateColumns: 'repeat(2, 320px)' }}>
+        <Cell label="Empty">
+          <SelectField name="basic-empty" label="Character" placeholder="Select an option" options={options} value={a} onChange={setA} />
+        </Cell>
+        <Cell label="Filled">
+          <SelectField name="basic-filled" label="Character" options={options} value={b} onChange={setB} />
+        </Cell>
+      </div>
+    </div>
+  )
 }
+Basic.tags = ['!dev']
+
+export const Sizes = () => {
+  const [a, setA] = useState<string | null>(options[1].value)
+  const [b, setB] = useState<string | null>(options[1].value)
+  return (
+    <div className={s.section}>
+      <Caption>
+        Two sizes: <strong>small</strong> for dense tables and toolbars, <strong>medium</strong> (default) for most forms.
+      </Caption>
+      <div className={`${s.grid} ${s.gridSizes}`} style={{ gridTemplateColumns: 'repeat(2, 320px)' }}>
+        <Cell label="Small">
+          <SelectField name="size-small" size="small" label="Character" options={options} value={a} onChange={setA} />
+        </Cell>
+        <Cell label="Medium">
+          <SelectField name="size-medium" label="Character" options={options} value={b} onChange={setB} />
+        </Cell>
+      </div>
+    </div>
+  )
+}
+Sizes.tags = ['!dev']
+
+export const States = () => {
+  const stateRows: { label: string; className?: string; disabled?: boolean; error?: string }[] = [
+    { label: 'Default' },
+    { label: 'Hover', className: styles.hover },
+    { label: 'Focus', className: styles.focus },
+    { label: 'Disabled', disabled: true },
+    { label: 'Error', error: 'Required' },
+  ]
+  const valueRows: { label: string; value: string | null }[] = [
+    { label: 'Empty', value: null },
+    { label: 'Filled', value: options[1].value },
+  ]
+  return (
+    <div className={s.section}>
+      <Caption>
+        QA matrix for engineers verifying CSS changes. Hover and focus are forced via classes that mirror the real <code>:hover</code> and{' '}
+        <code>:focus</code> rules.
+      </Caption>
+      <div
+        className={`${s.grid} ${s.gridStates}`}
+        style={{ gridTemplateColumns: 'max-content repeat(5, minmax(0, 220px))', gap: '16px 12px', alignItems: 'start' }}
+      >
+        <span />
+        {stateRows.map((r) => (
+          <span key={r.label} className={s.label}>
+            {r.label}
+          </span>
+        ))}
+        {valueRows.map(({ label, value }) => (
+          <React.Fragment key={label}>
+            <span className={s.rowLabel}>{label}</span>
+            {stateRows.map((r) => (
+              <SelectField
+                key={r.label}
+                name={`state-${label}-${r.label}`}
+                label="Character"
+                placeholder="Select an option"
+                options={options}
+                value={value}
+                disabled={r.disabled}
+                error={r.error}
+                className={r.className}
+                onChange={() => {}}
+              />
+            ))}
+          </React.Fragment>
+        ))}
+      </div>
+    </div>
+  )
+}
+States.tags = ['!dev']
+States.parameters = {
+  docs: {
+    description: {
+      story: 'Visual QA matrix. Not part of the public spec — included so engineers can verify state styling at a glance.',
+    },
+  },
+}
+
+export const Open = () => {
+  const [value, setValue] = useState<string | null>(options[0].value)
+  return (
+    <div className={s.section}>
+      <Caption>The open menu state shows option rows with hover and selected fills.</Caption>
+      <div style={{ width: 320, height: 320 }}>
+        <SelectField name="open" label="Character" options={options} value={value} onChange={setValue} menuIsOpen />
+      </div>
+    </div>
+  )
+}
+Open.tags = ['!dev']
+
+export const WithIcon = () => {
+  const [value, setValue] = useState<string | null>(options[1].value)
+  return (
+    <div className={s.section}>
+      <Caption>
+        Use <strong>iconLeft</strong> for a leading glyph that hints at the field&rsquo;s purpose.
+      </Caption>
+      <div style={{ width: 320 }}>
+        <SelectField
+          name="with-icon"
+          label="Character"
+          options={options}
+          value={value}
+          onChange={setValue}
+          iconLeft={Aperture}
+          iconLeftAriaLabel="Aperture"
+        />
+      </div>
+    </div>
+  )
+}
+WithIcon.tags = ['!dev']
+
+export const WithHelperText = () => {
+  const [value, setValue] = useState<string | null>(null)
+  return (
+    <div className={s.section}>
+      <Caption>
+        Use <strong>helperText</strong> for short hints. The help icon renders next to the label and reveals the message in a tooltip.
+      </Caption>
+      <div style={{ width: 320 }}>
+        <SelectField
+          name="helper"
+          label="Character"
+          options={options}
+          value={value}
+          onChange={setValue}
+          helperText="Pick the side you align with."
+        />
+      </div>
+    </div>
+  )
+}
+WithHelperText.tags = ['!dev']
+
+export const WithError = () => (
+  <div className={s.section}>
+    <Caption>
+      Set <strong>error</strong> to surface a validation message inline. The control becomes <code>aria-invalid</code> and the message is
+      announced.
+    </Caption>
+    <div style={{ width: 320 }}>
+      <SelectField name="error" label="Character" options={options} value={null} error="Required" onChange={() => {}} />
+    </div>
+  </div>
+)
+WithError.tags = ['!dev']
+
+export const Disabled = () => (
+  <div className={s.section}>
+    <Caption>
+      Use <strong>disabled</strong> when the field cannot be edited in the current context.
+    </Caption>
+    <div style={{ width: 320 }}>
+      <SelectField name="disabled" label="Character" options={options} value={options[1].value} disabled onChange={() => {}} />
+    </div>
+  </div>
+)
+Disabled.tags = ['!dev']
+
+export const Clearable = () => {
+  const [value, setValue] = useState<string | null>(options[1].value)
+  return (
+    <div className={s.section}>
+      <Caption>
+        Set <strong>isClearable</strong> to render a clear button when the field has a value.
+      </Caption>
+      <div style={{ width: 320 }}>
+        <SelectField name="clearable" label="Character" options={options} value={value} isClearable onChange={setValue} />
+      </div>
+    </div>
+  )
+}
+Clearable.tags = ['!dev']
 
 const groupedOptions: ReadonlyArray<GroupBase<SelectFieldOption<string>>> = [
   {
@@ -199,104 +318,76 @@ const groupedOptions: ReadonlyArray<GroupBase<SelectFieldOption<string>>> = [
     ],
   },
 ]
-export const WithGroupedOptions = Template.bind({})
-WithGroupedOptions.args = {
-  options: groupedOptions,
-  value: groupedOptions[0].options[1].value,
 
-  formatGroupLabel: ({ label }) => (
-    <p
-      style={{
-        textAlign: 'center',
-        padding: 0,
-        margin: 0,
-      }}
-    >
-      {label}
-    </p>
-  ),
-
-  formatOptionLabel: ({ label }) => {
-    const names: Array<string | ReactNode> = label.split(' ')
-    names[names.length - 1] = (
-      <b key={label} style={{ color: 'black' }}>
-        {' '}
-        {names[names.length - 1]}
-      </b>
-    )
-    return (
-      <p
-        style={{
-          textAlign: 'center',
-          padding: 0,
-          margin: 0,
-          color: '#707482',
-        }}
-      >
-        {names}
-      </p>
-    )
-  },
-  styles: {
-    option: (base) => {
-      return {
-        ...base,
-        padding: 0,
-        border: '1px solid #DBDBDB',
-      }
-    },
-  },
-}
-
-export const WithCustomMenuFooter = Template.bind({})
-WithCustomMenuFooter.args = {
-  renderMenuFooter: () => (
-    <div
-      style={{
-        lineHeight: '2rem',
-        textAlign: 'center',
-        backgroundColor: '#2160c0',
-        color: 'white',
-      }}
-    >
-      All Star Wars characters are entirely fictional
+export const Grouped = () => {
+  const [value, setValue] = useState<string | null>(groupedOptions[1].options[0].value)
+  return (
+    <div className={s.section}>
+      <Caption>Group related options under section headings to keep long lists scannable.</Caption>
+      <div style={{ width: 320, height: 320 }}>
+        <SelectField name="grouped" label="Character" options={groupedOptions} value={value} onChange={setValue} />
+      </div>
     </div>
-  ),
-}
-
-export const SelectFieldWrappedInFormik = () => {
-  type Values = {
-    character: string
-  }
-
-  const validateCharacter = (value: string | null) => {
-    if (value === null) {
-      return undefined
-    }
-    return value !== 'yoda' ? 'Please, pick Yoda' : undefined
-  }
-
-  const TestForm = () => (
-    <Formik<Values>
-      initialValues={{
-        character: options[1].value,
-      }}
-      initialErrors={{
-        // Bug in Formik types. TODO: Raise a PR
-
-        character: 'Server Error: Invalid character' as any,
-      }}
-      onSubmit={(values) => logger.log('submit', values)}
-    >
-      {({ values }) => (
-        <Form>
-          Values: {JSON.stringify(values)}
-          <SelectFieldFormik<Values> name="character" label="Character" options={options} validate={validateCharacter} />
-          <button type="submit">Submit</button>
-        </Form>
-      )}
-    </Formik>
   )
-
-  return <TestForm />
 }
+Grouped.tags = ['!dev']
+
+export const LongOptions = () => {
+  const [value, setValue] = useState<string | null>('10000')
+  return (
+    <div className={s.section}>
+      <Caption>Long option labels truncate with a tooltip preserving the full value.</Caption>
+      <div style={{ width: 320, height: 320 }}>
+        <SelectField
+          name="long"
+          label="Character"
+          value={value}
+          onChange={setValue}
+          options={[{ value: '10000', label: LONG_MULTIPLE_WORD_TEXT }, { value: '10001', label: LONG_ONE_WORD_TEXT }, ...options]}
+        />
+      </div>
+    </div>
+  )
+}
+LongOptions.tags = ['!dev']
+
+export const WithFormik = () => {
+  type Values = { character: string }
+  const validate = (val: string | null) => (val !== 'yoda' ? 'Please pick Yoda' : undefined)
+  return (
+    <div className={s.section}>
+      <Caption>
+        Use <strong>SelectFieldFormik</strong> for forms managed by Formik. It wires <code>value</code>, <code>onChange</code>, and
+        validation errors automatically.
+      </Caption>
+      <div style={{ width: 320 }}>
+        <Formik<Values> initialValues={{ character: options[1].value }} onSubmit={(values) => logger.log('submit', values)}>
+          {({ values }) => (
+            <Form>
+              <SelectFieldFormik<Values> name="character" label="Character" options={options} validate={validate} />
+              <pre style={{ marginTop: 12 }}>{JSON.stringify(values, null, 2)}</pre>
+              <button type="submit">Submit</button>
+            </Form>
+          )}
+        </Formik>
+      </div>
+    </div>
+  )
+}
+WithFormik.tags = ['!dev']
+
+export const LegacyV3 = () => {
+  const [value, setValue] = useState<string | null>(options[1].value)
+  return (
+    <div className={s.section}>
+      <Caption>
+        The v3 SelectField is preserved for gradual migration. Import from <strong>@hazelcast/ui/old</strong>. New code should use the
+        SelectField above.
+      </Caption>
+      <div style={{ width: 320 }}>
+        <LegacySelectField name="legacy" label="Legacy v3 SelectField" options={options} value={value} onChange={setValue} />
+      </div>
+    </div>
+  )
+}
+LegacyV3.tags = ['!dev']

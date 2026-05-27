@@ -7,7 +7,7 @@ import userEvent from '@testing-library/user-event'
 import { CheckableSelectField } from '../../../src'
 import { SelectFieldOption } from '../../../src/components/Select/helpers'
 
-import styles from '../../../src/components/Select/SelectField.module.scss'
+import styles from '../../../src/components/Select/SelectField.module.css'
 
 jest.mock('react-uid')
 

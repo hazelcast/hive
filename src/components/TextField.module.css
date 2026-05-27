@@ -4,7 +4,7 @@
   font-family: var(--hive-font-family-text);
   font-size: var(--hive-font-size-body-small);
   font-weight: var(--hive-font-weight-text-regular);
-  line-height: 1;
+  line-height: normal;
 }
 
 .container .inputBlock {

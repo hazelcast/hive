@@ -1,0 +1,132 @@
+import { Meta, Title, Canvas, Controls } from '@storybook/blocks'
+import * as AutocompleteFieldStories from './AutocompleteField.stories'
+import { DocsTabs } from '../.storybook/DocsTabs'
+
+<Meta of={AutocompleteFieldStories} name="Docs" />
+
+<Title />
+
+AutocompleteField is a single-select that lets users type to filter a long list
+of options. The match is highlighted inline as the user types. Use it when the
+list is too long for a plain `SelectField` (~20+ items) and users will likely
+know part of the value they want. For multi-select with filter, use
+`CheckableSelectField`.
+
+<DocsTabs tabs={[
+  {
+    id: 'overview',
+    label: 'Overview',
+    content: (
+      <>
+        <Canvas of={AutocompleteFieldStories.Playground} />
+
+        <h2>Basic usage</h2>
+
+        <p>AutocompleteField is a controlled component. Provide <code>value</code> and an <code>onChange</code> handler. Always pair with a visible <code>label</code>.</p>
+
+        <Canvas of={AutocompleteFieldStories.Basic} />
+
+        <h2>Sizes</h2>
+
+        <Canvas of={AutocompleteFieldStories.Sizes} />
+
+        <h2>Open menu</h2>
+
+        <p>The menu attaches directly to the control when open — the top corners square off and the bottom continues the menu shape. Filtered matches are highlighted inline.</p>
+
+        <Canvas of={AutocompleteFieldStories.Open} />
+
+        <h2>Helper text</h2>
+
+        <Canvas of={AutocompleteFieldStories.WithHelperText} />
+
+        <h2>Error</h2>
+
+        <Canvas of={AutocompleteFieldStories.WithError} />
+
+        <h2>Clearable</h2>
+
+        <Canvas of={AutocompleteFieldStories.Clearable} />
+
+        <h2>Disabled</h2>
+
+        <Canvas of={AutocompleteFieldStories.Disabled} />
+
+        <h2>Open only when typing</h2>
+
+        <Canvas of={AutocompleteFieldStories.NoOpenOnClick} />
+
+        <h2>Custom option rendering</h2>
+
+        <Canvas of={AutocompleteFieldStories.CustomOptions} />
+
+        <hr />
+
+        <h2>Visual states</h2>
+
+        <Canvas of={AutocompleteFieldStories.States} />
+
+        <h2>With Formik</h2>
+
+        <Canvas of={AutocompleteFieldStories.WithFormik} />
+
+        <h2>Legacy v3</h2>
+
+        <p>The v3 AutocompleteField is preserved for gradual migration. Import from <code>@hazelcast/ui/old</code>.</p>
+
+        <Canvas of={AutocompleteFieldStories.LegacyV3} />
+
+        <h2>Props</h2>
+
+        <Controls of={AutocompleteFieldStories.Playground} />
+      </>
+    ),
+  },
+  {
+    id: 'guidelines',
+    label: 'Guidelines',
+    content: (
+      <>
+        <h2>When to use</h2>
+
+        <ul>
+          <li>For long single-select lists where users will likely know part of the value.</li>
+          <li>For server-driven option lists (e.g. user pickers, tag pickers).</li>
+        </ul>
+
+        <h3>When <em>not</em> to use</h3>
+
+        <ul>
+          <li>For short fixed lists → use <code>SelectField</code>.</li>
+          <li>For multi-select → use <code>CheckableSelectField</code> or <code>MultiSelectField</code>.</li>
+          <li>For free-form text → use <code>TextField</code>.</li>
+        </ul>
+
+        <h2>Match highlighting</h2>
+
+        <p>The matched substring of each option label renders bold and in the primary text color. This is automatic; <code>renderOption</code> consumers receive the already-highlighted ReactNode and can wrap it.</p>
+      </>
+    ),
+  },
+  {
+    id: 'accessibility',
+    label: 'Accessibility',
+    content: (
+      <>
+        <p>AutocompleteField wraps react-select with HIVE styling. Most accessibility comes for free.</p>
+
+        <h2>Keyboard</h2>
+
+        <ul>
+          <li><code>Tab</code> moves focus to the input. Typing filters the menu.</li>
+          <li><code>↑</code>/<code>↓</code> move highlight; <code>Enter</code> selects.</li>
+          <li><code>Esc</code> closes the menu without changing the value.</li>
+        </ul>
+
+        <h2>Errors</h2>
+
+        <p>When using <code>error</code>, the message is announced via <code>aria-errormessage</code> and the input gets <code>aria-invalid="true"</code>.</p>
+      </>
+    ),
+  },
+]} />

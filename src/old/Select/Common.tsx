@@ -3,12 +3,12 @@ import { ChevronDown, X } from 'react-feather'
 import { components as rsComponents } from 'react-select'
 import cn from 'classnames'
 
-import { Icon } from '../Icon'
+import { Icon } from '../../components/Icon'
 import { IconButton } from '../IconButton'
-import { TruncatedText } from '../TruncatedText'
+import { TruncatedText } from '../../components/TruncatedText'
 import { SelectFieldOption } from './helpers'
 
-import styles from './Common.module.css'
+import styles from './CommonLegacy.module.scss'
 
 const DropdownIndicator: typeof rsComponents.DropdownIndicator = ({ selectProps }) => (
   <Icon
