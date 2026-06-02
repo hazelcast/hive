@@ -6,6 +6,25 @@ env:
   CI: true
 
 jobs:
+  chromatic:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: ./.github/actions/install
+      - name: Compile Package
+        run: npm run compile
+      - name: Build Storybook
+        run: npm run build-storybook
+      - name: Publish to Chromatic
+        uses: chromaui/action@v17
+        with:
+          token: ${{ github.token }}
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          exitZeroOnChanges: true
+          workingDir: ./
+
   test:
     runs-on: ubuntu-latest
     steps:

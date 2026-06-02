@@ -37,7 +37,7 @@ permissions:
 
 jobs:
   chromatic-deployment:
-    if: github.event.inputs.skip_chromatic_publish == false
+    if: github.event.inputs.skip_chromatic_publish != 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
