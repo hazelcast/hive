@@ -9,7 +9,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/install
       - run: npm run lint
       - run: npm run compile # should generate artifacts and then use them in the next release?
@@ -20,14 +20,14 @@ jobs:
 #  test_visual:
 #    runs-on: ubuntu-latest
 #    steps:
-#      - uses: actions/checkout@v4
+#      - uses: actions/checkout@v6
 #      - uses: ./.github/actions/install
 #      - run: npm run build-storybook
 #      - run: export NODE_OPTIONS=--openssl-legacy-provider && npm run test:visual
 #
 #      - name: Archive screenshots
 #        if: ${{ failure() }}
-#        uses: actions/upload-artifact@v4
+#        uses: actions/upload-artifact@v7
 #        with:
 #          name: loki-screenshots
 #          path: .loki

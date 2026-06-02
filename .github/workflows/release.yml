@@ -40,14 +40,14 @@ jobs:
     if: github.event.inputs.skip_chromatic_publish == false
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/install
       - name: Compile Package
         run: npm run compile
       - name: Build Storybook
         run: npm run build-storybook
       - name: Publish to Chromatic
-        uses: chromaui/action@v11
+        uses: chromaui/action@v17
         with:
           token: ${{ github.token }}
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
@@ -58,7 +58,7 @@ jobs:
   publish_canary:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - uses: ./.github/actions/install
