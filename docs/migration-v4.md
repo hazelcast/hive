@@ -33,6 +33,7 @@ grep -r "@hazelcast/ui/old" src --include="*.tsx" --include="*.ts"
 | New      | `ButtonGroup`                                               | Group of joined `Button`s sharing border-radius and shadow                                                                                                                                                                      | n/a             |
 | Updated  | `Toggle`                                                    | HIVE 4.0 pill switch; SCSS → CSS; no ON/OFF label                                                                                                                                                                               | ✅              |
 | Updated  | `TextField`                                                 | HIVE 4.0 rebrand; 36px height; 8px radius; `--hive-*` tokens; SCSS → CSS                                                                                                                                                        | ✅              |
+| Updated  | `NumberField`                                               | HIVE 4.0 rebrand; inherits v4 `TextField` input; stepper buttons re-tokenised to `--hive-*`; SCSS → CSS                                                                                                                         | ✅              |
 | Updated  | `Checkbox`                                                  | HIVE 4.0 rebrand; primary-v4 fill when checked; 4px radius box; focus halo; `--hive-*` tokens; SCSS → CSS                                                                                                                       | ✅              |
 | Updated  | `Tabs`                                                      | HIVE 4.0 visual redesign; pill-segmented shape with gray background; no API changes; SCSS → CSS                                                                                                                                 | ✅              |
 | Updated  | `Modal`                                                     | HIVE 4.0 redesign; new `intent`, `eyebrow`, `description`, `helperLink` props; tinted header gradient and framed icon tile; Cancel now precedes primary actions in DOM order; SCSS → CSS                                        | ✅              |
@@ -342,6 +343,36 @@ import { TextField } from '@hazelcast/ui'
 ```
 
 `NumberField`, `PasswordField`, `AutocompleteField`, `TimeField`, and `SelectField` all consume `TextField`-style classes; their visuals follow automatically.
+
+---
+
+### `NumberField`
+
+Visual alignment to HIVE 4.0. `NumberField` is built on `TextField`, so its input surface (36px height, 8px radius, neutral border, brand focus ring, error border) is inherited from the v4 `TextField` automatically. The component-specific styles — the increment / decrement stepper buttons and their positioning — have been migrated from SCSS (`NumberField.module.scss`) to CSS modules (`NumberField.module.css`) and re-expressed with `--hive-*` design tokens.
+
+The public prop contract is unchanged; only visuals have changed.
+
+**Old import (temporary fallback):**
+
+```ts
+import { NumberField, NumberFieldFormik } from '@hazelcast/ui/old'
+```
+
+**Prop changes:**
+
+| Prop  | v3              | v4                                 |
+| ----- | --------------- | ---------------------------------- |
+| _all_ | same public API | same — visual-only breaking change |
+
+**Visual / token changes:**
+
+| Aspect              | v3                                                           | v4                                                      |
+| ------------------- | ------------------------------------------------------------ | ------------------------------------------------------- |
+| Input surface       | v3 `TextField` styles                                        | inherited from v4 `TextField` (36px height, 8px radius) |
+| Stepper icon color  | `c.$colorPrimary`                                            | `var(--hive-color-primary-v4)`                          |
+| Stepper glyph line  | `black`                                                      | `var(--hive-color-text-v4)`                             |
+| Spacing / positions | SCSS `c.$grid`, `c.$iconSizeSmall`, `c.$iconSizeSmallMedium` | `calc(var(--hive-grid) * n)`                            |
+| Stylesheet          | `NumberField.module.scss` with SCSS `@use`, `$grid…`         | `NumberField.module.css` using `--hive-*` CSS variables |
 
 ---
 

@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event'
 
 import { NumberField } from '../../src'
 
-import styles from '../../src/components/NumberField.module.scss'
+import styles from '../../src/components/NumberField.module.css'
 import iconStyles from '../../src/components/Icon.module.scss'
 import iconButtonStyles from '../../src/components/IconButton.module.css'
 

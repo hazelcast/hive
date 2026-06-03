@@ -1,0 +1,181 @@
+import { Meta, Title, Canvas, Controls } from '@storybook/blocks'
+import * as NumberFieldStories from './NumberField.stories'
+import { DocsTabs } from '../.storybook/DocsTabs'
+
+<Meta of={NumberFieldStories} name="Docs" />
+
+<Title />
+
+NumberField is the control for numeric input. It builds on `TextField`, adding
+increment / decrement steppers, `min` / `max` clamping, and integer or float
+parsing. Use it for counts, ports, sizes, replicas, timeouts and any other value
+that is fundamentally a number. For free-form text use `TextField`; for a fixed
+list of choices use `SelectField`.
+
+<DocsTabs tabs={[
+  {
+    id: 'overview',
+    label: 'Overview',
+    content: (
+      <>
+        <Canvas of={NumberFieldStories.Playground} />
+
+        <h2>Basic usage</h2>
+
+        <p>NumberField is a controlled component. Provide a numeric <code>value</code> and an <code>onChange</code> handler that receives the parsed number (or <code>undefined</code> when the field is cleared). Pair every field with a visible <code>label</code>.</p>
+
+        <Canvas of={NumberFieldStories.Basic} />
+
+        <h2>Sizes</h2>
+
+        <p>Two sizes — <code>small</code> for dense tables and toolbars, and <code>medium</code> (default) for most forms.</p>
+
+        <Canvas of={NumberFieldStories.Sizes} />
+
+        <h2>Stepper position</h2>
+
+        <p>Use <code>iconPosition</code> to keep both steppers <code>together</code> on the right (default) or <code>separate</code> on each side of the input with the value centred.</p>
+
+        <Canvas of={NumberFieldStories.IconPositions} />
+
+        <h2>Without steppers</h2>
+
+        <p>Set <code>showIconButtons</code> to <code>false</code> to render a plain numeric input without the increment / decrement buttons.</p>
+
+        <Canvas of={NumberFieldStories.WithoutButtons} />
+
+        <h2>Min and max</h2>
+
+        <p>Constrain the value with <code>min</code> and <code>max</code>. Steppers disable at the bounds and out-of-range typed values are clamped.</p>
+
+        <Canvas of={NumberFieldStories.WithMinAndMax} />
+
+        <h2>Helper text</h2>
+
+        <p>Use <code>helperText</code> for short hints — ranges, units, or allowed precision. The help icon renders inline with the label and reveals the message in a tooltip.</p>
+
+        <Canvas of={NumberFieldStories.WithHelperText} />
+
+        <h2>Error</h2>
+
+        <p>Set <code>error</code> to surface a validation message inline. The input becomes <code>aria-invalid</code> and the message is announced to assistive tech.</p>
+
+        <Canvas of={NumberFieldStories.WithError} />
+
+        <h2>Disabled</h2>
+
+        <p>Disable a field when its value cannot be edited in the current context. The steppers are hidden while disabled.</p>
+
+        <Canvas of={NumberFieldStories.Disabled} />
+
+        <hr />
+
+        <h2>Visual states</h2>
+
+        <p>QA matrix for engineers verifying CSS changes. Interactive states are forced via classes that mirror the real <code>:hover</code> and <code>:focus</code> rules.</p>
+
+        <Canvas of={NumberFieldStories.States} />
+
+        <h2>With Formik</h2>
+
+        <p>Use <code>NumberFieldFormik</code> for forms managed by Formik. It wires <code>value</code>, <code>onChange</code>, and validation errors automatically — pass <code>name</code> and an optional <code>validate</code> function.</p>
+
+        <Canvas of={NumberFieldStories.WithFormik} />
+
+        <h2>Legacy v3</h2>
+
+        <p>The v3 NumberField is preserved for gradual migration. Import from <code>@hazelcast/ui/old</code>. New code should use the NumberField above.</p>
+
+        <Canvas of={NumberFieldStories.LegacyV3} />
+
+        <h2>Props</h2>
+
+        <Controls of={NumberFieldStories.Playground} />
+      </>
+    ),
+  },
+  {
+    id: 'guidelines',
+    label: 'Guidelines',
+    content: (
+      <>
+        <h2>Anatomy</h2>
+
+        <p>A NumberField is composed of:</p>
+
+        <ul>
+          <li>a <strong>label</strong> — names the field; required for every input</li>
+          <li>an optional <strong>helper</strong> — a tooltip-on-icon that explains the expected value</li>
+          <li>the <strong>input</strong> — the numeric-entry surface</li>
+          <li>the <strong>steppers</strong> — increment / decrement buttons (hidden via <code>showIconButtons={false}</code>)</li>
+          <li>an optional <strong>error message</strong> — surfaces validation issues inline</li>
+        </ul>
+
+        <h2>When to use a NumberField</h2>
+
+        <ul>
+          <li>For values that are fundamentally numeric — counts, ports, sizes, replicas, timeouts.</li>
+          <li>When small adjustments are common — the steppers let users nudge the value by <code>step</code>.</li>
+          <li>When the value has natural bounds — set <code>min</code> and <code>max</code> to clamp it.</li>
+        </ul>
+
+        <h3>When <em>not</em> to use a NumberField</h3>
+
+        <ul>
+          <li>For free-form text → use a <code>TextField</code>.</li>
+          <li>For a fixed set of numeric options → use a <code>SelectField</code>.</li>
+          <li>For very large unbounded values where steppers add no value → consider a plain <code>TextField</code> with <code>type="number"</code>.</li>
+        </ul>
+
+        <h2>Steppers and bounds</h2>
+
+        <ul>
+          <li>Set a sensible <code>step</code> — the amount the steppers add or subtract.</li>
+          <li>Use <code>min</code> / <code>max</code> to prevent invalid values; the steppers disable at the bounds.</li>
+          <li>Use <code>numberType="float"</code> when decimals are allowed; the default parses integers.</li>
+        </ul>
+
+        <h2>Do &amp; Don&rsquo;t</h2>
+
+        <Canvas of={NumberFieldStories.DoVsDont} />
+
+        <h2>Sizing</h2>
+
+        <p>Pick one size per form. Use <code>small</code> in compact contexts (tables, toolbars) and <code>medium</code> for standard forms.</p>
+      </>
+    ),
+  },
+  {
+    id: 'accessibility',
+    label: 'Accessibility',
+    content: (
+      <>
+        <p>NumberField renders a real <code>{'<input type="number">'}</code>. Most accessibility comes for free — the notes below cover edge cases.</p>
+
+        <h2>Accessible name</h2>
+
+        <p>The visible label is the accessible name (wired up via <code>htmlFor</code>). Never omit the label. The stepper buttons have their own accessible names via <code>incrementIconAriaLabel</code> and <code>decrementIconAriaLabel</code>.</p>
+
+        <h2>Steppers</h2>
+
+        <p>The increment and decrement buttons are reachable with <code>Tab</code> and activatable with <code>Enter</code> or <code>Space</code>. They expose disabled tooltips explaining why they cannot be used (e.g. value at <code>min</code> / <code>max</code>).</p>
+
+        <h2>Keyboard</h2>
+
+        <ul>
+          <li><code>Tab</code> moves focus into the field and on to each stepper.</li>
+          <li>Arrow keys adjust the native number input value.</li>
+          <li>A visible focus ring is shown on <code>:focus-visible</code>. <strong>Don&rsquo;t override it.</strong></li>
+        </ul>
+
+        <h2>Errors</h2>
+
+        <p>When using <code>error</code>, the message is associated with the input via <code>aria-errormessage</code> and the input gets <code>aria-invalid="true"</code>. Keep error text actionable — say what range is valid.</p>
+
+        <h2>Disabled fields</h2>
+
+        <p>A disabled field is not focusable and is invisible to screen readers in forms mode. Only disable when the value is structurally locked.</p>
+      </>
+    ),
+  },
+]} />

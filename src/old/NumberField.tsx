@@ -7,7 +7,7 @@ import { DataTestProp } from '../helpers/types'
 import { TextField, TextFieldProps, TextFieldSize } from './TextField'
 import { IconButton, IconButtonDisabledProps, IconButtonNotDisabledProps } from './IconButton'
 
-import styles from './NumberField.module.css'
+import styles from './NumberFieldLegacy.module.scss'
 
 type NumberFieldCoreProps = {
   name: string
