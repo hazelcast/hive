@@ -32,6 +32,12 @@
   text-align: center;
 }
 
+.inputContainer.buttons .decrement,
+.inputContainer.buttons .increment {
+  --button-size: calc(var(--hive-grid) * 6);
+  border-radius: var(--hive-border-radius-pill);
+}
+
 .inputContainer.buttons .decrement {
   color: var(--hive-color-primary-v4);
   position: absolute;
