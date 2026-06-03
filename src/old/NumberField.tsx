@@ -5,7 +5,7 @@ import cn from 'classnames'
 
 import { DataTestProp } from '../helpers/types'
 import { TextField, TextFieldProps, TextFieldSize } from './TextField'
-import { IconButton, IconButtonDisabledProps, IconButtonNotDisabledProps } from './IconButton'
+import { IconButton, IconButtonDisabledProps, IconButtonNotDisabledProps } from '../components/IconButton'
 
 import styles from './NumberFieldLegacy.module.scss'
 
