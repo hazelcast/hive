@@ -33,6 +33,7 @@ grep -r "@hazelcast/ui/old" src --include="*.tsx" --include="*.ts"
 | New      | `ButtonGroup`                                               | Group of joined `Button`s sharing border-radius and shadow                                                                                                                                                                      | n/a             |
 | Updated  | `Toggle`                                                    | HIVE 4.0 pill switch; SCSS → CSS; no ON/OFF label                                                                                                                                                                               | ✅              |
 | Updated  | `TextField`                                                 | HIVE 4.0 rebrand; 36px height; 8px radius; `--hive-*` tokens; SCSS → CSS                                                                                                                                                        | ✅              |
+| Updated  | `TextArea`                                                  | HIVE 4.0 rebrand; 8px radius; white surface; neutral border, brand focus ring, error border; `--hive-*` tokens; SCSS → CSS                                                                                                      | ✅              |
 | Updated  | `Checkbox`                                                  | HIVE 4.0 rebrand; primary-v4 fill when checked; 4px radius box; focus halo; `--hive-*` tokens; SCSS → CSS                                                                                                                       | ✅              |
 | Updated  | `Tabs`                                                      | HIVE 4.0 visual redesign; pill-segmented shape with gray background; no API changes; SCSS → CSS                                                                                                                                 | ✅              |
 | Updated  | `Modal`                                                     | HIVE 4.0 redesign; new `intent`, `eyebrow`, `description`, `helperLink` props; tinted header gradient and framed icon tile; Cancel now precedes primary actions in DOM order; SCSS → CSS                                        | ✅              |
@@ -342,6 +343,39 @@ import { TextField } from '@hazelcast/ui'
 ```
 
 `NumberField`, `PasswordField`, `AutocompleteField`, `TimeField`, and `SelectField` all consume `TextField`-style classes; their visuals follow automatically.
+
+---
+
+### `TextArea`
+
+Visual redesign to the HIVE 4.0 multi-line input: `8px` border-radius (was `4px`), white surface (`--hive-color-neutral-white-v4`), neutral border on default (`--hive-color-border-v4`), brand focus ring (`--hive-color-primary-v4` border + `3px` halo), error border on invalid (`--hive-color-error-v4`), and `8px 12px` padding. Disabled state uses `opacity: 0.5`. The field remains vertically resizable by default (`resizable={false}` to lock). All values now come from `--hive-*` design tokens. Styles have been migrated from SCSS (`TextArea.module.scss`) to CSS modules (`TextArea.module.css`).
+
+The public prop contract is unchanged; only visuals have changed.
+
+**Old import (temporary fallback):**
+
+```ts
+import { TextArea, TextAreaFormik } from '@hazelcast/ui/old'
+```
+
+**Prop changes:**
+
+| Prop  | v3              | v4                                 |
+| ----- | --------------- | ---------------------------------- |
+| _all_ | same public API | same — visual-only breaking change |
+
+**Visual / token changes:**
+
+| Aspect           | v3                                                          | v4                                                       |
+| ---------------- | ----------------------------------------------------------- | -------------------------------------------------------- |
+| Border radius    | `4px` (`c.$borderRadius`)                                   | `8px` (`var(--hive-border-radius)`)                      |
+| Surface          | `c.$colorOverlayBackground`                                 | `var(--hive-color-neutral-white-v4)`                     |
+| Border (default) | `c.$colorNeutralLight`                                      | `var(--hive-color-border-v4)`                            |
+| Border (hover)   | `c.$colorPrimary`                                           | `var(--hive-color-text-v4)`                              |
+| Border (focus)   | outline mixin glow                                          | `var(--hive-color-primary-v4)` border + `3px` brand halo |
+| Border (error)   | `c.$colorError`                                             | `var(--hive-color-error-v4)`                             |
+| Placeholder      | `c.$colorTextSecondary`                                     | `var(--hive-color-text-secondary-v4)`                    |
+| Stylesheet       | `TextArea.module.scss` with SCSS `@use`, mixins, `c.$grid…` | `TextArea.module.css` using `--hive-*` CSS variables     |
 
 ---
 
