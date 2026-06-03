@@ -50,6 +50,11 @@
   display: none;
 }
 
+.container :global(.hz-select-field__indicators) svg {
+  width: calc(var(--hive-grid) * 4);
+  height: calc(var(--hive-grid) * 4);
+}
+
 .container :global(.hz-select-field__input-container),
 .container :global(.hz-select-field__input) {
   color: var(--hive-color-text-v4);
