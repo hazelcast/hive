@@ -33,7 +33,7 @@ grep -r "@hazelcast/ui/old" src --include="*.tsx" --include="*.ts"
 | New      | `ButtonGroup`                                               | Group of joined `Button`s sharing border-radius and shadow                                                                                                                                                                      | n/a             |
 | Updated  | `Toggle`                                                    | HIVE 4.0 pill switch; SCSS → CSS; no ON/OFF label                                                                                                                                                                               | ✅              |
 | Updated  | `TextField`                                                 | HIVE 4.0 rebrand; 36px height; 8px radius; `--hive-*` tokens; SCSS → CSS                                                                                                                                                        | ✅              |
-| Updated  | `NumberField`                                               | HIVE 4.0 rebrand; inherits v4 `TextField` input; stepper buttons re-tokenised to `--hive-*`; SCSS → CSS                                                                                                                         | ✅              |
+| Updated  | `NumberField`                                               | HIVE 4.0 rebrand; inherits v4 `TextField` input; single Regular size (`size` prop removed); stepper buttons re-tokenised to `--hive-*`; SCSS → CSS                                                                              | ✅              |
 | Updated  | `Checkbox`                                                  | HIVE 4.0 rebrand; primary-v4 fill when checked; 4px radius box; focus halo; `--hive-*` tokens; SCSS → CSS                                                                                                                       | ✅              |
 | Updated  | `Tabs`                                                      | HIVE 4.0 visual redesign; pill-segmented shape with gray background; no API changes; SCSS → CSS                                                                                                                                 | ✅              |
 | Updated  | `Modal`                                                     | HIVE 4.0 redesign; new `intent`, `eyebrow`, `description`, `helperLink` props; tinted header gradient and framed icon tile; Cancel now precedes primary actions in DOM order; SCSS → CSS                                        | ✅              |
@@ -348,9 +348,9 @@ import { TextField } from '@hazelcast/ui'
 
 ### `NumberField`
 
-Visual alignment to HIVE 4.0. `NumberField` is built on `TextField`, so its input surface (36px height, 8px radius, neutral border, brand focus ring, error border) is inherited from the v4 `TextField` automatically. The component-specific styles — the increment / decrement stepper buttons and their positioning — have been migrated from SCSS (`NumberField.module.scss`) to CSS modules (`NumberField.module.css`) and re-expressed with `--hive-*` design tokens.
+Visual alignment to HIVE 4.0. `NumberField` is built on `TextField`, so its input surface (single “Regular” size, 8px radius, neutral border, brand focus ring, error border) is inherited from the v4 `TextField` automatically. The component-specific styles — the increment / decrement stepper buttons and their positioning — have been migrated from SCSS (`NumberField.module.scss`) to CSS modules (`NumberField.module.css`) and re-expressed with `--hive-*` design tokens.
 
-The public prop contract is unchanged; only visuals have changed.
+v4 fields use a single size, so the `size` prop has been removed from the public API; the field always renders at the Regular size.
 
 **Old import (temporary fallback):**
 
@@ -360,19 +360,20 @@ import { NumberField, NumberFieldFormik } from '@hazelcast/ui/old'
 
 **Prop changes:**
 
-| Prop  | v3              | v4                                 |
-| ----- | --------------- | ---------------------------------- |
-| _all_ | same public API | same — visual-only breaking change |
+| Prop   | v3                         | v4                                                   |
+| ------ | -------------------------- | ---------------------------------------------------- |
+| `size` | `small \| medium \| large` | **removed** — always renders the single Regular size |
+| _rest_ | same public API            | same — visual-only                                   |
 
 **Visual / token changes:**
 
-| Aspect              | v3                                                           | v4                                                      |
-| ------------------- | ------------------------------------------------------------ | ------------------------------------------------------- |
-| Input surface       | v3 `TextField` styles                                        | inherited from v4 `TextField` (36px height, 8px radius) |
-| Stepper icon color  | `c.$colorPrimary`                                            | `var(--hive-color-primary-v4)`                          |
-| Stepper glyph line  | `black`                                                      | `var(--hive-color-text-v4)`                             |
-| Spacing / positions | SCSS `c.$grid`, `c.$iconSizeSmall`, `c.$iconSizeSmallMedium` | `calc(var(--hive-grid) * n)`                            |
-| Stylesheet          | `NumberField.module.scss` with SCSS `@use`, `$grid…`         | `NumberField.module.css` using `--hive-*` CSS variables |
+| Aspect              | v3                                                           | v4                                                              |
+| ------------------- | ------------------------------------------------------------ | --------------------------------------------------------------- |
+| Input surface       | v3 `TextField` styles                                        | inherited from v4 `TextField` (single Regular size, 8px radius) |
+| Stepper icon color  | `c.$colorPrimary`                                            | `var(--hive-color-primary-v4)`                                  |
+| Stepper glyph line  | `black`                                                      | `var(--hive-color-text-v4)`                                     |
+| Spacing / positions | SCSS `c.$grid`, `c.$iconSizeSmall`, `c.$iconSizeSmallMedium` | `calc(var(--hive-grid) * n)`                                    |
+| Stylesheet          | `NumberField.module.scss` with SCSS `@use`, `$grid…`         | `NumberField.module.css` using `--hive-*` CSS variables         |
 
 ---
 

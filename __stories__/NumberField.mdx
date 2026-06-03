@@ -8,9 +8,9 @@ import { DocsTabs } from '../.storybook/DocsTabs'
 
 NumberField is the control for numeric input. It builds on `TextField`, adding
 increment / decrement steppers, `min` / `max` clamping, and integer or float
-parsing. Use it for counts, ports, sizes, replicas, timeouts and any other value
-that is fundamentally a number. For free-form text use `TextField`; for a fixed
-list of choices use `SelectField`.
+parsing. It renders at a single “Regular” size. Use it for counts, ports, sizes,
+replicas, timeouts and any other value that is fundamentally a number. For
+free-form text use `TextField`; for a fixed list of choices use `SelectField`.
 
 <DocsTabs tabs={[
   {
@@ -28,7 +28,7 @@ list of choices use `SelectField`.
 
         <h2>Size</h2>
 
-        <p>v4 fields use a single size — <strong>Regular</strong>. Use it everywhere for a consistent form rhythm.</p>
+        <p>v4 fields render at a single <strong>Regular</strong> size — there is no <code>size</code> prop. Use it everywhere for a consistent form rhythm.</p>
 
         <Canvas of={NumberFieldStories.Sizes} />
 
