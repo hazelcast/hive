@@ -37,6 +37,10 @@ export { NumberField } from './NumberField'
 export type { NumberFieldProps, NumberFieldExtraProps } from './NumberField'
 export { NumberFieldFormik } from './NumberFieldFormik'
 export type { NumberFieldFormikProps } from './NumberFieldFormik'
+export { PasswordField } from './PasswordField'
+export type { PasswordFieldProps, PasswordFieldExtraProps } from './PasswordField'
+export { PasswordFieldFormik } from './PasswordFieldFormik'
+export type { PasswordFieldFormikProps } from './PasswordFieldFormik'
 export { SelectField } from './Select/SelectField'
 export type {
   SelectFieldProps,
