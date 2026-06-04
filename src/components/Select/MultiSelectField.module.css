@@ -5,11 +5,7 @@
 .multiContainer :global(.hz-select-field__indicators) {
   align-items: center;
   align-self: flex-start;
-  height: calc(var(--hive-grid) * 9);
-}
-
-.multiContainer.small :global(.hz-select-field__indicators) {
-  height: calc(var(--hive-grid) * 7.5);
+  height: calc(var(--hive-grid) * 7.5 - var(--hive-border-width) * 2);
 }
 
 .multiContainer .multiValue {
