@@ -38,6 +38,7 @@ grep -r "@hazelcast/ui/old" src --include="*.tsx" --include="*.ts"
 | Updated  | `Modal`                                                     | HIVE 4.0 redesign; new `intent`, `eyebrow`, `description`, `helperLink` props; tinted header gradient and framed icon tile; Cancel now precedes primary actions in DOM order; SCSS → CSS                                        | ✅              |
 | Updated  | `SelectField` / `MultiSelectField` / `CheckableSelectField` | HIVE 4.0 rebrand; 36px height; 8px radius; new menu surface + hover/selected states; `--hive-*` tokens; SCSS → CSS                                                                                                              | ✅              |
 | Updated  | `AutocompleteField`                                         | HIVE 4.0 rebrand; 36px height; 8px radius; new menu surface + hover/selected states; `--hive-*` tokens; SCSS → CSS                                                                                                              | ✅              |
+| Updated  | `PasswordField`                                             | HIVE 4.0 rebrand via v4 `TextField`; locked to a single compact size (`size` prop removed); reveal eye button gains a circular hover/focus ring matching `NumberField`                                                          | ❌              |
 
 ---
 
@@ -573,6 +574,32 @@ import { Modal } from '@hazelcast/ui'
   actions={[{ children: 'Delete forever', onClick: onDelete, color: 'danger' }]}
   helperLink={{ label: 'Learn more in docs', href: '/docs/clusters#delete' }}
 />
+```
+
+---
+
+### `PasswordField`
+
+PasswordField now renders on top of the v4 `TextField`, so it inherits the HIVE 4.0 input styling (36px height, 8px radius, `--hive-*` tokens). It is locked to a **single compact size** — the `size` prop and the `TextFieldSize` passthrough have been removed. The reveal eye button gains a circular hover and focus ring, matching the stepper affordance on `NumberField`.
+
+There is no `/old` fallback — PasswordField never had a standalone v3 stylesheet; it always wrapped `TextField`.
+
+**Prop changes:**
+
+| Prop                   | v3                           | v4                               |
+| ---------------------- | ---------------------------- | -------------------------------- |
+| `size?: TextFieldSize` | optional, default `'medium'` | removed — always compact (small) |
+
+**Before:**
+
+```tsx
+<PasswordField name="password" label="Password" size="large" value={value} onChange={onChange} />
+```
+
+**After:**
+
+```tsx
+<PasswordField name="password" label="Password" value={value} onChange={onChange} />
 ```
 
 ---
