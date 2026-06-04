@@ -1,6 +1,7 @@
 import React, { ReactNode, useState } from 'react'
 import { Meta, StoryObj } from '@storybook/react'
 import { Form, Formik } from 'formik'
+import { Check, X } from 'react-feather'
 
 import { logger } from '../src'
 import { CheckableSelectField, CheckableSelectProps } from '../src/components/Select/CheckableSelectField'
@@ -42,7 +43,7 @@ export default {
     },
     docs: { canvas: { sourceState: 'hidden' } },
     controls: {
-      exclude: ['name', 'value', 'className', 'onBlur', 'onChange', 'options', 'noOptionsMessage', 'data-test'],
+      include: ['label', 'placeholder', 'helperText', 'error', 'disabled', 'defaultOpen'],
     },
   },
   argTypes: {
@@ -271,3 +272,162 @@ export const LegacyV3 = () => {
   )
 }
 LegacyV3.tags = ['!dev']
+
+type DoDontPair = {
+  heading: string
+  good: { note: string; demo: ReactNode }
+  bad: { note: string; demo: ReactNode }
+}
+
+const Demo = ({ children }: { children: ReactNode }) => <div style={{ width: '100%' }}>{children}</div>
+
+const twoOptions: SelectFieldOption<string>[] = options.slice(0, 2)
+
+const DO_DONT_PAIRS: DoDontPair[] = [
+  {
+    heading: 'Use it when users routinely pick many values',
+    good: {
+      note: 'The panel stays open across selections, so multi-pick from a long list feels natural.',
+      demo: (
+        <Demo>
+          <CheckableSelectField
+            name="dd-many-good"
+            label="Characters"
+            options={options}
+            value={[options[0].value, options[2].value, options[3].value]}
+            onChange={() => {}}
+          />
+        </Demo>
+      ),
+    },
+    bad: {
+      note: 'For a yes/no or single pick this is heavy — use a Checkbox or SelectField instead.',
+      demo: (
+        <Demo>
+          <CheckableSelectField
+            name="dd-many-bad"
+            label="Primary character"
+            options={twoOptions}
+            value={[twoOptions[0].value]}
+            onChange={() => {}}
+          />
+        </Demo>
+      ),
+    },
+  },
+  {
+    heading: 'Reach for the panel when filtering helps',
+    good: {
+      note: 'A searchable panel shines when the list is long enough to scroll.',
+      demo: (
+        <Demo>
+          <CheckableSelectField name="dd-filter-good" label="Characters" options={options} value={[options[1].value]} onChange={() => {}} />
+        </Demo>
+      ),
+    },
+    bad: {
+      note: 'For inline chips that stay visible without opening a panel, prefer MultiSelectField.',
+      demo: (
+        <Demo>
+          <CheckableSelectField
+            name="dd-filter-bad"
+            label="Characters"
+            options={twoOptions}
+            value={[twoOptions[0].value, twoOptions[1].value]}
+            onChange={() => {}}
+          />
+        </Demo>
+      ),
+    },
+  },
+  {
+    heading: 'Keep the trigger summary honest',
+    good: {
+      note: 'The control summarises the count (“3 selected”) so the choice is clear when closed.',
+      demo: (
+        <Demo>
+          <CheckableSelectField
+            name="dd-sum-good"
+            label="Characters"
+            options={options}
+            value={[options[0].value, options[1].value, options[4].value]}
+            onChange={() => {}}
+          />
+        </Demo>
+      ),
+    },
+    bad: {
+      note: 'Don’t hide the label — without it the summary count has no context.',
+      demo: (
+        <Demo>
+          <CheckableSelectField
+            name="dd-sum-bad"
+            label=""
+            placeholder="Select…"
+            options={options}
+            value={[options[0].value, options[1].value]}
+            onChange={() => {}}
+          />
+        </Demo>
+      ),
+    },
+  },
+  {
+    heading: 'Surface validation inline — don’t disable the field',
+    good: {
+      note: 'Use error to explain what’s missing; the field announces it to assistive tech.',
+      demo: (
+        <Demo>
+          <CheckableSelectField
+            name="dd-err-good"
+            label="Characters"
+            options={options}
+            value={[]}
+            error="Pick at least one"
+            onChange={() => {}}
+          />
+        </Demo>
+      ),
+    },
+    bad: {
+      note: 'A disabled field can’t be focused and gives users no path to complete the form.',
+      demo: (
+        <Demo>
+          <CheckableSelectField name="dd-err-bad" label="Characters" options={options} value={[]} disabled onChange={() => {}} />
+        </Demo>
+      ),
+    },
+  },
+]
+
+export const DoVsDont = () => (
+  <div className={s.doDont}>
+    {DO_DONT_PAIRS.map(({ heading, good, bad }) => (
+      <section key={heading} className={s.doDontRow}>
+        <h4 className={s.doDontHeading}>{heading}</h4>
+        <div className={`${s.doDontCard} ${s.doDontGood}`}>
+          <span className={s.doDontMarker}>
+            <Check size={14} /> Do
+          </span>
+          <div className={s.doDontDemo}>{good.demo}</div>
+          <p className={s.doDontNote}>{good.note}</p>
+        </div>
+        <div className={`${s.doDontCard} ${s.doDontBad}`}>
+          <span className={s.doDontMarker}>
+            <X size={14} /> Don&rsquo;t
+          </span>
+          <div className={s.doDontDemo}>{bad.demo}</div>
+          <p className={s.doDontNote}>{bad.note}</p>
+        </div>
+      </section>
+    ))}
+  </div>
+)
+DoVsDont.tags = ['!dev']
+DoVsDont.parameters = {
+  docs: {
+    description: {
+      story: 'Concrete good-and-bad pairings for choosing, labelling, and validating a CheckableSelectField.',
+    },
+  },
+}
