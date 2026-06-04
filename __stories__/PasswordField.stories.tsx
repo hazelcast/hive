@@ -34,21 +34,7 @@ export default {
       canvas: { sourceState: 'hidden' },
     },
     controls: {
-      exclude: [
-        'name',
-        'value',
-        'className',
-        'inputClassName',
-        'labelClassName',
-        'errorClassName',
-        'variant',
-        'onBlur',
-        'onChange',
-        'data-test',
-        'id',
-        'autoFocus',
-        'autoComplete',
-      ],
+      include: ['label', 'placeholder', 'helperText', 'error', 'disabled', 'required', 'withIcon', 'initiallyVisible', 'hideToggle'],
     },
   },
   argTypes: {
