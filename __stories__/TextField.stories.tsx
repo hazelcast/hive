@@ -75,11 +75,6 @@ export default {
       description: 'Error message. When set, the field renders in error state and announces the message to assistive tech.',
       table: { category: 'State' },
     },
-    size: {
-      control: 'inline-radio',
-      options: ['small', 'medium', 'large'],
-      table: { category: 'Layout', defaultValue: { summary: 'medium' } },
-    },
     disabled: {
       control: 'boolean',
       table: { category: 'State', defaultValue: { summary: 'false' } },
@@ -153,24 +148,15 @@ export const Basic = () => {
 Basic.tags = ['!dev']
 
 export const Sizes = () => {
-  const [a, setA] = useState('Small')
-  const [b, setB] = useState('Medium')
-  const [c, setC] = useState('Large')
+  const [value, setValue] = useState('Regular')
   return (
     <div className={s.section}>
       <Caption>
-        Three sizes: <strong>small</strong>, <strong>medium</strong> (default), and <strong>large</strong>. Use small in dense tables, large
-        for hero forms.
+        Single size: <strong>regular</strong>. TextField always renders the compact field height used across forms.
       </Caption>
       <div className={`${s.grid} ${s.gridSizes}`}>
-        <Cell label="Small">
-          <TextField name="size-small" size="small" label="Cluster name" value={a} onChange={(e) => setA(e.target.value)} />
-        </Cell>
-        <Cell label="Medium">
-          <TextField name="size-medium" label="Cluster name" value={b} onChange={(e) => setB(e.target.value)} />
-        </Cell>
-        <Cell label="Large">
-          <TextField name="size-large" size="large" label="Cluster name" value={c} onChange={(e) => setC(e.target.value)} />
+        <Cell label="Regular">
+          <TextField name="size-regular" label="Cluster name" value={value} onChange={(e) => setValue(e.target.value)} />
         </Cell>
       </div>
     </div>

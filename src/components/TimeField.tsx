@@ -22,7 +22,7 @@ export type TimeFieldExtraProps = {
   errorClassName?: string
   seconds?: boolean
 } & Pick<InputHTMLAttributes<HTMLInputElement>, 'id' | 'className' | 'autoFocus' | 'disabled' | 'required'> &
-  Omit<FieldHeaderProps, 'id'>
+  Omit<FieldHeaderProps, 'id' | 'size'>
 
 export type TypeFieldProps = TimeFieldCoreProps & TimeFieldExtraProps & DataTestProp
 
@@ -44,7 +44,6 @@ export const TimeField: FC<TypeFieldProps> = (props) => {
     seconds = false,
     value,
     helperText,
-    size,
     showAriaLabel,
     ...rest
   } = props
@@ -67,7 +66,6 @@ export const TimeField: FC<TypeFieldProps> = (props) => {
             inputClassName={inputClassName}
             labelClassName={labelClassName}
             onBlur={onBlur}
-            size={size}
             required={required}
             disabled={disabled}
             showAriaLabel={showAriaLabel}

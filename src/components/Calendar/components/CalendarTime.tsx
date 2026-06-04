@@ -85,7 +85,6 @@ export const CalendarTimeInternal: FC<CalendarTimeInternalProps> = ({ date, valu
       <div data-test={`${dataTest}-header`} className={styles.header}>
         <TimeField
           showAriaLabel
-          size="small"
           label="Time Input"
           error={timeInputError}
           name="time"

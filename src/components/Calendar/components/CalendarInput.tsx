@@ -12,11 +12,10 @@ export type CalendarInputInternalProps = {
   Required<DataTestProp>
 
 export const CalendarInputInternal = forwardRef<HTMLInputElement, CalendarInputInternalProps>(
-  ({ className, value, onChange, label, textFieldSize, 'data-test': dataTest, ...props }, ref) => (
+  ({ className, value, onChange, label, textFieldSize: _textFieldSize, 'data-test': dataTest, ...props }, ref) => (
     <TextField<'text'>
       {...props}
       mRef={ref}
-      size={textFieldSize}
       data-test={dataTest}
       value={value?.toString()}
       onChange={onChange}
