@@ -48,7 +48,18 @@ export default {
       canvas: { sourceState: 'hidden' },
     },
     controls: {
-      exclude: ['name', 'value', 'className', 'menuPortalTarget', 'onBlur', 'onChange', 'noOptionsMessage', 'options', 'data-test'],
+      include: [
+        'label',
+        'placeholder',
+        'helperText',
+        'error',
+        'disabled',
+        'isClearable',
+        'isCreatable',
+        'isSearchable',
+        'menuIsOpen',
+        'required',
+      ],
     },
   },
   argTypes: {
@@ -57,8 +68,10 @@ export default {
     helperText: { control: 'text', table: { category: 'Content' } },
     error: { control: 'text', table: { category: 'State' } },
     disabled: { control: 'boolean', table: { category: 'State' } },
+    required: { control: 'boolean', table: { category: 'State' } },
     isClearable: { control: 'boolean', table: { category: 'Behavior' } },
     isCreatable: { control: 'boolean', table: { category: 'Behavior' } },
+    isSearchable: { control: 'boolean', table: { category: 'Behavior' } },
     menuIsOpen: { control: 'boolean', table: { category: 'State' } },
   },
   args: {

@@ -1,6 +1,7 @@
 import React, { ReactNode, useState } from 'react'
 import { Meta, StoryObj } from '@storybook/react'
 import { Form, Formik } from 'formik'
+import { Check, X } from 'react-feather'
 
 import { logger } from '../src'
 import { MultiSelectField, MultiSelectProps } from '../src/components/Select/MultiSelectField'
@@ -44,7 +45,7 @@ export default {
     },
     docs: { canvas: { sourceState: 'hidden' } },
     controls: {
-      exclude: ['name', 'value', 'className', 'menuPortalTarget', 'onBlur', 'onChange', 'noOptionsMessage', 'options', 'data-test'],
+      include: ['label', 'placeholder', 'helperText', 'error', 'disabled', 'isCreatable', 'isSearchable', 'menuIsOpen'],
     },
   },
   argTypes: {
@@ -54,6 +55,8 @@ export default {
     error: { control: 'text', table: { category: 'State' } },
     disabled: { control: 'boolean', table: { category: 'State' } },
     isCreatable: { control: 'boolean', table: { category: 'Behavior' } },
+    isSearchable: { control: 'boolean', table: { category: 'Behavior' } },
+    menuIsOpen: { control: 'boolean', table: { category: 'State' } },
   },
   args: {
     name: 'characters',
@@ -297,3 +300,159 @@ export const LegacyV3 = () => {
   )
 }
 LegacyV3.tags = ['!dev']
+
+type DoDontPair = {
+  heading: string
+  good: { note: string; demo: ReactNode }
+  bad: { note: string; demo: ReactNode }
+}
+
+const Demo = ({ children }: { children: ReactNode }) => <div style={{ width: '100%' }}>{children}</div>
+
+const longOptions: SelectFieldOption<string>[] = [
+  { value: 'a', label: LONG_MULTIPLE_WORD_TEXT },
+  { value: 'b', label: LONG_ONE_WORD_TEXT },
+  ...options,
+]
+
+const DO_DONT_PAIRS: DoDontPair[] = [
+  {
+    heading: 'Use chips for a manageable number of selections',
+    good: {
+      note: 'A handful of chips reads cleanly in one or two rows and stays scannable.',
+      demo: (
+        <Demo>
+          <MultiSelectField
+            name="dd-count-good"
+            label="Characters"
+            options={options}
+            value={[options[1].value, options[2].value]}
+            onChange={() => {}}
+          />
+        </Demo>
+      ),
+    },
+    bad: {
+      note: 'When users routinely pick many values the chips pile up — reach for CheckableSelectField instead.',
+      demo: (
+        <Demo>
+          <MultiSelectField
+            name="dd-count-bad"
+            label="Characters"
+            options={options}
+            value={options.map((o) => o.value)}
+            onChange={() => {}}
+          />
+        </Demo>
+      ),
+    },
+  },
+  {
+    heading: 'Keep option labels short so chips stay compact',
+    good: {
+      note: 'Short labels make small chips, so several fit on one row.',
+      demo: (
+        <Demo>
+          <MultiSelectField
+            name="dd-label-good"
+            label="Characters"
+            options={options}
+            value={[options[0].value, options[3].value]}
+            onChange={() => {}}
+          />
+        </Demo>
+      ),
+    },
+    bad: {
+      note: 'Long labels become oversized chips that wrap and truncate — trim them before they reach the control.',
+      demo: (
+        <Demo>
+          <MultiSelectField name="dd-label-bad" label="Characters" options={longOptions} value={['a', 'b']} onChange={() => {}} />
+        </Demo>
+      ),
+    },
+  },
+  {
+    heading: 'Reach for MultiSelectField only when many values apply',
+    good: {
+      note: 'Use it when zero, one, or many values are all valid answers.',
+      demo: (
+        <Demo>
+          <MultiSelectField
+            name="dd-fit-good"
+            label="Characters"
+            options={options}
+            value={[options[1].value, options[4].value]}
+            onChange={() => {}}
+          />
+        </Demo>
+      ),
+    },
+    bad: {
+      note: 'If exactly one value is ever correct, a SelectField is clearer and prevents invalid multi-selections.',
+      demo: (
+        <Demo>
+          <MultiSelectField name="dd-fit-bad" label="Primary character" options={options} value={[options[1].value]} onChange={() => {}} />
+        </Demo>
+      ),
+    },
+  },
+  {
+    heading: 'Surface validation inline \u2014 don\u2019t disable the field',
+    good: {
+      note: 'Use error to explain what\u2019s missing. The control turns invalid and announces the message.',
+      demo: (
+        <Demo>
+          <MultiSelectField
+            name="dd-error-good"
+            label="Characters"
+            options={options}
+            value={[]}
+            error="Pick at least one"
+            onChange={() => {}}
+          />
+        </Demo>
+      ),
+    },
+    bad: {
+      note: 'Don\u2019t disable a required field to force a choice \u2014 disabled controls aren\u2019t focusable and give no guidance.',
+      demo: (
+        <Demo>
+          <MultiSelectField name="dd-error-bad" label="Characters" options={options} value={[]} disabled onChange={() => {}} />
+        </Demo>
+      ),
+    },
+  },
+]
+
+export const DoVsDont = () => (
+  <div className={s.doDont}>
+    {DO_DONT_PAIRS.map(({ heading, good, bad }) => (
+      <section key={heading} className={s.doDontRow}>
+        <h4 className={s.doDontHeading}>{heading}</h4>
+        <div className={`${s.doDontCard} ${s.doDontGood}`}>
+          <span className={s.doDontMarker}>
+            <Check size={14} /> Do
+          </span>
+          <div className={s.doDontDemo}>{good.demo}</div>
+          <p className={s.doDontNote}>{good.note}</p>
+        </div>
+        <div className={`${s.doDontCard} ${s.doDontBad}`}>
+          <span className={s.doDontMarker}>
+            <X size={14} /> Don&rsquo;t
+          </span>
+          <div className={s.doDontDemo}>{bad.demo}</div>
+          <p className={s.doDontNote}>{bad.note}</p>
+        </div>
+      </section>
+    ))}
+  </div>
+)
+DoVsDont.tags = ['!dev']
+DoVsDont.parameters = {
+  docs: {
+    description: {
+      story: 'Concrete good-and-bad pairings for choosing, labelling, and validating a MultiSelectField.',
+    },
+  },
+}

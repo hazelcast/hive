@@ -14,7 +14,7 @@ const DropdownIndicator: typeof rsComponents.DropdownIndicator = ({ selectProps 
   <Icon
     icon={ChevronDown}
     ariaHidden
-    size="medium"
+    size="small"
     className={cn(styles.chevron, { [styles.open]: selectProps.menuIsOpen, [styles.disabled]: selectProps.isDisabled })}
   />
 )
