@@ -18,6 +18,7 @@
   --button-size: calc(var(--hive-grid) * 6);
 
   margin-left: calc(var(--hive-grid) * 1);
+  border-radius: var(--hive-border-radius-pill);
 }
 
 .container :global(.hz-autocomplete-field) {
