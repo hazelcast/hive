@@ -29,6 +29,10 @@ export { TextField } from './TextField'
 export type { TextFieldProps, TextFieldExtraProps, TextFieldSize, TextFieldVariant, TextFieldTypes } from './TextField'
 export { TextFieldFormik } from './TextFieldFormik'
 export type { TextFieldFormikProps } from './TextFieldFormik'
+export { PasswordField } from './PasswordField'
+export type { PasswordFieldProps, PasswordFieldExtraProps } from './PasswordField'
+export { PasswordFieldFormik } from './PasswordFieldFormik'
+export type { PasswordFieldFormikProps } from './PasswordFieldFormik'
 export { SelectField } from './Select/SelectField'
 export type {
   SelectFieldProps,

@@ -6,6 +6,7 @@ import { Check, X } from 'react-feather'
 import { logger } from '../src'
 import { PasswordField, PasswordFieldProps } from '../src/components/PasswordField'
 import { PasswordFieldFormik } from '../src/components/PasswordFieldFormik'
+import { PasswordField as LegacyPasswordField } from '../src/old'
 
 import styles from '../src/components/TextField.module.css'
 import s from './Button.stories.module.scss'
@@ -403,3 +404,24 @@ DoVsDont.parameters = {
     },
   },
 }
+
+export const LegacyV3 = () => {
+  const [value, setValue] = useState('hunter2')
+  return (
+    <div className={s.section}>
+      <Caption>
+        The pre-v4 PasswordField is preserved for gradual migration. Import from <strong>@hazelcast/ui/old</strong> to keep the{' '}
+        <code>size</code>
+        prop. New code should use the PasswordField above, which is locked to a single compact size.
+      </Caption>
+      <LegacyPasswordField
+        name="legacy"
+        label="Legacy PasswordField"
+        size="large"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      />
+    </div>
+  )
+}
+LegacyV3.tags = ['!dev']
