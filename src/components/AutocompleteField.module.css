@@ -126,7 +126,7 @@
 }
 
 .menuContainer :global(.hz-autocomplete-field__menu-list) {
-  padding: calc(var(--hive-grid) * 1) 0;
+  padding: 0;
   color: var(--hive-color-text-v4);
 }
 
