@@ -42,7 +42,7 @@
 .container :global(.hz-autocomplete-field__control) {
   cursor: text;
   color: var(--hive-color-text-v4);
-  min-height: calc(var(--hive-grid) * 9);
+  min-height: calc(var(--hive-grid) * 7.5);
   padding-left: calc(var(--hive-grid) * 3);
   padding-right: calc(var(--hive-grid) * 2);
   box-sizing: border-box;
@@ -60,10 +60,6 @@
 .container :global(.hz-autocomplete-field__dropdown-indicator) {
   color: var(--hive-color-text-secondary-v4);
   padding: 0 calc(var(--hive-grid) * 0.5);
-}
-
-.container.small :global(.hz-autocomplete-field__control) {
-  min-height: calc(var(--hive-grid) * 7.5);
 }
 
 .container.disabled {

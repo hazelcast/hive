@@ -39,11 +39,10 @@ export type SelectFieldIconLeftProps =
       iconLeftContainerClassName?: never
     }
 
-export type SelectFieldSize = 'small' | 'medium'
+export type SelectFieldSize = 'regular'
 
 export type SelectFieldExtraProps<V> = {
   options: ReadonlyArray<GroupBase<SelectFieldOption<V>>> | Options<SelectFieldOption<V>>
-  size?: SelectFieldSize
   // Since the user input is string, let's allow creatable only for string
   isCreatable?: V extends string ? boolean : false
   className?: string
@@ -71,7 +70,7 @@ export type SelectFieldExtraProps<V> = {
     | 'menuShouldBlockScroll'
   > &
   SelectFieldIconLeftProps &
-  Omit<FieldHeaderProps, 'id'>
+  Omit<FieldHeaderProps, 'id' | 'size'>
 
 export type SelectFieldProps<V> = SelectFieldCoreStaticProps<V> & SelectFieldExtraProps<V>
 
@@ -89,7 +88,6 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
     label,
     labelClassName,
     showAriaLabel = false,
-    size = 'medium',
     menuIsOpen,
     menuPortalTarget = 'body',
     menuPlacement = 'auto',
@@ -190,7 +188,6 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
     // @ts-ignore
     renderMenuFooter,
     menuShouldScrollIntoView,
-    classNames: { option: () => size },
     ...rest,
   }
 
@@ -208,7 +205,6 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
           [styles.hasError]: error,
           [styles.empty]: !value,
           [styles.hasIcon]: !!iconLeft,
-          [styles.small]: size === 'small',
           [styles.withError]: 'error' in props,
         },
         className,
@@ -217,7 +213,7 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
       <FieldHeader
         label={label}
         id={id}
-        size={size}
+        size="small"
         data-test={dataTest}
         helperText={helperText}
         showAriaLabel={showAriaLabel}

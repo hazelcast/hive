@@ -131,7 +131,6 @@ export const Pagination: FC<PaginationProps> = ({
         options={rowsPerPageOptions}
         onChange={onChangeWrapped}
         isSearchable={false}
-        size="small"
         data-test="pagination-rows-per-page-select"
       />
     ),
