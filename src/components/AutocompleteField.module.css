@@ -14,7 +14,9 @@
   position: relative;
 }
 
-.clear {
+.clear.clear {
+  --button-size: calc(var(--hive-grid) * 6);
+
   margin-left: calc(var(--hive-grid) * 1);
 }
 
