@@ -29,6 +29,10 @@ export { TextField } from './TextField'
 export type { TextFieldProps, TextFieldExtraProps, TextFieldSize, TextFieldVariant, TextFieldTypes } from './TextField'
 export { TextFieldFormik } from './TextFieldFormik'
 export type { TextFieldFormikProps } from './TextFieldFormik'
+export { TextArea } from './TextArea'
+export type { TextAreaProps, TextAreaExtraProps, TextAreaCoreProps, TextAreaSize } from './TextArea'
+export { TextAreaFormik } from './TextAreaFormik'
+export type { TextAreaFormikProps } from './TextAreaFormik'
 export { SelectField } from './Select/SelectField'
 export type {
   SelectFieldProps,

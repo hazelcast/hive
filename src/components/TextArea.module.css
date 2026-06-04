@@ -1,0 +1,109 @@
+.container {
+  color: var(--hive-color-text-v4);
+  box-sizing: border-box;
+  font-family: var(--hive-font-family-text);
+  font-size: var(--hive-font-size-body-small);
+  font-weight: var(--hive-font-weight-text-regular);
+  line-height: normal;
+}
+
+.container .textAreaContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.container .textAreaWrapper {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: var(--hive-border-radius);
+  background-color: var(--hive-color-neutral-white-v4);
+}
+
+.container .borderOverlay {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+  z-index: 100;
+  border-radius: var(--hive-border-radius);
+  border: var(--hive-border-width) solid var(--hive-color-border-v4);
+  box-sizing: border-box;
+}
+
+.container textarea {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: calc(var(--hive-grid) * 2) calc(var(--hive-grid) * 3);
+  border: none;
+  border-radius: var(--hive-border-radius);
+  background-color: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  color: inherit;
+  resize: vertical;
+}
+
+.container textarea.notResizable {
+  resize: none;
+}
+
+.container textarea::placeholder {
+  color: var(--hive-color-text-secondary-v4);
+}
+
+.container .textAreaWrapper:hover .borderOverlay,
+.container.hover .textAreaWrapper .borderOverlay {
+  border-color: var(--hive-color-text-v4);
+}
+
+.container textarea:focus {
+  outline: transparent solid var(--hive-outline-width);
+}
+
+.container .textAreaWrapper textarea:focus ~ .borderOverlay,
+.container.focus .textAreaWrapper .borderOverlay {
+  border-color: var(--hive-color-primary-v4);
+  box-shadow: 0 0 0 3px oklch(from var(--hive-color-primary-v4) l c h / 0.5);
+}
+
+.container.hasError .textAreaWrapper .borderOverlay {
+  border-color: var(--hive-color-error-v4);
+}
+
+.container.hasError label {
+  color: var(--hive-color-error-v4);
+}
+
+.container.disabled {
+  opacity: 0.5;
+}
+
+.container.disabled .textAreaWrapper {
+  background-color: var(--hive-color-neutral-white-v4);
+}
+
+.container.disabled .borderOverlay {
+  border-color: var(--hive-color-border-v4);
+}
+
+.withError {
+  position: relative;
+  padding-bottom: calc(var(--hive-grid) * 4.75 + var(--hive-grid));
+}
+
+.withError .errorContainer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  height: calc(var(--hive-grid) * 4.75);
+  width: 100%;
+}
