@@ -38,7 +38,7 @@ export default {
       canvas: { sourceState: 'hidden' },
     },
     controls: {
-      exclude: ['name', 'value', 'className', 'textareaClassName', 'errorClassName', 'onBlur', 'onChange', 'data-test'],
+      include: ['label', 'placeholder', 'helperText', 'error', 'size', 'rows', 'resizable', 'disabled', 'required'],
     },
   },
   argTypes: {
