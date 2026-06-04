@@ -33,6 +33,10 @@ export { TextArea } from './TextArea'
 export type { TextAreaProps, TextAreaExtraProps, TextAreaCoreProps, TextAreaSize } from './TextArea'
 export { TextAreaFormik } from './TextAreaFormik'
 export type { TextAreaFormikProps } from './TextAreaFormik'
+export { PasswordField } from './PasswordField'
+export type { PasswordFieldProps, PasswordFieldExtraProps } from './PasswordField'
+export { PasswordFieldFormik } from './PasswordFieldFormik'
+export type { PasswordFieldFormikProps } from './PasswordFieldFormik'
 export { SelectField } from './Select/SelectField'
 export type {
   SelectFieldProps,
