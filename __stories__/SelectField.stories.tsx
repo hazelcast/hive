@@ -1,7 +1,7 @@
 import React, { ReactNode, useState } from 'react'
 import { Meta, StoryObj } from '@storybook/react'
 import { Form, Formik } from 'formik'
-import { Aperture } from 'react-feather'
+import { Aperture, Check, X } from 'react-feather'
 import { GroupBase } from 'react-select'
 
 import { logger } from '../src'
@@ -382,3 +382,165 @@ export const LegacyV3 = () => {
   )
 }
 LegacyV3.tags = ['!dev']
+
+type DoDontPair = {
+  heading: string
+  good: { note: string; demo: ReactNode }
+  bad: { note: string; demo: ReactNode }
+}
+
+const Demo = ({ children }: { children: ReactNode }) => <div style={{ width: '100%' }}>{children}</div>
+
+const DO_DONT_PAIRS: DoDontPair[] = [
+  {
+    heading: 'Match the control to the number of options',
+    good: {
+      note: 'Reach for a SelectField once the list is long enough (~6+) that visible radios would crowd the layout.',
+      demo: (
+        <Demo>
+          <SelectField name="dd-count-good" label="Character" options={options} value={options[1].value} onChange={() => {}} />
+        </Demo>
+      ),
+    },
+    bad: {
+      note: 'For two or three choices use a RadioGroup or SegmentedControl — don’t bury the options inside a dropdown.',
+      demo: (
+        <Demo>
+          <SelectField
+            name="dd-count-bad"
+            label="State"
+            options={[
+              { value: 'on', label: 'Enabled' },
+              { value: 'off', label: 'Disabled' },
+            ]}
+            value="on"
+            onChange={() => {}}
+          />
+        </Demo>
+      ),
+    },
+  },
+  {
+    heading: 'Keep the placeholder a short empty hint',
+    good: {
+      note: 'A few words name the empty state. It disappears as soon as a value is chosen.',
+      demo: (
+        <Demo>
+          <SelectField
+            name="dd-ph-good"
+            label="Character"
+            placeholder="Select a character"
+            options={options}
+            value={null}
+            onChange={() => {}}
+          />
+        </Demo>
+      ),
+    },
+    bad: {
+      note: 'Don’t pack instructions into the placeholder — it truncates, then vanishes once a value is picked.',
+      demo: (
+        <Demo>
+          <SelectField
+            name="dd-ph-bad"
+            label="Character"
+            placeholder="Please choose one of the available characters from the list below"
+            options={options}
+            value={null}
+            onChange={() => {}}
+          />
+        </Demo>
+      ),
+    },
+  },
+  {
+    heading: 'Drop repeated prefixes from option labels',
+    good: {
+      note: 'Strip the shared prefix so the meaningful part of each label is the first thing read.',
+      demo: (
+        <Demo>
+          <SelectField
+            name="dd-label-good"
+            label="Environment"
+            options={[
+              { value: 'prod', label: 'Production' },
+              { value: 'stg', label: 'Staging' },
+              { value: 'dev', label: 'Development' },
+            ]}
+            value="prod"
+            onChange={() => {}}
+          />
+        </Demo>
+      ),
+    },
+    bad: {
+      note: 'Repeating the field name in every row wastes width and slows scanning — especially when labels truncate.',
+      demo: (
+        <Demo>
+          <SelectField
+            name="dd-label-bad"
+            label="Environment"
+            options={[
+              { value: 'prod', label: 'Environment — Production' },
+              { value: 'stg', label: 'Environment — Staging' },
+              { value: 'dev', label: 'Environment — Development' },
+            ]}
+            value="prod"
+            onChange={() => {}}
+          />
+        </Demo>
+      ),
+    },
+  },
+  {
+    heading: 'Surface validation inline — don’t disable the field',
+    good: {
+      note: 'Use error to explain what’s wrong. The control turns invalid and the message is announced to assistive tech.',
+      demo: (
+        <Demo>
+          <SelectField name="dd-error-good" label="Character" options={options} value={null} error="Pick a character" onChange={() => {}} />
+        </Demo>
+      ),
+    },
+    bad: {
+      note: 'Don’t disable a required field to force a choice — disabled controls aren’t focusable and give the user no guidance.',
+      demo: (
+        <Demo>
+          <SelectField name="dd-error-bad" label="Character" options={options} value={null} disabled onChange={() => {}} />
+        </Demo>
+      ),
+    },
+  },
+]
+
+export const DoVsDont = () => (
+  <div className={s.doDont}>
+    {DO_DONT_PAIRS.map(({ heading, good, bad }) => (
+      <section key={heading} className={s.doDontRow}>
+        <h4 className={s.doDontHeading}>{heading}</h4>
+        <div className={`${s.doDontCard} ${s.doDontGood}`}>
+          <span className={s.doDontMarker}>
+            <Check size={14} /> Do
+          </span>
+          <div className={s.doDontDemo}>{good.demo}</div>
+          <p className={s.doDontNote}>{good.note}</p>
+        </div>
+        <div className={`${s.doDontCard} ${s.doDontBad}`}>
+          <span className={s.doDontMarker}>
+            <X size={14} /> Don&rsquo;t
+          </span>
+          <div className={s.doDontDemo}>{bad.demo}</div>
+          <p className={s.doDontNote}>{bad.note}</p>
+        </div>
+      </section>
+    ))}
+  </div>
+)
+DoVsDont.tags = ['!dev']
+DoVsDont.parameters = {
+  docs: {
+    description: {
+      story: 'Concrete good-and-bad pairings for choosing, labelling, and validating a SelectField.',
+    },
+  },
+}
