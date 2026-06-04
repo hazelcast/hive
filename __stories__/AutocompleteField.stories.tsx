@@ -1,7 +1,7 @@
 import React, { ReactNode, useState } from 'react'
 import { Meta, StoryObj } from '@storybook/react'
 import { Form, Formik } from 'formik'
-import { Check } from 'react-feather'
+import { Check, X } from 'react-feather'
 
 import { logger } from '../src'
 import {
@@ -44,7 +44,7 @@ export default {
   parameters: {
     docs: { canvas: { sourceState: 'hidden' } },
     controls: {
-      exclude: ['name', 'value', 'className', 'onBlur', 'onChange', 'options', 'renderOption', 'data-test'],
+      include: ['label', 'placeholder', 'helperText', 'error', 'size', 'disabled', 'isClearable', 'openMenuOnClick'],
     },
   },
   argTypes: {
@@ -52,11 +52,6 @@ export default {
     placeholder: { control: 'text', table: { category: 'Content' } },
     helperText: { control: 'text', table: { category: 'Content' } },
     error: { control: 'text', table: { category: 'State' } },
-    size: {
-      control: 'inline-radio',
-      options: ['small', 'medium'],
-      table: { category: 'Layout', defaultValue: { summary: 'medium' } },
-    },
     disabled: { control: 'boolean', table: { category: 'State' } },
     isClearable: { control: 'boolean', table: { category: 'Behavior' } },
     openMenuOnClick: { control: 'boolean', table: { category: 'Behavior' } },
@@ -123,18 +118,14 @@ Basic.tags = ['!dev']
 
 export const Sizes = () => {
   const [a, setA] = useState<string | null>(options[1].value)
-  const [b, setB] = useState<string | null>(options[1].value)
   return (
     <div className={s.section}>
       <Caption>
-        Two sizes: <strong>small</strong> for dense tables, <strong>medium</strong> (default) for most forms.
+        AutocompleteField renders at a single <strong>regular</strong> size — the compact field height used across forms.
       </Caption>
       <div className={`${s.grid} ${s.gridSizes}`} style={{ gridTemplateColumns: 'repeat(2, 320px)' }}>
-        <Cell label="Small">
-          <AutocompleteField name="size-small" size="small" label="Character" options={options} value={a} onChange={setA} />
-        </Cell>
-        <Cell label="Medium">
-          <AutocompleteField name="size-medium" label="Character" options={options} value={b} onChange={setB} />
+        <Cell label="Regular">
+          <AutocompleteField name="size-regular" label="Character" options={options} value={a} onChange={setA} />
         </Cell>
       </div>
     </div>
@@ -352,3 +343,145 @@ export const LegacyV3 = () => {
   )
 }
 LegacyV3.tags = ['!dev']
+
+type DoDontPair = {
+  heading: string
+  good: { note: string; demo: ReactNode }
+  bad: { note: string; demo: ReactNode }
+}
+
+const Demo = ({ children }: { children: ReactNode }) => <div style={{ width: '100%' }}>{children}</div>
+
+const threeOptions: AutocompleteFieldOption[] = options.slice(0, 3)
+
+const DO_DONT_PAIRS: DoDontPair[] = [
+  {
+    heading: 'Reach for autocomplete only when the list is worth searching',
+    good: {
+      note: 'A long list of options is exactly where type-to-filter pays off.',
+      demo: (
+        <Demo>
+          <AutocompleteField name="dd-len-good" label="Character" options={options} value={options[1].value} onChange={() => {}} />
+        </Demo>
+      ),
+    },
+    bad: {
+      note: 'For a handful of options a plain SelectField is faster — there’s nothing to search.',
+      demo: (
+        <Demo>
+          <AutocompleteField name="dd-len-bad" label="Character" options={threeOptions} value={threeOptions[0].value} onChange={() => {}} />
+        </Demo>
+      ),
+    },
+  },
+  {
+    heading: 'Write a placeholder that signals typing',
+    good: {
+      note: 'Hint that the field is searchable so users start typing.',
+      demo: (
+        <Demo>
+          <AutocompleteField
+            name="dd-ph-good"
+            label="Character"
+            placeholder="Type to search…"
+            options={options}
+            value={null}
+            onChange={() => {}}
+          />
+        </Demo>
+      ),
+    },
+    bad: {
+      note: '“Select…” reads like a static dropdown and hides that users can filter.',
+      demo: (
+        <Demo>
+          <AutocompleteField name="dd-ph-bad" label="Character" placeholder="Select…" options={options} value={null} onChange={() => {}} />
+        </Demo>
+      ),
+    },
+  },
+  {
+    heading: 'Let users clear a wrong match',
+    good: {
+      note: 'Set isClearable so a mistaken selection can be reset in one click.',
+      demo: (
+        <Demo>
+          <AutocompleteField
+            name="dd-clr-good"
+            label="Character"
+            options={options}
+            value={options[3].value}
+            isClearable
+            onChange={() => {}}
+          />
+        </Demo>
+      ),
+    },
+    bad: {
+      note: 'Without a clear affordance users must hand-edit the input to undo a choice.',
+      demo: (
+        <Demo>
+          <AutocompleteField name="dd-clr-bad" label="Character" options={options} value={options[3].value} onChange={() => {}} />
+        </Demo>
+      ),
+    },
+  },
+  {
+    heading: 'Surface validation inline — don’t disable the field',
+    good: {
+      note: 'Use error to explain what’s wrong; the field announces it to assistive tech.',
+      demo: (
+        <Demo>
+          <AutocompleteField
+            name="dd-err-good"
+            label="Character"
+            options={options}
+            value={null}
+            error="Pick a character"
+            onChange={() => {}}
+          />
+        </Demo>
+      ),
+    },
+    bad: {
+      note: 'A disabled field can’t be focused and gives users no path to fix the problem.',
+      demo: (
+        <Demo>
+          <AutocompleteField name="dd-err-bad" label="Character" options={options} value={null} disabled onChange={() => {}} />
+        </Demo>
+      ),
+    },
+  },
+]
+
+export const DoVsDont = () => (
+  <div className={s.doDont}>
+    {DO_DONT_PAIRS.map(({ heading, good, bad }) => (
+      <section key={heading} className={s.doDontRow}>
+        <h4 className={s.doDontHeading}>{heading}</h4>
+        <div className={`${s.doDontCard} ${s.doDontGood}`}>
+          <span className={s.doDontMarker}>
+            <Check size={14} /> Do
+          </span>
+          <div className={s.doDontDemo}>{good.demo}</div>
+          <p className={s.doDontNote}>{good.note}</p>
+        </div>
+        <div className={`${s.doDontCard} ${s.doDontBad}`}>
+          <span className={s.doDontMarker}>
+            <X size={14} /> Don&rsquo;t
+          </span>
+          <div className={s.doDontDemo}>{bad.demo}</div>
+          <p className={s.doDontNote}>{bad.note}</p>
+        </div>
+      </section>
+    ))}
+  </div>
+)
+DoVsDont.tags = ['!dev']
+DoVsDont.parameters = {
+  docs: {
+    description: {
+      story: 'Concrete good-and-bad pairings for when to use, how to label, and how to validate an AutocompleteField.',
+    },
+  },
+}

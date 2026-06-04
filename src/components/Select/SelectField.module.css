@@ -23,7 +23,7 @@
 .container :global(.hz-select-field__control) {
   cursor: pointer;
   color: var(--hive-color-text-v4);
-  min-height: calc(var(--hive-grid) * 9);
+  min-height: calc(var(--hive-grid) * 7.5);
   padding-left: calc(var(--hive-grid) * 3);
   padding-right: calc(var(--hive-grid) * 2);
   box-sizing: border-box;
@@ -53,10 +53,6 @@
 .container :global(.hz-select-field__input-container),
 .container :global(.hz-select-field__input) {
   color: var(--hive-color-text-v4);
-}
-
-.container.small :global(.hz-select-field__control) {
-  min-height: calc(var(--hive-grid) * 7.5);
 }
 
 .container.disabled {
@@ -123,10 +119,6 @@
   padding-left: calc(var(--hive-grid) * 7);
 }
 
-.container.hasIcon.small :global(.hz-select-field__control) {
-  padding-left: calc(var(--hive-grid) * 7);
-}
-
 .menuContainer.menuContainer.menuContainer :global(.hz-select-field__menu-portal) {
   z-index: 2000;
 }
@@ -147,14 +139,14 @@
 }
 
 .menuContainer.menuContainer.menuContainer :global(.hz-select-field__menu-list) {
-  padding: calc(var(--hive-grid) * 1) 0;
+  padding: 0;
   color: var(--hive-color-text-v4);
 }
 
 .menuContainer.menuContainer.menuContainer :global(.hz-select-field__option),
 .menuContainer.menuContainer.menuContainer :global(.hz-select-field__menu-notice) {
-  min-height: calc(var(--hive-grid) * 10);
-  line-height: calc(var(--hive-grid) * 10);
+  min-height: calc(var(--hive-grid) * 8);
+  line-height: calc(var(--hive-grid) * 8);
   padding: 0 calc(var(--hive-grid) * 3);
   background-color: transparent;
   color: var(--hive-color-text-v4);
@@ -162,12 +154,6 @@
   text-align: left;
   cursor: pointer;
   text-decoration: none;
-}
-
-.menuContainer.menuContainer.menuContainer :global(.hz-select-field__option.small),
-.menuContainer.menuContainer.menuContainer :global(.hz-select-field__menu-notice.small) {
-  min-height: calc(var(--hive-grid) * 8);
-  line-height: calc(var(--hive-grid) * 8);
 }
 
 .menuContainer.menuContainer.menuContainer :global(.hz-select-field__option--is-focused) {

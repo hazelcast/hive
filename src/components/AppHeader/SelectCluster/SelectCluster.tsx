@@ -63,7 +63,6 @@ export const SelectCluster: FC<SelectClusterProps> = ({ clusterVersions, cluster
       name="cluster"
       label="Select Cluster"
       showAriaLabel
-      size="small"
       data-test="select-cluster"
       className={cn(styles.select, { [styles.disabled]: disabled })}
       classNames={{

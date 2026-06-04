@@ -6,7 +6,7 @@ import { useUID } from 'react-uid'
 import { TextArea } from '../../src/components/TextArea'
 import { errorId } from '../../src/components/Error'
 
-import styles from '../../src/components/TextArea.module.scss'
+import styles from '../../src/components/TextArea.module.css'
 
 jest.mock('react-uid')
 

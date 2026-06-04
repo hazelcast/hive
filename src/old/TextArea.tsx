@@ -3,10 +3,10 @@ import cn from 'classnames'
 import { useUID } from 'react-uid'
 
 import { DataTestProp } from '../helpers/types'
-import { Error, errorId } from './Error'
-import { FieldHeader, FieldHeaderProps } from './FieldHeader'
+import { Error, errorId } from '../components/Error'
+import { FieldHeader, FieldHeaderProps } from '../components/FieldHeader'
 
-import styles from './TextArea.module.css'
+import styles from './TextAreaLegacy.module.scss'
 
 export type TextAreaSize = 'medium' | 'small'
 
