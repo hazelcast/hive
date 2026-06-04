@@ -9,7 +9,6 @@ import { Error, errorId } from './Error'
 import { HelpProps } from './Help'
 import { canUseDOM } from '../utils/ssr'
 import { IconButton } from './IconButton'
-import { SelectFieldSize } from './Select/SelectField'
 import { FieldHeader, FieldHeaderProps } from './FieldHeader'
 
 export type AutocompleteFieldOption = {
@@ -25,7 +24,6 @@ export type RenderOptionFunction<O = AutocompleteFieldOption> = (
 
 export type AutocompleteFieldProps = {
   'data-test'?: string
-  size?: SelectFieldSize
   className?: string
   disabled?: boolean
   error?: string
@@ -46,7 +44,7 @@ export type AutocompleteFieldProps = {
   value?: string | null
   placeholder?: string
   openMenuOnClick?: boolean
-} & Omit<FieldHeaderProps, 'id'>
+} & Omit<FieldHeaderProps, 'id' | 'size'>
 
 type GetSelectedOptionFromValueProps = {
   value?: string | null
@@ -89,7 +87,7 @@ const ClearIndicator: typeof components.ClearIndicator = ({ innerProps }) => {
   // Visually impaired people will use the keyboard (backspace) to remove the value. We do not want to confuse them by allowing to focus this button.
 
   // @ts-ignore
-  return <IconButton {...innerProps} icon={X} ariaHidden variant="ghost" className={styles.clear} tabIndex={-1} />
+  return <IconButton {...innerProps} icon={X} ariaHidden variant="ghost" size="small" className={styles.clear} tabIndex={-1} />
 }
 
 export const highlightOptionText = (labelText: string, inputValue: string | undefined): ReactNode => {
@@ -123,7 +121,6 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
   label,
   labelClassName,
   helperText,
-  size = 'medium',
   menuPortalTarget = 'body',
   name,
   onChange,
@@ -260,7 +257,6 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
           [styles.withError]: 'error' in props,
           [styles.disabled]: disabled,
           [styles.hasError]: error,
-          [styles.small]: size === 'small',
           [styles.empty]: !value,
         },
         // Menu container is either this select itself or any other element
@@ -273,7 +269,7 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
       <FieldHeader
         label={label}
         id={id}
-        size={size}
+        size="small"
         data-test={dataTest}
         helperText={helperText}
         showAriaLabel={showAriaLabel}

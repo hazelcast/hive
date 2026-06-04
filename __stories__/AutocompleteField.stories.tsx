@@ -52,11 +52,6 @@ export default {
     placeholder: { control: 'text', table: { category: 'Content' } },
     helperText: { control: 'text', table: { category: 'Content' } },
     error: { control: 'text', table: { category: 'State' } },
-    size: {
-      control: 'inline-radio',
-      options: ['small', 'medium'],
-      table: { category: 'Layout', defaultValue: { summary: 'medium' } },
-    },
     disabled: { control: 'boolean', table: { category: 'State' } },
     isClearable: { control: 'boolean', table: { category: 'Behavior' } },
     openMenuOnClick: { control: 'boolean', table: { category: 'Behavior' } },
@@ -123,18 +118,14 @@ Basic.tags = ['!dev']
 
 export const Sizes = () => {
   const [a, setA] = useState<string | null>(options[1].value)
-  const [b, setB] = useState<string | null>(options[1].value)
   return (
     <div className={s.section}>
       <Caption>
-        Two sizes: <strong>small</strong> for dense tables, <strong>medium</strong> (default) for most forms.
+        AutocompleteField renders at a single <strong>regular</strong> size — the compact field height used across forms.
       </Caption>
       <div className={`${s.grid} ${s.gridSizes}`} style={{ gridTemplateColumns: 'repeat(2, 320px)' }}>
-        <Cell label="Small">
-          <AutocompleteField name="size-small" size="small" label="Character" options={options} value={a} onChange={setA} />
-        </Cell>
-        <Cell label="Medium">
-          <AutocompleteField name="size-medium" label="Character" options={options} value={b} onChange={setB} />
+        <Cell label="Regular">
+          <AutocompleteField name="size-regular" label="Character" options={options} value={a} onChange={setA} />
         </Cell>
       </div>
     </div>

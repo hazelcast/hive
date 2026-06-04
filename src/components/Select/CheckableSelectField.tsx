@@ -26,7 +26,6 @@ export type CheckableSelectFieldCoreStaticProps<V> = {
 export type CheckableSelectFieldExtraProps<V> = {
   options: SelectFieldOption<V>[]
   label: ReactNode
-  size?: 'small' | 'medium'
   showAriaLabel?: boolean
   helperText?: HelpProps['helperText']
   className?: string
@@ -64,7 +63,6 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
     options,
     onChange,
     value,
-    size = 'small',
     placeholder = 'Search',
     placeholderMode = 'normal',
     label,
@@ -138,7 +136,7 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
     <>
       <div className={styles.openerWrap} onClick={handleOpenerClick}>
         <TextField
-          size={size}
+          size="small"
           name={name}
           id={rootId || id}
           onKeyDown={handleKeyDown}
@@ -176,7 +174,7 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
           <div className={styles.search}>
             {searchInputProps.startAdornment}
             <TextField
-              size={size}
+              size="small"
               iconSize="medium"
               className={styles.searchField}
               name="checkable-select-search"
