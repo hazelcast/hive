@@ -411,16 +411,22 @@ export const LegacyV3 = () => {
     <div className={s.section}>
       <Caption>
         The pre-v4 PasswordField is preserved for gradual migration. Import from <strong>@hazelcast/ui/old</strong> to keep the{' '}
-        <code>size</code>
-        prop. New code should use the PasswordField above, which is locked to a single compact size.
+        <code>size</code> prop, which offered three heights. New code should use the PasswordField above, which is locked to a single
+        compact size.
       </Caption>
-      <LegacyPasswordField
-        name="legacy"
-        label="Legacy PasswordField"
-        size="large"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-      />
+      <div className={s.grid}>
+        {(['small', 'medium', 'large'] as const).map((size) => (
+          <Cell key={size} label={size}>
+            <LegacyPasswordField
+              name={`legacy-${size}`}
+              label="Password"
+              size={size}
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+            />
+          </Cell>
+        ))}
+      </div>
     </div>
   )
 }
