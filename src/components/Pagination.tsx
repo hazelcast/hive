@@ -153,7 +153,6 @@ export const Pagination: FC<PaginationProps> = ({
             showAriaLabel
             min={1}
             max={pageCount}
-            size="small"
             value={currentPageValue}
             data-test="pagination-jump-from-input-field"
             onChange={setCurrentPageValue}

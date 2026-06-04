@@ -1,0 +1,73 @@
+.disabled {
+  visibility: hidden;
+}
+
+.inputContainer {
+  position: relative;
+}
+
+.inputContainer > input {
+  appearance: textfield;
+}
+
+.inputContainer > input::-webkit-inner-spin-button,
+.inputContainer > input::-webkit-outer-spin-button {
+  appearance: none;
+  margin: 0;
+}
+
+.inputContainer.buttons > input {
+  padding-right: calc(var(--hive-grid) * 16);
+}
+
+.inputContainer.buttons.buttonsIconsSeparate > input {
+  padding-left: calc(var(--hive-grid) * 8);
+  padding-right: calc(var(--hive-grid) * 8);
+  text-align: center;
+}
+
+.inputContainer.buttons.buttonsRegularIconsSeparate > input {
+  padding-left: calc(var(--hive-grid) * 9);
+  padding-right: calc(var(--hive-grid) * 9);
+  text-align: center;
+}
+
+.inputContainer.buttons .decrement,
+.inputContainer.buttons .increment {
+  --button-size: calc(var(--hive-grid) * 6);
+  border-radius: var(--hive-border-radius-pill);
+}
+
+.inputContainer.buttons .decrement {
+  color: var(--hive-color-primary-v4);
+  position: absolute;
+  right: calc(var(--hive-grid) * 2);
+  top: 50%;
+  transform: translateY(-50%);
+  margin-right: calc(var(--hive-grid) * 6);
+}
+
+.inputContainer.buttons .decrement.decrementIconsSeparate {
+  left: calc(var(--hive-grid) * 2);
+  right: auto;
+}
+
+.inputContainer.buttons .decrement.decrementSmall {
+  margin-right: calc(var(--hive-grid) * 5);
+}
+
+.inputContainer.buttons .decrement :global(line) {
+  color: var(--hive-color-text-v4);
+}
+
+.inputContainer.buttons .increment {
+  color: var(--hive-color-primary-v4);
+  position: absolute;
+  right: calc(var(--hive-grid) * 2);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.inputContainer.buttons .increment :global(line) {
+  color: var(--hive-color-text-v4);
+}
