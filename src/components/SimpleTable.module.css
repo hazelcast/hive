@@ -1,0 +1,80 @@
+.root {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-family: var(--hive-font-family-text);
+  font-size: var(--hive-font-size-body-small);
+  color: var(--hive-color-text-v4);
+}
+
+/* ─── Variants ──────────────────────────────────────────────────────────── */
+
+.root.surface {
+  border: var(--hive-border-width) solid var(--hive-color-border-v4);
+  border-radius: var(--hive-border-radius);
+  overflow: hidden;
+}
+
+/* ─── Cells ─────────────────────────────────────────────────────────────── */
+
+.root th,
+.root td {
+  text-align: left;
+  vertical-align: top;
+  padding: calc(var(--hive-grid) * 2) calc(var(--hive-grid) * 3);
+  box-sizing: border-box;
+}
+
+/* ─── Header ─────────────────────────────────────────────────────────────── */
+
+.root thead th {
+  font-weight: var(--hive-font-weight-text-medium);
+  color: var(--hive-color-text-secondary-v4);
+  background-color: var(--hive-color-neutral-lighter-v4);
+  border-bottom: var(--hive-border-width) solid var(--hive-color-border-v4);
+}
+
+.root.surface thead th {
+  background-color: var(--hive-color-surface-active-v4);
+}
+
+/* ─── Body row separators ───────────────────────────────────────────────── */
+
+.root tbody tr + tr > td,
+.root tbody tr + tr > th {
+  border-top: var(--hive-border-width) solid var(--hive-color-border-v4);
+}
+
+/* ─── Row alignment ─────────────────────────────────────────────────────── */
+
+.alignStart {
+  vertical-align: top;
+}
+.alignCenter {
+  vertical-align: middle;
+}
+.alignEnd {
+  vertical-align: bottom;
+}
+.alignBaseline {
+  vertical-align: baseline;
+}
+
+/* ─── Cell justify ──────────────────────────────────────────────────────── */
+
+.justifyStart {
+  text-align: start;
+}
+.justifyCenter {
+  text-align: center;
+}
+.justifyEnd {
+  text-align: end;
+}
+
+/* ─── Row header cell ───────────────────────────────────────────────────── */
+
+.rowHeaderCell {
+  font-weight: var(--hive-font-weight-text-medium);
+}

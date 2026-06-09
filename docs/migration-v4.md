@@ -26,6 +26,7 @@ grep -r "@hazelcast/ui/old" src --include="*.tsx" --include="*.ts"
 
 | Category | Component                                                   | Change                                                                                                                                                                                                                          | `/old` fallback |
 | -------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- |
+| Updated  | `SimpleTable`                                               | Radix UI-inspired structure; `.Td` → `.Cell`, `.Th` → `.ColumnHeaderCell`; new `.RowHeaderCell`; new `variant`, `align`, `justify` props; SCSS → CSS                                                                            | ✅              |
 | Updated  | `Tooltip`                                                   | Radix UI base; new props; no render-prop children                                                                                                                                                                               | ✅              |
 | Updated  | `Badge`                                                     | `size` prop removed; borders + 8px radius added                                                                                                                                                                                 | ❌              |
 | Updated  | `Button`                                                    | HIVE 4.0 rebrand; `color` × `variant` axes (variant: contained/outlined/ghost/link, color: primary/secondary/warning/danger); `tooltipColor` removed; `size` reintroduced (`small`/`regular`); `capitalize` removed; SCSS → CSS | ✅              |
@@ -640,6 +641,78 @@ import { Modal } from '@hazelcast/ui'
   actions={[{ children: 'Delete forever', onClick: onDelete, color: 'danger' }]}
   helperLink={{ label: 'Learn more in docs', href: '/docs/clusters#delete' }}
 />
+```
+
+---
+
+### `SimpleTable`
+
+Restyled to match the [Radix UI Table](https://www.radix-ui.com/themes/docs/components/table) component design. The sub-component names and available props have been updated to align with the Radix API. Two compound sub-components (`.Td` and `.Th`) have been renamed; a new `.RowHeaderCell` sub-component is added. The stylesheet has been migrated from SCSS to CSS modules.
+
+**Old import (temporary fallback):**
+
+```ts
+import { SimpleTable } from '@hazelcast/ui/old'
+```
+
+**Prop changes:**
+
+| Prop / Sub-component                                                                               | v3                   | v4                                                                     |
+| -------------------------------------------------------------------------------------------------- | -------------------- | ---------------------------------------------------------------------- |
+| `variant?: 'surface' \| 'ghost'`                                                                   | —                    | new — `'ghost'` (default) is borderless; `'surface'` adds a border box |
+| `SimpleTable.Td`                                                                                   | data cell (`<td>`)   | **renamed** to `SimpleTable.Cell`                                      |
+| `SimpleTable.Th`                                                                                   | header cell (`<th>`) | **renamed** to `SimpleTable.ColumnHeaderCell`                          |
+| `SimpleTable.RowHeaderCell`                                                                        | —                    | new — `<th scope="row">` for row headers                               |
+| `SimpleTable.Row` `align?: 'start' \| 'center' \| 'end' \| 'baseline'`                             | —                    | new — vertical alignment of cells within the row                       |
+| `SimpleTable.Cell` / `ColumnHeaderCell` / `RowHeaderCell` `justify?: 'start' \| 'center' \| 'end'` | —                    | new — horizontal text alignment                                        |
+
+**Visual / token changes:**
+
+| Aspect          | v3                                                         | v4                                                                     |
+| --------------- | ---------------------------------------------------------- | ---------------------------------------------------------------------- |
+| Header cells    | unstyled `<th>` inside `<thead>`                           | medium-weight, secondary-color text, neutral-lighter bg, bottom border |
+| Row separators  | column-based borders (`border-left`) on `<td>`             | row-based `border-top` between body rows                               |
+| Surface variant | —                                                          | 1px border + 8px radius wrapping the table                             |
+| Stylesheet      | `SimpleTable.module.scss` with SCSS `@use` and `c.$…` vars | `SimpleTable.module.css` using `--hive-*` CSS variables                |
+
+**Before:**
+
+```tsx
+import { SimpleTable } from '@hazelcast/ui'
+;<SimpleTable>
+  <SimpleTable.Header>
+    <SimpleTable.Row>
+      <SimpleTable.Th>Id</SimpleTable.Th>
+      <SimpleTable.Th>Name</SimpleTable.Th>
+    </SimpleTable.Row>
+  </SimpleTable.Header>
+  <SimpleTable.Body>
+    <SimpleTable.Row>
+      <SimpleTable.Td>2312312</SimpleTable.Td>
+      <SimpleTable.Td>Bob Adams</SimpleTable.Td>
+    </SimpleTable.Row>
+  </SimpleTable.Body>
+</SimpleTable>
+```
+
+**After:**
+
+```tsx
+import { SimpleTable } from '@hazelcast/ui'
+;<SimpleTable variant="surface">
+  <SimpleTable.Header>
+    <SimpleTable.Row>
+      <SimpleTable.ColumnHeaderCell>Id</SimpleTable.ColumnHeaderCell>
+      <SimpleTable.ColumnHeaderCell>Name</SimpleTable.ColumnHeaderCell>
+    </SimpleTable.Row>
+  </SimpleTable.Header>
+  <SimpleTable.Body>
+    <SimpleTable.Row>
+      <SimpleTable.Cell>2312312</SimpleTable.Cell>
+      <SimpleTable.Cell>Bob Adams</SimpleTable.Cell>
+    </SimpleTable.Row>
+  </SimpleTable.Body>
+</SimpleTable>
 ```
 
 ---

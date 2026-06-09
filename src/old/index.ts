@@ -81,3 +81,5 @@ export type {
 } from './Tabs'
 export { Modal, setAppElement } from './Modal'
 export type { ModalProps, ModalActionProps } from './Modal'
+export { SimpleTable } from './SimpleTable'
+export type { SimpleTableProps } from './SimpleTable'

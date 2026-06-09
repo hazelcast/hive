@@ -1,0 +1,98 @@
+import { Meta, Title, Canvas, Controls } from '@storybook/blocks'
+import * as SimpleTableStories from './SimpleTable.stories'
+import { DocsTabs } from '../.storybook/DocsTabs'
+
+<Meta of={SimpleTableStories} name="Docs" />
+
+<Title />
+
+SimpleTable is a lightweight HTML table wrapper for structured, static data. Use it for configuration values, key/value pairs, comparison matrices, and any other small data set that doesn't need sorting, filtering, or pagination. For full-featured data tables with those capabilities, use `Table`.
+
+<DocsTabs tabs={[
+  {
+    id: 'overview',
+    label: 'Overview',
+    content: (
+      <>
+        <Canvas of={SimpleTableStories.Playground} />
+
+        <h2>Variants</h2>
+
+        <p>Two visual variants control the outer framing. <code>ghost</code> (default) renders without an outer border — use it when the table sits inside an already-framed container. <code>surface</code> wraps the table in a 1px bordered box with 8px radius — use it when the table needs its own visual boundary.</p>
+
+        <Canvas of={SimpleTableStories.Ghost} />
+
+        <Canvas of={SimpleTableStories.Surface} />
+
+        <h2>Alignment</h2>
+
+        <p>Use <code>justify</code> on a cell to control horizontal text alignment (<code>start</code>, <code>center</code>, <code>end</code>). Use <code>align</code> on a row for vertical cell alignment (<code>start</code>, <code>center</code>, <code>end</code>, <code>baseline</code>). Right-align numeric columns so values line up at the decimal.</p>
+
+        <Canvas of={SimpleTableStories.WithAlignment} />
+
+        <h2>Footer</h2>
+
+        <p>Use <code>SimpleTable.Footer</code> for summary rows, totals, or pagination controls placed below the body.</p>
+
+        <Canvas of={SimpleTableStories.WithFooter} />
+
+        <h2>Legacy v3</h2>
+
+        <p>The v3 SimpleTable is preserved for gradual migration. Import from <code>@hazelcast/ui/old</code>. New code should use the SimpleTable above.</p>
+
+        <Canvas of={SimpleTableStories.LegacyV3} />
+
+        <h2>Props</h2>
+
+        <Controls of={SimpleTableStories.Playground} />
+      </>
+    ),
+  },
+  {
+    id: 'guidelines',
+    label: 'Guidelines',
+    content: (
+      <>
+        <h2>When to use SimpleTable</h2>
+
+        <ul>
+          <li>Static data that doesn&rsquo;t need sorting, filtering, or pagination.</li>
+          <li>Small reference tables — configuration values, key/value pairs, comparison matrices.</li>
+          <li>Any place a plain HTML table fits but consistent HIVE 4.0 styling is needed.</li>
+        </ul>
+
+        <h3>When <em>not</em> to use SimpleTable</h3>
+
+        <ul>
+          <li>For sortable, filterable, or paginated data &rarr; use <code>Table</code>.</li>
+          <li>For a single key/value list &rarr; consider a <code>dl</code> / <code>dt</code> / <code>dd</code> or a CSS grid.</li>
+        </ul>
+
+        <h2>Variant choice</h2>
+
+        <ul>
+          <li>Use <strong>ghost</strong> when the table is already inside a visually-bounded container (a card, a panel, a modal).</li>
+          <li>Use <strong>surface</strong> when the table stands alone on the page and needs its own framing.</li>
+          <li>Pick one and be consistent — don&rsquo;t mix variants at the same level in a single view.</li>
+        </ul>
+
+        <h2>Column headers</h2>
+
+        <ul>
+          <li>Always use <code>SimpleTable.ColumnHeaderCell</code> inside <code>SimpleTable.Header</code> — it renders a semantic <code>&lt;th&gt;</code> with the header styling (medium weight, secondary color, neutral background).</li>
+          <li>Use <code>SimpleTable.RowHeaderCell</code> when the first cell of a body row identifies the subject of that row (e.g. a resource name). It renders <code>&lt;th scope=&quot;row&quot;&gt;</code> for correct semantics.</li>
+          <li>Keep column headers short — one to three words, title case.</li>
+        </ul>
+
+        <h2>Alignment</h2>
+
+        <ul>
+          <li>Left-align text columns (default).</li>
+          <li>Right-align (<code>justify=&quot;end&quot;</code>) numeric columns so decimal points and units line up vertically.</li>
+          <li>Center-align status badges or icon-only columns.</li>
+          <li>Be consistent within a column — header and body cells should share the same <code>justify</code> value.</li>
+        </ul>
+      </>
+    ),
+  },
+]} />
