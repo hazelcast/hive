@@ -2,66 +2,47 @@ import React from 'react'
 
 import { SimpleTable } from '../src'
 
-import styles from './SimpleTableStories.module.scss'
-
 export default {
   title: 'Components/SimpleTable',
   component: SimpleTable,
 }
 
-const content = (
-  <>
-    <SimpleTable.Header>
-      <SimpleTable.Row>
-        <SimpleTable.Th>Id</SimpleTable.Th>
-        <SimpleTable.Th>Name</SimpleTable.Th>
-      </SimpleTable.Row>
-    </SimpleTable.Header>
-    <SimpleTable.Body>
-      <SimpleTable.Row>
-        <SimpleTable.Td>2312312</SimpleTable.Td>
-        <SimpleTable.Td>Bob Adams</SimpleTable.Td>
-      </SimpleTable.Row>
-      <SimpleTable.Row>
-        <SimpleTable.Td>1111111</SimpleTable.Td>
-        <SimpleTable.Td>Elly Johns</SimpleTable.Td>
-      </SimpleTable.Row>
-      <SimpleTable.Row>
-        <SimpleTable.Td>5435345</SimpleTable.Td>
-        <SimpleTable.Td>Jim Andrews</SimpleTable.Td>
-      </SimpleTable.Row>
-    </SimpleTable.Body>
-  </>
+const rows = [
+  { id: '2312312', name: 'Bob Adams' },
+  { id: '1111111', name: 'Elly Johns' },
+  { id: '5435345', name: 'Jim Andrews' },
+]
+
+const header = (
+  <SimpleTable.Header>
+    <SimpleTable.Row>
+      <SimpleTable.ColumnHeaderCell>Id</SimpleTable.ColumnHeaderCell>
+      <SimpleTable.ColumnHeaderCell>Name</SimpleTable.ColumnHeaderCell>
+    </SimpleTable.Row>
+  </SimpleTable.Header>
 )
 
-export const Default = () => <SimpleTable>{content}</SimpleTable>
+const body = (
+  <SimpleTable.Body>
+    {rows.map((row) => (
+      <SimpleTable.Row key={row.id}>
+        <SimpleTable.Cell>{row.id}</SimpleTable.Cell>
+        <SimpleTable.Cell>{row.name}</SimpleTable.Cell>
+      </SimpleTable.Row>
+    ))}
+  </SimpleTable.Body>
+)
 
-export const Custom = () => (
+export const Ghost = () => (
   <SimpleTable>
-    <SimpleTable.Header>
-      <SimpleTable.Row>
-        <SimpleTable.Th className={styles.th}>Id</SimpleTable.Th>
-        <SimpleTable.Th className={styles.th}>Name</SimpleTable.Th>
-      </SimpleTable.Row>
-    </SimpleTable.Header>
-    <SimpleTable.Body>
-      <SimpleTable.Row>
-        <SimpleTable.Td className={styles.td}>2312312</SimpleTable.Td>
-        <SimpleTable.Td className={styles.td}>Bob Adams</SimpleTable.Td>
-      </SimpleTable.Row>
-      <SimpleTable.Row>
-        <SimpleTable.Td className={styles.td}>1111111</SimpleTable.Td>
-        <SimpleTable.Td className={styles.td}>Elly Johns</SimpleTable.Td>
-      </SimpleTable.Row>
-      <SimpleTable.Row>
-        <SimpleTable.Td className={styles.td}>5435345</SimpleTable.Td>
-        <SimpleTable.Td className={styles.td}>Jim Andrews</SimpleTable.Td>
-      </SimpleTable.Row>
-    </SimpleTable.Body>
-    <SimpleTable.Footer className={styles.footer}>
-      <SimpleTable.Row>
-        <SimpleTable.Td colSpan={2}>Footer</SimpleTable.Td>
-      </SimpleTable.Row>
-    </SimpleTable.Footer>
+    {header}
+    {body}
+  </SimpleTable>
+)
+
+export const Surface = () => (
+  <SimpleTable variant="surface">
+    {header}
+    {body}
   </SimpleTable>
 )
