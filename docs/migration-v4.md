@@ -37,7 +37,7 @@ grep -r "@hazelcast/ui/old" src --include="*.tsx" --include="*.ts"
 | Updated  | `TextArea`                                                  | HIVE 4.0 rebrand; 8px radius; white surface; neutral border, brand focus ring, error border; `--hive-*` tokens; SCSS → CSS                                                                                                      | ✅              |
 | Updated  | `NumberField`                                               | HIVE 4.0 rebrand; inherits v4 `TextField` input; single Regular size (`size` prop removed); stepper buttons re-tokenised to `--hive-*`; SCSS → CSS                                                                              | ✅              |
 | Updated  | `Checkbox`                                                  | HIVE 4.0 rebrand; primary-v4 fill when checked; 4px radius box; focus halo; `--hive-*` tokens; SCSS → CSS                                                                                                                       | ✅              |
-| Updated  | `Tabs`                                                      | HIVE 4.0 visual redesign; pill-segmented shape with gray background; no API changes; SCSS → CSS                                                                                                                                 | ✅              |
+| Updated  | `Tabs`                                                      | HIVE 4.0 visual redesign; line-tab style with active underline and hover color treatment; no API changes; SCSS → CSS                                                                                                            | ✅              |
 | Updated  | `Modal`                                                     | HIVE 4.0 redesign; new `intent`, `eyebrow`, `description`, `helperLink` props; tinted header gradient and framed icon tile; Cancel now precedes primary actions in DOM order; SCSS → CSS                                        | ✅              |
 | Updated  | `SelectField` / `MultiSelectField` / `CheckableSelectField` | HIVE 4.0 rebrand; 36px height; 8px radius; new menu surface + hover/selected states; `--hive-*` tokens; SCSS → CSS                                                                                                              | ✅              |
 | Updated  | `AutocompleteField`                                         | HIVE 4.0 rebrand; 36px height; 8px radius; new menu surface + hover/selected states; `--hive-*` tokens; SCSS → CSS                                                                                                              | ✅              |
@@ -468,7 +468,7 @@ import { Checkbox } from '@hazelcast/ui'
 
 ### `Tabs`
 
-Visual redesign to the HIVE 4.0 pill-segmented tabs: `36px` container with `3.5px` padding, `14px` border-radius, neutral gray background (`#eaebec`), and white selected state. The typography and interaction model remain unchanged. Styles have been migrated from SCSS to CSS modules.
+Visual redesign to HIVE 4.0 line-tabs with active underline and hover color treatment. The typography and interaction model remain unchanged. Styles have been migrated from SCSS to CSS modules.
 
 The public prop contract is unchanged; only visuals and internal styling have changed.
 
@@ -529,7 +529,7 @@ import { TabContextProvider, TabList, Tab, TabPanel } from '@hazelcast/ui'
   <TabPanel value={1}>Content for Security</TabPanel>
   <TabPanel value={2}>Content for Notifications</TabPanel>
 </TabContextProvider>
-// Renders as a pill-segmented row with white selected state.
+// Renders as a line-tab row with active underline.
 ```
 
 ---
