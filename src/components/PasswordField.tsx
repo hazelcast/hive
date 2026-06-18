@@ -3,7 +3,7 @@ import { Eye, EyeOff, Lock } from 'react-feather'
 import cls from 'classnames'
 
 import { DataTestProp } from '../helpers/types'
-import { TextField, TextFieldSize, TextFieldVariant } from './TextField'
+import { TextField, TextFieldVariant } from './TextField'
 import { IconButton, IconButtonDisabledProps, IconButtonNotDisabledProps } from './IconButton'
 import { HelpProps } from './Help'
 
@@ -21,7 +21,6 @@ export type PasswordFieldExtraProps = {
   hideIconLabel?: string
   label: string
   helperText?: HelpProps['helperText']
-  size?: TextFieldSize
   variant?: TextFieldVariant
   labelClassName?: string
   className?: string
@@ -80,6 +79,7 @@ export const PasswordField: FC<PasswordFieldProps> = ({
   return (
     <TextField
       {...props}
+      size="small"
       data-test={dataTest}
       type={visible ? 'text' : 'password'}
       inputContainerChild={overlay}

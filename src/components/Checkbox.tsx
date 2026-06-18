@@ -7,7 +7,7 @@ import { Error, errorId } from './Error'
 import { Help, HelpProps, helpTooltipId } from './Help'
 import { DataTestProp } from '../helpers/types'
 
-import styles from './Checkbox.module.scss'
+import styles from './Checkbox.module.css'
 import { TruncatedText } from './TruncatedText'
 
 type CheckboxCoreProps = {

@@ -9,7 +9,7 @@ import { SelectField } from '../../../src/components/Select/SelectField'
 import { errorId } from '../../../src/components/Error'
 import { SelectFieldOption } from '../../../src/components/Select/helpers'
 
-import styles from '../../src/Select/SelectField.module.scss'
+import styles from '../../src/Select/SelectField.module.css'
 
 jest.mock('react-uid')
 

@@ -1,0 +1,202 @@
+import { Meta, Title, Canvas, Controls } from '@storybook/blocks'
+import * as CheckboxStories from './Checkbox.stories'
+import { DocsTabs } from '../.storybook/DocsTabs'
+
+<Meta of={CheckboxStories} name="Docs" />
+
+<Title />
+
+Checkbox is the canonical control for boolean input. Use it for opt-ins,
+multi-select lists, and any standalone toggle whose state can be expressed as
+on / off (or, with `indeterminate`, the third "mixed" state used in tree-style
+selections). For settings that take effect immediately prefer `Toggle`; for
+mutually exclusive choices prefer `Radio` / `RadioGroup`.
+
+<DocsTabs tabs={[
+  {
+    id: 'overview',
+    label: 'Overview',
+    content: (
+      <>
+        <Canvas of={CheckboxStories.Playground} />
+
+        <h2>Basic usage</h2>
+
+        <p>Checkbox is a controlled component. Provide <code>checked</code> and an <code>onChange</code> handler that updates state. Pair every checkbox with a visible <code>label</code>.</p>
+
+        <Canvas of={CheckboxStories.Basic} />
+
+        <h2>Indeterminate</h2>
+
+        <p>Use <code>indeterminate</code> for a &ldquo;mixed&rdquo; tristate — typical when a parent represents a partial selection of children. The DOM still reports <code>checked</code>; the indeterminate flag is purely visual.</p>
+
+        <Canvas of={CheckboxStories.Indeterminate} />
+
+        <h2>Helper text</h2>
+
+        <p>Use <code>helperText</code> for short hints — character limits, allowed formats, or links to docs. The help icon renders inline with the label and reveals the message in a tooltip.</p>
+
+        <Canvas of={CheckboxStories.WithHelperText} />
+
+        <h2>Error</h2>
+
+        <p>Set <code>error</code> to surface a validation message inline. The input becomes <code>aria-invalid</code> and the message is announced to assistive tech.</p>
+
+        <Canvas of={CheckboxStories.WithError} />
+
+        <h2>Inline link in label</h2>
+
+        <p>Labels can contain inline links — useful for terms-of-service style consents.</p>
+
+        <Canvas of={CheckboxStories.WithLink} />
+
+        <h2>Disabled</h2>
+
+        <p>Disable a checkbox when its value cannot be edited in the current context. Always pair with surrounding context that explains why.</p>
+
+        <Canvas of={CheckboxStories.Disabled} />
+
+        <hr />
+
+        <h2>Visual states</h2>
+
+        <p>QA matrix for engineers verifying CSS changes. Interactive states are forced via classes that mirror the real <code>:hover</code> and <code>:focus</code> rules.</p>
+
+        <Canvas of={CheckboxStories.States} />
+
+        <h2>With Formik</h2>
+
+        <p>Use <code>CheckboxFormik</code> for forms managed by Formik. It wires <code>checked</code>, <code>onChange</code>, and validation errors automatically — pass <code>name</code> and an optional <code>validate</code> function.</p>
+
+        <Canvas of={CheckboxStories.WithFormik} />
+
+        <h2>Long labels</h2>
+
+        <p>Long labels wrap to multiple lines; the box stays aligned with the first line.</p>
+
+        <Canvas of={CheckboxStories.WithLongLabels} />
+
+        <h2>Legacy v3</h2>
+
+        <p>The v3 Checkbox is preserved for gradual migration. Import from <code>@hazelcast/ui/old</code>. New code should use the Checkbox above.</p>
+
+        <Canvas of={CheckboxStories.LegacyV3} />
+
+        <h2>Props</h2>
+
+        <Controls of={CheckboxStories.Playground} />
+      </>
+    ),
+  },
+  {
+    id: 'guidelines',
+    label: 'Guidelines',
+    content: (
+      <>
+        <h2>Anatomy</h2>
+
+        <p>A Checkbox is composed of:</p>
+
+        <ul>
+          <li>a <strong>box</strong> — the visual square that renders unchecked, checked, or indeterminate</li>
+          <li>a <strong>label</strong> — names the option; required for every checkbox, clickable</li>
+          <li>an optional <strong>helper</strong> — a tooltip-on-icon that explains the option</li>
+          <li>an optional <strong>error message</strong> — surfaces validation issues inline</li>
+        </ul>
+
+        <h2>When to use a Checkbox</h2>
+
+        <ul>
+          <li><strong>Standalone opt-ins</strong> — newsletter, terms of service, &ldquo;remember me&rdquo;.</li>
+          <li><strong>Multi-select lists</strong> — independently togglable options where any combination is valid.</li>
+          <li><strong>Tree-style selections</strong> — pair a parent checkbox with <code>indeterminate</code> when only some children are selected.</li>
+        </ul>
+
+        <h3>When <em>not</em> to use a Checkbox</h3>
+
+        <ul>
+          <li>For mutually exclusive choices → use a <code>Radio</code> / <code>RadioGroup</code>.</li>
+          <li>For settings that take effect immediately → use a <code>Toggle</code>.</li>
+          <li>For triggering an action → use a <code>Button</code>. Checkboxes represent state, not actions.</li>
+        </ul>
+
+        <h2>Writing labels</h2>
+
+        <ul>
+          <li>Write the label as a <strong>positive</strong> statement of what the checked state means (<code>Send me weekly updates</code>, not <code>Don&rsquo;t send me weekly updates</code>).</li>
+          <li>Avoid double negatives — they force users to parse two operations to understand state.</li>
+          <li>Keep labels short and scannable — under 60 characters when possible.</li>
+          <li>Use sentence case; reserve title case for nouns the product treats as proper names.</li>
+        </ul>
+
+        <h2>Helper text vs error</h2>
+
+        <ul>
+          <li>Use <code>helperText</code> proactively — to clarify ambiguous options or link to docs.</li>
+          <li>Use <code>error</code> reactively — show only after the user has attempted submission.</li>
+          <li>Keep error messages actionable — say what to fix, not just what&rsquo;s wrong.</li>
+        </ul>
+
+        <h2>Grouping</h2>
+
+        <p>When listing multiple checkboxes, align them vertically with consistent spacing and group related options under a section heading. Avoid mixing checkboxes with toggles in the same group — pick one pattern.</p>
+
+        <h2>Indeterminate as a parent</h2>
+
+        <p>The indeterminate state is a visual hint, not a value. The parent checkbox should still report a real boolean and clicking it should resolve the mixed state — typically by selecting all children, then by clearing them on the next click.</p>
+      </>
+    ),
+  },
+  {
+    id: 'accessibility',
+    label: 'Accessibility',
+    content: (
+      <>
+        <p>Checkbox renders a real <code>{'<input type="checkbox">'}</code> element. Most accessibility comes for free — the notes below cover edge cases.</p>
+
+        <h2>Accessible name</h2>
+
+        <p>The visible label is the accessible name (wired up via <code>htmlFor</code>). Never omit the label. If a design legitimately calls for a label-less checkbox (rare; e.g. a row-select cell in a table) provide <code>aria-label</code> describing what the checkbox controls.</p>
+
+        <h2>State announcements</h2>
+
+        <p>Screen readers announce &ldquo;checked&rdquo;, &ldquo;not checked&rdquo;, or &ldquo;mixed&rdquo; when focus lands on the checkbox and when the state changes. The label should describe the <strong>option</strong>, not the state.</p>
+
+        <h2>Required fields</h2>
+
+        <p>Mark required checkboxes with <code>required</code>. The label renders an asterisk and the input gets <code>aria-required</code>. Avoid marking optional checkboxes — clutter scales poorly.</p>
+
+        <h2>Errors</h2>
+
+        <p>When <code>error</code> is set the input is <code>aria-invalid</code> and the message is linked via <code>aria-errormessage</code>. Screen readers announce the error on focus. Keep error text actionable.</p>
+
+        <h2>Disabled checkboxes</h2>
+
+        <p>A disabled checkbox is not focusable and is invisible to screen readers in forms mode. Only disable when the value is structurally locked. If the user needs to know <em>why</em>, surface that explanation in surrounding text.</p>
+
+        <h2>Color contrast</h2>
+
+        <p>The default border, label, checked fill, and error colors all meet WCAG AA. Don&rsquo;t override them with custom CSS for decorative reasons; the <code>classNameLabel</code> / <code>classNameCheckmark</code> escape hatches are for one-off semantic colors only.</p>
+
+        <h2>Keyboard</h2>
+
+        <ul>
+          <li><code>Tab</code> / <code>Shift</code>+<code>Tab</code> moves focus between checkboxes.</li>
+          <li><code>Space</code> toggles the focused checkbox.</li>
+          <li>A visible focus halo is shown on <code>:focus-visible</code>. <strong>Don&rsquo;t override it.</strong></li>
+        </ul>
+
+        <h2>Testing checklist</h2>
+
+        <ul>
+          <li>Every Checkbox has a visible label associated via <code>htmlFor</code>.</li>
+          <li>Required checkboxes are marked with <code>required</code>.</li>
+          <li>Error messages are actionable and announced on focus.</li>
+          <li>The checkbox can be reached and toggled with the keyboard alone.</li>
+          <li>The focus halo is visible on <code>:focus-visible</code>.</li>
+          <li>Color contrast of unchecked, checked, and error states meets WCAG AA.</li>
+        </ul>
+      </>
+    ),
+  },
+]} />

@@ -112,7 +112,14 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  max-width: 480px;
+}
+
+.playgroundContainer {
+  width: 480px;
+  max-width: 100%;
+  padding: 16px;
+  border: 1px dashed var(--hive-color-border-v4, #d0d4d9);
+  border-radius: 8px;
 }
 
 .doDont {

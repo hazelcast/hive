@@ -4,10 +4,10 @@ import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 import cn from 'classnames'
 
 import { DataTestProp } from '../helpers/types'
-import { TextField, TextFieldProps, TextFieldSize } from './TextField'
+import { TextField, TextFieldProps } from './TextField'
 import { IconButton, IconButtonDisabledProps, IconButtonNotDisabledProps } from './IconButton'
 
-import styles from './NumberField.module.scss'
+import styles from './NumberField.module.css'
 
 type NumberFieldCoreProps = {
   name: string
@@ -17,7 +17,7 @@ type NumberFieldCoreProps = {
   error?: string
 }
 
-export type NumberFieldExtraProps = Omit<TextFieldProps<'number'>, 'onChange' | 'inputTrailingIcon' | 'inputTrailingIconLabel'> & {
+export type NumberFieldExtraProps = Omit<TextFieldProps<'number'>, 'onChange' | 'inputTrailingIcon' | 'inputTrailingIconLabel' | 'size'> & {
   incrementIconAriaLabel?: string
   decrementIconAriaLabel?: string
   step?: number
@@ -30,7 +30,6 @@ export type NumberFieldExtraProps = Omit<TextFieldProps<'number'>, 'onChange' | 
   showIconButtons?: boolean
   label?: string
   showAriaLabel?: boolean
-  size?: TextFieldSize
   className?: string
   labelClassName?: string
   inputClassName?: string
@@ -56,7 +55,6 @@ export const NumberField: FC<NumberFieldProps> = ({
   inputContainerClassName,
   onChange,
   disabled,
-  size,
   'data-test': dataTest = 'number-field',
   ...props
 }) => {
@@ -159,11 +157,10 @@ export const NumberField: FC<NumberFieldProps> = ({
     return (
       <>
         <IconButton
-          size={size === 'small' ? 'small' : 'regular'}
+          size="small"
           icon={MinusCircle}
           ariaLabel={decrementIconAriaLabel}
-          className={cn(styles.decrement, {
-            [styles.decrementSmall]: size === 'small',
+          className={cn(styles.decrement, styles.decrementSmall, {
             [styles.decrementIconsSeparate]: iconPosition === 'separate',
             [styles.disabled]: disabled,
           })}
@@ -174,7 +171,7 @@ export const NumberField: FC<NumberFieldProps> = ({
           {...decrementDisabledProps}
         />
         <IconButton
-          size={size === 'small' ? 'small' : 'regular'}
+          size="small"
           icon={PlusCircle}
           ariaLabel={incrementIconAriaLabel}
           className={cn(styles.increment, {
@@ -194,7 +191,6 @@ export const NumberField: FC<NumberFieldProps> = ({
     min,
     disabled,
     max,
-    size,
     decrementIconAriaLabel,
     iconPosition,
     onDecrement,
@@ -236,13 +232,12 @@ export const NumberField: FC<NumberFieldProps> = ({
         {
           [styles.buttons]: showIconButtons,
           [styles.buttonsIconsSeparate]: iconPosition === 'separate',
-          [styles.buttonsRegularIconsSeparate]: iconPosition === 'separate' && size !== 'small',
         },
         inputContainerClassName,
       )}
       inputClassName={inputClassName}
       disabled={disabled}
-      size={size}
+      size="small"
     />
   )
 }

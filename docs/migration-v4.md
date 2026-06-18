@@ -24,16 +24,24 @@ grep -r "@hazelcast/ui/old" src --include="*.tsx" --include="*.ts"
 
 <!-- Updated as v4 is built. -->
 
-| Category | Component     | Change                                                                                                                                                                                                                          | `/old` fallback |
-| -------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- |
-| Updated  | `Tooltip`     | Radix UI base; new props; no render-prop children                                                                                                                                                                               | ✅              |
-| Updated  | `Badge`       | `size` prop removed; borders + 8px radius added                                                                                                                                                                                 | ❌              |
-| Updated  | `Button`      | HIVE 4.0 rebrand; `color` × `variant` axes (variant: contained/outlined/ghost/link, color: primary/secondary/warning/danger); `tooltipColor` removed; `size` reintroduced (`small`/`regular`); `capitalize` removed; SCSS → CSS | ✅              |
-| Updated  | `IconButton`  | HIVE 4.0 rebrand; `kind` → `variant`; `size` is `sm`/`md`/`lg`; `padding` removed; SCSS → CSS                                                                                                                                   | ✅              |
-| New      | `ButtonGroup` | Group of joined `Button`s sharing border-radius and shadow                                                                                                                                                                      | n/a             |
-| Updated  | `Toggle`      | HIVE 4.0 pill switch; SCSS → CSS; no ON/OFF label                                                                                                                                                                               | ✅              |
-| Updated  | `TextField`   | HIVE 4.0 rebrand; 36px height; 8px radius; `--hive-*` tokens; SCSS → CSS                                                                                                                                                        | ✅              |
-| Updated  | `Tabs`        | HIVE 4.0 visual redesign; pill-segmented shape with gray background; no API changes; SCSS → CSS                                                                                                                                 | ✅              |
+| Category | Component                                                   | Change                                                                                                                                                                                                                          | `/old` fallback |
+| -------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- |
+| Updated  | `SimpleTable`                                               | Radix UI-inspired structure; `.Td` → `.Cell`, `.Th` → `.ColumnHeaderCell`; new `.RowHeaderCell`; new `variant`, `align`, `justify` props; SCSS → CSS                                                                            | ✅              |
+| Updated  | `Tooltip`                                                   | Radix UI base; new props; no render-prop children                                                                                                                                                                               | ✅              |
+| Updated  | `Badge`                                                     | `size` prop removed; borders + 8px radius added                                                                                                                                                                                 | ❌              |
+| Updated  | `Button`                                                    | HIVE 4.0 rebrand; `color` × `variant` axes (variant: contained/outlined/ghost/link, color: primary/secondary/warning/danger); `tooltipColor` removed; `size` reintroduced (`small`/`regular`); `capitalize` removed; SCSS → CSS | ✅              |
+| Updated  | `IconButton`                                                | HIVE 4.0 rebrand; `kind` → `variant`; `size` is `sm`/`md`/`lg`; `padding` removed; SCSS → CSS                                                                                                                                   | ✅              |
+| New      | `ButtonGroup`                                               | Group of joined `Button`s sharing border-radius and shadow                                                                                                                                                                      | n/a             |
+| Updated  | `Toggle`                                                    | HIVE 4.0 pill switch; SCSS → CSS; no ON/OFF label                                                                                                                                                                               | ✅              |
+| Updated  | `TextField`                                                 | HIVE 4.0 rebrand; 36px height; 8px radius; `--hive-*` tokens; SCSS → CSS                                                                                                                                                        | ✅              |
+| Updated  | `TextArea`                                                  | HIVE 4.0 rebrand; 8px radius; white surface; neutral border, brand focus ring, error border; `--hive-*` tokens; SCSS → CSS                                                                                                      | ✅              |
+| Updated  | `NumberField`                                               | HIVE 4.0 rebrand; inherits v4 `TextField` input; single Regular size (`size` prop removed); stepper buttons re-tokenised to `--hive-*`; SCSS → CSS                                                                              | ✅              |
+| Updated  | `Checkbox`                                                  | HIVE 4.0 rebrand; primary-v4 fill when checked; 4px radius box; focus halo; `--hive-*` tokens; SCSS → CSS                                                                                                                       | ✅              |
+| Updated  | `Tabs`                                                      | HIVE 4.0 visual redesign; line-tab style with active underline and hover color treatment; no API changes; SCSS → CSS                                                                                                            | ✅              |
+| Updated  | `Modal`                                                     | HIVE 4.0 redesign; new `intent`, `eyebrow`, `description`, `helperLink` props; tinted header gradient and framed icon tile; Cancel now precedes primary actions in DOM order; SCSS → CSS                                        | ✅              |
+| Updated  | `SelectField` / `MultiSelectField` / `CheckableSelectField` | HIVE 4.0 rebrand; 36px height; 8px radius; new menu surface + hover/selected states; `--hive-*` tokens; SCSS → CSS                                                                                                              | ✅              |
+| Updated  | `AutocompleteField`                                         | HIVE 4.0 rebrand; 36px height; 8px radius; new menu surface + hover/selected states; `--hive-*` tokens; SCSS → CSS                                                                                                              | ✅              |
+| Updated  | `PasswordField`                                             | HIVE 4.0 rebrand via v4 `TextField`; locked to a single compact size (`size` prop removed); reveal eye button gains a circular hover/focus ring matching `NumberField`                                                          | ✅              |
 
 ---
 
@@ -341,9 +349,126 @@ import { TextField } from '@hazelcast/ui'
 
 ---
 
+### `TextArea`
+
+Visual redesign to the HIVE 4.0 multi-line input: `8px` border-radius (was `4px`), white surface (`--hive-color-neutral-white-v4`), neutral border on default (`--hive-color-border-v4`), brand focus ring (`--hive-color-primary-v4` border + `3px` halo), error border on invalid (`--hive-color-error-v4`), and `8px 12px` padding. Disabled state uses `opacity: 0.5`. The field remains vertically resizable by default (`resizable={false}` to lock). All values now come from `--hive-*` design tokens. Styles have been migrated from SCSS (`TextArea.module.scss`) to CSS modules (`TextArea.module.css`).
+
+The public prop contract is unchanged; only visuals have changed.
+
+**Old import (temporary fallback):**
+
+```ts
+import { TextArea, TextAreaFormik } from '@hazelcast/ui/old'
+```
+
+**Prop changes:**
+
+| Prop  | v3              | v4                                 |
+| ----- | --------------- | ---------------------------------- |
+| _all_ | same public API | same — visual-only breaking change |
+
+**Visual / token changes:**
+
+| Aspect           | v3                                                          | v4                                                       |
+| ---------------- | ----------------------------------------------------------- | -------------------------------------------------------- |
+| Border radius    | `4px` (`c.$borderRadius`)                                   | `8px` (`var(--hive-border-radius)`)                      |
+| Surface          | `c.$colorOverlayBackground`                                 | `var(--hive-color-neutral-white-v4)`                     |
+| Border (default) | `c.$colorNeutralLight`                                      | `var(--hive-color-border-v4)`                            |
+| Border (hover)   | `c.$colorPrimary`                                           | `var(--hive-color-text-v4)`                              |
+| Border (focus)   | outline mixin glow                                          | `var(--hive-color-primary-v4)` border + `3px` brand halo |
+| Border (error)   | `c.$colorError`                                             | `var(--hive-color-error-v4)`                             |
+| Placeholder      | `c.$colorTextSecondary`                                     | `var(--hive-color-text-secondary-v4)`                    |
+| Stylesheet       | `TextArea.module.scss` with SCSS `@use`, mixins, `c.$grid…` | `TextArea.module.css` using `--hive-*` CSS variables     |
+
+---
+
+### `NumberField`
+
+Visual alignment to HIVE 4.0. `NumberField` is built on `TextField`, so its input surface (single “Regular” size, 8px radius, neutral border, brand focus ring, error border) is inherited from the v4 `TextField` automatically. The component-specific styles — the increment / decrement stepper buttons and their positioning — have been migrated from SCSS (`NumberField.module.scss`) to CSS modules (`NumberField.module.css`) and re-expressed with `--hive-*` design tokens.
+
+v4 fields use a single size, so the `size` prop has been removed from the public API; the field always renders at the Regular size.
+
+**Old import (temporary fallback):**
+
+```ts
+import { NumberField, NumberFieldFormik } from '@hazelcast/ui/old'
+```
+
+**Prop changes:**
+
+| Prop   | v3                         | v4                                                   |
+| ------ | -------------------------- | ---------------------------------------------------- |
+| `size` | `small \| medium \| large` | **removed** — always renders the single Regular size |
+| _rest_ | same public API            | same — visual-only                                   |
+
+**Visual / token changes:**
+
+| Aspect              | v3                                                           | v4                                                              |
+| ------------------- | ------------------------------------------------------------ | --------------------------------------------------------------- |
+| Input surface       | v3 `TextField` styles                                        | inherited from v4 `TextField` (single Regular size, 8px radius) |
+| Stepper icon color  | `c.$colorPrimary`                                            | `var(--hive-color-primary-v4)`                                  |
+| Stepper glyph line  | `black`                                                      | `var(--hive-color-text-v4)`                                     |
+| Spacing / positions | SCSS `c.$grid`, `c.$iconSizeSmall`, `c.$iconSizeSmallMedium` | `calc(var(--hive-grid) * n)`                                    |
+| Stylesheet          | `NumberField.module.scss` with SCSS `@use`, `$grid…`         | `NumberField.module.css` using `--hive-*` CSS variables         |
+
+---
+
+### `Checkbox`
+
+Visual redesign to the HIVE 4.0 checkbox: 16×16 box with `4px` radius, `--hive-color-primary-v4` fill when checked, white check icon, `--hive-color-border-v4` outline when unchecked, subtle drop shadow, and a `3px` brand-colored focus halo. Disabled state is communicated via `opacity: 0.5`. Indeterminate (mixed) state remains supported. Styles have been migrated from SCSS (`Checkbox.module.scss`) to CSS modules (`Checkbox.module.css`).
+
+The public prop contract is unchanged; only visuals have changed.
+
+**Old import (temporary fallback):**
+
+```ts
+import { Checkbox, CheckboxFormik } from '@hazelcast/ui/old'
+```
+
+**Prop changes:**
+
+| Prop  | v3              | v4                                 |
+| ----- | --------------- | ---------------------------------- |
+| _all_ | same public API | same — visual-only breaking change |
+
+**Visual / token changes:**
+
+| Aspect          | v3                                                       | v4                                                                 |
+| --------------- | -------------------------------------------------------- | ------------------------------------------------------------------ |
+| Box size        | `iconSizeSmall + 2 × borderWidth`                        | `16px`                                                             |
+| Box radius      | `c.$grid` (4px)                                          | `4px` (`calc(var(--hive-grid) * 1)`)                               |
+| Box (unchecked) | white bg, `c.$colorNeutralLight` border                  | white bg, `var(--hive-color-border-v4)` border, subtle drop shadow |
+| Box (checked)   | `c.$colorSuccess` bg + border                            | `var(--hive-color-primary-v4)` bg + border                         |
+| Box (indeterm.) | `c.$colorPrimaryLight`                                   | `var(--hive-color-primary-v4)` (same as checked)                   |
+| Box (hover)     | `c.$colorPrimary` border                                 | `var(--hive-color-primary-v4)` border                              |
+| Box (focus)     | `outlineFormField` mixin                                 | `3px` halo (`oklch(from primary-v4 l c h / 0.5)`)                  |
+| Box (disabled)  | `c.$colorNeutralLight` border, `c.$colorNeutral` checked | `opacity: 0.5` on the whole row                                    |
+| Box (error)     | `c.$colorError` border                                   | `var(--hive-color-error-v4)` border                                |
+| Label           | `bodySmall` typography mixin                             | `Inter Regular 14/20`, `var(--hive-color-text-v4)`                 |
+| Label gap       | `c.$grid * 1.25`                                         | `8px` (`calc(var(--hive-grid) * 2)`)                               |
+| Stylesheet      | `Checkbox.module.scss`                                   | `Checkbox.module.css` using `--hive-*` CSS variables               |
+
+**Before:**
+
+```tsx
+import { Checkbox } from '@hazelcast/ui'
+;<Checkbox name="tos" label="Accept terms" checked={value} onChange={onChange} />
+// Renders a green-checked v3 checkbox.
+```
+
+**After:**
+
+```tsx
+import { Checkbox } from '@hazelcast/ui'
+;<Checkbox name="tos" label="Accept terms" checked={value} onChange={onChange} />
+// Renders a primary-teal HIVE 4.0 checkbox with focus halo.
+```
+
+---
+
 ### `Tabs`
 
-Visual redesign to the HIVE 4.0 pill-segmented tabs: `36px` container with `3.5px` padding, `14px` border-radius, neutral gray background (`#eaebec`), and white selected state. The typography and interaction model remain unchanged. Styles have been migrated from SCSS to CSS modules.
+Visual redesign to HIVE 4.0 line-tabs with active underline and hover color treatment. The typography and interaction model remain unchanged. Styles have been migrated from SCSS to CSS modules.
 
 The public prop contract is unchanged; only visuals and internal styling have changed.
 
@@ -404,7 +529,222 @@ import { TabContextProvider, TabList, Tab, TabPanel } from '@hazelcast/ui'
   <TabPanel value={1}>Content for Security</TabPanel>
   <TabPanel value={2}>Content for Notifications</TabPanel>
 </TabContextProvider>
-// Renders as a pill-segmented row with white selected state.
+// Renders as a line-tab row with active underline.
+```
+
+---
+
+### `SelectField` / `MultiSelectField` / `CheckableSelectField`
+
+Visual redesign of the entire `react-select`-based stack to the HIVE 4.0 input + menu surface: `36px` control height (was `40px`), `8px` border-radius (was `4px`), brand-color focus halo, neutral-on-hover and gray-on-selected option rows, and a soft elevation shadow on the menu. All values come from `--hive-*` design tokens. Styles have been migrated from SCSS modules to CSS modules.
+
+The public prop contract is unchanged; only visuals have changed. The same applies to the `*FieldFormik` wrappers.
+
+**Old import (temporary fallback):**
+
+```ts
+import {
+  SelectField,
+  SelectFieldFormik,
+  MultiSelectField,
+  MultiSelectFieldFormik,
+  CheckableSelectField,
+  CheckableSelectFieldFormik,
+} from '@hazelcast/ui/old'
+```
+
+**Visual / token changes:**
+
+| Aspect            | v3                                                   | v4                                               |
+| ----------------- | ---------------------------------------------------- | ------------------------------------------------ |
+| Control height    | `40px`                                               | `36px` (`calc(var(--hive-grid) * 9)`)            |
+| Border radius     | `4px`                                                | `8px` (`var(--hive-border-radius)`)              |
+| Border (default)  | `c.$colorNeutralLight`                               | `var(--hive-color-border-v4)`                    |
+| Border (hover)    | `c.$colorPrimary`                                    | `var(--hive-color-text-v4)`                      |
+| Border (focus)    | `c.$colorPrimary` outline glow                       | `var(--hive-color-primary-v4)` + 3px halo        |
+| Menu shadow       | `c.$selectMenuShadowSize` SCSS variable              | `0 4px 12px oklch(0 0 0 / 0.08)` soft elevation  |
+| Option (hover)    | `c.$colorNeutral`                                    | `var(--hive-color-surface-hover-v4)`             |
+| Option (selected) | `c.$colorPrimary` text                               | `var(--hive-color-surface-active-v4)` filled row |
+| Stylesheet        | `*.module.scss` with SCSS `@use`, mixins, `c.$grid…` | `*.module.css` using `--hive-*` CSS variables    |
+
+---
+
+### `AutocompleteField`
+
+Same HIVE 4.0 redesign as `SelectField`, with the autocomplete-specific dropdown that visually attaches to the bottom of the control (no top border on the menu, top corners square on the open control).
+
+The public prop contract is unchanged.
+
+**Old import (temporary fallback):**
+
+```ts
+import { AutocompleteField, AutocompleteFieldFormik } from '@hazelcast/ui/old'
+```
+
+---
+
+### `Modal`
+
+HIVE 4.0 redesign with a richer header anatomy and intent-driven theming. The modal container is wider (`max-width: 480px`), uses the neutral-lighter v4 surface, and the header carries a soft gradient keyed to the new `intent` prop. An optional 40×40 icon tile, an `eyebrow` label, and a `description` paragraph give modals a consistent look across the product. A `helperLink` slot in the footer renders a docs link next to the actions. Styles have been migrated from SCSS to CSS modules.
+
+**DOM order change:** the Cancel button now precedes the primary actions inside the footer so keyboard focus reaches the safer choice first. Existing consumers that asserted on `footer.children` order will need to update those tests.
+
+**Old import (temporary fallback):**
+
+```ts
+import { Modal, setAppElement } from '@hazelcast/ui/old'
+```
+
+**Prop changes:**
+
+| Prop          | v3        | v4                                                                    |
+| ------------- | --------- | --------------------------------------------------------------------- |
+| `intent`      | —         | new — `'action' \| 'confirm' \| 'info' \| 'danger' \| 'success'`      |
+| `eyebrow`     | —         | new — category label above the title                                  |
+| `description` | —         | new — short paragraph under the title                                 |
+| `helperLink`  | —         | new — `{ label, href, ariaLabel?, target?, rel? }` footer docs link   |
+| `icon`        | unchanged | unchanged — now renders inside a framed 40×40 tile coloured by intent |
+| `title`       | unchanged | unchanged                                                             |
+| `actions`     | unchanged | unchanged — order in footer is now `[Cancel, ...actions]`             |
+| `hideActions` | unchanged | unchanged                                                             |
+| `closable`    | unchanged | unchanged                                                             |
+
+**Before:**
+
+```tsx
+import { Modal } from '@hazelcast/ui'
+;<Modal
+  isOpen={open}
+  onClose={close}
+  title="Delete cluster"
+  icon={Trash2}
+  iconAriaLabel="Delete"
+  actions={[{ children: 'Delete', onClick: onDelete, color: 'danger' }]}
+>
+  This action cannot be undone.
+</Modal>
+```
+
+**After:**
+
+```tsx
+import { Modal } from '@hazelcast/ui'
+;<Modal
+  isOpen={open}
+  onClose={close}
+  intent="danger"
+  eyebrow="Danger zone"
+  icon={Trash2}
+  iconAriaLabel="Delete"
+  title="Delete cluster"
+  description="This permanently deletes the cluster and all data. Backups, IP whitelists, and saved configuration will be removed."
+  actions={[{ children: 'Delete forever', onClick: onDelete, color: 'danger' }]}
+  helperLink={{ label: 'Learn more in docs', href: '/docs/clusters#delete' }}
+/>
+```
+
+---
+
+### `SimpleTable`
+
+Restyled to match the [Radix UI Table](https://www.radix-ui.com/themes/docs/components/table) component design. The sub-component names and available props have been updated to align with the Radix API. Two compound sub-components (`.Td` and `.Th`) have been renamed; a new `.RowHeaderCell` sub-component is added. The stylesheet has been migrated from SCSS to CSS modules.
+
+**Old import (temporary fallback):**
+
+```ts
+import { SimpleTable } from '@hazelcast/ui/old'
+```
+
+**Prop changes:**
+
+| Prop / Sub-component                                                                               | v3                   | v4                                                                     |
+| -------------------------------------------------------------------------------------------------- | -------------------- | ---------------------------------------------------------------------- |
+| `variant?: 'surface' \| 'ghost'`                                                                   | —                    | new — `'ghost'` (default) is borderless; `'surface'` adds a border box |
+| `SimpleTable.Td`                                                                                   | data cell (`<td>`)   | **renamed** to `SimpleTable.Cell`                                      |
+| `SimpleTable.Th`                                                                                   | header cell (`<th>`) | **renamed** to `SimpleTable.ColumnHeaderCell`                          |
+| `SimpleTable.RowHeaderCell`                                                                        | —                    | new — `<th scope="row">` for row headers                               |
+| `SimpleTable.Row` `align?: 'start' \| 'center' \| 'end' \| 'baseline'`                             | —                    | new — vertical alignment of cells within the row                       |
+| `SimpleTable.Cell` / `ColumnHeaderCell` / `RowHeaderCell` `justify?: 'start' \| 'center' \| 'end'` | —                    | new — horizontal text alignment                                        |
+
+**Visual / token changes:**
+
+| Aspect          | v3                                                         | v4                                                                     |
+| --------------- | ---------------------------------------------------------- | ---------------------------------------------------------------------- |
+| Header cells    | unstyled `<th>` inside `<thead>`                           | medium-weight, secondary-color text, neutral-lighter bg, bottom border |
+| Row separators  | column-based borders (`border-left`) on `<td>`             | row-based `border-top` between body rows                               |
+| Surface variant | —                                                          | 1px border + 8px radius wrapping the table                             |
+| Stylesheet      | `SimpleTable.module.scss` with SCSS `@use` and `c.$…` vars | `SimpleTable.module.css` using `--hive-*` CSS variables                |
+
+**Before:**
+
+```tsx
+import { SimpleTable } from '@hazelcast/ui'
+;<SimpleTable>
+  <SimpleTable.Header>
+    <SimpleTable.Row>
+      <SimpleTable.Th>Id</SimpleTable.Th>
+      <SimpleTable.Th>Name</SimpleTable.Th>
+    </SimpleTable.Row>
+  </SimpleTable.Header>
+  <SimpleTable.Body>
+    <SimpleTable.Row>
+      <SimpleTable.Td>2312312</SimpleTable.Td>
+      <SimpleTable.Td>Bob Adams</SimpleTable.Td>
+    </SimpleTable.Row>
+  </SimpleTable.Body>
+</SimpleTable>
+```
+
+**After:**
+
+```tsx
+import { SimpleTable } from '@hazelcast/ui'
+;<SimpleTable variant="surface">
+  <SimpleTable.Header>
+    <SimpleTable.Row>
+      <SimpleTable.ColumnHeaderCell>Id</SimpleTable.ColumnHeaderCell>
+      <SimpleTable.ColumnHeaderCell>Name</SimpleTable.ColumnHeaderCell>
+    </SimpleTable.Row>
+  </SimpleTable.Header>
+  <SimpleTable.Body>
+    <SimpleTable.Row>
+      <SimpleTable.Cell>2312312</SimpleTable.Cell>
+      <SimpleTable.Cell>Bob Adams</SimpleTable.Cell>
+    </SimpleTable.Row>
+  </SimpleTable.Body>
+</SimpleTable>
+```
+
+---
+
+### `PasswordField`
+
+PasswordField now renders on top of the v4 `TextField`, so it inherits the HIVE 4.0 input styling (36px height, 8px radius, `--hive-*` tokens). It is locked to a **single compact size** — the `size` prop and the `TextFieldSize` passthrough have been removed. The reveal eye button gains a circular hover and focus ring, matching the stepper affordance on `NumberField`.
+
+**Old import (temporary fallback):**
+
+```ts
+import { PasswordField } from '@hazelcast/ui/old'
+```
+
+The `/old` build keeps the `size` prop for consumers that aren't ready to drop it yet.
+
+**Prop changes:**
+
+| Prop                   | v3                           | v4                               |
+| ---------------------- | ---------------------------- | -------------------------------- |
+| `size?: TextFieldSize` | optional, default `'medium'` | removed — always compact (small) |
+
+**Before:**
+
+```tsx
+<PasswordField name="password" label="Password" size="large" value={value} onChange={onChange} />
+```
+
+**After:**
+
+```tsx
+<PasswordField name="password" label="Password" value={value} onChange={onChange} />
 ```
 
 ---

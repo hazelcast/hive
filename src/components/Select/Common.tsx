@@ -8,13 +8,13 @@ import { IconButton } from '../IconButton'
 import { TruncatedText } from '../TruncatedText'
 import { SelectFieldOption } from './helpers'
 
-import styles from './Common.module.scss'
+import styles from './Common.module.css'
 
 const DropdownIndicator: typeof rsComponents.DropdownIndicator = ({ selectProps }) => (
   <Icon
     icon={ChevronDown}
     ariaHidden
-    size="medium"
+    size="small"
     className={cn(styles.chevron, { [styles.open]: selectProps.menuIsOpen, [styles.disabled]: selectProps.isDisabled })}
   />
 )
@@ -24,7 +24,7 @@ const ClearIndicator: typeof rsComponents.ClearIndicator = ({ innerProps }) => (
   // Visually impaired people will use the keyboard (backspace) to remove the value. We do not want to confuse them by allowing to focus this button.
 
   // @ts-ignore
-  <IconButton {...innerProps} icon={X} ariaHidden variant="ghost" className={styles.clear} tabIndex={-1} />
+  <IconButton {...innerProps} icon={X} ariaHidden variant="ghost" size="small" className={styles.clear} tabIndex={-1} />
 )
 
 const Input: typeof rsComponents.Input = (innerProps) => {

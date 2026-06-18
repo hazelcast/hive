@@ -11,7 +11,7 @@ import { HelpProps } from '../Help'
 import { useOpenCloseState } from '../../hooks'
 import { TruncatedText } from '../TruncatedText'
 
-import styles from './CheckableSelectField.module.scss'
+import styles from './CheckableSelectField.module.css'
 
 export type CheckableSelectFieldCoreStaticProps<V> = {
   name: string
@@ -26,7 +26,6 @@ export type CheckableSelectFieldCoreStaticProps<V> = {
 export type CheckableSelectFieldExtraProps<V> = {
   options: SelectFieldOption<V>[]
   label: ReactNode
-  size?: 'small' | 'medium'
   showAriaLabel?: boolean
   helperText?: HelpProps['helperText']
   className?: string
@@ -64,7 +63,6 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
     options,
     onChange,
     value,
-    size = 'small',
     placeholder = 'Search',
     placeholderMode = 'normal',
     label,
@@ -128,34 +126,41 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
     return `${value.length} selected`
   }
 
+  const handleOpenerClick = useCallback(() => {
+    if (!disabled) {
+      toggle()
+    }
+  }, [disabled, toggle])
+
   return (
     <>
-      <TextField
-        size={size}
-        name={name}
-        id={rootId || id}
-        onClick={toggle}
-        onKeyDown={handleKeyDown}
-        containerRef={setAnchorElement}
-        onChange={() => null}
-        label={(label as string) || ''}
-        labelClassName={labelClassName}
-        disabled={disabled}
-        showAriaLabel={showAriaLabel}
-        helperText={helperText}
-        className={cls(className, styles.opener, {
-          [styles.withPermanentPlaceholder]: placeholderMode === 'permanent',
-        })}
-        error={error}
-        errorClassName={errorClassName}
-        onBlur={onBlur}
-        readOnly
-        required={required}
-        data-test={`${dataTest}-opener`}
-        value={getValueLabel()}
-        inputTrailingIconLabel={isOpen ? 'Close' : 'Open'}
-        inputTrailingIcon={isOpen ? ChevronUp : ChevronDown}
-      />
+      <div className={styles.openerWrap} onClick={handleOpenerClick}>
+        <TextField
+          size="small"
+          name={name}
+          id={rootId || id}
+          onKeyDown={handleKeyDown}
+          containerRef={setAnchorElement}
+          onChange={() => null}
+          label={(label as string) || ''}
+          labelClassName={labelClassName}
+          disabled={disabled}
+          showAriaLabel={showAriaLabel}
+          helperText={helperText}
+          className={cls(className, styles.opener, {
+            [styles.withPermanentPlaceholder]: placeholderMode === 'permanent',
+          })}
+          error={error}
+          errorClassName={errorClassName}
+          onBlur={onBlur}
+          readOnly
+          required={required}
+          data-test={`${dataTest}-opener`}
+          value={getValueLabel()}
+          inputTrailingIconLabel={isOpen ? 'Close' : 'Open'}
+          inputTrailingIcon={isOpen ? ChevronUp : ChevronDown}
+        />
+      </div>
 
       <Popover
         matchReferenceSize
@@ -169,7 +174,7 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
           <div className={styles.search}>
             {searchInputProps.startAdornment}
             <TextField
-              size={size}
+              size="small"
               iconSize="medium"
               className={styles.searchField}
               name="checkable-select-search"

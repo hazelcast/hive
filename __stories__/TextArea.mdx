@@ -1,0 +1,142 @@
+import { Meta, Title, Canvas, Controls } from '@storybook/blocks'
+import * as TextAreaStories from './TextArea.stories'
+import { DocsTabs } from '../.storybook/DocsTabs'
+
+<Meta of={TextAreaStories} name="Docs" />
+
+<Title />
+
+TextArea is the control for multi-line, free-form text input. Use it for
+descriptions, comments, notes and any value that needs more than a single line.
+For short single-line input prefer `TextField`; for numeric input prefer
+`NumberField`.
+
+<DocsTabs tabs={[
+  {
+    id: 'overview',
+    label: 'Overview',
+    content: (
+      <>
+        <Canvas of={TextAreaStories.Playground} />
+
+        <h2>Basic usage</h2>
+
+        <p>TextArea is a controlled component. Provide <code>value</code> and an <code>onChange</code> handler that updates state. Pair every field with a visible <code>label</code>.</p>
+
+        <Canvas of={TextAreaStories.Basic} />
+
+        <h2>Sizes</h2>
+
+        <p>Two label sizes — <code>small</code> for dense layouts and <code>medium</code> (default) for most forms.</p>
+
+        <Canvas of={TextAreaStories.Sizes} />
+
+        <h2>Helper text</h2>
+
+        <p>Use <code>helperText</code> for short hints — character limits, allowed formats, or links to docs. The help icon renders inline with the label and reveals the message in a tooltip.</p>
+
+        <Canvas of={TextAreaStories.WithHelperText} />
+
+        <h2>Error</h2>
+
+        <p>Set <code>error</code> to surface a validation message inline. The field becomes <code>aria-invalid</code> and the message is announced to assistive tech.</p>
+
+        <Canvas of={TextAreaStories.WithError} />
+
+        <h2>Resize</h2>
+
+        <p>By default the field can be dragged taller. Set <code>resizable={false}</code> to lock the height — useful in tight layouts where reflow is undesirable.</p>
+
+        <Canvas of={TextAreaStories.NotResizable} />
+
+        <h2>Disabled</h2>
+
+        <p>Disable a field when its value cannot be edited in the current context. Always pair with surrounding context that explains why.</p>
+
+        <Canvas of={TextAreaStories.Disabled} />
+
+        <hr />
+
+        <h2>Visual states</h2>
+
+        <p>QA matrix for engineers verifying CSS changes. Interactive states are forced via classes that mirror the real <code>:hover</code> and <code>:focus</code> rules.</p>
+
+        <Canvas of={TextAreaStories.States} />
+
+        <h2>With Formik</h2>
+
+        <p>Use <code>TextAreaFormik</code> for forms managed by Formik. It wires <code>value</code>, <code>onChange</code>, and validation errors automatically — pass <code>name</code> and an optional <code>validate</code> function.</p>
+
+        <Canvas of={TextAreaStories.WithFormik} />
+
+        <h2>Legacy v3</h2>
+
+        <p>The v3 TextArea is preserved for gradual migration. Import from <code>@hazelcast/ui/old</code>. New code should use the TextArea above.</p>
+
+        <Canvas of={TextAreaStories.LegacyV3} />
+
+        <h2>Props</h2>
+
+        <Controls of={TextAreaStories.Playground} />
+      </>
+    ),
+  },
+  {
+    id: 'guidelines',
+    label: 'Guidelines',
+    content: (
+      <>
+        <h2>Anatomy</h2>
+
+        <p>A TextArea is composed of:</p>
+
+        <ul>
+          <li>a <strong>label</strong> — names the field; required for every input</li>
+          <li>an optional <strong>helper</strong> — a tooltip-on-icon that explains the expected input</li>
+          <li>the <strong>field</strong> — the multi-line text-entry surface, resizable by default</li>
+          <li>an optional <strong>error message</strong> — surfaces validation issues inline</li>
+        </ul>
+
+        <h2>When to use a TextArea</h2>
+
+        <ul>
+          <li>For multi-line free-form content — descriptions, comments, notes, messages.</li>
+          <li>When the expected input is likely to exceed a single line.</li>
+        </ul>
+
+        <h3>When <em>not</em> to use a TextArea</h3>
+
+        <ul>
+          <li>For short single-line input — names, IDs, URLs → use a <code>TextField</code>.</li>
+          <li>For a fixed list of options → use a <code>SelectField</code> or <code>RadioGroup</code>.</li>
+        </ul>
+
+        <h2>Labels and placeholders</h2>
+
+        <p>Every TextArea needs a visible <code>label</code>. Use <code>placeholder</code> only for an example of the expected content — never as a replacement for the label, since it disappears on input.</p>
+      </>
+    ),
+  },
+  {
+    id: 'accessibility',
+    label: 'Accessibility',
+    content: (
+      <>
+        <h2>Labelling</h2>
+
+        <p>The <code>label</code> is associated with the field via <code>htmlFor</code>/<code>id</code>, so clicking it focuses the field and screen readers announce it.</p>
+
+        <h2>Validation</h2>
+
+        <p>When <code>error</code> is set the field gains <code>aria-invalid</code> and an <code>aria-errormessage</code> pointing at the message, so assistive tech announces the problem.</p>
+
+        <h2>Keyboard</h2>
+
+        <ul>
+          <li><kbd>Tab</kbd> moves focus into and out of the field.</li>
+          <li>Typing inserts text; <kbd>Enter</kbd> adds a new line.</li>
+        </ul>
+      </>
+    ),
+  },
+]} />

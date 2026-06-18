@@ -6,7 +6,7 @@ import { DataTestProp } from '../helpers/types'
 import { Error, errorId } from './Error'
 import { FieldHeader, FieldHeaderProps } from './FieldHeader'
 
-import styles from './TextArea.module.scss'
+import styles from './TextArea.module.css'
 
 export type TextAreaSize = 'medium' | 'small'
 
