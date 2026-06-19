@@ -7,6 +7,7 @@ import { InteractiveListInputRef } from '../src/components/InteractiveList'
 import { InteractiveListFormik } from '../src/components/InteractiveListFormik'
 import { InteractiveListFormik as LegacyInteractiveListFormik } from '../src/old'
 import s from './Button.stories.module.scss'
+import sc from './InteractiveListFormik.stories.module.scss'
 
 type Values = {
   emails: string[]
@@ -87,7 +88,7 @@ export const Playground: Story = {
 }
 
 export const Basic = () => (
-  <div className={s.section} style={{ width: 520 }}>
+  <div className={`${s.section} ${sc.fieldNarrow}`}>
     <Caption>
       Use this pattern when users can add and remove multiple string values inline, for example invite recipients, allowlist entries, or
       tags.
@@ -98,27 +99,13 @@ export const Basic = () => (
 Basic.tags = ['!dev']
 
 export const InviteUsersPattern = () => (
-  <div
-    className={s.section}
-    style={{ width: 900, maxWidth: '100%', border: '1px solid var(--hive-color-border-v4)', borderRadius: 12, overflow: 'hidden' }}
-  >
-    <div
-      style={{
-        background: 'color-mix(in oklab, var(--hive-color-brand-v4) 24%, var(--hive-color-neutral-white-v4))',
-        borderBottom: '1px solid var(--hive-color-border-v4)',
-        padding: '28px 40px',
-        fontSize: 42,
-        fontWeight: 600,
-        lineHeight: 1.05,
-      }}
-    >
-      Invite users
-    </div>
-    <div style={{ padding: 40 }}>
+  <div className={`${s.section} ${sc.inviteModal}`}>
+    <div className={sc.inviteHeader}>Invite users</div>
+    <div className={sc.inviteBody}>
       <Formik<Values> initialValues={{ emails: [] }} onSubmit={() => {}}>
         <Form>
           <InteractiveListFormik<Values> name="emails" label="Email address" placeholder="name@company.com" validate={emailValidator} />
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 16, marginTop: 28 }}>
+          <div className={sc.inviteActions}>
             <Button variant="outlined" color="secondary">
               Cancel
             </Button>
@@ -132,7 +119,7 @@ export const InviteUsersPattern = () => (
 InviteUsersPattern.tags = ['!dev']
 
 export const Validation = () => (
-  <div className={s.section} style={{ width: 520 }}>
+  <div className={`${s.section} ${sc.fieldNarrow}`}>
     <Caption>
       Inline validation blocks invalid entries before they are appended. Duplicate and empty values are rejected by the component itself,
       while email format comes from custom <code>validate</code>.
@@ -150,7 +137,7 @@ export const ExternalControls = () => {
   const inputRef = useRef<InteractiveListInputRef>(null)
 
   return (
-    <div className={s.section} style={{ width: 520 }}>
+    <div className={`${s.section} ${sc.fieldNarrow}`}>
       <Caption>
         Control the input programmatically via <code>inputControlRef</code> to prefill and submit values from external actions.
       </Caption>
@@ -176,7 +163,7 @@ export const ExternalControls = () => {
 ExternalControls.tags = ['!dev']
 
 export const LegacyV3 = () => (
-  <div className={s.section} style={{ width: 520 }}>
+  <div className={`${s.section} ${sc.fieldNarrow}`}>
     <Caption>
       Legacy v3 appearance is available from <code>@hazelcast/ui/old</code> for gradual migration.
     </Caption>
