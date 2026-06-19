@@ -111,9 +111,8 @@ export const InteractiveList = <V,>({
           type={type}
           helperText={helperText}
           inputIcon={inputIcon}
-          inputClassName={cn(styles.input, inputClassName)}
-          inputContainerClassName={styles.inputContainer}
-          inputBorderOverlayClassName={styles.inputBorderOverlay}
+          inputClassName={inputClassName}
+          className={styles.field}
           error={typeof error === 'string' ? error : undefined}
           label={label}
           name={name}
@@ -127,16 +126,16 @@ export const InteractiveList = <V,>({
               await onAddItem()
             }
           }}
-        >
-          <IconButton
-            data-test={`${dataTest}-add-button`}
-            variant="ghost"
-            ariaLabel="Add item"
-            icon={Plus}
-            className={cn(styles.addIcon, iconClassName)}
-            onClick={() => void onAddItem()}
-          />
-        </TextField>
+        />
+        <IconButton
+          data-test={`${dataTest}-add-button`}
+          variant="contained"
+          color="secondary"
+          ariaLabel="Add item"
+          icon={Plus}
+          className={cn(styles.addIcon, iconClassName)}
+          onClick={() => void onAddItem()}
+        />
       </div>
       {children}
       <ul className={cn(styles.list, listClassName)}>

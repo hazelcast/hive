@@ -1,7 +1,6 @@
 import React, { ReactNode, useRef } from 'react'
 import { Meta, StoryObj } from '@storybook/react'
 import { Form, Formik } from 'formik'
-import { Mail } from 'react-feather'
 
 import { Button } from '../src'
 import { InteractiveListInputRef } from '../src/components/InteractiveList'
@@ -30,10 +29,9 @@ const emailValidator = (value: string) => {
 }
 
 const FormField = ({ label, placeholder, helperText, required, disabled }: Args) => (
-  <Formik<Values> initialValues={{ emails: ['team@hazelcast.com'] }} onSubmit={() => {}}>
-    {({ values }) => (
+  <Formik<Values> initialValues={{ emails: [] }} onSubmit={() => {}}>
+    {() => (
       <Form>
-        <p className={s.caption}>Values: {JSON.stringify(values)}</p>
         <InteractiveListFormik<Values>
           name="emails"
           label={label}
@@ -41,7 +39,6 @@ const FormField = ({ label, placeholder, helperText, required, disabled }: Args)
           helperText={helperText}
           required={required}
           disabled={disabled}
-          inputIcon={Mail}
           validate={emailValidator}
         />
       </Form>
@@ -70,7 +67,7 @@ export default {
   args: {
     label: 'Email address',
     placeholder: 'name@company.com',
-    helperText: 'Press Enter or click plus to add another recipient',
+    helperText: undefined,
     required: false,
     disabled: false,
   },
@@ -119,13 +116,7 @@ export const InviteUsersPattern = () => (
     <div style={{ padding: 40 }}>
       <Formik<Values> initialValues={{ emails: [] }} onSubmit={() => {}}>
         <Form>
-          <InteractiveListFormik<Values>
-            name="emails"
-            label="Email address"
-            placeholder="name@company.com"
-            inputIcon={Mail}
-            validate={emailValidator}
-          />
+          <InteractiveListFormik<Values> name="emails" label="Email address" placeholder="name@company.com" validate={emailValidator} />
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 16, marginTop: 28 }}>
             <Button variant="outlined" color="secondary">
               Cancel
@@ -147,13 +138,7 @@ export const Validation = () => (
     </Caption>
     <Formik<Values> initialValues={{ emails: ['owner@company.com'] }} onSubmit={() => {}}>
       <Form>
-        <InteractiveListFormik<Values>
-          name="emails"
-          label="Email address"
-          placeholder="name@company.com"
-          inputIcon={Mail}
-          validate={emailValidator}
-        />
+        <InteractiveListFormik<Values> name="emails" label="Email address" placeholder="name@company.com" validate={emailValidator} />
       </Form>
     </Formik>
   </div>
@@ -174,7 +159,6 @@ export const ExternalControls = () => {
             name="emails"
             label="Email address"
             placeholder="name@company.com"
-            inputIcon={Mail}
             validate={emailValidator}
             inputControlRef={inputRef}
           >
