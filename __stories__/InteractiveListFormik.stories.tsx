@@ -5,6 +5,7 @@ import { Form, Formik } from 'formik'
 import { Button } from '../src'
 import { InteractiveListInputRef } from '../src/components/InteractiveList'
 import { InteractiveListFormik } from '../src/components/InteractiveListFormik'
+import { InteractiveListFormik as LegacyInteractiveListFormik } from '../src/old'
 import s from './Button.stories.module.scss'
 
 type Values = {
@@ -173,3 +174,17 @@ export const ExternalControls = () => {
   )
 }
 ExternalControls.tags = ['!dev']
+
+export const LegacyV3 = () => (
+  <div className={s.section} style={{ width: 520 }}>
+    <Caption>
+      Legacy v3 appearance is available from <code>@hazelcast/ui/old</code> for gradual migration.
+    </Caption>
+    <Formik<Values> initialValues={{ emails: ['team@hazelcast.com'] }} onSubmit={() => {}}>
+      <Form>
+        <LegacyInteractiveListFormik<Values> name="emails" label="Email address" placeholder="name@company.com" validate={emailValidator} />
+      </Form>
+    </Formik>
+  </div>
+)
+LegacyV3.tags = ['!dev']
