@@ -4,13 +4,13 @@ import { useUID } from 'react-uid'
 import cn from 'classnames'
 
 import { DataTestProp } from '../helpers/types'
-import { IconButton } from './IconButton'
-import { Error, errorId } from './Error'
+import { Error, errorId } from '../components/Error'
 import { ExtractKeysOfValueType } from '../utils/types'
-import { FieldHeaderProps } from './FieldHeader'
+import { FieldHeaderProps } from '../components/FieldHeader'
 import { TextField, TextFieldExtraProps } from './TextField'
+import { IconButton } from './IconButton'
 
-import styles from './InteractiveList.module.css'
+import styles from './InteractiveListLegacy.module.scss'
 
 export type InteractiveListExtraProps = {
   children?: React.ReactNode | React.ReactNode[]
@@ -62,9 +62,8 @@ export const InteractiveListItem = ({ onRemoveItem, content, error, idx, 'data-t
           {content}
         </span>{' '}
         <IconButton
-          variant="ghost"
+          kind="transparent"
           ariaLabel="Remove Item"
-          size="small"
           icon={X}
           className={styles.removeIcon}
           onClick={() => {
@@ -77,10 +76,6 @@ export const InteractiveListItem = ({ onRemoveItem, content, error, idx, 'data-t
   )
 }
 
-/**
- * This component is meant to be used only from InteractiveListFormik
- * @private
- */
 export const InteractiveList = <V,>({
   label,
   children,
@@ -113,8 +108,9 @@ export const InteractiveList = <V,>({
           helperText={helperText}
           placeholder={placeholder}
           inputIcon={inputIcon}
-          inputClassName={inputClassName}
-          className={styles.field}
+          inputClassName={cn(styles.input, inputClassName)}
+          inputContainerClassName={styles.inputContainer}
+          inputBorderOverlayClassName={styles.inputBorderOverlay}
           error={typeof error === 'string' ? error : undefined}
           label={label}
           name={name}
@@ -131,9 +127,8 @@ export const InteractiveList = <V,>({
         >
           <IconButton
             data-test={`${dataTest}-add-button`}
-            variant="contained"
-            color="secondary"
-            ariaLabel="Add item"
+            kind="primary"
+            ariaLabel="Add Icon"
             icon={Plus}
             className={cn(styles.addIcon, iconClassName)}
             onClick={() => void onAddItem()}

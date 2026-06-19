@@ -67,6 +67,10 @@ export type { SelectFieldOption, SelectFieldOptionsMap } from './Select/helpers'
 export { AutocompleteField, getSelectedOptionFromValue, highlightOptionText } from './AutocompleteField'
 export type { AutocompleteFieldProps, AutocompleteFieldOption, RenderOptionFunction } from './AutocompleteField'
 export { AutocompleteFieldFormik } from './AutocompleteFieldFormik'
+export { InteractiveListItem } from './InteractiveList'
+export { InteractiveListFormik } from './InteractiveListFormik'
+export type { InteractiveListInputRef, InteractiveListExtraProps } from './InteractiveList'
+export type { InteractiveListFormikProps } from './InteractiveListFormik'
 export { TabContext, TabContextProvider, TabContextProviderControlled, useTabContext, TabList, Tab, TabPanel } from './Tabs'
 export type {
   TabContextValue,

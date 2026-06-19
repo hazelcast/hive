@@ -1,0 +1,110 @@
+import { Meta, Title, Canvas, Controls } from '@storybook/blocks'
+import * as InteractiveListStories from './InteractiveListFormik.stories'
+import { DocsTabs } from '../.storybook/DocsTabs'
+
+<Meta of={InteractiveListStories} name="Docs" />
+
+<Title />
+
+InteractiveListFormik is a Formik-bound input for collecting multiple string values
+with inline add/remove controls. It is ideal for recipient lists, allowlists, and
+other repeated short-value entry flows.
+
+<DocsTabs tabs={[
+  {
+    id: 'overview',
+    label: 'Overview',
+    content: (
+      <>
+        <Canvas of={InteractiveListStories.Playground} />
+
+        <h2>Basic usage</h2>
+
+        <p>The component binds to a <code>string[]</code> Formik field. Users type a value and add it by pressing <code>Enter</code> or clicking the plus button.</p>
+
+        <Canvas of={InteractiveListStories.Basic} />
+
+        <h2>Invite users pattern</h2>
+
+        <p>This example mirrors the Cloud modal layout where users add recipient emails before submitting an invite action.</p>
+
+        <Canvas of={InteractiveListStories.InviteUsersPattern} />
+
+        <h2>Validation</h2>
+
+        <p>InteractiveListFormik enforces non-empty and unique entries. Use <code>validate</code> for domain-specific checks, such as email format.</p>
+
+        <Canvas of={InteractiveListStories.Validation} />
+
+        <h2>External controls</h2>
+
+        <p>Use <code>inputControlRef</code> to set value and trigger add programmatically from sibling actions.</p>
+
+        <Canvas of={InteractiveListStories.ExternalControls} />
+
+        <h2>Legacy v3</h2>
+
+        <p>The previous visual style is available for gradual migration. Import from <code>@hazelcast/ui/old</code> when a screen is not yet ready for v4 styling.</p>
+
+        <Canvas of={InteractiveListStories.LegacyV3} />
+
+        <h2>Props</h2>
+
+        <Controls of={InteractiveListStories.Playground} />
+      </>
+    ),
+  },
+  {
+    id: 'guidelines',
+    label: 'Guidelines',
+    content: (
+      <>
+        <h2>When to use</h2>
+
+        <ul>
+          <li>Collecting multiple values of the same type in one compact field.</li>
+          <li>Recipient entry flows (email invites, notification targets).</li>
+          <li>Allowlist / denylist editors where each item is independent.</li>
+        </ul>
+
+        <h2>Input format</h2>
+
+        <ul>
+          <li>Always provide a clear label and placeholder that explain expected format.</li>
+          <li>Use <code>validate</code> to enforce domain constraints early.</li>
+          <li>Keep error messages short and actionable.</li>
+        </ul>
+
+        <h2>Entry behavior</h2>
+
+        <ul>
+          <li>Keep add action available via both keyboard (<code>Enter</code>) and pointer (+ button).</li>
+          <li>Avoid auto-submitting the parent form when Enter is pressed in this field.</li>
+          <li>Show each added item as a removable chip/row with a clear remove affordance.</li>
+        </ul>
+      </>
+    ),
+  },
+  {
+    id: 'accessibility',
+    label: 'Accessibility',
+    content: (
+      <>
+        <h2>Labelling</h2>
+
+        <p>Provide a visible <code>label</code> so the underlying input has a stable accessible name.</p>
+
+        <h2>Keyboard</h2>
+
+        <ul>
+          <li><code>Enter</code> adds the typed value instead of submitting the full form.</li>
+          <li>Remove buttons are keyboard reachable and announce <code>Remove Item</code>.</li>
+        </ul>
+
+        <h2>Errors</h2>
+
+        <p>Validation errors are exposed with <code>aria-invalid</code> and linked error messages to support screen readers.</p>
+      </>
+    ),
+  },
+]} />

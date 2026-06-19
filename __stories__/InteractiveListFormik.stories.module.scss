@@ -1,5 +1,32 @@
-@use '../styles/constants' as c;
+.fieldNarrow {
+  width: calc(var(--hive-grid) * 130);
+}
 
-.field {
-  width: 100%;
+.inviteModal {
+  width: min(calc(var(--hive-grid) * 225), 100%);
+  border: var(--hive-border-width) solid var(--hive-color-border-v4);
+  border-radius: calc(var(--hive-grid) * 3);
+  overflow: hidden;
+}
+
+.inviteHeader {
+  background: color-mix(in oklab, var(--hive-color-brand-v4) 24%, var(--hive-color-neutral-white-v4));
+  border-bottom: var(--hive-border-width) solid var(--hive-color-border-v4);
+  padding: calc(var(--hive-grid) * 7) calc(var(--hive-grid) * 10);
+  color: var(--hive-color-text-v4);
+  font-family: var(--hive-font-family-text);
+  font-size: calc(var(--hive-grid) * 10.5);
+  font-weight: var(--hive-font-weight-text-semibold);
+  line-height: 1.05;
+}
+
+.inviteBody {
+  padding: calc(var(--hive-grid) * 10);
+}
+
+.inviteActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: calc(var(--hive-grid) * 4);
+  margin-top: calc(var(--hive-grid) * 7);
 }
