@@ -1,25 +1,22 @@
 .inputRow {
-  display: flex;
-  align-items: flex-end;
-  gap: calc(var(--hive-grid) * 2);
   margin-bottom: calc(var(--hive-grid) * 3);
 }
 
 .field {
-  flex: 1 1 auto;
+  width: 100%;
 }
 
 .addIcon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  margin-left: calc(var(--hive-grid) * 2);
   border-radius: var(--hive-border-radius);
   border: var(--hive-border-width) solid transparent;
   background-color: var(--hive-color-secondary-v4);
   color: var(--hive-color-text-v4);
   width: calc(var(--hive-grid) * 9);
   height: calc(var(--hive-grid) * 9);
-  flex: 0 0 auto;
 }
 
 .addIcon:hover,

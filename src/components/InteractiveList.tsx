@@ -128,16 +128,17 @@ export const InteractiveList = <V,>({
               await onAddItem()
             }
           }}
-        />
-        <IconButton
-          data-test={`${dataTest}-add-button`}
-          variant="contained"
-          color="secondary"
-          ariaLabel="Add item"
-          icon={Plus}
-          className={cn(styles.addIcon, iconClassName)}
-          onClick={() => void onAddItem()}
-        />
+        >
+          <IconButton
+            data-test={`${dataTest}-add-button`}
+            variant="contained"
+            color="secondary"
+            ariaLabel="Add item"
+            icon={Plus}
+            className={cn(styles.addIcon, iconClassName)}
+            onClick={() => void onAddItem()}
+          />
+        </TextField>
       </div>
       {children}
       <ul className={cn(styles.list, listClassName)}>
