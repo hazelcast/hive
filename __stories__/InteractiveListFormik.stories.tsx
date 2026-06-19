@@ -1,187 +1,191 @@
-import React, { useRef } from 'react'
-import { Button, logger } from '../src'
-import { InteractiveListInputRef } from '../src/components/InteractiveList'
+import React, { ReactNode, useRef } from 'react'
+import { Meta, StoryObj } from '@storybook/react'
 import { Form, Formik } from 'formik'
+import { Mail } from 'react-feather'
+
+import { Button } from '../src'
+import { InteractiveListInputRef } from '../src/components/InteractiveList'
 import { InteractiveListFormik } from '../src/components/InteractiveListFormik'
-import { List } from 'react-feather'
-import * as Yup from 'yup'
-import styles from './InteractiveListFormik.stories.module.scss'
+import s from './Button.stories.module.scss'
+
+type Values = {
+  emails: string[]
+}
+
+type Args = {
+  label: string
+  placeholder: string
+  helperText?: string
+  required?: boolean
+  disabled?: boolean
+}
+
+type Story = StoryObj<Args>
+
+const Caption = ({ children }: { children: ReactNode }) => <div className={s.caption}>{children}</div>
+
+const emailValidator = (value: string) => {
+  const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+  return isValid ? undefined : 'Please enter a valid email address'
+}
+
+const FormField = ({ label, placeholder, helperText, required, disabled }: Args) => (
+  <Formik<Values> initialValues={{ emails: ['team@hazelcast.com'] }} onSubmit={() => {}}>
+    {({ values }) => (
+      <Form>
+        <p className={s.caption}>Values: {JSON.stringify(values)}</p>
+        <InteractiveListFormik<Values>
+          name="emails"
+          label={label}
+          placeholder={placeholder}
+          helperText={helperText}
+          required={required}
+          disabled={disabled}
+          inputIcon={Mail}
+          validate={emailValidator}
+        />
+      </Form>
+    )}
+  </Formik>
+)
 
 export default {
   title: 'Components/InteractiveListFormik',
-  component: InteractiveListFormik,
+  component: InteractiveListFormik as unknown as React.ComponentType<any>,
+  parameters: {
+    docs: {
+      canvas: { sourceState: 'hidden' },
+    },
+    controls: {
+      include: ['label', 'placeholder', 'helperText', 'required', 'disabled'],
+    },
+  },
+  argTypes: {
+    label: { control: 'text', table: { category: 'Content' } },
+    placeholder: { control: 'text', table: { category: 'Content' } },
+    helperText: { control: 'text', table: { category: 'Content' } },
+    required: { control: 'boolean', table: { category: 'State' } },
+    disabled: { control: 'boolean', table: { category: 'State' } },
+  },
+  args: {
+    label: 'Email address',
+    placeholder: 'name@company.com',
+    helperText: 'Press Enter or click plus to add another recipient',
+    required: false,
+    disabled: false,
+  },
+} as Meta<Args>
+
+export const Playground: Story = {
+  render: (args) => <FormField {...args} />,
+  parameters: {
+    layout: 'centered',
+    docs: {
+      description: {
+        story: 'Tweak label, placeholder and state in Controls. Enter a value and press Enter (or click +) to append it to the list.',
+      },
+    },
+  },
 }
 
-export const Default = () => {
-  type Values = {
-    ipAddresses: string[]
-  }
+export const Basic = () => (
+  <div className={s.section} style={{ width: 520 }}>
+    <Caption>
+      Use this pattern when users can add and remove multiple string values inline, for example invite recipients, allowlist entries, or
+      tags.
+    </Caption>
+    <FormField label="Email address" placeholder="name@company.com" />
+  </div>
+)
+Basic.tags = ['!dev']
 
-  const TestForm = () => (
-    <Formik<Values>
-      initialValues={{
-        ipAddresses: ['1.2.3.4'],
+export const InviteUsersPattern = () => (
+  <div
+    className={s.section}
+    style={{ width: 900, maxWidth: '100%', border: '1px solid var(--hive-color-border-v4)', borderRadius: 12, overflow: 'hidden' }}
+  >
+    <div
+      style={{
+        background: 'color-mix(in oklab, var(--hive-color-brand-v4) 24%, var(--hive-color-neutral-white-v4))',
+        borderBottom: '1px solid var(--hive-color-border-v4)',
+        padding: '28px 40px',
+        fontSize: 42,
+        fontWeight: 600,
+        lineHeight: 1.05,
       }}
-      initialErrors={{
-        ipAddresses: 'Server Error: Invalid IP Address',
-      }}
-      onSubmit={(values) => logger.log('submit', values)}
     >
-      {({ values }) => (
+      Invite users
+    </div>
+    <div style={{ padding: 40 }}>
+      <Formik<Values> initialValues={{ emails: [] }} onSubmit={() => {}}>
         <Form>
-          Values: {JSON.stringify(values)}
-          <InteractiveListFormik<Values> name="ipAddresses" label="IP Addresses" inputIcon={List} />
-          <button type="submit">Submit</button>
-        </Form>
-      )}
-    </Formik>
-  )
-
-  return <TestForm />
-}
-
-export const WithCustomClassInput = () => {
-  type Values = {
-    ipAddresses: string[]
-  }
-  const TestForm = () => (
-    <Formik<Values>
-      initialValues={{
-        ipAddresses: ['1.2.3.4'],
-      }}
-      initialErrors={{
-        ipAddresses: 'Server Error: Invalid IP Address',
-      }}
-      onSubmit={(values) => logger.log('submit', values)}
-    >
-      {({ values }) => (
-        <Form>
-          <div>Values: {JSON.stringify(values)}</div>
           <InteractiveListFormik<Values>
-            name="ipAddresses"
-            label="Name"
-            inputIcon={List}
-            inputClassName={styles.field}
-          ></InteractiveListFormik>
-          <button type="submit">Submit</button>
-        </Form>
-      )}
-    </Formik>
-  )
-
-  return <TestForm />
-}
-
-export const WithCustomSetButton = () => {
-  type Values = {
-    ipAddresses: string[]
-  }
-  const inputRef = useRef<InteractiveListInputRef>(null)
-
-  const TestForm = () => (
-    <Formik<Values>
-      initialValues={{
-        ipAddresses: ['1.2.3.4'],
-      }}
-      onSubmit={(values) => logger.log('submit', values)}
-    >
-      {({ values }) => (
-        <Form>
-          <div>Values: {JSON.stringify(values)}</div>
-          <InteractiveListFormik<Values> name="ipAddresses" label="Name" inputIcon={List} inputControlRef={inputRef}>
-            <Button onClick={() => inputRef.current?.setValue('127.0.0.1')}>Add Custom IP</Button>
-          </InteractiveListFormik>
-          <button type="submit">Submit</button>
-        </Form>
-      )}
-    </Formik>
-  )
-
-  return <TestForm />
-}
-
-export const WithCustomAddButton = () => {
-  type Values = {
-    numbers: string[]
-  }
-  const inputRef = useRef<InteractiveListInputRef>(null)
-
-  const schema = Yup.object().shape({
-    numbers: Yup.array().of(Yup.number()).min(1, 'Need at least ${min} number'),
-  })
-
-  const submit = async (values: Values) => {
-    try {
-      logger.log('value', inputRef.current?.getValue())
-      await inputRef.current?.addItem()
-      await schema.validate(values, { abortEarly: false })
-    } catch (e) {
-      logger.log('submit', e)
-    }
-  }
-
-  const TestForm = () => (
-    <Formik<Values>
-      validationSchema={schema}
-      initialValues={{
-        numbers: ['123'],
-      }}
-      onSubmit={(values) => logger.log('submit', values)}
-    >
-      {({ values }) => (
-        <Form>
-          <div>Values: {JSON.stringify(values)}</div>
-          <InteractiveListFormik<Values> name="numbers" label="Name" inputIcon={List} inputControlRef={inputRef}>
-            <Button onClick={() => void submit(values)}>Add Item & Submit</Button>
-          </InteractiveListFormik>
-          <button type="submit">Submit</button>
-        </Form>
-      )}
-    </Formik>
-  )
-
-  return <TestForm />
-}
-
-export const DefaultWithYupValidation = () => {
-  type Values = {
-    ipAddresses: string[]
-  }
-
-  const schema = Yup.object().shape({
-    ipAddresses: Yup.array()
-      .of(Yup.string().min(3, 'Needs to be at least ${min} character long'))
-      .min(1, 'Need at least ${min} IP Address'),
-  })
-
-  const validateIPAddress = (value: string) => {
-    return value[0] === '3' ? "Can't start with 3" : undefined
-  }
-
-  const TestForm = () => (
-    <Formik<Values>
-      validationSchema={schema}
-      initialValues={{
-        ipAddresses: ['1.2.3.4'],
-      }}
-      onSubmit={(values) => logger.log('submit', values)}
-    >
-      {({ values, errors }) => (
-        <Form>
-          <div>Values: {JSON.stringify(values)}</div>
-          <div>Errors: {JSON.stringify(errors)}</div>
-          <InteractiveListFormik<Values>
-            name="ipAddresses"
-            label="Name"
-            validate={validateIPAddress}
-            inputIcon={List}
-            placeholder="Type a value starting with 3"
+            name="emails"
+            label="Email address"
+            placeholder="name@company.com"
+            inputIcon={Mail}
+            validate={emailValidator}
           />
-          <button type="submit">Submit</button>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 16, marginTop: 28 }}>
+            <Button variant="outlined" color="secondary">
+              Cancel
+            </Button>
+            <Button>Invite</Button>
+          </div>
         </Form>
-      )}
-    </Formik>
-  )
+      </Formik>
+    </div>
+  </div>
+)
+InviteUsersPattern.tags = ['!dev']
 
-  return <TestForm />
+export const Validation = () => (
+  <div className={s.section} style={{ width: 520 }}>
+    <Caption>
+      Inline validation blocks invalid entries before they are appended. Duplicate and empty values are rejected by the component itself,
+      while email format comes from custom <code>validate</code>.
+    </Caption>
+    <Formik<Values> initialValues={{ emails: ['owner@company.com'] }} onSubmit={() => {}}>
+      <Form>
+        <InteractiveListFormik<Values>
+          name="emails"
+          label="Email address"
+          placeholder="name@company.com"
+          inputIcon={Mail}
+          validate={emailValidator}
+        />
+      </Form>
+    </Formik>
+  </div>
+)
+Validation.tags = ['!dev']
+
+export const ExternalControls = () => {
+  const inputRef = useRef<InteractiveListInputRef>(null)
+
+  return (
+    <div className={s.section} style={{ width: 520 }}>
+      <Caption>
+        Control the input programmatically via <code>inputControlRef</code> to prefill and submit values from external actions.
+      </Caption>
+      <Formik<Values> initialValues={{ emails: ['team@hazelcast.com'] }} onSubmit={() => {}}>
+        <Form>
+          <InteractiveListFormik<Values>
+            name="emails"
+            label="Email address"
+            placeholder="name@company.com"
+            inputIcon={Mail}
+            validate={emailValidator}
+            inputControlRef={inputRef}
+          >
+            <Button variant="outlined" color="secondary" onClick={() => inputRef.current?.setValue('admin@company.com')}>
+              Prefill Admin
+            </Button>
+            <Button onClick={() => void inputRef.current?.addItem()}>Add Prefilled</Button>
+          </InteractiveListFormik>
+        </Form>
+      </Formik>
+    </div>
+  )
 }
+ExternalControls.tags = ['!dev']

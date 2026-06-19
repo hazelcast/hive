@@ -42,6 +42,7 @@ grep -r "@hazelcast/ui/old" src --include="*.tsx" --include="*.ts"
 | Updated  | `SelectField` / `MultiSelectField` / `CheckableSelectField` | HIVE 4.0 rebrand; 36px height; 8px radius; new menu surface + hover/selected states; `--hive-*` tokens; SCSS → CSS                                                                                                              | ✅              |
 | Updated  | `AutocompleteField`                                         | HIVE 4.0 rebrand; 36px height; 8px radius; new menu surface + hover/selected states; `--hive-*` tokens; SCSS → CSS                                                                                                              | ✅              |
 | Updated  | `PasswordField`                                             | HIVE 4.0 rebrand via v4 `TextField`; locked to a single compact size (`size` prop removed); reveal eye button gains a circular hover/focus ring matching `NumberField`                                                          | ✅              |
+| Updated  | `InteractiveListFormik`                                     | HIVE 4.0 redesign for tokenized list-entry input with integrated add button, refreshed item chips, and docs/stories overhaul; API unchanged; SCSS → CSS                                                                         | ❌              |
 
 ---
 
@@ -745,6 +746,30 @@ The `/old` build keeps the `size` prop for consumers that aren't ready to drop i
 
 ```tsx
 <PasswordField name="password" label="Password" value={value} onChange={onChange} />
+```
+
+---
+
+### `InteractiveListFormik`
+
+InteractiveListFormik has been visually redesigned to HIVE 4.0 styling: tokenized input surface, integrated add button, and neutral removable item chips for entered values. The component behavior and API remain the same.
+
+**Prop changes:**
+
+| Prop  | v3              | v4                                 |
+| ----- | --------------- | ---------------------------------- |
+| _all_ | same public API | same — visual-only breaking change |
+
+**Before:**
+
+```tsx
+<InteractiveListFormik name="emails" label="Email address" placeholder="name@company.com" />
+```
+
+**After:**
+
+```tsx
+<InteractiveListFormik name="emails" label="Email address" placeholder="name@company.com" />
 ```
 
 ---

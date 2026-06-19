@@ -10,7 +10,7 @@ import { ExtractKeysOfValueType } from '../utils/types'
 import { FieldHeaderProps } from './FieldHeader'
 import { TextField, TextFieldExtraProps } from './TextField'
 
-import styles from './InteractiveList.module.scss'
+import styles from './InteractiveList.module.css'
 
 export type InteractiveListExtraProps = {
   children?: React.ReactNode | React.ReactNode[]
@@ -64,6 +64,7 @@ export const InteractiveListItem = ({ onRemoveItem, content, error, idx, 'data-t
         <IconButton
           variant="ghost"
           ariaLabel="Remove Item"
+          size="small"
           icon={X}
           className={styles.removeIcon}
           onClick={() => {
@@ -130,7 +131,7 @@ export const InteractiveList = <V,>({
           <IconButton
             data-test={`${dataTest}-add-button`}
             variant="ghost"
-            ariaLabel="Add Icon"
+            ariaLabel="Add item"
             icon={Plus}
             className={cn(styles.addIcon, iconClassName)}
             onClick={() => void onAddItem()}
