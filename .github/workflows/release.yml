@@ -10,6 +10,11 @@ env:
 on:
   workflow_dispatch:
     inputs:
+      skip_chromatic_publish:
+        description: 'Should skip publishing to Chromatic'
+        required: false
+        default: false
+        type: boolean
       release_type:
         description: 'Type of the release'
         required: false
@@ -31,6 +36,29 @@ permissions:
   contents: write
 
 jobs:
+  chromatic-deployment:
+    if: github.event.inputs.skip_chromatic_publish != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: ./.github/actions/install
+      - name: Compile Package
+        run: npm run compile
+      - name: Build Storybook
+        run: npm run build-storybook
+      - name: Publish to Chromatic
+        uses: chromaui/action@v17
+        with:
+          token: ${{ github.token }}
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          baseBranch: master
+          onlyChanged: true
+          exitZeroOnChanges: true
+          workingDir: ./
+          autoAcceptChanges: true
+
   publish_canary:
     runs-on: ubuntu-latest
     steps:
