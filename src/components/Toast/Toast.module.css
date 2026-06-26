@@ -19,6 +19,7 @@
 }
 
 .root {
+  --toast-color: var(--hive-color-text);
   background-color: var(--hive-color-neutral-white);
   border-radius: var(--hive-border-radius);
   box-shadow:
@@ -28,6 +29,19 @@
   overflow: hidden;
   width: 360px;
   max-width: 100vw;
+}
+
+.success {
+  --toast-color: var(--hive-color-success-darkest);
+}
+.error {
+  --toast-color: var(--hive-color-error);
+}
+.warn {
+  --toast-color: var(--hive-color-warning-darkest);
+}
+.info {
+  --toast-color: var(--hive-color-info-darkest);
 }
 
 .root[data-state='open'] {
@@ -41,19 +55,7 @@
 .bar {
   width: 4px;
   flex-shrink: 0;
-}
-
-.success .bar {
-  background-color: var(--hive-color-success-dark);
-}
-.error .bar {
-  background-color: var(--hive-color-error-dark);
-}
-.warn .bar {
-  background-color: var(--hive-color-warning-dark);
-}
-.info .bar {
-  background-color: var(--hive-color-info-dark);
+  background-color: var(--toast-color);
 }
 
 .body {
@@ -63,24 +65,13 @@
   padding: calc(var(--hive-grid) * 3);
   flex: 1;
   min-width: 0;
+  background-color: lab(from var(--toast-color) 95% a b);
 }
 
 .icon {
   flex-shrink: 0;
   margin-top: 2px;
-}
-
-.success .icon {
-  color: var(--hive-color-success-dark);
-}
-.error .icon {
-  color: var(--hive-color-error-dark);
-}
-.warn .icon {
-  color: var(--hive-color-warning-dark);
-}
-.info .icon {
-  color: var(--hive-color-info-dark);
+  color: var(--toast-color);
 }
 
 .content {
