@@ -6,9 +6,9 @@ import useKey from 'react-use/lib/useKey'
 import { DataTestProp } from '../helpers/types'
 import { escKeyFilterPredicate } from '../utils/keyboard'
 import { IconButton } from './IconButton'
-import { Icon } from './Icon'
+import { Icon } from '../components/Icon'
 
-import styles from './Toast.module.scss'
+import styles from './ToastLegacy.module.scss'
 
 export type ToastType = 'success' | 'info' | 'warning' | 'critical'
 
@@ -97,7 +97,7 @@ export const Toast: FC<ToastProps> = ({
       {closeToast && (
         <IconButton
           data-test={`${dataTest}-close`}
-          variant="ghost"
+          kind="transparent"
           className={styles.close}
           ariaLabel="Close icon"
           icon={X}

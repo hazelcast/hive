@@ -1,0 +1,99 @@
+import { Meta, Title, Canvas, Controls } from '@storybook/blocks'
+import * as ToastStories from './Toast.stories'
+import { DocsTabs } from '../.storybook/DocsTabs'
+
+<Meta of={ToastStories} name="Docs" />
+
+<Title />
+
+Toast is a transient, non-blocking notification that appears at the edge of the screen and disappears automatically. Use it to confirm completed actions, surface non-critical errors, and deliver time-sensitive status updates — without interrupting the user's flow.
+
+<DocsTabs tabs={[
+  {
+    id: 'overview',
+    label: 'Overview',
+    content: (
+      <>
+        <h2>Interactive</h2>
+
+        <p>Click a button to fire a live toast with a 5-second auto-dismiss.</p>
+
+        <Canvas of={ToastStories.Interactive} />
+
+        <h2>Props</h2>
+
+        <Controls of={ToastStories.Playground} />
+      </>
+    ),
+  },
+  {
+    id: 'guidelines',
+    label: 'Guidelines',
+    content: (
+      <>
+        <h2>When to use</h2>
+
+        <ul>
+          <li><strong>Confirmations</strong> — a save completed, a member was invited, a backup was triggered.</li>
+          <li><strong>Background status</strong> — a long-running job finished while the user was elsewhere.</li>
+          <li><strong>Non-critical errors</strong> — a request failed but the user can retry without losing context.</li>
+          <li><strong>Transient system state</strong> — the service went offline and came back.</li>
+        </ul>
+
+        <h2>When not to use</h2>
+
+        <ul>
+          <li>For decisions that require a response → use a <code>Modal</code>.</li>
+          <li>For errors that block the current task → use an inline <code>Alert</code>.</li>
+          <li>For marketing messages or onboarding tips → use a banner or coach mark.</li>
+        </ul>
+
+        <h2>Writing</h2>
+
+        <ul>
+          <li>Lead with the outcome — <em>Cluster created</em>, not <em>POST /clusters returned 201</em>.</li>
+          <li>Keep messages under 120 characters — two short sentences at most.</li>
+          <li>For errors, say what went wrong and what to do next.</li>
+        </ul>
+
+        <h2>Duration</h2>
+
+        <ul>
+          <li>Success and info: <strong>5 000 ms</strong> (default).</li>
+          <li>Warnings: consider <strong>10 000 ms</strong> when the message is actionable.</li>
+          <li>Errors that must be acknowledged: <code>Infinity</code>.</li>
+        </ul>
+      </>
+    ),
+  },
+  {
+    id: 'accessibility',
+    label: 'Accessibility',
+    content: (
+      <>
+        <p>Toast is built on <a href="https://www.radix-ui.com/primitives/docs/components/toast" target="_blank" rel="noreferrer">Radix UI Toast</a>, which handles the ARIA live-region, focus management, and swipe-to-dismiss.</p>
+
+        <h2>Live region</h2>
+
+        <p>The viewport is marked as an ARIA live region so screen readers announce toasts as they appear without moving keyboard focus away from the current task.</p>
+
+        <h2>Keyboard</h2>
+
+        <ul>
+          <li><code>F8</code> moves focus into the toast region.</li>
+          <li><code>Tab</code> cycles through focusable elements (the close button).</li>
+          <li><code>Esc</code> closes the focused toast and returns focus.</li>
+        </ul>
+
+        <h2>Testing checklist</h2>
+
+        <ul>
+          <li>Toast is announced by the screen reader on entry.</li>
+          <li>Keyboard focus is not stolen from main content.</li>
+          <li><code>F8</code> reaches the toast; <code>Esc</code> closes it and returns focus.</li>
+          <li>Persistent toasts are always closable via the close button.</li>
+        </ul>
+      </>
+    ),
+  },
+]} />

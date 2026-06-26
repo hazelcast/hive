@@ -43,6 +43,7 @@ grep -r "@hazelcast/ui/old" src --include="*.tsx" --include="*.ts"
 | Updated  | `AutocompleteField`                                         | HIVE 4.0 rebrand; 36px height; 8px radius; new menu surface + hover/selected states; `--hive-*` tokens; SCSS → CSS                                                                                                              | ✅              |
 | Updated  | `PasswordField`                                             | HIVE 4.0 rebrand via v4 `TextField`; locked to a single compact size (`size` prop removed); reveal eye button gains a circular hover/focus ring matching `NumberField`                                                          | ✅              |
 | Updated  | `InteractiveListFormik`                                     | HIVE 4.0 redesign for tokenized list-entry input with integrated add button, refreshed item chips, and docs/stories overhaul; API unchanged; SCSS → CSS                                                                         | ✅              |
+| Updated  | `Toast`                                                     | Rebuilt on Radix UI Toast; new `variant` prop (`success/error/warn/info`), replaces `type` (`success/info/warning/critical`); `id`, `open`, `onOpenChange`, `duration` props replace react-toastify coupling; SCSS → CSS        | ✅              |
 
 ---
 
@@ -750,6 +751,50 @@ The `/old` build keeps the `size` prop for consumers that aren't ready to drop i
 
 ---
 
+### `Toast`
+
+Rebuilt on [Radix UI Toast](https://www.radix-ui.com/primitives/docs/components/toast). The component is no longer coupled to react-toastify. It renders a single notification with a colored left bar, a variant icon, content, and a close button. Styles have been migrated from SCSS to CSS modules using `--hive-*` design tokens.
+
+**Old import (temporary fallback):**
+
+```ts
+import { Toast } from '@hazelcast/ui/old'
+```
+
+**Prop changes:**
+
+| Prop                  | v3                                               | v4                                                    |
+| --------------------- | ------------------------------------------------ | ----------------------------------------------------- |
+| `type`                | `'success' \| 'info' \| 'warning' \| 'critical'` | **removed** — replaced by `variant`                   |
+| `variant`             | —                                                | new — `'success' \| 'error' \| 'warn' \| 'info'`      |
+| `id`                  | —                                                | new — unique key for deduplication and dismissal      |
+| `open`                | —                                                | new — controlled open state (Radix pattern)           |
+| `onOpenChange`        | —                                                | new — called with `false` when the toast is dismissed |
+| `duration`            | —                                                | new — ms before auto-dismiss; `Infinity` = persistent |
+| `closeToast`          | optional                                         | **removed** — use `onOpenChange`                      |
+| `dismissableByEscKey` | optional, default `true`                         | **removed** — handled by Radix internally             |
+| `content`             | `ReactNode`                                      | unchanged                                             |
+| `className`           | optional                                         | unchanged                                             |
+
+**Before:**
+
+```tsx
+import { Toast } from '@hazelcast/ui'
+// Rendered by react-toastify — not mounted directly
+;<Toast type="success" content="Saved." closeToast={close} />
+```
+
+**After:**
+
+```tsx
+import { Toast } from '@hazelcast/ui'
+;<Toast id="save-toast" variant="success" content="Saved." duration={5000} open={open} onOpenChange={setOpen} />
+```
+
+Pair with `Toast.Provider` and `Toast.Viewport` from `@radix-ui/react-toast` (or use the app-level `ToastProvider` that wraps these).
+
+---
+
 ### `InteractiveListFormik`
 
 InteractiveListFormik has been visually redesigned to HIVE 4.0 styling: tokenized input surface, integrated add button, and neutral removable item chips for entered values. The component behavior and API remain the same.
@@ -801,7 +846,22 @@ import { Replacement } from '@hazelcast/ui'
 ```
 -->
 
-_No deprecated components yet._
+### `Toast` (legacy)
+
+The original react-toastify–coupled `Toast` (type: `success | info | warning | critical`, `closeToast` prop) has been superseded by the new Radix UI-based `Toast`. The legacy component is kept at `/old` for backward compat.
+
+**Temporary fallback:**
+
+```ts
+import { Toast } from '@hazelcast/ui/old'
+```
+
+**Recommended replacement:**
+
+```tsx
+import { Toast } from '@hazelcast/ui'
+;<Toast id="my-toast" variant="success" content="Saved." duration={5000} open={open} onOpenChange={setOpen} />
+```
 
 ---
 
