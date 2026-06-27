@@ -91,8 +91,7 @@ export const InteractiveListFormik = <V extends object>({
       setInputTouched(true)
       return validationError
     } else {
-      field.value.push(normalizedValue)
-      setValue(field.value)
+      setValue([...field.value, normalizedValue])
       setInputTouched(false)
       setInputValue('')
       return undefined

@@ -32,7 +32,7 @@
 }
 
 .success {
-  --toast-color: var(--hive-color-brand-v4);
+  --toast-color: var(--hive-color-success-darkest);
 }
 .error {
   --toast-color: var(--hive-color-error);

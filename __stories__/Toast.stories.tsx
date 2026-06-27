@@ -1,14 +1,13 @@
 import React, { FC, useState } from 'react'
-import * as ToastPrimitive from '@radix-ui/react-toast'
 import { Meta, StoryObj } from '@storybook/react'
 
-import { Toast, ToastVariant } from '../src/components/Toast'
+import { Toast, ToastProvider, ToastViewport, ToastVariant } from '../src/components/Toast'
 import { Button } from '../src'
 
 const withViewport = (Story: FC) => (
-  <ToastPrimitive.Provider>
+  <ToastProvider>
     <Story />
-    <ToastPrimitive.Viewport
+    <ToastViewport
       style={{
         position: 'fixed',
         bottom: 16,
@@ -24,7 +23,7 @@ const withViewport = (Story: FC) => (
         zIndex: 999,
       }}
     />
-  </ToastPrimitive.Provider>
+  </ToastProvider>
 )
 
 const meta: Meta<typeof Toast> = {

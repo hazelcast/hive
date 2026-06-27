@@ -21,6 +21,9 @@ const VARIANT_CONFIG: Record<ToastVariant, VariantConfig> = {
   info: { Icon: Info, ariaLabel: 'Info' },
 }
 
+export const ToastProvider = ToastPrimitive.Provider
+export const ToastViewport = ToastPrimitive.Viewport
+
 let _idCounter = 0
 
 export type ToastProps = {
