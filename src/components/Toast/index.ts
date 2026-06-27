@@ -1,4 +1,4 @@
-export { Toast } from './Toast'
+export { Toast, ToastProvider, ToastViewport } from './Toast'
 export type { ToastProps, ToastVariant } from './Toast'
 
 // Re-exported for backward compat with Alert and other consumers of the legacy types.
