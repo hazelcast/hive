@@ -109,6 +109,7 @@ export const InteractiveList = <V,>({
       <div data-test={dataTest} className={cn(styles.inputRow, className)}>
         <TextField
           id={id}
+          size="small"
           type={type}
           helperText={helperText}
           placeholder={placeholder}
