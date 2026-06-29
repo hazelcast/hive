@@ -7,7 +7,6 @@ import { DataTestProp } from '../helpers/types'
 
 import styles from './FieldHeader.module.scss'
 
-export type FieldHeaderSize = 'small' | 'medium' | 'large' | 'regular'
 export type FieldHeaderVariant = 'primary' | 'secondary'
 export type FieldHeaderLabelProps = {
   label?: string
@@ -22,8 +21,6 @@ export type FieldHeaderNoLabelProps = {
   helperTextTooltipWordBreak: never
 }
 export type FieldHeaderProps = {
-  /** @deprecated Size is deprecated in v4 and ignored. FieldHeader always renders in regular (former small) size. */
-  size?: FieldHeaderSize
   variant?: FieldHeaderVariant
   id: string
   showAriaLabel?: boolean
@@ -31,18 +28,7 @@ export type FieldHeaderProps = {
   (FieldHeaderNoLabelProps | FieldHeaderLabelProps)
 
 export const FieldHeader = (props: FieldHeaderProps) => {
-  const {
-    label,
-    id,
-    variant,
-    helperText,
-    size = 'regular',
-    labelClassName,
-    'data-test': dataTest,
-    showAriaLabel,
-    helperTextTooltipWordBreak,
-  } = props
-  const resolvedSize: FieldHeaderSize = size === 'small' || size === 'medium' || size === 'large' ? 'regular' : 'regular'
+  const { label, id, variant, helperText, labelClassName, 'data-test': dataTest, showAriaLabel, helperTextTooltipWordBreak } = props
 
   if (showAriaLabel) {
     return null
@@ -56,7 +42,7 @@ export const FieldHeader = (props: FieldHeaderProps) => {
         label={label}
         variant={variant}
         data-test={dataTest ? `${dataTest}-label` : undefined}
-        className={cn(styles.label, { [styles.small]: resolvedSize === 'regular' }, labelClassName)}
+        className={cn(styles.label, styles.small, labelClassName)}
       />
       {helperText && (
         <Help

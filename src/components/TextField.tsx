@@ -27,7 +27,6 @@ import { TooltipSide } from './Tooltip'
 
 import styles from './TextField.module.css'
 
-export type TextFieldSize = 'small' | 'medium' | 'large' | 'regular'
 export type TextFieldVariant = 'primary' | 'secondary'
 
 type TextFieldTrailingIcon =
@@ -54,8 +53,6 @@ type TextFieldCoreProps<T extends TextFieldTypes> = {
 }
 export type TextFieldExtraProps<T extends TextFieldTypes> = {
   ariaLabel?: string
-  /** @deprecated Size is deprecated in v4 and ignored. TextField always renders in regular (former small) size. */
-  size?: TextFieldSize
   variant?: TextFieldVariant
   iconSize?: IconSize
   className?: string
@@ -114,7 +111,6 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
     labelClassName,
     showAriaLabel = false,
     name,
-    size = 'regular',
     variant = 'primary',
     onBlur,
     onFocus,
@@ -136,7 +132,6 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
   const autoId = useUID()
   const id = explicitId ?? autoId
   const inputRef = useRef<HTMLInputElement | null>(null)
-  const resolvedSize: TextFieldSize = size === 'small' || size === 'medium' || size === 'large' ? 'regular' : 'regular'
 
   const isNotEmpty = value !== undefined && (typeof value === 'string' ? value.length > 0 : true)
   const mergedRef = ref ? mergeRefs([ref, inputRef]) : inputRef
@@ -165,7 +160,6 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
     >
       <FieldHeader
         id={id}
-        size={resolvedSize}
         label={label}
         variant={variant}
         helperText={helperText}
@@ -215,7 +209,6 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
             <IconButton
               icon={X}
               variant="ghost"
-              size="regular"
               ariaLabel="Clear field"
               onClick={handleClear}
               className={styles.clearButton}

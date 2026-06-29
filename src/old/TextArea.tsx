@@ -65,7 +65,7 @@ export const TextArea: FC<TextAreaProps> = (props) => {
         className,
       )}
     >
-      <FieldHeader data-test={dataTest} label={label} id={id} helperText={helperText} labelClassName={labelClassName} size={size} />
+      <FieldHeader data-test={dataTest} label={label} id={id} helperText={helperText} labelClassName={labelClassName} />
       <div className={styles.textAreaContainer}>
         <div className={styles.textAreaWrapper}>
           <textarea

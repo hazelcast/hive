@@ -164,7 +164,6 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
     >
       <FieldHeader
         id={id}
-        size={size}
         label={label}
         variant={variant}
         helperText={helperText}
@@ -214,7 +213,6 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
             <IconButton
               icon={X}
               variant="ghost"
-              size={size === 'small' ? 'small' : 'regular'}
               ariaLabel="Clear field"
               onClick={handleClear}
               className={styles.clearButton}

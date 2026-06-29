@@ -29,7 +29,6 @@ export const CalendarRange: FC<CalendarRangeProps> = ({
   endInputLabel = 'To',
   endOpen,
   onEndDateChange,
-  size,
   variant = 'horizontal',
   ...rest
 }) => {
@@ -44,7 +43,6 @@ export const CalendarRange: FC<CalendarRangeProps> = ({
         endDate={endDate}
         inputLabel={startInputLabel}
         open={startOpen}
-        size={size}
         {...rest}
       />
       {variant === 'horizontal' && (
@@ -60,7 +58,6 @@ export const CalendarRange: FC<CalendarRangeProps> = ({
         minDate={startDate}
         inputLabel={endInputLabel}
         open={endOpen}
-        size={size}
         {...rest}
       />
     </div>

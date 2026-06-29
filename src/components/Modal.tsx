@@ -213,19 +213,12 @@ export const Modal: FC<ModalProps> = ({
                     data-test="modal-button-cancel"
                     variant="ghost"
                     color="secondary"
-                    size="small"
                     onClick={(e) => onClose?.(e)}
                   >
                     {cancelLabel}
                   </Button>
-                  {actions?.map(({ children: actionChildren, size = 'small', color, ...actionPropsRest }, key) => (
-                    <Button
-                      key={key}
-                      data-test="modal-button-action"
-                      size={size}
-                      color={color ?? intentActionColor[intent]}
-                      {...actionPropsRest}
-                    >
+                  {actions?.map(({ children: actionChildren, color, ...actionPropsRest }, key) => (
+                    <Button key={key} data-test="modal-button-action" color={color ?? intentActionColor[intent]} {...actionPropsRest}>
                       {actionChildren}
                     </Button>
                   ))}

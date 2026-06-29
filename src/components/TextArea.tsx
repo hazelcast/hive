@@ -8,8 +8,6 @@ import { FieldHeader, FieldHeaderProps } from './FieldHeader'
 
 import styles from './TextArea.module.css'
 
-export type TextAreaSize = 'small' | 'medium' | 'regular'
-
 export type TextAreaCoreProps = {
   name: string
   value?: string
@@ -22,8 +20,6 @@ export type TextAreaExtraProps = {
   textareaClassName?: string
   errorClassName?: string
   resizable?: boolean
-  /** @deprecated Size is deprecated in v4 and ignored. TextArea always renders in regular (former small) size. */
-  size?: TextAreaSize
 } & Partial<Pick<HTMLTextAreaElement, 'className' | 'disabled' | 'placeholder' | 'required' | 'rows'>> &
   Omit<FieldHeaderProps, 'id'>
 
@@ -46,13 +42,11 @@ export const TextArea: FC<TextAreaProps> = (props) => {
     required,
     resizable = true,
     helperText,
-    size = 'regular',
     'data-test': dataTest = 'textarea',
     ...htmlAttrs
   } = props
   const id = useUID()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
-  const resolvedSize: TextAreaSize = size === 'small' || size === 'medium' ? 'regular' : 'regular'
 
   return (
     <div
@@ -67,7 +61,7 @@ export const TextArea: FC<TextAreaProps> = (props) => {
         className,
       )}
     >
-      <FieldHeader data-test={dataTest} label={label} id={id} helperText={helperText} labelClassName={labelClassName} size={resolvedSize} />
+      <FieldHeader data-test={dataTest} label={label} id={id} helperText={helperText} labelClassName={labelClassName} />
       <div className={styles.textAreaContainer}>
         <div className={styles.textAreaWrapper}>
           <textarea
