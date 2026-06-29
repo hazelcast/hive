@@ -32,7 +32,7 @@ describe('Button', () => {
 
   const sizeTestData: [ButtonSize, string][] = [
     ['small', styles.sizeSmall],
-    ['regular', styles.sizeRegular],
+    ['regular', styles.sizeSmall],
   ]
 
   it.each(variantTestData)('Renders Button with class for variant %s', async (variant, className) => {
@@ -65,12 +65,12 @@ describe('Button', () => {
     expect(screen.getByTestId('button')).not.toHaveClass(styles.fullWidth)
   })
 
-  it('Renders Button with default variant contained, color primary, and size regular', async () => {
+  it('Renders Button with default variant contained, color primary, and compact size', async () => {
     await renderAndCheckA11Y(<Button>{label}</Button>)
 
     const button = screen.getByTestId('button')
     expect(within(button).queryByText(label)).toBeInTheDocument()
-    expect(button).toHaveClass(cn(styles.button, styles.variantContained, styles.colorPrimary, styles.sizeRegular))
+    expect(button).toHaveClass(cn(styles.button, styles.variantContained, styles.colorPrimary, styles.sizeSmall))
     expect(button).toHaveAttribute('type', 'button')
     expect(button).not.toHaveAttribute('aria-describedby')
     expect(button).not.toHaveAttribute('rel')
@@ -144,7 +144,7 @@ describe('Button', () => {
     )
 
     expect(screen.getByTestId('button')).toHaveAttribute('disabled')
-    expect(screen.getByTestId('loader')).toHaveClass(cn(styles.iconLeft, loaderStyles.smallMedium))
+    expect(screen.getByTestId('loader')).toHaveClass(cn(styles.iconLeft, loaderStyles.small))
   })
 
   it('Renders loading animation on right side (only when the right icon is used)', async () => {
@@ -157,7 +157,7 @@ describe('Button', () => {
       </div>,
     )
 
-    expect(screen.getByTestId('loader')).toHaveClass(cn(styles.iconRight, loaderStyles.smallMedium))
+    expect(screen.getByTestId('loader')).toHaveClass(cn(styles.iconRight, loaderStyles.small))
   })
 
   it('Renders disabled button with a disabled tooltip', async () => {
