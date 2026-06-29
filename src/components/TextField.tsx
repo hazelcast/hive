@@ -27,7 +27,7 @@ import { TooltipSide } from './Tooltip'
 
 import styles from './TextField.module.css'
 
-export type TextFieldSize = 'medium' | 'small' | 'large'
+export type TextFieldSize = 'small' | 'medium' | 'large' | 'regular'
 export type TextFieldVariant = 'primary' | 'secondary'
 
 type TextFieldTrailingIcon =
@@ -54,6 +54,7 @@ type TextFieldCoreProps<T extends TextFieldTypes> = {
 }
 export type TextFieldExtraProps<T extends TextFieldTypes> = {
   ariaLabel?: string
+  /** @deprecated Size is deprecated in v4 and ignored. TextField always renders in regular (former small) size. */
   size?: TextFieldSize
   variant?: TextFieldVariant
   iconSize?: IconSize
@@ -83,7 +84,7 @@ export type TextFieldProps<T extends TextFieldTypes> = TextFieldCoreProps<T> & T
  * Text fields accept several types of data and can impose various restrictions to ensure you get what you need from users. And help and error guidance to ensure they know what to enter.
  *
  * ### General Info
- * - Text Field is available in 2 variations: `small` (height of 30 px) and `medium` (height of 40 px). The use depends mainly on the space in UI.
+ * - Text Field uses one compact size in v4.
  * - All the variations can be either with the label, or without label.
  * - Standard label alignment is left-aligned with the field underneath.
  * - If needed, you can use icon on the left side or on the right side inside the Text Input (e.g. Eye icon to show / hide password).
@@ -113,7 +114,7 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
     labelClassName,
     showAriaLabel = false,
     name,
-    size = 'medium',
+    size = 'regular',
     variant = 'primary',
     onBlur,
     onFocus,
@@ -126,7 +127,7 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
     readOnly,
     onClick,
     clearable,
-    iconSize = size,
+    iconSize = 'small',
     errorTooltipPlacement = 'top',
     children,
     containerRef,
@@ -135,6 +136,7 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
   const autoId = useUID()
   const id = explicitId ?? autoId
   const inputRef = useRef<HTMLInputElement | null>(null)
+  const resolvedSize: TextFieldSize = size === 'small' || size === 'medium' || size === 'large' ? 'regular' : 'regular'
 
   const isNotEmpty = value !== undefined && (typeof value === 'string' ? value.length > 0 : true)
   const mergedRef = ref ? mergeRefs([ref, inputRef]) : inputRef
@@ -152,8 +154,7 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
         styles.container,
         {
           [styles.withError]: 'error' in props,
-          [styles.small]: size === 'small',
-          [styles.large]: size === 'large',
+          [styles.small]: true,
           [styles.disabled]: disabled,
           [styles.hasError]: error,
           [styles.withIcon]: inputIcon,
@@ -164,7 +165,7 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
     >
       <FieldHeader
         id={id}
-        size={size}
+        size={resolvedSize}
         label={label}
         variant={variant}
         helperText={helperText}
@@ -214,7 +215,7 @@ const TextFieldInternal = <T extends TextFieldTypes>(props: TextFieldProps<T>, r
             <IconButton
               icon={X}
               variant="ghost"
-              size={size === 'small' ? 'small' : 'regular'}
+              size="regular"
               ariaLabel="Clear field"
               onClick={handleClear}
               className={styles.clearButton}

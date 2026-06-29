@@ -62,6 +62,7 @@ export type ButtonCommonProps = {
   children: string | ReactElement
   variant?: ButtonVariant
   color?: ButtonColor
+  /** @deprecated Size is deprecated in v4 and ignored. Button always renders in regular (former small) size. */
   size?: ButtonSize
   bodyClassName?: string
   outline?: ButtonOutlineType
@@ -113,7 +114,7 @@ const colorClass: Record<ButtonColor, string> = {
 
 const sizeClass: Record<ButtonSize, string> = {
   small: styles.sizeSmall,
-  regular: styles.sizeRegular,
+  regular: styles.sizeSmall,
 }
 
 export const Button = forwardRef<HTMLElement, ButtonProps>(
@@ -151,8 +152,9 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
     },
     ref,
   ) => {
+    const resolvedSize: ButtonSize = size === 'small' ? 'regular' : 'regular'
     const tooltipId = useUID()
-    const iconSize: IconSize = size === 'small' ? 'small' : 'smallMedium'
+    const iconSize: IconSize = 'small'
     const relFinal = Array.isArray(rel) ? rel.join(' ') : rel
     const loadingAnimationOnRight = loading && iconRight && iconRightAriaLabel && !(iconLeft && iconLeftAriaLabel)
 
@@ -169,7 +171,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
             styles.button,
             variantClass[variant],
             colorClass[color],
-            sizeClass[size],
+            sizeClass[resolvedSize],
             {
               [styles.active]: active,
               [styles.inset]: outline === 'inset',

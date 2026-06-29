@@ -48,12 +48,7 @@ export const CalendarRange: FC<CalendarRangeProps> = ({
         {...rest}
       />
       {variant === 'horizontal' && (
-        <Icon
-          data-test="calendar-range-icon"
-          className={cn(styles.arrowRight, { [styles.small]: size === 'small' })}
-          icon={ArrowRight}
-          ariaLabel="Arrow Right"
-        />
+        <Icon data-test="calendar-range-icon" className={cn(styles.arrowRight, styles.small)} icon={ArrowRight} ariaLabel="Arrow Right" />
       )}
       <Calendar
         data-test="calendar-range-end"

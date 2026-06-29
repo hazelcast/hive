@@ -20,6 +20,7 @@ type IconButtonCommonProps = {
   loaderRole?: string
   variant?: ButtonVariant
   color?: ButtonColor
+  /** @deprecated Size is deprecated in v4 and ignored. IconButton always renders in regular (former small) size. */
   size?: ButtonSize
   tooltip?: string
   tooltipVisible?: boolean
@@ -75,7 +76,7 @@ const colorClass: Record<ButtonColor, string> = {
 
 const sizeClass: Record<ButtonSize, string> = {
   small: styles.sizeSmall,
-  regular: styles.sizeRegular,
+  regular: styles.sizeSmall,
 }
 
 export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
@@ -110,8 +111,9 @@ export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
     },
     ref,
   ) => {
+    const resolvedSize: ButtonSize = size === 'small' ? 'regular' : 'regular'
     const tooltipId = useUID()
-    const iconSize: IconSize = size === 'small' ? 'small' : 'smallMedium'
+    const iconSize: IconSize = 'small'
     const relFinal = Array.isArray(rel) ? rel.join(' ') : rel
     const labelledByFinal = [ariaLabelledBy, disabled ? tooltipId : undefined].filter(Boolean).join(' ')
 
@@ -123,7 +125,7 @@ export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
         open={disabled ? disabledTooltipVisible : tooltipVisible}
       >
         <Component
-          className={cn(styles.iconButton, variantClass[variant], colorClass[color], sizeClass[size], className)}
+          className={cn(styles.iconButton, variantClass[variant], colorClass[color], sizeClass[resolvedSize], className)}
           aria-hidden={ariaHidden}
           aria-label={ariaLabel}
           aria-labelledby={labelledByFinal}

@@ -32,7 +32,7 @@ const CalendarPopperContainer =
     return container && children ? createPortal(content, container) : null
   }
 
-export type CalendarSize = 'medium' | 'small'
+export type CalendarSize = 'small' | 'medium' | 'regular'
 
 export type CalendarProps = {
   containerClassName?: string
@@ -42,6 +42,7 @@ export type CalendarProps = {
   onDateChange: (date: Date | null, event?: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>) => void
   selectsRange?: never
   selectsMultiple?: never
+  /** @deprecated Size is deprecated in v4 and ignored. Calendar always renders in regular (former small) size. */
   size?: CalendarSize
   container?: PortalContainer
   inPortal?: boolean // prevents creating its own portal
@@ -58,7 +59,7 @@ export const Calendar: FC<CalendarProps> = ({
   inputClassName,
   onDateChange,
   showTimeInput,
-  size = 'medium',
+  size = 'regular',
   container = `body`,
   inPortal = false,
   dateFormat = DATE_FORMAT,
@@ -66,6 +67,7 @@ export const Calendar: FC<CalendarProps> = ({
   'data-test': dataTest = 'calendar',
   ...props
 }) => {
+  const resolvedSize: 'regular' = size === 'small' || size === 'medium' ? 'regular' : 'regular'
   const PopperContainer = useMemo(() => CalendarPopperContainer(getPortalContainer(container), inPortal), [container, inPortal])
 
   return (
@@ -83,7 +85,9 @@ export const Calendar: FC<CalendarProps> = ({
         data-test={dataTest}
         calendarClassName={cn(styles.calendar, calendarClassName)}
         className={className}
-        customInput={<CalendarInput data-test={`${dataTest}-input`} label={inputLabel} textFieldSize={size} className={inputClassName} />}
+        customInput={
+          <CalendarInput data-test={`${dataTest}-input`} label={inputLabel} textFieldSize={resolvedSize} className={inputClassName} />
+        }
         customTimeInput={<CalendarTime data-test={`${dataTest}-time`} />}
         dateFormat={showTimeInput ? `${dateFormat} ${timeFormat}` : dateFormat}
         onChange={onDateChange}
