@@ -10,7 +10,6 @@ import { testAttribute } from '../helpers'
 import { ButtonVariant, ButtonColor } from '../../src/components/Button'
 
 import styles from '../../src/components/Button.module.css'
-import loaderStyles from '../../src/components/Loader.module.scss'
 
 const label = 'Label'
 const ariaLabel = 'X Icon'
@@ -54,7 +53,7 @@ describe('Button', () => {
     expect(screen.getByTestId('button')).not.toHaveClass(styles.fullWidth)
   })
 
-  it('Renders Button with default variant contained, color primary, and single size', async () => {
+  it('Renders Button with default variant contained and color primary', async () => {
     await renderAndCheckA11Y(<Button>{label}</Button>)
 
     const button = screen.getByTestId('button')
@@ -133,7 +132,7 @@ describe('Button', () => {
     )
 
     expect(screen.getByTestId('button')).toHaveAttribute('disabled')
-    expect(screen.getByTestId('loader')).toHaveClass(cn(styles.iconLeft, loaderStyles.small))
+    expect(screen.getByTestId('loader')).toHaveClass(styles.iconLeft)
   })
 
   it('Renders loading animation on right side (only when the right icon is used)', async () => {
@@ -146,7 +145,7 @@ describe('Button', () => {
       </div>,
     )
 
-    expect(screen.getByTestId('loader')).toHaveClass(cn(styles.iconRight, loaderStyles.small))
+    expect(screen.getByTestId('loader')).toHaveClass(styles.iconRight)
   })
 
   it('Renders disabled button with a disabled tooltip', async () => {
