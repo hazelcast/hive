@@ -45,7 +45,6 @@ export const TextArea: FC<TextAreaProps> = (props) => {
     required,
     resizable = true,
     helperText,
-    size = 'medium',
     'data-test': dataTest = 'textarea',
     ...htmlAttrs
   } = props
