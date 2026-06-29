@@ -32,8 +32,6 @@ const CalendarPopperContainer =
     return container && children ? createPortal(content, container) : null
   }
 
-export type CalendarSize = 'medium' | 'small'
-
 export type CalendarProps = {
   containerClassName?: string
   date: Date | null
@@ -42,7 +40,6 @@ export type CalendarProps = {
   onDateChange: (date: Date | null, event?: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>) => void
   selectsRange?: never
   selectsMultiple?: never
-  size?: CalendarSize
   container?: PortalContainer
   inPortal?: boolean // prevents creating its own portal
   dateFormat?: string
@@ -58,7 +55,6 @@ export const Calendar: FC<CalendarProps> = ({
   inputClassName,
   onDateChange,
   showTimeInput,
-  size = 'medium',
   container = `body`,
   inPortal = false,
   dateFormat = DATE_FORMAT,
@@ -83,7 +79,7 @@ export const Calendar: FC<CalendarProps> = ({
         data-test={dataTest}
         calendarClassName={cn(styles.calendar, calendarClassName)}
         className={className}
-        customInput={<CalendarInput data-test={`${dataTest}-input`} label={inputLabel} textFieldSize={size} className={inputClassName} />}
+        customInput={<CalendarInput data-test={`${dataTest}-input`} label={inputLabel} className={inputClassName} />}
         customTimeInput={<CalendarTime data-test={`${dataTest}-time`} />}
         dateFormat={showTimeInput ? `${dateFormat} ${timeFormat}` : dateFormat}
         onChange={onDateChange}

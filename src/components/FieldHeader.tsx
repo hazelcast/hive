@@ -7,7 +7,6 @@ import { DataTestProp } from '../helpers/types'
 
 import styles from './FieldHeader.module.scss'
 
-export type FieldHeaderSize = 'small' | 'medium' | 'large'
 export type FieldHeaderVariant = 'primary' | 'secondary'
 export type FieldHeaderLabelProps = {
   label?: string
@@ -22,7 +21,6 @@ export type FieldHeaderNoLabelProps = {
   helperTextTooltipWordBreak: never
 }
 export type FieldHeaderProps = {
-  size?: FieldHeaderSize
   variant?: FieldHeaderVariant
   id: string
   showAriaLabel?: boolean
@@ -30,17 +28,7 @@ export type FieldHeaderProps = {
   (FieldHeaderNoLabelProps | FieldHeaderLabelProps)
 
 export const FieldHeader = (props: FieldHeaderProps) => {
-  const {
-    label,
-    id,
-    variant,
-    helperText,
-    size = 'medium',
-    labelClassName,
-    'data-test': dataTest,
-    showAriaLabel,
-    helperTextTooltipWordBreak,
-  } = props
+  const { label, id, variant, helperText, labelClassName, 'data-test': dataTest, showAriaLabel, helperTextTooltipWordBreak } = props
 
   if (showAriaLabel) {
     return null
@@ -54,7 +42,7 @@ export const FieldHeader = (props: FieldHeaderProps) => {
         label={label}
         variant={variant}
         data-test={dataTest ? `${dataTest}-label` : undefined}
-        className={cn(styles.label, { [styles.small]: size === 'small' }, labelClassName)}
+        className={cn(styles.label, styles.small, labelClassName)}
       />
       {helperText && (
         <Help

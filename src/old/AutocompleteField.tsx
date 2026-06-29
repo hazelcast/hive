@@ -273,7 +273,6 @@ export const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
       <FieldHeader
         label={label}
         id={id}
-        size={size}
         data-test={dataTest}
         helperText={helperText}
         showAriaLabel={showAriaLabel}

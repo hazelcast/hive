@@ -136,7 +136,6 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
     <>
       <div className={styles.openerWrap} onClick={handleOpenerClick}>
         <TextField
-          size="small"
           name={name}
           id={rootId || id}
           onKeyDown={handleKeyDown}
@@ -174,7 +173,6 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
           <div className={styles.search}>
             {searchInputProps.startAdornment}
             <TextField
-              size="small"
               iconSize="medium"
               className={styles.searchField}
               name="checkable-select-search"

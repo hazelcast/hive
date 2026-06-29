@@ -7,10 +7,9 @@ import userEvent from '@testing-library/user-event'
 
 import { Button } from '../../src'
 import { testAttribute } from '../helpers'
-import { ButtonVariant, ButtonColor, ButtonSize } from '../../src/components/Button'
+import { ButtonVariant, ButtonColor } from '../../src/components/Button'
 
 import styles from '../../src/components/Button.module.css'
-import loaderStyles from '../../src/components/Loader.module.scss'
 
 const label = 'Label'
 const ariaLabel = 'X Icon'
@@ -30,11 +29,6 @@ describe('Button', () => {
     ['danger', styles.colorDanger],
   ]
 
-  const sizeTestData: [ButtonSize, string][] = [
-    ['small', styles.sizeSmall],
-    ['regular', styles.sizeRegular],
-  ]
-
   it.each(variantTestData)('Renders Button with class for variant %s', async (variant, className) => {
     await renderAndCheckA11Y(<Button variant={variant}>{label}</Button>)
 
@@ -43,12 +37,6 @@ describe('Button', () => {
 
   it.each(colorTestData)('Renders Button with class for color %s', async (color, className) => {
     await renderAndCheckA11Y(<Button color={color}>{label}</Button>)
-
-    expect(screen.getByTestId('button')).toHaveClass(className)
-  })
-
-  it.each(sizeTestData)('Renders Button with class for size %s', async (size, className) => {
-    await renderAndCheckA11Y(<Button size={size}>{label}</Button>)
 
     expect(screen.getByTestId('button')).toHaveClass(className)
   })
@@ -65,7 +53,7 @@ describe('Button', () => {
     expect(screen.getByTestId('button')).not.toHaveClass(styles.fullWidth)
   })
 
-  it('Renders Button with default variant contained, color primary, and size regular', async () => {
+  it('Renders Button with default variant contained and color primary', async () => {
     await renderAndCheckA11Y(<Button>{label}</Button>)
 
     const button = screen.getByTestId('button')
@@ -144,7 +132,7 @@ describe('Button', () => {
     )
 
     expect(screen.getByTestId('button')).toHaveAttribute('disabled')
-    expect(screen.getByTestId('loader')).toHaveClass(cn(styles.iconLeft, loaderStyles.smallMedium))
+    expect(screen.getByTestId('loader')).toHaveClass(styles.iconLeft)
   })
 
   it('Renders loading animation on right side (only when the right icon is used)', async () => {
@@ -157,7 +145,7 @@ describe('Button', () => {
       </div>,
     )
 
-    expect(screen.getByTestId('loader')).toHaveClass(cn(styles.iconRight, loaderStyles.smallMedium))
+    expect(screen.getByTestId('loader')).toHaveClass(styles.iconRight)
   })
 
   it('Renders disabled button with a disabled tooltip', async () => {

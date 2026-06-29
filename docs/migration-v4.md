@@ -116,7 +116,7 @@ import { Star } from 'react-feather'
 
 ### `Button`
 
-Button has been rebranded to HIVE 4.0. The styling axis is now **two orthogonal props**: `variant` controls the visual treatment, `color` controls the semantic intent. Sizes are reintroduced (`small`/`regular`). `capitalize` is removed — labels render as written. `tooltipColor` is removed — the tooltip color is fixed by design tokens.
+Button has been rebranded to HIVE 4.0. The styling axis is now **two orthogonal props**: `variant` controls the visual treatment, `color` controls the semantic intent. `size` is removed. `capitalize` is removed. `tooltipColor` is removed.
 
 **Old import (temporary fallback):**
 
@@ -132,7 +132,7 @@ import { Button } from '@hazelcast/ui/old'
 | `variant?: 'contained' \| 'outlined' \| 'text'`                                                           | optional, default `'contained'` | replaced — see new values below                  |
 | `variant?: 'contained' \| 'outlined' \| 'ghost' \| 'link'`                                                | n/a                             | new — visual treatment, default `'contained'`    |
 | `color?: 'primary' \| 'secondary' \| 'warning' \| 'danger'`                                               | n/a                             | new — semantic intent, default `'primary'`       |
-| `size?: 'small' \| 'regular'`                                                                             | n/a                             | new — default `'regular'`                        |
+| `size?: 'small' \| 'regular'`                                                                             | n/a                             | removed                                          |
 | `tooltipColor?: 'dark' \| 'secondary'`                                                                    | optional                        | removed — tooltip color follows the design token |
 | `capitalize?: boolean`                                                                                    | optional, default `true`        | removed — labels render as-is                    |
 
@@ -174,7 +174,7 @@ import { Button } from '@hazelcast/ui/old'
 
 ### `IconButton`
 
-`IconButton` has been rebranded to match the new `Button`. The `kind` prop is replaced by Button's `variant` + `color` props (`variant: 'contained' | 'outlined' | 'ghost' | 'link'`, `color: 'primary' | 'secondary' | 'warning' | 'danger'`); `size` accepts `'small' | 'regular'`; the `padding` prop is removed (sizing is fully driven by `size`). The `iconSize` prop is removed and now derived from `size`.
+`IconButton` has been rebranded to match the new `Button`. The `kind` prop is replaced by `variant` + `color`. `size` is removed. `padding` is removed. `iconSize` is removed.
 
 **Old import (temporary fallback):**
 
@@ -190,8 +190,8 @@ import { IconButton } from '@hazelcast/ui/old'
 | `variant?: 'contained' \| 'outlined' \| 'ghost' \| 'link'`      | n/a                               | new — default `'contained'`               |
 | `color?: 'primary' \| 'secondary' \| 'warning' \| 'danger'`     | n/a                               | new — default `'primary'`                 |
 | `size?: 'normal' \| 'small' \| 'medium' \| 'large' \| 'xlarge'` | optional                          | replaced — see `size` below               |
-| `size?: 'small' \| 'regular'`                                   | n/a                               | new — default `'regular'`                 |
-| `iconSize?: IconSize`                                           | optional                          | removed — derived from `size`             |
+| `size?: 'small' \| 'regular'`                                   | n/a                               | removed                                   |
+| `iconSize?: IconSize`                                           | optional                          | removed — derived internally              |
 | `padding?: 'small' \| 'normal'`                                 | optional                          | removed — fully driven by `size`          |
 
 **Before:**
@@ -203,7 +203,7 @@ import { IconButton } from '@hazelcast/ui/old'
 **After:**
 
 ```tsx
-<IconButton variant="contained" color="primary" size="regular" icon={X} ariaLabel="Close" />
+<IconButton variant="contained" color="primary" icon={X} ariaLabel="Close" />
 ```
 
 ---
@@ -300,9 +300,9 @@ If you relied on the `ON` / `OFF` text node (e.g. in tests with `getByText('ON')
 
 ### `TextField`
 
-Visual redesign to the HIVE 4.0 input: `36px` height (was `40px`), `8px` border-radius (was `4px`), `4px 12px` padding, `Inter Medium 14px` label, `Inter Regular 14px` input text, neutral border on default, brand outline on focus, error border on invalid. All values now come from `--hive-*` design tokens. Styles have been migrated from SCSS (`TextField.module.scss`) to CSS modules (`TextField.module.css`).
+Visual redesign to the HIVE 4.0 input: compact size (`30px`), `8px` border-radius (was `4px`), `4px 12px` padding, `Inter Medium 14px` label, `Inter Regular 14px` input text, neutral border on default, brand outline on focus, error border on invalid. All values now come from `--hive-*` design tokens. Styles have been migrated from SCSS (`TextField.module.scss`) to CSS modules (`TextField.module.css`).
 
-The public prop contract is unchanged; only visuals have changed.
+`size` is removed from the new `TextField` API.
 
 **Old import (temporary fallback):**
 
@@ -312,15 +312,16 @@ import { TextField, TextFieldFormik } from '@hazelcast/ui/old'
 
 **Prop changes:**
 
-| Prop  | v3              | v4                                 |
-| ----- | --------------- | ---------------------------------- |
-| _all_ | same public API | same — visual-only breaking change |
+| Prop   | v3                         | v4      |
+| ------ | -------------------------- | ------- |
+| `size` | `small \| medium \| large` | removed |
+| _rest_ | same public API            | same    |
 
 **Visual / token changes:**
 
 | Aspect           | v3                                                           | v4                                                          |
 | ---------------- | ------------------------------------------------------------ | ----------------------------------------------------------- |
-| Container height | `40px` (`c.$inputHeight`)                                    | `36px` (`calc(var(--hive-grid) * 9)`)                       |
+| Container height | `40px` (`c.$inputHeight`)                                    | `30px` (`calc(var(--hive-grid) * 7.5)`)                     |
 | Border radius    | `4px` (`c.$borderRadius`)                                    | `8px` (`var(--hive-border-radius)`)                         |
 | Padding          | `c.$grid * 2` vertical / `c.$grid * 3` horizontal            | `4px 12px`                                                  |
 | Border (default) | `c.$colorNeutralLight`                                       | `var(--hive-color-border-v4)`                               |
@@ -344,7 +345,7 @@ import { TextField } from '@hazelcast/ui'
 ```tsx
 import { TextField } from '@hazelcast/ui'
 ;<TextField name="cluster" label="Cluster name" value={value} onChange={onChange} />
-// Renders a 36px-tall input with 8px radius and HIVE 4.0 colors.
+// Renders a 30px-tall compact input with 8px radius and HIVE 4.0 colors.
 ```
 
 `NumberField`, `PasswordField`, `AutocompleteField`, `TimeField`, and `SelectField` all consume `TextField`-style classes; their visuals follow automatically.
@@ -355,7 +356,7 @@ import { TextField } from '@hazelcast/ui'
 
 Visual redesign to the HIVE 4.0 multi-line input: `8px` border-radius (was `4px`), white surface (`--hive-color-neutral-white-v4`), neutral border on default (`--hive-color-border-v4`), brand focus ring (`--hive-color-primary-v4` border + `3px` halo), error border on invalid (`--hive-color-error-v4`), and `8px 12px` padding. Disabled state uses `opacity: 0.5`. The field remains vertically resizable by default (`resizable={false}` to lock). All values now come from `--hive-*` design tokens. Styles have been migrated from SCSS (`TextArea.module.scss`) to CSS modules (`TextArea.module.css`).
 
-The public prop contract is unchanged; only visuals have changed.
+`size` is removed from the new `TextArea` API.
 
 **Old import (temporary fallback):**
 
@@ -365,9 +366,10 @@ import { TextArea, TextAreaFormik } from '@hazelcast/ui/old'
 
 **Prop changes:**
 
-| Prop  | v3              | v4                                 |
-| ----- | --------------- | ---------------------------------- |
-| _all_ | same public API | same — visual-only breaking change |
+| Prop   | v3                | v4      |
+| ------ | ----------------- | ------- |
+| `size` | `small \| medium` | removed |
+| _rest_ | same public API   | same    |
 
 **Visual / token changes:**
 

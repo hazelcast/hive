@@ -3,7 +3,7 @@ import { Eye, EyeOff, Lock } from 'react-feather'
 import cls from 'classnames'
 
 import { DataTestProp } from '../helpers/types'
-import { TextField, TextFieldSize, TextFieldVariant } from '../components/TextField'
+import { TextField, TextFieldVariant } from '../components/TextField'
 import { IconButton, IconButtonDisabledProps, IconButtonNotDisabledProps } from '../components/IconButton'
 import { HelpProps } from '../components/Help'
 
@@ -21,7 +21,6 @@ export type PasswordFieldExtraProps = {
   hideIconLabel?: string
   label: string
   helperText?: HelpProps['helperText']
-  size?: TextFieldSize
   variant?: TextFieldVariant
   labelClassName?: string
   className?: string
@@ -64,7 +63,6 @@ export const PasswordField: FC<PasswordFieldProps> = ({
 
     return (
       <IconButton
-        size="small"
         icon={visible ? EyeOff : Eye}
         ariaLabel={visible ? hideIconLabel : showIconLabel}
         className={styles.toggle}

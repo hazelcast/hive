@@ -13,7 +13,6 @@ import styles from './Button.module.css'
 
 export type ButtonVariant = 'contained' | 'outlined' | 'ghost' | 'link'
 export type ButtonColor = 'primary' | 'secondary' | 'warning' | 'danger'
-export type ButtonSize = 'small' | 'regular'
 export type ButtonOutlineType = 'outline' | 'inset'
 
 export type ButtonAccessibleIconLeftProps =
@@ -62,7 +61,6 @@ export type ButtonCommonProps = {
   children: string | ReactElement
   variant?: ButtonVariant
   color?: ButtonColor
-  size?: ButtonSize
   bodyClassName?: string
   outline?: ButtonOutlineType
   tooltip?: string
@@ -111,11 +109,6 @@ const colorClass: Record<ButtonColor, string> = {
   danger: styles.colorDanger,
 }
 
-const sizeClass: Record<ButtonSize, string> = {
-  small: styles.sizeSmall,
-  regular: styles.sizeRegular,
-}
-
 export const Button = forwardRef<HTMLElement, ButtonProps>(
   (
     {
@@ -142,7 +135,6 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
       loading,
       variant = 'contained',
       color = 'primary',
-      size = 'regular',
       tooltip,
       active,
       truncate = true,
@@ -152,7 +144,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
     ref,
   ) => {
     const tooltipId = useUID()
-    const iconSize: IconSize = size === 'small' ? 'small' : 'smallMedium'
+    const iconSize: IconSize = 'small'
     const relFinal = Array.isArray(rel) ? rel.join(' ') : rel
     const loadingAnimationOnRight = loading && iconRight && iconRightAriaLabel && !(iconLeft && iconLeftAriaLabel)
 
@@ -169,7 +161,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
             styles.button,
             variantClass[variant],
             colorClass[color],
-            sizeClass[size],
+            styles.sizeRegular,
             {
               [styles.active]: active,
               [styles.inset]: outline === 'inset',

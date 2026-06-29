@@ -227,14 +227,7 @@ export const MultiSelectField = <V extends string | number = number>(props: Mult
         className,
       )}
     >
-      <FieldHeader
-        id={id}
-        label={label}
-        size="small"
-        helperText={helperText}
-        showAriaLabel={showAriaLabel}
-        labelClassName={labelClassName}
-      />
+      <FieldHeader id={id} label={label} helperText={helperText} showAriaLabel={showAriaLabel} labelClassName={labelClassName} />
       <div className={styles.selectBlock}>
         {isCreatable ? (
           <ReactSelectCreatable<SelectFieldOption<V>, true> ref={selectRef} {...selectProps} />

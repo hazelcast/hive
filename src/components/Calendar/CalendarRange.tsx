@@ -29,7 +29,6 @@ export const CalendarRange: FC<CalendarRangeProps> = ({
   endInputLabel = 'To',
   endOpen,
   onEndDateChange,
-  size,
   variant = 'horizontal',
   ...rest
 }) => {
@@ -44,16 +43,10 @@ export const CalendarRange: FC<CalendarRangeProps> = ({
         endDate={endDate}
         inputLabel={startInputLabel}
         open={startOpen}
-        size={size}
         {...rest}
       />
       {variant === 'horizontal' && (
-        <Icon
-          data-test="calendar-range-icon"
-          className={cn(styles.arrowRight, { [styles.small]: size === 'small' })}
-          icon={ArrowRight}
-          ariaLabel="Arrow Right"
-        />
+        <Icon data-test="calendar-range-icon" className={cn(styles.arrowRight, styles.small)} icon={ArrowRight} ariaLabel="Arrow Right" />
       )}
       <Calendar
         data-test="calendar-range-end"
@@ -65,7 +58,6 @@ export const CalendarRange: FC<CalendarRangeProps> = ({
         minDate={startDate}
         inputLabel={endInputLabel}
         open={endOpen}
-        size={size}
         {...rest}
       />
     </div>

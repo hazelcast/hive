@@ -217,7 +217,6 @@ export const SelectField = <V extends string | number = string>(props: SelectFie
       <FieldHeader
         label={label}
         id={id}
-        size={size}
         data-test={dataTest}
         helperText={helperText}
         showAriaLabel={showAriaLabel}

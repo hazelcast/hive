@@ -45,7 +45,6 @@ export const TextArea: FC<TextAreaProps> = (props) => {
     required,
     resizable = true,
     helperText,
-    size = 'medium',
     'data-test': dataTest = 'textarea',
     ...htmlAttrs
   } = props
@@ -65,7 +64,7 @@ export const TextArea: FC<TextAreaProps> = (props) => {
         className,
       )}
     >
-      <FieldHeader data-test={dataTest} label={label} id={id} helperText={helperText} labelClassName={labelClassName} size={size} />
+      <FieldHeader data-test={dataTest} label={label} id={id} helperText={helperText} labelClassName={labelClassName} />
       <div className={styles.textAreaContainer}>
         <div className={styles.textAreaWrapper}>
           <textarea

@@ -4,7 +4,7 @@ import { Icon as FeatherIcon } from 'react-feather'
 import { useUID } from 'react-uid'
 
 import { Icon, IconAriaProps, IconSize } from './Icon'
-import { ButtonVariant, ButtonColor, ButtonSize } from './Button'
+import { ButtonVariant, ButtonColor } from './Button'
 import { Tooltip, TooltipSide } from './Tooltip'
 import { LinkRel, LinkTarget } from './Link'
 import { Loader } from './Loader'
@@ -20,7 +20,6 @@ type IconButtonCommonProps = {
   loaderRole?: string
   variant?: ButtonVariant
   color?: ButtonColor
-  size?: ButtonSize
   tooltip?: string
   tooltipVisible?: boolean
   tooltipPlacement?: TooltipSide
@@ -73,11 +72,6 @@ const colorClass: Record<ButtonColor, string> = {
   danger: styles.colorDanger,
 }
 
-const sizeClass: Record<ButtonSize, string> = {
-  small: styles.sizeSmall,
-  regular: styles.sizeRegular,
-}
-
 export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
   (
     {
@@ -90,7 +84,6 @@ export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
       className,
       variant = 'contained',
       color = 'primary',
-      size = 'regular',
       ariaHidden,
       ariaLabelledBy,
       ariaLabel,
@@ -111,7 +104,7 @@ export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
     ref,
   ) => {
     const tooltipId = useUID()
-    const iconSize: IconSize = size === 'small' ? 'small' : 'smallMedium'
+    const iconSize: IconSize = 'small'
     const relFinal = Array.isArray(rel) ? rel.join(' ') : rel
     const labelledByFinal = [ariaLabelledBy, disabled ? tooltipId : undefined].filter(Boolean).join(' ')
 
@@ -123,7 +116,7 @@ export const IconButton = forwardRef<HTMLElement, IconButtonProps>(
         open={disabled ? disabledTooltipVisible : tooltipVisible}
       >
         <Component
-          className={cn(styles.iconButton, variantClass[variant], colorClass[color], sizeClass[size], className)}
+          className={cn(styles.iconButton, variantClass[variant], colorClass[color], styles.sizeRegular, className)}
           aria-hidden={ariaHidden}
           aria-label={ariaLabel}
           aria-labelledby={labelledByFinal}

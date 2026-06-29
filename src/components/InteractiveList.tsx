@@ -64,7 +64,6 @@ export const InteractiveListItem = ({ onRemoveItem, content, error, idx, 'data-t
         <IconButton
           variant="ghost"
           ariaLabel="Remove Item"
-          size="small"
           icon={X}
           className={styles.removeIcon}
           onClick={() => {
@@ -109,9 +108,8 @@ export const InteractiveList = <V,>({
       <div data-test={dataTest} className={cn(styles.inputRow, className)}>
         <TextField
           id={id}
-          size="small"
-          type={type}
           helperText={helperText}
+          type={type}
           placeholder={placeholder}
           inputIcon={inputIcon}
           inputClassName={inputClassName}

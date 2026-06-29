@@ -63,7 +63,6 @@ export const PasswordField: FC<PasswordFieldProps> = ({
 
     return (
       <IconButton
-        size="small"
         icon={visible ? EyeOff : Eye}
         ariaLabel={visible ? hideIconLabel : showIconLabel}
         className={styles.toggle}
@@ -79,7 +78,6 @@ export const PasswordField: FC<PasswordFieldProps> = ({
   return (
     <TextField
       {...props}
-      size="small"
       data-test={dataTest}
       type={visible ? 'text' : 'password'}
       inputContainerChild={overlay}
