@@ -98,6 +98,9 @@
 }
 
 .actionButton {
+  --button-bg-hover: transparent;
+  --button-bg-active: transparent;
+
   height: auto;
   font-size: var(--hive-font-size-body-small);
 }
