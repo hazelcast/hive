@@ -44,6 +44,17 @@
   white-space: nowrap;
 }
 
+.closeButton {
+  flex: 0 0 auto;
+  margin-left: auto;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--alert-color);
+  line-height: 0;
+  cursor: pointer;
+}
+
 .body {
   font-size: var(--hive-font-size-body-small);
   line-height: var(--hive-line-height-body-normal);

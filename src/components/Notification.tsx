@@ -3,7 +3,6 @@ import cn from 'classnames'
 import { AlertTriangle, CheckCircle, AlertCircle, Info, ChevronRight, Icon as IconType, X } from 'react-feather'
 
 import { Icon } from './Icon'
-import { IconButton } from './IconButton'
 import { Link } from './Link'
 
 import styles from './Notification.module.css'
@@ -87,14 +86,15 @@ export const Notification: FC<NotificationProps> = ({ type, children, className,
         </Link>
       )}
       {onClose && (
-        <IconButton
+        <button
+          type="button"
           data-test="notification-close"
           className={styles.closeButton}
-          variant="ghost"
-          icon={X}
           onClick={onClose}
-          ariaLabel="Notification close button"
-        />
+          aria-label="Notification close button"
+        >
+          <X size={16} aria-hidden />
+        </button>
       )}
     </div>
   )

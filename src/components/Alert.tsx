@@ -8,7 +8,6 @@ import { Link, LinkProps } from './Link'
 import { Button, ButtonAccessibleIconLeftProps } from './Button'
 import { ToastIcon, ToastType } from './Toast'
 import { Icon, IconProps } from './Icon'
-import { IconButton } from './IconButton'
 import { PartialRequired } from '../helpers/types'
 
 import styles from './Alert.module.css'
@@ -100,7 +99,11 @@ export const Alert: FC<AlertProps> = ({
               {title}
             </div>
           )}
-          {!!closeToast && <IconButton data-test="alert-close" variant="ghost" ariaLabel="Close icon" icon={X} onClick={closeToast} />}
+          {!!closeToast && (
+            <button type="button" data-test="alert-close" className={styles.closeButton} onClick={closeToast} aria-label="Close icon">
+              <X size={16} aria-hidden />
+            </button>
+          )}
         </div>
         <div data-test="alert-body" className={cn(styles.body, bodyClassName)}>
           {content && <div data-test="alert-content">{content}</div>}
