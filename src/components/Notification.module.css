@@ -1,0 +1,63 @@
+.notification {
+  --notification-color: var(--hive-color-text);
+  --notification-surface: var(--hive-color-neutral-white);
+  --notification-border: var(--hive-color-neutral);
+
+  display: flex;
+  align-items: flex-start;
+  gap: calc(var(--hive-grid) * 2);
+  padding: calc(var(--hive-grid) * 2) calc(var(--hive-grid) * 3);
+  border: var(--hive-border-width) solid var(--notification-border);
+  border-radius: var(--hive-border-radius);
+  background-color: var(--notification-surface);
+  color: var(--notification-color);
+  font-size: var(--hive-font-size-body-small);
+  line-height: var(--hive-line-height-body-normal);
+}
+
+.icon {
+  flex: 0 0 auto;
+  color: var(--notification-color);
+}
+
+.content {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  min-height: calc(var(--hive-grid) * 6);
+}
+
+.link {
+  min-height: calc(var(--hive-grid) * 6);
+  margin-left: calc(var(--hive-grid) * 2);
+  color: var(--notification-color);
+  font-weight: var(--hive-font-weight-text-bold);
+}
+
+.closeButton {
+  margin-left: calc(var(--hive-grid) * 3);
+}
+
+.success {
+  --notification-color: var(--hive-color-success-darkest);
+  --notification-surface: var(--hive-color-success-surface);
+  --notification-border: var(--hive-color-success-border);
+}
+
+.info {
+  --notification-color: var(--hive-color-info-darkest);
+  --notification-surface: var(--hive-color-info-surface);
+  --notification-border: var(--hive-color-info-border);
+}
+
+.warning {
+  --notification-color: var(--hive-color-warning-darkest);
+  --notification-surface: var(--hive-color-warning-surface);
+  --notification-border: var(--hive-color-warning-border);
+}
+
+.error {
+  --notification-color: var(--hive-color-error);
+  --notification-surface: var(--hive-color-error-surface);
+  --notification-border: var(--hive-color-error-border);
+}

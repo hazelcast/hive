@@ -1,0 +1,105 @@
+import { Meta, Title, Canvas, Controls } from '@storybook/blocks'
+import * as AlertStories from './Alert.stories'
+import { DocsTabs } from '../.storybook/DocsTabs'
+
+<Meta of={AlertStories} name="Docs" />
+
+<Title />
+
+Alert is an inline, in-page message that draws attention to the state of a task or region. Unlike a Toast, it stays put — use it to surface validation results, blocking errors, or contextual guidance right where the user is working.
+
+<DocsTabs tabs={[
+  {
+    id: 'overview',
+    label: 'Overview',
+    content: (
+      <>
+        <h2>Variants</h2>
+
+        <p>Each intent reuses the Toast colour system — a tinted surface, a matching border, and a coloured icon and title.</p>
+
+        <Canvas of={AlertStories.Variants} />
+
+        <h2>With actions</h2>
+
+        <Canvas of={AlertStories.WithActions} />
+
+        <h2>Without a close button</h2>
+
+        <Canvas of={AlertStories.WithoutCloseButton} />
+
+        <h2>Props</h2>
+
+        <Controls of={AlertStories.Playground} />
+      </>
+    ),
+  },
+  {
+    id: 'guidelines',
+    label: 'Guidelines',
+    content: (
+      <>
+        <h2>When to use</h2>
+
+        <ul>
+          <li><strong>Validation results</strong> — summarise what went wrong after a form submission.</li>
+          <li><strong>Contextual status</strong> — communicate that a region is read-only, degraded, or in maintenance.</li>
+          <li><strong>Blocking errors</strong> — an action failed and the user must react before continuing.</li>
+        </ul>
+
+        <h2>When not to use</h2>
+
+        <ul>
+          <li>For transient confirmations that can auto-dismiss → use a <code>Toast</code>.</li>
+          <li>For decisions that require a response → use a <code>Modal</code>.</li>
+          <li>For a compact one-line status with an optional link → use a <code>Notification</code>.</li>
+        </ul>
+
+        <h2>Intent</h2>
+
+        <ul>
+          <li><strong>success</strong> — an operation completed as expected.</li>
+          <li><strong>info</strong> — neutral, non-urgent context.</li>
+          <li><strong>warning</strong> — the user should review something before proceeding.</li>
+          <li><strong>critical</strong> — an error that blocks the current task.</li>
+        </ul>
+
+        <h2>Writing</h2>
+
+        <ul>
+          <li>Lead with the outcome in the <strong>title</strong>; keep the <strong>content</strong> to one or two short sentences.</li>
+          <li>For errors, say what went wrong and what to do next.</li>
+          <li>Keep actions to one primary path — a button and, at most, one supporting link.</li>
+        </ul>
+      </>
+    ),
+  },
+  {
+    id: 'accessibility',
+    label: 'Accessibility',
+    content: (
+      <>
+        <h2>Icon labelling</h2>
+
+        <p>Each intent renders a descriptive icon with an accessible label so screen-reader users receive the same cue as sighted users.</p>
+
+        <h2>Keyboard</h2>
+
+        <ul>
+          <li><code>Esc</code> closes a dismissable alert (see <code>dismissableByEscKey</code>).</li>
+          <li>The close button and any actions are reachable in DOM order via <code>Tab</code>.</li>
+        </ul>
+
+        <h2>Colour</h2>
+
+        <p>Intent is never conveyed by colour alone — the icon and title text carry the meaning, and text meets contrast requirements against the tinted surface.</p>
+
+        <h2>Migration</h2>
+
+        <p>The previous visual is still available during migration:</p>
+
+        <pre><code>{`import { Alert } from '@hazelcast/ui/old'`}</code></pre>
+      </>
+    ),
+  },
+]} />

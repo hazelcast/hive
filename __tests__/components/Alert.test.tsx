@@ -6,7 +6,7 @@ import { Clipboard } from 'react-feather'
 import { ToastType } from '../../src/components/Toast'
 import { Alert, AlertActionButton, AlertActionLink } from '../../src/components/Alert'
 
-import styles from '../../src/components/Alert.module.scss'
+import styles from '../../src/components/Alert.module.css'
 import userEvent from '@testing-library/user-event'
 
 const title = 'Alert Title'

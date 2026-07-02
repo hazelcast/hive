@@ -44,6 +44,8 @@ grep -r "@hazelcast/ui/old" src --include="*.tsx" --include="*.ts"
 | Updated  | `PasswordField`                                             | HIVE 4.0 rebrand via v4 `TextField`; locked to a single compact size (`size` prop removed); reveal eye button gains a circular hover/focus ring matching `NumberField`                                                          | ✅              |
 | Updated  | `InteractiveListFormik`                                     | HIVE 4.0 redesign for tokenized list-entry input with integrated add button, refreshed item chips, and docs/stories overhaul; API unchanged; SCSS → CSS                                                                         | ✅              |
 | Updated  | `Toast`                                                     | Rebuilt on Radix UI Toast; new `variant` prop (`success/error/warn/info`), replaces `type` (`success/info/warning/critical`); `id`, `open`, `onOpenChange`, `duration` props replace react-toastify coupling; SCSS → CSS        | ✅              |
+| Updated  | `Alert`                                                     | HIVE 4.0 restyle; tinted surface, matching border and coloured icon/title reusing the Toast colour system; full-width banner; API unchanged; SCSS → CSS                                                                         | ✅              |
+| Updated  | `Notification`                                              | HIVE 4.0 restyle; tinted surface, matching border and coloured icon/text reusing the Toast colour system; 8px radius; API unchanged; SCSS → CSS                                                                                 | ✅              |
 
 ---
 
@@ -823,6 +825,70 @@ import { InteractiveListFormik } from '@hazelcast/ui/old'
 
 ```tsx
 <InteractiveListFormik name="emails" label="Email address" placeholder="name@company.com" />
+```
+
+---
+
+### `Alert`
+
+`Alert` has been restyled to HIVE 4.0. Each intent now reuses the **Toast colour system** — a tinted surface, a matching border, and a coloured icon and title — and the card spans the full width of its container. The component behaviour and public API are unchanged.
+
+**Old import (temporary fallback):**
+
+```ts
+import { Alert } from '@hazelcast/ui/old'
+```
+
+**Prop changes:**
+
+| Prop  | v3              | v4                                 |
+| ----- | --------------- | ---------------------------------- |
+| _all_ | same public API | same — visual-only breaking change |
+
+**Before:**
+
+```tsx
+<Alert type="success" title="Success" content="Your changes have been saved successfully." closeToast={onClose} />
+```
+
+**After:**
+
+```tsx
+<Alert type="success" title="Success" content="Your changes have been saved successfully." closeToast={onClose} />
+```
+
+---
+
+### `Notification`
+
+`Notification` has been restyled to HIVE 4.0: a tinted surface, a matching border, coloured icon and text (reusing the **Toast colour system**), and an 8px radius. The component behaviour and public API are unchanged.
+
+**Old import (temporary fallback):**
+
+```ts
+import { Notification } from '@hazelcast/ui/old'
+```
+
+**Prop changes:**
+
+| Prop  | v3              | v4                                 |
+| ----- | --------------- | ---------------------------------- |
+| _all_ | same public API | same — visual-only breaking change |
+
+**Before:**
+
+```tsx
+<Notification type="success" link="View" linkHref="/logs">
+  Your changes have been saved successfully.
+</Notification>
+```
+
+**After:**
+
+```tsx
+<Notification type="success" link="View" linkHref="/logs">
+  Your changes have been saved successfully.
+</Notification>
 ```
 
 ---

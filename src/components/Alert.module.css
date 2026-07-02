@@ -1,0 +1,105 @@
+.alert {
+  --alert-color: var(--hive-color-text);
+  --alert-surface: var(--hive-color-neutral-white);
+  --alert-border: var(--hive-color-neutral);
+
+  display: flex;
+  align-items: flex-start;
+  gap: calc(var(--hive-grid) * 3);
+  width: 100%;
+  padding: calc(var(--hive-grid) * 3) calc(var(--hive-grid) * 4);
+  border: var(--hive-border-width) solid var(--alert-border);
+  border-radius: var(--hive-border-radius);
+  background-color: var(--alert-surface);
+  color: var(--alert-color);
+}
+
+.icon {
+  flex-shrink: 0;
+  margin-top: calc(var(--hive-grid) * 0.5);
+  color: var(--alert-color);
+}
+
+.rightSide {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.title {
+  flex: 1 0 auto;
+  margin-right: calc(var(--hive-grid) * 8.5);
+  overflow: hidden;
+  font-family: var(--hive-font-family-text);
+  font-size: var(--hive-font-size-body-normal);
+  font-weight: var(--hive-font-weight-text-bold);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.body {
+  font-size: var(--hive-font-size-body-small);
+  line-height: var(--hive-line-height-body-normal);
+}
+
+.success {
+  --alert-color: var(--hive-color-success-darkest);
+  --alert-surface: var(--hive-color-success-surface);
+  --alert-border: var(--hive-color-success-border);
+}
+
+.info {
+  --alert-color: var(--hive-color-info-darkest);
+  --alert-surface: var(--hive-color-info-surface);
+  --alert-border: var(--hive-color-info-border);
+}
+
+.warning {
+  --alert-color: var(--hive-color-warning-darkest);
+  --alert-surface: var(--hive-color-warning-surface);
+  --alert-border: var(--hive-color-warning-border);
+}
+
+.critical {
+  --alert-color: var(--hive-color-error);
+  --alert-surface: var(--hive-color-error-surface);
+  --alert-border: var(--hive-color-error-border);
+}
+
+.actions {
+  display: flex;
+  margin: calc(var(--hive-grid) * 3) 0 calc(var(--hive-grid) * 1);
+}
+
+.action {
+  color: var(--alert-color);
+}
+
+.action:not(:last-child) {
+  margin-right: calc(var(--hive-grid) * 6);
+}
+
+.actionButton {
+  height: auto;
+  font-size: var(--hive-font-size-body-small);
+}
+
+.actionButton:hover,
+.actionButton.hover {
+  text-decoration: underline solid;
+}
+
+.actionButtonBody {
+  padding: 0;
+}
+
+.actionButtonIcon {
+  margin-right: calc(var(--hive-grid) * 1.5);
+}

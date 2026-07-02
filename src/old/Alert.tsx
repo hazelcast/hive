@@ -4,14 +4,14 @@ import { ChevronRight, X } from 'react-feather'
 import useKey from 'react-use/lib/useKey'
 
 import { escKeyFilterPredicate } from '../utils/keyboard'
-import { Link, LinkProps } from './Link'
-import { Button, ButtonAccessibleIconLeftProps } from './Button'
+import { Link, LinkProps } from '../components/Link'
+import { Button, ButtonAccessibleIconLeftProps } from '../components/Button'
+import { Icon, IconProps } from '../components/Icon'
+import { IconButton } from '../components/IconButton'
 import { ToastIcon, ToastType } from './Toast'
-import { Icon, IconProps } from './Icon'
-import { IconButton } from './IconButton'
 import { PartialRequired } from '../helpers/types'
 
-import styles from './Alert.module.css'
+import styles from './AlertLegacy.module.scss'
 
 type AlertAccessibleActionButtonIconProps =
   | {
