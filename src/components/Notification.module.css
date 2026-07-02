@@ -1,8 +1,9 @@
 .notification {
   --notification-color: var(--hive-color-text);
-  --notification-surface: lab(from var(--notification-color) 96% calc(a / 3) calc(b / 3));
-  --notification-border: lab(from var(--notification-color) 84% calc(a / 1.4) calc(b / 1.4));
+  --notification-surface: lab(from var(--notification-color) 95% a b);
+  --notification-border: lab(from var(--notification-color) 84% a b);
 
+  box-sizing: border-box;
   display: flex;
   align-items: flex-start;
   gap: calc(var(--hive-grid) * 2);
@@ -24,6 +25,7 @@
   display: flex;
   flex: 1 1 auto;
   align-items: center;
+  min-width: 0;
   min-height: calc(var(--hive-grid) * 6);
 }
 

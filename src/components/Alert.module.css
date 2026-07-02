@@ -1,8 +1,9 @@
 .alert {
   --alert-color: var(--hive-color-text);
-  --alert-surface: lab(from var(--alert-color) 96% calc(a / 3) calc(b / 3));
-  --alert-border: lab(from var(--alert-color) 84% calc(a / 1.4) calc(b / 1.4));
+  --alert-surface: lab(from var(--alert-color) 95% a b);
+  --alert-border: lab(from var(--alert-color) 84% a b);
 
+  box-sizing: border-box;
   display: flex;
   align-items: flex-start;
   gap: calc(var(--hive-grid) * 3);
@@ -31,10 +32,12 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  min-width: 0;
 }
 
 .title {
-  flex: 1 0 auto;
+  flex: 1 1 auto;
+  min-width: 0;
   margin-right: calc(var(--hive-grid) * 8.5);
   overflow: hidden;
   font-family: var(--hive-font-family-text);
