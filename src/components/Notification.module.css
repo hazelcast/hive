@@ -1,0 +1,64 @@
+.notification {
+  --notification-color: var(--hive-color-text);
+  --notification-surface: lab(from var(--notification-color) 95% a b);
+  --notification-border: lab(from var(--notification-color) 84% a b);
+
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  gap: calc(var(--hive-grid) * 2);
+  padding: calc(var(--hive-grid) * 2) calc(var(--hive-grid) * 3);
+  border: var(--hive-border-width) solid var(--notification-border);
+  border-radius: var(--hive-border-radius);
+  background-color: var(--notification-surface);
+  color: var(--notification-color);
+  font-size: var(--hive-font-size-body-small);
+  line-height: var(--hive-line-height-body-normal);
+}
+
+.icon {
+  flex: 0 0 auto;
+  color: var(--notification-color);
+}
+
+.content {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  min-width: 0;
+  min-height: calc(var(--hive-grid) * 6);
+}
+
+.link {
+  min-height: calc(var(--hive-grid) * 6);
+  margin-left: calc(var(--hive-grid) * 2);
+  color: var(--notification-color);
+  font-weight: var(--hive-font-weight-text-bold);
+}
+
+.closeButton {
+  flex: 0 0 auto;
+  margin-left: calc(var(--hive-grid) * 3);
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--notification-color);
+  line-height: 0;
+  cursor: pointer;
+}
+
+.success {
+  --notification-color: var(--hive-color-success-darkest);
+}
+
+.info {
+  --notification-color: var(--hive-color-info-darkest);
+}
+
+.warning {
+  --notification-color: var(--hive-color-warning-darkest);
+}
+
+.error {
+  --notification-color: var(--hive-color-error);
+}

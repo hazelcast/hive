@@ -1,0 +1,111 @@
+.alert {
+  --alert-color: var(--hive-color-text);
+  --alert-surface: lab(from var(--alert-color) 95% a b);
+  --alert-border: lab(from var(--alert-color) 84% a b);
+
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  gap: calc(var(--hive-grid) * 3);
+  width: 100%;
+  padding: calc(var(--hive-grid) * 3) calc(var(--hive-grid) * 4);
+  border: var(--hive-border-width) solid var(--alert-border);
+  border-radius: var(--hive-border-radius);
+  background-color: var(--alert-surface);
+  color: var(--alert-color);
+}
+
+.icon {
+  flex-shrink: 0;
+  margin-top: calc(var(--hive-grid) * 0.5);
+  color: var(--alert-color);
+}
+
+.rightSide {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-width: 0;
+}
+
+.title {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin-right: calc(var(--hive-grid) * 8.5);
+  overflow: hidden;
+  font-family: var(--hive-font-family-text);
+  font-size: var(--hive-font-size-body-normal);
+  font-weight: var(--hive-font-weight-text-bold);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.closeButton {
+  flex: 0 0 auto;
+  margin-left: auto;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--alert-color);
+  line-height: 0;
+  cursor: pointer;
+}
+
+.body {
+  font-size: var(--hive-font-size-body-small);
+  line-height: var(--hive-line-height-body-normal);
+}
+
+.success {
+  --alert-color: var(--hive-color-success-darkest);
+}
+
+.info {
+  --alert-color: var(--hive-color-info-darkest);
+}
+
+.warning {
+  --alert-color: var(--hive-color-warning-darkest);
+}
+
+.critical {
+  --alert-color: var(--hive-color-error);
+}
+
+.actions {
+  display: flex;
+  margin: calc(var(--hive-grid) * 3) 0 calc(var(--hive-grid) * 1);
+}
+
+.action {
+  color: var(--alert-color);
+}
+
+.action:not(:last-child) {
+  margin-right: calc(var(--hive-grid) * 4);
+}
+
+.actionButton {
+  --button-bg-hover: transparent;
+  --button-bg-active: transparent;
+
+  height: auto;
+  padding: 0;
+  font-size: var(--hive-font-size-body-small);
+}
+
+.actionButton:hover,
+.actionButton.hover {
+  text-decoration: underline solid;
+}
+
+.actionButtonBody {
+  padding: 0;
+}

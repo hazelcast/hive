@@ -1,0 +1,113 @@
+import { Meta, Title, Canvas, Controls } from '@storybook/blocks'
+import * as NotificationStories from './Notification.stories'
+import { DocsTabs } from '../.storybook/DocsTabs'
+
+<Meta of={NotificationStories} name="Docs" />
+
+<Title />
+
+Notification is a compact, single-line in-page banner. Use it for lightweight status messages — often with an optional trailing link — where a full Alert card would be too heavy and a Toast too fleeting.
+
+<DocsTabs tabs={[
+  {
+    id: 'overview',
+    label: 'Overview',
+    content: (
+      <>
+        <h2>Variants</h2>
+
+        <p>Four intents, each tinted with the matching Toast colour.</p>
+
+        <Canvas of={NotificationStories.Variants} />
+
+        <h2>With a link</h2>
+
+        <Canvas of={NotificationStories.WithLink} />
+
+        <h2>With a close button</h2>
+
+        <Canvas of={NotificationStories.WithCloseButton} />
+
+        <h2>Long content</h2>
+
+        <Canvas of={NotificationStories.LongText} />
+
+        <h2>Legacy v3</h2>
+
+        <p>The v3 Notification is preserved for gradual migration. Import from <code>@hazelcast/ui/old</code>. New code should use the Notification above.</p>
+
+        <Canvas of={NotificationStories.LegacyV3} />
+
+        <h2>Props</h2>
+
+        <Controls of={NotificationStories.Playground} />
+      </>
+    ),
+  },
+  {
+    id: 'guidelines',
+    label: 'Guidelines',
+    content: (
+      <>
+        <h2>When to use</h2>
+
+        <ul>
+          <li><strong>Inline status</strong> — a concise, persistent message tied to a page or section.</li>
+          <li><strong>Contextual nudges</strong> — pair with a link to point users to the next step.</li>
+        </ul>
+
+        <h2>When not to use</h2>
+
+        <ul>
+          <li>When you need a title plus a longer body or action buttons → use an <code>Alert</code>.</li>
+          <li>For transient confirmations that auto-dismiss → use a <code>Toast</code>.</li>
+          <li>For decisions that require a response → use a <code>Modal</code>.</li>
+        </ul>
+
+        <h2>Intent</h2>
+
+        <ul>
+          <li><strong>success</strong> — an operation completed as expected.</li>
+          <li><strong>info</strong> — neutral, non-urgent context.</li>
+          <li><strong>warning</strong> — the user should review something before proceeding.</li>
+          <li><strong>error</strong> — something failed and needs attention.</li>
+        </ul>
+
+        <h2>Writing</h2>
+
+        <ul>
+          <li>Aim for a single scannable line; let longer content wrap rather than truncating.</li>
+          <li>Keep the link label to one or two words that name the destination or action.</li>
+        </ul>
+      </>
+    ),
+  },
+  {
+    id: 'accessibility',
+    label: 'Accessibility',
+    content: (
+      <>
+        <h2>Icon labelling</h2>
+
+        <p>Each intent renders a descriptive icon with an accessible label so the meaning is available to assistive technology.</p>
+
+        <h2>Keyboard</h2>
+
+        <ul>
+          <li>The trailing link and close button are reachable in DOM order via <code>Tab</code>.</li>
+          <li>The close button exposes an accessible name for screen-reader users.</li>
+        </ul>
+
+        <h2>Colour</h2>
+
+        <p>Intent is reinforced by the icon and text, never by colour alone, and text meets contrast requirements against the tinted surface.</p>
+
+        <h2>Migration</h2>
+
+        <p>The previous visual is still available during migration:</p>
+
+        <pre><code>{`import { Notification } from '@hazelcast/ui/old'`}</code></pre>
+      </>
+    ),
+  },
+]} />

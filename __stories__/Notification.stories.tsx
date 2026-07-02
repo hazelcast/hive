@@ -1,116 +1,141 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
+import { Meta, StoryObj } from '@storybook/react'
 
-import { Notification } from '../src/components/Notification'
+import { Notification } from '../src'
+import { Notification as LegacyNotification } from '../src/old'
 
-const text = 'Lorem ipsum dolor sit amet'
+import s from './Button.stories.module.scss'
+
+type Story = StoryObj<typeof Notification>
+
+const Caption = ({ children }: { children: ReactNode }) => <div className={s.caption}>{children}</div>
+
+const Stack = ({ children }: { children: ReactNode }) => <div className={s.fullWidthDemo}>{children}</div>
+
+const text = 'Your changes have been saved successfully.'
 const longText =
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ultricies orci sed laoreet tempus. Suspendisse eget semper odio. Nulla vel erat tempor, feugiat nulla vitae, mollis purus. Maecenas varius ante sed mauris scelerisque aliquam. Aenean et congue ante. Etiam dictum, libero sit amet semper posuere, leo metus vestibulum libero, et fringilla metus ante eget lorem. Donec facilisis non nunc at pulvinar. Quisque cursus mi libero, in malesuada nulla tempor et. In at ligula ac est vehicula congue. Donec eget est sed ante cursus malesuada maximus a felis. Phasellus vitae pretium nibh, sed auctor purus. In congue, tortor sed dictum egestas, ligula nibh vehicula nulla, nec euismod ligula diam sit amet mauris. Vivamus congue interdum lorem sit amet facilisis.'
+  'This cluster is running an older version. Upgrade during the next maintenance window to receive the latest security patches and performance improvements.'
 
-const fn = () => undefined
-const link = 'Link'
-const linkHref = '/'
+const noOp = () => undefined
 
 export default {
   title: 'Components/Notification',
   component: Notification,
-}
+  parameters: {
+    layout: 'padded',
+    docs: {
+      canvas: { sourceState: 'hidden' },
+    },
+    controls: {
+      include: ['type', 'children'],
+    },
+  },
+  argTypes: {
+    type: {
+      control: 'inline-radio',
+      options: ['success', 'info', 'warning', 'error'],
+      description: 'Visual and semantic intent of the notification.',
+      table: { category: 'Content', defaultValue: { summary: 'success' } },
+    },
+    children: {
+      control: 'text',
+      description: 'The message. Keep it to a single, scannable line where possible.',
+      table: { category: 'Content' },
+    },
+    link: { control: false, table: { category: 'Content' } },
+    linkHref: { control: false, table: { category: 'Content' } },
+    onClose: { control: false, table: { category: 'Behavior' } },
+  },
+  args: {
+    type: 'success',
+    children: text,
+  },
+} as Meta<typeof Notification>
 
-export const Success = () => <Notification type="success">{text}</Notification>
-Success.parameters = {
-  design: {
-    type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE-Hazelcast-Design-System?node-id=1735%3A1455',
+export const Playground: Story = {
+  render: (args) => (
+    <div className={s.playgroundContainer}>
+      <Notification {...args} />
+    </div>
+  ),
+  parameters: {
+    layout: 'centered',
+    docs: {
+      description: {
+        story: 'Switch **type** and edit the message in the Controls panel to preview each intent.',
+      },
+    },
   },
 }
 
-export const SuccessWithLongText = () => <Notification type="success">{longText}</Notification>
-
-export const SuccessWithLink = () => (
-  <Notification type="success" link={link} linkHref={linkHref}>
-    {text}
-  </Notification>
+export const Variants = () => (
+  <div className={s.section}>
+    <Caption>
+      A compact, single-line banner in four intents, tinted with the matching <strong>Toast</strong> colour.
+    </Caption>
+    <Stack>
+      <Notification type="success">Your changes have been saved successfully.</Notification>
+      <Notification type="info">A new version of Hazelcast Cloud is available.</Notification>
+      <Notification type="warning">Please review your settings before continuing.</Notification>
+      <Notification type="error">Unable to connect to the cluster. Please try again.</Notification>
+    </Stack>
+  </div>
 )
+Variants.tags = ['!dev']
 
-export const SuccessWithLongTextAndLink = () => (
-  <Notification type="success" link={link} linkHref={linkHref}>
-    {longText}
-  </Notification>
+export const WithLink = () => (
+  <div className={s.section}>
+    <Caption>
+      Pass <strong>link</strong> and <strong>linkHref</strong> to add a trailing call-to-action.
+    </Caption>
+    <Stack>
+      <Notification type="info" link="View details" linkHref="#">
+        A scheduled maintenance window starts tonight at 22:00 UTC.
+      </Notification>
+    </Stack>
+  </div>
 )
+WithLink.tags = ['!dev']
 
-export const Info = () => <Notification type="info">{text}</Notification>
-Info.parameters = {
-  design: {
-    type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE-Hazelcast-Design-System?node-id=1735%3A1453',
-  },
-}
-
-export const InfoWithLongText = () => <Notification type="info">{longText}</Notification>
-
-export const InfoWithLink = () => (
-  <Notification type="info" link={link} linkHref={linkHref}>
-    {text}
-  </Notification>
+export const WithCloseButton = () => (
+  <div className={s.section}>
+    <Caption>
+      Provide <strong>onClose</strong> to render a dismiss button.
+    </Caption>
+    <Stack>
+      <Notification type="warning" onClose={noOp}>
+        Your session expires in 5 minutes.
+      </Notification>
+      <Notification type="warning" link="Extend" linkHref="#" onClose={noOp}>
+        Your session expires in 5 minutes.
+      </Notification>
+    </Stack>
+  </div>
 )
+WithCloseButton.tags = ['!dev']
 
-export const InfoWithLongTextAndLink = () => (
-  <Notification type="info" link={link} linkHref={linkHref}>
-    {longText}
-  </Notification>
+export const LongText = () => (
+  <div className={s.section}>
+    <Caption>Content wraps gracefully; the icon and trailing link stay aligned to the top.</Caption>
+    <Stack>
+      <Notification type="info" link="Upgrade" linkHref="#">
+        {longText}
+      </Notification>
+    </Stack>
+  </div>
 )
+LongText.tags = ['!dev']
 
-export const Warning = () => <Notification type="warning">{text}</Notification>
-Warning.parameters = {
-  design: {
-    type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE-Hazelcast-Design-System?node-id=1735%3A1452',
-  },
-}
-
-export const WarningWithCloseButton = () => (
-  <Notification type="warning" onClose={fn}>
-    {text}
-  </Notification>
+export const LegacyV3 = () => (
+  <div className={s.section}>
+    <Caption>
+      The pre-v4 notification, still available via <code>@hazelcast/ui/old</code> for gradual migration.
+    </Caption>
+    <Stack>
+      <LegacyNotification type="success" link="Link" linkHref="/">
+        Lorem ipsum dolor sit amet
+      </LegacyNotification>
+    </Stack>
+  </div>
 )
-
-export const WarningWithLongText = () => <Notification type="warning">{longText}</Notification>
-
-export const WarningWithLink = () => (
-  <Notification type="warning" link={link} linkHref={linkHref}>
-    {text}
-  </Notification>
-)
-
-export const WarningWithCloseButtonAndLink = () => (
-  <Notification type="warning" link={link} linkHref={linkHref} onClose={fn}>
-    {text}
-  </Notification>
-)
-
-export const WarningWithLongTextAndLink = () => (
-  <Notification type="warning" link={link} linkHref={linkHref}>
-    {longText}
-  </Notification>
-)
-
-export const Error = () => <Notification type="error">{text}</Notification>
-Error.parameters = {
-  design: {
-    type: 'figma',
-    url: 'https://www.figma.com/file/8mVm6LTbp2Z0RaWWjTZoft/%F0%9F%90%9DHIVE-Hazelcast-Design-System?node-id=1735%3A1454',
-  },
-}
-
-export const ErrorWithLongText = () => <Notification type="error">{longText}</Notification>
-
-export const ErrorWithLink = () => (
-  <Notification type="error" link={link} linkHref={linkHref}>
-    {text}
-  </Notification>
-)
-
-export const ErrorWithLongTextAndLink = () => (
-  <Notification type="error" link={link} linkHref={linkHref}>
-    {longText}
-  </Notification>
-)
+LegacyV3.tags = ['!dev']

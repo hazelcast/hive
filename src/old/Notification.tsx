@@ -2,10 +2,11 @@ import React, { FC, ReactNode } from 'react'
 import cn from 'classnames'
 import { AlertTriangle, CheckCircle, AlertCircle, Info, ChevronRight, Icon as IconType, X } from 'react-feather'
 
-import { Icon } from './Icon'
-import { Link } from './Link'
+import { Icon } from '../components/Icon'
+import { IconButton } from '../components/IconButton'
+import { Link } from '../components/Link'
 
-import styles from './Notification.module.css'
+import styles from './NotificationLegacy.module.scss'
 
 export type NotificationType = 'success' | 'info' | 'warning' | 'error'
 
@@ -86,15 +87,13 @@ export const Notification: FC<NotificationProps> = ({ type, children, className,
         </Link>
       )}
       {onClose && (
-        <button
-          type="button"
+        <IconButton
           data-test="notification-close"
           className={styles.closeButton}
+          icon={X}
           onClick={onClose}
-          aria-label="Notification close button"
-        >
-          <X size={16} aria-hidden />
-        </button>
+          ariaLabel="Notification close button"
+        />
       )}
     </div>
   )

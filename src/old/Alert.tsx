@@ -4,13 +4,14 @@ import { ChevronRight, X } from 'react-feather'
 import useKey from 'react-use/lib/useKey'
 
 import { escKeyFilterPredicate } from '../utils/keyboard'
-import { Link, LinkProps } from './Link'
-import { Button, ButtonAccessibleIconLeftProps } from './Button'
+import { Link, LinkProps } from '../components/Link'
+import { Button, ButtonAccessibleIconLeftProps } from '../components/Button'
+import { Icon, IconProps } from '../components/Icon'
+import { IconButton } from '../components/IconButton'
 import { ToastIcon, ToastType } from './Toast'
-import { Icon, IconProps } from './Icon'
 import { PartialRequired } from '../helpers/types'
 
-import styles from './Alert.module.css'
+import styles from './AlertLegacy.module.scss'
 
 type AlertAccessibleActionButtonIconProps =
   | {
@@ -99,11 +100,7 @@ export const Alert: FC<AlertProps> = ({
               {title}
             </div>
           )}
-          {!!closeToast && (
-            <button type="button" data-test="alert-close" className={styles.closeButton} onClick={closeToast} aria-label="Close icon">
-              <X size={16} aria-hidden />
-            </button>
-          )}
+          {!!closeToast && <IconButton data-test="alert-close" variant="ghost" ariaLabel="Close icon" icon={X} onClick={closeToast} />}
         </div>
         <div data-test="alert-body" className={cn(styles.body, bodyClassName)}>
           {content && <div data-test="alert-content">{content}</div>}
@@ -117,6 +114,7 @@ export const Alert: FC<AlertProps> = ({
                       ? {
                           iconLeft: icon,
                           iconLeftAriaLabel: ariaLabel,
+                          iconLeftClassName: styles.actionButtonIcon,
                         }
                       : {}
 
