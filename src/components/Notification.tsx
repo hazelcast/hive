@@ -90,6 +90,7 @@ export const Notification: FC<NotificationProps> = ({ type, children, className,
         <IconButton
           data-test="notification-close"
           className={styles.closeButton}
+          variant="ghost"
           icon={X}
           onClick={onClose}
           ariaLabel="Notification close button"
