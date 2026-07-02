@@ -33,16 +33,6 @@
   --hive-color-error-light: #efb1c9;
   --hive-color-error-dark: #8f001d;
 
-  /* Intent surfaces + borders — tinted from the darkest intent colour (shared by Alert / Notification) */
-  --hive-color-success-surface: lab(from var(--hive-color-success-darkest) 96% calc(a / 3) calc(b / 3));
-  --hive-color-success-border: lab(from var(--hive-color-success-darkest) 84% calc(a / 1.4) calc(b / 1.4));
-  --hive-color-info-surface: lab(from var(--hive-color-info-darkest) 96% calc(a / 3) calc(b / 3));
-  --hive-color-info-border: lab(from var(--hive-color-info-darkest) 84% calc(a / 1.4) calc(b / 1.4));
-  --hive-color-warning-surface: lab(from var(--hive-color-warning-darkest) 96% calc(a / 3) calc(b / 3));
-  --hive-color-warning-border: lab(from var(--hive-color-warning-darkest) 84% calc(a / 1.4) calc(b / 1.4));
-  --hive-color-error-surface: lab(from var(--hive-color-error) 96% calc(a / 3) calc(b / 3));
-  --hive-color-error-border: lab(from var(--hive-color-error) 84% calc(a / 1.4) calc(b / 1.4));
-
   --hive-color-text: #061827;
   --hive-color-text-secondary: #707482;
   --hive-color-text-subdued: #707482;

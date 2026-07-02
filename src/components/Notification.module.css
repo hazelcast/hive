@@ -1,7 +1,7 @@
 .notification {
   --notification-color: var(--hive-color-text);
-  --notification-surface: var(--hive-color-neutral-white);
-  --notification-border: var(--hive-color-neutral);
+  --notification-surface: lab(from var(--notification-color) 96% calc(a / 3) calc(b / 3));
+  --notification-border: lab(from var(--notification-color) 84% calc(a / 1.4) calc(b / 1.4));
 
   display: flex;
   align-items: flex-start;
@@ -47,24 +47,16 @@
 
 .success {
   --notification-color: var(--hive-color-success-darkest);
-  --notification-surface: var(--hive-color-success-surface);
-  --notification-border: var(--hive-color-success-border);
 }
 
 .info {
   --notification-color: var(--hive-color-info-darkest);
-  --notification-surface: var(--hive-color-info-surface);
-  --notification-border: var(--hive-color-info-border);
 }
 
 .warning {
   --notification-color: var(--hive-color-warning-darkest);
-  --notification-surface: var(--hive-color-warning-surface);
-  --notification-border: var(--hive-color-warning-border);
 }
 
 .error {
   --notification-color: var(--hive-color-error);
-  --notification-surface: var(--hive-color-error-surface);
-  --notification-border: var(--hive-color-error-border);
 }

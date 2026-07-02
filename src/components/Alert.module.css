@@ -1,7 +1,7 @@
 .alert {
   --alert-color: var(--hive-color-text);
-  --alert-surface: var(--hive-color-neutral-white);
-  --alert-border: var(--hive-color-neutral);
+  --alert-surface: lab(from var(--alert-color) 96% calc(a / 3) calc(b / 3));
+  --alert-border: lab(from var(--alert-color) 84% calc(a / 1.4) calc(b / 1.4));
 
   display: flex;
   align-items: flex-start;
@@ -62,26 +62,18 @@
 
 .success {
   --alert-color: var(--hive-color-success-darkest);
-  --alert-surface: var(--hive-color-success-surface);
-  --alert-border: var(--hive-color-success-border);
 }
 
 .info {
   --alert-color: var(--hive-color-info-darkest);
-  --alert-surface: var(--hive-color-info-surface);
-  --alert-border: var(--hive-color-info-border);
 }
 
 .warning {
   --alert-color: var(--hive-color-warning-darkest);
-  --alert-surface: var(--hive-color-warning-surface);
-  --alert-border: var(--hive-color-warning-border);
 }
 
 .critical {
   --alert-color: var(--hive-color-error);
-  --alert-surface: var(--hive-color-error-surface);
-  --alert-border: var(--hive-color-error-border);
 }
 
 .actions {
