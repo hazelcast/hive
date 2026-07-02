@@ -117,7 +117,6 @@ export const Alert: FC<AlertProps> = ({
                       ? {
                           iconLeft: icon,
                           iconLeftAriaLabel: ariaLabel,
-                          iconLeftClassName: styles.actionButtonIcon,
                         }
                       : {}
 
