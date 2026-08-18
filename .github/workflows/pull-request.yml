@@ -9,7 +9,7 @@ jobs:
   chromatic:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - uses: ./.github/actions/install
@@ -28,7 +28,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/install
       - run: npm run lint
       - run: npm run compile # should generate artifacts and then use them in the next release?
@@ -39,7 +39,7 @@ jobs:
 #  test_visual:
 #    runs-on: ubuntu-latest
 #    steps:
-#      - uses: actions/checkout@v6
+#      - uses: actions/checkout@v7
 #      - uses: ./.github/actions/install
 #      - run: npm run build-storybook
 #      - run: export NODE_OPTIONS=--openssl-legacy-provider && npm run test:visual
