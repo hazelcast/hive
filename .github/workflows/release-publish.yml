@@ -1,0 +1,44 @@
+name: 'release: publish'
+on:
+  pull_request:
+    types: [closed]
+    branches: [master]
+
+permissions:
+  # OIDC token for npm registry authentication - https://docs.npmjs.com/trusted-publishers
+  id-token: write
+  # push the release tag
+  contents: write
+
+jobs:
+  # Runs once a PR opened by release-open-pr.yml is approved and merged;
+  # publishes to npm and tags the release. Tag pushes aren't gated by branch
+  # protection on master.
+  publish_release:
+    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'release/')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: master
+          fetch-depth: 0
+      - uses: ./.github/actions/install
+      - name: Compile package
+        run: npm run compile
+      - name: Publish to npm
+        run: npm publish --tag canary
+      - name: Tag release
+        id: tag
+        run: |
+          VERSION="$(node -p "require('./package.json').version")"
+          git tag "v$VERSION"
+          git push --no-verify origin "v$VERSION"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+      - name: Notify Slack
+        if: success()
+        uses: slackapi/slack-github-action@dcb1066f776dd043e64d0e8ba94ca15cc7e1875d # v4.0.0
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_CORE_UI_CI }}
+          webhook-type: incoming-webhook
+          payload: |
+            text: "📦 *@hazelcast/ui@${{ steps.tag.outputs.version }}* published to npm\n<https://www.npmjs.com/package/@hazelcast/ui/v/${{ steps.tag.outputs.version }}|View on npm> · <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|Workflow run>"
