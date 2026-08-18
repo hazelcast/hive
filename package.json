@@ -134,7 +134,7 @@
     "sass": "^1.85.0",
     "sass-loader": "^16.0.5",
     "shx": "^0.3.4",
-    "storybook": "^8.6.3",
+    "storybook": "^10.5.8",
     "style-loader": "^4.0.0",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.24.0"
