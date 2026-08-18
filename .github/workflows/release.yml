@@ -28,16 +28,20 @@ on:
           - prepatch
           - preminor
           - premajor
+  pull_request:
+    types: [closed]
+    branches: [master]
 
 permissions:
   # OIDC token for npm registry authentication - https://docs.npmjs.com/trusted-publishers
   id-token: write
-  # `git push` changes back to repo
+  # push the release branch/tag, create/merge the release PR
   contents: write
+  pull-requests: write
 
 jobs:
   chromatic-deployment:
-    if: github.event.inputs.skip_chromatic_publish != 'true'
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.skip_chromatic_publish != 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -59,19 +63,58 @@ jobs:
           workingDir: ./
           autoAcceptChanges: true
 
-  publish_canary:
+  # Opens a PR bumping the version instead of pushing to master directly, since
+  # master requires a PR + code owner approval. Auto-merge is enabled so it lands
+  # as soon as that approval and required checks are satisfied.
+  open_release_pr:
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - uses: ./.github/actions/install
+      - name: Bump version
+        id: bump
+        run: |
+          VERSION=$(npm version --preid canary --no-commit-hooks --no-git-tag-version ${{ github.event.inputs.release_type || 'prerelease' }})
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+      - name: Open release PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION="${{ steps.bump.outputs.version }}"
+          BRANCH="release/$VERSION"
+          git checkout -b "$BRANCH"
+          git commit -am "chore(release): $VERSION"
+          git push --no-verify origin "$BRANCH"
+          gh pr create \
+            --base master \
+            --head "$BRANCH" \
+            --title "chore(release): $VERSION" \
+            --body "Automated release PR. Merging publishes \`$VERSION\` to npm under the \`canary\` tag."
+          gh pr merge "$BRANCH" --auto --squash
+
+  # Runs once the release PR above is approved and merged; publishes to npm and
+  # tags the release. Tag pushes aren't gated by branch protection on master.
+  publish_release:
+    if: >
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.merged == true &&
+      startsWith(github.event.pull_request.head.ref, 'release/')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: master
+          fetch-depth: 0
+      - uses: ./.github/actions/install
       - name: Compile package
         run: npm run compile
-      - name: Increment version
-        run: |
-          npm version --preid canary --no-commit-hooks ${{ github.event.inputs.release_type || 'prerelease' }}
-          git push --no-verify
-          git push --tags --no-verify
       - name: Publish to npm
         run: npm publish --tag canary
+      - name: Tag release
+        run: |
+          VERSION="v$(node -p "require('./package.json').version")"
+          git tag "$VERSION"
+          git push --no-verify origin "$VERSION"
