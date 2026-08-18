@@ -1,0 +1,14 @@
+version: 2
+updates:
+  - package-ecosystem: 'github-actions'
+    directories:
+      - '/'
+      # https://github.com/dependabot/dependabot-core/issues/6345#issuecomment-3376986288
+      - '/.github/actions/*'
+    schedule:
+      interval: 'daily'
+  - package-ecosystem: 'npm'
+    directory: '/'
+    open-pull-requests-limit: 10
+    schedule:
+      interval: daily
