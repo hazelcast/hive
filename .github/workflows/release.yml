@@ -81,7 +81,7 @@ jobs:
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
       - name: Open release PR
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           VERSION="${{ steps.bump.outputs.version }}"
           BRANCH="release/$VERSION"
@@ -92,7 +92,7 @@ jobs:
             --base master \
             --head "$BRANCH" \
             --title "chore(release): $VERSION" \
-            --body "Automated release PR. Merging publishes \`$VERSION\` to npm under the \`canary\` tag."
+            --body "Automated release PR. Merging publishes \`$VERSION\` to npm."
           gh pr merge "$BRANCH" --auto --squash
 
   # Runs once the release PR above is approved and merged; publishes to npm and
@@ -127,4 +127,4 @@ jobs:
           webhook: ${{ secrets.SLACK_WEBHOOK_CORE_UI_CI }}
           webhook-type: incoming-webhook
           payload: |
-            text: "📦 *@hazelcast/ui@${{ steps.tag.outputs.version }}* published to npm on the `canary` tag\n<https://www.npmjs.com/package/@hazelcast/ui/v/${{ steps.tag.outputs.version }}|View on npm> · <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|Workflow run>"
+            text: "📦 *@hazelcast/ui@${{ steps.tag.outputs.version }}* published to npm\n<https://www.npmjs.com/package/@hazelcast/ui/v/${{ steps.tag.outputs.version }}|View on npm> · <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|Workflow run>"
