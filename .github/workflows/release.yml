@@ -1,4 +1,4 @@
-name: 'release: publish'
+name: release
 on:
   pull_request:
     types: [closed]
@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 jobs:
-  # Runs once a PR opened by release-open-pr.yml is approved and merged;
+  # Runs once a PR opened by prepare-release.yml is approved and merged;
   # publishes to npm and tags the release. Tag pushes aren't gated by branch
   # protection on master.
   publish_release:
