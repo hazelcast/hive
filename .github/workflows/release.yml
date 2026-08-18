@@ -114,7 +114,17 @@ jobs:
       - name: Publish to npm
         run: npm publish --tag canary
       - name: Tag release
+        id: tag
         run: |
-          VERSION="v$(node -p "require('./package.json').version")"
-          git tag "$VERSION"
-          git push --no-verify origin "$VERSION"
+          VERSION="$(node -p "require('./package.json').version")"
+          git tag "v$VERSION"
+          git push --no-verify origin "v$VERSION"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+      - name: Notify Slack
+        if: success()
+        uses: slackapi/slack-github-action@dcb1066f776dd043e64d0e8ba94ca15cc7e1875d # v4.0.0
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_CORE_UI_CI }}
+          webhook-type: incoming-webhook
+          payload: |
+            text: "📦 *@hazelcast/ui@${{ steps.tag.outputs.version }}* published to npm on the `canary` tag\n<https://www.npmjs.com/package/@hazelcast/ui/v/${{ steps.tag.outputs.version }}|View on npm> · <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|Workflow run>"
