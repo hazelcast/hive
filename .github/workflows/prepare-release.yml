@@ -1,4 +1,4 @@
-name: 'release: open PR'
+name: prepare release
 env:
   CI: true
   GIT_AUTHOR_NAME: GitHub Actions Bot
@@ -61,7 +61,7 @@ jobs:
   # Opens a PR bumping the version instead of pushing to master directly, since
   # master requires a PR + code owner approval. Auto-merge is enabled so it lands
   # as soon as that approval is given; the actual publish happens in
-  # release-publish.yml once the PR merges.
+  # release.yml once the PR merges.
   open_release_pr:
     runs-on: ubuntu-latest
     steps:
