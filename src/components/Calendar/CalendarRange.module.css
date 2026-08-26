@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+
+  &.vertical {
+    flex-direction: column;
+    gap: calc(var(--hive-grid) * 4);
+  }
+
+  .arrowRight {
+    color: var(--hive-color-neutral-light);
+    margin: 0 calc(var(--hive-grid) * 2) calc(var(--hive-grid) * 2);
+
+    &.small {
+      margin-bottom: calc(var(--hive-grid) * 0.75);
+    }
+  }
+}

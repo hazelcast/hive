@@ -5,7 +5,7 @@ import useIsomorphicLayoutEffect from 'react-use/lib/useIsomorphicLayoutEffect'
 
 import { useRefValue } from '../hooks'
 
-import styles from './ContextMenu.module.scss'
+import styles from './ContextMenu.module.css'
 
 export interface ContextMenuItem {
   onClick: () => void

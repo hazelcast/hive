@@ -6,8 +6,8 @@ import userEvent from '@testing-library/user-event'
 import { testAttribute, testClass } from '../helpers'
 import { PasswordField } from '../../src/components/PasswordField'
 
-import iconStyles from '../../src/components/Icon.module.scss'
-import styles from '../../src/components/PasswordField.module.scss'
+import iconStyles from '../../src/components/Icon.module.css'
+import styles from '../../src/components/PasswordField.module.css'
 import iconButtonStyles from '../../src/components/IconButton.module.css'
 
 describe('PasswordField', () => {

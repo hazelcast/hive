@@ -5,7 +5,7 @@ import cn from 'classnames'
 import { DataTestProp } from '../helpers/types'
 import { Icon } from './Icon'
 
-import styles from './Link.module.scss'
+import styles from './Link.module.css'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const sizes = {

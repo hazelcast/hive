@@ -6,7 +6,7 @@ import { useUID } from 'react-uid'
 import { DataTestProp } from '../helpers/types'
 import { Tooltip, TooltipSide } from './Tooltip'
 
-import styles from './TruncatedText.module.scss'
+import styles from './TruncatedText.module.css'
 
 interface TruncatedTextProps extends DataTestProp {
   text: ReactNode

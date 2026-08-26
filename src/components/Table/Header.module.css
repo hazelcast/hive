@@ -1,0 +1,129 @@
+.resizer {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 100%;
+  top: 0;
+  right: -10px;
+  z-index: var(--hive-z-index-100);
+  cursor: col-resize;
+  user-select: none;
+
+  /* Prevents from scrolling while dragging on touch devices */
+  /* doiuse-disable css-touch-action */
+  touch-action: none;
+  /* doiuse-enable css-touch-action */
+
+  .separator {
+    width: 1px;
+    height: 100%;
+  }
+
+  .resizing,
+  &:hover .separator {
+    background-color: var(--hive-color-primary);
+  }
+}
+
+.container {
+  position: relative;
+  flex-grow: 1;
+  flex-basis: auto;
+  flex-shrink: 0;
+  background: var(--hive-color-neutral-gray);
+  border-right: 1px solid var(--hive-color-neutral-white);
+
+  .th {
+    display: flex;
+    align-items: center;
+    height: calc(var(--hive-grid) * 12);
+    padding-left: calc(var(--hive-grid) * 5);
+    padding-right: calc(var(--hive-grid) * 5);
+    color: var(--hive-color-text);
+    box-sizing: border-box;
+    font-family: var(--hive-font-family-text);
+    font-size: var(--hive-font-size-body-small);
+    letter-spacing: var(--hive-letter-spacing-body-small);
+    line-height: var(--hive-line-height-body-small);
+    font-weight: var(--hive-font-weight-text-bold);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    .sortingIcon {
+      flex-shrink: 0;
+      color: var(--hive-color-primary);
+
+      &.left {
+        margin-left: calc(var(--hive-grid) * 1.25);
+      }
+
+      &.right {
+        margin-right: calc(var(--hive-grid) * 1.25);
+      }
+
+      &:not(.isSorted) {
+        color: var(--hive-color-neutral);
+      }
+    }
+
+    &.sortable {
+      cursor: pointer;
+
+      &:focus-visible {
+        /* Do not remove outline for high-contrast modes */
+        /* https://stackoverflow.com/a/52616313 */
+        outline: var(--hive-outline-width) solid transparent;
+        box-shadow: inset 0 0 0 var(--hive-outline-width) var(--hive-color-accessibility-outline);
+
+        /* Put outline over resizer */
+        z-index: var(--hive-z-index-1000);
+        background-color: var(--hive-color-neutral-lighter);
+      }
+
+      &:hover {
+        background-color: var(--hive-color-neutral-gray-darker);
+      }
+    }
+
+    &.alignLeft {
+      justify-content: flex-start;
+    }
+
+    &.alignRight {
+      justify-content: flex-end;
+    }
+
+    &.alignCenter {
+      justify-content: center;
+    }
+
+    &[draggable='true'] {
+      /* doiuse-disable css3-cursors-newer */
+      cursor: grabbing;
+      /* doiuse-enable css3-cursors-newer */
+    }
+  }
+
+  &:last-child {
+    .resizer {
+      width: var(--hive-grid);
+      right: 0;
+    }
+  }
+}
+
+.dragOver {
+  box-shadow: inset 0 0 0 var(--hive-outline-width) var(--hive-color-accessibility-outline);
+}
+
+.dragIcon {
+  margin-left: calc(var(--hive-grid) * 2);
+}
+
+.dragIconRight {
+  margin-left: 0;
+  margin-right: calc(var(--hive-grid) * 2);
+}

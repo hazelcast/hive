@@ -1,0 +1,96 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  .content {
+    .title {
+      margin: calc(var(--hive-grid) * 4.5) 0 0 0;
+      font-family: var(--hive-font-family-text);
+      font-size: var(--hive-font-size-body-normal);
+      letter-spacing: var(--hive-letter-spacing-body-normal);
+      line-height: var(--hive-line-height-body-normal);
+    }
+
+    .description {
+      color: var(--hive-color-text-secondary);
+      margin: var(--hive-grid) 0 0 0;
+      font-family: var(--hive-font-family-text);
+      font-size: var(--hive-font-size-body-small);
+      letter-spacing: var(--hive-letter-spacing-body-small);
+      line-height: var(--hive-line-height-body-small);
+      font-weight: var(--hive-font-weight-text-regular);
+    }
+
+    .action {
+      flex: 1;
+      min-width: var(--hive-empty-state-button-min-width-normal);
+      margin-top: calc(var(--hive-grid) * 5);
+    }
+  }
+
+  &.large {
+    .content {
+      .title {
+        margin-top: calc(var(--hive-grid) * 5.5);
+      }
+
+      .description {
+        margin-top: calc(var(--hive-grid) * 2);
+        font-family: var(--hive-font-family-text);
+        font-size: var(--hive-font-size-body-normal);
+        letter-spacing: var(--hive-letter-spacing-body-normal);
+        line-height: var(--hive-line-height-body-normal);
+        font-weight: var(--hive-font-weight-text-regular);
+      }
+
+      .action {
+        min-width: var(--hive-empty-state-button-min-width-large);
+        margin-top: calc(var(--hive-grid) * 6);
+      }
+    }
+  }
+
+  &.horizontal {
+    flex: 1;
+    flex-direction: row;
+    text-align: start;
+
+    .icon {
+      flex: 0 0 auto;
+      align-self: flex-start;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      margin-left: calc(var(--hive-grid) * 2);
+
+      .title {
+        margin: 0;
+        font-family: var(--hive-font-family-text);
+        font-size: var(--hive-font-size-body-normal);
+        letter-spacing: var(--hive-letter-spacing-body-normal);
+        line-height: var(--hive-line-height-body-normal);
+      }
+
+      .description {
+        margin-top: var(--hive-grid);
+        font-family: var(--hive-font-family-text);
+        font-size: var(--hive-font-size-body-small);
+        letter-spacing: var(--hive-letter-spacing-body-small);
+        line-height: var(--hive-line-height-body-small);
+        font-weight: var(--hive-font-weight-text-regular);
+      }
+
+      .action {
+        align-self: flex-start;
+        min-width: auto;
+        margin: var(--hive-grid) 0 0 0;
+      }
+    }
+  }
+}

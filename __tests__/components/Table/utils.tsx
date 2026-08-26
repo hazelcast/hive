@@ -16,6 +16,7 @@ export type GetColumns = {
   withFooter?: boolean
   withNameLink?: boolean
   canHide?: boolean
+  withZeroMinWidth?: boolean
 }
 
 const NameCell = (props: PropsWithChildren<CellType<Person>>) => (
@@ -25,11 +26,13 @@ const NameCell = (props: PropsWithChildren<CellType<Person>>) => (
   </Link>
 )
 
-export const getColumns = ({ withFooter = false, withNameLink = false }: GetColumns): ColumnType<Person>[] => [
+export const getColumns = ({ withFooter = false, withNameLink = false, withZeroMinWidth = false }: GetColumns): ColumnType<Person>[] => [
   {
     Header: 'ID',
     accessor: ({ id }) => <span>{id}</span>,
     ...(withFooter && { Footer: 'ID' }),
+    // minWidth: 0 means the column has no minimum size of its own and should fall back to the current size
+    ...(withZeroMinWidth && { minWidth: 0 }),
   },
   {
     Header: 'Name',

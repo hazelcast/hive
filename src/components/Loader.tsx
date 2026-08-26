@@ -4,7 +4,7 @@ import cn from 'classnames'
 import { DataTestProp } from '../helpers/types'
 import { IconSize } from './Icon'
 
-import styles from './Loader.module.scss'
+import styles from './Loader.module.css'
 
 export type LoaderProps = {
   className?: string

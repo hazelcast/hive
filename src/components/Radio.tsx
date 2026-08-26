@@ -6,7 +6,7 @@ import { DataTestProp } from '../helpers/types'
 import { Help, HelpProps, helpTooltipId } from './Help'
 import { RadioGroupContext } from './RadioGroupContext'
 
-import styles from './Radio.module.scss'
+import styles from './Radio.module.css'
 import { TruncatedText } from './TruncatedText'
 
 type RadioCoreProps = {

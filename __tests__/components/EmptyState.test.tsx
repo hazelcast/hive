@@ -8,8 +8,8 @@ import { SiFigma } from '@icons-pack/react-simple-icons'
 import { LinkRel } from '../../src/components/Link'
 import { EmptyState } from '../../src/components/EmptyState'
 
-import styles from '../../src/components/EmptyState.module.scss'
-import iconStyles from '../../src/components/Icon.module.scss'
+import styles from '../../src/components/EmptyState.module.css'
+import iconStyles from '../../src/components/Icon.module.css'
 
 // Common
 const title = 'Figma'

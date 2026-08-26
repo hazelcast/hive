@@ -5,7 +5,7 @@ import { screen, within } from '@testing-library/react'
 
 import { Cell, CellProps, CellWarning, CellWarningProps } from '../../../src/components/Table/Cell'
 
-import styles from '../../src/Table/Cell.module.scss'
+import styles from '../../src/Table/Cell.module.css'
 
 jest.mock('react-uid')
 const useUIDMock = useUID as jest.Mock<ReturnType<typeof useUID>>

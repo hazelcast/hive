@@ -8,9 +8,9 @@ import { getColumns } from './utils'
 import { Table } from '../../../src/components/Table/Table'
 import { bigDataSet, smallDataSet } from './consts'
 
-import cellStyles from '../../../src/components/Table/Cell.module.scss'
-import headerStyles from '../../../src/components/Table/Header.module.scss'
-import paginationStyles from '../../src/Pagination.module.scss'
+import cellStyles from '../../../src/components/Table/Cell.module.css'
+import headerStyles from '../../../src/components/Table/Header.module.css'
+import paginationStyles from '../../src/Pagination.module.css'
 
 const rules = axeDefaultOptions?.rules ?? {}
 const axeOptions = {
@@ -105,6 +105,19 @@ describe('Table', () => {
 
     expect(screen.queryByTestId('table-no-data')).not.toBeInTheDocument()
     expect(screen.queryByTestId('table-loader-cell')).not.toBeInTheDocument()
+  })
+
+  it('renders header and cells for a column with an explicit minWidth of 0', async () => {
+    const columns = getColumns({ withZeroMinWidth: true })
+
+    await renderAndCheckA11Y(<Table data-test="table-test" columns={columns} data={smallDataSet} disableSortBy />, {
+      axeOptions,
+    })
+
+    const tableWrapper = screen.queryByTestId('table-test')
+
+    expect(within(tableWrapper!).queryAllByTestId('table-header-container')).toHaveLength(columns.length)
+    expect(within(tableWrapper!).queryAllByTestId('table-cell')).toHaveLength(columns.length * smallDataSet.length)
   })
 
   it('renders table footer with correct props', async () => {

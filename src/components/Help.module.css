@@ -1,0 +1,7 @@
+.container {
+  display: inline-flex;
+  vertical-align: middle;
+  line-height: 1;
+  padding-left: var(--hive-grid);
+  padding-right: var(--hive-grid);
+}

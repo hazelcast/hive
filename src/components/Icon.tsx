@@ -3,8 +3,8 @@ import cn from 'classnames'
 
 import { DataTestProp } from '../helpers/types'
 
-import styleConsts from '../../styles/constants/export.module.scss'
-import styles from './Icon.module.scss'
+import { styleConstants } from '../utils/styleConstants'
+import styles from './Icon.module.css'
 
 export type IconSize = 'small' | 'smallMedium' | 'medium' | 'large' | 'xlarge'
 
@@ -61,7 +61,7 @@ export const Icon = forwardRef<HTMLDivElement, IconProps>(
     },
     ref,
   ) => {
-    const iconStroke = bold ? styleConsts.iconStrokeWidthBold : styleConsts.iconStrokeWidth
+    const iconStroke = bold ? styleConstants.iconStrokeWidthBold : styleConstants.iconStrokeWidth
 
     const props: SVGProps<SVGElement> = {
       'aria-label': ariaLabel || 'icon',

@@ -9,7 +9,7 @@ import { AppSidebarItem } from '../AppSidebarItem'
 import { appSidebarContext } from '../appSidebarContext'
 import { appSidebarSectionContext } from './appSidebarSectionContext'
 
-import styles from './AppSidebarSection.module.scss'
+import styles from './AppSidebarSection.module.css'
 
 export type AppSidebarSectionExpandableProps = {
   id: string

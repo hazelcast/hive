@@ -6,7 +6,7 @@ import { Button } from '../../Button'
 import { Popover } from '../../Popover'
 import { useOpenCloseState } from '../../../hooks'
 
-import styles from './AppHeaderMenu.module.scss'
+import styles from './AppHeaderMenu.module.css'
 
 export interface AppHeaderMenuProps {
   separator?: boolean
