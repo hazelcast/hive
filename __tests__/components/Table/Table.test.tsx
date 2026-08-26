@@ -107,6 +107,19 @@ describe('Table', () => {
     expect(screen.queryByTestId('table-loader-cell')).not.toBeInTheDocument()
   })
 
+  it('renders header and cells for a column with an explicit minWidth of 0', async () => {
+    const columns = getColumns({ withZeroMinWidth: true })
+
+    await renderAndCheckA11Y(<Table data-test="table-test" columns={columns} data={smallDataSet} disableSortBy />, {
+      axeOptions,
+    })
+
+    const tableWrapper = screen.queryByTestId('table-test')
+
+    expect(within(tableWrapper!).queryAllByTestId('table-header-container')).toHaveLength(columns.length)
+    expect(within(tableWrapper!).queryAllByTestId('table-cell')).toHaveLength(columns.length * smallDataSet.length)
+  })
+
   it('renders table footer with correct props', async () => {
     const columns = getColumns({ withFooter: true })
 
