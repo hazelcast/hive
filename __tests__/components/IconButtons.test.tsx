@@ -9,7 +9,7 @@ import { ButtonVariant } from '../../src/components/Button'
 import { IconButton } from '../../src'
 import { testAttribute, testClass } from '../helpers'
 
-import iconStyles from '../../src/components/Icon.module.scss'
+import iconStyles from '../../src/components/Icon.module.css'
 import styles from '../../src/components/IconButton.module.css'
 
 jest.mock('react-uid')

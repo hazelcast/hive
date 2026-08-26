@@ -6,7 +6,7 @@ import { Terminal as TerminalIcon } from 'react-feather'
 import { DataTestProp } from '../helpers/types'
 import { Icon } from './Icon'
 
-import styles from './Terminal.module.scss'
+import styles from './Terminal.module.css'
 
 export class CommandTimeoutError extends Error {
   name = 'CommandTimeoutError'

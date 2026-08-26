@@ -1,0 +1,112 @@
+.overlayed {
+  overflow: hidden;
+}
+
+.portal {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: var(--hive-z-index-1000);
+  pointer-events: none;
+}
+
+.modal {
+  background: rgb(from var(--hive-color-overlay-background) r g b / calc(alpha - 0.1));
+  width: 100vw;
+  height: 100vh;
+  z-index: var(--hive-z-index-1000);
+  padding: calc(var(--hive-grid) * 5);
+  box-sizing: border-box;
+  pointer-events: all;
+  animation: fadeIn 500ms;
+
+  /* Since Overlay is full screen, we don't have to show an outline */
+  &:focus {
+    outline: transparent;
+  }
+
+  .wrapper {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-height: 100%;
+
+    &.normal {
+      max-width: var(--hive-overlay-content-max-width);
+    }
+
+    .fullscreen {
+      max-width: 100%;
+    }
+
+    .header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      flex-shrink: 0;
+      margin-bottom: calc(var(--hive-grid) * 9);
+      padding: 0 calc(var(--hive-grid) * 21); /* close button width */
+
+      @media only screen and (width <= 640px) {
+        padding: 0 calc(var(--hive-grid) * 9);
+
+        .closeText {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          clip: rect(0 0 0 0);
+          overflow: hidden;
+          border: 0;
+          white-space: nowrap;
+          top: 1px;
+          left: 1px;
+        }
+      }
+
+      .close {
+        position: absolute;
+        right: calc(var(--hive-grid) * 5);
+        top: calc(var(--hive-grid) * 5);
+        padding: 0;
+
+        .closeIcon {
+          width: calc(var(--hive-grid) * 9);
+          height: calc(var(--hive-grid) * 9);
+          color: var(--hive-color-text);
+        }
+      }
+
+      .icon {
+        margin-right: calc(var(--hive-grid) * 2.5);
+      }
+
+      .title {
+        margin: 0;
+        overflow: hidden;
+        word-break: break-word;
+      }
+    }
+
+    .content {
+      flex: 1 1 auto;
+      overflow: auto;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

@@ -8,9 +8,9 @@ import { getColumns } from './utils'
 import { Table } from '../../../src/components/Table/Table'
 import { bigDataSet, smallDataSet } from './consts'
 
-import cellStyles from '../../../src/components/Table/Cell.module.scss'
-import headerStyles from '../../../src/components/Table/Header.module.scss'
-import paginationStyles from '../../src/Pagination.module.scss'
+import cellStyles from '../../../src/components/Table/Cell.module.css'
+import headerStyles from '../../../src/components/Table/Header.module.css'
+import paginationStyles from '../../src/Pagination.module.css'
 
 const rules = axeDefaultOptions?.rules ?? {}
 const axeOptions = {

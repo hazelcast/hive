@@ -1,0 +1,94 @@
+.group {
+  display: flex;
+
+  .groupLabel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+    border: 0;
+    white-space: nowrap;
+    top: 1px;
+    left: 1px;
+  }
+
+  .option {
+    position: relative;
+    box-sizing: border-box;
+    height: var(--hive-input-height);
+    min-width: calc(var(--hive-grid) * 37.5);
+    border: 1px solid var(--hive-color-neutral-light);
+    border-bottom-width: 6px;
+    background-color: var(--hive-color-neutral-lighter);
+    color: var(--hive-color-text-secondary);
+    cursor: pointer;
+
+    .label {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      padding-left: calc(var(--hive-grid) * 2);
+      padding-right: calc(var(--hive-grid) * 2);
+      cursor: pointer;
+      font-family: var(--hive-font-family-text);
+      font-size: var(--hive-font-size-body-normal);
+      letter-spacing: var(--hive-letter-spacing-body-normal);
+      line-height: var(--hive-line-height-body-normal);
+      font-weight: var(--hive-font-weight-text-bold);
+    }
+
+    &.checked {
+      color: var(--hive-color-text);
+      border-bottom-color: var(--hive-color-success);
+    }
+
+    &:first-of-type {
+      border-top-left-radius: var(--hive-border-radius);
+      border-bottom-left-radius: var(--hive-border-radius);
+    }
+
+    &:last-of-type {
+      border-top-right-radius: var(--hive-border-radius);
+      border-bottom-right-radius: var(--hive-border-radius);
+    }
+
+    /* Border collapse */
+    &:not(:first-of-type) {
+      margin-left: -1px;
+    }
+
+    &:hover {
+      color: var(--hive-color-text);
+    }
+
+    &:focus-visible {
+      /* Do not remove outline for high-contrast modes */
+      /* https://stackoverflow.com/a/52616313 */
+      outline: var(--hive-outline-width) solid transparent;
+      color: var(--hive-color-text);
+      position: relative;
+      z-index: var(--hive-z-index-200);
+      box-shadow: 0 0 0 var(--hive-outline-width) var(--hive-color-accessibility-outline);
+    }
+  }
+
+  &.small {
+    .option {
+      min-width: calc(var(--hive-grid) * 28.125);
+      height: var(--hive-input-height-small);
+      border-bottom-width: 4px;
+
+      .label {
+        font-family: var(--hive-font-family-text);
+        font-size: var(--hive-font-size-body-small);
+        letter-spacing: var(--hive-letter-spacing-body-small);
+        line-height: var(--hive-line-height-body-small);
+        font-weight: var(--hive-font-weight-text-bold);
+      }
+    }
+  }
+}

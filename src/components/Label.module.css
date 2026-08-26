@@ -1,0 +1,13 @@
+.label {
+  font-family: var(--hive-font-family-text);
+  font-size: var(--hive-font-size-body-normal);
+  letter-spacing: var(--hive-letter-spacing-body-normal);
+  line-height: var(--hive-line-height-body-normal);
+  font-weight: var(--hive-font-weight-text-regular);
+  color: var(--hive-color-text-secondary);
+  padding: 0;
+
+  &.secondary {
+    color: var(--hive-color-neutral-white);
+  }
+}

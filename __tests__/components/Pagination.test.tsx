@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event'
 
 import { getShownItemsRange, GetShownItemsRangeParams, Pagination, PaginationProps, ShownItemsRange } from '../../src/components/Pagination'
 
-import styles from '../../src/components/Pagination.module.scss'
+import styles from '../../src/components/Pagination.module.css'
 
 describe('helpers', () => {
   describe('getShownItemsRange', () => {

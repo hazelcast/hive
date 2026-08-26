@@ -4,7 +4,7 @@ import { Star } from 'react-feather'
 import { AppSidebarSection } from '../AppSidebarSection'
 import { appSidebarContext } from '../appSidebarContext'
 
-import styles from './AppSidebarFavorites.module.scss'
+import styles from './AppSidebarFavorites.module.css'
 
 export interface AppSidebarFavoritesProps {
   children: (props: { items: string[] }) => ReactNode

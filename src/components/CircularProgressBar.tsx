@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react'
 import useEffectOnce from 'react-use/lib/useEffectOnce'
 
-import styles from './CircularProgressBar.module.scss'
+import styles from './CircularProgressBar.module.css'
 
 export const size = 132
 export const outerStrokeWidth = 6

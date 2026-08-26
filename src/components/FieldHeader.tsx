@@ -5,7 +5,7 @@ import { Label } from './Label'
 import { Help, HelpProps } from './Help'
 import { DataTestProp } from '../helpers/types'
 
-import styles from './FieldHeader.module.scss'
+import styles from './FieldHeader.module.css'
 
 export type FieldHeaderVariant = 'primary' | 'secondary'
 export type FieldHeaderLabelProps = {

@@ -5,7 +5,7 @@ import { Star } from 'react-feather'
 import { IconButton } from '../../IconButton'
 import { appSidebarContext } from '../appSidebarContext'
 
-import styles from './AppSidebarFavoriteButton.module.scss'
+import styles from './AppSidebarFavoriteButton.module.css'
 
 export interface AppSidebarFavoriteButtonProps {
   id: string

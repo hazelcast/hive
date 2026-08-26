@@ -121,6 +121,29 @@
   --hive-table-column-min-width: 60px;
   --hive-table-column-width: 170px;
   --hive-table-column-max-width: 600px;
+  --hive-error-height: 1.1875rem; /* $grid * 4.75 */
+  --hive-empty-state-button-min-width-normal: 120px;
+  --hive-empty-state-button-min-width-large: 140px;
+  --hive-separator-width: 1px;
+  --hive-slide-track-height: 0.5rem; /* $grid * 2 */
+  --hive-slider-track-border-radius: 0.5rem; /* $grid * 2 */
+  --hive-slider-thumb-border-size: 0.375rem; /* $grid * 1.5 */
+  --hive-slider-thumb-hover-border-size: 1px;
+  --hive-slider-thumb-shadow-size: 1px;
+  --hive-slider-thumb-shadow-blur: 0.25rem; /* $grid */
+  --hive-slider-fill-border-size: 1px;
+
+  /* ─── Motion ──────────────────────────────────────────────────── */
+
+  --hive-duration-loader: 1.6s;
+
+  /* ─── Stacking ────────────────────────────────────────────────── */
+
+  --hive-z-index-0: 0;
+  --hive-z-index-100: 1;
+  --hive-z-index-200: 2;
+  --hive-z-index-1000: 10;
+  --hive-z-index-2000: 20;
 
   /* ─── Typography ──────────────────────────────────────────────── */
 

@@ -1,10 +1,25 @@
 import { Meta, Typeset } from '@storybook/addon-docs/blocks'
 
-import styleConsts from '../styles/constants/export.module.scss'
-
 <Meta title="Visual Style/Typography" />
 
 export const sampleText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+
+export const readCssVar = (name) => getComputedStyle(document.documentElement).getPropertyValue(`--hive-${name}`).trim()
+
+export const styleConsts = {
+  fontSizeH1Hero: readCssVar('font-size-h1-hero'),
+  fontSizeH1: readCssVar('font-size-h1'),
+  fontSizeH2: readCssVar('font-size-h2'),
+  fontSizeH3: readCssVar('font-size-h3'),
+  fontSizeBodyNormal: readCssVar('font-size-body-normal'),
+  fontSizeBodySmall: readCssVar('font-size-body-small'),
+  fontWeightHeadingRegular: readCssVar('font-weight-heading-regular'),
+  fontWeightHeadingBold: readCssVar('font-weight-heading-bold'),
+  fontWeightTextRegular: readCssVar('font-weight-text-regular'),
+  fontWeightTextBold: readCssVar('font-weight-text-bold'),
+  fontFamilyHeading: readCssVar('font-family-heading'),
+  fontFamilyText: readCssVar('font-family-text'),
+}
 
 # Typography
 
