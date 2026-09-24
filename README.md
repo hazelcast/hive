@@ -29,7 +29,7 @@ Design system built with A11Y in mind. Developed as a [Lerna](https://lerna.js.o
   - [Run visual regression tests](#run-visual-regression-tests)
   - [Approve the updated for visual regression test screenshots](#approve-the-updated-for-visual-regression-test-screenshots)
   - [Run all checks at once](#run-all-checks-at-once)
-- [Releasing a new version](#releasing-a-new-version)
+- [Releasing](#releasing)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -189,42 +189,12 @@ pnpm run verify-all
 
 If you PR passes this check locally, it is almost guaranteed to pass it on the CI.
 
-## Releasing a new version
+## Releasing
 
-Assuming you're on latest master and the build is alright (`pnpm run build` runs without errors).
+`v3` is the current stable line, published to npm under the `latest` dist-tag (development of the next major continues on `master`, published under `canary`).
 
-1. First we create a release branch for the next version locally (in this case v1.1.0):
+Releases are triggered manually via the ["prepare release" GitHub Actions workflow](.github/workflows/prepare-release.yml):
 
-   ```
-   git checkout -b release/v1.1.0
-   ```
-
-   We push this new branch to Github:
-
-   ```
-   git push -u origin release/v1.1.0
-   ```
-
-2. Then we run:
-
-   ```
-   pnpm exec lerna version 1.1.0
-   ```
-
-   This updates the package versions (in package.json, package-lock.json), creates a commit with necessary tags and pushes to Github automatically.
-
-   At this point you should create a pull request and merge the new version branch (v1.1.0) to master.
-
-3. Now, after merging this pull request, we have the latest version available on GitHub. And it will be automatically published to npm with the required tags and releases;
-
-   Wait for a few seconds/minutes (depends on how busy npm is at the time), and you should see the latest version we just released in the list returned by:
-
-   ```
-   pnpm view @hazelcast/ui versions
-   ```
-
-   If something went wrong and npm did not create a new release, then you can manually inform it about our new release:
-
-   ```
-   pnpm exec lerna publish from-git
-   ```
+1. Run the workflow (`workflow_dispatch`) against the `v3` branch with the desired version bump type.
+2. It opens a PR bumping the version and enables auto-merge.
+3. Once a code owner approves and it merges, npm publish and git tagging happen automatically.
