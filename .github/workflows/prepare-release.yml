@@ -52,16 +52,17 @@ jobs:
         with:
           token: ${{ github.token }}
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          baseBranch: master
+          baseBranch: ${{ github.ref_name }}
           onlyChanged: true
           exitZeroOnChanges: true
           workingDir: ./
           autoAcceptChanges: true
 
-  # Opens a PR bumping the version instead of pushing to master directly, since
-  # master requires a PR + code owner approval. Auto-merge is enabled so it lands
-  # as soon as that approval is given; the actual publish happens in
-  # release.yml once the PR merges.
+  # Opens a PR bumping the version against whichever branch this workflow was
+  # dispatched on (master or v3), instead of pushing directly, since both
+  # require a PR + code owner approval. Auto-merge is enabled so it lands as
+  # soon as that approval is given; the actual publish happens in release.yml
+  # once the PR merges.
   open_release_pr:
     runs-on: ubuntu-latest
     steps:
@@ -80,12 +81,13 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           VERSION="${{ steps.bump.outputs.version }}"
+          BASE="${{ github.ref_name }}"
           BRANCH="release/$VERSION"
           git checkout -b "$BRANCH"
           git commit -am "chore(release): $VERSION"
           git push --no-verify origin "$BRANCH"
           gh pr create \
-            --base master \
+            --base "$BASE" \
             --head "$BRANCH" \
             --title "chore(release): $VERSION" \
             --body "Automated release PR. Merging publishes \`$VERSION\` to npm."

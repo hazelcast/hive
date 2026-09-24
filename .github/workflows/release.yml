@@ -2,7 +2,7 @@ name: release
 on:
   pull_request:
     types: [closed]
-    branches: [master]
+    branches: [master, v3]
 
 permissions:
   # OIDC token for npm registry authentication - https://docs.npmjs.com/trusted-publishers
@@ -11,22 +11,26 @@ permissions:
   contents: write
 
 jobs:
-  # Runs once a PR opened by prepare-release.yml is approved and merged;
-  # publishes to npm and tags the release. Tag pushes aren't gated by branch
-  # protection on master.
+  # Runs once a PR opened by prepare-release.yml is approved and merged into
+  # master or v3; publishes to npm and tags the release. Tag pushes aren't
+  # gated by branch protection.
   publish_release:
     if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'release/')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: master
+          ref: ${{ github.event.pull_request.base.ref }}
           fetch-depth: 0
       - uses: ./.github/actions/install
       - name: Compile package
         run: npm run compile
       - name: Publish to npm
-        run: npm publish --tag canary
+        env:
+          # master (v4 line) is still prereleased under the `canary` dist-tag;
+          # v3 is the current stable line and publishes to `latest`.
+          NPM_TAG: ${{ github.event.pull_request.base.ref == 'master' && 'canary' || 'latest' }}
+        run: npm publish --tag "$NPM_TAG"
       - name: Tag release
         id: tag
         run: |
