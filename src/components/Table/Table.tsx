@@ -70,6 +70,10 @@ export type PaginationChangeProps = {
 export type ControlledPaginationProps = {
   manualPagination?: boolean
   onPaginationChange?: (paginationChangeProps: PaginationChangeProps) => void
+  // Total row count across all pages. Only meaningful with `manualPagination`, where `data` is
+  // just the current page's rows: overrides the pagination footer's "X - Y of {total}" count,
+  // which otherwise falls back to `data.length` (wrong on a partial page).
+  totalCount?: number
 }
 
 export type ControlledSortingProps = {
@@ -152,6 +156,7 @@ export const Table = <D extends RowData & { subRows?: D[] }>({
   onPaginationChange,
   onSortingChange,
   manualPagination,
+  totalCount,
   onRenderedContentChange,
   hidePagination = false,
   pageCount: controlledPageCount,
@@ -569,7 +574,7 @@ export const Table = <D extends RowData & { subRows?: D[] }>({
             }}
             pageSize={pageSize}
             setPageSize={setPageSize}
-            numberOfItems={data.length}
+            numberOfItems={totalCount ?? data.length}
             pageSizeOptions={paginationOptions?.pageSizeOptions ?? [5, 10, 20]}
           />
         )}
