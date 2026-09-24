@@ -265,6 +265,48 @@ describe('Table', () => {
     expect(within(screen.getByTestId('table-content')).queryByText(bigDataSet[30].name)).not.toBeInTheDocument()
   })
 
+  describe('pagination footer total', () => {
+    // Pagination collapses to a small view (hiding the "X - Y of Z" text) below a width
+    // breakpoint measured via offsetWidth, which jsdom always reports as 0 - force a "wide"
+    // layout so these two tests can assert on that text, restoring it after each so later
+    // tests keep seeing jsdom's real (0) offsetWidth.
+    const originalOffsetWidth = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'offsetWidth')
+
+    beforeEach(() => {
+      Object.defineProperty(HTMLElement.prototype, 'offsetWidth', {
+        configurable: true,
+        value: 1024,
+      })
+    })
+
+    afterEach(() => {
+      if (originalOffsetWidth) {
+        Object.defineProperty(HTMLElement.prototype, 'offsetWidth', originalOffsetWidth)
+      }
+    })
+
+    it('shows totalCount (not data.length) under manual pagination', async () => {
+      const columns = getColumns({})
+
+      await renderAndCheckA11Y(
+        <Table data-test="table-test" columns={columns} data={smallDataSet.slice(0, 3)} manualPagination pageCount={1} totalCount={7} />,
+        { axeOptions },
+      )
+
+      expect(screen.getByTestId('pagination-range-of-shown-items')).toHaveTextContent('1 – 7 of 7')
+    })
+
+    it('falls back to data.length when totalCount is not provided', async () => {
+      const columns = getColumns({})
+
+      await renderAndCheckA11Y(<Table data-test="table-test" columns={columns} data={smallDataSet} />, { axeOptions })
+
+      expect(screen.getByTestId('pagination-range-of-shown-items')).toHaveTextContent(
+        `1 – ${smallDataSet.length} of ${smallDataSet.length}`,
+      )
+    })
+  })
+
   it('SubRows', async () => {
     const columns = getColumns({ withFooter: true })
 
