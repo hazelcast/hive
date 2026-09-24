@@ -1,0 +1,94 @@
+name: prepare release
+env:
+  CI: true
+  GIT_AUTHOR_NAME: GitHub Actions Bot
+  GIT_AUTHOR_EMAIL: github-actions[bot]@users.noreply.github.com
+  GIT_AUTHOR_USERNAME: github-actions[bot]
+  GIT_COMMITTER_NAME: GitHub Actions Bot
+  GIT_COMMITTER_EMAIL: github-actions[bot]@users.noreply.github.com
+  GIT_COMMITTER_USERNAME: github-actions[bot]
+on:
+  workflow_dispatch:
+    inputs:
+      skip_chromatic_publish:
+        description: 'Should skip publishing to Chromatic'
+        required: false
+        default: false
+        type: boolean
+      release_type:
+        description: 'Type of the release'
+        required: false
+        default: 'patch'
+        type: choice
+        options:
+          - major
+          - minor
+          - patch
+          - prerelease
+          - prepatch
+          - preminor
+          - premajor
+
+permissions:
+  # push the release branch, create/merge the release PR
+  contents: write
+  pull-requests: write
+
+jobs:
+  chromatic-deployment:
+    if: github.event.inputs.skip_chromatic_publish != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: ./.github/actions/install
+      - name: Compile Package
+        run: npm run compile
+      - name: Build Storybook
+        run: npm run build-storybook
+      - name: Publish to Chromatic
+        uses: chromaui/action@v11
+        with:
+          token: ${{ github.token }}
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          baseBranch: ${{ github.ref_name }}
+          onlyChanged: true
+          exitZeroOnChanges: true
+          workingDir: ./
+          autoAcceptChanges: true
+
+  # Opens a PR bumping the version against whichever branch this workflow was
+  # dispatched on (master or v3), instead of pushing directly, since both
+  # require a PR + code owner approval. Auto-merge is enabled so it lands as
+  # soon as that approval is given; the actual publish happens in release.yml
+  # once the PR merges.
+  open_release_pr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GH_TOKEN }}
+      - uses: ./.github/actions/install
+      - name: Bump version
+        id: bump
+        run: |
+          VERSION=$(npm version --preid canary --no-commit-hooks --no-git-tag-version ${{ github.event.inputs.release_type || 'patch' }})
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+      - name: Open release PR
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          VERSION="${{ steps.bump.outputs.version }}"
+          BASE="${{ github.ref_name }}"
+          BRANCH="release/$VERSION"
+          git checkout -b "$BRANCH"
+          git commit -am "chore(release): $VERSION"
+          git push --no-verify origin "$BRANCH"
+          gh pr create \
+            --base "$BASE" \
+            --head "$BRANCH" \
+            --title "chore(release): $VERSION" \
+            --body "Automated release PR. Merging publishes \`$VERSION\` to npm."
+          gh pr merge "$BRANCH" --auto --squash

@@ -1,7 +1,7 @@
 name: check pull request
 on:
   pull_request:
-    branches: [master]
+    branches: [v3]
 env:
   CI: true
 

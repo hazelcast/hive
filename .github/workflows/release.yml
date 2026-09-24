@@ -1,73 +1,48 @@
-name: manual release
-env:
-  CI: true
-  GIT_AUTHOR_NAME: GitHub Actions Bot
-  GIT_AUTHOR_EMAIL: github-actions[bot]@users.noreply.github.com
-  GIT_AUTHOR_USERNAME: github-actions[bot]
-  GIT_COMMITTER_NAME: GitHub Actions Bot
-  GIT_COMMITTER_EMAIL: github-actions[bot]@users.noreply.github.com
-  GIT_COMMITTER_USERNAME: github-actions[bot]
+name: release
 on:
-  workflow_dispatch:
-    inputs:
-      skip_chromatic_publish:
-        description: 'Should skip publishing to Chromatic'
-        required: false
-        default: false
-        type: boolean
-      release_type:
-        description: 'Type of the release'
-        required: false
-        default: 'prerelease'
-        type: choice
-        options:
-          - major
-          - minor
-          - patch
-          - prerelease
-          - prepatch
-          - preminor
-          - premajor
+  pull_request:
+    types: [closed]
+    branches: [master, v3]
 
 permissions:
   # OIDC token for npm registry authentication - https://docs.npmjs.com/trusted-publishers
   id-token: write
-  # `git push` changes back to repo
+  # push the release tag
   contents: write
 
 jobs:
-  chromatic-deployment:
-    if: github.event.inputs.skip_chromatic_publish == false
+  # Runs once a PR opened by prepare-release.yml is approved and merged into
+  # master or v3; publishes to npm and tags the release. Tag pushes aren't
+  # gated by branch protection.
+  publish_release:
+    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'release/')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/install
-      - name: Compile Package
-        run: npm run compile
-      - name: Build Storybook
-        run: npm run build-storybook
-      - name: Publish to Chromatic
-        uses: chromaui/action@v11
+      - uses: actions/checkout@v6
         with:
-          token: ${{ github.token }}
-          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          exitZeroOnChanges: true
-          workingDir: ./
-          autoAcceptChanges: true
-
-  publish_canary:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
+          ref: ${{ github.event.pull_request.base.ref }}
           fetch-depth: 0
       - uses: ./.github/actions/install
       - name: Compile package
         run: npm run compile
-      - name: Increment version
-        run: |
-          npm version --preid canary --no-commit-hooks ${{ github.event.inputs.release_type || 'prerelease' }}
-          git push --no-verify
-          git push --tags --no-verify
       - name: Publish to npm
-        run: npm publish
+        env:
+          # master (v4 line) is still prereleased under the `canary` dist-tag;
+          # v3 is the current stable line and publishes to `latest`.
+          NPM_TAG: ${{ github.event.pull_request.base.ref == 'master' && 'canary' || 'latest' }}
+        run: npm publish --tag "$NPM_TAG"
+      - name: Tag release
+        id: tag
+        run: |
+          VERSION="$(node -p "require('./package.json').version")"
+          git tag "v$VERSION"
+          git push --no-verify origin "v$VERSION"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+      - name: Notify Slack
+        if: success()
+        uses: slackapi/slack-github-action@dcb1066f776dd043e64d0e8ba94ca15cc7e1875d # v4.0.0
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_CORE_UI_CI }}
+          webhook-type: incoming-webhook
+          payload: |
+            text: "📦 *@hazelcast/ui@${{ steps.tag.outputs.version }}* published to npm\n<https://www.npmjs.com/package/@hazelcast/ui/v/${{ steps.tag.outputs.version }}|View on npm> · <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|Workflow run>"
