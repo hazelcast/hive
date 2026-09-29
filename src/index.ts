@@ -72,7 +72,8 @@ export { Toggle } from './components/Toggle'
 export { ToggleFormik } from './components/ToggleFormik'
 export { Tooltip } from './components/Tooltip'
 export { TruncatedText } from './components/TruncatedText'
-export { useOpenCloseState, useRefValue, useIsMounted, useOnClickOutside, containsElement } from './hooks'
+export { useOpenCloseState, useRefValue, useIsMounted, useOnClickOutside, containsElement, useColorScheme } from './hooks'
+export type { ColorScheme } from './hooks'
 
 // icons
 export { Cluster } from './icons/Cluster'

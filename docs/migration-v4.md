@@ -1007,17 +1007,21 @@ Full list: see `styles/variables.css` in the hive repo.
 
 ### Dark mode
 
-The `-v4` color tokens are defined with `light-dark()` and `:root` sets `color-scheme: light dark`, so they follow the OS preference by default. Each token has `-light-mode` and `-dark-mode` variants that can be overridden individually.
+The `-v4` color tokens are defined with `light-dark()`. Each token has `-light-mode` and `-dark-mode` variants that can be overridden individually.
 
-```css
-/* Force a scheme for the whole app or a subtree */
-:root {
-  color-scheme: light;
-}
-.my-dark-panel {
-  color-scheme: dark;
+Use `useColorScheme` to drive the theme. On first visit it uses the OS preference; once the user picks a scheme it is stored in `localStorage` (`hive-color-scheme`) and used from then on.
+
+```tsx
+import { useColorScheme } from '@hazelcast/ui'
+
+const ThemeToggle = () => {
+  const [scheme, setScheme] = useColorScheme()
+
+  return <Toggle checked={scheme === 'dark'} onChange={(e) => setScheme(e.target.checked ? 'dark' : 'light')} label="Dark mode" />
 }
 ```
+
+Call it once near the app root. Before JS runs, `:root { color-scheme: light dark }` already follows the OS, so there is no flash on first load. A subtree can still be forced with `color-scheme: light` / `dark`.
 
 Requires Chrome/Edge 123+, Safari 17.5+, Firefox 120+. v3 (non-`-v4`) tokens are light-only.
 
