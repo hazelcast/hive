@@ -1005,6 +1005,22 @@ Import the CSS variables file instead (once, at your app root):
 
 Full list: see `styles/variables.css` in the hive repo.
 
+### Dark mode
+
+The `-v4` color tokens are defined with `light-dark()` and `:root` sets `color-scheme: light dark`, so they follow the OS preference by default. Each token has `-light-mode` and `-dark-mode` variants that can be overridden individually.
+
+```css
+/* Force a scheme for the whole app or a subtree */
+:root {
+  color-scheme: light;
+}
+.my-dark-panel {
+  color-scheme: dark;
+}
+```
+
+Requires Chrome/Edge 123+, Safari 17.5+, Firefox 120+. v3 (non-`-v4`) tokens are light-only.
+
 ### Class name changes
 
 | Component | Old class | New class |

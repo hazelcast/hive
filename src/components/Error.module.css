@@ -4,7 +4,7 @@
   letter-spacing: var(--hive-letter-spacing-body-small);
   line-height: var(--hive-line-height-body-small);
   font-weight: var(--hive-font-weight-text-regular);
-  color: var(--hive-color-error);
+  color: var(--hive-color-error-text-v4);
   display: none;
 
   &.hasError {

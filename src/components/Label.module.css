@@ -4,7 +4,7 @@
   letter-spacing: var(--hive-letter-spacing-body-normal);
   line-height: var(--hive-line-height-body-normal);
   font-weight: var(--hive-font-weight-text-regular);
-  color: var(--hive-color-text-secondary);
+  color: light-dark(var(--hive-color-text-secondary), var(--hive-color-text-secondary-v4));
   padding: 0;
 
   &.secondary {
