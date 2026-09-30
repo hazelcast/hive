@@ -1,9 +1,9 @@
 .root {
   position: absolute;
   padding: var(--hive-grid) 0;
-  background: var(--hive-color-neutral-white);
+  background: var(--hive-color-neutral-white-v4);
   border-radius: var(--hive-border-radius);
-  border: var(--hive-border-width) solid var(--hive-color-neutral);
+  border: var(--hive-border-width) solid var(--hive-color-border-v4);
   z-index: var(--hive-z-index-2000);
   display: flex;
   flex-direction: column;
@@ -20,11 +20,11 @@
   text-align: left;
 
   &:focus-visible {
-    box-shadow: inset 0 0 0 var(--hive-outline-width) var(--hive-color-accessibility-outline);
+    box-shadow: inset 0 0 0 var(--hive-outline-width) var(--hive-color-primary-v4);
   }
 
   &:hover {
-    background: var(--hive-color-neutral);
+    background: var(--hive-color-surface-hover-v4);
   }
 }
 

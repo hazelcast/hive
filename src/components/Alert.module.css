@@ -91,7 +91,7 @@
 }
 
 .action {
-  color: var(--alert-color);
+  color: var(--alert-color) !important;
 }
 
 .action:not(:last-child) {

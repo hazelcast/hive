@@ -131,7 +131,7 @@
   --hive-color-success-text-v4-dark-mode: var(--hive-color-success-v4-dark-mode);
   --hive-color-success-text-v4: light-dark(var(--hive-color-success-text-v4-light-mode), var(--hive-color-success-text-v4-dark-mode));
   --hive-color-info-text-v4-light-mode: var(--hive-color-info-darkest);
-  --hive-color-info-text-v4-dark-mode: var(--hive-color-info-v4-dark-mode);
+  --hive-color-info-text-v4-dark-mode: #8ec5ff;
   --hive-color-info-text-v4: light-dark(var(--hive-color-info-text-v4-light-mode), var(--hive-color-info-text-v4-dark-mode));
   --hive-color-warning-text-v4-light-mode: var(--hive-color-warning-darkest);
   --hive-color-warning-text-v4-dark-mode: var(--hive-color-warning-v4-dark-mode);
@@ -140,6 +140,13 @@
   /* Figma #ff5f56 is 3.9:1 on tinted surfaces; lifted for 4.5:1 */
   --hive-color-error-text-v4-dark-mode: oklch(from var(--hive-color-error-v4-dark-mode) calc(l + 0.14) c h);
   --hive-color-error-text-v4: light-dark(var(--hive-color-error-text-v4-light-mode), var(--hive-color-error-text-v4-dark-mode));
+  --hive-color-overlay-background-v4-light-mode: var(--hive-color-neutral-white-v4-light-mode);
+  --hive-color-overlay-background-v4-dark-mode: var(--hive-color-neutral-lighter-v4-dark-mode);
+  --hive-color-overlay-background-v4: light-dark(
+    var(--hive-color-overlay-background-v4-light-mode),
+    var(--hive-color-overlay-background-v4-dark-mode)
+  );
+  --hive-shadow-popover-v4: 0 1px 3px oklch(0 0 0 / 0.17);
   --hive-shadow-button-v4: 0 1px 3px oklch(0 0 0 / 0.1), 0 1px 2px oklch(0 0 0 / 0.1);
 
   /* ─── Spacing ─────────────────────────────────────────────────── */

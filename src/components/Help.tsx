@@ -6,7 +6,6 @@ import { Icon, IconSize } from './Icon'
 import { Tooltip, TooltipSide } from './Tooltip'
 import { DataTestProp } from '../helpers/types'
 
-import { styleConstants } from '../utils/styleConstants'
 import styles from './Help.module.css'
 
 export const helpTooltipId = (inputId: string): string => `${inputId}-help`
@@ -34,14 +33,7 @@ export const Help: FC<HelpProps> = ({
   return (
     <Tooltip side={placement} content={helperText} id={tooltipId} wordBreak={tooltipWordBreak}>
       <div data-test={dataTest} className={cn(styles.container, className)}>
-        <Icon
-          ariaLabel="Help"
-          aria-describedby={tooltipId}
-          color={styleConstants.colorPrimary}
-          icon={HelpCircle}
-          className={styles.icon}
-          size={size}
-        />
+        <Icon ariaLabel="Help" aria-describedby={tooltipId} icon={HelpCircle} className={styles.icon} size={size} />
       </div>
     </Tooltip>
   )
