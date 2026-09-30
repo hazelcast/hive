@@ -22,7 +22,7 @@
     letter-spacing: var(--hive-letter-spacing-body-small);
     line-height: var(--hive-line-height-body-small);
     font-weight: var(--hive-font-weight-text-regular);
-    color: var(--hive-color-text-secondary);
+    color: var(--hive-color-text-secondary-v4);
   }
 
   .buttons {
@@ -35,10 +35,10 @@
 
     /* Override Button styles */
     .button {
-      color: var(--hive-color-text-secondary);
-      background-color: var(--hive-color-neutral-lighter);
+      color: var(--hive-color-text-secondary-v4);
+      background-color: var(--hive-color-neutral-lighter-v4);
       border: 1px solid;
-      border-color: var(--hive-color-neutral-light);
+      border-color: var(--hive-color-border-v4);
       height: var(--hive-input-height-small);
       border-radius: var(--hive-border-radius);
       font-family: var(--hive-font-family-text);
@@ -58,13 +58,13 @@
       &:hover,
       &:active,
       &.selected {
-        color: var(--hive-color-text);
-        border-color: var(--hive-color-primary);
+        color: var(--hive-color-text-v4);
+        border-color: var(--hive-color-primary-v4);
       }
 
       &:focus-visible {
-        color: var(--hive-color-text);
-        border-color: var(--hive-color-accessibility-outline);
+        color: var(--hive-color-text-v4);
+        border-color: var(--hive-color-primary-v4);
       }
     }
   }
@@ -73,16 +73,16 @@
   .iconButton {
     display: flex;
     align-items: center;
-    background-color: var(--hive-color-neutral-lighter);
+    background-color: var(--hive-color-neutral-lighter-v4);
     border: 1px solid;
-    border-color: var(--hive-color-neutral-light);
+    border-color: var(--hive-color-border-v4);
     height: var(--hive-input-height-small);
     padding: 0 calc(var(--hive-grid) * 2);
 
     &:hover,
     &:active,
     &.selected {
-      border-color: var(--hive-color-primary);
+      border-color: var(--hive-color-primary-v4);
     }
 
     &:focus,

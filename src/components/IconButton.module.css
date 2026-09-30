@@ -1,7 +1,7 @@
 .iconButton {
   --button-size: 36px;
   --button-color-base: var(--hive-color-brand-v4);
-  --button-color-fg-on-base: var(--hive-color-text-v4);
+  --button-color-fg-on-base: var(--hive-color-text-on-primary-v4);
   --button-color-fg-on-light: var(--hive-color-text-v4);
   --button-bg: var(--button-color-base);
   --button-bg-hover: oklch(from var(--button-bg) calc(l - 0.04) c h);
@@ -83,18 +83,36 @@
 }
 
 .variantGhost.colorPrimary {
-  --button-bg-hover: oklch(from var(--hive-color-brand-v4) 0.95 calc(c * 0.5) h);
-  --button-bg-active: oklch(from var(--hive-color-brand-v4) 0.9 calc(c * 0.6) h);
+  --button-bg-hover: light-dark(
+    oklch(from var(--hive-color-brand-v4) 0.95 calc(c * 0.5) h),
+    color-mix(in oklab, var(--hive-color-brand-v4) 15%, transparent)
+  );
+  --button-bg-active: light-dark(
+    oklch(from var(--hive-color-brand-v4) 0.9 calc(c * 0.6) h),
+    color-mix(in oklab, var(--hive-color-brand-v4) 25%, transparent)
+  );
 }
 
 .variantGhost.colorWarning {
-  --button-bg-hover: oklch(from var(--hive-color-warning) 0.95 calc(c * 0.5) h);
-  --button-bg-active: oklch(from var(--hive-color-warning) 0.9 calc(c * 0.6) h);
+  --button-bg-hover: light-dark(
+    oklch(from var(--hive-color-warning) 0.95 calc(c * 0.5) h),
+    color-mix(in oklab, var(--hive-color-warning-text-v4) 15%, transparent)
+  );
+  --button-bg-active: light-dark(
+    oklch(from var(--hive-color-warning) 0.9 calc(c * 0.6) h),
+    color-mix(in oklab, var(--hive-color-warning-text-v4) 25%, transparent)
+  );
 }
 
 .variantGhost.colorDanger {
-  --button-bg-hover: oklch(from var(--hive-color-error) 0.95 calc(c * 0.4) h);
-  --button-bg-active: oklch(from var(--hive-color-error) 0.9 calc(c * 0.5) h);
+  --button-bg-hover: light-dark(
+    oklch(from var(--hive-color-error) 0.95 calc(c * 0.4) h),
+    color-mix(in oklab, var(--hive-color-error-text-v4) 15%, transparent)
+  );
+  --button-bg-active: light-dark(
+    oklch(from var(--hive-color-error) 0.9 calc(c * 0.5) h),
+    color-mix(in oklab, var(--hive-color-error-text-v4) 25%, transparent)
+  );
 }
 
 .variantLink {
@@ -106,7 +124,7 @@
 
 .colorPrimary {
   --button-color-base: var(--hive-color-brand-v4);
-  --button-color-fg-on-base: var(--hive-color-text-v4);
+  --button-color-fg-on-base: var(--hive-color-text-on-primary-v4);
   --button-color-fg-on-light: var(--hive-color-text-v4);
 }
 
@@ -119,13 +137,13 @@
 .colorWarning {
   --button-color-base: var(--hive-color-warning);
   --button-color-fg-on-base: var(--hive-color-warning-darkest);
-  --button-color-fg-on-light: var(--hive-color-warning-darkest);
+  --button-color-fg-on-light: var(--hive-color-warning-text-v4);
 }
 
 .colorDanger {
   --button-color-base: var(--hive-color-error);
-  --button-color-fg-on-base: var(--hive-color-neutral-white-v4);
-  --button-color-fg-on-light: var(--hive-color-error);
+  --button-color-fg-on-base: var(--hive-color-text-on-error-v4);
+  --button-color-fg-on-light: var(--hive-color-error-text-v4);
 }
 
 .variantOutlined.colorSecondary {
@@ -134,8 +152,8 @@
 }
 
 .variantOutlined.colorWarning {
-  --button-border: var(--hive-color-warning-darkest);
-  --button-border-hover: var(--hive-color-warning-darkest);
+  --button-border: var(--hive-color-warning-text-v4);
+  --button-border-hover: var(--hive-color-warning-text-v4);
 }
 
 .body {

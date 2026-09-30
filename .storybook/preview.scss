@@ -1,9 +1,13 @@
 @use '../styles/constants' as c;
 
 html {
-  color: c.$colorText;
+  color: light-dark(var(--hive-color-text), var(--hive-color-text-v4));
 
   @include c.typographyGlobal;
+}
+
+body.sb-show-main {
+  background: light-dark(var(--hive-color-neutral-white), var(--hive-color-neutral-lighter-v4));
 }
 
 // Primer-inspired polish for the Storybook Docs page.
@@ -93,10 +97,10 @@ html {
   // Story preview blocks. Storybook wraps `.docs-story` inside `.sbdocs-preview`,
   // so style only the outer container and strip any inner borders.
   .sbdocs-preview {
-    border: 1px solid #d1d9e0;
+    border: 1px solid light-dark(#d1d9e0, var(--hive-color-border-v4));
     border-radius: 8px;
     box-shadow: none;
-    background: #fff;
+    background: light-dark(var(--hive-color-neutral-white), var(--hive-color-neutral-lighter-v4));
     margin: 16px 0 32px;
     overflow: hidden;
   }
@@ -109,7 +113,11 @@ html {
 
   .docs-story > div:first-child {
     padding: 32px 24px;
-    background: linear-gradient(180deg, #fff 0%, #fafbfc 100%);
+    background: linear-gradient(
+      180deg,
+      light-dark(var(--hive-color-neutral-white), var(--hive-color-neutral-lighter-v4)) 0%,
+      light-dark(#fafbfc, var(--hive-color-neutral-lighter-v4)) 100%
+    );
   }
 
   // Source / code toggle bar
