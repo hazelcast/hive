@@ -1,0 +1,18 @@
+.root {
+  display: flex;
+  align-items: center;
+}
+
+.separator {
+  border-left: 1px solid var(--hive-color-neutral-light);
+}
+
+.content {
+  padding: calc(var(--hive-grid) * 2);
+  color: var(--hive-color-neutral-lighter);
+  background: var(--hive-color-brand-secondary);
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: calc(var(--hive-grid) * 2);
+}

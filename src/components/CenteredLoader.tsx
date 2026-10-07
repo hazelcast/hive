@@ -3,7 +3,7 @@ import React, { FC } from 'react'
 import { DataTestProp } from '../helpers/types'
 import { LoaderProps, Loader } from './Loader'
 
-import styles from './CenteredLoader.module.scss'
+import styles from './CenteredLoader.module.css'
 
 export type CenteredLoaderProps = LoaderProps & DataTestProp
 export const CenteredLoader: FC<CenteredLoaderProps> = ({ 'data-test': dataTest = 'centered-loader', ...props }) => (

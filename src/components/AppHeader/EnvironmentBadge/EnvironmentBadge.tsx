@@ -3,7 +3,7 @@ import { Box } from 'react-feather'
 
 import { Icon } from '../../Icon'
 
-import styles from './EnvironmentBadge.module.scss'
+import styles from './EnvironmentBadge.module.css'
 
 export interface EnvironmentBadgeProps {
   environment: string

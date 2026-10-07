@@ -1,0 +1,10 @@
+.root {
+  z-index: var(--hive-z-index-2000);
+}
+
+.content {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}

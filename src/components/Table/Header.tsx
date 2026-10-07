@@ -5,7 +5,7 @@ import cn from 'classnames'
 import { Icon, IconType } from '../Icon'
 import { keyIsOneOf } from '../../utils/keyboard'
 
-import styles from './Header.module.scss'
+import styles from './Header.module.css'
 
 export type HeaderProps = {
   /**

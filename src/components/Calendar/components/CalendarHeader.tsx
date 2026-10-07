@@ -5,8 +5,8 @@ import { format } from 'date-fns'
 
 import { IconButton } from '../../IconButton'
 
-import styles from '../Calendar.module.scss'
-import styleConsts from '../../../../styles/constants/export.module.scss'
+import styles from '../Calendar.module.css'
+import { styleConstants } from '../../../utils/styleConstants'
 
 type ExtractFnArgumentType<T> = T extends (arg: infer U) => any ? U : never
 
@@ -28,7 +28,7 @@ export const CalendarHeader: FC<CalendarHeaderProps> = ({ date, decreaseMonth, i
         data-test="date-picker-header-icon-previous"
         icon={ChevronLeft}
         ariaLabel="Previous month"
-        iconColor={styleConsts.colorPrimary}
+        iconColor={styleConstants.colorPrimary}
         onClick={decreaseMonth}
       />
       <div className={styles.headerMonthAndYear}>{format(date, 'MMMM y')}</div>
@@ -36,7 +36,7 @@ export const CalendarHeader: FC<CalendarHeaderProps> = ({ date, decreaseMonth, i
         data-test="date-picker-header-icon-next"
         icon={ChevronRight}
         ariaLabel="Next month"
-        iconColor={styleConsts.colorPrimary}
+        iconColor={styleConstants.colorPrimary}
         onClick={increaseMonth}
       />
     </div>

@@ -1,0 +1,123 @@
+.container {
+  /* Match TextField */
+  font-family: var(--hive-font-family-text);
+  font-size: var(--hive-font-size-body-small);
+  letter-spacing: var(--hive-letter-spacing-body-small);
+  line-height: var(--hive-line-height-body-small);
+  font-weight: var(--hive-font-weight-text-regular);
+  color: var(--hive-color-text);
+  padding: calc(var(--hive-grid) * 5);
+  background-color: var(--hive-color-neutral-white);
+}
+
+.input {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  margin: 0;
+  margin-bottom: calc(var(--hive-grid) * 3);
+
+  > input {
+    flex: 1 1 auto;
+    min-width: 0;
+    border: none;
+    border-bottom: var(--hive-outline-width) solid var(--hive-color-neutral);
+    padding: 0;
+    margin-bottom: var(--hive-grid);
+    outline: none;
+    background-color: transparent;
+    color: var(--hive-color-text);
+    box-sizing: border-box;
+    font-size: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+
+    &.blank {
+      border-bottom-color: transparent;
+    }
+
+    &:hover,
+    &.hover {
+      border-bottom-color: var(--hive-color-text);
+    }
+
+    &:focus-visible,
+    &.focus {
+      /* Do not remove outline for high-contrast modes */
+      /* https://stackoverflow.com/a/52616313 */
+      outline: transparent solid var(--hive-outline-width);
+      border-bottom-color: var(--hive-color-accessibility-outline);
+    }
+
+    &:disabled {
+      color: var(--hive-color-text-secondary);
+      background-color: transparent;
+      border-bottom-color: var(--hive-color-neutral);
+    }
+
+    &:read-only {
+      border-bottom-color: var(--hive-color-neutral);
+    }
+  }
+}
+
+.welcome {
+  font-family: var(--hive-font-family-text);
+  font-size: var(--hive-font-size-body-small);
+  letter-spacing: var(--hive-letter-spacing-body-small);
+  line-height: var(--hive-line-height-body-small);
+  font-weight: var(--hive-font-weight-text-bold);
+  margin: 0;
+  margin-bottom: calc(var(--hive-grid) * 5);
+}
+
+.commandRes {
+  color: var(--hive-color-success-darkest);
+  margin: 0;
+  margin-bottom: calc(var(--hive-grid) * 3);
+
+  > p {
+    margin: 0;
+    margin-bottom: var(--hive-grid);
+    white-space: break-spaces;
+  }
+}
+
+.commandError {
+  color: var(--hive-color-error-dark);
+  margin: 0;
+  margin-bottom: calc(var(--hive-grid) * 3);
+}
+
+.loading {
+  margin: 0;
+  margin-bottom: calc(var(--hive-grid) * 3);
+  position: relative;
+}
+
+.loadingA11yText {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+  border: 0;
+  white-space: nowrap;
+  top: 1px;
+  left: 1px;
+}
+
+.terminalIcon {
+  margin-right: calc(var(--hive-grid) * 3);
+}
+
+.prompt {
+  font-family: var(--hive-font-family-text);
+  font-size: var(--hive-font-size-body-small);
+  letter-spacing: var(--hive-letter-spacing-body-small);
+  line-height: var(--hive-line-height-body-small);
+  font-weight: var(--hive-font-weight-text-bold);
+  margin-right: var(--hive-grid);
+}

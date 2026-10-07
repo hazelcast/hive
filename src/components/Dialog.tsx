@@ -3,7 +3,7 @@ import cn from 'classnames'
 
 import { Modal, ModalProps, ModalActionProps } from './Modal'
 
-import styles from './Dialog.module.scss'
+import styles from './Dialog.module.css'
 
 export const DIALOG_AFFIRMATION_DEFAULT = 'Are you sure you wish to proceed?'
 

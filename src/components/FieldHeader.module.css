@@ -1,0 +1,22 @@
+.root {
+  display: flex;
+  margin-bottom: var(--hive-grid);
+}
+
+.label {
+  flex-shrink: 0;
+  white-space: pre-wrap;
+
+  &.small {
+    font-family: var(--hive-font-family-text);
+    font-size: var(--hive-font-size-body-small);
+    letter-spacing: var(--hive-letter-spacing-body-small);
+    line-height: var(--hive-line-height-body-small);
+    font-weight: var(--hive-font-weight-text-regular);
+  }
+}
+
+.helperText {
+  flex-shrink: 0;
+  margin-top: calc(var(--hive-grid) * 0.5);
+}

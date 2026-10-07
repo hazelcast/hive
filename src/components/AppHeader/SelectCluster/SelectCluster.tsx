@@ -5,7 +5,7 @@ import { CheckCircle } from 'react-feather'
 import { SelectField } from '../../Select'
 import { CenteredLoader } from '../../CenteredLoader'
 
-import styles from './SelectCluster.module.scss'
+import styles from './SelectCluster.module.css'
 
 const getSafeValue = (
   clusterName: string | null,

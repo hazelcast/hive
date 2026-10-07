@@ -1,0 +1,315 @@
+/* doiuse-disable calc */
+/* doiuse-disable multicolumn */
+/* doiuse-disable css-appearance */
+
+/**
+  We can't combine these selectors with a comma, because they're invalid in different browsers.
+  This helper will save us some code blocks.
+ */
+
+ul.markDescriptions {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  height: calc(var(--hive-grid) * 8);
+  position: relative;
+  font-size: var(--hive-font-size-body-small);
+  color: var(--hive-color-text-secondary);
+
+  > li {
+    position: absolute;
+    bottom: var(--hive-grid);
+    transform: translateX(-50%);
+    white-space: nowrap;
+
+    &.activeMarkDescription {
+      font-weight: var(--hive-font-weight-text-bold);
+      color: black;
+    }
+  }
+}
+
+.valueIndicators {
+  padding: 0;
+  height: calc(var(--hive-grid) * 6);
+  position: relative;
+  width: calc(100% - var(--hive-slider-thumb-border-size) - var(--hive-slider-thumb-shadow-size));
+  margin: 0 auto;
+
+  > span {
+    position: absolute;
+    top: var(--hive-grid);
+    transform: translateX(-50%);
+    font-size: var(--hive-font-size-body-normal);
+    font-weight: var(--hive-font-weight-text-bold);
+    white-space: nowrap;
+  }
+}
+
+.withError {
+  position: relative;
+  padding-bottom: calc(var(--hive-error-height) + var(--hive-grid));
+
+  .errorContainer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    height: var(--hive-error-height);
+    width: 100%;
+  }
+}
+
+.wrapper {
+  display: flex;
+
+  & * {
+    box-sizing: border-box;
+  }
+
+  .innerWrapper {
+    flex: 1;
+  }
+
+  .inputWrapper {
+    font-family: var(--hive-font-family-text);
+    font-size: var(--hive-font-size-body-small);
+    letter-spacing: var(--hive-letter-spacing-body-small);
+    line-height: var(--hive-line-height-body-small);
+    font-weight: var(--hive-font-weight-text-regular);
+    position: relative;
+    height: var(--hive-slide-track-height);
+    flex: 1;
+    margin: var(--hive-slide-track-height) 0;
+
+    input[type='range'] {
+      z-index: var(--hive-z-index-100);
+      outline: none;
+      background: none;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: calc(var(--hive-slider-thumb-border-size) * -1);
+      width: calc(100% + var(--hive-slider-thumb-border-size) * 2);
+      height: 100%;
+      pointer-events: none;
+      min-height: var(--hive-slide-track-height);
+      padding: 0;
+      margin: 0;
+      justify-self: center;
+
+      &::-webkit-slider-runnable-track,
+      &::-webkit-slider-thumb,
+      & {
+        appearance: none;
+      }
+
+      &::-webkit-slider-runnable-track {
+        background: none;
+        appearance: none;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        box-sizing: border-box;
+      }
+
+      &::-moz-range-track {
+        background: none;
+        appearance: none;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        box-sizing: border-box;
+      }
+
+      &::-ms-track {
+        background: none;
+        appearance: none;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        box-sizing: border-box;
+        visibility: hidden;
+      }
+
+      &::-webkit-slider-thumb {
+        box-shadow: 0 var(--hive-slider-thumb-shadow-size) var(--hive-slider-thumb-shadow-blur) var(--hive-color-shadow);
+        background: var(--hive-color-success);
+        border: var(--hive-slider-thumb-border-size) solid var(--hive-color-neutral-white);
+        box-sizing: content-box; /* and because of all of this, we need content-box */
+        border-radius: 50%;
+        pointer-events: auto; /* catch clicks */
+        width: var(--hive-slide-track-height);
+        height: var(--hive-slide-track-height);
+      }
+
+      &::-moz-range-thumb {
+        box-shadow: 0 var(--hive-slider-thumb-shadow-size) var(--hive-slider-thumb-shadow-blur) var(--hive-color-shadow);
+        background: var(--hive-color-success);
+        border: var(--hive-slider-thumb-border-size) solid var(--hive-color-neutral-white);
+        box-sizing: content-box;
+        border-radius: 50%;
+        pointer-events: auto;
+        width: var(--hive-slide-track-height);
+        height: var(--hive-slide-track-height);
+      }
+
+      &::-ms-thumb {
+        box-shadow: 0 var(--hive-slider-thumb-shadow-size) var(--hive-slider-thumb-shadow-blur) var(--hive-color-shadow);
+        background: var(--hive-color-success);
+        border: var(--hive-slider-thumb-border-size) solid var(--hive-color-neutral-white);
+        box-sizing: content-box;
+        border-radius: 50%;
+        pointer-events: auto;
+        width: var(--hive-slide-track-height);
+        height: var(--hive-slide-track-height);
+      }
+
+      /* Hover */
+      &:hover,
+      &.hover {
+        &::-webkit-slider-thumb {
+          box-shadow: 0 0 0 var(--hive-slider-thumb-hover-border-size) var(--hive-color-primary);
+        }
+
+        &::-moz-range-thumb {
+          box-shadow: 0 0 0 var(--hive-slider-thumb-hover-border-size) var(--hive-color-primary);
+        }
+
+        &::-ms-thumb {
+          box-shadow: 0 0 0 var(--hive-slider-thumb-hover-border-size) var(--hive-color-primary);
+        }
+      }
+
+      &.focus,
+      &:focus-visible {
+        &::-webkit-slider-thumb {
+          box-shadow: 0 0 0 var(--hive-outline-width) var(--hive-color-accessibility-outline);
+        }
+
+        &::-moz-range-thumb {
+          box-shadow: 0 0 0 var(--hive-outline-width) var(--hive-color-accessibility-outline);
+        }
+
+        &::-ms-thumb {
+          box-shadow: 0 0 0 var(--hive-outline-width) var(--hive-color-accessibility-outline);
+        }
+      }
+
+      /* don't show IE11's lower fill */
+      &::-ms-fill-lower {
+        display: none;
+      }
+    }
+
+    /* see the javascript code for an explanation of this class */
+    input[type='range'].atTheBorder {
+      &::-webkit-slider-thumb {
+        pointer-events: none;
+      }
+
+      &::-moz-range-thumb {
+        pointer-events: none;
+      }
+
+      &::-ms-thumb {
+        pointer-events: none;
+      }
+    }
+
+    .fillPlaceholder {
+      pointer-events: none;
+      height: var(--hive-slide-track-height);
+      box-sizing: border-box;
+      background: var(--hive-color-neutral);
+      border: var(--hive-slider-fill-border-size) solid var(--hive-color-neutral-light);
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--hive-slider-track-border-radius);
+
+      .fill {
+        pointer-events: none;
+        height: 100%;
+        background: var(--hive-color-primary-light);
+      }
+
+      ul.marks {
+        width: calc(100% - 2px);
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        position: absolute;
+        top: 0;
+        pointer-events: none;
+
+        > li {
+          position: absolute;
+          width: 2px;
+          height: 100%;
+          background-color: var(--hive-color-text-secondary);
+
+          &.active {
+            background-color: var(--hive-color-neutral-white);
+          }
+        }
+      }
+    }
+  }
+
+  .helperText {
+    margin-left: var(--hive-slider-thumb-border-size);
+    align-self: flex-end;
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+
+    .valueIndicators {
+      color: var(--hive-color-neutral-light);
+    }
+
+    ul.markDescriptions {
+      color: var(--hive-color-neutral-light);
+    }
+
+    .fillPlaceholder {
+      background-color: var(--hive-color-neutral);
+
+      .fill {
+        background-color: var(--hive-color-neutral-light);
+      }
+
+      ul.marks {
+        > li {
+          background-color: var(--hive-color-neutral-light);
+        }
+      }
+    }
+
+    input[type='range']:disabled {
+      &::-webkit-slider-thumb {
+        box-shadow: 0 0 0 var(--hive-slider-thumb-hover-border-size) var(--hive-color-neutral);
+        background: var(--hive-color-neutral-light);
+        cursor: not-allowed;
+      }
+
+      &::-moz-range-thumb {
+        box-shadow: 0 0 0 var(--hive-slider-thumb-hover-border-size) var(--hive-color-neutral);
+        background: var(--hive-color-neutral-light);
+        cursor: not-allowed;
+      }
+
+      &::-ms-thumb {
+        box-shadow: 0 0 0 var(--hive-slider-thumb-hover-border-size) var(--hive-color-neutral);
+        background: var(--hive-color-neutral-light);
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+/* doiuse-enable calc */
+/* doiuse-enable multicolumn */
+/* doiuse-enable css-appearance */

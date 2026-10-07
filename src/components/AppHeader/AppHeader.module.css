@@ -1,0 +1,27 @@
+.root {
+  background: var(--hive-color-brand-secondary);
+  color: var(--hive-color-neutral-lighter);
+  display: flex;
+  align-items: center;
+  height: 59px;
+  box-sizing: border-box;
+  flex-direction: row;
+  font-size: var(--hive-font-size-body-small);
+  width: 100%;
+  padding: 0 calc(var(--hive-grid) * 5);
+  overflow-x: auto;
+  flex-shrink: 0;
+  gap: calc(var(--hive-grid) * 7.5);
+}
+
+.name {
+  color: var(--hive-color-brand-primary);
+  font-weight: 600;
+}
+
+.aside {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  gap: calc(var(--hive-grid) * 4);
+}

@@ -1,0 +1,67 @@
+/*
+ * Note:
+ * What's the motivation for statically settings the height of this particular element?
+ * We need to prevent the height of this element to expand the size of the calendar popper itself.
+ * There are basically 2 ways to do this:
+ * 1. Settings the height of the popper container
+ * 2. Settings the height of the element itself
+ *
+ * Even though I think option 1 is readable a bit better, there is this odd feature, where react-datepicker
+ * renders 6 weeks (rows) instead of 5 for some of the months. This expands the height by 1 week row,
+ * and would cause overflow in case of option 1.
+ * Therefore only option 2 is left.
+ */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: calc(var(--hive-grid) * 2);
+  }
+
+  .timePoints {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    /* Note: Add padding in order to preserve button's outline */
+    padding: calc(var(--hive-grid) * 1.25);
+    height: 227px;
+    /* Note: Button width is 98px with border-box applied */
+    /* doiuse-disable calc */
+    width: calc(98px - var(--hive-grid) * 2.5);
+    /* doiuse-enable calc */
+    box-sizing: border-box;
+
+    > .timePoint {
+      color: var(--hive-color-text-subdued);
+      /*
+       * Note: Using min-height instead of height to workaround IE11 flex-bug
+       * where flex text content on overflow: scroll disappears
+       */
+      min-height: calc(var(--hive-grid) * 5);
+      font-family: var(--hive-font-family-text);
+      font-size: var(--hive-font-size-body-small);
+      letter-spacing: var(--hive-letter-spacing-body-small);
+      line-height: var(--hive-line-height-body-small);
+      font-weight: var(--hive-font-weight-text-regular);
+
+      &:not(:last-of-type) {
+        margin-bottom: var(--hive-grid);
+      }
+
+      > .timePointBody {
+        padding: 0;
+      }
+    }
+  }
+}
+
+.timeInput {
+  width: 88px !important;
+}

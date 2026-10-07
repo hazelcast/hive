@@ -3,7 +3,7 @@ import cn from 'classnames'
 
 import { DataTestProp } from '../helpers/types'
 
-import styles from './Label.module.scss'
+import styles from './Label.module.css'
 
 export type LabelProps = {
   id: string

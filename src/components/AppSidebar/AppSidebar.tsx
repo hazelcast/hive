@@ -7,7 +7,7 @@ import { IconButton } from '../IconButton'
 import { createPersistedState } from '../../hooks'
 import { appSidebarContext } from './appSidebarContext'
 
-import styles from './AppSidebar.module.scss'
+import styles from './AppSidebar.module.css'
 
 export interface AppSidebarProps extends DataTestProp {
   children?: ReactNode

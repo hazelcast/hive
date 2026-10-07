@@ -1,0 +1,321 @@
+.container {
+  width: 300px;
+  min-width: 118px;
+
+  &.time {
+    min-width: 183px;
+  }
+}
+
+.container :global .react-datepicker-wrapper {
+  width: 100%;
+}
+
+/*
+ * Internal styles override for those that cannot be
+ * overridden using classNames composition
+ */
+
+.popper :global(.hz-date-picker-popper-container) :global .react-datepicker-popper {
+  z-index: var(--hive-z-index-200);
+}
+
+.popper :global(.hz-date-picker-popper-container) :global .react-datepicker {
+  padding: calc(var(--hive-grid) * 3);
+}
+
+.popper :global(.hz-date-picker-popper-container) :global .react-datepicker :global .react-datepicker__header {
+  margin: 0;
+  padding: 0;
+  background-color: var(--hive-color-neutral-lighter);
+  border: none;
+  border-radius: 0;
+}
+
+.popper
+  :global(.hz-date-picker-popper-container)
+  :global
+  .react-datepicker
+  :global
+  .react-datepicker__header
+  :global
+  .react-datepicker__day-names {
+  margin-bottom: var(--hive-grid);
+}
+
+.popper
+  :global(.hz-date-picker-popper-container)
+  :global
+  .react-datepicker
+  :global
+  .react-datepicker__header
+  :global
+  .react-datepicker__day-names
+  :global
+  .react-datepicker__day-name {
+  width: calc(var(--hive-grid) * 8);
+  height: calc(var(--hive-grid) * 8);
+  text-align: center;
+  vertical-align: middle;
+  line-height: calc(var(--hive-grid) * 8) !important;
+  margin: 0;
+  color: var(--hive-color-text);
+  font-family: var(--hive-font-family-text);
+  font-size: var(--hive-font-size-body-small);
+  letter-spacing: var(--hive-letter-spacing-body-small);
+  line-height: var(--hive-line-height-body-small);
+  font-weight: var(--hive-font-weight-text-bold);
+}
+
+.popper
+  :global(.hz-date-picker-popper-container)
+  :global
+  .react-datepicker
+  :global
+  .react-datepicker__header
+  :global
+  .react-datepicker__day-names
+  :global
+  .react-datepicker__day-name:not(:last-of-type) {
+  margin-right: calc(var(--hive-grid) * 2);
+}
+
+/*
+ * Note: The calendar part is asymmetrical by design
+ * It's padded by 2 extra px from the left
+ */
+.popper :global(.hz-date-picker-popper-container) :global .react-datepicker :global .react-datepicker__month {
+  margin: 0 0 0 calc(var(--hive-grid) * 0.5);
+}
+
+.popper
+  :global(.hz-date-picker-popper-container)
+  :global
+  .react-datepicker
+  :global
+  .react-datepicker__month
+  :global
+  .react-datepicker__week:not(:last-of-type) {
+  margin-bottom: calc(var(--hive-grid) * 2);
+}
+
+/*
+ * Note:
+ * We need to use :global override here, as 'renderCustomDay' only allows us to override
+ * the child of this element, which does not allow us to touch the styles properly
+ *
+ * Source styles:
+ * https://github.com/Hacker0x01/react-datepicker/blob/master/src/stylesheets/datepicker.scss#L395
+ */
+.popper
+  :global(.hz-date-picker-popper-container)
+  :global
+  .react-datepicker
+  :global
+  .react-datepicker__month
+  :global
+  .react-datepicker__week
+  :global
+  .react-datepicker__day {
+  border-radius: var(--hive-grid);
+  width: calc(var(--hive-grid) * 8);
+  height: calc(var(--hive-grid) * 8);
+  background-color: var(--hive-color-neutral-white);
+  color: var(--hive-color-text-secondary);
+  text-align: center;
+  vertical-align: middle;
+  line-height: calc(var(--hive-grid) * 8) !important;
+  margin: 0;
+
+  /* Do not remove outline for high-contrast modes */
+  /* https://stackoverflow.com/a/52616313 */
+  outline: transparent solid var(--hive-outline-width);
+  font-family: var(--hive-font-family-text);
+  font-size: var(--hive-font-size-body-small);
+  letter-spacing: var(--hive-letter-spacing-body-small);
+  line-height: var(--hive-line-height-body-small);
+  font-weight: var(--hive-font-weight-text-regular);
+}
+
+.popper
+  :global(.hz-date-picker-popper-container)
+  :global
+  .react-datepicker
+  :global
+  .react-datepicker__month
+  :global
+  .react-datepicker__week
+  :global
+  .react-datepicker__day--today {
+  font-family: var(--hive-font-family-text);
+  font-size: var(--hive-font-size-body-small);
+  letter-spacing: var(--hive-letter-spacing-body-small);
+  line-height: var(--hive-line-height-body-small);
+  font-weight: var(--hive-font-weight-text-bold);
+}
+
+/* TODO: Improvised colour, consult with @Pawel */
+.popper
+  :global(.hz-date-picker-popper-container)
+  :global
+  .react-datepicker
+  :global
+  .react-datepicker__month
+  :global
+  .react-datepicker__week
+  :global
+  .react-datepicker__day--in-selecting-range,
+.popper
+  :global(.hz-date-picker-popper-container)
+  :global
+  .react-datepicker
+  :global
+  .react-datepicker__month
+  :global
+  .react-datepicker__week
+  :global
+  .react-datepicker__day--in-range {
+  background-color: var(--hive-color-info-light);
+  color: var(--hive-color-neutral-white);
+}
+
+/* Note: Disable default browser outline, force our only on :focus */
+.popper
+  :global(.hz-date-picker-popper-container)
+  :global
+  .react-datepicker
+  :global
+  .react-datepicker__month
+  :global
+  .react-datepicker__week
+  :global
+  .react-datepicker__day--selected {
+  background-color: var(--hive-color-primary-light);
+  color: var(--hive-color-neutral-white);
+  font-family: var(--hive-font-family-text);
+  font-size: var(--hive-font-size-body-small);
+  letter-spacing: var(--hive-letter-spacing-body-small);
+  line-height: var(--hive-line-height-body-small);
+  font-weight: var(--hive-font-weight-text-bold);
+}
+
+.popper
+  :global(.hz-date-picker-popper-container)
+  :global
+  .react-datepicker
+  :global
+  .react-datepicker__month
+  :global
+  .react-datepicker__week
+  :global
+  .react-datepicker__day--disabled {
+  cursor: default;
+  color: var(--hive-color-neutral);
+}
+
+.popper
+  :global(.hz-date-picker-popper-container)
+  :global
+  .react-datepicker
+  :global
+  .react-datepicker__month
+  :global
+  .react-datepicker__week
+  :global
+  .react-datepicker__day:focus-visible {
+  box-shadow: inset 0 0 0 var(--hive-outline-width) var(--hive-color-accessibility-outline);
+}
+
+.popper
+  :global(.hz-date-picker-popper-container)
+  :global
+  .react-datepicker
+  :global
+  .react-datepicker__month
+  :global
+  .react-datepicker__week
+  :global
+  .react-datepicker__day:not(:last-of-type) {
+  margin-right: calc(var(--hive-grid) * 2);
+}
+
+.popper :global(.hz-date-picker-popper-container) :global .react-datepicker :global .react-datepicker__input-time-container {
+  margin: 0;
+  padding: 0;
+}
+
+.popper
+  :global(.hz-date-picker-popper-container)
+  :global
+  .react-datepicker
+  :global
+  .react-datepicker__input-time-container
+  :global
+  .react-datepicker-time__caption {
+  display: none;
+}
+
+.popper
+  :global(.hz-date-picker-popper-container)
+  :global
+  .react-datepicker
+  :global
+  .react-datepicker__input-time-container
+  :global
+  .react-datepicker-time__input-container {
+  margin: 0 var(--hive-grid) 0 calc(var(--hive-grid) * 5);
+}
+
+.popper
+  :global(.hz-date-picker-popper-container)
+  :global
+  .react-datepicker
+  :global
+  .react-datepicker__input-time-container
+  :global
+  .react-datepicker-time__input-container
+  :global
+  .react-datepicker-time__input {
+  margin: 0;
+}
+
+.popper
+  :global(.hz-date-picker-popper-container)
+  :global
+  .react-datepicker
+  :global
+  .react-datepicker__input-time-container
+  :global
+  .react-datepicker-time__input-container
+  :global
+  .react-datepicker-time__input
+  input {
+  width: auto;
+}
+
+.popper :global(.hz-date-picker-popper-container) .calendar {
+  display: flex;
+  flex-direction: row;
+  border: var(--hive-border-width) solid var(--hive-color-neutral-light);
+  background-color: var(--hive-color-neutral-lighter);
+  box-sizing: border-box;
+}
+
+.popper :global(.hz-date-picker-popper-container) .calendar .headerContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  /* Note: There is 1.5px in designs - also $separatorWidth is not semantically the best fit */
+  margin-bottom: var(--hive-separator-width);
+}
+
+.popper :global(.hz-date-picker-popper-container) .calendar .headerContainer .headerMonthAndYear {
+  color: var(--hive-color-text-secondary);
+  font-family: var(--hive-font-family-text);
+  font-size: var(--hive-font-size-body-small);
+  letter-spacing: var(--hive-letter-spacing-body-small);
+  line-height: var(--hive-line-height-body-small);
+  font-weight: var(--hive-font-weight-text-bold);
+}

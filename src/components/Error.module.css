@@ -1,0 +1,13 @@
+.container {
+  font-family: var(--hive-font-family-text);
+  font-size: var(--hive-font-size-body-small);
+  letter-spacing: var(--hive-letter-spacing-body-small);
+  line-height: var(--hive-line-height-body-small);
+  font-weight: var(--hive-font-weight-text-regular);
+  color: var(--hive-color-error);
+  display: none;
+
+  &.hasError {
+    display: block;
+  }
+}

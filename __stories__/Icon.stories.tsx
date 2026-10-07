@@ -4,7 +4,7 @@ import { Meta, StoryFn } from '@storybook/react'
 
 import { Icon, IconProps } from '../src/components/Icon'
 
-import styleConsts from '../styles/constants/export.module.scss'
+import { styleConstants } from '../src/utils/styleConstants'
 
 export default {
   title: 'Components/Icon',
@@ -49,7 +49,7 @@ Bold.args = {
 
 export const CustomColor = Template.bind({})
 CustomColor.args = {
-  color: styleConsts.colorSuccess,
+  color: styleConstants.colorSuccess,
 }
 
 export const FeatherIcon = Template.bind({})

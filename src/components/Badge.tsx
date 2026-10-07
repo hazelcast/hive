@@ -4,7 +4,7 @@ import { AlertTriangle, CheckCircle, AlertCircle, Info, Icon as IconType } from 
 
 import { Icon } from './Icon'
 
-import styles from './Badge.module.scss'
+import styles from './Badge.module.css'
 
 export type BadgeType = 'neutral' | 'success' | 'info' | 'warning' | 'critical'
 

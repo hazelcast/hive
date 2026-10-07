@@ -7,7 +7,7 @@ import { formDecorator } from './decorators'
 import { Radio } from '../src/components/Radio'
 import { LONG_MULTIPLE_WORD_TEXT, LONG_ONE_WORD_TEXT } from './constants'
 
-import styles from '../src/components/Radio.module.scss'
+import styles from '../src/components/Radio.module.css'
 
 export default {
   title: 'Components/Radio',

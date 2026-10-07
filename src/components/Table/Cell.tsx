@@ -7,7 +7,7 @@ import { Tooltip } from '../Tooltip'
 import { useOpenCloseState } from '../../hooks'
 import { CellCopyablePopover } from './features/columnsSelection'
 
-import styles from './Cell.module.scss'
+import styles from './Cell.module.css'
 
 export type CellWarningProps = {
   align: 'left' | 'right'

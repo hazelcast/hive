@@ -2,7 +2,7 @@ import React from 'react'
 import { ChevronRight } from 'react-feather'
 
 import { Link } from '../src/components/Link'
-import styles from '../src/components/Link.module.scss'
+import styles from '../src/components/Link.module.css'
 import { logger } from '../src'
 
 export default {

@@ -7,7 +7,7 @@ import { AppHeaderLogo, AppHeaderLogoProps } from './AppHeaderLogo'
 import { SelectCluster, SelectClusterProps } from './SelectCluster'
 import { DataTestProp } from '../../helpers/types'
 
-import styles from './AppHeader.module.scss'
+import styles from './AppHeader.module.css'
 
 export interface AppHeaderProps extends DataTestProp {
   name: ReactNode

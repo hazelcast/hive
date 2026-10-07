@@ -5,7 +5,7 @@ import { DataTestProp } from '../helpers/types'
 import { TruncatedText } from './TruncatedText'
 import { TooltipSide } from './Tooltip'
 
-import styles from './Error.module.scss'
+import styles from './Error.module.css'
 
 export const errorId = (inputId: string): string => `${inputId}-error`
 

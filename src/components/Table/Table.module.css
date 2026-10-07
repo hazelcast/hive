@@ -1,0 +1,28 @@
+.container {
+  display: block;
+  overflow-x: auto;
+  border: var(--hive-border-width) solid #d4d4d4;
+  border-radius: var(--hive-border-radius);
+
+  &.spaceBottom {
+    margin-bottom: calc(var(--hive-grid) * 2);
+  }
+
+  .empty {
+    margin-top: calc(var(--hive-grid) * 8);
+  }
+}
+
+.expander {
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:focus-visible {
+    box-shadow: inset 0 0 0 var(--hive-outline-width) var(--hive-color-accessibility-outline);
+  }
+}
+
+.hotKeys {
+  outline: none;
+}

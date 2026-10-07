@@ -3,7 +3,7 @@ import { Copy } from 'react-feather'
 
 import { ContextMenuItem, ContextMenu as OriginalContextMenu } from '../../../../ContextMenu'
 
-import styles from './ContextMenu.module.scss'
+import styles from './ContextMenu.module.css'
 
 export interface ContextMenuProps {
   anchorElement: HTMLElement | null

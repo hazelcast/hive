@@ -4,7 +4,7 @@ import cn from 'classnames'
 import { DataTestProp } from '../helpers/types'
 import { Icon, IconProps } from './Icon'
 
-import styles from './Card.module.scss'
+import styles from './Card.module.css'
 
 export type CardProps = {
   headingIcon?: IconProps['icon']

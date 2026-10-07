@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Terminal } from '../src/components/Terminal'
-import styles from '../src/components/Terminal.module.scss'
+import styles from '../src/components/Terminal.module.css'
 
 export default {
   title: 'Components/Terminal',

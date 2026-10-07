@@ -1,0 +1,53 @@
+.withError {
+  position: relative;
+  padding-bottom: calc(var(--hive-error-height) + var(--hive-grid));
+
+  .errorContainer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    height: var(--hive-error-height);
+    width: 100%;
+  }
+}
+
+.wrapper {
+  margin-left: calc(var(--hive-grid) * 10);
+  margin-right: calc(var(--hive-grid) * 10);
+  margin-bottom: calc(var(--hive-grid) * 2);
+}
+
+.nextButtonClassName {
+  left: calc(var(--hive-grid) * 12);
+}
+
+.prevButtonClassName {
+  right: calc(var(--hive-grid) * 12);
+}
+
+.nextButtonClassName,
+.prevButtonClassName {
+  padding: 0 !important;
+  position: relative;
+  height: 40px;
+
+  &:focus-visible {
+    box-shadow: 0 0 0 var(--hive-outline-width) var(--hive-color-accessibility-outline);
+  }
+}
+
+.pagingDotsClassName {
+  position: relative;
+  top: calc(var(--hive-grid) * 7);
+  margin-left: calc(var(--hive-grid) * 0.5);
+  margin-right: calc(var(--hive-grid) * 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: calc(var(--hive-grid) * 1.5);
+
+  &:focus-visible {
+    box-shadow: 0 0 0 var(--hive-outline-width) var(--hive-color-accessibility-outline);
+  }
+}

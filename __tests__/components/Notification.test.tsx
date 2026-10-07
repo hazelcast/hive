@@ -8,7 +8,7 @@ import { AlertTriangle, CheckCircle, AlertCircle, Info } from 'react-feather'
 import { Notification, NotificationType, NotificationIconDescriptor } from '../../src/components/Notification'
 
 import styles from '../../src/components/Notification.module.css'
-import linkStyles from '../../src/components/Link.module.scss'
+import linkStyles from '../../src/components/Link.module.css'
 
 const text = 'Lorem ipsum dolor sit amet'
 

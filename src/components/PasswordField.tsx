@@ -7,7 +7,7 @@ import { TextField, TextFieldVariant } from './TextField'
 import { IconButton, IconButtonDisabledProps, IconButtonNotDisabledProps } from './IconButton'
 import { HelpProps } from './Help'
 
-import styles from './PasswordField.module.scss'
+import styles from './PasswordField.module.css'
 
 type PasswordFieldCoreProps = {
   name: string

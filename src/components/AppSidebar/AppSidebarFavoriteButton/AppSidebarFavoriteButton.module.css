@@ -1,0 +1,14 @@
+[class].root {
+  position: absolute;
+  top: 50%;
+  z-index: 1;
+  left: calc(var(--hive-grid) * 3);
+  color: var(--hive-color-brand-text);
+  transform: translateY(-50%);
+
+  &.isFilled {
+    svg {
+      fill: var(--hive-color-brand-text);
+    }
+  }
+}

@@ -5,7 +5,7 @@ import { act, fireEvent } from '@testing-library/react'
 import { testAttribute } from '../helpers'
 import { ExecutionHistoryState, Terminal } from '../../src/components/Terminal'
 
-import styles from '../../src/components/Terminal.module.scss'
+import styles from '../../src/components/Terminal.module.css'
 
 const history: ExecutionHistoryState[] = [
   {
