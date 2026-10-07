@@ -15,32 +15,40 @@
   }
 
   &.neutral {
-    background-color: lab(from var(--hive-color-text-secondary) 97% a b);
-    color: var(--hive-color-text-secondary);
-    border: 1px solid var(--hive-color-text-secondary);
+    --badge-color: light-dark(var(--hive-color-text-secondary), var(--hive-color-text-secondary-v4));
+    background-color: light-dark(
+      lab(from var(--badge-color) 97% a b),
+      color-mix(in oklab, var(--badge-color) 12%, var(--hive-color-neutral-white-v4))
+    );
+    color: var(--badge-color);
+    border: 1px solid var(--badge-color);
+  }
+
+  &.success,
+  &.info,
+  &.warning,
+  &.critical {
+    background-color: light-dark(
+      lab(from var(--badge-color) 95% a b),
+      color-mix(in oklab, var(--badge-color) 12%, var(--hive-color-neutral-white-v4))
+    );
+    color: var(--badge-color);
+    border: 1px solid var(--badge-color);
   }
 
   &.success {
-    background-color: lab(from var(--hive-color-success-darkest) 95% a b);
-    color: var(--hive-color-success-darkest);
-    border: 1px solid var(--hive-color-success-darkest);
+    --badge-color: var(--hive-color-success-text-v4);
   }
 
   &.info {
-    background-color: lab(from var(--hive-color-info-darkest) 95% a b);
-    color: var(--hive-color-info-darkest);
-    border: 1px solid var(--hive-color-info-darkest);
+    --badge-color: var(--hive-color-info-text-v4);
   }
 
   &.warning {
-    background-color: lab(from var(--hive-color-warning-darkest) 95% a b);
-    color: var(--hive-color-warning-darkest);
-    border: 1px solid var(--hive-color-warning-darkest);
+    --badge-color: var(--hive-color-warning-text-v4);
   }
 
   &.critical {
-    background-color: lab(from var(--hive-color-error) 95% a b);
-    color: var(--hive-color-error);
-    border: 1px solid var(--hive-color-error);
+    --badge-color: var(--hive-color-error-text-v4);
   }
 }

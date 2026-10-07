@@ -53,24 +53,100 @@
   /* ─── HIVE 4.0 colors (opt-in, OKLCH) ─────────────────────────── */
   /* Mirror of $color*V4 Sass tokens in styles/constants/_colors.scss */
 
-  --hive-color-primary-v4: oklch(0.77 0.14 175);
-  --hive-color-neutral-white-v4: oklch(1 0 0);
-  --hive-color-neutral-v4: oklch(0.89 0 0);
-  --hive-color-neutral-lighter-v4: oklch(0.99 0 0);
-  --hive-color-success-v4: oklch(0.84 0.06 151);
-  --hive-color-info-v4: oklch(0.78 0.06 250);
-  --hive-color-warning-v4: oklch(0.87 0.09 95);
-  --hive-color-error-v4: oklch(0.55 0.21 27);
-  --hive-color-text-v4: oklch(0.33 0.002 17);
-  --hive-color-text-secondary-v4: oklch(0.42 0.002 17);
-  --hive-color-text-subdued-v4: oklch(0.42 0.002 17);
-  --hive-color-brand-v4: oklch(0.77 0.14 175);
-  --hive-color-brand-primary-v4: oklch(0.95 0.22 124);
-  --hive-color-secondary-v4: oklch(0.92 0 0);
-  --hive-color-border-v4: oklch(0.81 0 0);
-  --hive-color-surface-hover-v4: oklch(0.97 0 0);
-  --hive-color-surface-active-v4: oklch(0.94 0 0);
-  --hive-color-link-v4: oklch(0.6 0.21 264);
+  /* Dark values from the "Design System HIVE" Figma dark prototype */
+  color-scheme: light dark;
+
+  --hive-color-primary-v4-light-mode: oklch(0.77 0.14 175);
+  --hive-color-primary-v4-dark-mode: #00d4aa;
+  --hive-color-primary-v4: light-dark(var(--hive-color-primary-v4-light-mode), var(--hive-color-primary-v4-dark-mode));
+  --hive-color-neutral-white-v4-light-mode: oklch(1 0 0);
+  --hive-color-neutral-white-v4-dark-mode: #2a2d3a;
+  --hive-color-neutral-white-v4: light-dark(var(--hive-color-neutral-white-v4-light-mode), var(--hive-color-neutral-white-v4-dark-mode));
+  --hive-color-neutral-v4-light-mode: oklch(0.89 0 0);
+  --hive-color-neutral-v4-dark-mode: #3c4043;
+  --hive-color-neutral-v4: light-dark(var(--hive-color-neutral-v4-light-mode), var(--hive-color-neutral-v4-dark-mode));
+  --hive-color-neutral-lighter-v4-light-mode: oklch(0.99 0 0);
+  --hive-color-neutral-lighter-v4-dark-mode: #1e1e2e;
+  --hive-color-neutral-lighter-v4: light-dark(
+    var(--hive-color-neutral-lighter-v4-light-mode),
+    var(--hive-color-neutral-lighter-v4-dark-mode)
+  );
+  --hive-color-success-v4-light-mode: oklch(0.84 0.06 151);
+  --hive-color-success-v4-dark-mode: #a9d6b9;
+  --hive-color-success-v4: light-dark(var(--hive-color-success-v4-light-mode), var(--hive-color-success-v4-dark-mode));
+  --hive-color-info-v4-light-mode: oklch(0.78 0.06 250);
+  --hive-color-info-v4-dark-mode: #a6bfd9;
+  --hive-color-info-v4: light-dark(var(--hive-color-info-v4-light-mode), var(--hive-color-info-v4-dark-mode));
+  --hive-color-warning-v4-light-mode: oklch(0.87 0.09 95);
+  --hive-color-warning-v4-dark-mode: #e6d699;
+  --hive-color-warning-v4: light-dark(var(--hive-color-warning-v4-light-mode), var(--hive-color-warning-v4-dark-mode));
+  --hive-color-error-v4-light-mode: oklch(0.55 0.21 27);
+  --hive-color-error-v4-dark-mode: #ff5f56;
+  --hive-color-error-v4: light-dark(var(--hive-color-error-v4-light-mode), var(--hive-color-error-v4-dark-mode));
+  --hive-color-text-v4-light-mode: oklch(0.33 0.002 17);
+  --hive-color-text-v4-dark-mode: #fafafa;
+  --hive-color-text-v4: light-dark(var(--hive-color-text-v4-light-mode), var(--hive-color-text-v4-dark-mode));
+  --hive-color-text-secondary-v4-light-mode: oklch(0.42 0.002 17);
+  --hive-color-text-secondary-v4-dark-mode: #a4abb6;
+  --hive-color-text-secondary-v4: light-dark(var(--hive-color-text-secondary-v4-light-mode), var(--hive-color-text-secondary-v4-dark-mode));
+  --hive-color-text-subdued-v4-light-mode: oklch(0.42 0.002 17);
+  --hive-color-text-subdued-v4-dark-mode: #a4abb6;
+  --hive-color-text-subdued-v4: light-dark(var(--hive-color-text-subdued-v4-light-mode), var(--hive-color-text-subdued-v4-dark-mode));
+  --hive-color-brand-v4-light-mode: oklch(0.77 0.14 175);
+  --hive-color-brand-v4-dark-mode: #00d4aa;
+  --hive-color-brand-v4: light-dark(var(--hive-color-brand-v4-light-mode), var(--hive-color-brand-v4-dark-mode));
+  --hive-color-brand-primary-v4-light-mode: oklch(0.95 0.22 124);
+  --hive-color-brand-primary-v4-dark-mode: #c6ff3a;
+  --hive-color-brand-primary-v4: light-dark(var(--hive-color-brand-primary-v4-light-mode), var(--hive-color-brand-primary-v4-dark-mode));
+  --hive-color-secondary-v4-light-mode: oklch(0.92 0 0);
+  --hive-color-secondary-v4-dark-mode: #3c4043;
+  --hive-color-secondary-v4: light-dark(var(--hive-color-secondary-v4-light-mode), var(--hive-color-secondary-v4-dark-mode));
+  --hive-color-border-v4-light-mode: oklch(0.81 0 0);
+  /* Figma #3c4043 is 1.57:1; lightened to meet WCAG 1.4.11 (3:1) */
+  --hive-color-border-v4-dark-mode: #747679;
+  --hive-color-border-v4: light-dark(var(--hive-color-border-v4-light-mode), var(--hive-color-border-v4-dark-mode));
+  /* TODO(hzc-8220): hover, active and link have no dark value in Figma yet */
+
+  --hive-color-surface-hover-v4-light-mode: oklch(0.97 0 0);
+  --hive-color-surface-hover-v4-dark-mode: rgb(60 64 67 / 0.5);
+  --hive-color-surface-hover-v4: light-dark(var(--hive-color-surface-hover-v4-light-mode), var(--hive-color-surface-hover-v4-dark-mode));
+  --hive-color-surface-active-v4-light-mode: oklch(0.94 0 0);
+  --hive-color-surface-active-v4-dark-mode: #3c4043;
+  --hive-color-surface-active-v4: light-dark(var(--hive-color-surface-active-v4-light-mode), var(--hive-color-surface-active-v4-dark-mode));
+  --hive-color-link-v4-light-mode: oklch(0.6 0.21 264);
+  --hive-color-link-v4-dark-mode: oklch(0.69 0.21 264);
+  --hive-color-link-v4: light-dark(var(--hive-color-link-v4-light-mode), var(--hive-color-link-v4-dark-mode));
+
+  /* Light values keep what v4 components render today */
+  --hive-color-text-on-primary-v4-light-mode: var(--hive-color-text-v4-light-mode);
+  --hive-color-text-on-primary-v4-dark-mode: #0a0a0a;
+  --hive-color-text-on-primary-v4: light-dark(
+    var(--hive-color-text-on-primary-v4-light-mode),
+    var(--hive-color-text-on-primary-v4-dark-mode)
+  );
+  --hive-color-text-on-error-v4-light-mode: var(--hive-color-neutral-white-v4-light-mode);
+  --hive-color-text-on-error-v4-dark-mode: var(--hive-color-neutral-white-v4-light-mode);
+  --hive-color-text-on-error-v4: light-dark(var(--hive-color-text-on-error-v4-light-mode), var(--hive-color-text-on-error-v4-dark-mode));
+  --hive-color-success-text-v4-light-mode: var(--hive-color-success-darkest);
+  --hive-color-success-text-v4-dark-mode: var(--hive-color-success-v4-dark-mode);
+  --hive-color-success-text-v4: light-dark(var(--hive-color-success-text-v4-light-mode), var(--hive-color-success-text-v4-dark-mode));
+  --hive-color-info-text-v4-light-mode: var(--hive-color-info-darkest);
+  --hive-color-info-text-v4-dark-mode: #8ec5ff;
+  --hive-color-info-text-v4: light-dark(var(--hive-color-info-text-v4-light-mode), var(--hive-color-info-text-v4-dark-mode));
+  --hive-color-warning-text-v4-light-mode: var(--hive-color-warning-darkest);
+  --hive-color-warning-text-v4-dark-mode: var(--hive-color-warning-v4-dark-mode);
+  --hive-color-warning-text-v4: light-dark(var(--hive-color-warning-text-v4-light-mode), var(--hive-color-warning-text-v4-dark-mode));
+  --hive-color-error-text-v4-light-mode: var(--hive-color-error);
+  /* Figma #ff5f56 is 3.9:1 on tinted surfaces; lifted for 4.5:1 */
+  --hive-color-error-text-v4-dark-mode: oklch(from var(--hive-color-error-v4-dark-mode) calc(l + 0.14) c h);
+  --hive-color-error-text-v4: light-dark(var(--hive-color-error-text-v4-light-mode), var(--hive-color-error-text-v4-dark-mode));
+  --hive-color-overlay-background-v4-light-mode: var(--hive-color-neutral-white-v4-light-mode);
+  --hive-color-overlay-background-v4-dark-mode: var(--hive-color-neutral-lighter-v4-dark-mode);
+  --hive-color-overlay-background-v4: light-dark(
+    var(--hive-color-overlay-background-v4-light-mode),
+    var(--hive-color-overlay-background-v4-dark-mode)
+  );
+  --hive-shadow-popover-v4: 0 1px 3px oklch(0 0 0 / 0.17);
   --hive-shadow-button-v4: 0 1px 3px oklch(0 0 0 / 0.1), 0 1px 2px oklch(0 0 0 / 0.1);
 
   /* ─── Spacing ─────────────────────────────────────────────────── */

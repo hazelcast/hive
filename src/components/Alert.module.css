@@ -1,7 +1,13 @@
 .alert {
-  --alert-color: var(--hive-color-text);
-  --alert-surface: lab(from var(--alert-color) 95% a b);
-  --alert-border: lab(from var(--alert-color) 84% a b);
+  --alert-color: light-dark(var(--hive-color-text), var(--hive-color-text-v4));
+  --alert-surface: light-dark(
+    lab(from var(--alert-color) 95% a b),
+    color-mix(in oklab, var(--alert-color) 12%, var(--hive-color-neutral-white-v4))
+  );
+  --alert-border: light-dark(
+    lab(from var(--alert-color) 84% a b),
+    color-mix(in oklab, var(--alert-color) 40%, var(--hive-color-neutral-white-v4))
+  );
 
   box-sizing: border-box;
   display: flex;
@@ -64,19 +70,19 @@
 }
 
 .success {
-  --alert-color: var(--hive-color-success-darkest);
+  --alert-color: var(--hive-color-success-text-v4);
 }
 
 .info {
-  --alert-color: var(--hive-color-info-darkest);
+  --alert-color: var(--hive-color-info-text-v4);
 }
 
 .warning {
-  --alert-color: var(--hive-color-warning-darkest);
+  --alert-color: var(--hive-color-warning-text-v4);
 }
 
 .critical {
-  --alert-color: var(--hive-color-error);
+  --alert-color: var(--hive-color-error-text-v4);
 }
 
 .actions {
@@ -85,7 +91,7 @@
 }
 
 .action {
-  color: var(--alert-color);
+  color: var(--alert-color) !important;
 }
 
 .action:not(:last-child) {

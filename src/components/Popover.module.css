@@ -1,8 +1,8 @@
 .root {
   display: flex;
   flex-direction: column;
-  background: var(--hive-color-neutral-white);
+  background: var(--hive-color-neutral-white-v4);
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
-  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 17%);
+  box-shadow: var(--hive-shadow-popover-v4);
 }
