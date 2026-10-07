@@ -98,9 +98,12 @@
 }
 
 .container .clearButton {
+  --button-size: calc(var(--hive-grid) * 6);
+
   display: inline-flex;
   align-items: center;
   margin-right: calc(var(--hive-grid) * 1.5);
+  border-radius: var(--hive-border-radius-pill);
 }
 
 .container.small .inputContainer {
