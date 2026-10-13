@@ -15,30 +15,26 @@ const readStoredScheme = (): ColorScheme | undefined => {
 }
 
 const initialScheme = readStoredScheme() ?? getSystemColorScheme()
-let lastScheme = initialScheme
 let lastAppliedScheme: ColorScheme | undefined
+let currentScheme = initialScheme
+
+window.addEventListener('message', (event: MessageEvent<{ type?: string; scheme?: ColorScheme }>) => {
+  if (event.source !== window.parent || event.origin !== window.location.origin) return
+  if (event.data?.type !== 'hive/color-scheme' || (event.data.scheme !== 'light' && event.data.scheme !== 'dark')) return
+
+  currentScheme = event.data.scheme
+  localStorage.setItem(COLOR_SCHEME_STORAGE_KEY, JSON.stringify(currentScheme))
+  applyColorScheme(currentScheme)
+  lastAppliedScheme = currentScheme
+})
 
 const preview: Preview = {
-  globalTypes: {
-    colorScheme: {
-      description: 'Color scheme',
-    },
-  },
-  initialGlobals: {
-    colorScheme: initialScheme,
-  },
   decorators: [
-    (Story, { globals }) => {
-      const scheme = (globals.colorScheme as ColorScheme | undefined) ?? initialScheme
+    (Story) => {
       // Set on <html> so portalled content (modals, tooltips) follows the scheme too
-      if (scheme !== lastAppliedScheme) {
-        applyColorScheme(scheme)
-        lastAppliedScheme = scheme
-      }
-      // Same rule as useColorScheme: persist only an explicit user change
-      if (scheme !== lastScheme) {
-        localStorage.setItem(COLOR_SCHEME_STORAGE_KEY, JSON.stringify(scheme))
-        lastScheme = scheme
+      if (currentScheme !== lastAppliedScheme) {
+        applyColorScheme(currentScheme)
+        lastAppliedScheme = currentScheme
       }
       return Story()
     },
