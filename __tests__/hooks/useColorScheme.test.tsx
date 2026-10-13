@@ -42,7 +42,6 @@ describe('useColorScheme', () => {
     act(() => {
       result.current[1]('dark')
       expect(document.documentElement.style.colorScheme).toBe('dark')
-      expect(document.documentElement.hasAttribute('data-hive-theme-changing')).toBe(true)
     })
   })
 

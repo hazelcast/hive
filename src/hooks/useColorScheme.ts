@@ -5,23 +5,11 @@ import { COLOR_SCHEME_STORAGE_KEY, getSystemColorScheme, type ColorScheme } from
 
 export { COLOR_SCHEME_STORAGE_KEY, getColorSchemeBootstrapScript, getSystemColorScheme, initializeColorScheme } from '../utils/colorScheme'
 export type { ColorScheme } from '../utils/colorScheme'
-const THEME_CHANGE_ATTRIBUTE = 'data-hive-theme-changing'
-let themeChangeId = 0
 
 const usePersistedColorScheme = createPersistedState<ColorScheme>(COLOR_SCHEME_STORAGE_KEY)
 
 export const applyColorScheme = (scheme: ColorScheme) => {
-  const root = document.documentElement
-  const currentChangeId = ++themeChangeId
-
-  root.setAttribute(THEME_CHANGE_ATTRIBUTE, '')
-  root.style.colorScheme = scheme
-
-  window.requestAnimationFrame(() => {
-    window.requestAnimationFrame(() => {
-      if (currentChangeId === themeChangeId) root.removeAttribute(THEME_CHANGE_ATTRIBUTE)
-    })
-  })
+  document.documentElement.style.colorScheme = scheme
 }
 
 /** First visit follows the OS; once the user picks a scheme it is stored and wins from then on. */
