@@ -54,7 +54,7 @@
   /* Mirror of $color*V4 Sass tokens in styles/constants/_colors.scss */
 
   /* Dark values from the "Design System HIVE" Figma dark prototype */
-  color-scheme: light dark;
+  color-scheme: light;
 
   --hive-color-primary-v4-light-mode: oklch(0.77 0.14 175);
   --hive-color-primary-v4-dark-mode: #00d4aa;

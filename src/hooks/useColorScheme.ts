@@ -1,17 +1,14 @@
 import { Dispatch, SetStateAction, useEffect } from 'react'
 
 import { createPersistedState } from './usePersistedState'
+import { COLOR_SCHEME_STORAGE_KEY, getSystemColorScheme, type ColorScheme } from '../utils/colorScheme'
 
-export type ColorScheme = 'light' | 'dark'
-
-export const COLOR_SCHEME_STORAGE_KEY = 'hive-color-scheme'
+export { COLOR_SCHEME_STORAGE_KEY, getColorSchemeBootstrapScript, getSystemColorScheme, initializeColorScheme } from '../utils/colorScheme'
+export type { ColorScheme } from '../utils/colorScheme'
 const THEME_CHANGE_ATTRIBUTE = 'data-hive-theme-changing'
 let themeChangeId = 0
 
 const usePersistedColorScheme = createPersistedState<ColorScheme>(COLOR_SCHEME_STORAGE_KEY)
-
-export const getSystemColorScheme = (): ColorScheme =>
-  typeof window !== 'undefined' && window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 
 export const applyColorScheme = (scheme: ColorScheme) => {
   const root = document.documentElement

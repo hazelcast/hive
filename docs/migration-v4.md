@@ -1011,8 +1011,13 @@ The `-v4` color tokens are defined with `light-dark()`. Each token has `-light-m
 
 Use `useColorScheme` to drive the theme. On first visit it uses the OS preference; once the user picks a scheme it is stored in `localStorage` (`hive-color-scheme`) and used from then on.
 
+HIVE defaults to light for backward compatibility. To opt in without a first-paint flash, include HIVE's bootstrap script in the document head before the app styles render. It reads the saved choice or falls back to the OS preference. The app should then call `useColorScheme` once near its root and connect the result to its theme toggle.
+
 ```tsx
-import { useColorScheme } from '@hazelcast/ui'
+import { getColorSchemeBootstrapScript, useColorScheme } from '@hazelcast/ui'
+
+// Render in the server document <head>, before stylesheets and first paint.
+const ThemeBootstrap = () => <script dangerouslySetInnerHTML={{ __html: getColorSchemeBootstrapScript() }} />
 
 const ThemeToggle = () => {
   const [scheme, setScheme] = useColorScheme()
@@ -1021,7 +1026,7 @@ const ThemeToggle = () => {
 }
 ```
 
-Call it once near the app root. Before JS runs, `:root { color-scheme: light dark }` already follows the OS, so there is no flash on first load. A subtree can still be forced with `color-scheme: light` / `dark`.
+Render `ThemeBootstrap` in the document head and call the hook once near the app root. Hook-only use opts into OS theme after mount and may flash; consumers that do not opt in remain light. Add the app's CSP nonce to the bootstrap script when required. A subtree can still be forced with `color-scheme: light` / `dark`.
 
 Requires Chrome/Edge 123+, Safari 17.5+, Firefox 120+. v3 (non-`-v4`) tokens are light-only.
 
