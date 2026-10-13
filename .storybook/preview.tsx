@@ -21,15 +21,6 @@ const preview: Preview = {
   globalTypes: {
     colorScheme: {
       description: 'Color scheme',
-      toolbar: {
-        title: 'Color scheme',
-        icon: 'mirror',
-        items: [
-          { value: 'light', title: 'Light' },
-          { value: 'dark', title: 'Dark' },
-        ],
-        dynamicTitle: true,
-      },
     },
   },
   initialGlobals: {

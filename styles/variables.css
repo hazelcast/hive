@@ -146,6 +146,34 @@
     var(--hive-color-overlay-background-v4-light-mode),
     var(--hive-color-overlay-background-v4-dark-mode)
   );
+  --hive-color-table-row-hover-v4-light-mode: #e2e7fa;
+  --hive-color-table-row-hover-v4-dark-mode: var(--hive-color-surface-hover-v4-dark-mode);
+  --hive-color-table-row-hover-v4: light-dark(
+    var(--hive-color-table-row-hover-v4-light-mode),
+    var(--hive-color-table-row-hover-v4-dark-mode)
+  );
+  --hive-color-table-header-v4-light-mode: var(--hive-color-neutral-gray);
+  --hive-color-table-header-v4-dark-mode: var(--hive-color-neutral-white-v4-dark-mode);
+  --hive-color-table-header-v4: light-dark(var(--hive-color-table-header-v4-light-mode), var(--hive-color-table-header-v4-dark-mode));
+  --hive-color-table-row-even-v4-light-mode: var(--hive-color-neutral-lighter);
+  --hive-color-table-row-even-v4-dark-mode: var(--hive-color-neutral-white-v4-dark-mode);
+  --hive-color-table-row-even-v4: light-dark(var(--hive-color-table-row-even-v4-light-mode), var(--hive-color-table-row-even-v4-dark-mode));
+  --hive-color-table-separator-v4-light-mode: var(--hive-color-neutral-white);
+  --hive-color-table-separator-v4-dark-mode: var(--hive-color-border-v4-dark-mode);
+  --hive-color-table-separator-v4: light-dark(
+    var(--hive-color-table-separator-v4-light-mode),
+    var(--hive-color-table-separator-v4-dark-mode)
+  );
+  --hive-color-table-selection-v4-light-mode: hsl(from var(--hive-color-primary) h s calc(l + 30));
+  --hive-color-table-selection-v4-dark-mode: color-mix(
+    in oklab,
+    var(--hive-color-primary-v4-dark-mode) 25%,
+    var(--hive-color-neutral-lighter-v4-dark-mode)
+  );
+  --hive-color-table-selection-v4: light-dark(
+    var(--hive-color-table-selection-v4-light-mode),
+    var(--hive-color-table-selection-v4-dark-mode)
+  );
   --hive-shadow-popover-v4: 0 1px 3px oklch(0 0 0 / 0.17);
   --hive-shadow-button-v4: 0 1px 3px oklch(0 0 0 / 0.1), 0 1px 2px oklch(0 0 0 / 0.1);
 

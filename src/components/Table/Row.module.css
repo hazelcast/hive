@@ -8,24 +8,24 @@
   font-weight: var(--hive-font-weight-text-regular);
 
   &:nth-child(even) {
-    background-color: var(--hive-color-neutral-lighter);
+    background-color: var(--hive-color-table-row-even-v4);
   }
 
   &.clickable {
     cursor: pointer;
 
     &:focus-visible {
-      box-shadow: inset 0 0 0 var(--hive-outline-width) var(--hive-color-accessibility-outline);
+      box-shadow: inset 0 0 0 var(--hive-outline-width) var(--hive-color-primary-v4);
 
       /* Do not remove outline for high-contrast modes */
       /* https://stackoverflow.com/a/52616313 */
       outline: var(--hive-outline-width) solid transparent;
-      background-color: #e2e7fa;
+      background-color: var(--hive-color-table-row-hover-v4);
     }
 
     &:hover {
       font-weight: bold;
-      background-color: #e2e7fa;
+      background-color: var(--hive-color-table-row-hover-v4);
     }
   }
 }
@@ -41,7 +41,7 @@
   font-weight: var(--hive-font-weight-text-regular);
 
   &:nth-child(even) {
-    background-color: var(--hive-color-neutral-lighter);
+    background-color: var(--hive-color-table-row-even-v4);
   }
 
   .link {
@@ -56,21 +56,21 @@
     font-weight: var(--hive-font-weight-text-regular);
 
     &:nth-child(even) {
-      background-color: var(--hive-color-neutral-lighter);
+      background-color: var(--hive-color-table-row-even-v4);
     }
 
     &:focus-visible {
-      box-shadow: inset 0 0 0 var(--hive-outline-width) var(--hive-color-accessibility-outline);
+      box-shadow: inset 0 0 0 var(--hive-outline-width) var(--hive-color-primary-v4);
 
       /* Do not remove outline for high-contrast modes */
       /* https://stackoverflow.com/a/52616313 */
       outline: var(--hive-outline-width) solid transparent;
-      background-color: #e2e7fa;
+      background-color: var(--hive-color-table-row-hover-v4);
     }
 
     &:hover {
       font-weight: bold;
-      background-color: #e2e7fa;
+      background-color: var(--hive-color-table-row-hover-v4);
     }
   }
 }
