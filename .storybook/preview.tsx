@@ -3,7 +3,7 @@ import type { Preview } from '@storybook/react'
 import './preview.scss'
 import 'react-datepicker/dist/react-datepicker.css'
 import '../styles/variables.css'
-import { COLOR_SCHEME_STORAGE_KEY, ColorScheme, getSystemColorScheme } from '../src/hooks/useColorScheme'
+import { applyColorScheme, COLOR_SCHEME_STORAGE_KEY, ColorScheme, getSystemColorScheme } from '../src/hooks/useColorScheme'
 
 const readStoredScheme = (): ColorScheme | undefined => {
   try {
@@ -16,6 +16,7 @@ const readStoredScheme = (): ColorScheme | undefined => {
 
 const initialScheme = readStoredScheme() ?? getSystemColorScheme()
 let lastScheme = initialScheme
+let lastAppliedScheme: ColorScheme | undefined
 
 const preview: Preview = {
   globalTypes: {
@@ -30,7 +31,10 @@ const preview: Preview = {
     (Story, { globals }) => {
       const scheme = (globals.colorScheme as ColorScheme | undefined) ?? initialScheme
       // Set on <html> so portalled content (modals, tooltips) follows the scheme too
-      document.documentElement.style.colorScheme = scheme
+      if (scheme !== lastAppliedScheme) {
+        applyColorScheme(scheme)
+        lastAppliedScheme = scheme
+      }
       // Same rule as useColorScheme: persist only an explicit user change
       if (scheme !== lastScheme) {
         localStorage.setItem(COLOR_SCHEME_STORAGE_KEY, JSON.stringify(scheme))

@@ -288,3 +288,10 @@
   --hive-line-height-body-smaller: normal;
   --hive-line-height-body-tiny: normal;
 }
+
+:root[data-hive-theme-changing],
+:root[data-hive-theme-changing] *,
+:root[data-hive-theme-changing] *::before,
+:root[data-hive-theme-changing] *::after {
+  transition: none !important;
+}

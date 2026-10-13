@@ -35,6 +35,17 @@ describe('useColorScheme', () => {
     expect(localStorage.getItem(COLOR_SCHEME_STORAGE_KEY)).toBe('"light"')
   })
 
+  it('applies a user choice to the document before the state update completes', () => {
+    mockSystemScheme(false)
+    const { result } = renderHook(() => useColorScheme())
+
+    act(() => {
+      result.current[1]('dark')
+      expect(document.documentElement.style.colorScheme).toBe('dark')
+      expect(document.documentElement.hasAttribute('data-hive-theme-changing')).toBe(true)
+    })
+  })
+
   it('prefers the stored choice over the system scheme', () => {
     mockSystemScheme(true)
     localStorage.setItem(COLOR_SCHEME_STORAGE_KEY, '"light"')
