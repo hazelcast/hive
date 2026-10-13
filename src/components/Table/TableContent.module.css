@@ -17,5 +17,5 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgb(255 255 255 / 50%);
+  background: color-mix(in srgb, var(--hive-color-neutral-white-v4) 50%, transparent);
 }

@@ -23,7 +23,7 @@
 
   .resizing,
   &:hover .separator {
-    background-color: var(--hive-color-primary);
+    background-color: var(--hive-color-primary-v4);
   }
 }
 
@@ -32,8 +32,8 @@
   flex-grow: 1;
   flex-basis: auto;
   flex-shrink: 0;
-  background: var(--hive-color-neutral-gray);
-  border-right: 1px solid var(--hive-color-neutral-white);
+  background: var(--hive-color-table-header-v4);
+  border-right: 1px solid var(--hive-color-table-separator-v4);
 
   .th {
     display: flex;
@@ -41,7 +41,7 @@
     height: calc(var(--hive-grid) * 12);
     padding-left: calc(var(--hive-grid) * 5);
     padding-right: calc(var(--hive-grid) * 5);
-    color: var(--hive-color-text);
+    color: var(--hive-color-text-v4);
     box-sizing: border-box;
     font-family: var(--hive-font-family-text);
     font-size: var(--hive-font-size-body-small);
@@ -54,7 +54,7 @@
 
     .sortingIcon {
       flex-shrink: 0;
-      color: var(--hive-color-primary);
+      color: var(--hive-color-primary-v4);
 
       &.left {
         margin-left: calc(var(--hive-grid) * 1.25);
@@ -65,7 +65,7 @@
       }
 
       &:not(.isSorted) {
-        color: var(--hive-color-neutral);
+        color: var(--hive-color-text-secondary-v4);
       }
     }
 
@@ -76,15 +76,15 @@
         /* Do not remove outline for high-contrast modes */
         /* https://stackoverflow.com/a/52616313 */
         outline: var(--hive-outline-width) solid transparent;
-        box-shadow: inset 0 0 0 var(--hive-outline-width) var(--hive-color-accessibility-outline);
+        box-shadow: inset 0 0 0 var(--hive-outline-width) var(--hive-color-primary-v4);
 
         /* Put outline over resizer */
         z-index: var(--hive-z-index-1000);
-        background-color: var(--hive-color-neutral-lighter);
+        background-color: var(--hive-color-table-row-hover-v4);
       }
 
       &:hover {
-        background-color: var(--hive-color-neutral-gray-darker);
+        background-color: var(--hive-color-table-row-hover-v4);
       }
     }
 
@@ -116,7 +116,7 @@
 }
 
 .dragOver {
-  box-shadow: inset 0 0 0 var(--hive-outline-width) var(--hive-color-accessibility-outline);
+  box-shadow: inset 0 0 0 var(--hive-outline-width) var(--hive-color-primary-v4);
 }
 
 .dragIcon {

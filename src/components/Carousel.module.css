@@ -33,7 +33,7 @@
   height: 40px;
 
   &:focus-visible {
-    box-shadow: 0 0 0 var(--hive-outline-width) var(--hive-color-accessibility-outline);
+    box-shadow: 0 0 0 var(--hive-outline-width) var(--hive-color-primary-v4);
   }
 }
 
@@ -48,6 +48,6 @@
   padding: calc(var(--hive-grid) * 1.5);
 
   &:focus-visible {
-    box-shadow: 0 0 0 var(--hive-outline-width) var(--hive-color-accessibility-outline);
+    box-shadow: 0 0 0 var(--hive-outline-width) var(--hive-color-primary-v4);
   }
 }

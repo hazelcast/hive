@@ -11,7 +11,7 @@
 }
 
 .modal {
-  background: rgb(from var(--hive-color-overlay-background) r g b / calc(alpha - 0.1));
+  background: color-mix(in srgb, var(--hive-color-overlay-background-v4) 90%, transparent);
   width: 100vw;
   height: 100vh;
   z-index: var(--hive-z-index-1000);
@@ -79,7 +79,7 @@
         .closeIcon {
           width: calc(var(--hive-grid) * 9);
           height: calc(var(--hive-grid) * 9);
-          color: var(--hive-color-text);
+          color: var(--hive-color-text-v4);
         }
       }
 

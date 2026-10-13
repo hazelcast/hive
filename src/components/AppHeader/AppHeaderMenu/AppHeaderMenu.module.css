@@ -3,6 +3,10 @@
   align-items: center;
 }
 
+.root .toggleButton {
+  color: var(--hive-color-neutral-lighter);
+}
+
 .separator {
   border-left: 1px solid var(--hive-color-neutral-light);
 }

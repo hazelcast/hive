@@ -5,3 +5,7 @@
   padding-left: var(--hive-grid);
   padding-right: var(--hive-grid);
 }
+
+.icon {
+  color: var(--hive-color-primary-v4);
+}
