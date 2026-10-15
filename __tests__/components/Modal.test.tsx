@@ -125,6 +125,18 @@ describe('Modal', () => {
     expect(screen.queryByText('Cancel')).not.toBeInTheDocument()
   })
 
+  it('Applies closeBtnClassName to the close button', () => {
+    const onClose = jest.fn()
+
+    render(
+      <Modal isOpen title={modalTitle} onClose={onClose} closeBtnClassName="custom-close">
+        <ModalContent />
+      </Modal>,
+    )
+
+    expect(screen.getByLabelText('Close icon')).toHaveClass(styles.close, 'custom-close')
+  })
+
   it('Renders a custom header without the default structured header shell', () => {
     const onClose = jest.fn()
 
