@@ -39,6 +39,7 @@ export type ModalProps = {
   contentClassName?: string
   footerClassName?: string
   overlayClassName?: string
+  closeBtnClassName?: string
   className?: string
   cancelLabel?: string | ReactElement
   icon?: IconProps['icon']
@@ -99,6 +100,7 @@ export const Modal: FC<ModalProps> = ({
   headerClassName,
   contentClassName,
   footerClassName,
+  closeBtnClassName,
   icon,
   iconAriaLabel,
   onClose,
@@ -142,7 +144,7 @@ export const Modal: FC<ModalProps> = ({
         <button
           type="button"
           data-test={`${dataTest}-button-close`}
-          className={styles.close}
+          className={cn(styles.close, closeBtnClassName)}
           aria-label="Close icon"
           onClick={(e) => onClose?.(e)}
         >
