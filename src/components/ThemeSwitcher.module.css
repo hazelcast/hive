@@ -1,0 +1,61 @@
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--hive-grid) * 9);
+  height: calc(var(--hive-grid) * 9);
+  padding: 0;
+  border: none;
+  border-radius: var(--hive-border-radius);
+  background: transparent;
+  color: var(--hive-color-text-v4);
+  cursor: pointer;
+}
+
+.trigger:hover,
+.trigger[aria-expanded='true'],
+.option:hover {
+  background: var(--hive-color-surface-hover-v4);
+}
+
+.trigger:focus-visible,
+.option:focus-visible {
+  outline: var(--hive-outline-width) solid var(--hive-color-primary-v4);
+  outline-offset: -2px;
+}
+
+.trigger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.popover {
+  padding: var(--hive-grid);
+  border: var(--hive-border-width) solid var(--hive-color-border-v4);
+  border-radius: var(--hive-border-radius);
+  z-index: var(--hive-z-index-2000);
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--hive-grid) * 3);
+  width: 100%;
+  min-width: calc(var(--hive-grid) * 40);
+  height: calc(var(--hive-grid) * 9);
+  padding: 0 calc(var(--hive-grid) * 3);
+  border: none;
+  border-radius: var(--hive-grid);
+  background: transparent;
+  color: var(--hive-color-text-v4);
+  font-family: var(--hive-font-family-text);
+  font-size: var(--hive-font-size-body-small);
+  text-align: left;
+  cursor: pointer;
+}
+
+.check {
+  display: flex;
+  width: var(--hive-icon-size-small);
+  margin-left: auto;
+}

@@ -53,6 +53,17 @@ describe('useColorScheme', () => {
     expect(result.current[0]).toBe('light')
   })
 
+  it('preserves consecutive functional updates through the existing setter', () => {
+    mockSystemScheme(false)
+    const { result } = renderHook(() => useColorScheme())
+    act(() => {
+      result.current[1]((scheme) => (scheme === 'light' ? 'dark' : 'light'))
+      result.current[1]((scheme) => (scheme === 'light' ? 'dark' : 'light'))
+    })
+    expect(result.current[0]).toBe('light')
+    expect(document.documentElement.style.colorScheme).toBe('light')
+  })
+
   it('falls back to the system scheme when the stored value is invalid', () => {
     mockSystemScheme(false)
     localStorage.setItem(COLOR_SCHEME_STORAGE_KEY, '"blue"')
