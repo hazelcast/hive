@@ -43,6 +43,13 @@ describe('color scheme bootstrap', () => {
     expect(document.documentElement.style.colorScheme).toBe('light')
   })
 
+  it('resolves a saved System preference against the OS before paint', () => {
+    mockSystemScheme(true)
+    localStorage.setItem(COLOR_SCHEME_STORAGE_KEY, JSON.stringify('system'))
+    expect(initializeColorScheme()).toBe('dark')
+    expect(localStorage.getItem(COLOR_SCHEME_STORAGE_KEY)).toBe('"system"')
+  })
+
   it('falls back to the OS preference for invalid stored data', () => {
     mockSystemScheme(true)
     localStorage.setItem(COLOR_SCHEME_STORAGE_KEY, JSON.stringify('blue'))

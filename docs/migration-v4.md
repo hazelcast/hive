@@ -1009,24 +1009,26 @@ Full list: see `styles/variables.css` in the hive repo.
 
 The `-v4` color tokens are defined with `light-dark()`. Each token has `-light-mode` and `-dark-mode` variants that can be overridden individually.
 
-Use `useColorScheme` to drive the theme. On first visit it uses the OS preference; once the user picks a scheme it is stored in `localStorage` (`hive-color-scheme`) and used from then on.
+Use `useThemePreference` to drive the theme. It exposes `preference` (`light`, `dark`, or `system`), the resolved `scheme` (`light` or `dark`), and `setPreference`. System is the default for opted-in apps and follows OS changes while the app is open. Explicit choices are stored as JSON in `localStorage` (`hive-color-scheme`); existing saved Light and Dark choices remain valid.
 
 HIVE defaults to light for backward compatibility. To opt in without a first-paint flash, include HIVE's bootstrap script in the document head before the app styles render. It reads the saved choice or falls back to the OS preference. The app should then call `useColorScheme` once near its root and connect the result to its theme toggle.
 
 ```tsx
-import { getColorSchemeBootstrapScript, useColorScheme } from '@hazelcast/ui'
+import { getColorSchemeBootstrapScript, ThemeSwitcher, useThemePreference } from '@hazelcast/ui'
 
 // Render in the server document <head>, before stylesheets and first paint.
 const ThemeBootstrap = () => <script dangerouslySetInnerHTML={{ __html: getColorSchemeBootstrapScript() }} />
 
 const ThemeToggle = () => {
-  const [scheme, setScheme] = useColorScheme()
+  const { preference, setPreference } = useThemePreference()
 
-  return <Toggle checked={scheme === 'dark'} onChange={(e) => setScheme(e.target.checked ? 'dark' : 'light')} label="Dark mode" />
+  return <ThemeSwitcher value={preference} onChange={setPreference} />
 }
 ```
 
 Render `ThemeBootstrap` in the document head and call the hook once near the app root. Hook-only use opts into OS theme after mount and may flash; consumers that do not opt in remain light. Add the app's CSP nonce to the bootstrap script when required. A subtree can still be forced with `color-scheme: light` / `dark`.
+
+`ThemeSwitcher` is controlled: it does not apply themes or access storage by itself. If the switcher is rendered below the app root, pass the root controller's preference and setter through props or the app's context. The existing `useColorScheme()` tuple API remains compatible: it returns a resolved Light/Dark value and its setter selects an explicit Light or Dark preference. Do not mount both hooks as independent theme controllers.
 
 Requires Chrome/Edge 123+, Safari 17.5+, Firefox 120+. v3 (non-`-v4`) tokens are light-only.
 

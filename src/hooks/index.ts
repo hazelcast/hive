@@ -13,3 +13,5 @@ export {
   useColorScheme,
 } from './useColorScheme'
 export type { ColorScheme } from './useColorScheme'
+export { useThemePreference } from './useThemePreference'
+export type { ThemePreference } from '../utils/colorScheme'

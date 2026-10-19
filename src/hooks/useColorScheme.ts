@@ -1,12 +1,10 @@
-import { Dispatch, SetStateAction, useEffect } from 'react'
+import { Dispatch, SetStateAction, useRef } from 'react'
 
-import { createPersistedState } from './usePersistedState'
-import { COLOR_SCHEME_STORAGE_KEY, getSystemColorScheme, type ColorScheme } from '../utils/colorScheme'
+import { useThemePreference } from './useThemePreference'
+import { type ColorScheme } from '../utils/colorScheme'
 
 export { COLOR_SCHEME_STORAGE_KEY, getColorSchemeBootstrapScript, getSystemColorScheme, initializeColorScheme } from '../utils/colorScheme'
 export type { ColorScheme } from '../utils/colorScheme'
-
-const usePersistedColorScheme = createPersistedState<ColorScheme>(COLOR_SCHEME_STORAGE_KEY)
 
 export const applyColorScheme = (scheme: ColorScheme) => {
   document.documentElement.style.colorScheme = scheme
@@ -14,18 +12,15 @@ export const applyColorScheme = (scheme: ColorScheme) => {
 
 /** First visit follows the OS; once the user picks a scheme it is stored and wins from then on. */
 export const useColorScheme = () => {
-  const [stored, setStoredScheme] = usePersistedColorScheme(getSystemColorScheme())
-  const scheme: ColorScheme = stored === 'light' || stored === 'dark' ? stored : getSystemColorScheme()
+  const { scheme, setPreference } = useThemePreference()
+  const currentScheme = useRef(scheme)
+  currentScheme.current = scheme
 
   const setScheme: Dispatch<SetStateAction<ColorScheme>> = (nextScheme) => {
-    const nextValue = typeof nextScheme === 'function' ? nextScheme(scheme) : nextScheme
-    applyColorScheme(nextValue)
-    setStoredScheme(nextValue)
+    const nextValue = typeof nextScheme === 'function' ? nextScheme(currentScheme.current) : nextScheme
+    currentScheme.current = nextValue
+    setPreference(nextValue)
   }
-
-  useEffect(() => {
-    applyColorScheme(scheme)
-  }, [scheme])
 
   return [scheme, setScheme] as const
 }

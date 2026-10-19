@@ -72,6 +72,10 @@ export { Toggle } from './components/Toggle'
 export { ToggleFormik } from './components/ToggleFormik'
 export { Tooltip } from './components/Tooltip'
 export { TruncatedText } from './components/TruncatedText'
+export { ThemeSwitcher } from './components/ThemeSwitcher'
+export type { ThemeSwitcherProps } from './components/ThemeSwitcher'
+export { useThemePreference } from './hooks'
+export type { ThemePreference } from './hooks'
 export {
   useOpenCloseState,
   useRefValue,
