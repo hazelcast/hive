@@ -77,6 +77,9 @@ export type ControlledPaginationProps = {
 }
 
 export type ControlledSortingProps = {
+  // Set when the rows are already sorted by the consumer (e.g. by the backend, together with `manualPagination`),
+  // so the table only reports the sorting through `onSortingChange` and does not sort the rows itself.
+  manualSorting?: boolean
   onSortingChange?: (sortBy: SortingRule[]) => void
 }
 
@@ -155,6 +158,7 @@ export const Table = <D extends RowData & { subRows?: D[] }>({
   disableSortBy,
   onPaginationChange,
   onSortingChange,
+  manualSorting,
   manualPagination,
   totalCount,
   onRenderedContentChange,
@@ -245,6 +249,7 @@ export const Table = <D extends RowData & { subRows?: D[] }>({
     data,
     enableSorting: !disableSortBy,
     enableMultiSort: false,
+    manualSorting: manualSorting,
     // Pass our hoisted table state
     initialState: tableInitialState,
     // Tell the usePagination hook that we'll handle our own data fetching
