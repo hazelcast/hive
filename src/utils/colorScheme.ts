@@ -26,13 +26,16 @@ const initializeColorSchemeForKey = (storageKey: string): ColorScheme => {
   }
 
   let scheme: ColorScheme = 'light'
+  let themeChoice: ThemePreference = 'system'
   if (storedScheme === 'light' || storedScheme === 'dark') {
+    themeChoice = storedScheme
     scheme = storedScheme
   } else if (window.matchMedia?.('(prefers-color-scheme: dark)').matches) {
     scheme = 'dark'
   }
 
   document.documentElement.style.colorScheme = scheme
+  document.documentElement.dataset.themeChoice = themeChoice
   return scheme
 }
 

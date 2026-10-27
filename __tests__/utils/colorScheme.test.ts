@@ -32,6 +32,7 @@ describe('color scheme bootstrap', () => {
 
     expect(initializeColorScheme()).toBe('dark')
     expect(document.documentElement.style.colorScheme).toBe('dark')
+    expect(document.documentElement).toHaveAttribute('data-theme-choice', 'system')
     expect(localStorage.getItem(COLOR_SCHEME_STORAGE_KEY)).toBeNull()
   })
 
@@ -41,12 +42,14 @@ describe('color scheme bootstrap', () => {
 
     expect(initializeColorScheme()).toBe('light')
     expect(document.documentElement.style.colorScheme).toBe('light')
+    expect(document.documentElement).toHaveAttribute('data-theme-choice', 'light')
   })
 
   it('resolves a saved System preference against the OS before paint', () => {
     mockSystemScheme(true)
     localStorage.setItem(COLOR_SCHEME_STORAGE_KEY, JSON.stringify('system'))
     expect(initializeColorScheme()).toBe('dark')
+    expect(document.documentElement).toHaveAttribute('data-theme-choice', 'system')
     expect(localStorage.getItem(COLOR_SCHEME_STORAGE_KEY)).toBe('"system"')
   })
 

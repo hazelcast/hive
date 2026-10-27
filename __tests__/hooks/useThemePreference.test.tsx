@@ -10,6 +10,7 @@ describe('useThemePreference', () => {
   beforeEach(() => {
     localStorage.clear()
     document.documentElement.style.colorScheme = ''
+    delete document.documentElement.dataset.themeChoice
     media = {
       matches: false,
       addEventListener: jest.fn((event, callback) => {
@@ -44,6 +45,7 @@ describe('useThemePreference', () => {
     expect(document.documentElement.style.colorScheme).toBe('light')
     act(() => result.current.setPreference('system'))
     expect(result.current.scheme).toBe('dark')
+    expect(document.documentElement).toHaveAttribute('data-theme-choice', 'system')
     expect(localStorage.getItem(COLOR_SCHEME_STORAGE_KEY)).toBe('"system"')
   })
 
@@ -51,6 +53,7 @@ describe('useThemePreference', () => {
     localStorage.setItem(COLOR_SCHEME_STORAGE_KEY, JSON.stringify(preference))
     const { result } = renderHook(useThemePreference)
     expect(result.current.preference).toBe(preference)
+    expect(document.documentElement).toHaveAttribute('data-theme-choice', preference)
   })
 
   it('unsubscribes from OS changes on unmount', () => {
@@ -67,6 +70,7 @@ describe('useThemePreference', () => {
     act(() => result.current.setPreference('dark'))
     expect(result.current.scheme).toBe('dark')
     expect(document.documentElement.style.colorScheme).toBe('dark')
+    expect(document.documentElement).toHaveAttribute('data-theme-choice', 'dark')
     spy.mockRestore()
   })
 })

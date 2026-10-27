@@ -107,7 +107,15 @@ export const ThemeSwitcher = ({
           show(event.key === 'ArrowDown' ? 0 : options.length - 1)
         }}
       >
-        <Icon icon={selected.icon} size="smallMedium" ariaHidden />
+        {options.map((option) => (
+          <span
+            key={option.value}
+            className={cn(styles.triggerIcon, styles[`triggerIcon${option.value[0].toUpperCase()}${option.value.slice(1)}`])}
+            data-test={`theme-switcher-trigger-icon-${option.value}`}
+          >
+            <Icon icon={option.icon} size="smallMedium" ariaHidden />
+          </span>
+        ))}
       </button>
       <Popover open={open && !disabled} anchorElement={trigger.current} onClose={close} offset={4} className={styles.popover}>
         <div

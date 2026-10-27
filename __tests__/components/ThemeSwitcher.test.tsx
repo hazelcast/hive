@@ -28,6 +28,14 @@ describe('ThemeSwitcher', () => {
     expect(trigger).toHaveFocus()
   })
 
+  it('keeps all theme icons available for pre-hydration theme selection', () => {
+    render(<ThemeSwitcher value="system" onChange={jest.fn()} />)
+
+    expect(screen.getByTestId('theme-switcher-trigger-icon-light')).toBeInTheDocument()
+    expect(screen.getByTestId('theme-switcher-trigger-icon-dark')).toBeInTheDocument()
+    expect(screen.getByTestId('theme-switcher-trigger-icon-system')).toBeInTheDocument()
+  })
+
   it('supports arrows, selection and Escape with focus return', async () => {
     const user = userEvent.setup()
     const Controlled = () => {

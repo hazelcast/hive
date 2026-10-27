@@ -12,6 +12,7 @@ export const useThemePreference = () => {
     currentPreference.current = nextPreference
     const nextSystemScheme = getSystemColorScheme()
     document.documentElement.style.colorScheme = nextPreference === 'system' ? nextSystemScheme : nextPreference
+    document.documentElement.dataset.themeChoice = nextPreference
     setSystemScheme(nextSystemScheme)
     setPreferenceState(nextPreference)
     try {
@@ -23,7 +24,8 @@ export const useThemePreference = () => {
 
   useEffect(() => {
     document.documentElement.style.colorScheme = scheme
-  }, [scheme])
+    document.documentElement.dataset.themeChoice = preference
+  }, [scheme, preference])
 
   useEffect(() => {
     const media = window.matchMedia?.('(prefers-color-scheme: dark)')

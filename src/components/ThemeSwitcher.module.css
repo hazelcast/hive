@@ -12,6 +12,17 @@
   cursor: pointer;
 }
 
+.triggerIcon {
+  display: none;
+}
+
+:global(html[data-theme-choice='light']) .triggerIconLight,
+:global(html[data-theme-choice='dark']) .triggerIconDark,
+:global(html[data-theme-choice='system']) .triggerIconSystem,
+:global(html:not([data-theme-choice])) .triggerIconSystem {
+  display: inline-flex;
+}
+
 .trigger:hover,
 .trigger[aria-expanded='true'],
 .option:hover {
