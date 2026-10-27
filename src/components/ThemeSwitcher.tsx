@@ -40,17 +40,18 @@ export const ThemeSwitcher = ({
   const selected = options.find((option) => option.value === value) ?? options[0]
 
   useEffect(() => {
-    if (open && !disabled) items.current[initialFocus.current]?.focus()
+    if (open && !disabled) items.current[initialFocus.current]?.focus({ preventScroll: true })
   }, [open, disabled])
 
   const close = () => setOpen(false)
+  const focusTrigger = () => trigger.current?.focus({ preventScroll: true })
   const show = (index: number) => {
     initialFocus.current = index
     setOpen(true)
   }
   const select = (preference: ThemePreference) => {
     close()
-    trigger.current?.focus()
+    focusTrigger()
     onChange(preference)
   }
   const onMenuKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
@@ -73,11 +74,11 @@ export const ThemeSwitcher = ({
         event.stopPropagation()
         event.preventDefault()
         close()
-        trigger.current?.focus()
+        focusTrigger()
         return
       case 'Tab':
         close()
-        trigger.current?.focus()
+        focusTrigger()
         return
       default:
         nextIndex = options.findIndex((option) => option.label.toLowerCase().startsWith(event.key.toLowerCase()))

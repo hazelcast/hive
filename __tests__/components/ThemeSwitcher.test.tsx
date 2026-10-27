@@ -28,6 +28,17 @@ describe('ThemeSwitcher', () => {
     expect(trigger).toHaveFocus()
   })
 
+  it('focuses the selected option without scrolling the page', async () => {
+    const user = userEvent.setup()
+    const focus = jest.spyOn(HTMLElement.prototype, 'focus')
+    render(<ThemeSwitcher value="system" onChange={jest.fn()} />)
+
+    await user.click(screen.getByRole('button', { name: 'Color theme: System' }))
+
+    expect(focus).toHaveBeenCalledWith({ preventScroll: true })
+    focus.mockRestore()
+  })
+
   it('supports arrows, selection and Escape with focus return', async () => {
     const user = userEvent.setup()
     const Controlled = () => {
