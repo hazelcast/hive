@@ -1,4 +1,7 @@
 import React from 'react'
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
+import postcss from 'postcss'
 import { renderAndCheckA11Y } from '../../src/test-helpers'
 import { useUID } from 'react-uid'
 import { render, screen } from '@testing-library/react'
@@ -14,6 +17,14 @@ const useUIDMock = useUID as jest.Mock<ReturnType<typeof useUID>>
 describe('Toggle', () => {
   beforeEach(() => {
     useUIDMock.mockImplementation(() => 'uuidtest')
+  })
+
+  it('keeps the thumb visible against the dark-mode track', () => {
+    const css = readFileSync(join(__dirname, '../../src/components/Toggle.module.css'), 'utf8')
+    const wrapperRule = postcss.parse(css).nodes.find((node) => node.type === 'rule' && node.selector === '.wrapper')
+    const thumbBackground = wrapperRule?.nodes?.find((node) => node.type === 'decl' && node.prop === '--toggle-thumb-bg')
+
+    expect(thumbBackground?.value).toBe('var(--hive-color-neutral-white-v4-light-mode)')
   })
 
   it('Renders the default checked Toggle', async () => {

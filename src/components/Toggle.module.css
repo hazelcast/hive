@@ -5,7 +5,7 @@
   --toggle-thumb-offset: calc(var(--toggle-track-width) - var(--toggle-thumb-size) - 2px);
   --toggle-track-bg: var(--hive-color-neutral-v4);
   --toggle-track-bg-checked: var(--hive-color-brand-v4);
-  --toggle-thumb-bg: var(--hive-color-neutral-white-v4);
+  --toggle-thumb-bg: var(--hive-color-neutral-white-v4-light-mode);
   --toggle-transition-duration: 160ms;
 
   position: relative;
