@@ -23,13 +23,21 @@ describe('Toggle', () => {
     const css = readFileSync(join(__dirname, '../../src/components/Toggle.module.css'), 'utf8')
     const rules = postcss.parse(css).nodes.filter((node) => node.type === 'rule')
     const wrapperRule = rules.find((node) => node.selector === '.wrapper')
+    const thumbRule = rules.find((node) => node.selector === '.toggleTrack::before')
+    const disabledTrackRule = rules.find((node) => node.selector?.includes('input:disabled + label .toggleTrack,'))
     const disabledThumbRule = rules.find(
       (node) => node.selector?.includes('input:disabled + label .toggleTrack::before'),
     )
+    const trackBackground = wrapperRule?.nodes?.find((node) => node.type === 'decl' && node.prop === '--toggle-track-bg')
     const thumbBackground = wrapperRule?.nodes?.find((node) => node.type === 'decl' && node.prop === '--toggle-thumb-bg')
+    const thumbBorder = thumbRule?.nodes?.find((node) => node.type === 'decl' && node.prop === 'border')
+    const disabledTrackBackground = disabledTrackRule?.nodes?.find((node) => node.type === 'decl' && node.prop === 'background')
     const disabledThumbBackground = disabledThumbRule?.nodes?.find((node) => node.type === 'decl' && node.prop === 'background')
 
+    expect(trackBackground?.value).toBe('light-dark(var(--hive-color-neutral-v4-light-mode), var(--hive-color-border-v4-dark-mode))')
     expect(thumbBackground?.value).toBe('var(--hive-color-neutral-white-v4-light-mode)')
+    expect(thumbBorder?.value).toBe('var(--hive-border-width) solid var(--hive-color-border-v4)')
+    expect(disabledTrackBackground?.value).toBe('var(--toggle-track-bg)')
     expect(disabledThumbBackground?.value).toBe('var(--hive-color-neutral-white-v4-light-mode)')
   })
 
