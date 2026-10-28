@@ -36,7 +36,7 @@ describe('Toggle', () => {
 
     expect(trackBackground?.value).toBe('light-dark(var(--hive-color-neutral-v4-light-mode), var(--hive-color-border-v4-dark-mode))')
     expect(thumbBackground?.value).toBe('var(--hive-color-neutral-white-v4-light-mode)')
-    expect(thumbBorder?.value).toBe('var(--hive-border-width) solid var(--hive-color-border-v4)')
+    expect(thumbBorder?.value).toBe('var(--hive-border-width) solid var(--hive-color-neutral-white-v4-light-mode)')
     expect(disabledTrackBackground?.value).toBe('var(--toggle-track-bg)')
     expect(disabledThumbBackground?.value).toBe('var(--hive-color-neutral-white-v4-light-mode)')
   })

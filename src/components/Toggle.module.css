@@ -61,7 +61,7 @@
   width: var(--toggle-thumb-size);
   height: var(--toggle-thumb-size);
   background: var(--toggle-thumb-bg);
-  border: var(--hive-border-width) solid var(--hive-color-border-v4);
+  border: var(--hive-border-width) solid var(--hive-color-neutral-white-v4-light-mode);
   border-radius: var(--hive-border-radius-pill);
   box-sizing: border-box;
   box-shadow:
