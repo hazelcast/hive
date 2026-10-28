@@ -102,7 +102,7 @@
 
 .wrapper input:disabled + label .toggleTrack::before,
 .wrapper label.disabled .toggleTrack::before {
-  background: var(--hive-color-neutral-white-v4);
+  background: var(--hive-color-neutral-white-v4-light-mode);
   box-shadow: none;
 }
 

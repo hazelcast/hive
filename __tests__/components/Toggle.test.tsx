@@ -21,10 +21,16 @@ describe('Toggle', () => {
 
   it('keeps the thumb visible against the dark-mode track', () => {
     const css = readFileSync(join(__dirname, '../../src/components/Toggle.module.css'), 'utf8')
-    const wrapperRule = postcss.parse(css).nodes.find((node) => node.type === 'rule' && node.selector === '.wrapper')
+    const rules = postcss.parse(css).nodes.filter((node) => node.type === 'rule')
+    const wrapperRule = rules.find((node) => node.selector === '.wrapper')
+    const disabledThumbRule = rules.find(
+      (node) => node.selector?.includes('input:disabled + label .toggleTrack::before'),
+    )
     const thumbBackground = wrapperRule?.nodes?.find((node) => node.type === 'decl' && node.prop === '--toggle-thumb-bg')
+    const disabledThumbBackground = disabledThumbRule?.nodes?.find((node) => node.type === 'decl' && node.prop === 'background')
 
     expect(thumbBackground?.value).toBe('var(--hive-color-neutral-white-v4-light-mode)')
+    expect(disabledThumbBackground?.value).toBe('var(--hive-color-neutral-white-v4-light-mode)')
   })
 
   it('Renders the default checked Toggle', async () => {
