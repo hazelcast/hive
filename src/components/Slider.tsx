@@ -9,7 +9,7 @@ import { Label } from './Label'
 import { DataTestProp } from '../helpers/types'
 import { triggerNativeInputChange } from '../helpers/forms'
 
-import styles from './Slider.module.scss'
+import styles from './Slider.module.css'
 
 // This component accepts one of these values
 export type SliderValue = number | [number, number]

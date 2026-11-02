@@ -8,9 +8,9 @@ import { getColumns } from './utils'
 import { Table } from '../../../src/components/Table/Table'
 import { bigDataSet, smallDataSet } from './consts'
 
-import cellStyles from '../../../src/components/Table/Cell.module.scss'
-import headerStyles from '../../../src/components/Table/Header.module.scss'
-import paginationStyles from '../../src/Pagination.module.scss'
+import cellStyles from '../../../src/components/Table/Cell.module.css'
+import headerStyles from '../../../src/components/Table/Header.module.css'
+import paginationStyles from '../../src/Pagination.module.css'
 
 const rules = axeDefaultOptions?.rules ?? {}
 const axeOptions = {
@@ -105,6 +105,19 @@ describe('Table', () => {
 
     expect(screen.queryByTestId('table-no-data')).not.toBeInTheDocument()
     expect(screen.queryByTestId('table-loader-cell')).not.toBeInTheDocument()
+  })
+
+  it('renders header and cells for a column with an explicit minWidth of 0', async () => {
+    const columns = getColumns({ withZeroMinWidth: true })
+
+    await renderAndCheckA11Y(<Table data-test="table-test" columns={columns} data={smallDataSet} disableSortBy />, {
+      axeOptions,
+    })
+
+    const tableWrapper = screen.queryByTestId('table-test')
+
+    expect(within(tableWrapper!).queryAllByTestId('table-header-container')).toHaveLength(columns.length)
+    expect(within(tableWrapper!).queryAllByTestId('table-cell')).toHaveLength(columns.length * smallDataSet.length)
   })
 
   it('renders table footer with correct props', async () => {
@@ -263,6 +276,48 @@ describe('Table', () => {
     expect(within(screen.getByTestId('table-content')).queryByText(bigDataSet[10].name)).not.toBeInTheDocument()
     expect(within(screen.getByTestId('table-content')).queryByText(bigDataSet[20].name)).toBeInTheDocument()
     expect(within(screen.getByTestId('table-content')).queryByText(bigDataSet[30].name)).not.toBeInTheDocument()
+  })
+
+  describe('pagination footer total', () => {
+    // Pagination collapses to a small view (hiding the "X - Y of Z" text) below a width
+    // breakpoint measured via offsetWidth, which jsdom always reports as 0 - force a "wide"
+    // layout so these two tests can assert on that text, restoring it after each so later
+    // tests keep seeing jsdom's real (0) offsetWidth.
+    const originalOffsetWidth = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'offsetWidth')
+
+    beforeEach(() => {
+      Object.defineProperty(HTMLElement.prototype, 'offsetWidth', {
+        configurable: true,
+        value: 1024,
+      })
+    })
+
+    afterEach(() => {
+      if (originalOffsetWidth) {
+        Object.defineProperty(HTMLElement.prototype, 'offsetWidth', originalOffsetWidth)
+      }
+    })
+
+    it('shows totalCount (not data.length) under manual pagination', async () => {
+      const columns = getColumns({})
+
+      await renderAndCheckA11Y(
+        <Table data-test="table-test" columns={columns} data={smallDataSet.slice(0, 3)} manualPagination pageCount={1} totalCount={7} />,
+        { axeOptions },
+      )
+
+      expect(screen.getByTestId('pagination-range-of-shown-items')).toHaveTextContent('1 – 7 of 7')
+    })
+
+    it('falls back to data.length when totalCount is not provided', async () => {
+      const columns = getColumns({})
+
+      await renderAndCheckA11Y(<Table data-test="table-test" columns={columns} data={smallDataSet} />, { axeOptions })
+
+      expect(screen.getByTestId('pagination-range-of-shown-items')).toHaveTextContent(
+        `1 – ${smallDataSet.length} of ${smallDataSet.length}`,
+      )
+    })
   })
 
   it('SubRows', async () => {

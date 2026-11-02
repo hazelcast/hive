@@ -8,8 +8,8 @@ import userEvent from '@testing-library/user-event'
 import { Link } from '../../src/components/Link'
 import { testAttribute, testClass, testContent } from '../helpers'
 
-import styles from '../../src/components/Link.module.scss'
-import iconStyles from '../../src/components/Icon.module.scss'
+import styles from '../../src/components/Link.module.css'
+import iconStyles from '../../src/components/Icon.module.css'
 
 describe('Link', () => {
   it('Renders normal Link with correct props', async () => {

@@ -1,0 +1,53 @@
+.root {
+  display: flex;
+  gap: calc(var(--hive-grid) * 2);
+  align-items: stretch;
+  flex-direction: column;
+  padding-top: calc(var(--hive-grid) * 2);
+  border-top: 1px solid transparent;
+
+  h3 {
+    margin: 0;
+    color: var(--hive-color-neutral-light);
+    font-size: var(--hive-font-size-body-small);
+  }
+}
+
+.collapsed {
+  border-color: var(--hive-color-neutral-light);
+
+  h3 {
+    display: none;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hive-grid);
+}
+
+.icon {
+  margin-left: auto;
+  color: var(--hive-color-neutral-lighter);
+}
+
+.toggle {
+  margin-bottom: var(--hive-grid);
+
+  .adornment {
+    margin-right: calc(var(--hive-grid) * -1.5);
+  }
+}
+
+.transitionLeave {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 125ms ease-out;
+}
+
+.transitionEnter {
+  max-height: 1000px;
+  overflow: visible;
+  transition: max-height 125ms ease-in;
+}

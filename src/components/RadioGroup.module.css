@@ -1,0 +1,31 @@
+.withError {
+  position: relative;
+  padding-bottom: calc(var(--hive-error-height) + var(--hive-grid));
+
+  .errorContainer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    height: var(--hive-error-height);
+    width: 100%;
+  }
+}
+
+.radioGroup {
+  display: flex;
+  flex-direction: column;
+
+  &:not(.inline) > *:not(:last-child) {
+    /* we need to provide spacing between radios if they're in a vertical column */
+    margin-bottom: var(--hive-grid);
+  }
+
+  &.inline {
+    flex-direction: row;
+
+    > *:not(:first-child) {
+      margin-left: var(--hive-grid);
+    }
+  }
+}

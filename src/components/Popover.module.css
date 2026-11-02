@@ -1,0 +1,8 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  background: var(--hive-color-neutral-white-v4);
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  box-shadow: var(--hive-shadow-popover-v4);
+}

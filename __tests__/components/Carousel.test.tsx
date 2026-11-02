@@ -3,6 +3,7 @@ import { renderAndCheckA11Y, axeDefaultOptions } from '../../src/test-helpers'
 import NukaCarousel from 'nuka-carousel'
 
 import { Card, Carousel } from '../../src'
+import { styleConstants } from '../../src/utils/styleConstants'
 
 jest.mock('nuka-carousel', () => jest.fn())
 
@@ -25,7 +26,7 @@ describe('Carousel', () => {
           nextButtonStyle: { background: 'none' },
           prevButtonStyle: { background: 'none' },
           pagingDotsClassName: 'pagingDotsClassName',
-          pagingDotsStyle: { fill: 'colorPrimary' },
+          pagingDotsStyle: { fill: styleConstants.colorPrimary },
           nextButtonText: expect.anything(),
           prevButtonText: expect.anything(),
         }),

@@ -10,7 +10,7 @@ import { useDimensions } from '../hooks/useDimensions'
 import { SelectField } from './Select'
 import { Link } from './Link'
 
-import styles from './Pagination.module.scss'
+import styles from './Pagination.module.css'
 import { NumberField } from './NumberField'
 import { SelectFieldOption } from './Select/helpers'
 

@@ -7,7 +7,7 @@ import { timePoints } from '../helpers/consts'
 import { TimeField } from '../../TimeField'
 import { useRefValue } from '../../../hooks'
 
-import styles from './CalendarTime.module.scss'
+import styles from './CalendarTime.module.css'
 
 const DATE_FORMAT = 'HH:mm'
 

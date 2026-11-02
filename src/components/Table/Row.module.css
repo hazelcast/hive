@@ -1,0 +1,76 @@
+.row {
+  display: flex;
+  width: 100%;
+  font-family: var(--hive-font-family-text);
+  font-size: var(--hive-font-size-body-small);
+  letter-spacing: var(--hive-letter-spacing-body-small);
+  line-height: var(--hive-line-height-body-small);
+  font-weight: var(--hive-font-weight-text-regular);
+
+  &:nth-child(even) {
+    background-color: var(--hive-color-table-row-even-v4);
+  }
+
+  &.clickable {
+    cursor: pointer;
+
+    &:focus-visible {
+      box-shadow: inset 0 0 0 var(--hive-outline-width) var(--hive-color-primary-v4);
+
+      /* Do not remove outline for high-contrast modes */
+      /* https://stackoverflow.com/a/52616313 */
+      outline: var(--hive-outline-width) solid transparent;
+      background-color: var(--hive-color-table-row-hover-v4);
+    }
+
+    &:hover {
+      font-weight: bold;
+      background-color: var(--hive-color-table-row-hover-v4);
+    }
+  }
+}
+
+.linkRow {
+  cursor: pointer;
+  display: flex;
+  width: 100%;
+  font-family: var(--hive-font-family-text);
+  font-size: var(--hive-font-size-body-small);
+  letter-spacing: var(--hive-letter-spacing-body-small);
+  line-height: var(--hive-line-height-body-small);
+  font-weight: var(--hive-font-weight-text-regular);
+
+  &:nth-child(even) {
+    background-color: var(--hive-color-table-row-even-v4);
+  }
+
+  .link {
+    text-decoration: none;
+    background-color: inherit;
+    display: flex;
+    width: 100%;
+    font-family: var(--hive-font-family-text);
+    font-size: var(--hive-font-size-body-small);
+    letter-spacing: var(--hive-letter-spacing-body-small);
+    line-height: var(--hive-line-height-body-small);
+    font-weight: var(--hive-font-weight-text-regular);
+
+    &:nth-child(even) {
+      background-color: var(--hive-color-table-row-even-v4);
+    }
+
+    &:focus-visible {
+      box-shadow: inset 0 0 0 var(--hive-outline-width) var(--hive-color-primary-v4);
+
+      /* Do not remove outline for high-contrast modes */
+      /* https://stackoverflow.com/a/52616313 */
+      outline: var(--hive-outline-width) solid transparent;
+      background-color: var(--hive-color-table-row-hover-v4);
+    }
+
+    &:hover {
+      font-weight: bold;
+      background-color: var(--hive-color-table-row-hover-v4);
+    }
+  }
+}

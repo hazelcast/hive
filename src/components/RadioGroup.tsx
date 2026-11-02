@@ -7,7 +7,7 @@ import { Error, errorId } from './Error'
 import { RadioGroupContext } from './RadioGroupContext'
 import { RadioProps } from './Radio'
 
-import styles from './RadioGroup.module.scss'
+import styles from './RadioGroup.module.css'
 
 export type RadioGroupCoreProps = {
   name: string

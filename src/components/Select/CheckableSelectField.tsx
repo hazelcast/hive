@@ -219,6 +219,7 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
           <div className={styles.bottom}>
             <Link
               component="button"
+              className={styles.actionLink}
               data-test={`${dataTest}-select-all`}
               onClick={() => {
                 onChange(filteredOptions.map(({ value }) => value))
@@ -226,7 +227,7 @@ export const CheckableSelectField = <V extends string | number = number>(props: 
             >
               Select all
             </Link>
-            <Link component="button" data-test={`${dataTest}-select-none`} onClick={() => onChange([])}>
+            <Link className={styles.actionLink} component="button" data-test={`${dataTest}-select-none`} onClick={() => onChange([])}>
               Select none
             </Link>
           </div>

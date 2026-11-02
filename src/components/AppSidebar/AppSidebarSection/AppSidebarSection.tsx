@@ -5,7 +5,7 @@ import { DataTestProp } from '../../../helpers/types'
 import { appSidebarContext } from '../appSidebarContext'
 import { AppSidebarSectionExpandable, AppSidebarSectionExpandableProps } from './AppSidebarSectionExpandable'
 
-import styles from './AppSidebarSection.module.scss'
+import styles from './AppSidebarSection.module.css'
 
 export type AppSidebarSectionProps = {
   title: string

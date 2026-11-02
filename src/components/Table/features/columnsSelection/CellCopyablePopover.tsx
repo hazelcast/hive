@@ -3,7 +3,7 @@ import cls from 'classnames'
 
 import { Popover } from '../../../Popover'
 
-import styles from './CellCopyablePopover.module.scss'
+import styles from './CellCopyablePopover.module.css'
 
 export interface CellCopyablePopover {
   isOpen: boolean

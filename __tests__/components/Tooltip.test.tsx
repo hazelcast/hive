@@ -5,7 +5,7 @@ import cn from 'classnames'
 
 import { Tooltip } from '../../src/components/Tooltip'
 
-import styles from '../../src/components/Tooltip.module.scss'
+import styles from '../../src/components/Tooltip.module.css'
 
 describe('Tooltip', () => {
   it('Renders correctly if "content" property is defined.', async () => {

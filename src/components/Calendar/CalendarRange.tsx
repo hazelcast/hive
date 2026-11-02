@@ -5,7 +5,7 @@ import cn from 'classnames'
 import { Icon } from '../Icon'
 import { Calendar, CalendarProps } from './Calendar'
 
-import styles from './CalendarRange.module.scss'
+import styles from './CalendarRange.module.css'
 
 export type CalendarRangeVariant = 'horizontal' | 'vertical'
 export type CalendarRangeProps = {

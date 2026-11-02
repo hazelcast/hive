@@ -6,7 +6,7 @@ import { renderAndCheckA11Y } from '../../src/test-helpers'
 
 import { Card, IconButton } from '../../src'
 
-import styles from '../../src/components/Card.module.scss'
+import styles from '../../src/components/Card.module.css'
 
 expect.extend(toHaveNoViolations)
 

@@ -9,7 +9,7 @@ import { CalendarHeader } from './components/CalendarHeader'
 import { CalendarTime } from './components/CalendarTime'
 import { getPortalContainer, PortalContainer } from '../../utils/portal'
 
-import styles from './Calendar.module.scss'
+import styles from './Calendar.module.css'
 
 const DATE_FORMAT = 'yyyy-MM-dd'
 const TIME_FORMAT = 'HH:mm'

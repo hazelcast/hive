@@ -6,7 +6,7 @@ import SimpleTimeField from 'react-simple-timefield'
 import { DataTestProp } from '../helpers/types'
 import { FieldHeaderProps } from './FieldHeader'
 
-import styles from './TimeField.module.scss'
+import styles from './TimeField.module.css'
 import { TextField } from './TextField'
 
 export type TimeFieldCoreProps = {

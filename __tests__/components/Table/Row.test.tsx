@@ -4,7 +4,7 @@ import { fireEvent, screen, act } from '@testing-library/react'
 
 import { HeaderRow, HeaderRowProps, LinkRow, LinkRowProps, Row, RowProps } from '../../../src/components/Table/Row'
 
-import styles from '../../src/Table/Row.module.scss'
+import styles from '../../src/Table/Row.module.css'
 
 type AnyProps = Record<string, any>
 

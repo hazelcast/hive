@@ -4,7 +4,7 @@ import { RadioGroup } from '@headlessui/react'
 
 import { DataTestProp } from '../helpers/types'
 
-import styles from './SegmentedControl.module.scss'
+import styles from './SegmentedControl.module.css'
 
 export type SegmentedControlOption<V> = {
   value: V

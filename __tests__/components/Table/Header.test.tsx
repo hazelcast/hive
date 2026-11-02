@@ -4,8 +4,8 @@ import { renderAndCheckA11Y } from '../../../src/test-helpers'
 
 import { Header, HeaderProps } from '../../../src/components/Table/Header'
 
-import styles from '../../src/Table/Header.module.scss'
-import iconStyles from '../../src/Icon.module.scss'
+import styles from '../../src/Table/Header.module.css'
+import iconStyles from '../../src/Icon.module.css'
 
 const Wrapper = ({ children, ...props }: { children: (props: Partial<HeaderProps>) => ReactNode } & object) => (
   <div role="table">

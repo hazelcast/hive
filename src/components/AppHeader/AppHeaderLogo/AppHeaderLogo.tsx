@@ -3,7 +3,7 @@ import cls from 'classnames'
 
 import { DataTestProp } from '../../../helpers/types'
 
-import styles from './AppHeaderLogo.module.scss'
+import styles from './AppHeaderLogo.module.css'
 
 export interface LinkProps extends DataTestProp {
   className?: string
