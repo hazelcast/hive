@@ -1,7 +1,7 @@
+import { fixupPluginRules } from '@eslint/compat'
 import eslint from '@eslint/js'
 import tseslint from 'typescript-eslint'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
-import babelPlugin from '@babel/eslint-plugin'
 import importPlugin from 'eslint-plugin-import'
 import react from 'eslint-plugin-react'
 import prettier from 'eslint-plugin-prettier'
@@ -20,10 +20,9 @@ export default [
       ecmaVersion: 2020,
     },
     plugins: {
-      'jsx-a11y': jsxA11y,
-      babel: babelPlugin,
-      import: importPlugin,
-      react,
+      'jsx-a11y': fixupPluginRules(jsxA11y),
+      import: fixupPluginRules(importPlugin),
+      react: fixupPluginRules(react),
       prettier,
       'react-hooks': reactHooks,
     },
@@ -82,7 +81,7 @@ export default [
       'no-param-reassign': 'off',
       // https://github.com/eslint/eslint/issues/11045
       'no-unused-expressions': 'off',
-      'babel/no-unused-expressions': 'error',
+      '@typescript-eslint/no-unused-expressions': 'error',
       'dot-notation': 'off',
       'no-useless-constructor': 'off',
       'no-empty-function': 'off',
