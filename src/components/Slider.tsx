@@ -51,11 +51,11 @@ type SliderProps<T extends SliderValue = number> = SliderExtraProps &
   Partial<Pick<HTMLInputElement, 'disabled'>> &
   DataTestProp
 
-function isRangeGuard(value: SliderValue, onChange?: SingleValueChangeFn | MultiValueChangeFn): onChange is MultiValueChangeFn {
+function isRangeGuard(value: SliderValue, _onChange?: SingleValueChangeFn | MultiValueChangeFn): _onChange is MultiValueChangeFn {
   return Array.isArray(value)
 }
 
-function isSingleValueGuard(value: SliderValue, onChange?: SingleValueChangeFn | MultiValueChangeFn): onChange is SingleValueChangeFn {
+function isSingleValueGuard(value: SliderValue, _onChange?: SingleValueChangeFn | MultiValueChangeFn): _onChange is SingleValueChangeFn {
   return !Array.isArray(value)
 }
 
