@@ -1,6 +1,9 @@
 import type { StorybookConfig } from '@storybook/react-webpack5'
 
+import { createRequire } from 'module'
 import { join, dirname, resolve } from 'path'
+
+const require = createRequire(import.meta.url)
 
 /**
  * This function is used to resolve the absolute path of a package.
@@ -14,11 +17,9 @@ const config: StorybookConfig = {
   staticDirs: ['../assets', '../styles'],
   addons: [
     getAbsolutePath('@storybook/addon-webpack5-compiler-swc'),
-    getAbsolutePath('@storybook/addon-essentials'),
+    getAbsolutePath('@storybook/addon-docs'),
     getAbsolutePath('@storybook/addon-onboarding'),
     getAbsolutePath('@chromatic-com/storybook'),
-    getAbsolutePath('@storybook/addon-interactions'),
-    getAbsolutePath('@storybook/manager-api'),
   ],
   framework: {
     name: getAbsolutePath('@storybook/react-webpack5'),

@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { Meta, StoryObj } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react-webpack5'
 
 import { Notification } from '../src'
 import { Notification as LegacyNotification } from '../src/old'

@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { Meta, StoryObj } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react-webpack5'
 import { ChevronDown, Download, Upload, Send, ArrowRight, Plus, Info, Check, X, Trash2, ExternalLink } from 'react-feather'
 
 import { Button, ButtonProps, ButtonTypeAnchorProps, ButtonVariant, ButtonColor } from '../src/components/Button'

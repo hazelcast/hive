@@ -1,4 +1,4 @@
-import { create } from '@storybook/theming/create'
+import { create } from 'storybook/theming/create'
 
 // manager.js does not support importing from SCSS
 // @TODO: Research and fix

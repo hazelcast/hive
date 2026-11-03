@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { DocsContext, Heading } from '@storybook/blocks'
+import { DocsContext, Heading } from '@storybook/addon-docs/blocks'
 
 import { Story } from './Story'
 
