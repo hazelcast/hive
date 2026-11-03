@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Meta, StoryFn } from '@storybook/react'
+import { Meta, StoryFn } from '@storybook/react-webpack5'
 
 import { SegmentedControl, SegmentedControlOption, SegmentedControlProps } from '../src/components/SegmentedControl'
 import { Form, Formik } from 'formik'

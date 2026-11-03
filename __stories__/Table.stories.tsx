@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { logger } from '../src'
-import { Meta, StoryObj } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react-webpack5'
 
 import { PaginationChangeProps, Table, TableProps } from '../src/components/Table/Table'
 import { getColumns, Person } from '../__tests__/components/Table/utils'

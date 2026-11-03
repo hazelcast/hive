@@ -1,5 +1,5 @@
 import React, { ReactNode, useState } from 'react'
-import { Meta, StoryObj } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react-webpack5'
 import { Settings, Info, PenTool } from 'react-feather'
 
 import { TabContextProvider, TabContextProviderControlled } from '../src/components/Tabs/TabContext'

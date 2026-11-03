@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react'
 import cn from 'classnames'
 import { useUID } from 'react-uid'
 import { AlertTriangle, CheckCircle, CloudLightning, Info, Trash2, RefreshCw } from 'react-feather'
-import { Meta, StoryObj } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react-webpack5'
 
 import { Modal, ModalProps } from '../src/components/Modal'
 import { Modal as LegacyModal, ModalProps as LegacyModalProps } from '../src/old/Modal'

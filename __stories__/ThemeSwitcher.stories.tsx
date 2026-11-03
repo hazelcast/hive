@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Meta, StoryObj } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react-webpack5'
 
 import { ThemeSwitcher } from '../src/components/ThemeSwitcher'
 import { useThemePreference } from '../src/hooks/useThemePreference'

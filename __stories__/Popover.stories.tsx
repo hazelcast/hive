@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Meta } from '@storybook/react'
+import { Meta } from '@storybook/react-webpack5'
 
 import { Popover, PopoverProps } from '../src/components/Popover'
 import { Button } from '../src/components/Button'

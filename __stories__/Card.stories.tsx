@@ -1,6 +1,6 @@
 import React from 'react'
 import { Database } from 'react-feather'
-import { Meta, StoryObj } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react-webpack5'
 
 import { Alert, Card, IconButton } from '../src'
 

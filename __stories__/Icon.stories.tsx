@@ -1,6 +1,6 @@
 import React from 'react'
 import { Clipboard, FolderPlus } from 'react-feather'
-import { Meta, StoryFn } from '@storybook/react'
+import { Meta, StoryFn } from '@storybook/react-webpack5'
 
 import { Icon, IconProps } from '../src/components/Icon'
 

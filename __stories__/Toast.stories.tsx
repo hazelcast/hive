@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react'
-import { Meta, StoryObj } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react-webpack5'
 
 import { Toast, ToastProvider, ToastViewport, ToastVariant } from '../src/components/Toast'
 import { Button } from '../src'

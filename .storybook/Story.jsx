@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react'
-import { Subheading, Anchor, Description, Canvas, Story as StoryOriginal } from '@storybook/blocks'
+import { Subheading, Anchor, Description, Canvas, Story as StoryOriginal } from '@storybook/addon-docs/blocks'
 import { Design } from '@storybook/addon-designs/blocks'
 
 const designStyleOpen = {
