@@ -5,7 +5,7 @@ import { screen, within } from '@testing-library/react'
 
 import { Badge, BadgeType, BadgeIconDescriptor } from '../../src/components/Badge'
 
-import styles from '../../src/components/Badge.module.scss'
+import styles from '../../src/components/Badge.module.css'
 
 const badgeContent = 'Badge Text'
 

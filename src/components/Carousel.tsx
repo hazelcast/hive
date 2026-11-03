@@ -5,8 +5,8 @@ import { ChevronLeft, ChevronRight } from 'react-feather'
 
 import { DataTestProp } from '../helpers/types'
 
-import styleConsts from '../../styles/constants/export.module.scss'
-import styles from './Carousel.module.scss'
+import { styleConstants } from '../utils/styleConstants'
+import styles from './Carousel.module.css'
 
 interface ControlsConfig {
   containerClassName?: string
@@ -34,7 +34,7 @@ export type CarouselProps = {
 
 export const Carousel: FC<CarouselProps> = ({
   children,
-  color = styleConsts.colorPrimary,
+  color = styleConstants.colorPrimary,
   wrapperClassName,
   cellSpacing = 15,
   slidesToShow = 1,

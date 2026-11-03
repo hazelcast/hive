@@ -85,6 +85,10 @@
   border-top: 1px solid var(--hive-color-border-v4);
 }
 
+.actionLink {
+  color: var(--hive-color-link-v4) !important;
+}
+
 .checkmark {
   width: 1rem;
   height: 1rem;

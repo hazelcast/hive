@@ -4,7 +4,7 @@ import { useUID } from 'react-uid'
 
 import { keyIsOneOf } from '../../utils/keyboard'
 
-import styles from './Row.module.scss'
+import styles from './Row.module.css'
 
 type RowBase = { className?: string; style?: CSSProperties; role?: string; ariaRowIndex?: number }
 export type RowProps = RowBase & { onClick?: () => void }

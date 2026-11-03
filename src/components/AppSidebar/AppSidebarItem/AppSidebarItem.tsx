@@ -10,7 +10,7 @@ import { appSidebarContext } from '../appSidebarContext'
 import { AppSidebarFavoriteButton } from '../AppSidebarFavoriteButton'
 import { appSidebarSectionContext } from '../AppSidebarSection/appSidebarSectionContext'
 
-import styles from './AppSidebarItem.module.scss'
+import styles from './AppSidebarItem.module.css'
 
 export type AppSidebarItemProps = {
   id?: string

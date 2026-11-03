@@ -4,7 +4,7 @@ import { screen, within } from '@testing-library/react'
 
 import { CircularProgressBar, innerStrokeWidth, outerStrokeWidth, size } from '../../src/components/CircularProgressBar'
 
-import styles from '../../src/components/CircularProgressBar.module.scss'
+import styles from '../../src/components/CircularProgressBar.module.css'
 
 describe('CircularProgressBar', () => {
   it('Renders elements with correct props', async () => {

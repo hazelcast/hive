@@ -1,7 +1,13 @@
 .notification {
-  --notification-color: var(--hive-color-text);
-  --notification-surface: lab(from var(--notification-color) 95% a b);
-  --notification-border: lab(from var(--notification-color) 84% a b);
+  --notification-color: light-dark(var(--hive-color-text), var(--hive-color-text-v4));
+  --notification-surface: light-dark(
+    lab(from var(--notification-color) 95% a b),
+    color-mix(in oklab, var(--notification-color) 12%, var(--hive-color-neutral-white-v4))
+  );
+  --notification-border: light-dark(
+    lab(from var(--notification-color) 84% a b),
+    color-mix(in oklab, var(--notification-color) 40%, var(--hive-color-neutral-white-v4))
+  );
 
   box-sizing: border-box;
   display: flex;
@@ -48,17 +54,17 @@
 }
 
 .success {
-  --notification-color: var(--hive-color-success-darkest);
+  --notification-color: var(--hive-color-success-text-v4);
 }
 
 .info {
-  --notification-color: var(--hive-color-info-darkest);
+  --notification-color: var(--hive-color-info-text-v4);
 }
 
 .warning {
-  --notification-color: var(--hive-color-warning-darkest);
+  --notification-color: var(--hive-color-warning-text-v4);
 }
 
 .error {
-  --notification-color: var(--hive-color-error);
+  --notification-color: var(--hive-color-error-text-v4);
 }

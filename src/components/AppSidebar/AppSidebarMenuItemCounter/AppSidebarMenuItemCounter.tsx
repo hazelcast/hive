@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import cn from 'classnames'
 
-import styles from './AppSidebarMenuItemCounter.module.scss'
+import styles from './AppSidebarMenuItemCounter.module.css'
 
 export interface AppSidebarMenuItemCounterProps {
   children: ReactNode

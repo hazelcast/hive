@@ -10,7 +10,7 @@ import { Icon, IconProps } from './Icon'
 import { Link } from './Link'
 import { TruncatedText } from './TruncatedText'
 
-import styles from './Overlay.module.scss'
+import styles from './Overlay.module.css'
 
 export type OverlayActionProps = ButtonProps<ButtonTypeButtonProps>
 export type OverlayProps = {

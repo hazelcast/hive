@@ -7,7 +7,7 @@ import userEvent from '@testing-library/user-event'
 import { TextField } from '../../src/components/TextField'
 
 import styles from '../../src/components/TextField.module.css'
-import labelStyles from '../../src/components/Label.module.scss'
+import labelStyles from '../../src/components/Label.module.css'
 
 jest.mock('react-uid')
 

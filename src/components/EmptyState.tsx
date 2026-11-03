@@ -7,7 +7,7 @@ import { Link } from './Link'
 import { Icon, IconProps } from './Icon'
 import { DataTestProp } from '../helpers/types'
 
-import styles from './EmptyState.module.scss'
+import styles from './EmptyState.module.css'
 
 type EmptyStateSize = 'normal' | 'large'
 

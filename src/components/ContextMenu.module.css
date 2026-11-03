@@ -1,0 +1,34 @@
+.root {
+  position: absolute;
+  padding: var(--hive-grid) 0;
+  background: var(--hive-color-neutral-white-v4);
+  border-radius: var(--hive-border-radius);
+  border: var(--hive-border-width) solid var(--hive-color-border-v4);
+  z-index: var(--hive-z-index-2000);
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  flex-grow: 1;
+  flex-shrink: 0;
+  background: none;
+  padding: var(--hive-grid) calc(var(--hive-grid) * 4);
+  margin: 0;
+  cursor: pointer;
+  border: none;
+  text-align: left;
+
+  &:focus-visible {
+    box-shadow: inset 0 0 0 var(--hive-outline-width) var(--hive-color-primary-v4);
+  }
+
+  &:hover {
+    background: var(--hive-color-surface-hover-v4);
+  }
+}
+
+.hidden {
+  top: -9999999999px;
+  left: -999999999px;
+}

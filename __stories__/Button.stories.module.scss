@@ -25,12 +25,12 @@
 .caption {
   font-size: 13px;
   line-height: 1.5;
-  color: #5b6168;
+  color: light-dark(#5b6168, var(--hive-color-text-secondary-v4));
   max-width: 720px;
   margin: 0;
 
   strong {
-    color: #1a202c;
+    color: light-dark(#1a202c, var(--hive-color-text-v4));
     font-weight: 600;
   }
 
@@ -98,13 +98,13 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: #5b6168;
+  color: light-dark(#5b6168, var(--hive-color-text-secondary-v4));
 }
 
 .rowLabel {
   font-size: 12px;
   font-weight: 600;
-  color: #5b6168;
+  color: light-dark(#5b6168, var(--hive-color-text-secondary-v4));
   padding-right: 8px;
 }
 
@@ -138,7 +138,7 @@
   grid-column: 1 / -1;
   font-size: 14px;
   font-weight: 600;
-  color: #1a202c;
+  color: light-dark(#1a202c, var(--hive-color-text-v4));
   margin: 0;
 }
 
@@ -153,13 +153,13 @@
 }
 
 .doDontGood {
-  background: #f0f9f4;
-  border-color: #b7e0c5;
+  background: light-dark(#f0f9f4, var(--hive-color-neutral-lighter-v4));
+  border-color: light-dark(#b7e0c5, var(--hive-color-success-text-v4));
 }
 
 .doDontBad {
-  background: #fdf2f2;
-  border-color: #f1c0c0;
+  background: light-dark(#fdf2f2, var(--hive-color-neutral-lighter-v4));
+  border-color: light-dark(#f1c0c0, var(--hive-color-error-text-v4));
 }
 
 .doDontMarker {
@@ -173,11 +173,11 @@
 }
 
 .doDontGood .doDontMarker {
-  color: #1a7f3c;
+  color: light-dark(#1a7f3c, var(--hive-color-success-text-v4));
 }
 
 .doDontBad .doDontMarker {
-  color: #b42318;
+  color: light-dark(#b42318, var(--hive-color-error-text-v4));
 }
 
 .doDontDemo {
@@ -191,6 +191,6 @@
 .doDontNote {
   font-size: 13px;
   line-height: 1.5;
-  color: #5b6168;
+  color: light-dark(#5b6168, var(--hive-color-text-secondary-v4));
   margin: 0;
 }

@@ -43,8 +43,8 @@ import { useTrackTableState } from './useTrackTableState'
 import { CellType, ColumnType, InitialState, RowData, RowType, SortingRule, TableState } from './tableTypes'
 import { getCellStyle, getColumnDef, getRowStyle, getTableInitialState, prepareRow } from './utils'
 
-import styles from './Table.module.scss'
-import styleConsts from '../../../styles/constants/export.module.scss'
+import styles from './Table.module.css'
+import { styleConstants } from '../../utils/styleConstants'
 
 export type PaginationOptions = Partial<Pick<PaginationProps, 'pageSizeOptions'>>
 export * from './tableTypes'
@@ -70,9 +70,16 @@ export type PaginationChangeProps = {
 export type ControlledPaginationProps = {
   manualPagination?: boolean
   onPaginationChange?: (paginationChangeProps: PaginationChangeProps) => void
+  // Total row count across all pages. Only meaningful with `manualPagination`, where `data` is
+  // just the current page's rows: overrides the pagination footer's "X - Y of {total}" count,
+  // which otherwise falls back to `data.length` (wrong on a partial page).
+  totalCount?: number
 }
 
 export type ControlledSortingProps = {
+  // Set when the rows are already sorted by the consumer (e.g. by the backend, together with `manualPagination`),
+  // so the table only reports the sorting through `onSortingChange` and does not sort the rows itself.
+  manualSorting?: boolean
   onSortingChange?: (sortBy: SortingRule[]) => void
 }
 
@@ -151,7 +158,9 @@ export const Table = <D extends RowData & { subRows?: D[] }>({
   disableSortBy,
   onPaginationChange,
   onSortingChange,
+  manualSorting,
   manualPagination,
+  totalCount,
   onRenderedContentChange,
   hidePagination = false,
   pageCount: controlledPageCount,
@@ -228,9 +237,9 @@ export const Table = <D extends RowData & { subRows?: D[] }>({
   const defaultColumn: Partial<ColumnDef<D>> = useMemo(
     () => ({
       cell: (props) => <EnhancedCellRenderer cell={props.cell} columnResizing={props.column.getIsResizing()} />,
-      minSize: Number(styleConsts.tableColumnMinWidth), // minWidth is only used as a limit for resizing
-      size: Number(styleConsts.tableColumnWidth), // width is used for both the flex-basis and flex-grow
-      maxSize: Number(styleConsts.tableColumnMaxWidth), // maxWidth is only used as a limit for resizing
+      minSize: styleConstants.tableColumnMinWidth, // minWidth is only used as a limit for resizing
+      size: styleConstants.tableColumnWidth, // width is used for both the flex-basis and flex-grow
+      maxSize: styleConstants.tableColumnMaxWidth, // maxWidth is only used as a limit for resizing
     }),
     [],
   )
@@ -240,6 +249,7 @@ export const Table = <D extends RowData & { subRows?: D[] }>({
     data,
     enableSorting: !disableSortBy,
     enableMultiSort: false,
+    manualSorting: manualSorting,
     // Pass our hoisted table state
     initialState: tableInitialState,
     // Tell the usePagination hook that we'll handle our own data fetching
@@ -569,7 +579,7 @@ export const Table = <D extends RowData & { subRows?: D[] }>({
             }}
             pageSize={pageSize}
             setPageSize={setPageSize}
-            numberOfItems={data.length}
+            numberOfItems={totalCount ?? data.length}
             pageSizeOptions={paginationOptions?.pageSizeOptions ?? [5, 10, 20]}
           />
         )}

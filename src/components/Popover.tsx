@@ -8,7 +8,7 @@ import { getPortalContainer, PortalContainer } from '../utils/portal'
 import { DataTestProp } from '../helpers/types'
 import { useOnClickOutside, useRefValue } from '../hooks'
 
-import styles from './Popover.module.scss'
+import styles from './Popover.module.css'
 
 export interface PopoverProps extends DataTestProp {
   open: boolean

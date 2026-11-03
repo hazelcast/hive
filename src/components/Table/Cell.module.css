@@ -1,0 +1,58 @@
+.td {
+  position: relative;
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  height: calc(var(--hive-grid) * 6);
+  padding-right: calc(var(--hive-grid) * 5);
+  padding-left: calc(var(--hive-grid) * 5);
+  color: var(--hive-color-text-v4);
+  background-color: inherit;
+  flex-grow: 1;
+  flex-basis: auto;
+  flex-shrink: 0;
+  font-family: 'Ubuntu Mono', monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &.alignLeft {
+    justify-content: flex-start;
+  }
+
+  &.alignRight {
+    justify-content: flex-end;
+  }
+
+  &.alignCenter {
+    justify-content: center;
+  }
+
+  &.selected {
+    background: var(--hive-color-table-selection-v4) !important;
+  }
+
+  &:not(:last-of-type) {
+    border-right: var(--hive-border-width) solid var(--hive-color-table-separator-v4);
+  }
+}
+
+.warningIcon {
+  color: var(--hive-color-warning-text-v4);
+
+  &.left {
+    margin-left: calc(var(--hive-grid) * 2);
+  }
+
+  &.right {
+    margin-right: calc(var(--hive-grid) * 2);
+  }
+}
+
+.selectable {
+  user-select: none;
+}
+
+.truncated {
+  font-family: 'Ubuntu Mono', monospace;
+}

@@ -11,7 +11,7 @@ import { CellType, RowData, RowType } from './tableTypes'
 import { LinkRow, Row, RowProps } from './Row'
 import { isCellSelected, useColumnsSelection } from './features/columnsSelection'
 
-import styles from './TableContent.module.scss'
+import styles from './TableContent.module.css'
 
 export type TableContentProps<D extends RowData> = {
   loading?: boolean

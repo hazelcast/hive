@@ -1,0 +1,75 @@
+.select {
+  width: 260px;
+}
+
+.select.disabled :global .hz-select-field__control {
+  color: var(--hive-color-text-secondary);
+  background-color: transparent;
+}
+
+.select.disabled :global .hz-select-field__control :global .hz-select-field__single-value,
+.select.disabled :global .hz-select-field__control :global .hz-select-field__trailing-note,
+.select.disabled :global .hz-select-field__control :global .hz-select-field__indicators svg {
+  color: var(--hive-color-text-secondary);
+}
+
+.select :global .hz-select-field__control {
+  background: none;
+  border-radius: var(--hive-border-radius);
+  border: 1px solid var(--hive-color-text-secondary);
+}
+
+.select :global .hz-select-field__control :global .hz-select-field__input-container,
+.select :global .hz-select-field__control :global .hz-select-field__value-container,
+.select :global .hz-select-field__control :global .hz-select-field__trailing-note {
+  color: var(--hive-color-neutral-lighter);
+}
+
+.select :global .hz-select-field__single-value {
+  color: var(--hive-color-neutral-lighter);
+}
+
+.select :global .hz-select-field__indicators svg {
+  color: var(--hive-color-neutral-lighter);
+}
+
+.select .selectIconLeftContainer {
+  box-sizing: content-box;
+
+  .selectIconLeft {
+    color: var(--hive-color-success);
+
+    &.disconnected {
+      color: var(--hive-color-error);
+    }
+
+    &.disabled {
+      color: var(--hive-color-text-secondary);
+    }
+  }
+}
+
+.menuPortal :global .hz-select-field__menu {
+  border: none;
+  background: var(--hive-color-brand-secondary);
+  border-radius: 0 0 var(--hive-border-radius) var(--hive-border-radius);
+}
+
+.menuPortal :global .hz-select-field__option:active {
+  background: none;
+}
+
+.menuPortal :global .hz-select-field__option :global .hz-select-field__value-container,
+.menuPortal :global .hz-select-field__option :global .hz-select-field__trailing-note {
+  color: var(--hive-color-neutral-lighter);
+}
+
+.menuPortal :global .hz-select-field__option--is-focused {
+  background: var(--hive-color-brand-accent);
+  box-shadow: none;
+}
+
+.menuPortal :global .hz-select-field__option--is-focused :global .hz-select-field__value-container,
+.menuPortal :global .hz-select-field__option--is-focused :global .hz-select-field__trailing-note {
+  color: var(--hive-color-brand-text);
+}

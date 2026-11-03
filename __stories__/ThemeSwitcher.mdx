@@ -1,0 +1,64 @@
+import { Meta, Title, Canvas, Controls } from '@storybook/blocks'
+import * as Stories from './ThemeSwitcher.stories'
+import { DocsTabs } from '../.storybook/DocsTabs'
+
+<Meta of={Stories} name="Docs" />
+<Title />
+
+ThemeSwitcher selects Light, Dark or System. System follows the operating system, including changes made while the app is open.
+
+<DocsTabs
+  tabs={[
+    {
+      id: 'overview',
+      label: 'Overview',
+      content: (
+        <>
+          <Canvas of={Stories.Playground} />
+          <h2>Preferences</h2>
+          <Canvas of={Stories.Preferences} />
+          <h2>Disabled</h2>
+          <Canvas of={Stories.Disabled} />
+          <Controls of={Stories.Playground} />
+        </>
+      ),
+    },
+    {
+      id: 'guidelines',
+      label: 'Guidelines',
+      content: (
+        <>
+          <h2>Integration</h2>
+          <p>
+            Call <code>useThemePreference()</code> once near the app root. Pass <code>preference</code> and <code>setPreference</code> to
+            the switcher. The component is controlled and does not save preferences or change the document on its own.
+          </p>
+          <p>
+            Include <code>getColorSchemeBootstrapScript()</code> in the document head before first paint. HIVE stays light in apps that have
+            not opted into theming. Existing saved Light and Dark choices are preserved.
+          </p>
+          <p>
+            The existing <code>useColorScheme()</code> hook still returns the resolved Light/Dark scheme. Use the new preference hook for a
+            three-option control.
+          </p>
+        </>
+      ),
+    },
+    {
+      id: 'accessibility',
+      label: 'Accessibility',
+      content: (
+        <>
+          <h2>Keyboard</h2>
+          <p>
+            Enter or Space opens the menu at the selected option. Arrow keys navigate; Home and End jump to the first and last options.
+            Enter or Space selects; Escape closes and returns focus to the trigger. Tab exits the menu.
+          </p>
+          <p>
+            The trigger announces the selected preference. Menu options expose a single checked preference through menuitemradio semantics.
+          </p>
+        </>
+      ),
+    },
+  ]}
+/>

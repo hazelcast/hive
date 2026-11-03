@@ -8,8 +8,8 @@ import userEvent from '@testing-library/user-event'
 
 import { Overlay } from '../../src'
 
-import styles from '../../src/components/Overlay.module.scss'
-import iconStyles from '../../src/components/Icon.module.scss'
+import styles from '../../src/components/Overlay.module.css'
+import iconStyles from '../../src/components/Icon.module.css'
 
 const title = 'Modal Title'
 const icon = Settings

@@ -1,6 +1,8 @@
 import React from 'react'
 
-import styleConsts from '../../styles/constants/export.module.scss'
+const toCssVarName = (token: string) => `--hive-${token.replace(/([A-Z])/g, '-$1').toLowerCase()}`
+
+const readCssVar = (token: string) => getComputedStyle(document.documentElement).getPropertyValue(toCssVarName(token)).trim()
 
 const v3Tokens = [
   'colorPrimaryLight',
@@ -85,11 +87,11 @@ export const ColorComparison = () => (
     <tbody>
       {v3Tokens.map((v3) => {
         const v4 = `${v3}V4`
-        const v4Value = styleConsts[v4]
+        const v4Value = readCssVar(v4)
         return (
           <tr key={v3}>
             <td style={cellStyle}>
-              <Swatch name={v3} value={styleConsts[v3]} />
+              <Swatch name={v3} value={readCssVar(v3)} />
             </td>
             <td style={cellStyle}>
               {v4Value ? (

@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 
-import styles from './NumberBadge.module.scss'
+import styles from './NumberBadge.module.css'
 import cn from 'classnames'
 
 export type NumberBadgeProps = {

@@ -1,0 +1,11 @@
+.root {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--hive-grid) * 2);
+  color: #000;
+  background: var(--hive-color-error);
+  border-radius: calc(var(--hive-grid) * 3.5);
+  padding: 0 calc(var(--hive-grid) * 3);
+  height: calc(var(--hive-grid) * 7);
+  text-transform: capitalize;
+}

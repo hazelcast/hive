@@ -3,7 +3,7 @@ import { Cell as CellType, flexRender, HeaderContext } from '@tanstack/react-tab
 
 import { TruncatedText } from '../TruncatedText'
 
-import styles from './Cell.module.scss'
+import styles from './Cell.module.css'
 
 /**
  * Few notes about text truncation:

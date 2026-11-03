@@ -6,7 +6,7 @@ import { act, screen, fireEvent } from '@testing-library/react'
 import { getMarkMetadata, Slider, SliderValue } from '../../src/components/Slider'
 import { testAttribute } from '../helpers'
 
-import sliderClasses from '../../src/components/Slider.module.scss'
+import sliderClasses from '../../src/components/Slider.module.css'
 
 jest.mock('react-uid')
 const useUIDMock = useUID as jest.Mock<ReturnType<typeof useUID>>

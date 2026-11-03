@@ -1,0 +1,31 @@
+.iconContainer {
+  display: inline-block;
+
+  /* Font-size reset in order break inheritance. */
+  font-size: 0;
+
+  .small {
+    width: var(--hive-icon-size-small);
+    height: var(--hive-icon-size-small);
+  }
+
+  .smallMedium {
+    width: var(--hive-icon-size-small-medium);
+    height: var(--hive-icon-size-small-medium);
+  }
+
+  .medium {
+    width: var(--hive-icon-size-medium);
+    height: var(--hive-icon-size-medium);
+  }
+
+  .large {
+    width: var(--hive-icon-size-large);
+    height: var(--hive-icon-size-large);
+  }
+
+  .xlarge {
+    width: var(--hive-icon-size-xlarge);
+    height: var(--hive-icon-size-xlarge);
+  }
+}

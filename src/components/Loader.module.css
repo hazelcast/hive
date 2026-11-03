@@ -1,0 +1,91 @@
+.loader {
+  &.small {
+    width: var(--hive-icon-size-small);
+    height: var(--hive-icon-size-small);
+  }
+
+  &.smallMedium {
+    width: var(--hive-icon-size-small-medium);
+    height: var(--hive-icon-size-small-medium);
+  }
+
+  &.medium {
+    width: var(--hive-icon-size-medium);
+    height: var(--hive-icon-size-medium);
+  }
+
+  &.large {
+    width: var(--hive-icon-size-large);
+    height: var(--hive-icon-size-large);
+  }
+
+  &.xlarge {
+    width: var(--hive-icon-size-xlarge);
+    height: var(--hive-icon-size-xlarge);
+  }
+
+  &.primary {
+    color: var(--hive-color-primary-dark);
+  }
+
+  &.contrast {
+    color: var(--hive-color-neutral-white);
+  }
+
+  &.inherit {
+    color: inherit;
+  }
+
+  > line {
+    animation-duration: var(--hive-duration-loader);
+    animation-name: fade;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+  }
+
+  > line:nth-child(1) {
+    animation-delay: calc(var(--hive-duration-loader) / 8 * 0);
+  }
+
+  > line:nth-child(2) {
+    animation-delay: calc(var(--hive-duration-loader) / 8 * 1);
+  }
+
+  > line:nth-child(3) {
+    animation-delay: calc(var(--hive-duration-loader) / 8 * 2);
+  }
+
+  > line:nth-child(4) {
+    animation-delay: calc(var(--hive-duration-loader) / 8 * 3);
+  }
+
+  > line:nth-child(5) {
+    animation-delay: calc(var(--hive-duration-loader) / 8 * 4);
+  }
+
+  > line:nth-child(6) {
+    animation-delay: calc(var(--hive-duration-loader) / 8 * 5);
+  }
+
+  > line:nth-child(7) {
+    animation-delay: calc(var(--hive-duration-loader) / 8 * 6);
+  }
+
+  > line:nth-child(8) {
+    animation-delay: calc(var(--hive-duration-loader) / 8 * 7);
+  }
+}
+
+@keyframes fade {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.2;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

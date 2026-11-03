@@ -1,8 +1,0 @@
-@use 'sass:meta';
-@use '.' as c;
-
-:export {
-  @each $name, $value in meta.module-variables(c) {
-    #{$name}: $value;
-  }
-}

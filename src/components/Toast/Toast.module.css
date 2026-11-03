@@ -19,8 +19,8 @@
 }
 
 .root {
-  --toast-color: var(--hive-color-text);
-  background-color: var(--hive-color-neutral-white);
+  --toast-color: light-dark(var(--hive-color-text), var(--hive-color-text-v4));
+  background-color: light-dark(var(--hive-color-neutral-white), var(--hive-color-neutral-white-v4));
   border-radius: var(--hive-border-radius);
   box-shadow:
     0 4px 6px -1px oklch(0 0 0 / 0.1),
@@ -32,16 +32,16 @@
 }
 
 .success {
-  --toast-color: var(--hive-color-success-darkest);
+  --toast-color: var(--hive-color-success-text-v4);
 }
 .error {
-  --toast-color: var(--hive-color-error);
+  --toast-color: var(--hive-color-error-text-v4);
 }
 .warn {
-  --toast-color: var(--hive-color-warning-darkest);
+  --toast-color: var(--hive-color-warning-text-v4);
 }
 .info {
-  --toast-color: var(--hive-color-info-darkest);
+  --toast-color: var(--hive-color-info-text-v4);
 }
 
 .root[data-state='open'] {
@@ -65,7 +65,10 @@
   padding: calc(var(--hive-grid) * 3);
   flex: 1;
   min-width: 0;
-  background-color: lab(from var(--toast-color) 95% a b);
+  background-color: light-dark(
+    lab(from var(--toast-color) 95% a b),
+    color-mix(in oklab, var(--toast-color) 12%, var(--hive-color-neutral-white-v4))
+  );
 }
 
 .icon {
@@ -79,7 +82,7 @@
   font-size: var(--hive-font-size-body-small);
   line-height: 1.4;
   word-break: break-word;
-  color: var(--hive-color-text);
+  color: light-dark(var(--hive-color-text), var(--hive-color-text-v4));
 }
 
 .closeButton {
@@ -88,11 +91,11 @@
   border: none;
   cursor: pointer;
   padding: 0;
-  color: var(--hive-color-text-subdued);
+  color: light-dark(var(--hive-color-text-subdued), var(--hive-color-text-subdued-v4));
   line-height: 0;
   transition: color 150ms ease;
 }
 
 .closeButton:hover {
-  color: var(--hive-color-text);
+  color: light-dark(var(--hive-color-text), var(--hive-color-text-v4));
 }
