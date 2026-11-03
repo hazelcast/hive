@@ -54,7 +54,7 @@
     "@tanstack/react-table": "^8.21.2",
     "@types/react-modal": "3.16.3",
     "classnames": "^2.5.1",
-    "date-fns": "^2.30.0",
+    "date-fns": "^4.4.0",
     "dequal": "^2.0.3",
     "formik": "^2.4.6",
     "nuka-carousel": "^7.0.0",
