@@ -76,20 +76,14 @@
     "@babel/preset-env": "^7.26.9",
     "@babel/preset-react": "^7.26.3",
     "@babel/preset-typescript": "^7.26.0",
-    "@chromatic-com/storybook": "^3.2.5",
+    "@chromatic-com/storybook": "^5.6.0",
     "@eslint/js": "^9.21.0",
-    "@storybook/addon-designs": "^8.2.0",
-    "@storybook/addon-essentials": "^8.6.3",
-    "@storybook/addon-interactions": "^8.6.3",
-    "@storybook/addon-onboarding": "^8.6.3",
-    "@storybook/addon-webpack5-compiler-swc": "^2.1.0",
-    "@storybook/blocks": "^8.6.3",
-    "@storybook/manager-api": "^8.6.3",
-    "@storybook/react": "^8.6.3",
-    "@storybook/react-webpack5": "^8.6.3",
-    "@storybook/source-loader": "^7.6.20",
-    "@storybook/test": "^8.6.3",
-    "@storybook/theming": "8.5.8",
+    "@storybook/addon-designs": "^12.0.0",
+    "@storybook/addon-docs": "^10.6.5",
+    "@storybook/addon-onboarding": "^10.6.5",
+    "@storybook/addon-webpack5-compiler-swc": "^4.0.3",
+    "@storybook/react": "^10.6.5",
+    "@storybook/react-webpack5": "^10.6.5",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
@@ -134,7 +128,7 @@
     "sass": "^1.85.0",
     "sass-loader": "^16.0.5",
     "shx": "^0.4.0",
-    "storybook": "^8.6.3",
+    "storybook": "^10.6.5",
     "style-loader": "^4.0.0",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.24.0"
@@ -149,5 +143,10 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "overrides": {
+    "loki": {
+      "@storybook/react": "$@storybook/react"
+    }
   }
 }

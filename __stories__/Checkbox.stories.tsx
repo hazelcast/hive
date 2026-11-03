@@ -1,5 +1,5 @@
 import React, { ReactNode, useState } from 'react'
-import { Meta, StoryObj } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react-webpack5'
 import { Form, Formik } from 'formik'
 
 import { Checkbox, CheckboxFormik, Link, logger } from '../src'

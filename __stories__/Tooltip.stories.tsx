@@ -1,5 +1,5 @@
 import React from 'react'
-import { Meta, StoryFn } from '@storybook/react'
+import { Meta, StoryFn } from '@storybook/react-webpack5'
 
 import { Tooltip, TooltipProps } from '../src/components/Tooltip'
 import { Button } from '../src/components/Button'

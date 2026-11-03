@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { Meta, StoryObj } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react-webpack5'
 import { Clipboard } from 'react-feather'
 
 import { Alert } from '../src'
