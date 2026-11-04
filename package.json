@@ -97,7 +97,7 @@
     "@types/react-dom": "^19.1.9",
     "@typescript-eslint/eslint-plugin": "^8.72.1",
     "@typescript-eslint/parser": "^8.72.1",
-    "babel-jest": "^29.7.0",
+    "babel-jest": "^30.5.2",
     "chromatic": "^18.2.0",
     "css-loader": "^7.1.2",
     "doiuse": "^6.0.5",
