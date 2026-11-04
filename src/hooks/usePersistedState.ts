@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, useCallback, useState } from 'react'
 
 const readValue = <T>(key: string): T | undefined => {
   try {
-    return JSON.parse(<string>window.localStorage.getItem(key)) as T
+    return JSON.parse(window.localStorage.getItem(key) as string) as T
   } catch (e) {
     return undefined
   }

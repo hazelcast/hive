@@ -25,6 +25,21 @@ const config: StorybookConfig = {
     name: getAbsolutePath('@storybook/react-webpack5'),
     options: {},
   },
+  // Match tsconfig's classic JSX runtime used by the library build. With the automatic runtime React 19
+  // ignores defaultProps on forwardRef components, which breaks nuka-carousel.
+  swc: (config) => ({
+    ...config,
+    jsc: {
+      ...config.jsc,
+      transform: {
+        ...config.jsc?.transform,
+        react: {
+          ...config.jsc?.transform?.react,
+          runtime: 'classic',
+        },
+      },
+    },
+  }),
   webpackFinal: (config) => {
     config.module.rules = [
       ...config.module.rules.filter((rule) => {
