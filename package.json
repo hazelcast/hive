@@ -58,7 +58,7 @@
     "dequal": "^2.0.3",
     "formik": "^2.4.6",
     "nuka-carousel": "^7.0.0",
-    "react-datepicker": "^7.5.0",
+    "react-datepicker": "^9.1.0",
     "react-feather": "^2.0.10",
     "react-hot-keys": "^2.7.3",
     "react-merge-refs": "^1.1.0",
