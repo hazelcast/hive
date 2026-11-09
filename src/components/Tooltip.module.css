@@ -1,3 +1,7 @@
+.disabledTrigger {
+  display: inline-flex;
+}
+
 /* ── Keyframes ───────────────────────────────────────────────────── */
 
 @keyframes hive-tooltip-fade-in-down {

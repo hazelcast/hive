@@ -9,7 +9,7 @@ export type HeaderProps<D extends RowData> = {
 
 export type AccessorFn<TItem> = (item: TItem) => ReactNode | number | string | string[]
 
-export type Renderable<TProps> = (props: TProps) => ReactNode | JSX.Element | string
+export type Renderable<TProps> = (props: TProps) => ReactNode
 
 export type Column<D extends RowData> = {
   id: string

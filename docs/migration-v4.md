@@ -1032,6 +1032,53 @@ Render `ThemeBootstrap` in the document head and call the hook once near the app
 
 Requires Chrome/Edge 123+, Safari 17.5+, Firefox 120+. v3 (non-`-v4`) tokens are light-only.
 
+## Direct consumer APIs
+
+Hive v4 does not provide Management Center's legacy Button naming aliases. Map values at the call site: `text` to `ghost`, `brand`/`authPrimary` to `primary`, and `authSecondary`/`light` to `secondary`. For the legacy uppercase label treatment, use `style={{ textTransform: 'uppercase' }}`; use `none` where the old `capitalize={false}` was set. For IconButton, map `kind="primary"` to `color="primary" variant="contained"`; other legacy kinds used by MC map to `color="secondary" variant="ghost"`.
+
+`Tooltip` supports element and render-function children. Use `side`, `align`, `sideOffset`, `avoidCollisions`, and `open` instead of legacy placement/visibility aliases. Disabled native triggers receive a keyboard-focusable wrapper so hover and focus tooltips work without enabling the control.
+
+```tsx
+import { Tooltip } from '@hazelcast/ui'
+
+;<Tooltip content="Unavailable" side="right" sideOffset={8}>
+  {(ref) => (
+    <button ref={ref} disabled>
+      Save
+    </button>
+  )}
+</Tooltip>
+```
+
+### Imperative Toast service
+
+Mount one `ToastContainer` in the application and import the singleton `toast` service. IDs are returned as strings; numeric IDs are normalized to strings. `autoClose: false` keeps a toast open until dismissed. Custom content may render its own close action with the supplied `closeToast` callback.
+
+```tsx
+import { ToastContainer, toast } from '@hazelcast/ui'
+
+;<ToastContainer />
+
+const id = toast.error('Connection failed', {
+  toastId: 'connection-error',
+  autoClose: false,
+  onClose: () => reportToastClosed(),
+})
+
+toast.custom(({ closeToast }) => <button onClick={closeToast}>Review license</button>, {
+  toastId: 'license',
+  variant: 'warn',
+  closeButton: false,
+  closeOnClick: false,
+})
+
+toast.isActive(id)
+toast.dismiss(id)
+toast.dismiss()
+```
+
+Supported variants are `success`, `error`, `warn`, and `info`. `closeButton` defaults to `true`; `closeOnClick` defaults to `false`.
+
 ### Class name changes
 
 | Component | Old class | New class |

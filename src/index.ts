@@ -1,6 +1,16 @@
 export { Alert } from './components/Alert'
 export { Badge } from './components/Badge'
 export { Button } from './components/Button'
+export type {
+  ButtonProps,
+  ButtonVariant,
+  ButtonColor,
+  ButtonOutlineType,
+  ButtonDisabledProps,
+  ButtonTypeAnchorProps,
+  ButtonTypeButtonProps,
+  ButtonTypeProps,
+} from './components/Button'
 export { Calendar } from './components/Calendar/Calendar'
 export { CalendarRange } from './components/Calendar/CalendarRange'
 export { Card } from './components/Card'
@@ -15,6 +25,7 @@ export { Error, errorId } from './components/Error'
 export { Help, helpTooltipId } from './components/Help'
 export { Icon } from './components/Icon'
 export { IconButton } from './components/IconButton'
+export type { IconButtonProps, IconButtonDisabledProps, IconButtonNotDisabledProps } from './components/IconButton'
 export { InteractiveListItem } from './components/InteractiveList'
 export { InteractiveListFormik } from './components/InteractiveListFormik'
 export { Label } from './components/Label'
@@ -68,9 +79,12 @@ export { TextField } from './components/TextField'
 export { TextFieldFormik } from './components/TextFieldFormik'
 export { Toast, ToastProvider, ToastViewport } from './components/Toast'
 export type { ToastProps, ToastVariant } from './components/Toast'
+export { toast, ToastContainer } from './services/toast'
+export type { ToastContent, ToastOptions, ToastService } from './services/toast'
 export { Toggle } from './components/Toggle'
 export { ToggleFormik } from './components/ToggleFormik'
 export { Tooltip } from './components/Tooltip'
+export type { TooltipProps, TooltipSide, TooltipAlign } from './components/Tooltip'
 export { TruncatedText } from './components/TruncatedText'
 export { ThemeSwitcher } from './components/ThemeSwitcher'
 export type { ThemeSwitcherProps } from './components/ThemeSwitcher'

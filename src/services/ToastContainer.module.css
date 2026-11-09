@@ -1,0 +1,15 @@
+.viewport {
+  position: fixed;
+  right: calc(var(--hive-grid) * 4);
+  bottom: calc(var(--hive-grid) * 4);
+  z-index: var(--hive-z-index-2000);
+  display: flex;
+  flex-direction: column-reverse;
+  gap: calc(var(--hive-grid) * 2);
+  width: 360px;
+  max-width: calc(100vw - var(--hive-grid) * 8);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  outline: none;
+}

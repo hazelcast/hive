@@ -1,4 +1,4 @@
-import React, { CSSProperties, ReactElement, ReactNode } from 'react'
+import React, { CSSProperties, ReactElement, ReactNode, useRef } from 'react'
 import * as TooltipPrimitive from '@radix-ui/react-tooltip'
 import cn from 'classnames'
 
@@ -6,10 +6,12 @@ import styles from './Tooltip.module.css'
 
 export type TooltipSide = 'top' | 'right' | 'bottom' | 'left'
 export type TooltipAlign = 'start' | 'center' | 'end'
+type TooltipTriggerRef = (node: HTMLElement | null) => void
+type TooltipTrigger = ReactElement | ((ref: TooltipTriggerRef) => ReactElement)
 
 export type TooltipProps = {
-  /** The trigger element */
-  children: ReactElement
+  /** The trigger element, or a render function for attaching a ref to it */
+  children: TooltipTrigger
   /** Content displayed inside the tooltip */
   content: ReactNode
   /** Preferred side relative to the trigger */
@@ -67,16 +69,48 @@ export const Tooltip = ({
   className,
   id,
 }: TooltipProps) => {
+  const triggerElement = useRef<HTMLElement | null>(null)
+  const triggerChild =
+    typeof children === 'function'
+      ? children((node) => {
+          triggerElement.current = node
+        })
+      : children
+
   if (content === undefined) {
-    return <>{children}</>
+    return <>{triggerChild}</>
   }
 
   const rootProps = typeof open === 'boolean' ? { open } : {}
+  const triggerProps = React.isValidElement<{
+    disabled?: boolean
+    'aria-disabled'?: boolean
+    'aria-label'?: string
+    'aria-labelledby'?: string
+    'aria-describedby'?: string
+  }>(triggerChild)
+    ? triggerChild.props
+    : undefined
+  const isDisabled = triggerProps?.disabled === true || triggerProps?.['aria-disabled'] === true
+  const trigger = isDisabled ? (
+    <span
+      className={styles.disabledTrigger}
+      tabIndex={0}
+      aria-disabled="true"
+      aria-label={triggerProps?.['aria-label']}
+      aria-labelledby={triggerProps?.['aria-labelledby']}
+      aria-describedby={triggerProps?.['aria-describedby']}
+    >
+      {triggerChild}
+    </span>
+  ) : (
+    triggerChild
+  )
 
   return (
     <TooltipPrimitive.Provider delayDuration={delayDuration}>
       <TooltipPrimitive.Root {...rootProps}>
-        <TooltipPrimitive.Trigger asChild>{children}</TooltipPrimitive.Trigger>
+        <TooltipPrimitive.Trigger asChild>{trigger}</TooltipPrimitive.Trigger>
         <TooltipPrimitive.Portal>
           <TooltipPrimitive.Content
             id={id}

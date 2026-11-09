@@ -34,6 +34,8 @@ export type ToastProps = {
   duration?: number
   open?: boolean
   onOpenChange?: (open: boolean) => void
+  closeButton?: boolean
+  closeOnClick?: boolean
 }
 
 export const Toast: FC<ToastProps> = ({
@@ -43,6 +45,8 @@ export const Toast: FC<ToastProps> = ({
   duration = 5000,
   open = true,
   onOpenChange = () => undefined,
+  closeButton = true,
+  closeOnClick = false,
 }) => {
   const { Icon, ariaLabel } = VARIANT_CONFIG[variant]
   const radixDuration = duration === Infinity ? 2147483647 : duration
@@ -59,13 +63,17 @@ export const Toast: FC<ToastProps> = ({
       <div className={styles.body}>
         <Icon size={18} className={styles.icon} aria-hidden />
         <ToastPrimitive.Description asChild>
-          <div className={styles.content}>{content}</div>
+          <div className={styles.content} onClick={closeOnClick ? () => onOpenChange(false) : undefined}>
+            {content}
+          </div>
         </ToastPrimitive.Description>
-        <ToastPrimitive.Action altText="Close" asChild>
-          <button className={styles.closeButton} onClick={() => onOpenChange(false)} aria-label={`Close ${ariaLabel} notification`}>
-            <X size={16} />
-          </button>
-        </ToastPrimitive.Action>
+        {closeButton && (
+          <ToastPrimitive.Action altText="Close" asChild>
+            <button className={styles.closeButton} onClick={() => onOpenChange(false)} aria-label={`Close ${ariaLabel} notification`}>
+              <X size={16} />
+            </button>
+          </ToastPrimitive.Action>
+        )}
       </div>
     </ToastPrimitive.Root>
   )
