@@ -1032,9 +1032,11 @@ Render `ThemeBootstrap` in the document head and call the hook once near the app
 
 Requires Chrome/Edge 123+, Safari 17.5+, Firefox 120+. v3 (non-`-v4`) tokens are light-only.
 
-## Direct consumer APIs
+## Management Center Consumer Note
 
-Hive v4 does not provide Management Center's legacy Button naming aliases. Map values at the call site: `text` to `ghost`, `brand`/`authPrimary` to `primary`, and `authSecondary`/`light` to `secondary`. For the legacy uppercase label treatment, use `style={{ textTransform: 'uppercase' }}`; use `none` where the old `capitalize={false}` was set. For IconButton, map `kind="primary"` to `color="primary" variant="contained"`; other legacy kinds used by MC map to `color="secondary" variant="ghost"`.
+The following translations apply only when migrating Management Center call sites that use its former `HiveControls` adapter. They are not Hive aliases or required mappings for other consumers; Hive's public APIs remain `Button`/`IconButton` `color` and `variant` props. Keep any necessary translation in the consuming application rather than adding MC-specific compatibility props to Hive.
+
+For the MC values inventoried during this migration, use `variant="ghost"` instead of legacy `variant="text"`; use `color="primary"` instead of `brand` or `authPrimary`; and use `color="secondary"` instead of `authSecondary` or `light`. The former adapter rendered labels uppercase by default; preserve that only where the MC call site needs it with `style={{ textTransform: 'uppercase' }}`, or use `none` where the old call site passed `capitalize={false}`. For IconButton, the MC adapter mapped `kind="primary"` to `color="primary" variant="contained"`; its other kinds mapped to `color="secondary" variant="ghost"`. These are consumer-side visual translations, not new Hive prop names.
 
 `Tooltip` supports element and render-function children. Use `side`, `align`, `sideOffset`, `avoidCollisions`, and `open` instead of legacy placement/visibility aliases. Disabled native triggers receive a keyboard-focusable wrapper so hover and focus tooltips work without enabling the control.
 
