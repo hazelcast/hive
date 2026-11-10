@@ -152,7 +152,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
       <Tooltip
         id={tooltipId}
         content={disabled ? disabledTooltip : tooltip}
-        open={disabled && disabledTooltipVisible}
+        open={disabled ? disabledTooltipVisible : undefined}
         side={disabledTooltipPlacement}
       >
         <Component

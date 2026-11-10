@@ -1032,6 +1032,55 @@ Render `ThemeBootstrap` in the document head and call the hook once near the app
 
 Requires Chrome/Edge 123+, Safari 17.5+, Firefox 120+. v3 (non-`-v4`) tokens are light-only.
 
+## Management Center Consumer Note
+
+The following translations apply only when migrating Management Center call sites that use its former `HiveControls` adapter. They are not Hive aliases or required mappings for other consumers; Hive's public APIs remain `Button`/`IconButton` `color` and `variant` props. Keep any necessary translation in the consuming application rather than adding MC-specific compatibility props to Hive.
+
+For the MC values inventoried during this migration, use `variant="ghost"` instead of legacy `variant="text"`; use `color="primary"` instead of `brand` or `authPrimary`; and use `color="secondary"` instead of `authSecondary` or `light`. The former adapter rendered labels uppercase by default; preserve that only where the MC call site needs it with `style={{ textTransform: 'uppercase' }}`, or use `none` where the old call site passed `capitalize={false}`. For IconButton, the MC adapter mapped `kind="primary"` to `color="primary" variant="contained"`; its other kinds mapped to `color="secondary" variant="ghost"`. These are consumer-side visual translations, not new Hive prop names.
+
+`Tooltip` supports element and render-function children. Use `side`, `align`, `sideOffset`, `avoidCollisions`, and `open` instead of legacy placement/visibility aliases. Disabled native triggers receive a keyboard-focusable wrapper so hover and focus tooltips work without enabling the control.
+
+```tsx
+import { Tooltip } from '@hazelcast/ui'
+
+;<Tooltip content="Unavailable" side="right" sideOffset={8}>
+  {(ref) => (
+    <button ref={ref} disabled>
+      Save
+    </button>
+  )}
+</Tooltip>
+```
+
+### Imperative Toast service
+
+Mount one `ToastContainer` in the application and import the singleton `toast` service. IDs are returned as strings; numeric IDs are normalized to strings. `autoClose: false` keeps a toast open until dismissed. Custom content may render its own close action with the supplied `closeToast` callback.
+
+```tsx
+import { ToastContainer, toast } from '@hazelcast/ui'
+
+;<ToastContainer />
+
+const id = toast.error('Connection failed', {
+  toastId: 'connection-error',
+  autoClose: false,
+  onClose: () => reportToastClosed(),
+})
+
+toast.custom(({ closeToast }) => <button onClick={closeToast}>Review license</button>, {
+  toastId: 'license',
+  variant: 'warn',
+  closeButton: false,
+  closeOnClick: false,
+})
+
+toast.isActive(id)
+toast.dismiss(id)
+toast.dismiss()
+```
+
+Supported variants are `success`, `error`, `warn`, and `info`. `closeButton` defaults to `true`; `closeOnClick` defaults to `false`.
+
 ### Class name changes
 
 | Component | Old class | New class |

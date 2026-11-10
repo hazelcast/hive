@@ -4,6 +4,7 @@ import { renderAndCheckA11Y } from '../../src/test-helpers'
 import cn from 'classnames'
 import { useUID } from 'react-uid'
 import { act, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 import { ButtonVariant } from '../../src/components/Button'
 import { IconButton } from '../../src'
@@ -81,6 +82,16 @@ describe('IconButton', () => {
     expect(screen.queryByTestId('icon-button-icon')).toBeInTheDocument()
   })
 
+  it('Shows a disabled tooltip on hover and keeps the disabled action labelled', async () => {
+    const user = userEvent.setup()
+    await renderAndCheckA11Y(<IconButton icon={X} ariaLabel={ariaLabel} disabled disabledTooltip="Unavailable action" />)
+
+    const button = screen.getByRole('button', { name: ariaLabel })
+    await user.hover(button)
+    expect(await screen.findByTestId('tooltip-overlay')).toHaveTextContent('Unavailable action')
+    expect(button.parentElement).toHaveAttribute('aria-label', ariaLabel)
+  })
+
   it('Renders disabled loading button with a disabled tooltip', async () => {
     const disabledTooltip = 'Disabled tooltip'
 
@@ -105,7 +116,7 @@ describe('IconButton', () => {
     expect(screen.queryByTestId('icon-button-icon')).not.toBeInTheDocument()
   })
 
-  it('Renders disabled loading button with a disabled tooltip and combined aria-labelledby', async () => {
+  it('Keeps the disabled button name separate from its tooltip description', async () => {
     const disabledTooltip = 'Disabled tooltip'
     const ariaLabelledBy = 'darth'
 
@@ -123,7 +134,10 @@ describe('IconButton', () => {
       ))
     })
 
-    expect(container!.querySelector('button')!).toHaveAttribute('aria-labelledby', `${ariaLabelledBy} ${id}`)
+    const button = container!.querySelector('button')!
+    expect(button).toHaveAttribute('aria-labelledby', ariaLabelledBy)
+    expect(button.parentElement).toHaveAttribute('aria-labelledby', ariaLabelledBy)
+    expect(button.parentElement).toHaveAttribute('aria-describedby', id)
   })
 
   it('Renders button with a link semantics', async () => {

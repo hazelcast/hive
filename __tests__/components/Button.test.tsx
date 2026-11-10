@@ -150,6 +150,7 @@ describe('Button', () => {
 
   it('Renders disabled button with a disabled tooltip', async () => {
     const disabledTooltip = 'Disabled tooltip'
+    const user = userEvent.setup()
 
     await renderAndCheckA11Y(
       // div is required because `axe` cannot validate react fragments
@@ -161,6 +162,8 @@ describe('Button', () => {
     )
 
     expect(screen.queryByTestId('tooltip-overlay')).not.toBeInTheDocument()
+    await user.hover(screen.getByTestId('button'))
+    expect(await screen.findByTestId('tooltip-overlay')).toHaveTextContent(disabledTooltip)
   })
 
   it('Renders disabled loading button with a disabled tooltip', async () => {

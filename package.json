@@ -12,7 +12,9 @@
   },
   "license": "Apache-2.0",
   "author": "Hazelcast",
-  "sideEffects": false,
+  "sideEffects": [
+    "**/*.css"
+  ],
   "main": "lib/index.js",
   "module": "lib/index.js",
   "types": "lib/index.d.ts",
