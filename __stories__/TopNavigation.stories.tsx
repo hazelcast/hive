@@ -3,8 +3,18 @@ import { Meta, StoryObj } from '@storybook/react-webpack5'
 import { BookOpen, HelpCircle, Menu, PlusCircle, Settings } from 'react-feather'
 import cls from 'classnames'
 
-import { Icon, IconButton, TopNavigation } from '../src'
+import { Icon, IconButton, SelectField, TopNavigation } from '../src'
+import type { TopNavigationProps } from '../src/components/TopNavigation'
 import styles from './TopNavigation.stories.module.css'
+
+type PlaygroundArgs = TopNavigationProps & {
+  composition: 'cloud' | 'management-center'
+  showCluster: boolean
+  showDocumentation: boolean
+  showSupport: boolean
+  showAccount: boolean
+  showMobileMenu: boolean
+}
 
 export default {
   title: 'App/Top Navigation',
@@ -28,6 +38,17 @@ export default {
     },
   },
   argTypes: {
+    composition: {
+      control: 'inline-radio',
+      options: ['cloud', 'management-center'],
+      description: 'Select the example product composition.',
+      table: { category: 'Content' },
+    },
+    showCluster: { control: 'boolean', description: 'Show the example cluster selector.', table: { category: 'Content' } },
+    showDocumentation: { control: 'boolean', description: 'Show the documentation action.', table: { category: 'Actions' } },
+    showSupport: { control: 'boolean', description: 'Show the support action.', table: { category: 'Actions' } },
+    showAccount: { control: 'boolean', description: 'Show the account menu.', table: { category: 'Actions' } },
+    showMobileMenu: { control: 'boolean', description: 'Show the navigation trigger in mobile mode.', table: { category: 'Layout' } },
     name: { control: 'text', description: 'Product or application name displayed beside the logo.', table: { category: 'Content' } },
     layout: {
       control: 'inline-radio',
@@ -41,9 +62,9 @@ export default {
       table: { category: 'Layout' },
     },
   },
-} satisfies Meta<typeof TopNavigation>
+} satisfies Meta<PlaygroundArgs>
 
-type Story = StoryObj<typeof TopNavigation>
+type Story = StoryObj<PlaygroundArgs>
 
 const Logo = ({ compact = false }: { compact?: boolean }) => (
   <a href="#home" className={compact ? styles.compactLogo : styles.logo} aria-label="Hazelcast home">
@@ -61,67 +82,147 @@ const Logo = ({ compact = false }: { compact?: boolean }) => (
 const ClusterSelect = ({ compact = false, mobile = false }: { compact?: boolean; mobile?: boolean }) => {
   const [cluster, setCluster] = useState('Production')
   return (
-    <select
-      aria-label="Select cluster"
-      className={cls(compact ? styles.cloudSelect : styles.mcSelect, { [styles.mobile]: mobile })}
+    <SelectField
+      name="cluster"
+      label="Select cluster"
+      showAriaLabel
+      isSearchable={false}
+      className={cls(compact ? styles.cloudSelectWidth : styles.mcSelectWidth, { [styles.mobile]: mobile })}
       value={cluster}
-      onChange={(event) => setCluster(event.target.value)}
-    >
-      <option>Production</option>
-      <option>Development</option>
-    </select>
+      onChange={(value) => setCluster(value ?? '')}
+      options={[
+        { label: 'Production', value: 'Production' },
+        { label: 'Development', value: 'Development' },
+      ]}
+    />
   )
 }
 
-const Actions = ({ cloud = false, mobile = false }: { cloud?: boolean; mobile?: boolean }) => (
+const Actions = ({
+  cloud = false,
+  mobile = false,
+  showDocumentation = true,
+  showSupport = true,
+  showAccount = true,
+}: {
+  cloud?: boolean
+  mobile?: boolean
+  showDocumentation?: boolean
+  showSupport?: boolean
+  showAccount?: boolean
+}) => (
   <>
-    <IconButton
-      component="a"
-      href="#documentation"
-      icon={BookOpen}
-      variant="ghost"
-      color="secondary"
-      ariaLabel="Documentation"
-      tooltip="Documentation"
-    />
-    <IconButton component="a" href="#support" icon={HelpCircle} variant="ghost" color="secondary" ariaLabel="Support" tooltip="Support" />
-    <details className={cls(styles.account, { [styles.mobile]: mobile })}>
-      <summary aria-label="Account menu">
-        {cloud ? (
-          <>
-            <span className={styles.accountName}>Alex Morgan</span>
-            <span className={styles.avatar} aria-hidden="true">
-              AM
-            </span>
-          </>
-        ) : (
-          <>
-            <span className={styles.accountName}>Menu</span>
-            <Icon icon={Menu} size="small" ariaHidden />
-          </>
-        )}
-      </summary>
-      <div className={styles.accountMenu}>
-        <button type="button">
-          <Icon icon={Settings} size="small" ariaHidden /> Settings
-        </button>
-        <button type="button">Sign out</button>
-      </div>
-    </details>
+    {showDocumentation && (
+      <IconButton
+        component="a"
+        href="#documentation"
+        icon={BookOpen}
+        variant="ghost"
+        color="secondary"
+        ariaLabel="Documentation"
+        tooltip="Documentation"
+      />
+    )}
+    {showSupport && (
+      <IconButton component="a" href="#support" icon={HelpCircle} variant="ghost" color="secondary" ariaLabel="Support" tooltip="Support" />
+    )}
+    {showAccount && (
+      <details className={cls(styles.account, { [styles.mobile]: mobile })}>
+        <summary aria-label="Account menu">
+          {cloud ? (
+            <>
+              <span className={styles.accountName}>Alex Morgan</span>
+              <span className={styles.avatar} aria-hidden="true">
+                AM
+              </span>
+            </>
+          ) : (
+            <>
+              <span className={styles.accountName}>Menu</span>
+              <Icon icon={Menu} size="small" ariaHidden />
+            </>
+          )}
+        </summary>
+        <div className={styles.accountMenu}>
+          <button type="button">
+            <Icon icon={Settings} size="small" ariaHidden /> Settings
+          </button>
+          <button type="button">Sign out</button>
+        </div>
+      </details>
+    )}
   </>
 )
 
 export const Playground: Story = {
-  args: { logo: <Logo />, name: 'Cloud', layout: 'grouped', mobile: false },
-  render: (args) => (
-    <TopNavigation
-      {...args}
-      className={styles.storyHeader}
-      mobileLogo={<Logo compact />}
-      navigation={<ClusterSelect compact mobile={args.mobile} />}
-      actions={<Actions cloud mobile={args.mobile} />}
-    />
-  ),
+  args: {
+    logo: <Logo />,
+    composition: 'cloud',
+    mobile: false,
+    showCluster: true,
+    showDocumentation: true,
+    showSupport: true,
+    showAccount: true,
+    showMobileMenu: true,
+  },
+  render: function PlaygroundRender({ composition, showCluster, showDocumentation, showSupport, showAccount, showMobileMenu, ...args }) {
+    const [open, setOpen] = useState(false)
+    const cloud = composition === 'cloud'
+    return (
+      <>
+        <TopNavigation
+          {...args}
+          className={styles.storyHeader}
+          layout={args.layout ?? (cloud ? 'grouped' : 'spaced')}
+          name={args.name ?? (cloud ? 'Cloud' : 'Management Center')}
+          mobileLogo={<Logo compact />}
+          mobileMenu={
+            showMobileMenu
+              ? {
+                  label: open ? 'Close menu' : 'Open menu',
+                  expanded: open,
+                  controls: 'playground-navigation',
+                  onClick: () => setOpen(!open),
+                }
+              : undefined
+          }
+          navigation={showCluster ? <ClusterSelect compact={cloud} mobile={args.mobile} /> : undefined}
+          actions={
+            <Actions
+              cloud={cloud}
+              mobile={args.mobile}
+              showDocumentation={showDocumentation}
+              showSupport={showSupport}
+              showAccount={showAccount}
+            />
+          }
+        >
+          {!cloud && (
+            <IconButton
+              className={styles.connection}
+              component="a"
+              href="#cluster-connections"
+              icon={PlusCircle}
+              variant="ghost"
+              color="secondary"
+              ariaLabel="Cluster connections"
+              tooltip="Cluster connections"
+            />
+          )}
+        </TopNavigation>
+        <nav
+          id="playground-navigation"
+          aria-label="Example navigation"
+          hidden={!args.mobile || !showMobileMenu || !open}
+          className={styles.sidebar}
+        >
+          <a href="#clusters" onClick={() => setOpen(false)}>
+            Clusters
+          </a>
+        </nav>
+      </>
+    )
+  },
 }
 
 export const Mobile: Story = {

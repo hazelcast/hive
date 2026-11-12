@@ -41,22 +41,15 @@
   font-size: var(--hive-font-size-body-smaller);
   font-weight: var(--hive-font-weight-text-regular);
 }
-.mcSelect,
-.cloudSelect {
-  box-sizing: border-box;
+.mcSelectWidth,
+.cloudSelectWidth {
   min-width: 0;
   max-width: 100%;
-  height: calc(var(--hive-grid) * 8);
-  padding: 0 calc(var(--hive-grid) * 2);
-  color: var(--hive-color-text-v4);
-  background: var(--hive-color-neutral-white-v4);
-  border: var(--hive-border-width) solid var(--hive-color-border-v4);
-  border-radius: var(--hive-border-radius);
 }
-.mcSelect {
+.mcSelectWidth {
   width: calc(var(--hive-grid) * 60);
 }
-.cloudSelect {
+.cloudSelectWidth {
   width: calc(var(--hive-grid) * 40);
 }
 .connection {
@@ -117,8 +110,8 @@
 .sidebar {
   padding: calc(var(--hive-grid) * 4);
 }
-.cloudSelect.mobile,
-.mcSelect.mobile {
+.cloudSelectWidth.mobile,
+.mcSelectWidth.mobile {
   width: calc(var(--hive-grid) * 34.5);
 }
 .account.mobile .accountName {
