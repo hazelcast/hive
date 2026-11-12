@@ -33,6 +33,7 @@ grep -r "@hazelcast/ui/old" src --include="*.tsx" --include="*.ts"
 | Updated  | `IconButton`                                                | HIVE 4.0 rebrand; `kind` → `variant`; `size` is `sm`/`md`/`lg`; `padding` removed; SCSS → CSS                                                                                                                                   | ✅              |
 | New      | `ButtonGroup`                                               | Group of joined `Button`s sharing border-radius and shadow                                                                                                                                                                      | n/a             |
 | New      | `SideNavigation`                                            | Composable modern desktop navigation and mobile drawer; `AppSidebar` remains available                                                                                                                                          | n/a             |
+| New      | `TopNavigation`                                             | Composable v4 header; existing `AppHeader` remains unchanged                                                                                                                                                                    | n/a             |
 | Updated  | `Toggle`                                                    | HIVE 4.0 pill switch; SCSS → CSS; no ON/OFF label                                                                                                                                                                               | ✅              |
 | Updated  | `TextField`                                                 | HIVE 4.0 rebrand; 36px height; 8px radius; `--hive-*` tokens; SCSS → CSS                                                                                                                                                        | ✅              |
 | Updated  | `TextArea`                                                  | HIVE 4.0 rebrand; 8px radius; white surface; neutral border, brand focus ring, error border; `--hive-*` tokens; SCSS → CSS                                                                                                      | ✅              |
@@ -59,6 +60,39 @@ Components that changed in a breaking way. Old version available at `@hazelcast/
 `SideNavigation` is an opt-in modern shell; the existing `AppSidebar` remains available. For a Cloud navigation that defaults to collapsed, use `initialOpen={false}` and choose an application-specific `storageKey`. Persisted values override `initialOpen`, including a stored `false`. The default key is `SideBarMenu`; reuse it only when its existing preference should carry over. Favorites and section states use the shared legacy keys by default, even with a custom `storageKey`. Set `namespaceStorage` to isolate them by key; existing values are not migrated automatically. Migrating or clearing an old key is the consumer's choice.
 
 For a footer that should disappear in the collapsed rail, set `hideFooterWhenCollapsed`. For external desktop or mobile controls, give `SideNavigation` a stable `id` and use it for the control's `aria-controls`, with `aria-expanded` reflecting the controlled state. For a mobile drawer below a header, use `mobileDialogClassName` to set its top offset with the same CSS token-based height as the header. The drawer remains modal, so the header is not interactive while it is open. See the SideNavigation Storybook documentation for router adapters and examples.
+
+### `TopNavigation` (optional migration from `AppHeader`)
+
+`AppHeader` and its deep import remain unchanged. `TopNavigation` is a separate, opt-in layout exported from `@hazelcast/ui`. It does not implement cluster selection, navigation, authentication, account menus or product routes; supply existing consumer components in its slots.
+
+```tsx
+import { TopNavigation } from '@hazelcast/ui'
+
+;<TopNavigation
+  layout="grouped"
+  logo={
+    <HomeLink>
+      <FullLogo />
+    </HomeLink>
+  }
+  mobileLogo={
+    <HomeLink>
+      <CompactLogo />
+    </HomeLink>
+  }
+  name="Cloud"
+  mobile={isMobile}
+  mobileMenu={{ label: menuOpen ? 'Close menu' : 'Open menu', expanded: menuOpen, controls: 'sidebar', onClick: toggleMenu }}
+  navigation={<ClusterSelector />}
+  actions={<AccountActions />}
+/>
+```
+
+`logo` is required; `mobileLogo`, `name`, `navigation`, `children`, `actions`, `mobile`, `mobileMenu`, `className`, `navigationClassName`, `actionsClassName`, and `data-test` are optional. `children` follows `navigation` in the leading group. The optional menu trigger is controlled by the consumer and appears only in mobile mode. Its `label` and `onClick` are required; `expanded` and `controls` describe the consumer-owned sidebar. A separate mobile logo is optional: without one the supplied logo remains visible in both layouts.
+
+`layout` defaults to `spaced`; `grouped` uses a tighter brand group and additional desktop navigation spacing. `mobile` defaults to `false`; applications choose their own breakpoint and update the prop when their layout changes. Product controls must supply their own responsive sizing and accessible interactions. At narrow widths, a header with many fixed-size actions can leave little room for the navigation slot; consumers should provide an appropriate compact or overflow treatment. Menus and their focus management remain the application's responsibility.
+
+For existing MC integrations, move the linked branded image to `logo`/`mobileLogo`, the product and instance names to `name`, the cluster selector to `navigation`, the cluster-connections link to `children`, and documentation/support/account controls to `actions`. Preserve the existing permission checks, cluster navigation and menu logic in the consumer. Cloud can supply its linked logos, cluster dropdown or Home link, mobile sidebar handler and account/actions in the same slots. These are integration instructions, not changes to either application.
 
 <!-- Template:
 ### `<ComponentName>`
