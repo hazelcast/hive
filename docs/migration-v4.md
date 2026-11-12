@@ -32,6 +32,7 @@ grep -r "@hazelcast/ui/old" src --include="*.tsx" --include="*.ts"
 | Updated  | `Button`                                                    | HIVE 4.0 rebrand; `color` × `variant` axes (variant: contained/outlined/ghost/link, color: primary/secondary/warning/danger); `tooltipColor` removed; `size` reintroduced (`small`/`regular`); `capitalize` removed; SCSS → CSS | ✅              |
 | Updated  | `IconButton`                                                | HIVE 4.0 rebrand; `kind` → `variant`; `size` is `sm`/`md`/`lg`; `padding` removed; SCSS → CSS                                                                                                                                   | ✅              |
 | New      | `ButtonGroup`                                               | Group of joined `Button`s sharing border-radius and shadow                                                                                                                                                                      | n/a             |
+| New      | `TopNavigation`                                             | Composable v4 header; existing `AppHeader` remains unchanged                                                                                                                                                                    | n/a             |
 | Updated  | `Toggle`                                                    | HIVE 4.0 pill switch; SCSS → CSS; no ON/OFF label                                                                                                                                                                               | ✅              |
 | Updated  | `TextField`                                                 | HIVE 4.0 rebrand; 36px height; 8px radius; `--hive-*` tokens; SCSS → CSS                                                                                                                                                        | ✅              |
 | Updated  | `TextArea`                                                  | HIVE 4.0 rebrand; 8px radius; white surface; neutral border, brand focus ring, error border; `--hive-*` tokens; SCSS → CSS                                                                                                      | ✅              |
@@ -52,6 +53,39 @@ grep -r "@hazelcast/ui/old" src --include="*.tsx" --include="*.ts"
 ## Updated components
 
 Components that changed in a breaking way. Old version available at `@hazelcast/ui/old`.
+
+### `TopNavigation` (optional migration from `AppHeader`)
+
+`AppHeader` and its deep import remain unchanged. `TopNavigation` is a separate, opt-in layout exported from `@hazelcast/ui`. It does not implement cluster selection, navigation, authentication, account menus or product routes; supply existing consumer components in its slots.
+
+```tsx
+import { TopNavigation } from '@hazelcast/ui'
+
+;<TopNavigation
+  layout="grouped"
+  logo={
+    <HomeLink>
+      <FullLogo />
+    </HomeLink>
+  }
+  mobileLogo={
+    <HomeLink>
+      <CompactLogo />
+    </HomeLink>
+  }
+  name="Cloud"
+  mobile={isMobile}
+  mobileMenu={{ label: menuOpen ? 'Close menu' : 'Open menu', expanded: menuOpen, controls: 'sidebar', onClick: toggleMenu }}
+  navigation={<ClusterSelector />}
+  actions={<AccountActions />}
+/>
+```
+
+`logo` is required; `mobileLogo`, `name`, `navigation`, `children`, `actions`, `mobile`, `mobileMenu`, `className`, `navigationClassName`, `actionsClassName`, and `data-test` are optional. `children` follows `navigation` in the leading group. The optional menu trigger is controlled by the consumer and appears only in mobile mode. Its `label` and `onClick` are required; `expanded` and `controls` describe the consumer-owned sidebar. A separate mobile logo is optional: without one the supplied logo remains visible in both layouts.
+
+`layout` defaults to `spaced`; `grouped` uses a tighter brand group and additional desktop navigation spacing. `mobile` defaults to `false`; applications choose their own breakpoint and update the prop when their layout changes. Product controls must supply their own responsive sizing and accessible interactions. At narrow widths, a header with many fixed-size actions can leave little room for the navigation slot; consumers should provide an appropriate compact or overflow treatment. Menus and their focus management remain the application's responsibility.
+
+For existing MC integrations, move the linked branded image to `logo`/`mobileLogo`, the product and instance names to `name`, the cluster selector to `navigation`, the cluster-connections link to `children`, and documentation/support/account controls to `actions`. Preserve the existing permission checks, cluster navigation and menu logic in the consumer. Cloud can supply its linked logos, cluster dropdown or Home link, mobile sidebar handler and account/actions in the same slots. These are integration instructions, not changes to either application.
 
 <!-- Template:
 ### `<ComponentName>`

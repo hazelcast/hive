@@ -1,0 +1,77 @@
+import { Meta, Title, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as Stories from './TopNavigation.stories'
+import { DocsTabs } from '../.storybook/DocsTabs'
+
+<Meta of={Stories} name="Docs" />
+<Title />
+
+TopNavigation provides the shared header layout while applications supply their own branding, navigation and actions.
+
+<DocsTabs
+  tabs={[
+    {
+      id: 'overview',
+      label: 'Overview',
+      content: (
+        <>
+          <Canvas of={Stories.Playground} />
+          <p>Use the Playground controls to switch between Cloud and Management Center, toggle mobile mode and the example actions, and try the cluster selector and account menu. In mobile mode, the menu button opens the example navigation.</p>
+
+          <h2>Anatomy</h2>
+          <p>Provide a linked <code>logo</code>, an optional product <code>name</code>, a <code>navigation</code> control, and trailing <code>actions</code>. Children appear after navigation in the leading group. Each slot accepts application-owned content.</p>
+
+          <h2>Management Center composition</h2>
+          <p>The spaced layout separates the wordmark, product name and cluster selector.</p>
+          <Canvas of={Stories.ManagementCenter} />
+
+          <h2>Cloud composition</h2>
+          <p>The grouped layout keeps the brand elements together. The example controls a mobile sidebar using <code>mobileMenu</code>.</p>
+          <Canvas of={Stories.Cloud} />
+
+          <h2>Responsive behavior</h2>
+          <p>Set <code>mobile</code> to show the mobile layout. The application owns the breakpoint and updates this prop as its layout changes. In mobile mode the product name is hidden, <code>mobileLogo</code> replaces the full logo when supplied, and the optional mobile menu button appears. Slot contents remain the application&rsquo;s responsibility. Toggle <code>mobile</code> in the Playground controls to compare both layouts.</p>
+          <Canvas of={Stories.Mobile} />
+
+          <h2>Props</h2>
+          <Controls of={Stories.Playground} />
+        </>
+      ),
+    },
+    {
+      id: 'guidelines',
+      label: 'Guidelines',
+      content: (
+        <>
+          <h2>When to use</h2>
+          <p>Use TopNavigation as the application-level header for branding, a context selector and frequently used global actions. Use local navigation within the page for section-specific controls.</p>
+          <h2>Composition</h2>
+          <ul>
+            <li>Supply complete linked brand elements to <code>logo</code> and <code>mobileLogo</code>; the component does not add links.</li>
+            <li>Choose <code>spaced</code> for separate brand elements or <code>grouped</code> for a compact brand group.</li>
+            <li>Keep navigation and actions concise and make supplied controls responsive. Use <code>navigationClassName</code> or <code>actionsClassName</code> for product-specific layout.</li>
+            <li>Provide <code>mobileMenu</code> only when the application has a corresponding menu or sidebar, and keep its state synchronized.</li>
+          </ul>
+          <p>The example logos, destinations and menus are illustrative; applications own their production content and behavior.</p>
+        </>
+      ),
+    },
+    {
+      id: 'accessibility',
+      label: 'Accessibility',
+      content: (
+        <>
+          <h2>Landmarks and names</h2>
+          <p>TopNavigation renders a <code>header</code>. Give each linked logo an accessible name and label icon-only controls. Use an appropriately named navigation landmark for navigation supplied by the application.</p>
+          <h2>Mobile menu</h2>
+          <p>The menu button is a native button. Supply a descriptive <code>label</code>, the current <code>expanded</code> state and a <code>controls</code> ID matching the controlled element. The application owns the menu, its focus behavior and dismissal.</p>
+          <h2>Keyboard and responsive checks</h2>
+          <ul>
+            <li>Verify that each visible control is reachable by keyboard and has a visible focus indicator.</li>
+            <li>Activate the mobile menu with Enter or Space and verify its state follows the controlled content.</li>
+            <li>Check both layouts at the application&rsquo;s chosen viewport sizes to ensure controls remain usable and alternate logos have equivalent names.</li>
+          </ul>
+        </>
+      ),
+    },
+  ]}
+/>

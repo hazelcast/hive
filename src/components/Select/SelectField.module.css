@@ -25,7 +25,7 @@
   color: var(--hive-color-text-v4);
   min-height: calc(var(--hive-grid) * 7.5);
   padding-left: calc(var(--hive-grid) * 3);
-  padding-right: calc(var(--hive-grid) * 2);
+  padding-right: calc(var(--hive-grid) * 3);
   box-sizing: border-box;
   border: var(--hive-border-width) solid var(--hive-color-border-v4);
   border-radius: var(--hive-border-radius);
