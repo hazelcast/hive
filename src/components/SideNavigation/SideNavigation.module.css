@@ -17,7 +17,7 @@
   text-transform: uppercase;
 }
 
-.item {
+.item.item.item {
   display: flex;
   align-items: center;
   gap: calc(var(--hive-grid) * 3);
@@ -39,6 +39,7 @@
   &:hover:not(.disabled) {
     background: var(--hive-color-surface-hover-v4);
     color: var(--hive-color-text-v4);
+    text-decoration: none;
   }
 
   &:focus-visible {
@@ -47,13 +48,13 @@
   }
 }
 
-.active {
+.item.item.item.active {
   background: var(--hive-color-surface-active-v4);
   color: var(--hive-color-text-v4);
   font-weight: var(--hive-font-weight-text-bold);
 }
 
-.disabled {
+.item.item.item.disabled {
   color: var(--hive-color-text-subdued-v4);
   opacity: 0.5;
   cursor: not-allowed;
