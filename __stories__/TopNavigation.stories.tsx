@@ -69,7 +69,7 @@ type Story = StoryObj<PlaygroundArgs>
 const Logo = ({ compact = false }: { compact?: boolean }) => (
   <a href="#home" className={compact ? styles.compactLogo : styles.logo} aria-label="Hazelcast home">
     {compact ? (
-      <img src="/images/hazelcast-compact-v4.png" alt="" />
+      <img src="/images/hazelcast-compact.png" alt="" />
     ) : (
       <>
         <img className={styles.lightWordmark} src="/images/hazelcast-wordmark-light-theme.png" alt="" />
