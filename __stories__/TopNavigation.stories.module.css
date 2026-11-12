@@ -1,0 +1,106 @@
+.logo,
+.compactLogo {
+  display: flex;
+  align-items: center;
+  color: var(--hive-color-text-v4);
+  font-size: var(--hive-font-size-h3);
+  font-weight: var(--hive-font-weight-text-bold);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.logo {
+  width: calc(var(--hive-grid) * 36);
+  height: calc(var(--hive-grid) * 6);
+}
+.compactLogo {
+  justify-content: center;
+  width: calc(var(--hive-grid) * 8);
+  height: calc(var(--hive-grid) * 8);
+}
+.subtitle {
+  font-size: var(--hive-font-size-body-smaller);
+  font-weight: var(--hive-font-weight-text-regular);
+}
+.mcSelect,
+.cloudSelect {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  height: calc(var(--hive-grid) * 8);
+  padding: 0 calc(var(--hive-grid) * 2);
+  color: var(--hive-color-text-v4);
+  background: var(--hive-color-neutral-white-v4);
+  border: var(--hive-border-width) solid var(--hive-color-border-v4);
+  border-radius: var(--hive-border-radius);
+}
+.mcSelect {
+  width: calc(var(--hive-grid) * 60);
+}
+.cloudSelect {
+  width: calc(var(--hive-grid) * 40);
+}
+.connection {
+  flex-shrink: 0;
+}
+.account {
+  position: relative;
+  font-size: var(--hive-font-size-body-small);
+}
+.account summary {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--hive-grid) * 2);
+  cursor: pointer;
+  padding: 0 calc(var(--hive-grid) * 2);
+  height: calc(var(--hive-grid) * 8);
+  border-radius: var(--hive-border-radius);
+  list-style: none;
+}
+.account summary::-webkit-details-marker {
+  display: none;
+}
+.account summary:hover {
+  background: var(--hive-color-surface-hover-v4);
+}
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--hive-grid) * 7);
+  height: calc(var(--hive-grid) * 7);
+  border-radius: var(--hive-border-radius-pill);
+  background: var(--hive-color-primary-v4);
+  color: var(--hive-color-text-on-primary-v4);
+  font-size: var(--hive-font-size-body-smaller);
+  font-weight: var(--hive-font-weight-text-bold);
+}
+.accountMenu {
+  position: absolute;
+  right: 0;
+  z-index: var(--hive-z-index-100);
+  min-width: calc(var(--hive-grid) * 37.5);
+  padding: var(--hive-grid);
+  background: var(--hive-color-neutral-white-v4);
+  border: var(--hive-border-width) solid var(--hive-color-border-v4);
+}
+.accountMenu button {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--hive-grid) * 2);
+  width: 100%;
+  padding: calc(var(--hive-grid) * 2);
+  border: 0;
+  background: transparent;
+  color: var(--hive-color-text-v4);
+  cursor: pointer;
+}
+.sidebar {
+  padding: calc(var(--hive-grid) * 4);
+}
+.cloudSelect.mobile,
+.mcSelect.mobile {
+  width: calc(var(--hive-grid) * 34.5);
+}
+.account.mobile .accountName {
+  display: none;
+}

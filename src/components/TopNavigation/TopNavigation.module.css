@@ -1,0 +1,86 @@
+.root {
+  --top-navigation-padding: calc(var(--hive-grid) * 6);
+  --top-navigation-leading-gap: calc(var(--hive-grid) * 4);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  width: 100%;
+  min-height: calc(var(--hive-grid) * 16);
+  padding: 0 var(--top-navigation-padding);
+  background: var(--hive-color-neutral-white-v4);
+  border-bottom: var(--hive-border-width) solid light-dark(var(--hive-color-neutral), var(--hive-color-neutral-v4));
+  color: var(--hive-color-text-v4);
+}
+
+.leading,
+.brand,
+.actions {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.leading {
+  flex: 1 1 auto;
+  gap: var(--top-navigation-leading-gap);
+}
+.brand {
+  gap: calc(var(--hive-grid) * 4);
+  flex-shrink: 0;
+}
+.grouped {
+  --top-navigation-leading-gap: calc(var(--hive-grid) * 2);
+}
+.grouped .brand {
+  gap: calc(var(--hive-grid) * 2);
+}
+.grouped .navigation {
+  margin-left: calc(var(--hive-grid) * 8);
+}
+.navigation {
+  min-width: 0;
+  flex-shrink: 1;
+}
+.actions {
+  gap: var(--hive-grid);
+  flex-shrink: 0;
+}
+.name {
+  font-size: var(--hive-font-size-body-small);
+  font-weight: var(--hive-font-weight-text-medium);
+}
+.mobileMenu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: calc(var(--hive-grid) * 8);
+  height: calc(var(--hive-grid) * 8);
+  padding: 0;
+  border: 0;
+  border-radius: var(--hive-border-radius);
+  background: transparent;
+  color: var(--hive-color-text-secondary-v4);
+  cursor: pointer;
+}
+.mobileMenu:hover {
+  background: var(--hive-color-surface-hover-v4);
+  color: var(--hive-color-primary-v4);
+}
+.mobileMenu:focus-visible {
+  outline: var(--hive-outline-width) solid var(--hive-color-accessibility-outline);
+}
+
+.root.mobile {
+  --top-navigation-padding: calc(var(--hive-grid) * 3);
+  --top-navigation-leading-gap: calc(var(--hive-grid) * 2);
+}
+.grouped.mobile {
+  padding-left: calc(var(--hive-grid) * 4);
+  padding-right: calc(var(--hive-grid) * 2);
+}
+.grouped.mobile .navigation {
+  margin-left: var(--hive-grid);
+}
