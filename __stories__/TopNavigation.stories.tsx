@@ -47,7 +47,14 @@ type Story = StoryObj<typeof TopNavigation>
 
 const Logo = ({ compact = false }: { compact?: boolean }) => (
   <a href="#home" className={compact ? styles.compactLogo : styles.logo} aria-label="Hazelcast home">
-    {compact ? 'H' : 'Hazelcast'}
+    {compact ? (
+      <img src="/images/hazelcast-compact-v4.png" alt="" />
+    ) : (
+      <>
+        <img className={styles.lightWordmark} src="/images/hazelcast-wordmark-light-theme.png" alt="" />
+        <img className={styles.darkWordmark} src="/images/hazelcast-wordmark-dark-theme.png" alt="" />
+      </>
+    )}
   </a>
 )
 
@@ -109,6 +116,7 @@ export const Playground: Story = {
   render: (args) => (
     <TopNavigation
       {...args}
+      className={styles.storyHeader}
       mobileLogo={<Logo compact />}
       navigation={<ClusterSelect compact mobile={args.mobile} />}
       actions={<Actions cloud mobile={args.mobile} />}
@@ -127,6 +135,7 @@ export const ManagementCenter: Story = {
   render: (args) => (
     <TopNavigation
       {...args}
+      className={styles.storyHeader}
       logo={<Logo />}
       mobileLogo={<Logo compact />}
       name={
@@ -160,6 +169,7 @@ export const Cloud: Story = {
       <>
         <TopNavigation
           {...args}
+          className={styles.storyHeader}
           layout="grouped"
           logo={<Logo />}
           mobileLogo={<Logo compact />}

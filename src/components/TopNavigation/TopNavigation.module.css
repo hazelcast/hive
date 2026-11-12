@@ -3,6 +3,7 @@
   --top-navigation-leading-gap: calc(var(--hive-grid) * 4);
   box-sizing: border-box;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   flex-shrink: 0;
@@ -23,7 +24,9 @@
 }
 
 .leading {
-  flex: 1 1 auto;
+  flex: 1 1 max-content;
+  flex-wrap: wrap;
+  max-width: 100%;
   gap: var(--top-navigation-leading-gap);
 }
 .brand {
