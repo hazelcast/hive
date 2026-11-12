@@ -13,7 +13,7 @@ export interface AppSidebarFavoriteButtonProps {
 }
 
 export const AppSidebarFavoriteButton = ({ id, className }: AppSidebarFavoriteButtonProps) => {
-  const { favorites, setFavorites } = useContext(appSidebarContext)
+  const { favorites, setFavorites, variant } = useContext(appSidebarContext)
   const isFavoriteItem = useMemo(() => favorites.find((item) => item === id), [favorites, id])
 
   const handleToggleFavorite = () => {
@@ -35,6 +35,8 @@ export const AppSidebarFavoriteButton = ({ id, className }: AppSidebarFavoriteBu
       )}
       onClick={handleToggleFavorite}
       ariaLabel="Favorite Item"
+      variant={variant === 'modern' ? 'ghost' : 'contained'}
+      color={variant === 'modern' ? 'secondary' : 'primary'}
       icon={Star}
     />
   )

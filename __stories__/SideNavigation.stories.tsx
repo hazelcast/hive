@@ -35,7 +35,8 @@ const McItems = () => (
       <AppSidebarItem title="Clients" adornment={<AppSidebarMenuItemCounter>12</AppSidebarMenuItemCounter>} />
     </AppSidebarSection>
     <AppSidebarSection id="storage" title="Storage" ariaLabel="Storage" icon={Database} active={false}>
-      <AppSidebarItem title="Maps" />
+      <AppSidebarItem id="maps" title="Maps" adornment={<AppSidebarMenuItemCounter>3</AppSidebarMenuItemCounter>} />
+      <AppSidebarItem id="flake" title="Flake ID Generators" adornment={<AppSidebarMenuItemCounter>12</AppSidebarMenuItemCounter>} />
     </AppSidebarSection>
     <AppSidebarSection title="Tools">
       <AppSidebarItem title="SQL" icon={Terminal} iconAriaLabel="SQL" />
@@ -43,11 +44,19 @@ const McItems = () => (
   </>
 )
 
+type PlaygroundArgs = SideNavigationProps & { composition: 'cloud' | 'management-center' }
+
 export default {
   title: 'Components/SideNavigation',
   component: SideNavigation,
   parameters: { layout: 'centered', docs: { canvas: { sourceState: 'hidden' } } },
   argTypes: {
+    composition: {
+      control: 'inline-radio',
+      options: ['cloud', 'management-center'],
+      description: 'Select the example navigation content.',
+      table: { category: 'Content' },
+    },
     ariaLabel: {
       control: 'text',
       description: 'Accessible name for the navigation and mobile dialog.',
@@ -70,29 +79,41 @@ export default {
     storageKey: { control: false },
     'data-test': { control: false },
   },
-  args: { ariaLabel: 'Main navigation', mobile: false, initialOpen: true, initialMobileOpen: false, showMobileTrigger: true },
-} satisfies Meta<typeof SideNavigation>
+  args: {
+    ariaLabel: 'Main navigation',
+    composition: 'cloud',
+    mobile: false,
+    initialOpen: true,
+    initialMobileOpen: false,
+    showMobileTrigger: true,
+  },
+} satisfies Meta<PlaygroundArgs>
 
-type Story = StoryObj<typeof SideNavigation>
+type Story = StoryObj<PlaygroundArgs>
 
-const PlaygroundExample = (args: SideNavigationProps) => {
+const PlaygroundExample = ({ composition, ...args }: PlaygroundArgs) => {
+  const [open, setOpen] = useState(args.initialOpen ?? true)
   const [mobileOpen, setMobileOpen] = useState(args.initialMobileOpen ?? false)
   return (
     <div className={styles.frame}>
       <SideNavigation
         {...args}
+        open={open}
+        onOpenChange={setOpen}
         mobileOpen={args.mobile ? mobileOpen : undefined}
         onMobileOpenChange={args.mobile ? setMobileOpen : undefined}
         storageKey="side-navigation-playground"
       >
-        <CloudItems onNavigate={() => setMobileOpen(false)} />
+        {composition === 'management-center' ? <McItems /> : <CloudItems onNavigate={() => setMobileOpen(false)} />}
       </SideNavigation>
     </div>
   )
 }
 
 export const Playground: Story = {
-  render: (args) => <PlaygroundExample key={`${args.mobile}-${args.initialOpen}-${args.initialMobileOpen}`} {...args} />,
+  render: (args) => (
+    <PlaygroundExample key={`${args.composition}-${args.mobile}-${args.initialOpen}-${args.initialMobileOpen}`} {...args} />
+  ),
 }
 
 export const CloudComposition: Story = {

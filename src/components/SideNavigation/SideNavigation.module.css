@@ -115,12 +115,29 @@
   position: absolute;
   inset: 0;
   background: color-mix(in oklab, var(--hive-color-text), transparent);
+  transition: opacity var(--hive-duration-navigation) ease-in-out;
+
+  &[data-closed] {
+    opacity: 0;
+  }
 }
 
 .panel {
   position: absolute;
   inset: 0 auto 0 0;
   width: min(calc(var(--hive-grid) * 64), 100%);
+  transition: transform var(--hive-duration-navigation) ease-in-out;
+
+  &[data-closed] {
+    transform: translateX(-100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop,
+  .panel {
+    transition: none;
+  }
 }
 
 .mobileSidebar {

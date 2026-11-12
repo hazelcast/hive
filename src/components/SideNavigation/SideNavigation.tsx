@@ -83,8 +83,8 @@ export const SideNavigation = ({
         aria-label={ariaLabel}
         unmount={false}
       >
-        <DialogBackdrop className={styles.backdrop} />
-        <DialogPanel id={navigationId} className={styles.panel}>
+        <DialogBackdrop transition className={styles.backdrop} />
+        <DialogPanel transition id={navigationId} className={styles.panel}>
           <AppSidebarWithStorageNamespace
             {...sidebarProps}
             className={cn(styles.mobileSidebar, sidebarProps.className)}

@@ -7,6 +7,17 @@ import { SideNavigation, SideNavigationItem, SideNavigationLinkProps, SideNaviga
 import { AppSidebarItem, AppSidebarSection } from '../../../src/components/AppSidebar'
 
 describe('SideNavigation', () => {
+  const originalGetAnimations = Object.getOwnPropertyDescriptor(Element.prototype, 'getAnimations')
+
+  beforeAll(() => {
+    Object.defineProperty(Element.prototype, 'getAnimations', { configurable: true, value: () => [] })
+  })
+
+  afterAll(() => {
+    if (originalGetAnimations) Object.defineProperty(Element.prototype, 'getAnimations', originalGetAnimations)
+    else Reflect.deleteProperty(Element.prototype, 'getAnimations')
+  })
+
   beforeEach(() => localStorage.clear())
 
   it('renders app-provided navigation and permissions with native semantics', () => {

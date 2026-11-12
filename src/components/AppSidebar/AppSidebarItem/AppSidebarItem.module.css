@@ -49,6 +49,23 @@
 }
 
 [class].modern {
+  &.nested {
+    padding-left: calc(var(--hive-grid) * 6);
+  }
+
+  .favorite {
+    left: 0;
+    width: calc(var(--hive-grid) * 5);
+    height: calc(var(--hive-grid) * 5);
+    background: transparent;
+    color: var(--hive-color-text-secondary-v4);
+  }
+
+  .favorite:hover {
+    background: transparent;
+    color: var(--hive-color-text-v4);
+  }
+
   &:focus-within .favorite {
     display: block;
   }

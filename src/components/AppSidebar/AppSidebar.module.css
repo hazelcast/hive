@@ -68,7 +68,7 @@
 
   width: calc(var(--hive-grid) * 56);
   border-right: var(--hive-border-width) solid var(--hive-color-neutral-v4);
-  transition: none;
+  transition: width var(--hive-duration-navigation) ease-in-out;
 
   .toggle {
     position: relative;
@@ -99,5 +99,11 @@
     .content {
       max-width: none;
     }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modern {
+    transition: none;
   }
 }

@@ -1,7 +1,7 @@
 .frame {
   display: flex;
-  height: calc(var(--hive-grid) * 112);
-  width: calc(var(--hive-grid) * 96);
+  height: calc(var(--hive-grid) * 160);
+  width: calc(var(--hive-grid) * 160);
   max-width: 100%;
   background: var(--hive-color-neutral-lighter-v4);
   border: var(--hive-border-width) solid var(--hive-color-neutral-v4);
