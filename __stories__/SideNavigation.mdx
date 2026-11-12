@@ -1,0 +1,84 @@
+import { Meta, Title, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as Stories from './SideNavigation.stories'
+import { DocsTabs } from '../.storybook/DocsTabs'
+
+<Meta of={Stories} name="Docs" />
+<Title />
+
+SideNavigation provides a compact desktop rail and a mobile navigation drawer. Applications supply their own destinations, labels, permissions, active states and content.
+
+<DocsTabs tabs={[
+  {
+    id: 'overview', label: 'Overview', content: (
+      <>
+        <Canvas of={Stories.Playground} />
+        <p>Use the Controls below to switch between Cloud and Management Center examples, expanded or collapsed desktop states, and the mobile drawer. The sidebar toggle, section controls and favorites are interactive.</p>
+        <h2>Flat navigation</h2>
+        <p>Compose <code>SideNavigationSection</code> and <code>SideNavigationItem</code> for labeled groups, links, actions, badges and unavailable destinations. Pass <code>active</code> for the current page and <code>visible</code> when the application decides whether an item is permitted.</p>
+        <Canvas of={Stories.CloudComposition} />
+        <h2>Expandable sections and favorites</h2>
+        <p>Existing <code>AppSidebarSection</code>, <code>AppSidebarItem</code>, favorites and counters can be composed inside the modern shell. Set <code>hideFooterWhenCollapsed</code> to hide a footer in the collapsed rail. The legacy <code>AppSidebar</code> remains available without opting into modern styling.</p>
+        <Canvas of={Stories.ManagementCenterComposition} />
+        <h2>Collapsed</h2>
+        <p>Desktop navigation can be collapsed while keeping item names available to assistive technology.</p>
+        <Canvas of={Stories.Collapsed} />
+        <h2>Mobile drawer</h2>
+        <p>Set <code>mobile</code> from application layout state. The drawer uses an overlay, opens expanded, and offers a built-in trigger. Set <code>showMobileTrigger</code> to false when an application supplies its own trigger.</p>
+        <Canvas of={Stories.MobileDrawer} />
+        <h2>Page template</h2>
+        <p>These examples place navigation beside a page and use an external header trigger in mobile mode.</p>
+        <Canvas of={Stories.PageTemplate} />
+        <Canvas of={Stories.MobilePageTemplate} />
+        <h2>Controlled state</h2>
+        <p>Use <code>open</code> and <code>onOpenChange</code> together to control desktop expansion. Without <code>open</code>, the sidebar persists its state under <code>storageKey</code> (default <code>SideBarMenu</code>). Favorites and expandable sections use the shared legacy keys by default. Set <code>namespaceStorage</code> to isolate them by <code>storageKey</code>; this does not migrate existing values. For a new Cloud sidebar that starts collapsed, choose an application-specific key and set <code>initialOpen={'{false}'}</code>; an existing stored value takes precedence. Migrate or clear old storage explicitly if needed. Use <code>mobileOpen</code> and <code>onMobileOpenChange</code> to control the drawer; otherwise it manages its own state with <code>initialMobileOpen</code>. Leaving mobile closes the uncontrolled drawer or requests closure from the host in controlled mode.</p>
+        <Canvas of={Stories.Controlled} />
+        <h2>Routing and permissions</h2>
+        <p><code>href</code> renders a native link; <code>as</code> accepts an application adapter implementing <code>SideNavigationLinkProps</code>. Forward <code>className</code>, <code>aria-current</code>, <code>title</code>, <code>onClick</code>, <code>target</code>, <code>rel</code>, and children, and map <code>href</code> to the router's destination prop. Without either, the item is a button. Applications determine route activity, filter unauthorized items, and close a controlled mobile drawer on route changes as needed.</p>
+        <Canvas of={Stories.LinkRendering} />
+        <p>Example adapters for Next.js and React Router:</p>
+        <pre><code>{`import NextLink from 'next/link'
+import { Link as RouterLink } from 'react-router-dom'
+import { SideNavigationItem, SideNavigationLinkProps } from '@hazelcast/ui'
+
+const NextAdapter = ({ href, ...props }: SideNavigationLinkProps) =>
+  <NextLink href={href ?? ''} {...props} />
+
+const RouterAdapter = ({ href, ...props }: SideNavigationLinkProps) =>
+  <RouterLink to={href ?? ''} {...props} />
+
+<SideNavigationItem label="Home" href="/" as={NextAdapter} />
+<SideNavigationItem label="Settings" href="/settings" as={RouterAdapter} />`}</code></pre>
+        <h2>Props</h2>
+        <Controls of={Stories.Playground} />
+      </>
+    ),
+  },
+  {
+    id: 'guidelines', label: 'Guidelines', content: (
+      <>
+        <h2>Composition</h2>
+        <p>Keep navigation labels short and recognizable. Group related destinations with a section label and provide icons for a recognizable collapsed rail. Items without icons retain a truncated label when collapsed.</p>
+        <p>Use badges for concise counts or status, and mark the active page explicitly. Provide <code>disabledTooltip</code> to explain an unavailable destination; omit unauthorized items in the application.</p>
+        <h2>Responsive integration</h2>
+        <p>The host selects desktop or mobile mode using its own breakpoint. The component does not choose a breakpoint, modify routing, or evaluate permissions. Use a distinct storage key and <code>namespaceStorage</code> for fully independent sidebars.</p>
+        <p>The drawer covers the viewport by default. To position it below a header, pass <code>mobileDialogClassName</code> with a class that sets <code>top</code> to the host header height, using the same token-based height as the header. The panel and backdrop both follow this offset; the dialog uses <code>--hive-z-index-2000</code>. The header remains outside the modal focus scope and cannot be interacted with until dismissal. Test the host's stacking and focus behavior.</p>
+        <pre><code>{`.header { box-sizing: border-box; height: calc(var(--hive-grid) * 16); }
+      .drawerBelowHeader { top: calc(var(--hive-grid) * 16); }
+
+      <SideNavigation ariaLabel="Main navigation" mobile mobileDialogClassName={styles.drawerBelowHeader} />`}</code></pre>
+      </>
+    ),
+  },
+  {
+    id: 'accessibility', label: 'Accessibility', content: (
+      <>
+        <h2>Names and semantics</h2>
+        <p>Provide a descriptive <code>ariaLabel</code>. Native links expose their destination and active links use <code>aria-current="page"</code>. Actions use buttons; unavailable items cannot be activated. With a disabled tooltip, an unavailable item is keyboard focusable so its reason can be read. Collapsed labels remain available to screen readers.</p>
+        <p>Item and section labels can contain React nodes. Supply <code>ariaLabel</code> when the rendered content does not provide an appropriate accessible name; it also supplies the collapsed item title. String labels are used as the default title and section name. Custom link adapters must forward <code>aria-label</code>.</p>
+        <h2>Keyboard and focus</h2>
+        <p>The mobile drawer is a modal dialog. Focus enters its close button, stays within the dialog, and returns to the opener when dismissed. Escape, the close control, and the backdrop request closure. In controlled mode the host must update <code>mobileOpen</code> in response.</p>
+        <p>For an external trigger, pass a stable <code>id</code> to <code>SideNavigation</code>, set the trigger's <code>aria-controls</code> to that ID and <code>aria-expanded</code> to the controlled state. The ID identifies the desktop navigation or the mobile dialog panel. Keep the trigger mounted so focus can return. Supply meaningful text for icon-only destinations and avoid using color alone to convey state.</p>
+      </>
+    ),
+  },
+]} />

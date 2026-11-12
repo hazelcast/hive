@@ -14,7 +14,7 @@ export type AppSidebarSectionProps = {
   ({ id?: never; active?: never; icon?: never; ariaLabel?: never } | AppSidebarSectionExpandableProps)
 
 export const AppSidebarSection = ({ id, icon, active, title, children, ariaLabel, 'data-test': dataTest }: AppSidebarSectionProps) => {
-  const { isOpen } = useContext(appSidebarContext)
+  const { isOpen, variant } = useContext(appSidebarContext)
 
   if (id) {
     return (
@@ -25,7 +25,7 @@ export const AppSidebarSection = ({ id, icon, active, title, children, ariaLabel
   }
 
   return (
-    <section data-test={dataTest} className={cn(styles.root, { [styles.collapsed]: !isOpen })}>
+    <section data-test={dataTest} className={cn(styles.root, { [styles.collapsed]: !isOpen, [styles.modern]: variant === 'modern' })}>
       <h3>{title}</h3>
       {children}
     </section>

@@ -57,6 +57,15 @@ export {
   CheckableSelectFieldFormik,
 } from './components/Select/index'
 export { SimpleTable } from './components/SimpleTable'
+export { SideNavigation, SideNavigationItem, SideNavigationSection } from './components/SideNavigation'
+export type {
+  SideNavigationProps,
+  SideNavigationItemProps,
+  SideNavigationLinkProps,
+  SideNavigationSectionProps,
+} from './components/SideNavigation'
+export { AppSidebar, AppSidebarItem, AppSidebarSection, AppSidebarFavorites, AppSidebarMenuItemCounter } from './components/AppSidebar'
+export type { AppSidebarProps, AppSidebarItemProps, AppSidebarSectionProps } from './components/AppSidebar'
 export { Slider } from './components/Slider'
 export { SliderFormik } from './components/SliderFormik'
 export { Table } from './components/Table/Table'

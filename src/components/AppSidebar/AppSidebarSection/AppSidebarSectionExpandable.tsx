@@ -6,7 +6,7 @@ import { DataTestProp } from '../../../helpers/types'
 import { useRefValue, createPersistedState } from '../../../hooks'
 import { Icon, IconProps } from '../../Icon'
 import { AppSidebarItem } from '../AppSidebarItem'
-import { appSidebarContext } from '../appSidebarContext'
+import { appSidebarContext, sidebarStorageKey } from '../appSidebarContext'
 import { appSidebarSectionContext } from './appSidebarSectionContext'
 
 import styles from './AppSidebarSection.module.css'
@@ -33,8 +33,8 @@ export const AppSidebarSectionExpandable = ({
 }: AppSidebarSectionExpandableProps) => {
   const rootEl = useRef<HTMLElement>(null)
   const clicked = useRef(false)
-  const { isOpen, open: openSidebar } = useContext(appSidebarContext)
-  const usePersistedMenuStorageState = createPersistedState<boolean>(`isOpen::${title}`)
+  const { isOpen, open: openSidebar, variant, storageKey, namespaceStorage } = useContext(appSidebarContext)
+  const usePersistedMenuStorageState = createPersistedState<boolean>(sidebarStorageKey(storageKey, 'section', title, namespaceStorage))
 
   const [open, setOpen] = usePersistedMenuStorageState(false)
   const getIsActive = useRefValue(active)
@@ -66,7 +66,7 @@ export const AppSidebarSectionExpandable = ({
     const cb = getSetOpen()
 
     if (getIsActive() && cb) {
-      setTimeout(() => cb(true))
+      cb(true)
     }
   }, [getIsActive, getSetOpen])
 
@@ -79,6 +79,7 @@ export const AppSidebarSectionExpandable = ({
         iconAriaLabel={title}
         onClick={handleClick}
         active={active}
+        expanded={variant === 'modern' ? isSectionOpen : undefined}
         className={styles.toggle}
         adornmentClassName={styles.adornment}
         adornment={<Icon data-test="sidebar-menu-section-chevron" size="medium" containerClassName={styles.icon} {...chevronButtonProps} />}
@@ -87,6 +88,7 @@ export const AppSidebarSectionExpandable = ({
       {/* detect whether an item is in an expandable section or not. */}
       <appSidebarSectionContext.Provider value={{}}>
         <div
+          hidden={variant === 'modern' && !isSectionOpen}
           onTransitionEnd={handleTransitionEnd}
           className={cn(styles.content, {
             [styles.transitionEnter]: isSectionOpen,
