@@ -17,10 +17,12 @@ export type AppSidebarItemProps = {
   title: string
   className?: string
   active?: boolean
+  expanded?: boolean
   onClick?: () => void
   available?: boolean
   adornment?: ReactNode
   adornmentClassName?: string
+  'aria-label'?: string
 } & DataTestProp &
   ({ disabled?: never; disabledTooltip?: never } | { disabled: boolean; disabledTooltip: string }) &
   ({ icon?: never; iconAriaLabel?: never } | { icon: FeatherIcon; iconAriaLabel: string })
@@ -30,6 +32,7 @@ export const AppSidebarItem = ({
   title,
   className,
   active,
+  expanded,
   icon,
   iconAriaLabel,
   disabled,
@@ -38,19 +41,25 @@ export const AppSidebarItem = ({
   adornment,
   available,
   adornmentClassName,
+  'aria-label': ariaLabel,
   'data-test': dataTest,
 }: AppSidebarItemProps) => {
-  const { isOpen } = useContext(appSidebarContext)
+  const { isOpen, variant } = useContext(appSidebarContext)
   const ctx = useContext(appSidebarSectionContext)
 
   return (
     <Tooltip arrow={false} side="right" align="start" color="dark" open={isOpen ? false : undefined} content={iconAriaLabel}>
-      <div className={cn(styles.root, { [styles.collapsed]: !isOpen, [styles.nested]: !!ctx })} data-test={dataTest}>
-        {id && ctx && <AppSidebarFavoriteButton id={id} className={styles.favorite} />}
+      <div
+        className={cn(styles.root, { [styles.collapsed]: !isOpen, [styles.nested]: !!ctx, [styles.modern]: variant === 'modern' })}
+        data-test={dataTest}
+      >
+        {id && ctx && variant !== 'modern' && <AppSidebarFavoriteButton id={id} className={styles.favorite} />}
         <Button
           variant="ghost"
           color="secondary"
           active={active}
+          aria-expanded={expanded}
+          aria-label={variant === 'modern' ? (ariaLabel ?? title) : undefined}
           truncate={false}
           onClick={onClick}
           outline="inset"
@@ -71,6 +80,7 @@ export const AppSidebarItem = ({
             )}
           </>
         </Button>
+        {id && ctx && variant === 'modern' && <AppSidebarFavoriteButton id={id} className={styles.favorite} />}
       </div>
     </Tooltip>
   )

@@ -32,6 +32,7 @@ grep -r "@hazelcast/ui/old" src --include="*.tsx" --include="*.ts"
 | Updated  | `Button`                                                    | HIVE 4.0 rebrand; `color` × `variant` axes (variant: contained/outlined/ghost/link, color: primary/secondary/warning/danger); `tooltipColor` removed; `size` reintroduced (`small`/`regular`); `capitalize` removed; SCSS → CSS | ✅              |
 | Updated  | `IconButton`                                                | HIVE 4.0 rebrand; `kind` → `variant`; `size` is `sm`/`md`/`lg`; `padding` removed; SCSS → CSS                                                                                                                                   | ✅              |
 | New      | `ButtonGroup`                                               | Group of joined `Button`s sharing border-radius and shadow                                                                                                                                                                      | n/a             |
+| New      | `SideNavigation`                                            | Composable modern desktop navigation and mobile drawer; `AppSidebar` remains available                                                                                                                                          | n/a             |
 | Updated  | `Toggle`                                                    | HIVE 4.0 pill switch; SCSS → CSS; no ON/OFF label                                                                                                                                                                               | ✅              |
 | Updated  | `TextField`                                                 | HIVE 4.0 rebrand; 36px height; 8px radius; `--hive-*` tokens; SCSS → CSS                                                                                                                                                        | ✅              |
 | Updated  | `TextArea`                                                  | HIVE 4.0 rebrand; 8px radius; white surface; neutral border, brand focus ring, error border; `--hive-*` tokens; SCSS → CSS                                                                                                      | ✅              |
@@ -52,6 +53,12 @@ grep -r "@hazelcast/ui/old" src --include="*.tsx" --include="*.ts"
 ## Updated components
 
 Components that changed in a breaking way. Old version available at `@hazelcast/ui/old`.
+
+### Side navigation integration
+
+`SideNavigation` is an opt-in modern shell; the existing `AppSidebar` remains available. For a Cloud navigation that defaults to collapsed, use `initialOpen={false}` and choose an application-specific `storageKey`. Persisted values override `initialOpen`, including a stored `false`. The default key is `SideBarMenu`; reuse it only when its existing preference should carry over. Favorites and section states use the shared legacy keys by default, even with a custom `storageKey`. Set `namespaceStorage` to isolate them by key; existing values are not migrated automatically. Migrating or clearing an old key is the consumer's choice.
+
+For a footer that should disappear in the collapsed rail, set `hideFooterWhenCollapsed`. For external desktop or mobile controls, give `SideNavigation` a stable `id` and use it for the control's `aria-controls`, with `aria-expanded` reflecting the controlled state. For a mobile drawer below a header, use `mobileDialogClassName` to set its top offset with the same CSS token-based height as the header. The drawer remains modal, so the header is not interactive while it is open. See the SideNavigation Storybook documentation for router adapters and examples.
 
 <!-- Template:
 ### `<ComponentName>`

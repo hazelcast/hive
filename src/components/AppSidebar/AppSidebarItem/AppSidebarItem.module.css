@@ -48,6 +48,43 @@
   }
 }
 
+[class].modern {
+  &:focus-within .favorite {
+    display: block;
+  }
+
+  .button {
+    height: calc(var(--hive-grid) * 8);
+    min-height: calc(var(--hive-grid) * 8);
+    padding: 0 calc(var(--hive-grid) * 3);
+    border-radius: calc(var(--hive-grid) * 1.5);
+    color: var(--hive-color-text-secondary-v4);
+    font-size: var(--hive-font-size-body-small);
+    font-weight: var(--hive-font-weight-text-medium);
+  }
+
+  .button .content {
+    gap: calc(var(--hive-grid) * 3);
+  }
+
+  .button .icon {
+    width: var(--hive-icon-size-small);
+    height: var(--hive-icon-size-small);
+    color: inherit;
+  }
+
+  &.collapsed {
+    .content {
+      gap: 0;
+      font-size: 0;
+    }
+
+    .adornment {
+      display: none;
+    }
+  }
+}
+
 [class].button {
   overflow: hidden;
   width: 100%;
