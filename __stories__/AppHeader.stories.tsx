@@ -6,6 +6,7 @@ import { AppHeader as AppHeaderComponent } from '../src/components/AppHeader'
 export default {
   title: 'App/Header',
   component: AppHeaderComponent,
+  tags: ['!dev'],
 }
 
 export const Default = () => {

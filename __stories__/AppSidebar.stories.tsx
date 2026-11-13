@@ -14,6 +14,7 @@ import { Icon } from '../src/components/Icon'
 export default {
   title: 'App/Sidebar',
   component: AppSidebar,
+  tags: ['!dev'],
 }
 
 const Template = (props: AppSidebarProps) => (

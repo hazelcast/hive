@@ -1,4 +1,5 @@
 .navigation {
+  --side-navigation-item-state-background: color-mix(in oklab, var(--hive-color-brand-v4) 20%, var(--hive-color-neutral-white-v4));
   display: flex;
   flex-direction: column;
 }
@@ -37,7 +38,7 @@
   cursor: pointer;
 
   &:hover:not(.disabled) {
-    background: var(--hive-color-surface-hover-v4);
+    background: var(--side-navigation-item-state-background);
     color: var(--hive-color-text-v4);
     text-decoration: none;
   }
@@ -49,7 +50,7 @@
 }
 
 .item.item.item.active {
-  background: var(--hive-color-surface-active-v4);
+  background: var(--side-navigation-item-state-background);
   color: var(--hive-color-text-v4);
   font-weight: var(--hive-font-weight-text-bold);
 }
@@ -108,7 +109,7 @@
 .dialog {
   position: fixed;
   inset: 0;
-  z-index: var(--hive-z-index-2000);
+  z-index: var(--hive-z-index-1000);
 }
 
 .backdrop {

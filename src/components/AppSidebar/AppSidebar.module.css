@@ -63,7 +63,7 @@
   --hive-color-brand-secondary: var(--hive-color-neutral-white-v4);
   --hive-color-neutral-lighter: var(--hive-color-text-v4);
   --hive-color-neutral-light: var(--hive-color-text-secondary-v4);
-  --hive-color-brand-accent: var(--hive-color-surface-active-v4);
+  --hive-color-brand-accent: color-mix(in oklab, var(--hive-color-brand-v4) 20%, var(--hive-color-neutral-white-v4));
   --hive-color-brand-text: var(--hive-color-text-v4);
 
   width: calc(var(--hive-grid) * 56);
@@ -78,6 +78,7 @@
     height: calc(var(--hive-grid) * 8);
     margin: calc(var(--hive-grid) * 2) calc(var(--hive-grid) * 3);
     justify-content: flex-start;
+    padding-left: calc(var(--hive-grid) * 3);
     color: var(--hive-color-text-secondary-v4);
     background: transparent;
     border-radius: calc(var(--hive-grid) * 1.5);
