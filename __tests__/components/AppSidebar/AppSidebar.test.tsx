@@ -28,6 +28,16 @@ describe('SideNavigation sidebar frame', () => {
     expect(screen.getByRole('button', { name: 'Expand sidebar' })).toBeInTheDocument()
   })
 
+  it('marks destructive AppSidebarItems with the danger style', () => {
+    render(
+      <SideNavigation ariaLabel="Main">
+        <AppSidebarItem title="Delete" color="danger" />
+      </SideNavigation>,
+    )
+
+    expect(screen.getByRole('button', { name: 'Delete' })).toHaveClass('danger')
+  })
+
   it('only hides the footer when explicitly requested', () => {
     const { rerender } = render(<SideNavigation ariaLabel="Main" open={false} footer="Footer" />)
     expect(screen.getByText('Footer')).toBeInTheDocument()

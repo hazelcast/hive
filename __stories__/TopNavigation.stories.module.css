@@ -34,8 +34,8 @@
 }
 .compactLogo {
   justify-content: center;
-  width: calc(var(--hive-grid) * 8);
-  height: calc(var(--hive-grid) * 8);
+  width: calc(var(--hive-grid) * 12);
+  height: calc(var(--hive-grid) * 12);
 }
 .subtitle {
   font-size: var(--hive-font-size-body-smaller);
@@ -105,9 +105,6 @@
   border: 0;
   background: transparent;
   color: var(--hive-color-text-v4);
-  cursor: pointer;
-}
-.accountMenu .signOut {
   cursor: pointer;
 }
 .sidebar {

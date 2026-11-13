@@ -52,6 +52,10 @@
   gap: var(--hive-grid);
   flex-shrink: 0;
 }
+.actions button,
+.actions [role='menuitem'] {
+  cursor: pointer;
+}
 .name {
   font-size: var(--hive-font-size-body-small);
   font-weight: var(--hive-font-weight-text-medium);

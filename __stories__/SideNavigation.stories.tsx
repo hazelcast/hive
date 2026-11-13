@@ -34,6 +34,8 @@ const McItems = () => (
     <AppSidebarSection id="cluster" title="Cluster" ariaLabel="Cluster" icon={Layers} active>
       <AppSidebarItem id="members" title="Members" adornment={<AppSidebarMenuItemCounter>3</AppSidebarMenuItemCounter>} />
       <AppSidebarItem title="Clients" adornment={<AppSidebarMenuItemCounter>12</AppSidebarMenuItemCounter>} />
+      <AppSidebarItem title="Pause" />
+      <AppSidebarItem title="Delete" icon={Trash2} iconAriaLabel="Delete" color="danger" />
     </AppSidebarSection>
     <AppSidebarSection id="storage" title="Storage" ariaLabel="Storage" icon={Database} active={false}>
       <AppSidebarItem id="maps" title="Maps" adornment={<AppSidebarMenuItemCounter>3</AppSidebarMenuItemCounter>} />
