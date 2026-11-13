@@ -17,7 +17,7 @@ type PlaygroundArgs = TopNavigationProps & {
 }
 
 export default {
-  title: 'App/Top Navigation',
+  title: 'Components/Top Navigation',
   component: TopNavigation,
   parameters: {
     layout: 'fullscreen',
