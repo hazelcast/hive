@@ -126,6 +126,14 @@
     }
   }
 
+  &.danger {
+    color: var(--hive-color-error-text-v4);
+
+    .icon {
+      color: var(--hive-color-error-text-v4);
+    }
+  }
+
   .content {
     padding: 0;
     display: flex;
@@ -141,4 +149,9 @@
     align-items: center;
     gap: calc(var(--hive-grid) * 2);
   }
+}
+
+.root .button.danger:hover,
+.root .button.danger.active {
+  background: color-mix(in oklab, var(--hive-color-error-v4) 20%, var(--hive-color-neutral-white-v4));
 }

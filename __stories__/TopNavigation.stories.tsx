@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Meta, StoryObj } from '@storybook/react-webpack5'
-import { BookOpen, HelpCircle, Menu, PlusCircle, Settings } from 'react-feather'
+import { BookOpen, HelpCircle, Menu, PlusCircle, Settings, Sun } from 'react-feather'
 import cls from 'classnames'
 
 import { Icon, IconButton, SelectField, TopNavigation } from '../src'
@@ -12,6 +12,7 @@ type PlaygroundArgs = TopNavigationProps & {
   showCluster: boolean
   showDocumentation: boolean
   showSupport: boolean
+  showTheme: boolean
   showAccount: boolean
   showMobileMenu: boolean
 }
@@ -47,6 +48,7 @@ export default {
     showCluster: { control: 'boolean', description: 'Show the example cluster selector.', table: { category: 'Content' } },
     showDocumentation: { control: 'boolean', description: 'Show the documentation action.', table: { category: 'Actions' } },
     showSupport: { control: 'boolean', description: 'Show the support action.', table: { category: 'Actions' } },
+    showTheme: { control: 'boolean', description: 'Show the theme action.', table: { category: 'Actions' } },
     showAccount: { control: 'boolean', description: 'Show the account menu.', table: { category: 'Actions' } },
     showMobileMenu: { control: 'boolean', description: 'Show the navigation trigger in mobile mode.', table: { category: 'Layout' } },
     name: { control: 'text', description: 'Product or application name displayed beside the logo.', table: { category: 'Content' } },
@@ -103,12 +105,14 @@ const Actions = ({
   mobile = false,
   showDocumentation = true,
   showSupport = true,
+  showTheme = true,
   showAccount = true,
 }: {
   cloud?: boolean
   mobile?: boolean
   showDocumentation?: boolean
   showSupport?: boolean
+  showTheme?: boolean
   showAccount?: boolean
 }) => (
   <>
@@ -126,6 +130,7 @@ const Actions = ({
     {showSupport && (
       <IconButton component="a" href="#support" icon={HelpCircle} variant="ghost" color="secondary" ariaLabel="Support" tooltip="Support" />
     )}
+    {showTheme && <IconButton component="a" href="#theme" icon={Sun} variant="ghost" color="secondary" ariaLabel="Theme" tooltip="Theme" />}
     {showAccount && (
       <details className={cls(styles.account, { [styles.mobile]: mobile })}>
         <summary aria-label="Account menu">
@@ -164,10 +169,20 @@ export const Playground: Story = {
     showCluster: true,
     showDocumentation: true,
     showSupport: true,
+    showTheme: true,
     showAccount: true,
     showMobileMenu: true,
   },
-  render: function PlaygroundRender({ composition, showCluster, showDocumentation, showSupport, showAccount, showMobileMenu, ...args }) {
+  render: function PlaygroundRender({
+    composition,
+    showCluster,
+    showDocumentation,
+    showSupport,
+    showTheme,
+    showAccount,
+    showMobileMenu,
+    ...args
+  }) {
     const [open, setOpen] = useState(false)
     const cloud = composition === 'cloud'
     return (
@@ -195,6 +210,7 @@ export const Playground: Story = {
               mobile={args.mobile}
               showDocumentation={showDocumentation}
               showSupport={showSupport}
+              showTheme={showTheme}
               showAccount={showAccount}
             />
           }
