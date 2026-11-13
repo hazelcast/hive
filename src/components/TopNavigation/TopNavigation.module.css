@@ -80,27 +80,55 @@
 
 .root.mobile {
   --top-navigation-padding: calc(var(--hive-grid) * 3);
-  --top-navigation-leading-gap: calc(var(--hive-grid) * 2);
+  --top-navigation-leading-gap: var(--hive-grid);
   min-width: 0;
 }
 .root.mobile .leading {
-  flex: 1 1 auto;
+  flex: 1 1 0;
+  flex-wrap: nowrap;
   min-width: 0;
 }
 .root.mobile .navigation {
   flex: 1 1 120px;
+  min-width: 0;
+}
+.root.mobile .navigation > * {
+  max-width: 100%;
+  min-width: 0;
 }
 .root.mobile .actions {
   flex: 0 1 auto;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  gap: calc(var(--hive-grid) / 2);
   justify-content: flex-end;
   max-width: 100%;
   margin-left: auto;
+}
+.root.mobile .actions [data-test='icon-button'] {
+  width: calc(var(--hive-grid) * 7);
+  height: calc(var(--hive-grid) * 7);
 }
 .grouped.mobile {
   padding-left: calc(var(--hive-grid) * 4);
   padding-right: calc(var(--hive-grid) * 2);
 }
 .grouped.mobile .navigation {
-  margin-left: var(--hive-grid);
+  margin-left: 0;
+}
+
+@media (max-width: 23rem) {
+  .root.mobile {
+    flex-wrap: wrap;
+  }
+  .root.mobile .leading {
+    flex: 1 1 100%;
+    flex-wrap: wrap;
+  }
+  .root.mobile .actions {
+    flex: 0 1 auto;
+  }
+  .root.mobile .actions [data-test='icon-button'] {
+    width: var(--hive-icon-size-large);
+    height: var(--hive-icon-size-large);
+  }
 }
