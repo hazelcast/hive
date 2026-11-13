@@ -1,6 +1,8 @@
 .root {
   --top-navigation-padding: calc(var(--hive-grid) * 6);
   --top-navigation-leading-gap: calc(var(--hive-grid) * 4);
+  position: relative;
+  z-index: var(--hive-z-index-2000);
   box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
@@ -25,7 +27,7 @@
 
 .leading {
   flex: 1 1 max-content;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   max-width: 100%;
   gap: var(--top-navigation-leading-gap);
 }
