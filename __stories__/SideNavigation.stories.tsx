@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Meta, StoryObj } from '@storybook/react-webpack5'
-import { Activity, Database, Home, Layers, Menu, Settings, Terminal } from 'react-feather'
+import { Activity, Database, Home, Layers, Menu, Settings, Terminal, Trash2 } from 'react-feather'
 
 import { AppSidebarFavorites, AppSidebarItem, AppSidebarMenuItemCounter, AppSidebarSection } from '../src/components/AppSidebar'
 import {
@@ -23,6 +23,7 @@ const CloudItems = ({ onNavigate }: { onNavigate?: () => void }) => (
       <SideNavigationItem label="Metrics" icon={Activity} href="#metrics" onClick={onNavigate} />
       <SideNavigationItem label="SQL" icon={Terminal} disabled disabledTooltip="Select a cluster first" />
       <SideNavigationItem label="Settings" icon={Settings} href="#settings" onClick={onNavigate} />
+      <SideNavigationItem label="Delete" icon={Trash2} color="danger" />
     </SideNavigationSection>
   </>
 )

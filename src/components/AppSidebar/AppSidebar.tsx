@@ -26,8 +26,6 @@ type AppSidebarInternalProps = AppSidebarProps & { namespaceStorage?: boolean }
 
 const validFavorites = (value: unknown): string[] => (Array.isArray(value) && value.every((item) => typeof item === 'string') ? value : [])
 
-export const AppSidebar = (props: AppSidebarProps) => <AppSidebarWithStorageNamespace {...props} />
-
 export const AppSidebarWithStorageNamespace = (props: AppSidebarInternalProps) => (
   <AppSidebarContent key={props.storageKey ?? 'SideBarMenu'} {...props} />
 )

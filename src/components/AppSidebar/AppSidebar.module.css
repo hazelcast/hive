@@ -103,6 +103,10 @@
   }
 }
 
+.modern .toggle:hover {
+  background: var(--hive-color-brand-accent);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .modern {
     transition: none;

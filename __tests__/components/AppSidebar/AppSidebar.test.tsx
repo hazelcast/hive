@@ -2,15 +2,15 @@ import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { Home } from 'react-feather'
 
-import { AppSidebar, AppSidebarItem, AppSidebarSection } from '../../../src/components/AppSidebar'
+import { AppSidebarItem, AppSidebarSection } from '../../../src/components/AppSidebar'
 import { SideNavigation } from '../../../src/components/SideNavigation'
 
-describe('AppSidebar', () => {
+describe('SideNavigation sidebar frame', () => {
   beforeEach(() => localStorage.clear())
 
   it('requests a controlled open change without changing its own state', () => {
     const onOpenChange = jest.fn()
-    render(<AppSidebar open onOpenChange={onOpenChange} />)
+    render(<SideNavigation ariaLabel="Main" open onOpenChange={onOpenChange} />)
 
     fireEvent.click(screen.getByRole('button', { name: 'Collapse sidebar' }))
 
@@ -20,7 +20,7 @@ describe('AppSidebar', () => {
 
   it('updates uncontrolled state and notifies the caller', () => {
     const onOpenChange = jest.fn()
-    render(<AppSidebar initialOpen onOpenChange={onOpenChange} />)
+    render(<SideNavigation ariaLabel="Main" initialOpen onOpenChange={onOpenChange} />)
 
     fireEvent.click(screen.getByRole('button', { name: 'Collapse sidebar' }))
 
@@ -28,22 +28,12 @@ describe('AppSidebar', () => {
     expect(screen.getByRole('button', { name: 'Expand sidebar' })).toBeInTheDocument()
   })
 
-  it('uses the initial open state for a stored false value in the legacy sidebar', () => {
-    const { unmount } = render(<AppSidebar storageKey="sidebar-test" initialOpen />)
-    fireEvent.click(screen.getByRole('button', { name: 'Collapse sidebar' }))
-    expect(localStorage.getItem('sidebar-test')).toBe('false')
-    unmount()
-
-    render(<AppSidebar storageKey="sidebar-test" initialOpen />)
-    expect(screen.getByRole('button', { name: 'Collapse sidebar' })).toBeInTheDocument()
-  })
-
   it('only hides the footer when explicitly requested', () => {
-    const { rerender } = render(<AppSidebar open={false} footer="Footer" />)
+    const { rerender } = render(<SideNavigation ariaLabel="Main" open={false} footer="Footer" />)
     expect(screen.getByText('Footer')).toBeInTheDocument()
-    rerender(<AppSidebar open={false} footer="Footer" hideFooterWhenCollapsed />)
+    rerender(<SideNavigation ariaLabel="Main" open={false} footer="Footer" hideFooterWhenCollapsed />)
     expect(screen.queryByText('Footer')).not.toBeInTheDocument()
-    rerender(<AppSidebar open footer="Footer" hideFooterWhenCollapsed />)
+    rerender(<SideNavigation ariaLabel="Main" open footer="Footer" hideFooterWhenCollapsed />)
     expect(screen.getByText('Footer')).toBeInTheDocument()
   })
 
@@ -51,11 +41,11 @@ describe('AppSidebar', () => {
     localStorage.setItem('sideBarFavorites', JSON.stringify(['maps']))
     localStorage.setItem('isOpen::Storage', 'true')
     render(
-      <AppSidebar variant="modern">
+      <SideNavigation ariaLabel="Main">
         <AppSidebarSection id="storage" title="Storage" ariaLabel="Storage" icon={Home} active={false}>
           <AppSidebarItem id="maps" title="Maps" />
         </AppSidebarSection>
-      </AppSidebar>,
+      </SideNavigation>,
     )
     expect(screen.getByRole('button', { name: 'Storage' })).toHaveAttribute('aria-expanded', 'true')
     expect(screen.getByRole('button', { name: 'Favorite Item' })).toHaveClass('isFilled')
@@ -69,11 +59,11 @@ describe('AppSidebar', () => {
     localStorage.setItem('sideBarFavorites', JSON.stringify(['maps']))
     localStorage.setItem('isOpen::Storage', 'true')
     render(
-      <AppSidebar storageKey="custom">
+      <SideNavigation ariaLabel="Main" storageKey="custom">
         <AppSidebarSection id="storage" title="Storage" ariaLabel="Storage" icon={Home} active={false}>
           <AppSidebarItem id="maps" title="Maps" />
         </AppSidebarSection>
-      </AppSidebar>,
+      </SideNavigation>,
     )
     expect(screen.getByRole('button', { name: 'Favorite Item' })).toHaveClass('isFilled')
     fireEvent.click(screen.getByRole('button', { name: 'Favorite Item' }))
@@ -86,11 +76,11 @@ describe('AppSidebar', () => {
     localStorage.setItem('sideBarFavorites', storedValue)
     localStorage.setItem('isOpen::Storage', 'true')
     render(
-      <AppSidebar>
+      <SideNavigation ariaLabel="Main">
         <AppSidebarSection id="storage" title="Storage" ariaLabel="Storage" icon={Home} active={false}>
           <AppSidebarItem id="maps" title="Maps" />
         </AppSidebarSection>
-      </AppSidebar>,
+      </SideNavigation>,
     )
     const favorite = screen.getByRole('button', { name: 'Favorite Item' })
     expect(favorite).not.toHaveClass('isFilled')
@@ -143,11 +133,11 @@ describe('AppSidebar', () => {
     jest.useFakeTimers()
     try {
       render(
-        <AppSidebar variant="modern">
+        <SideNavigation ariaLabel="Main">
           <AppSidebarSection id="storage" title="Storage" ariaLabel="Storage" icon={Home} active>
             <AppSidebarItem title="Maps" />
           </AppSidebarSection>
-        </AppSidebar>,
+        </SideNavigation>,
       )
       fireEvent.click(screen.getByRole('button', { name: 'Storage' }))
       jest.runAllTimers()

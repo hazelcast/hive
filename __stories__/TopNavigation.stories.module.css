@@ -107,6 +107,9 @@
   color: var(--hive-color-text-v4);
   cursor: pointer;
 }
+.accountMenu .signOut {
+  cursor: pointer;
+}
 .sidebar {
   padding: calc(var(--hive-grid) * 4);
 }

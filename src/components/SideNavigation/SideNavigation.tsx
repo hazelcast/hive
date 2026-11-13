@@ -3,8 +3,7 @@ import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react'
 import cn from 'classnames'
 import { Icon as FeatherIcon, Menu, X } from 'react-feather'
 
-import { AppSidebarProps } from '../AppSidebar'
-import { AppSidebarWithStorageNamespace } from '../AppSidebar/AppSidebar'
+import { AppSidebarProps, AppSidebarWithStorageNamespace } from '../AppSidebar/AppSidebar'
 import { appSidebarContext } from '../AppSidebar/appSidebarContext'
 import { IconButton } from '../IconButton'
 import { Tooltip } from '../Tooltip'
@@ -133,6 +132,7 @@ export interface SideNavigationItemProps {
   icon?: FeatherIcon
   badge?: ReactNode
   active?: boolean
+  color?: 'default' | 'danger'
   disabled?: boolean
   disabledTooltip?: ReactNode
   visible?: boolean
@@ -162,6 +162,7 @@ export const SideNavigationItem = ({
   icon: ItemIcon,
   badge,
   active,
+  color = 'default',
   disabled,
   disabledTooltip,
   visible = true,
@@ -184,7 +185,13 @@ export const SideNavigationItem = ({
   )
   const itemClassName = cn(
     styles.item,
-    { [styles.active]: active, [styles.disabled]: disabled, [styles.collapsed]: !isOpen, [styles.hasIcon]: !!ItemIcon },
+    {
+      [styles.active]: active,
+      [styles.colorDanger]: color === 'danger',
+      [styles.disabled]: disabled,
+      [styles.collapsed]: !isOpen,
+      [styles.hasIcon]: !!ItemIcon,
+    },
     className,
   )
   if (disabled) {
