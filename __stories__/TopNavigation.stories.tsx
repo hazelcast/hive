@@ -147,7 +147,9 @@ const Actions = ({
           <button type="button">
             <Icon icon={Settings} size="small" ariaHidden /> Settings
           </button>
-          <button type="button">Sign out</button>
+          <button className={styles.signOut} type="button">
+            Sign out
+          </button>
         </div>
       </details>
     )}

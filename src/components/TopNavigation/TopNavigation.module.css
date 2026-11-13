@@ -81,6 +81,21 @@
 .root.mobile {
   --top-navigation-padding: calc(var(--hive-grid) * 3);
   --top-navigation-leading-gap: calc(var(--hive-grid) * 2);
+  min-width: 0;
+}
+.root.mobile .leading {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.root.mobile .navigation {
+  flex: 1 1 120px;
+}
+.root.mobile .actions {
+  flex: 0 1 auto;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  max-width: 100%;
+  margin-left: auto;
 }
 .grouped.mobile {
   padding-left: calc(var(--hive-grid) * 4);

@@ -53,6 +53,16 @@ describe('SideNavigation', () => {
     expect(onClick).toHaveBeenCalledTimes(1)
   })
 
+  it('marks destructive navigation items with the danger intent', () => {
+    render(
+      <SideNavigation ariaLabel="Main navigation">
+        <SideNavigationItem label="Delete" color="danger" />
+      </SideNavigation>,
+    )
+
+    expect(screen.getByRole('button', { name: 'Delete' })).toHaveClass('colorDanger')
+  })
+
   it('keeps collapsed item names accessible and updates uncontrolled state', async () => {
     const user = userEvent.setup()
     render(

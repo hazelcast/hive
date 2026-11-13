@@ -133,6 +133,7 @@ export interface SideNavigationItemProps {
   icon?: FeatherIcon
   badge?: ReactNode
   active?: boolean
+  color?: 'default' | 'danger'
   disabled?: boolean
   disabledTooltip?: ReactNode
   visible?: boolean
@@ -162,6 +163,7 @@ export const SideNavigationItem = ({
   icon: ItemIcon,
   badge,
   active,
+  color = 'default',
   disabled,
   disabledTooltip,
   visible = true,
@@ -184,7 +186,13 @@ export const SideNavigationItem = ({
   )
   const itemClassName = cn(
     styles.item,
-    { [styles.active]: active, [styles.disabled]: disabled, [styles.collapsed]: !isOpen, [styles.hasIcon]: !!ItemIcon },
+    {
+      [styles.active]: active,
+      [styles.colorDanger]: color === 'danger',
+      [styles.disabled]: disabled,
+      [styles.collapsed]: !isOpen,
+      [styles.hasIcon]: !!ItemIcon,
+    },
     className,
   )
   if (disabled) {

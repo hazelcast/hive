@@ -55,6 +55,18 @@
   font-weight: var(--hive-font-weight-text-bold);
 }
 
+.item.item.item.colorDanger:not(.disabled) {
+  color: var(--hive-color-error-text-v4);
+}
+
+.item.item.item.colorDanger:hover:not(.disabled) {
+  background: light-dark(
+    oklch(from var(--hive-color-error-v4) 0.95 calc(c * 0.4) h),
+    color-mix(in oklab, var(--hive-color-error-text-v4) 15%, transparent)
+  );
+  color: var(--hive-color-error-text-v4);
+}
+
 .item.item.item.disabled {
   color: var(--hive-color-text-subdued-v4);
   opacity: 0.5;
