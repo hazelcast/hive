@@ -78,6 +78,7 @@
     height: calc(var(--hive-grid) * 8);
     margin: calc(var(--hive-grid) * 2) calc(var(--hive-grid) * 3);
     justify-content: flex-start;
+    padding-left: calc(var(--hive-grid) * 3);
     color: var(--hive-color-text-secondary-v4);
     background: transparent;
     border-radius: calc(var(--hive-grid) * 1.5);
@@ -95,10 +96,6 @@
 
   &.collapsed {
     width: calc(var(--hive-grid) * 16);
-
-    .toggle {
-      justify-content: center;
-    }
 
     .content {
       max-width: none;
