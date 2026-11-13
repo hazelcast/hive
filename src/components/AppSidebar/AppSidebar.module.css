@@ -96,6 +96,10 @@
   &.collapsed {
     width: calc(var(--hive-grid) * 16);
 
+    .toggle {
+      justify-content: center;
+    }
+
     .content {
       max-width: none;
     }
