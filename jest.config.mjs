@@ -23,6 +23,7 @@ export default {
   // https://jestjs.io/docs/en/webpack.html#mocking-css-modules
   moduleNameMapper: {
     '\\.(s?css)$': 'identity-obj-proxy',
+    '\\.png$': '<rootDir>/__mocks__/fileMock.js',
   },
   setupFilesAfterEnv: ['<rootDir>setupTests.ts'],
 }

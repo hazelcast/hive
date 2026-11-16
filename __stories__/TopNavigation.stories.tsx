@@ -68,19 +68,6 @@ export default {
 
 type Story = StoryObj<PlaygroundArgs>
 
-const Logo = ({ compact = false }: { compact?: boolean }) => (
-  <a href="#home" className={compact ? styles.compactLogo : styles.logo} aria-label="Hazelcast home">
-    {compact ? (
-      <img src="/images/hazelcast-compact.png" alt="" />
-    ) : (
-      <>
-        <img className={styles.lightWordmark} src="/images/hazelcast-wordmark-light-theme.png" alt="" />
-        <img className={styles.darkWordmark} src="/images/hazelcast-wordmark-dark-theme.png" alt="" />
-      </>
-    )}
-  </a>
-)
-
 const ClusterSelect = ({ compact = false, mobile = false }: { compact?: boolean; mobile?: boolean }) => {
   const [cluster, setCluster] = useState('Production')
   return (
@@ -175,7 +162,6 @@ const Actions = ({
 
 export const Playground: Story = {
   args: {
-    logo: <Logo />,
     composition: 'cloud',
     mobile: false,
     showCluster: true,
@@ -204,7 +190,6 @@ export const Playground: Story = {
           className={styles.storyHeader}
           layout={args.layout ?? (cloud ? 'grouped' : 'spaced')}
           name={args.name ?? (cloud ? 'Cloud' : 'Management Center')}
-          mobileLogo={<Logo compact />}
           mobileMenu={
             showMobileMenu
               ? {
@@ -262,13 +247,11 @@ export const Mobile: Story = {
 }
 
 export const ManagementCenter: Story = {
-  args: { logo: <Logo />, mobile: false },
+  args: { mobile: false },
   render: (args) => (
     <TopNavigation
       {...args}
       className={styles.storyHeader}
-      logo={<Logo />}
-      mobileLogo={<Logo compact />}
       name={
         <div>
           Management Center<div className={styles.subtitle}>Instance name</div>
@@ -293,7 +276,7 @@ export const ManagementCenter: Story = {
 }
 
 export const Cloud: Story = {
-  args: { logo: <Logo />, mobile: false },
+  args: { mobile: false },
   render: function CloudRender(args) {
     const [open, setOpen] = useState(false)
     return (
@@ -302,8 +285,6 @@ export const Cloud: Story = {
           {...args}
           className={styles.storyHeader}
           layout="grouped"
-          logo={<Logo />}
-          mobileLogo={<Logo compact />}
           name="Cloud"
           mobileMenu={{
             label: open ? 'Close menu' : 'Open menu',

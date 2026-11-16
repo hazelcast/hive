@@ -6,6 +6,19 @@ import { TopNavigation } from '../../../src'
 import styles from '../../../src/components/TopNavigation/TopNavigation.module.css'
 
 describe('TopNavigation', () => {
+  it('renders the built-in Hazelcast wordmark when no logo is supplied', () => {
+    render(<TopNavigation />)
+
+    expect(screen.getByRole('link', { name: 'Hazelcast home' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Hazelcast home' }).querySelectorAll('img')).toHaveLength(2)
+  })
+
+  it('uses the built-in compact Hazelcast logo in mobile mode', () => {
+    render(<TopNavigation mobile />)
+
+    expect(screen.getByRole('link', { name: 'Hazelcast home' }).querySelectorAll('img')).toHaveLength(1)
+  })
+
   it('renders consumer content in a header in order', () => {
     render(
       <TopNavigation logo={<a href="/">Logo</a>} name="Cloud" navigation={<button>Cluster</button>} actions={<button>Account</button>}>
