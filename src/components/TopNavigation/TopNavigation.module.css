@@ -53,7 +53,7 @@
   flex-shrink: 0;
 }
 .actions button:not(:disabled),
-.actions [role='menuitem'] {
+.actions [role='menuitem']:not([aria-disabled='true']) {
   cursor: pointer;
 }
 .name {
