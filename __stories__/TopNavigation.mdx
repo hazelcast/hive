@@ -5,7 +5,7 @@ import { DocsTabs } from '../.storybook/DocsTabs'
 <Meta of={Stories} name="Docs" />
 <Title />
 
-TopNavigation provides Hazelcast desktop and mobile logo defaults together with the shared header layout. Applications supply navigation and actions, and may override either logo when their composition requires it.
+TopNavigation provides a shared header layout; applications supply their branding, navigation, and actions.
 
 <DocsTabs
   tabs={[
@@ -18,7 +18,7 @@ TopNavigation provides Hazelcast desktop and mobile logo defaults together with 
           <p>Use the Playground controls to switch between Cloud and Management Center, toggle mobile mode and the example actions, and try the cluster selector and account menu. In mobile mode, the menu button opens the example navigation.</p>
 
           <h2>Anatomy</h2>
-          <p>The component supplies linked Hazelcast desktop and compact mobile logos by default. Override <code>logo</code> or <code>mobileLogo</code> when needed. Supply an optional product <code>name</code>, a <code>navigation</code> control, and trailing <code>actions</code>. Children appear after navigation in the leading group. Navigation and actions accept application-owned content.</p>
+          <p>Supply a linked <code>logo</code>, an optional linked <code>mobileLogo</code>, an optional product <code>name</code>, a <code>navigation</code> control, and trailing <code>actions</code>. The application owns the logo assets and destinations. Children appear after navigation in the leading group.</p>
 
           <h2>Management Center composition</h2>
           <p>The spaced layout separates the wordmark, product name and cluster selector.</p>
@@ -46,7 +46,7 @@ TopNavigation provides Hazelcast desktop and mobile logo defaults together with 
           <p>Use TopNavigation as the application-level header for branding, a context selector and frequently used global actions. Use local navigation within the page for section-specific controls.</p>
           <h2>Composition</h2>
           <ul>
-            <li>Use the built-in Hazelcast logo defaults or supply complete linked brand elements to <code>logo</code> and <code>mobileLogo</code>; custom logo elements should include their own link.</li>
+            <li>Supply complete linked brand elements to <code>logo</code> and <code>mobileLogo</code>; TopNavigation does not select logo assets or destinations.</li>
             <li>Choose <code>spaced</code> for separate brand elements or <code>grouped</code> for a compact brand group.</li>
             <li>Keep navigation and actions concise and make supplied controls responsive. Use <code>navigationClassName</code> or <code>actionsClassName</code> for product-specific layout.</li>
             <li>Provide <code>mobileMenu</code> only when the application has a corresponding menu or sidebar, and keep its state synchronized.</li>

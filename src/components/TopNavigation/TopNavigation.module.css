@@ -60,38 +60,6 @@
   font-size: var(--hive-font-size-body-small);
   font-weight: var(--hive-font-weight-text-medium);
 }
-.defaultDesktopLogo {
-  display: flex;
-  align-items: center;
-  width: calc(var(--hive-grid) * 36);
-  height: calc(var(--hive-grid) * 6);
-}
-.defaultDesktopLogo img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-.defaultDarkWordmark {
-  display: none;
-}
-:global(html[style*='color-scheme: dark']) .defaultLightWordmark {
-  display: none;
-}
-:global(html[style*='color-scheme: dark']) .defaultDarkWordmark {
-  display: block;
-}
-.defaultMobileLogo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: calc(var(--hive-grid) * 8);
-  height: calc(var(--hive-grid) * 8);
-}
-.defaultMobileLogo img {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
 .mobileMenu {
   display: flex;
   align-items: center;
