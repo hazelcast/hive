@@ -34,8 +34,8 @@
 }
 .compactLogo {
   justify-content: center;
-  width: calc(var(--hive-grid) * 12);
-  height: calc(var(--hive-grid) * 12);
+  width: calc(var(--hive-grid) * 8);
+  height: calc(var(--hive-grid) * 8);
 }
 .subtitle {
   font-size: var(--hive-font-size-body-smaller);

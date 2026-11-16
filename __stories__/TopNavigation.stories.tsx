@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Meta, StoryObj } from '@storybook/react-webpack5'
-import { BookOpen, HelpCircle, Menu, PlusCircle, Settings, Sun } from 'react-feather'
+import { BookOpen, HelpCircle, Menu, PlusCircle, Settings } from 'react-feather'
 import cls from 'classnames'
 
-import { Icon, IconButton, SelectField, TopNavigation } from '../src'
+import { Icon, IconButton, SelectField, ThemeSwitcher, TopNavigation, useThemePreference } from '../src'
 import type { TopNavigationProps } from '../src/components/TopNavigation'
 import styles from './TopNavigation.stories.module.css'
 
@@ -114,52 +114,64 @@ const Actions = ({
   showSupport?: boolean
   showTheme?: boolean
   showAccount?: boolean
-}) => (
-  <>
-    {showDocumentation && (
-      <IconButton
-        component="a"
-        href="#documentation"
-        icon={BookOpen}
-        variant="ghost"
-        color="secondary"
-        ariaLabel="Documentation"
-        tooltip="Documentation"
-      />
-    )}
-    {showSupport && (
-      <IconButton component="a" href="#support" icon={HelpCircle} variant="ghost" color="secondary" ariaLabel="Support" tooltip="Support" />
-    )}
-    {showTheme && <IconButton component="a" href="#theme" icon={Sun} variant="ghost" color="secondary" ariaLabel="Theme" tooltip="Theme" />}
-    {showAccount && (
-      <details className={cls(styles.account, { [styles.mobile]: mobile })}>
-        <summary aria-label="Account menu">
-          {cloud ? (
-            <>
-              <span className={styles.accountName}>Alex Morgan</span>
-              <span className={styles.avatar} aria-hidden="true">
-                AM
-              </span>
-            </>
-          ) : (
-            <>
-              <span className={styles.accountName}>Menu</span>
-              <Icon icon={Menu} size="small" ariaHidden />
-            </>
-          )}
-        </summary>
-        <div className={styles.accountMenu}>
-          <button type="button">
-            <Icon icon={Settings} size="small" ariaHidden /> Settings
-          </button>
-          <button className={styles.signOut} type="button">
-            Sign out
-          </button>
-        </div>
-      </details>
-    )}
-  </>
-)
+}) => {
+  const { preference, setPreference } = useThemePreference()
+
+  return (
+    <>
+      {showDocumentation && (
+        <IconButton
+          component="a"
+          href="#documentation"
+          icon={BookOpen}
+          variant="ghost"
+          color="secondary"
+          ariaLabel="Documentation"
+          tooltip="Documentation"
+        />
+      )}
+      {showSupport && (
+        <IconButton
+          component="a"
+          href="#support"
+          icon={HelpCircle}
+          variant="ghost"
+          color="secondary"
+          ariaLabel="Support"
+          tooltip="Support"
+        />
+      )}
+      {showTheme && <ThemeSwitcher value={preference} onChange={setPreference} aria-label="Theme" />}
+      {showAccount && (
+        <details className={cls(styles.account, { [styles.mobile]: mobile })}>
+          <summary aria-label="Account menu">
+            {cloud ? (
+              <>
+                <span className={styles.accountName}>Alex Morgan</span>
+                <span className={styles.avatar} aria-hidden="true">
+                  AM
+                </span>
+              </>
+            ) : (
+              <>
+                <span className={styles.accountName}>Menu</span>
+                <Icon icon={Menu} size="small" ariaHidden />
+              </>
+            )}
+          </summary>
+          <div className={styles.accountMenu}>
+            <button type="button">
+              <Icon icon={Settings} size="small" ariaHidden /> Settings
+            </button>
+            <button className={styles.signOut} type="button">
+              Sign out
+            </button>
+          </div>
+        </details>
+      )}
+    </>
+  )
+}
 
 export const Playground: Story = {
   args: {

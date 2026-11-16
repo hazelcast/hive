@@ -52,7 +52,7 @@
   gap: var(--hive-grid);
   flex-shrink: 0;
 }
-.actions button,
+.actions button:not(:disabled),
 .actions [role='menuitem'] {
   cursor: pointer;
 }
