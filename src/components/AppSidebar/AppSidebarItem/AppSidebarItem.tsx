@@ -17,6 +17,7 @@ export type AppSidebarItemProps = {
   title: string
   className?: string
   active?: boolean
+  color?: 'default' | 'danger'
   expanded?: boolean
   onClick?: () => void
   available?: boolean
@@ -32,6 +33,7 @@ export const AppSidebarItem = ({
   title,
   className,
   active,
+  color = 'default',
   expanded,
   icon,
   iconAriaLabel,
@@ -67,7 +69,7 @@ export const AppSidebarItem = ({
           disabledTooltip={disabledTooltip}
           bodyClassName={styles.content}
           data-test="sidebar-menu-item-title"
-          className={cn(styles.button, { [styles.active]: active }, className)}
+          className={cn(styles.button, { [styles.active]: active, [styles.danger]: color === 'danger' }, className)}
         >
           <>
             {icon && <Icon size="medium" icon={icon} ariaLabel={iconAriaLabel} className={styles.icon} />}

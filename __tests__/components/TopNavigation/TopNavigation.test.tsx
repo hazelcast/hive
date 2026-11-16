@@ -7,14 +7,20 @@ import styles from '../../../src/components/TopNavigation/TopNavigation.module.c
 
 describe('TopNavigation', () => {
   it('renders consumer content in a header in order', () => {
+    const logoHome = '/management-center'
     render(
-      <TopNavigation logo={<a href="/">Logo</a>} name="Cloud" navigation={<button>Cluster</button>} actions={<button>Account</button>}>
+      <TopNavigation
+        logo={<a href={logoHome}>Logo</a>}
+        name="Cloud"
+        navigation={<button>Cluster</button>}
+        actions={<button>Account</button>}
+      >
         <button>Search</button>
       </TopNavigation>,
     )
 
     const header = screen.getByRole('banner')
-    expect(within(header).getByRole('link', { name: 'Logo' })).toHaveAttribute('href', '/')
+    expect(within(header).getByRole('link', { name: 'Logo' })).toHaveAttribute('href', logoHome)
     expect(header).toHaveTextContent('LogoCloudClusterSearchAccount')
   })
 

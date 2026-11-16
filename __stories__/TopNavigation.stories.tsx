@@ -3,7 +3,7 @@ import { Meta, StoryObj } from '@storybook/react-webpack5'
 import { BookOpen, HelpCircle, Menu, PlusCircle, Settings } from 'react-feather'
 import cls from 'classnames'
 
-import { Icon, IconButton, SelectField, TopNavigation } from '../src'
+import { Icon, IconButton, SelectField, ThemeSwitcher, TopNavigation, useThemePreference } from '../src'
 import type { TopNavigationProps } from '../src/components/TopNavigation'
 import styles from './TopNavigation.stories.module.css'
 
@@ -12,6 +12,7 @@ type PlaygroundArgs = TopNavigationProps & {
   showCluster: boolean
   showDocumentation: boolean
   showSupport: boolean
+  showTheme: boolean
   showAccount: boolean
   showMobileMenu: boolean
 }
@@ -47,6 +48,7 @@ export default {
     showCluster: { control: 'boolean', description: 'Show the example cluster selector.', table: { category: 'Content' } },
     showDocumentation: { control: 'boolean', description: 'Show the documentation action.', table: { category: 'Actions' } },
     showSupport: { control: 'boolean', description: 'Show the support action.', table: { category: 'Actions' } },
+    showTheme: { control: 'boolean', description: 'Show the theme action.', table: { category: 'Actions' } },
     showAccount: { control: 'boolean', description: 'Show the account menu.', table: { category: 'Actions' } },
     showMobileMenu: { control: 'boolean', description: 'Show the navigation trigger in mobile mode.', table: { category: 'Layout' } },
     name: { control: 'text', description: 'Product or application name displayed beside the logo.', table: { category: 'Content' } },
@@ -66,8 +68,8 @@ export default {
 
 type Story = StoryObj<PlaygroundArgs>
 
-const Logo = ({ compact = false }: { compact?: boolean }) => (
-  <a href="#home" className={compact ? styles.compactLogo : styles.logo} aria-label="Hazelcast home">
+const Logo = ({ compact = false, href = '/' }: { compact?: boolean; href?: string }) => (
+  <a href={href} className={compact ? styles.compactLogo : styles.logo} aria-label="Hazelcast home">
     {compact ? (
       <img src="/images/hazelcast-compact.png" alt="" />
     ) : (
@@ -103,58 +105,73 @@ const Actions = ({
   mobile = false,
   showDocumentation = true,
   showSupport = true,
+  showTheme = true,
   showAccount = true,
 }: {
   cloud?: boolean
   mobile?: boolean
   showDocumentation?: boolean
   showSupport?: boolean
+  showTheme?: boolean
   showAccount?: boolean
-}) => (
-  <>
-    {showDocumentation && (
-      <IconButton
-        component="a"
-        href="#documentation"
-        icon={BookOpen}
-        variant="ghost"
-        color="secondary"
-        ariaLabel="Documentation"
-        tooltip="Documentation"
-      />
-    )}
-    {showSupport && (
-      <IconButton component="a" href="#support" icon={HelpCircle} variant="ghost" color="secondary" ariaLabel="Support" tooltip="Support" />
-    )}
-    {showAccount && (
-      <details className={cls(styles.account, { [styles.mobile]: mobile })}>
-        <summary aria-label="Account menu">
-          {cloud ? (
-            <>
-              <span className={styles.accountName}>Alex Morgan</span>
-              <span className={styles.avatar} aria-hidden="true">
-                AM
-              </span>
-            </>
-          ) : (
-            <>
-              <span className={styles.accountName}>Menu</span>
-              <Icon icon={Menu} size="small" ariaHidden />
-            </>
-          )}
-        </summary>
-        <div className={styles.accountMenu}>
-          <button type="button">
-            <Icon icon={Settings} size="small" ariaHidden /> Settings
-          </button>
-          <button className={styles.signOut} type="button">
-            Sign out
-          </button>
-        </div>
-      </details>
-    )}
-  </>
-)
+}) => {
+  const { preference, setPreference } = useThemePreference()
+
+  return (
+    <>
+      {showDocumentation && (
+        <IconButton
+          component="a"
+          href="#documentation"
+          icon={BookOpen}
+          variant="ghost"
+          color="secondary"
+          ariaLabel="Documentation"
+          tooltip="Documentation"
+        />
+      )}
+      {showSupport && (
+        <IconButton
+          component="a"
+          href="#support"
+          icon={HelpCircle}
+          variant="ghost"
+          color="secondary"
+          ariaLabel="Support"
+          tooltip="Support"
+        />
+      )}
+      {showTheme && <ThemeSwitcher value={preference} onChange={setPreference} aria-label="Theme" />}
+      {showAccount && (
+        <details className={cls(styles.account, { [styles.mobile]: mobile })}>
+          <summary aria-label="Account menu">
+            {cloud ? (
+              <>
+                <span className={styles.accountName}>Alex Morgan</span>
+                <span className={styles.avatar} aria-hidden="true">
+                  AM
+                </span>
+              </>
+            ) : (
+              <>
+                <span className={styles.accountName}>Menu</span>
+                <Icon icon={Menu} size="small" ariaHidden />
+              </>
+            )}
+          </summary>
+          <div className={styles.accountMenu}>
+            <button type="button">
+              <Icon icon={Settings} size="small" ariaHidden /> Settings
+            </button>
+            <button className={styles.signOut} type="button">
+              Sign out
+            </button>
+          </div>
+        </details>
+      )}
+    </>
+  )
+}
 
 export const Playground: Story = {
   args: {
@@ -164,10 +181,20 @@ export const Playground: Story = {
     showCluster: true,
     showDocumentation: true,
     showSupport: true,
+    showTheme: true,
     showAccount: true,
     showMobileMenu: true,
   },
-  render: function PlaygroundRender({ composition, showCluster, showDocumentation, showSupport, showAccount, showMobileMenu, ...args }) {
+  render: function PlaygroundRender({
+    composition,
+    showCluster,
+    showDocumentation,
+    showSupport,
+    showTheme,
+    showAccount,
+    showMobileMenu,
+    ...args
+  }) {
     const [open, setOpen] = useState(false)
     const cloud = composition === 'cloud'
     return (
@@ -195,6 +222,7 @@ export const Playground: Story = {
               mobile={args.mobile}
               showDocumentation={showDocumentation}
               showSupport={showSupport}
+              showTheme={showTheme}
               showAccount={showAccount}
             />
           }

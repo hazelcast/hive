@@ -52,6 +52,10 @@
   gap: var(--hive-grid);
   flex-shrink: 0;
 }
+.actions button:not(:disabled),
+.actions [role='menuitem']:not([aria-disabled='true']) {
+  cursor: pointer;
+}
 .name {
   font-size: var(--hive-font-size-body-small);
   font-weight: var(--hive-font-weight-text-medium);
