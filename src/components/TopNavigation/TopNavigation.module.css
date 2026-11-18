@@ -75,25 +75,13 @@
   cursor: pointer;
 }
 .mobileMenu:hover {
-  background: var(--hive-color-surface-hover-v4);
   color: var(--hive-color-primary-v4);
+}
+.mobileMenu:not(.plainMobileMenu):hover {
+  background: var(--hive-color-surface-hover-v4);
 }
 .mobileMenu:focus-visible {
   outline: var(--hive-outline-width) solid var(--hive-color-accessibility-outline);
-}
-
-.root.noControlFeedback :is(button, a[href], summary):is(:hover, :active):not(
-  :disabled,
-  [aria-disabled='true'],
-  [role^='menuitem'],
-  [role='option'],
-  :is(:global(.hive-popover-content), [role='menu'], [role='listbox'], [role='dialog']) *
-) {
-  background: transparent;
-
-  &:not(:focus-visible) {
-    box-shadow: none;
-  }
 }
 
 .root.mobile {

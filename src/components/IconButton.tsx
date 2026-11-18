@@ -63,6 +63,7 @@ const variantClass: Record<ButtonVariant, string> = {
   outlined: styles.variantOutlined,
   ghost: styles.variantGhost,
   link: styles.variantLink,
+  plain: styles.variantPlain,
 }
 
 const colorClass: Record<ButtonColor, string> = {

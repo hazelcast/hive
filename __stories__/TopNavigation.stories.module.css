@@ -72,7 +72,7 @@
 .account summary::-webkit-details-marker {
   display: none;
 }
-.account summary:hover {
+.filledMenuTrigger:hover {
   background: var(--hive-color-surface-hover-v4);
 }
 .avatar {

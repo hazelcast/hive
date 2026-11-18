@@ -12,8 +12,8 @@
   cursor: pointer;
 }
 
-.trigger:hover,
-.trigger[aria-expanded='true'],
+.trigger:not(.plainTrigger):hover,
+.trigger:not(.plainTrigger)[aria-expanded='true'],
 .option:hover {
   background: var(--hive-color-surface-hover-v4);
 }

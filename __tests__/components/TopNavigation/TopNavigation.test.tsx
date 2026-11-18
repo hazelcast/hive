@@ -7,13 +7,14 @@ import styles from '../../../src/components/TopNavigation/TopNavigation.module.c
 
 describe('TopNavigation', () => {
   it('only removes control feedback when opted in', () => {
-    const { rerender } = render(<TopNavigation logo="Logo" />)
+    const mobileMenu = { label: 'Open menu', onClick: jest.fn() }
+    const { rerender } = render(<TopNavigation logo="Logo" mobile mobileMenu={mobileMenu} />)
 
-    expect(screen.getByRole('banner')).not.toHaveClass(styles.noControlFeedback)
+    expect(screen.getByRole('button', { name: 'Open menu' })).not.toHaveClass(styles.plainMobileMenu)
 
-    rerender(<TopNavigation logo="Logo" controlFeedback="none" />)
+    rerender(<TopNavigation logo="Logo" mobile mobileMenu={{ ...mobileMenu, variant: 'plain' }} />)
 
-    expect(screen.getByRole('banner')).toHaveClass(styles.noControlFeedback)
+    expect(screen.getByRole('button', { name: 'Open menu' })).toHaveClass(styles.plainMobileMenu)
   })
 
   it('renders consumer content in a header in order', () => {

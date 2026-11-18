@@ -13,13 +13,13 @@ export interface TopNavigationProps {
   children?: ReactNode
   actions?: ReactNode
   layout?: 'grouped' | 'spaced'
-  controlFeedback?: 'default' | 'none'
   mobile?: boolean
   navigationClassName?: string
   actionsClassName?: string
   mobileMenu?: {
     onClick: () => void
     label: string
+    variant?: 'default' | 'plain'
     expanded?: boolean
     controls?: string
   }
@@ -35,7 +35,6 @@ export const TopNavigation = ({
   children,
   actions,
   layout = 'spaced',
-  controlFeedback = 'default',
   mobile = false,
   navigationClassName,
   actionsClassName,
@@ -44,15 +43,12 @@ export const TopNavigation = ({
   'data-test': dataTest = 'top-navigation',
 }: TopNavigationProps) => {
   return (
-    <header
-      className={cls(styles.root, styles[layout], { [styles.mobile]: mobile, [styles.noControlFeedback]: controlFeedback === 'none' }, className)}
-      data-test={dataTest}
-    >
+    <header className={cls(styles.root, styles[layout], { [styles.mobile]: mobile }, className)} data-test={dataTest}>
       <div className={styles.leading}>
         {mobile && mobileMenu && (
           <button
             type="button"
-            className={styles.mobileMenu}
+            className={cls(styles.mobileMenu, { [styles.plainMobileMenu]: mobileMenu.variant === 'plain' })}
             aria-label={mobileMenu.label}
             title={mobileMenu.label}
             aria-expanded={mobileMenu.expanded}
