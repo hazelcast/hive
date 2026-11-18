@@ -55,6 +55,38 @@
   font-weight: var(--hive-font-weight-text-bold);
 }
 
+.item.item.item.indented {
+  padding-inline-start: calc(var(--hive-grid) * 11);
+}
+
+.row {
+  position: relative;
+}
+
+.leadingAction {
+  position: absolute;
+  inset-inline-start: calc(var(--hive-grid) * 2);
+  inset-block-start: 50%;
+  transform: translateY(-50%);
+  display: flex;
+
+  & > :is(button, a[href]) {
+    position: static;
+    transform: none;
+    width: calc(var(--hive-grid) * 7);
+    height: calc(var(--hive-grid) * 7);
+    background: transparent;
+    border-color: transparent;
+  }
+}
+
+@media (hover: hover) {
+  .row:not(:hover, :focus-within) .leadingAction {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
 .item.item.item.colorDanger:not(.disabled) {
   color: var(--hive-color-error-text-v4);
 }

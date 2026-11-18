@@ -11,6 +11,8 @@ Set `footerVariant="subtle"` to give the existing `footer` slot a full-width, th
 
 The application supplies the footer content. In Management Center, the client provides both the timestamp and version; Hive only styles the wrapper.
 
+Use `nested` on `SideNavigationItem` for expanded-row indentation. Pass a button or link to `leadingAction` for a separate, keyboard-reachable action such as a Favorites star. The action is omitted in the collapsed rail. `data-test` targets the primary control, not the leading action.
+
 <DocsTabs tabs={[
   {
     id: 'overview', label: 'Overview', content: (

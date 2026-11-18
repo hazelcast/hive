@@ -11,6 +11,7 @@ import {
   SideNavigationSection,
 } from '../src/components/SideNavigation'
 import { IconButton } from '../src/components/IconButton'
+import { AppSidebarFavoriteButton } from '../src/components/AppSidebar/AppSidebarFavoriteButton'
 import styles from './SideNavigation.stories.module.css'
 
 const CloudItems = ({ onNavigate }: { onNavigate?: () => void }) => (
@@ -32,7 +33,7 @@ const McItems = () => (
   <>
     <AppSidebarFavorites>{({ items }) => items.map((item) => <AppSidebarItem key={item} title={item} />)}</AppSidebarFavorites>
     <AppSidebarSection id="cluster" title="Cluster" ariaLabel="Cluster" icon={Layers} active>
-      <AppSidebarItem id="members" title="Members" adornment={<AppSidebarMenuItemCounter>3</AppSidebarMenuItemCounter>} />
+      <SideNavigationItem label="Members" nested badge={3} leadingAction={<AppSidebarFavoriteButton id="members" />} />
       <AppSidebarItem title="Clients" adornment={<AppSidebarMenuItemCounter>12</AppSidebarMenuItemCounter>} />
       <AppSidebarItem title="Pause" />
       <AppSidebarItem title="Delete" icon={Trash2} iconAriaLabel="Delete" color="danger" />
