@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Meta, StoryObj } from '@storybook/react-webpack5'
-import { BookOpen, HelpCircle, Menu, PlusCircle, Settings } from 'react-feather'
+import { BookOpen, HelpCircle, MoreHorizontal, PlusCircle, Settings } from 'react-feather'
 import cls from 'classnames'
 
 import { Button, Icon, IconButton, Overlay, Popover, SelectField, SideNavigation, ThemeSwitcher, TopNavigation, useThemePreference } from '../src'
@@ -187,7 +187,7 @@ const Actions = ({
       {showTheme && <ThemeSwitcher value={preference} onChange={setPreference} aria-label="Theme" />}
       {showAccount && (
         <details className={cls(styles.account, { [styles.mobile]: mobile })}>
-          <summary aria-label="Account menu" title={!cloud && mobile ? 'Account menu' : undefined}>
+          <summary aria-label={cloud ? 'Account menu' : 'Menu'} title={cloud ? undefined : 'Menu'}>
             {cloud ? (
               <>
                 <span className={styles.accountName}>Alex Morgan</span>
@@ -196,10 +196,7 @@ const Actions = ({
                 </span>
               </>
             ) : (
-              <>
-                <span className={styles.accountName}>Menu</span>
-                <Icon icon={Menu} size="small" ariaHidden />
-              </>
+              <Icon icon={MoreHorizontal} size="small" ariaHidden />
             )}
           </summary>
           <div className={styles.accountMenu}>
