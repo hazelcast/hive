@@ -87,7 +87,7 @@
   [aria-disabled='true'],
   [role^='menuitem'],
   [role='option'],
-  :is([data-hive-popover], [role='menu'], [role='listbox'], [role='dialog']) *
+  :is(:global(.hive-popover-content), [role='menu'], [role='listbox'], [role='dialog']) *
 ) {
   background: transparent;
 

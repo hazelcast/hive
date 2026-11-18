@@ -182,7 +182,7 @@ export const SideNavigationItem = ({
 }: SideNavigationItemProps) => {
   const { isOpen } = useContext(appSidebarContext)
   if (!visible) return null
-  const showLeadingAction = isOpen && leadingAction != null && leadingAction !== false
+  const showLeadingAction = isOpen && Boolean(leadingAction)
   const textLabel = ariaLabel ?? (typeof label === 'string' ? label : undefined)
   const content = (
     <>
