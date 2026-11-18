@@ -13,6 +13,7 @@ export interface TopNavigationProps {
   children?: ReactNode
   actions?: ReactNode
   layout?: 'grouped' | 'spaced'
+  controlFeedback?: 'default' | 'none'
   mobile?: boolean
   navigationClassName?: string
   actionsClassName?: string
@@ -34,6 +35,7 @@ export const TopNavigation = ({
   children,
   actions,
   layout = 'spaced',
+  controlFeedback = 'default',
   mobile = false,
   navigationClassName,
   actionsClassName,
@@ -42,7 +44,10 @@ export const TopNavigation = ({
   'data-test': dataTest = 'top-navigation',
 }: TopNavigationProps) => {
   return (
-    <header className={cls(styles.root, styles[layout], { [styles.mobile]: mobile }, className)} data-test={dataTest}>
+    <header
+      className={cls(styles.root, styles[layout], { [styles.mobile]: mobile, [styles.noControlFeedback]: controlFeedback === 'none' }, className)}
+      data-test={dataTest}
+    >
       <div className={styles.leading}>
         {mobile && mobileMenu && (
           <button

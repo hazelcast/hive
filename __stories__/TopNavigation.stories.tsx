@@ -3,7 +3,7 @@ import { Meta, StoryObj } from '@storybook/react-webpack5'
 import { BookOpen, HelpCircle, Menu, PlusCircle, Settings } from 'react-feather'
 import cls from 'classnames'
 
-import { Icon, IconButton, SelectField, ThemeSwitcher, TopNavigation, useThemePreference } from '../src'
+import { Button, Icon, IconButton, Overlay, Popover, SelectField, SideNavigation, ThemeSwitcher, TopNavigation, useThemePreference } from '../src'
 import type { TopNavigationProps } from '../src/components/TopNavigation'
 import styles from './TopNavigation.stories.module.css'
 
@@ -15,6 +15,47 @@ type PlaygroundArgs = TopNavigationProps & {
   showTheme: boolean
   showAccount: boolean
   showMobileMenu: boolean
+}
+
+const SharedNavigation = ({ controlFeedback }: Pick<TopNavigationProps, 'controlFeedback'>) => {
+  const [overlayOpen, setOverlayOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [anchor, setAnchor] = useState<HTMLButtonElement | null>(null)
+
+  return (
+    <>
+      <TopNavigation
+        logo="Management Center"
+        controlFeedback={controlFeedback}
+        navigation={<IconButton icon={PlusCircle} ariaLabel="Add cluster" title="Add cluster" variant="ghost" />}
+        actions={
+          <>
+            <Button ref={setAnchor} variant="ghost" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>
+              Account
+            </Button>
+            <div id="shared-navigation-actions" />
+            {anchor && (
+              <Popover open={menuOpen} anchorElement={anchor} container="shared-navigation-actions" onClose={() => setMenuOpen(false)}>
+                <Button variant="ghost">Profile</Button>
+              </Popover>
+            )}
+          </>
+        }
+      />
+      <div style={{ display: 'flex', height: 320 }}>
+        <SideNavigation ariaLabel="Main navigation" initialOpen footer="Version" footerVariant="subtle" />
+        <div>
+          <Button onClick={() => setOverlayOpen(true)}>Open settings</Button>
+        </div>
+      </div>
+      <Overlay isOpen={overlayOpen} title="Settings" onClose={() => setOverlayOpen(false)} />
+    </>
+  )
+}
+
+export const SharedNavigationStyles: StoryObj<TopNavigationProps> = {
+  args: { logo: 'Management Center', controlFeedback: 'none' },
+  render: ({ controlFeedback }) => <SharedNavigation controlFeedback={controlFeedback} />,
 }
 
 export default {
@@ -127,7 +168,8 @@ const Actions = ({
           variant="ghost"
           color="secondary"
           ariaLabel="Documentation"
-          tooltip="Documentation"
+          title={cloud ? undefined : 'Documentation'}
+          tooltip={cloud ? 'Documentation' : undefined}
         />
       )}
       {showSupport && (
@@ -138,13 +180,14 @@ const Actions = ({
           variant="ghost"
           color="secondary"
           ariaLabel="Support"
-          tooltip="Support"
+          title={cloud ? undefined : 'Support'}
+          tooltip={cloud ? 'Support' : undefined}
         />
       )}
       {showTheme && <ThemeSwitcher value={preference} onChange={setPreference} aria-label="Theme" />}
       {showAccount && (
         <details className={cls(styles.account, { [styles.mobile]: mobile })}>
-          <summary aria-label="Account menu">
+          <summary aria-label="Account menu" title={!cloud && mobile ? 'Account menu' : undefined}>
             {cloud ? (
               <>
                 <span className={styles.accountName}>Alex Morgan</span>
@@ -176,7 +219,7 @@ const Actions = ({
 export const Playground: Story = {
   args: {
     logo: <Logo />,
-    composition: 'cloud',
+    composition: 'management-center',
     mobile: false,
     showCluster: true,
     showDocumentation: true,
@@ -202,6 +245,7 @@ export const Playground: Story = {
         <TopNavigation
           {...args}
           className={styles.storyHeader}
+          controlFeedback={args.controlFeedback ?? (cloud ? 'default' : 'none')}
           layout={args.layout ?? (cloud ? 'grouped' : 'spaced')}
           name={args.name ?? (cloud ? 'Cloud' : 'Management Center')}
           mobileLogo={<Logo compact />}
@@ -236,7 +280,7 @@ export const Playground: Story = {
               variant="ghost"
               color="secondary"
               ariaLabel="Cluster connections"
-              tooltip="Cluster connections"
+              title="Cluster connections"
             />
           )}
         </TopNavigation>
@@ -262,7 +306,7 @@ export const Mobile: Story = {
 }
 
 export const ManagementCenter: Story = {
-  args: { logo: <Logo />, mobile: false },
+  args: { logo: <Logo />, mobile: false, controlFeedback: 'none' },
   render: (args) => (
     <TopNavigation
       {...args}
@@ -285,7 +329,7 @@ export const ManagementCenter: Story = {
         variant="ghost"
         color="secondary"
         ariaLabel="Cluster connections"
-        tooltip="Cluster connections"
+        title="Cluster connections"
       />
     </TopNavigation>
   ),

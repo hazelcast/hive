@@ -107,6 +107,15 @@
   background: var(--hive-color-brand-accent);
 }
 
+.modern .footer.subtleFooter {
+  box-sizing: border-box;
+  align-self: stretch;
+  flex-shrink: 0;
+  padding: calc(var(--hive-grid) * 3);
+  border-top: var(--hive-border-width) solid var(--hive-color-border-v4);
+  background: var(--hive-color-surface-hover-v4);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .modern {
     transition: none;

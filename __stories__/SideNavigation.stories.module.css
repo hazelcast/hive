@@ -14,6 +14,14 @@
   background: var(--hive-color-neutral-lighter-v4);
 }
 
+.managementCenterFooter {
+  display: flex;
+  justify-content: center;
+  gap: var(--hive-grid);
+  font-size: var(--hive-font-size-body-tiny);
+  white-space: nowrap;
+}
+
 .page {
   display: flex;
   flex-direction: column;

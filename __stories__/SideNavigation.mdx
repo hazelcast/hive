@@ -7,6 +7,10 @@ import { DocsTabs } from '../.storybook/DocsTabs'
 
 SideNavigation provides a compact desktop rail and a mobile navigation drawer. Applications supply their own destinations, labels, permissions, active states and content.
 
+Set `footerVariant="subtle"` to give the existing `footer` slot a full-width, theme-aware surface, top divider, and padding on desktop and mobile. The default retains the existing plain footer. `hideFooterWhenCollapsed` works with either variant.
+
+The application supplies the footer content. In Management Center, the client provides both the timestamp and version; Hive only styles the wrapper.
+
 <DocsTabs tabs={[
   {
     id: 'overview', label: 'Overview', content: (

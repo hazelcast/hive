@@ -7,6 +7,10 @@ import { DocsTabs } from '../.storybook/DocsTabs'
 
 TopNavigation provides a shared header layout; applications supply their branding, navigation, and actions.
 
+For native browser tooltips on icon actions, pass `title` instead of `tooltip` to `IconButton`. Keep `ariaLabel` as the accessible name.
+
+Set `controlFeedback="none"` to remove hover and press fills from topbar buttons and links without removing keyboard focus indicators or hover feedback in menus and Hive popovers. The default retains control feedback.
+
 <DocsTabs
   tabs={[
     {

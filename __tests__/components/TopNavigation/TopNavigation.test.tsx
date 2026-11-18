@@ -6,6 +6,16 @@ import { TopNavigation } from '../../../src'
 import styles from '../../../src/components/TopNavigation/TopNavigation.module.css'
 
 describe('TopNavigation', () => {
+  it('only removes control feedback when opted in', () => {
+    const { rerender } = render(<TopNavigation logo="Logo" />)
+
+    expect(screen.getByRole('banner')).not.toHaveClass(styles.noControlFeedback)
+
+    rerender(<TopNavigation logo="Logo" controlFeedback="none" />)
+
+    expect(screen.getByRole('banner')).toHaveClass(styles.noControlFeedback)
+  })
+
   it('renders consumer content in a header in order', () => {
     const logoHome = '/management-center'
     render(

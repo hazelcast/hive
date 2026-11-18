@@ -25,7 +25,7 @@ type IconButtonCommonProps = {
   tooltipPlacement?: TooltipSide
 } & DataTestProp &
   IconAriaProps &
-  Pick<ButtonHTMLAttributes<HTMLAnchorElement | HTMLButtonElement>, 'onClick' | 'onMouseDown' | 'className' | 'tabIndex' | 'style'>
+  Pick<ButtonHTMLAttributes<HTMLAnchorElement | HTMLButtonElement>, 'onClick' | 'onMouseDown' | 'className' | 'tabIndex' | 'style' | 'title'>
 
 export type IconButtonNotDisabledProps = {
   disabledTooltip?: never

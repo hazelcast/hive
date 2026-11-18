@@ -5,6 +5,7 @@ import { Home } from 'react-feather'
 
 import { SideNavigation, SideNavigationItem, SideNavigationLinkProps, SideNavigationSection } from '../../../src/components/SideNavigation'
 import { AppSidebarItem, AppSidebarSection } from '../../../src/components/AppSidebar'
+import sidebarStyles from '../../../src/components/AppSidebar/AppSidebar.module.css'
 
 describe('SideNavigation', () => {
   const originalGetAnimations = Object.getOwnPropertyDescriptor(Element.prototype, 'getAnimations')
@@ -19,6 +20,22 @@ describe('SideNavigation', () => {
   })
 
   beforeEach(() => localStorage.clear())
+
+  it('styles the footer wrapper only when opted in, including in the mobile drawer', async () => {
+    const footer = <span>Version</span>
+    const { rerender } = render(<SideNavigation ariaLabel="Main navigation" initialOpen footer={footer} />)
+
+    expect(screen.getByText('Version').closest('footer')).toHaveClass(sidebarStyles.footer)
+    expect(screen.getByText('Version').closest('footer')).not.toHaveClass(sidebarStyles.subtleFooter)
+
+    rerender(<SideNavigation ariaLabel="Main navigation" initialOpen footer={footer} footerVariant="subtle" />)
+
+    expect(screen.getByText('Version').closest('footer')).toHaveClass(sidebarStyles.subtleFooter)
+
+    await act(async () => rerender(<SideNavigation ariaLabel="Main navigation" mobile mobileOpen footer={footer} footerVariant="subtle" />))
+
+    expect(screen.getByText('Version').closest('footer')).toHaveClass(sidebarStyles.subtleFooter)
+  })
 
   it('renders app-provided navigation and permissions with native semantics', () => {
     const onClick = jest.fn()

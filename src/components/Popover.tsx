@@ -107,7 +107,7 @@ export const Popover = (props: PropsWithChildren<PopoverProps>) => {
       {containerEl
         ? createPortal(
             open && (
-              <div ref={refs.setFloating} data-test={dataTest} className={cls(styles.root, className)} style={floatingStyles}>
+              <div ref={refs.setFloating} data-hive-popover="" data-test={dataTest} className={cls(styles.root, className)} style={floatingStyles}>
                 {children}
               </div>
             ),
