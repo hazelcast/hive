@@ -115,6 +115,15 @@
   );
 }
 
+.variantPlain {
+  --button-bg: transparent;
+  --button-bg-hover: transparent;
+  --button-bg-active: transparent;
+  --button-border: transparent;
+  --button-border-hover: transparent;
+  --button-color: var(--button-color-fg-on-light);
+}
+
 .variantLink {
   --button-bg: transparent;
   --button-bg-hover: transparent;

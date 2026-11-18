@@ -131,6 +131,8 @@ export interface SideNavigationItemProps {
   ariaLabel?: string
   icon?: FeatherIcon
   badge?: ReactNode
+  nested?: boolean
+  leadingAction?: ReactNode
   active?: boolean
   color?: 'default' | 'danger'
   disabled?: boolean
@@ -142,6 +144,7 @@ export interface SideNavigationItemProps {
   as?: ComponentType<SideNavigationLinkProps>
   onClick?: () => void
   className?: string
+  'data-test'?: string
 }
 
 export interface SideNavigationLinkProps {
@@ -151,6 +154,7 @@ export interface SideNavigationLinkProps {
   className: string
   'aria-current'?: 'page'
   'aria-label'?: string
+  'data-test'?: string
   onClick?: () => void
   title?: string
   children: ReactNode
@@ -161,6 +165,8 @@ export const SideNavigationItem = ({
   ariaLabel,
   icon: ItemIcon,
   badge,
+  nested,
+  leadingAction,
   active,
   color = 'default',
   disabled,
@@ -172,9 +178,11 @@ export const SideNavigationItem = ({
   as,
   onClick,
   className,
+  'data-test': dataTest,
 }: SideNavigationItemProps) => {
   const { isOpen } = useContext(appSidebarContext)
   if (!visible) return null
+  const showLeadingAction = isOpen && Boolean(leadingAction)
   const textLabel = ariaLabel ?? (typeof label === 'string' ? label : undefined)
   const content = (
     <>
@@ -191,33 +199,46 @@ export const SideNavigationItem = ({
       [styles.disabled]: disabled,
       [styles.collapsed]: !isOpen,
       [styles.hasIcon]: !!ItemIcon,
+      [styles.indented]: isOpen && (nested || showLeadingAction),
     },
     className,
   )
+  const renderRow = (item: ReactNode) =>
+    showLeadingAction ? (
+      <div className={styles.row}>
+        {item}
+        <div className={styles.leadingAction}>{leadingAction}</div>
+      </div>
+    ) : (
+      item
+    )
   if (disabled) {
     const item = (
       <span
         className={itemClassName}
         aria-disabled={true}
         aria-label={textLabel}
+        data-test={dataTest}
         title={!isOpen && disabledTooltip == null ? textLabel : undefined}
       >
         {content}
       </span>
     )
-    return disabledTooltip == null ? (
-      item
-    ) : (
-      <div className={styles.disabledItem}>
-        <Tooltip content={disabledTooltip} side="right">
-          {item}
-        </Tooltip>
-      </div>
+    return renderRow(
+      disabledTooltip == null ? (
+        item
+      ) : (
+        <div className={styles.disabledItem}>
+          <Tooltip content={disabledTooltip} side="right">
+            {item}
+          </Tooltip>
+        </div>
+      ),
     )
   }
   if (href || as) {
     const Link = as || 'a'
-    return (
+    return renderRow(
       <Link
         href={href}
         target={target}
@@ -225,23 +246,25 @@ export const SideNavigationItem = ({
         className={itemClassName}
         aria-current={active ? 'page' : undefined}
         aria-label={ariaLabel}
+        data-test={dataTest}
         onClick={onClick}
         title={!isOpen ? textLabel : undefined}
       >
         {content}
-      </Link>
+      </Link>,
     )
   }
-  return (
+  return renderRow(
     <button
       type="button"
       className={itemClassName}
       aria-current={active ? 'page' : undefined}
       aria-label={ariaLabel}
+      data-test={dataTest}
       onClick={onClick}
       title={!isOpen ? textLabel : undefined}
     >
       {content}
-    </button>
+    </button>,
   )
 }

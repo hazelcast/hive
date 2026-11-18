@@ -7,6 +7,10 @@ import { DocsTabs } from '../.storybook/DocsTabs'
 
 TopNavigation provides a shared header layout; applications supply their branding, navigation, and actions.
 
+For native browser tooltips on icon actions, pass `title` instead of `tooltip` to `IconButton`. Keep `ariaLabel` as the accessible name.
+
+Use `variant="plain"` on `Button`, `IconButton`, and `ThemeSwitcher`, or `mobileMenu.variant: 'plain'` on `TopNavigation`, for triggers without a hover or press fill. Keyboard focus remains visible. Dropdown items choose their own styling.
+
 <DocsTabs
   tabs={[
     {

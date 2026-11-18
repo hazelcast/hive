@@ -2,7 +2,7 @@
   --top-navigation-padding: calc(var(--hive-grid) * 6);
   --top-navigation-leading-gap: calc(var(--hive-grid) * 4);
   position: relative;
-  z-index: var(--hive-z-index-2000);
+  z-index: var(--hive-z-index-200);
   box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
@@ -75,8 +75,10 @@
   cursor: pointer;
 }
 .mobileMenu:hover {
-  background: var(--hive-color-surface-hover-v4);
   color: var(--hive-color-primary-v4);
+}
+.mobileMenu:not(.plainMobileMenu):hover {
+  background: var(--hive-color-surface-hover-v4);
 }
 .mobileMenu:focus-visible {
   outline: var(--hive-outline-width) solid var(--hive-color-accessibility-outline);

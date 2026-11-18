@@ -13,6 +13,7 @@ export interface ThemeSwitcherProps {
   value: ThemePreference
   onChange: (preference: ThemePreference) => void
   disabled?: boolean
+  variant?: 'default' | 'plain'
   className?: string
   'aria-label'?: string
   'data-test'?: string
@@ -26,6 +27,7 @@ const options = [
 
 export const ThemeSwitcher = ({
   value,
+  variant = 'default',
   onChange,
   disabled = false,
   className,
@@ -93,7 +95,7 @@ export const ThemeSwitcher = ({
       <button
         ref={trigger}
         type="button"
-        className={cn(styles.trigger, className)}
+        className={cn(styles.trigger, { [styles.plainTrigger]: variant === 'plain' }, className)}
         aria-label={`${ariaLabel}: ${selected.label}`}
         title={`${ariaLabel}: ${selected.label}`}
         aria-haspopup="menu"

@@ -5,6 +5,8 @@ import { Home } from 'react-feather'
 
 import { SideNavigation, SideNavigationItem, SideNavigationLinkProps, SideNavigationSection } from '../../../src/components/SideNavigation'
 import { AppSidebarItem, AppSidebarSection } from '../../../src/components/AppSidebar'
+import sidebarStyles from '../../../src/components/AppSidebar/AppSidebar.module.css'
+import styles from '../../../src/components/SideNavigation/SideNavigation.module.css'
 
 describe('SideNavigation', () => {
   const originalGetAnimations = Object.getOwnPropertyDescriptor(Element.prototype, 'getAnimations')
@@ -19,6 +21,65 @@ describe('SideNavigation', () => {
   })
 
   beforeEach(() => localStorage.clear())
+
+  it('keeps the leading action independent of the primary row and hides it in the collapsed rail', async () => {
+    const user = userEvent.setup()
+    const onNavigate = jest.fn()
+    const onFavorite = jest.fn()
+    const row = (
+      <SideNavigationItem
+        nested
+        label="Members"
+        badge={3}
+        data-test="sidebar-menu-item-title"
+        onClick={onNavigate}
+        leadingAction={<button onClick={onFavorite}>Favorite Members</button>}
+      />
+    )
+    const { rerender } = render(
+      <SideNavigation ariaLabel="Main navigation" open>
+        {row}
+      </SideNavigation>,
+    )
+    const item = screen.getByTestId('sidebar-menu-item-title')
+    const favorite = screen.getByRole('button', { name: 'Favorite Members' })
+
+    expect(item).toHaveClass(styles.indented)
+    expect(item).toHaveTextContent('Members3')
+    expect(item).not.toContainElement(favorite)
+    item.focus()
+    await user.tab()
+    expect(favorite).toHaveFocus()
+    await user.keyboard('{Enter}')
+    expect(onFavorite).toHaveBeenCalledTimes(1)
+    expect(onNavigate).not.toHaveBeenCalled()
+    await user.click(item)
+    expect(onNavigate).toHaveBeenCalledTimes(1)
+
+    rerender(
+      <SideNavigation ariaLabel="Main navigation" open={false}>
+        {row}
+      </SideNavigation>,
+    )
+    expect(screen.queryByRole('button', { name: 'Favorite Members' })).not.toBeInTheDocument()
+    expect(screen.getByTestId('sidebar-menu-item-title')).not.toHaveClass(styles.indented)
+  })
+
+  it('styles the footer wrapper only when opted in, including in the mobile drawer', async () => {
+    const footer = <span>Version</span>
+    const { rerender } = render(<SideNavigation ariaLabel="Main navigation" initialOpen footer={footer} />)
+
+    expect(screen.getByText('Version').closest('footer')).toHaveClass(sidebarStyles.footer)
+    expect(screen.getByText('Version').closest('footer')).not.toHaveClass(sidebarStyles.subtleFooter)
+
+    rerender(<SideNavigation ariaLabel="Main navigation" initialOpen footer={footer} footerVariant="subtle" />)
+
+    expect(screen.getByText('Version').closest('footer')).toHaveClass(sidebarStyles.subtleFooter)
+
+    await act(async () => rerender(<SideNavigation ariaLabel="Main navigation" mobile mobileOpen footer={footer} footerVariant="subtle" />))
+
+    expect(screen.getByText('Version').closest('footer')).toHaveClass(sidebarStyles.subtleFooter)
+  })
 
   it('renders app-provided navigation and permissions with native semantics', () => {
     const onClick = jest.fn()

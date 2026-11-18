@@ -11,7 +11,7 @@ import { DataTestProp } from '../helpers/types'
 
 import styles from './Button.module.css'
 
-export type ButtonVariant = 'contained' | 'outlined' | 'ghost' | 'link'
+export type ButtonVariant = 'contained' | 'outlined' | 'ghost' | 'link' | 'plain'
 export type ButtonColor = 'primary' | 'secondary' | 'warning' | 'danger'
 export type ButtonOutlineType = 'outline' | 'inset'
 
@@ -100,6 +100,7 @@ const variantClass: Record<ButtonVariant, string> = {
   outlined: styles.variantOutlined,
   ghost: styles.variantGhost,
   link: styles.variantLink,
+  plain: styles.variantPlain,
 }
 
 const colorClass: Record<ButtonColor, string> = {

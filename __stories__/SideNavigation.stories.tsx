@@ -11,6 +11,7 @@ import {
   SideNavigationSection,
 } from '../src/components/SideNavigation'
 import { IconButton } from '../src/components/IconButton'
+import { AppSidebarFavoriteButton } from '../src/components/AppSidebar/AppSidebarFavoriteButton'
 import styles from './SideNavigation.stories.module.css'
 
 const CloudItems = ({ onNavigate }: { onNavigate?: () => void }) => (
@@ -32,7 +33,7 @@ const McItems = () => (
   <>
     <AppSidebarFavorites>{({ items }) => items.map((item) => <AppSidebarItem key={item} title={item} />)}</AppSidebarFavorites>
     <AppSidebarSection id="cluster" title="Cluster" ariaLabel="Cluster" icon={Layers} active>
-      <AppSidebarItem id="members" title="Members" adornment={<AppSidebarMenuItemCounter>3</AppSidebarMenuItemCounter>} />
+      <SideNavigationItem label="Members" nested badge={3} leadingAction={<AppSidebarFavoriteButton id="members" />} />
       <AppSidebarItem title="Clients" adornment={<AppSidebarMenuItemCounter>12</AppSidebarMenuItemCounter>} />
       <AppSidebarItem title="Pause" />
       <AppSidebarItem title="Delete" icon={Trash2} iconAriaLabel="Delete" color="danger" />
@@ -47,7 +48,18 @@ const McItems = () => (
   </>
 )
 
-type PlaygroundArgs = SideNavigationProps & { composition: 'cloud' | 'management-center' }
+type FooterMetadata = { timestamp: string; version: string }
+
+const sampleFooterMetadata = { timestamp: '26-11-18 04:53', version: '5.13.0-SNAPSHOT' }
+
+const ManagementCenterFooter = ({ timestamp, version }: FooterMetadata) => (
+  <div className={styles.managementCenterFooter}>
+    <span>{timestamp}</span>
+    <span>{version}</span>
+  </div>
+)
+
+type PlaygroundArgs = SideNavigationProps & FooterMetadata & { composition: 'cloud' | 'management-center' }
 
 export default {
   title: 'Components/SideNavigation',
@@ -78,11 +90,15 @@ export default {
     onMobileOpenChange: { control: false, table: { category: 'Events' } },
     children: { control: false },
     footer: { control: false },
+    footerVariant: { control: 'inline-radio', options: ['default', 'subtle'], table: { category: 'Layout' } },
+    timestamp: { control: 'text', description: 'Client-provided timestamp in the Management Center example.' },
+    version: { control: 'text', description: 'Client-provided version in the Management Center example.' },
     className: { control: false },
     storageKey: { control: false },
     'data-test': { control: false },
   },
   args: {
+    ...sampleFooterMetadata,
     ariaLabel: 'Main navigation',
     composition: 'cloud',
     mobile: false,
@@ -94,12 +110,16 @@ export default {
 
 type Story = StoryObj<PlaygroundArgs>
 
-const PlaygroundExample = ({ composition, ...args }: PlaygroundArgs) => {
+const PlaygroundExample = ({ composition, timestamp, version, ...args }: PlaygroundArgs) => {
   const [open, setOpen] = useState(args.initialOpen ?? true)
   const [mobileOpen, setMobileOpen] = useState(args.initialMobileOpen ?? false)
+  const isManagementCenter = composition === 'management-center'
   return (
     <div className={styles.frame}>
       <SideNavigation
+        footer={isManagementCenter ? <ManagementCenterFooter timestamp={timestamp} version={version} /> : undefined}
+        footerVariant={isManagementCenter ? 'subtle' : undefined}
+        hideFooterWhenCollapsed={isManagementCenter}
         {...args}
         open={open}
         onOpenChange={setOpen}
@@ -107,7 +127,7 @@ const PlaygroundExample = ({ composition, ...args }: PlaygroundArgs) => {
         onMobileOpenChange={args.mobile ? setMobileOpen : undefined}
         storageKey="side-navigation-playground"
       >
-        {composition === 'management-center' ? <McItems /> : <CloudItems onNavigate={() => setMobileOpen(false)} />}
+        {isManagementCenter ? <McItems /> : <CloudItems onNavigate={() => setMobileOpen(false)} />}
       </SideNavigation>
     </div>
   )
@@ -132,12 +152,13 @@ export const CloudComposition: Story = {
 
 export const ManagementCenterComposition: Story = {
   tags: ['!dev'],
-  render: () => (
+  render: ({ timestamp, version }) => (
     <div className={styles.frame}>
       <SideNavigation
         ariaLabel="Management Center navigation"
         storageKey="side-navigation-mc"
-        footer="Management Center"
+        footer={<ManagementCenterFooter timestamp={timestamp} version={version} />}
+        footerVariant="subtle"
         hideFooterWhenCollapsed
       >
         <McItems />

@@ -19,6 +19,7 @@ export interface AppSidebarProps extends DataTestProp {
   variant?: 'legacy' | 'modern'
   hideToggle?: boolean
   footer?: ReactNode
+  footerVariant?: 'default' | 'subtle'
   hideFooterWhenCollapsed?: boolean
 }
 
@@ -41,6 +42,7 @@ const AppSidebarContent = ({
   namespaceStorage = false,
   hideToggle = false,
   footer,
+  footerVariant = 'default',
   hideFooterWhenCollapsed = false,
   'data-test': dataTest,
 }: AppSidebarInternalProps) => {
@@ -102,7 +104,9 @@ const AppSidebarContent = ({
         <div className={styles.wrapper}>
           <div className={styles.content}>{children}</div>
         </div>
-        {footer && (!hideFooterWhenCollapsed || !isCollapsed) && <footer className={styles.footer}>{footer}</footer>}
+        {footer && (!hideFooterWhenCollapsed || !isCollapsed) && (
+          <footer className={cn(styles.footer, { [styles.subtleFooter]: footerVariant === 'subtle' })}>{footer}</footer>
+        )}
       </appSidebarContext.Provider>
     </aside>
   )

@@ -19,6 +19,7 @@ export interface TopNavigationProps {
   mobileMenu?: {
     onClick: () => void
     label: string
+    variant?: 'default' | 'plain'
     expanded?: boolean
     controls?: string
   }
@@ -47,7 +48,7 @@ export const TopNavigation = ({
         {mobile && mobileMenu && (
           <button
             type="button"
-            className={styles.mobileMenu}
+            className={cls(styles.mobileMenu, { [styles.plainMobileMenu]: mobileMenu.variant === 'plain' })}
             aria-label={mobileMenu.label}
             title={mobileMenu.label}
             aria-expanded={mobileMenu.expanded}
