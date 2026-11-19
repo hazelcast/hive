@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext, useEffect, useRef } from 'react'
+import React, { ReactNode, useContext, useEffect, useId, useRef } from 'react'
 import cn from 'classnames'
 import { ChevronDown, ChevronUp, Icon as FeatherIcon } from 'react-feather'
 
@@ -33,7 +33,8 @@ export const AppSidebarSectionExpandable = ({
 }: AppSidebarSectionExpandableProps) => {
   const rootEl = useRef<HTMLElement>(null)
   const clicked = useRef(false)
-  const { isOpen, open: openSidebar, variant, storageKey, namespaceStorage } = useContext(appSidebarContext)
+  const contentId = `sidebar-section-content-${useId()}`
+  const { isOpen, open: openSidebar, storageKey, namespaceStorage } = useContext(appSidebarContext)
   const usePersistedMenuStorageState = createPersistedState<boolean>(sidebarStorageKey(storageKey, 'section', title, namespaceStorage))
 
   const [open, setOpen] = usePersistedMenuStorageState(false)
@@ -79,7 +80,8 @@ export const AppSidebarSectionExpandable = ({
         iconAriaLabel={title}
         onClick={handleClick}
         active={active}
-        expanded={variant === 'modern' ? isSectionOpen : undefined}
+        expanded={isSectionOpen}
+        ariaControls={contentId}
         className={styles.toggle}
         adornmentClassName={styles.adornment}
         adornment={<Icon data-test="sidebar-menu-section-chevron" size="medium" containerClassName={styles.icon} {...chevronButtonProps} />}
@@ -88,7 +90,10 @@ export const AppSidebarSectionExpandable = ({
       {/* detect whether an item is in an expandable section or not. */}
       <appSidebarSectionContext.Provider value={{}}>
         <div
-          hidden={variant === 'modern' && !isSectionOpen}
+          id={contentId}
+          hidden={!isSectionOpen}
+          inert={!isSectionOpen}
+          aria-hidden={!isSectionOpen}
           onTransitionEnd={handleTransitionEnd}
           className={cn(styles.content, {
             [styles.transitionEnter]: isSectionOpen,

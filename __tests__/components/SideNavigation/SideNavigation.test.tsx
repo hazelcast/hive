@@ -3,7 +3,13 @@ import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Home } from 'react-feather'
 
-import { SideNavigation, SideNavigationItem, SideNavigationLinkProps, SideNavigationSection } from '../../../src/components/SideNavigation'
+import {
+  SideNavigation,
+  SideNavigationExpandableSection,
+  SideNavigationItem,
+  SideNavigationLinkProps,
+  SideNavigationSection,
+} from '../../../src/components/SideNavigation'
 import { AppSidebarItem, AppSidebarSection } from '../../../src/components/AppSidebar'
 import sidebarStyles from '../../../src/components/AppSidebar/AppSidebar.module.css'
 import styles from '../../../src/components/SideNavigation/SideNavigation.module.css'
@@ -63,6 +69,124 @@ describe('SideNavigation', () => {
     )
     expect(screen.queryByRole('button', { name: 'Favorite Members' })).not.toBeInTheDocument()
     expect(screen.getByTestId('sidebar-menu-item-title')).not.toHaveClass(styles.indented)
+  })
+
+  it('exposes stable class hooks for the mobile drawer internals', async () => {
+    render(
+      <SideNavigation
+        ariaLabel="Main navigation"
+        mobile
+        mobileOpen
+        className="sidebar-root-slot"
+        mobileDialogClassName="mobile-dialog-slot"
+        classNames={{
+          mobileTrigger: 'mobile-trigger-slot',
+          mobileBackdrop: 'mobile-backdrop-slot',
+          mobilePanel: 'mobile-panel-slot',
+          mobileCloseButton: 'mobile-close-slot',
+        }}
+      />,
+    )
+
+    await screen.findByRole('dialog')
+    const mobileSlots = [
+      'sidebar-root-slot',
+      'mobile-dialog-slot',
+      'mobile-trigger-slot',
+      'mobile-backdrop-slot',
+      'mobile-panel-slot',
+      'mobile-close-slot',
+    ]
+    mobileSlots.forEach((className) => expect(document.querySelector(`.${className}`)).toBeInTheDocument())
+  })
+
+  it('keeps expandable section state, controls, and hidden content accessible', async () => {
+    const user = userEvent.setup()
+    const onExpandedChange = jest.fn()
+    const section = (expanded: boolean) => (
+      <SideNavigation ariaLabel="Main navigation" open>
+        <SideNavigationExpandableSection
+          label="Workspace"
+          expanded={expanded}
+          onExpandedChange={onExpandedChange}
+          classNames={{ root: 'expandable-root-slot', toggle: 'expandable-toggle-slot', content: 'expandable-content-slot' }}
+        >
+          <a href="/overview">Overview</a>
+        </SideNavigationExpandableSection>
+      </SideNavigation>
+    )
+    const { rerender } = render(section(false))
+    const toggle = screen.getByRole('button', { name: 'Workspace' })
+    const contentId = toggle.getAttribute('aria-controls')
+    const content = contentId ? document.getElementById(contentId) : null
+
+    expect(contentId).toBeTruthy()
+    expect(content).toBeInTheDocument()
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    expect(content).toHaveAttribute('hidden')
+    expect(content).toHaveAttribute('inert')
+    expect(content).toHaveAttribute('aria-hidden', 'true')
+    expect(screen.queryByRole('link', { name: 'Overview' })).not.toBeInTheDocument()
+    expect(document.querySelector('.expandable-root-slot')).toBeInTheDocument()
+    expect(document.querySelector('.expandable-toggle-slot')).toBeInTheDocument()
+    expect(document.querySelector('.expandable-content-slot')).toBeInTheDocument()
+
+    await user.click(toggle)
+    expect(onExpandedChange).toHaveBeenCalledWith(true)
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+
+    rerender(section(true))
+    expect(screen.getByRole('button', { name: 'Workspace' })).toHaveAttribute('aria-expanded', 'true')
+    expect(content).not.toHaveAttribute('hidden')
+    expect(content).not.toHaveAttribute('inert')
+    expect(content).toHaveAttribute('aria-hidden', 'false')
+    expect(screen.getByRole('link', { name: 'Overview' })).toBeInTheDocument()
+  })
+
+  it('generates unique controlled-content IDs for multiple expandable sections', () => {
+    render(
+      <SideNavigation ariaLabel="Main navigation" open>
+        <SideNavigationExpandableSection label="First" defaultExpanded>
+          <span>First content</span>
+        </SideNavigationExpandableSection>
+        <SideNavigationExpandableSection label="Second" defaultExpanded>
+          <span>Second content</span>
+        </SideNavigationExpandableSection>
+      </SideNavigation>,
+    )
+
+    const first = screen.getByRole('button', { name: 'First' }).getAttribute('aria-controls')
+    const second = screen.getByRole('button', { name: 'Second' }).getAttribute('aria-controls')
+
+    expect(first).toBeTruthy()
+    expect(second).toBeTruthy()
+    expect(first).not.toBe(second)
+    if (!first || !second) throw new Error('Expandable sections must provide content IDs')
+    expect(document.getElementById(first)).toBeInTheDocument()
+    expect(document.getElementById(second)).toBeInTheDocument()
+  })
+
+  it('hides an expanded section when the sidebar collapses and opens both on selection', async () => {
+    const user = userEvent.setup()
+    render(
+      <SideNavigation ariaLabel="Main navigation" initialOpen={false} storageKey="collapsed-expandable-section">
+        <SideNavigationExpandableSection label="Workspace" defaultExpanded>
+          <a href="/overview">Overview</a>
+        </SideNavigationExpandableSection>
+      </SideNavigation>,
+    )
+
+    const toggle = screen.getByRole('button', { name: 'Workspace' })
+    const content = document.getElementById(toggle.getAttribute('aria-controls') ?? '')
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    expect(content).toHaveAttribute('hidden')
+    expect(content).toHaveAttribute('inert')
+    expect(screen.queryByRole('link', { name: 'Overview' })).not.toBeInTheDocument()
+
+    await user.click(toggle)
+
+    expect(screen.getByRole('button', { name: 'Workspace' })).toHaveAttribute('aria-expanded', 'true')
+    expect(screen.getByRole('link', { name: 'Overview' })).toBeInTheDocument()
   })
 
   it('styles the footer wrapper only when opted in, including in the mobile drawer', async () => {
@@ -272,21 +396,40 @@ describe('SideNavigation', () => {
     expect(onClick).toHaveBeenCalledTimes(1)
   })
 
-  it('exposes expanded state and removes closed legacy section items from navigation', async () => {
+  it('exposes expanded state and removes closed AppSidebar section items from navigation', async () => {
     const user = userEvent.setup()
-    render(
-      <SideNavigation ariaLabel="Main">
-        <AppSidebarSection id="storage" title="Storage" ariaLabel="Storage" icon={Home} active={false}>
-          <AppSidebarItem title="Maps" />
-        </AppSidebarSection>
+    const sectionContent = (
+      <AppSidebarSection id="storage" title="Storage" ariaLabel="Storage" icon={Home} active={false}>
+        <AppSidebarItem title="Maps" />
+      </AppSidebarSection>
+    )
+    const { rerender } = render(
+      <SideNavigation ariaLabel="Main" open>
+        {sectionContent}
       </SideNavigation>,
     )
     const section = screen.getByRole('button', { name: 'Storage' })
     expect(section).toHaveAttribute('aria-expanded', 'false')
+    const contentId = section.getAttribute('aria-controls')
+    const content = contentId ? document.getElementById(contentId) : null
+    expect(contentId).toBeTruthy()
+    expect(content).toHaveAttribute('hidden')
+    expect(content).toHaveAttribute('inert')
     expect(screen.queryByRole('button', { name: 'Maps' })).not.toBeInTheDocument()
     await user.click(section)
     expect(section).toHaveAttribute('aria-expanded', 'true')
+    expect(content).not.toHaveAttribute('hidden')
+    expect(content).not.toHaveAttribute('inert')
     expect(screen.getByRole('button', { name: 'Maps' })).toBeInTheDocument()
+    rerender(
+      <SideNavigation ariaLabel="Main" open={false}>
+        {sectionContent}
+      </SideNavigation>,
+    )
+    expect(section).toHaveAttribute('aria-expanded', 'false')
+    expect(content).toHaveAttribute('hidden')
+    expect(content).toHaveAttribute('inert')
+    expect(screen.queryByRole('button', { name: 'Maps' })).not.toBeInTheDocument()
   })
 
   it('uses the supplied accessible name for an expandable section', () => {

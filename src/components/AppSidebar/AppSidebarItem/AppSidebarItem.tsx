@@ -19,6 +19,7 @@ export type AppSidebarItemProps = {
   active?: boolean
   color?: 'default' | 'danger'
   expanded?: boolean
+  ariaControls?: string
   onClick?: () => void
   available?: boolean
   adornment?: ReactNode
@@ -35,6 +36,7 @@ export const AppSidebarItem = ({
   active,
   color = 'default',
   expanded,
+  ariaControls,
   icon,
   iconAriaLabel,
   disabled,
@@ -61,6 +63,7 @@ export const AppSidebarItem = ({
           color="secondary"
           active={active}
           aria-expanded={expanded}
+          aria-controls={ariaControls}
           aria-label={variant === 'modern' ? (ariaLabel ?? title) : undefined}
           truncate={false}
           onClick={onClick}

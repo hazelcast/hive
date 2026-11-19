@@ -5,6 +5,7 @@ import { Activity, Database, Home, Layers, Menu, Settings, Terminal, Trash2 } fr
 import { AppSidebarFavorites, AppSidebarItem, AppSidebarMenuItemCounter, AppSidebarSection } from '../src/components/AppSidebar'
 import {
   SideNavigation,
+  SideNavigationExpandableSection,
   SideNavigationItem,
   SideNavigationLinkProps,
   SideNavigationProps,
@@ -94,6 +95,7 @@ export default {
     timestamp: { control: 'text', description: 'Client-provided timestamp in the Management Center example.' },
     version: { control: 'text', description: 'Client-provided version in the Management Center example.' },
     className: { control: false },
+    classNames: { control: false, description: 'Stable class hooks for styling navigation slots.', table: { category: 'Layout' } },
     storageKey: { control: false },
     'data-test': { control: false },
   },
@@ -205,7 +207,18 @@ export const MobileDrawer: Story = {
     const [mobileOpen, setMobileOpen] = useState(false)
     return (
       <div className={styles.mobileFrame}>
-        <SideNavigation ariaLabel="Main navigation" mobile mobileOpen={mobileOpen} onMobileOpenChange={setMobileOpen}>
+        <SideNavigation
+          ariaLabel="Main navigation"
+          mobile
+          mobileOpen={mobileOpen}
+          onMobileOpenChange={setMobileOpen}
+          classNames={{
+            mobileTrigger: styles.customMobileTrigger,
+            mobileBackdrop: styles.customMobileBackdrop,
+            mobilePanel: styles.customMobilePanel,
+            mobileCloseButton: styles.customMobileCloseButton,
+          }}
+        >
           <CloudItems onNavigate={() => setMobileOpen(false)} />
         </SideNavigation>
       </div>
@@ -225,6 +238,29 @@ export const Controlled: Story = {
       </div>
     )
   },
+}
+
+export const ExpandableSection: Story = {
+  tags: ['!dev'],
+  render: () => (
+    <div className={styles.frame}>
+      <SideNavigation ariaLabel="Main navigation" initialOpen>
+        <SideNavigationExpandableSection
+          label="Cluster"
+          icon={Layers}
+          defaultExpanded
+          classNames={{
+            root: styles.styledExpandableSection,
+            toggle: styles.styledExpandableToggle,
+            content: styles.styledExpandableContent,
+          }}
+        >
+          <SideNavigationItem label="Members" icon={Home} href="#members" nested />
+          <SideNavigationItem label="Metrics" icon={Activity} href="#metrics" nested />
+        </SideNavigationExpandableSection>
+      </SideNavigation>
+    </div>
+  ),
 }
 
 export const PageTemplate: Story = {

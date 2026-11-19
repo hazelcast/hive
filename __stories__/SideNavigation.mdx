@@ -13,6 +13,10 @@ The application supplies the footer content. In Management Center, the client pr
 
 Use `nested` on `SideNavigationItem` for expanded-row indentation. Pass a button or link to `leadingAction` for a separate, keyboard-reachable action such as a Favorites star. The action is omitted in the collapsed rail. `data-test` targets the primary control, not the leading action.
 
+Use `SideNavigationExpandableSection` for a section with a disclosure control. It supports controlled `expanded`/`onExpandedChange` state or uncontrolled `defaultExpanded` state. When the rail is collapsed, its content is hidden and inert, and its disclosure reports `aria-expanded="false"`. The component generates a unique content ID for `aria-controls`; clients can keep persisted expansion state in their own storage.
+
+`SideNavigation.classNames` exposes stable styling hooks for `mobileTrigger`, `mobileBackdrop`, `mobilePanel`, and `mobileCloseButton`. Continue to use `className` for the sidebar root and `mobileDialogClassName` for positioning the dialog. Do not select private CSS-module class names or `data-test` attributes from client styles.
+
 <DocsTabs tabs={[
   {
     id: 'overview', label: 'Overview', content: (
@@ -23,7 +27,8 @@ Use `nested` on `SideNavigationItem` for expanded-row indentation. Pass a button
         <p>Compose <code>SideNavigationSection</code> and <code>SideNavigationItem</code> for labeled groups, links, actions, badges and unavailable destinations. Pass <code>active</code> for the current page and <code>visible</code> when the application decides whether an item is permitted.</p>
         <Canvas of={Stories.CloudComposition} />
         <h2>Expandable sections and favorites</h2>
-        <p>Existing <code>AppSidebarSection</code>, <code>AppSidebarItem</code>, favorites and counters can be composed inside the modern shell. Set <code>hideFooterWhenCollapsed</code> to hide a footer in the collapsed rail. The legacy <code>AppSidebar</code> remains available without opting into modern styling.</p>
+        <p>Use <code>SideNavigationExpandableSection</code> for controlled or uncontrolled collapsible groups. Existing <code>AppSidebarSection</code>, <code>AppSidebarItem</code>, favorites and counters can still be composed inside the modern shell. Set <code>hideFooterWhenCollapsed</code> to hide a footer in the collapsed rail. The legacy <code>AppSidebar</code> remains available without opting into modern styling.</p>
+        <Canvas of={Stories.ExpandableSection} />
         <Canvas of={Stories.ManagementCenterComposition} />
         <h2>Collapsed</h2>
         <p>Desktop navigation can be collapsed while keeping item names available to assistive technology.</p>
@@ -67,7 +72,7 @@ const RouterAdapter = ({ href, ...props }: SideNavigationLinkProps) =>
         <p>Use badges for concise counts or status, and mark the active page explicitly. Provide <code>disabledTooltip</code> to explain an unavailable destination; omit unauthorized items in the application.</p>
         <h2>Responsive integration</h2>
         <p>The host selects desktop or mobile mode using its own breakpoint. The component does not choose a breakpoint, modify routing, or evaluate permissions. Use a distinct storage key and <code>namespaceStorage</code> for fully independent sidebars.</p>
-        <p>The drawer covers the viewport by default. To position it below a header, pass <code>mobileDialogClassName</code> with a class that sets <code>top</code> to the host header height, using the same token-based height as the header. The panel and backdrop both follow this offset; the dialog uses <code>--hive-z-index-2000</code>. The header remains outside the modal focus scope and cannot be interacted with until dismissal. Test the host's stacking and focus behavior.</p>
+        <p>The drawer covers the viewport by default. To position it below a header, pass <code>mobileDialogClassName</code> with a class that sets <code>top</code> to the host header height, using the same token-based height as the header. The panel and backdrop both follow this offset; use the mobile class hooks to style them without private selectors. The dialog uses <code>--hive-z-index-2000</code>. The header remains outside the modal focus scope and cannot be interacted with until dismissal. Test the host's stacking and focus behavior.</p>
         <pre><code>{`.header { box-sizing: border-box; height: calc(var(--hive-grid) * 16); }
       .drawerBelowHeader { top: calc(var(--hive-grid) * 16); }
 
@@ -81,6 +86,7 @@ const RouterAdapter = ({ href, ...props }: SideNavigationLinkProps) =>
         <h2>Names and semantics</h2>
         <p>Provide a descriptive <code>ariaLabel</code>. Native links expose their destination and active links use <code>aria-current="page"</code>. Actions use buttons; unavailable items cannot be activated. With a disabled tooltip, an unavailable item is keyboard focusable so its reason can be read. Collapsed labels remain available to screen readers.</p>
         <p>Item and section labels can contain React nodes. Supply <code>ariaLabel</code> when the rendered content does not provide an appropriate accessible name; it also supplies the collapsed item title. String labels are used as the default title and section name. Custom link adapters must forward <code>aria-label</code>.</p>
+        <p>Expandable sections expose their actual visible state through <code>aria-expanded</code> and reference their content with a unique <code>aria-controls</code> ID. Closed content is hidden, inert, and excluded from the accessibility tree.</p>
         <h2>Keyboard and focus</h2>
         <p>The mobile drawer is a modal dialog. Focus enters its close button, stays within the dialog, and returns to the opener when dismissed. Escape, the close control, and the backdrop request closure. In controlled mode the host must update <code>mobileOpen</code> in response.</p>
         <p>For an external trigger, pass a stable <code>id</code> to <code>SideNavigation</code>, set the trigger's <code>aria-controls</code> to that ID and <code>aria-expanded</code> to the controlled state. The ID identifies the desktop navigation or the mobile dialog panel. Keep the trigger mounted so focus can return. Supply meaningful text for icon-only destinations and avoid using color alone to convey state.</p>
