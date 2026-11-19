@@ -396,13 +396,16 @@ describe('SideNavigation', () => {
     expect(onClick).toHaveBeenCalledTimes(1)
   })
 
-  it('exposes expanded state and removes closed legacy section items from navigation', async () => {
+  it('exposes expanded state and removes closed AppSidebar section items from navigation', async () => {
     const user = userEvent.setup()
-    render(
-      <SideNavigation ariaLabel="Main">
-        <AppSidebarSection id="storage" title="Storage" ariaLabel="Storage" icon={Home} active={false}>
-          <AppSidebarItem title="Maps" />
-        </AppSidebarSection>
+    const sectionContent = (
+      <AppSidebarSection id="storage" title="Storage" ariaLabel="Storage" icon={Home} active={false}>
+        <AppSidebarItem title="Maps" />
+      </AppSidebarSection>
+    )
+    const { rerender } = render(
+      <SideNavigation ariaLabel="Main" open>
+        {sectionContent}
       </SideNavigation>,
     )
     const section = screen.getByRole('button', { name: 'Storage' })
@@ -418,6 +421,15 @@ describe('SideNavigation', () => {
     expect(content).not.toHaveAttribute('hidden')
     expect(content).not.toHaveAttribute('inert')
     expect(screen.getByRole('button', { name: 'Maps' })).toBeInTheDocument()
+    rerender(
+      <SideNavigation ariaLabel="Main" open={false}>
+        {sectionContent}
+      </SideNavigation>,
+    )
+    expect(section).toHaveAttribute('aria-expanded', 'false')
+    expect(content).toHaveAttribute('hidden')
+    expect(content).toHaveAttribute('inert')
+    expect(screen.queryByRole('button', { name: 'Maps' })).not.toBeInTheDocument()
   })
 
   it('uses the supplied accessible name for an expandable section', () => {

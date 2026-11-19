@@ -34,7 +34,7 @@ export const AppSidebarSectionExpandable = ({
   const rootEl = useRef<HTMLElement>(null)
   const clicked = useRef(false)
   const contentId = `sidebar-section-content-${useId()}`
-  const { isOpen, open: openSidebar, variant, storageKey, namespaceStorage } = useContext(appSidebarContext)
+  const { isOpen, open: openSidebar, storageKey, namespaceStorage } = useContext(appSidebarContext)
   const usePersistedMenuStorageState = createPersistedState<boolean>(sidebarStorageKey(storageKey, 'section', title, namespaceStorage))
 
   const [open, setOpen] = usePersistedMenuStorageState(false)
@@ -80,8 +80,8 @@ export const AppSidebarSectionExpandable = ({
         iconAriaLabel={title}
         onClick={handleClick}
         active={active}
-        expanded={variant === 'modern' ? isSectionOpen : undefined}
-        ariaControls={variant === 'modern' ? contentId : undefined}
+        expanded={isSectionOpen}
+        ariaControls={contentId}
         className={styles.toggle}
         adornmentClassName={styles.adornment}
         adornment={<Icon data-test="sidebar-menu-section-chevron" size="medium" containerClassName={styles.icon} {...chevronButtonProps} />}
@@ -90,10 +90,10 @@ export const AppSidebarSectionExpandable = ({
       {/* detect whether an item is in an expandable section or not. */}
       <appSidebarSectionContext.Provider value={{}}>
         <div
-          id={variant === 'modern' ? contentId : undefined}
-          hidden={variant === 'modern' && !isSectionOpen}
-          inert={variant === 'modern' ? !isSectionOpen : undefined}
-          aria-hidden={variant === 'modern' ? !isSectionOpen : undefined}
+          id={contentId}
+          hidden={!isSectionOpen}
+          inert={!isSectionOpen}
+          aria-hidden={!isSectionOpen}
           onTransitionEnd={handleTransitionEnd}
           className={cn(styles.content, {
             [styles.transitionEnter]: isSectionOpen,
