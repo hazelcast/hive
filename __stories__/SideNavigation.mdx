@@ -31,6 +31,9 @@ Use `nested` on `SideNavigationItem` for expanded-row indentation. Pass a button
         <h2>Mobile drawer</h2>
         <p>Set <code>mobile</code> from application layout state. The drawer uses an overlay, opens expanded, and offers a built-in trigger. Set <code>showMobileTrigger</code> to false when an application supplies its own trigger.</p>
         <Canvas of={Stories.MobileDrawer} />
+        <h3>Drawer styling</h3>
+        <p>Set <code>--side-navigation-panel-width</code> and <code>--side-navigation-backdrop-background</code> from the class passed as <code>mobileDialogClassName</code> to change the drawer width and backdrop color. Both fall back to the defaults shown above. The close button and panel surface follow the theme and need no overrides.</p>
+        <Canvas of={Stories.MobileDrawerStyled} />
         <h2>Page template</h2>
         <p>These examples place navigation beside a page and use an external header trigger in mobile mode.</p>
         <Canvas of={Stories.PageTemplate} />
@@ -66,7 +69,9 @@ const RouterAdapter = ({ href, ...props }: SideNavigationLinkProps) =>
         <p>Keep navigation labels short and recognizable. Group related destinations with a section label and provide icons for a recognizable collapsed rail. Items without icons retain a truncated label when collapsed.</p>
         <p>Use badges for concise counts or status, and mark the active page explicitly. Provide <code>disabledTooltip</code> to explain an unavailable destination; omit unauthorized items in the application.</p>
         <h2>Responsive integration</h2>
-        <p>The host selects desktop or mobile mode using its own breakpoint. The component does not choose a breakpoint, modify routing, or evaluate permissions. Use a distinct storage key and <code>namespaceStorage</code> for fully independent sidebars.</p>
+        <p>The host selects desktop or mobile mode. To share that state between a header and a sidebar, wrap both in <code>ResponsiveNavigationProvider</code> with a <code>breakpoint</code> (the viewport width in px below which navigation is mobile) and read <code>isMobile</code>, <code>mobileOpen</code> and <code>setMobileOpen</code> from <code>useResponsiveNavigation()</code>. Pass them to <code>mobile</code>, <code>mobileOpen</code>, <code>onMobileOpenChange</code> and the <code>TopNavigation</code> <code>mobileMenu</code>. The provider closes the drawer when leaving mobile and does not reopen it on return. It does not handle routing or permissions, and there is no default breakpoint. Without a provider the hook reports desktop with an inert setter.</p>
+        <Canvas of={Stories.ResponsiveShell} />
+        <p>Use a distinct storage key and <code>namespaceStorage</code> for fully independent sidebars.</p>
         <p>The drawer covers the viewport by default. To position it below a header, pass <code>mobileDialogClassName</code> with a class that sets <code>top</code> to the host header height, using the same token-based height as the header. The panel and backdrop both follow this offset; the dialog uses <code>--hive-z-index-2000</code>. The header remains outside the modal focus scope and cannot be interacted with until dismissal. Test the host's stacking and focus behavior.</p>
         <pre><code>{`.header { box-sizing: border-box; height: calc(var(--hive-grid) * 16); }
       .drawerBelowHeader { top: calc(var(--hive-grid) * 16); }

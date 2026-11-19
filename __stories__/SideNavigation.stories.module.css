@@ -86,3 +86,8 @@
   color: var(--hive-color-text-secondary-v4);
   font-weight: var(--hive-font-weight-text-bold);
 }
+
+.customDrawer {
+  --side-navigation-panel-width: min(320px, 82vw);
+  --side-navigation-backdrop-background: rgb(25 27 38 / 55%);
+}

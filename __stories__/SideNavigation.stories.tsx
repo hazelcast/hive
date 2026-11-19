@@ -11,6 +11,8 @@ import {
   SideNavigationSection,
 } from '../src/components/SideNavigation'
 import { IconButton } from '../src/components/IconButton'
+import { ResponsiveNavigationProvider, useResponsiveNavigation } from '../src/components/ResponsiveNavigation'
+import { TopNavigation } from '../src/components/TopNavigation'
 import { AppSidebarFavoriteButton } from '../src/components/AppSidebar/AppSidebarFavoriteButton'
 import styles from './SideNavigation.stories.module.css'
 
@@ -213,6 +215,26 @@ export const MobileDrawer: Story = {
   },
 }
 
+export const MobileDrawerStyled: Story = {
+  tags: ['!dev'],
+  render: function MobileDrawerStyledRender() {
+    const [mobileOpen, setMobileOpen] = useState(true)
+    return (
+      <div className={styles.mobileFrame}>
+        <SideNavigation
+          ariaLabel="Main navigation"
+          mobile
+          mobileOpen={mobileOpen}
+          onMobileOpenChange={setMobileOpen}
+          mobileDialogClassName={styles.customDrawer}
+        >
+          <CloudItems onNavigate={() => setMobileOpen(false)} />
+        </SideNavigation>
+      </div>
+    )
+  },
+}
+
 export const Controlled: Story = {
   tags: ['!dev'],
   render: function ControlledRender() {
@@ -285,6 +307,46 @@ export const PageTemplate: Story = {
       </div>
     )
   },
+}
+
+const ResponsiveShellPage = () => {
+  const { isMobile, mobileOpen, setMobileOpen } = useResponsiveNavigation()
+  return (
+    <div className={styles.page}>
+      <TopNavigation
+        logo="Hazelcast"
+        mobile={isMobile}
+        mobileMenu={{ label: 'Open navigation', expanded: mobileOpen, controls: 'shell-navigation', onClick: () => setMobileOpen(true) }}
+      />
+      <div className={styles.pageBody}>
+        <SideNavigation
+          id="shell-navigation"
+          ariaLabel="Main navigation"
+          mobile={isMobile}
+          mobileOpen={mobileOpen}
+          onMobileOpenChange={setMobileOpen}
+          showMobileTrigger={false}
+          storageKey="side-navigation-shell"
+        >
+          <CloudItems onNavigate={() => setMobileOpen(false)} />
+        </SideNavigation>
+        <main className={styles.pageContent}>
+          <h1>Resize the window</h1>
+          <p>Below 960px the sidebar becomes a drawer opened from the header.</p>
+        </main>
+      </div>
+    </div>
+  )
+}
+
+export const ResponsiveShell: Story = {
+  tags: ['!dev'],
+  parameters: { layout: 'fullscreen' },
+  render: () => (
+    <ResponsiveNavigationProvider breakpoint={960}>
+      <ResponsiveShellPage />
+    </ResponsiveNavigationProvider>
+  ),
 }
 
 export const MobilePageTemplate: Story = {
