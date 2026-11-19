@@ -18,6 +18,23 @@
   text-transform: uppercase;
 }
 
+.sectionChevron {
+  display: block;
+  width: var(--hive-icon-size-small);
+  height: var(--hive-icon-size-small);
+  stroke-width: var(--hive-icon-stroke-width);
+}
+
+.expandableContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hive-grid);
+
+  &[hidden] {
+    display: none;
+  }
+}
+
 .item.item.item {
   display: flex;
   align-items: center;

@@ -1,7 +1,7 @@
 import React, { ComponentType, ReactNode, useCallback, useContext, useEffect, useId, useRef, useState } from 'react'
 import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react'
 import cn from 'classnames'
-import { Icon as FeatherIcon, Menu, X } from 'react-feather'
+import { ChevronDown, ChevronUp, Icon as FeatherIcon, Menu, X } from 'react-feather'
 
 import { AppSidebarProps, AppSidebarWithStorageNamespace } from '../AppSidebar/AppSidebar'
 import { appSidebarContext } from '../AppSidebar/appSidebarContext'
@@ -9,8 +9,16 @@ import { IconButton } from '../IconButton'
 import { Tooltip } from '../Tooltip'
 import styles from './SideNavigation.module.css'
 
+export interface SideNavigationClassNames {
+  mobileTrigger?: string
+  mobileBackdrop?: string
+  mobilePanel?: string
+  mobileCloseButton?: string
+}
+
 export interface SideNavigationProps extends Omit<AppSidebarProps, 'variant' | 'hideToggle'> {
   ariaLabel: string
+  classNames?: SideNavigationClassNames
   id?: string
   mobile?: boolean
   mobileOpen?: boolean
@@ -23,6 +31,7 @@ export interface SideNavigationProps extends Omit<AppSidebarProps, 'variant' | '
 
 export const SideNavigation = ({
   ariaLabel,
+  classNames,
   id,
   mobile = false,
   mobileOpen: controlledMobileOpen,
@@ -70,6 +79,7 @@ export const SideNavigation = ({
           variant="ghost"
           icon={Menu}
           ariaLabel={`Open ${ariaLabel}`}
+          className={classNames?.mobileTrigger}
           onClick={() => setMobileOpen(true)}
           {...{ 'aria-controls': navigationId, 'aria-expanded': mobileOpen }}
         />
@@ -82,8 +92,8 @@ export const SideNavigation = ({
         aria-label={ariaLabel}
         unmount={false}
       >
-        <DialogBackdrop transition className={styles.backdrop} />
-        <DialogPanel transition id={navigationId} className={styles.panel}>
+        <DialogBackdrop transition className={cn(styles.backdrop, classNames?.mobileBackdrop)} />
+        <DialogPanel transition id={navigationId} className={cn(styles.panel, classNames?.mobilePanel)}>
           <AppSidebarWithStorageNamespace
             {...sidebarProps}
             className={cn(styles.mobileSidebar, sidebarProps.className)}
@@ -95,7 +105,7 @@ export const SideNavigation = ({
               <button
                 ref={closeRef}
                 type="button"
-                className={styles.close}
+                className={cn(styles.close, classNames?.mobileCloseButton)}
                 aria-label={`Close ${ariaLabel}`}
                 onClick={() => setMobileOpen(false)}
               >
@@ -126,6 +136,80 @@ export const SideNavigationSection = ({ label, ariaLabel, children }: SideNaviga
   )
 }
 
+export type SideNavigationExpandableSectionClassNames = Partial<Record<'root' | 'toggle' | 'content' | 'chevron', string>>
+
+export interface SideNavigationExpandableSectionProps {
+  label: ReactNode
+  ariaLabel?: string
+  icon?: FeatherIcon
+  active?: boolean
+  expanded?: boolean
+  defaultExpanded?: boolean
+  onExpandedChange?: (expanded: boolean) => void
+  classNames?: SideNavigationExpandableSectionClassNames
+  children: ReactNode
+  'data-test'?: string
+}
+
+export const SideNavigationExpandableSection = ({
+  label,
+  ariaLabel,
+  icon,
+  active,
+  expanded: controlledExpanded,
+  defaultExpanded = false,
+  onExpandedChange,
+  classNames,
+  children,
+  'data-test': dataTest = 'side-navigation-expandable-section',
+}: SideNavigationExpandableSectionProps) => {
+  const { isOpen: sidebarOpen, open: openSidebar } = useContext(appSidebarContext)
+  const [uncontrolledExpanded, setUncontrolledExpanded] = useState(defaultExpanded)
+  const expanded = controlledExpanded ?? uncontrolledExpanded
+  const isExpanded = sidebarOpen && expanded
+  const contentId = `side-navigation-section-content-${useId()}`
+  const Chevron = isExpanded ? ChevronUp : ChevronDown
+
+  const setExpanded = (value: boolean) => {
+    if (controlledExpanded === undefined) setUncontrolledExpanded(value)
+    onExpandedChange?.(value)
+  }
+  const toggle = () => {
+    if (!sidebarOpen) {
+      openSidebar()
+      setExpanded(true)
+      return
+    }
+
+    setExpanded(!expanded)
+  }
+
+  return (
+    <section data-test={dataTest} className={cn(styles.section, classNames?.root)}>
+      <SideNavigationItem
+        label={label}
+        ariaLabel={ariaLabel}
+        icon={icon}
+        active={active}
+        className={classNames?.toggle}
+        badge={<Chevron className={cn(styles.sectionChevron, classNames?.chevron)} aria-hidden="true" />}
+        aria-expanded={isExpanded}
+        aria-controls={contentId}
+        onClick={toggle}
+      />
+      <div
+        id={contentId}
+        hidden={!isExpanded}
+        inert={!isExpanded}
+        aria-hidden={!isExpanded}
+        className={cn(styles.expandableContent, classNames?.content)}
+      >
+        {children}
+      </div>
+    </section>
+  )
+}
+
 export interface SideNavigationItemProps {
   label: ReactNode
   ariaLabel?: string
@@ -144,6 +228,8 @@ export interface SideNavigationItemProps {
   as?: ComponentType<SideNavigationLinkProps>
   onClick?: () => void
   className?: string
+  'aria-expanded'?: boolean
+  'aria-controls'?: string
   'data-test'?: string
 }
 
@@ -154,6 +240,8 @@ export interface SideNavigationLinkProps {
   className: string
   'aria-current'?: 'page'
   'aria-label'?: string
+  'aria-expanded'?: boolean
+  'aria-controls'?: string
   'data-test'?: string
   onClick?: () => void
   title?: string
@@ -178,6 +266,8 @@ export const SideNavigationItem = ({
   as,
   onClick,
   className,
+  'aria-expanded': ariaExpanded,
+  'aria-controls': ariaControls,
   'data-test': dataTest,
 }: SideNavigationItemProps) => {
   const { isOpen } = useContext(appSidebarContext)
@@ -218,6 +308,8 @@ export const SideNavigationItem = ({
         className={itemClassName}
         aria-disabled={true}
         aria-label={textLabel}
+        aria-expanded={ariaExpanded}
+        aria-controls={ariaControls}
         data-test={dataTest}
         title={!isOpen && disabledTooltip == null ? textLabel : undefined}
       >
@@ -246,6 +338,8 @@ export const SideNavigationItem = ({
         className={itemClassName}
         aria-current={active ? 'page' : undefined}
         aria-label={ariaLabel}
+        aria-expanded={ariaExpanded}
+        aria-controls={ariaControls}
         data-test={dataTest}
         onClick={onClick}
         title={!isOpen ? textLabel : undefined}
@@ -260,6 +354,8 @@ export const SideNavigationItem = ({
       className={itemClassName}
       aria-current={active ? 'page' : undefined}
       aria-label={ariaLabel}
+      aria-expanded={ariaExpanded}
+      aria-controls={ariaControls}
       data-test={dataTest}
       onClick={onClick}
       title={!isOpen ? textLabel : undefined}

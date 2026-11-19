@@ -57,12 +57,15 @@ export {
   CheckableSelectFieldFormik,
 } from './components/Select/index'
 export { SimpleTable } from './components/SimpleTable'
-export { SideNavigation, SideNavigationItem, SideNavigationSection } from './components/SideNavigation'
+export { SideNavigation, SideNavigationExpandableSection, SideNavigationItem, SideNavigationSection } from './components/SideNavigation'
 export type {
   SideNavigationProps,
+  SideNavigationClassNames,
   SideNavigationItemProps,
   SideNavigationLinkProps,
   SideNavigationSectionProps,
+  SideNavigationExpandableSectionProps,
+  SideNavigationExpandableSectionClassNames,
 } from './components/SideNavigation'
 export { AppSidebarItem, AppSidebarSection, AppSidebarFavorites, AppSidebarMenuItemCounter } from './components/AppSidebar'
 export type { AppSidebarItemProps, AppSidebarSectionProps } from './components/AppSidebar'

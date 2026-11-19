@@ -86,3 +86,31 @@
   color: var(--hive-color-text-secondary-v4);
   font-weight: var(--hive-font-weight-text-bold);
 }
+
+.styledExpandableSection {
+  border-block: var(--hive-border-width) solid var(--hive-color-border-v4);
+}
+
+.styledExpandableToggle {
+  font-weight: var(--hive-font-weight-text-bold);
+}
+
+.styledExpandableContent {
+  padding-inline-start: calc(var(--hive-grid) * 2);
+}
+
+.customMobileBackdrop {
+  background: color-mix(in oklab, var(--hive-color-text-v4) 55%, transparent);
+}
+
+.customMobileTrigger {
+  color: var(--hive-color-text-v4);
+}
+
+.customMobilePanel {
+  width: min(calc(var(--hive-grid) * 64), 100%);
+}
+
+.customMobileCloseButton {
+  color: var(--hive-color-text-v4);
+}
